@@ -11,7 +11,7 @@ import {
   NbUserModule,
 } from '@nebular/theme';
 
-import { ThemeModule } from '../../@theme/theme.module';
+import { SharedModule } from '../../shared/shared.module';
 import { FormsRoutingModule } from './forms-routing.module';
 import { FormsComponent } from './forms.component';
 import { FormInputsComponent } from './form-inputs/form-inputs.component';
@@ -21,7 +21,7 @@ import { ButtonsComponent } from './buttons/buttons.component';
 
 @NgModule({
   imports: [
-    ThemeModule,
+    SharedModule,
     NbInputModule,
     NbCardModule,
     NbButtonModule,

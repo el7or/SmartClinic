@@ -4,7 +4,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import arLocale  from '@fullcalendar/core/locales/ar'
 import enLocale  from '@fullcalendar/core/locales/en-gb'
-import { LanggService } from '../../../@theme/services/langg.service';
+import { LanggService } from '../../../shared/services/langg.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -24,7 +24,7 @@ export class FullCalendarComponent implements OnInit,OnDestroy{
     { title: 'event 1', date: '2019-09-01' }
   ];
 
-  constructor(private langgService:LanggService){    
+  constructor(private langgService:LanggService){
   }
   ngOnInit(){
     this.langObservable = this.langgService.lang.subscribe(

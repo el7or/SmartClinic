@@ -16,7 +16,7 @@ import {
   NbTabsetModule,
 } from '@nebular/theme';
 
-import { ThemeModule } from '../../@theme/theme.module';
+import { SharedModule } from '../../shared/shared.module';
 import { ExtraComponentsRoutingModule } from './extra-components-routing.module';
 
 // components
@@ -73,7 +73,7 @@ const MODULES = [
   NbSelectModule,
   NbSpinnerModule,
   NbTabsetModule,
-  ThemeModule,
+  SharedModule,
   ExtraComponentsRoutingModule,
   FullCalendarModule,
 ];

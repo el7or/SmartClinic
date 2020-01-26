@@ -2,7 +2,7 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { NbMenuModule, NbAlertModule } from '@nebular/theme';
 
-import { ThemeModule } from '../@theme/theme.module';
+import { SharedModule } from './../shared/shared.module';
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ECommerceModule } from './e-commerce/e-commerce.module';
@@ -12,7 +12,7 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 @NgModule({
   imports: [
     PagesRoutingModule,
-    ThemeModule,
+    SharedModule,
     NbMenuModule,
     DashboardModule,
     ECommerceModule,

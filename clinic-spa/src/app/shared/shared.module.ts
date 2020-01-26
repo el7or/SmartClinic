@@ -82,10 +82,10 @@ const PIPES = [
   exports: [CommonModule, ...PIPES, ...COMPONENTS, LanggDirective],
   declarations: [...COMPONENTS, ...PIPES, LanggDirective],
 })
-export class ThemeModule {
+export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return <ModuleWithProviders>{
-      ngModule: ThemeModule,
+      ngModule: SharedModule,
       providers: [
         ...NbThemeModule.forRoot(
           {

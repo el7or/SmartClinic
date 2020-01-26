@@ -10,7 +10,7 @@ import {
   NbTabsetModule, NbUserModule,
 } from '@nebular/theme';
 
-import { ThemeModule } from '../../@theme/theme.module';
+import { SharedModule } from '../../shared/shared.module';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { Tab1Component, Tab2Component, TabsComponent } from './tabs/tabs.component';
@@ -26,7 +26,7 @@ import { NewsService } from './news.service';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    ThemeModule,
+    SharedModule,
     NbTabsetModule,
     NbRouteTabsetModule,
     NbStepperModule,

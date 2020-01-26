@@ -1,0 +1,7 @@
+@import '../../shared/styles/themes';
+
+@include nb-install-component() {
+::ng-deep .fc-content{
+  color: white !important;
+}
+}

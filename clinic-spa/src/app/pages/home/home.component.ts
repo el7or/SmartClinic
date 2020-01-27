@@ -23,7 +23,24 @@ export class HomeComponent implements OnInit,OnDestroy{
   locle:any;
   langObservable: Subscription;
 
-  calendarEvents = 'https://fullcalendar.io/demo-events.json';
+  //calendarEvents = 'https://fullcalendar.io/demo-events.json';
+  calendarEvents = [
+    {
+      title: 'كشف',
+      start: '2020-01-01T10:30:00',
+      description: 'محمد أحمد'
+    },
+    {
+      title: 'استشارة',
+      start: '2020-01-01T10:45:00',
+      description: 'أحمد مصطفى'
+    },
+    {
+      title: 'كشف',
+      start: '2020-01-03T09:00:00',
+      description: 'سناء عزت'
+    },
+  ];
 
   constructor(private langgService:LanggService){
   }
@@ -51,19 +68,29 @@ export class HomeComponent implements OnInit,OnDestroy{
   }
 
   onEventClick(info) {
-    alert('Event: ' + info.event.title);
+    /* alert('Event: ' + info.event.title);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
     alert('View: ' + info.view.type);
-
-    // change the border color just for fun
-    info.el.style.borderColor = 'red';
+    info.el.style.borderColor = 'red'; */
   }
 
   onDateClick(info){
-    alert('Clicked on: ' + info.dateStr);
+    /* alert('Clicked on: ' + info.dateStr);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
     alert('Current view: ' + info.view.type);
-    // change the day's background color just for fun
-    info.dayEl.style.backgroundColor = 'red';
+    info.dayEl.style.backgroundColor = 'red'; */
   }
+
+  onMouseOver(info) {
+    /* console.log(info.el);
+    info.el.setAttribute('nbTooltip',info.event.extendedProps.description); */
+  }
+
+  onEventRender(info){
+    /* console.log(info);
+    info.el.querySelectorAll(".fc-content")[0].setAttribute('nbTooltip',info.event.extendedProps.description);
+    info.el.querySelectorAll(".fc-content")[0].setAttribute('ng-reflect-content',info.event.extendedProps.description); */
+    info.el.setAttribute('title',info.event.extendedProps.description);
+  }
+
 }

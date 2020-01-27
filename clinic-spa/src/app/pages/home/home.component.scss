@@ -1,10 +1,20 @@
-@import '../../shared/styles/themes';
+@import "../../shared/styles/themes";
 
 @include nb-install-component() {
-::ng-deep .fc-content{
-  color: white !important;
-}
-::ng-deep .fc-right h2, ::ng-deep .fc-left h2{
-  color: dodgerblue !important;
-}
+  ::ng-deep .fc-content {
+    color: white !important;
+  }
+  ::ng-deep .fc-right h2,
+  ::ng-deep .fc-left h2 {
+    color: dodgerblue !important;
+  }
+  ::ng-deep .fc-title{
+    font-weight: bold !important;
+  }
+  ::ng-deep a.fc-event{
+    cursor: pointer;
+  }
+  ::ng-deep .fc-bg, ::ng-deep  .fc-content-skeleton{
+    cursor: cell;
+  }
 }

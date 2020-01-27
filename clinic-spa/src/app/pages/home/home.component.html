@@ -1,7 +1,8 @@
 <nb-card>
   <nb-card-body>
-    <full-calendar [events]="calendarEvents" [plugins]="calendarPlugins"
-    (dateClick)="onDateClick($event)" defaultView="dayGridWeek" titleFormat="D MMM YYYY"
-      [header]="calendarHeader" (eventClick)="onEventClick($event)" [locale]="locle"></full-calendar>
+    <full-calendar [events]="calendarEvents" [plugins]="calendarPlugins" defaultView="dayGridMonth"
+      titleFormat="D MMM YYYY" [header]="calendarHeader" (dateClick)="onDateClick($event)"
+      (eventClick)="onEventClick($event)" (eventMouseEnter)="onMouseOver($event)" (eventRender)="onEventRender($event)"
+      [locale]="locle"></full-calendar>
   </nb-card-body>
 </nb-card>

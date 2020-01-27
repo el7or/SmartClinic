@@ -20,7 +20,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'المحادثات',
     icon: 'message-circle-outline',
-    link: '/pages/iot-dashboard',
+    link: '/pages/chat',
   },
   {
     title: 'الحسابات',

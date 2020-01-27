@@ -1,6 +1,7 @@
+import { ChatComponent } from './chat/chat.component';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { NbMenuModule, NbAlertModule, NbCardModule, NbLayoutModule, NbSidebarModule } from '@nebular/theme';
+import { NbMenuModule, NbAlertModule, NbCardModule, NbLayoutModule, NbSidebarModule, NbChatModule, NbListModule, NbUserModule, NbSpinnerModule } from '@nebular/theme';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { SharedModule } from './../shared/shared.module';
@@ -11,9 +12,14 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { HomeComponent } from './home/home.component';
 
-@NgModule({
-  imports: [
-    PagesRoutingModule,
+const COMPONENTS = [
+  PagesComponent,
+    HomeComponent,
+    ChatComponent
+];
+
+const MODULES = [
+  PagesRoutingModule,
     SharedModule,
     NbMenuModule,
     DashboardModule,
@@ -24,11 +30,19 @@ import { HomeComponent } from './home/home.component';
     FullCalendarModule,
     NbCardModule,
     NbLayoutModule,
-    NbSidebarModule
+    NbSidebarModule,
+    NbChatModule,
+    NbListModule,
+    NbUserModule,
+    NbSpinnerModule
+];
+
+@NgModule({
+  imports: [
+    ...MODULES
   ],
   declarations: [
-    PagesComponent,
-    HomeComponent,
+    ...COMPONENTS
   ],
 })
 export class PagesModule {

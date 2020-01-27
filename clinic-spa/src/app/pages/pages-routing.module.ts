@@ -1,3 +1,4 @@
+import { ChatComponent } from './chat/chat.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -13,6 +14,10 @@ const routes: Routes = [{
     {
       path: 'home',
       component: HomeComponent,
+    },
+    {
+      path: 'chat',
+      component: ChatComponent,
     },
     {
       path: 'iot-dashboard',

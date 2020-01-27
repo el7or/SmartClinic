@@ -38,6 +38,7 @@ import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 import { LanggDirective } from './directives/langg.directive';
+import { TimeAgoPipe } from './pipes/time-ago.pipe';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -67,6 +68,7 @@ const PIPES = [
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
+  TimeAgoPipe
 ];
 
 @NgModule({

@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService, NbLayoutDirection, NbLayoutDirectionService, NbWindowService } from '@nebular/theme';
 
-import { UserData } from '../../../@core/data/users';
-import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LanggService } from '../../services/langg.service';
@@ -46,8 +44,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
               private dirService: NbLayoutDirectionService,
               private windowService: NbWindowService,
@@ -69,9 +65,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.dirService.setDirection(NbLayoutDirection.RTL);
     }
 
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
+      this.user = { name: 'Nick Jones', picture: 'assets/images/nick.png' };
 
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
@@ -124,7 +118,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, 'menu-sidebar');
-    this.layoutService.changeLayoutSize();
 
     return false;
   }

@@ -1,20 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 
-import { NgxAuthRoutingModule } from './auth-routing.module';
-import { NbAuthModule } from '@nebular/auth';
+import { NgxAuthRoutingModule } from "./auth-routing.module";
+import { NbAuthModule, NbDummyAuthStrategy } from "@nebular/auth";
 import {
   NbAlertModule,
   NbButtonModule,
   NbCheckboxModule,
   NbInputModule,
-  NbSpinnerModule,
-} from '@nebular/theme';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-
+  NbSpinnerModule
+} from "@nebular/theme";
+import { LoginComponent } from "./login/login.component";
+import { RegisterComponent } from "./register/register.component";
 
 @NgModule({
   imports: [
@@ -27,12 +26,15 @@ import { RegisterComponent } from './register/register.component';
     NbCheckboxModule,
     NgxAuthRoutingModule,
     NbSpinnerModule,
-    NbAuthModule,
+    NbAuthModule.forRoot({
+      strategies: [
+        NbDummyAuthStrategy.setup({
+          name: "email",
+          delay: 3000
+        })
+      ]
+    })
   ],
-  declarations: [
-  LoginComponent,
-  RegisterComponent,
-],
+  declarations: [LoginComponent, RegisterComponent]
 })
-export class NgxAuthModule {
-}
+export class NgxAuthModule {}

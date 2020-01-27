@@ -5,8 +5,10 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import arLocale  from '@fullcalendar/core/locales/ar'
 import enLocale  from '@fullcalendar/core/locales/en-gb'
-import { LanggService } from '../../shared/services/langg.service';
+import momentPlugin from '@fullcalendar/moment';
 import { Subscription } from 'rxjs';
+
+import { LanggService } from '../../shared/services/langg.service';
 
 @Component({
   selector: 'home',
@@ -15,7 +17,7 @@ import { Subscription } from 'rxjs';
 })
 export class HomeComponent implements OnInit,OnDestroy{
 
-  calendarPlugins = [ dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin ];
+  calendarPlugins = [ dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin, momentPlugin  ];
   calendarHeader = { center: 'listWeek,dayGridMonth,dayGridWeek,timeGridDay' }
 
   locle:any;

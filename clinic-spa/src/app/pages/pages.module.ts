@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { NbMenuModule, NbAlertModule, NbCardModule } from '@nebular/theme';
+import { NbMenuModule, NbAlertModule, NbCardModule, NbLayoutModule, NbSidebarModule } from '@nebular/theme';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { SharedModule } from './../shared/shared.module';
@@ -22,7 +22,9 @@ import { HomeComponent } from './home/home.component';
     NbAlertModule,
     FormsModule,
     FullCalendarModule,
-    NbCardModule
+    NbCardModule,
+    NbLayoutModule,
+    NbSidebarModule
   ],
   declarations: [
     PagesComponent,

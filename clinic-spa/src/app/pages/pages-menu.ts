@@ -3,33 +3,33 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'الحجوزات الحالية',
-    icon: 'browser-outline',
+    icon: 'calendar-outline',
     link: '/pages/home',
     home: true,
   },
   {
     title: 'سجل الحجوزات',
-    icon: 'home-outline',
+    icon: 'browser-outline',
     link: '/pages/iot-dashboard',
   },
   {
     title: 'سجلات المرضى',
-    icon: 'home-outline',
+    icon: 'archive-outline',
     link: '/pages/iot-dashboard',
   },
   {
     title: 'المحادثات',
-    icon: 'home-outline',
+    icon: 'message-circle-outline',
     link: '/pages/iot-dashboard',
   },
   {
     title: 'الحسابات',
-    icon: 'home-outline',
+    icon: 'edit-2-outline',
     link: '/pages/iot-dashboard',
   },
   {
     title: 'الإعدادات',
-    icon: 'layout-outline',
+    icon: 'settings-outline',
     children: [
       {
         title: 'المستخدمين',
@@ -47,7 +47,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'التقارير',
-    icon: 'edit-2-outline',
+    icon: 'monitor-outline',
     children: [
       {
         title: 'تقرير 1',
@@ -61,7 +61,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'تواصل مع المطور',
-    icon: 'home-outline',
+    icon: 'info-outline',
     link: '/pages/iot-dashboard',
   },
     {

@@ -6,7 +6,6 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LanggService } from '../../services/langg.service';
-import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'ngx-header',
@@ -68,7 +67,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isArabic = true;
       this.currentBtnLang = 'English';
       this.dirService.setDirection(NbLayoutDirection.RTL);
-    }    
+    }
 
     this.userService.getUsers()
       .pipe(takeUntil(this.destroy$))

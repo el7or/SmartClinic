@@ -8,7 +8,6 @@ import { NbLayoutDirectionService, NbLayoutDirection } from "@nebular/theme";
 
 // @ts-ignore
 import * as words from "../../../assets/locale/translation.json";
-import { MENU_ITEMS } from '../../pages/pages-menu.js';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,6 @@ export class LanggService {
   );
   lang = this.language.asObservable();
   langLoading = new BehaviorSubject<boolean>(false);
-  menu = MENU_ITEMS;
 
   _locale: string;
   set locale(value: string) {

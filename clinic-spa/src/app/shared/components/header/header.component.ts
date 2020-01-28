@@ -17,7 +17,6 @@ import { map, takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 
 import { LanggService } from "../../services/langg.service";
-import { LanggPipe } from "../../pipes/langg.pipe";
 import { MENU_ITEMS } from "../../../pages/pages-menu";
 
 @Component({
@@ -51,7 +50,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   menu = MENU_ITEMS;
   isArabic: boolean;
-  currentBtnLang: string;
   //currentTheme = "default";
 
   userMenu = [{ title: "Profile" }, { title: "Log out" }];
@@ -68,13 +66,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //this.currentTheme = this.themeService.currentTheme;
-    if (localStorage.getItem("langg") == "en") {
-      this.isArabic = false;
-      this.currentBtnLang = "عربي";
-    } else {
-      this.isArabic = true;
-      this.currentBtnLang = "English";
-    }
     this.translateMenus();
 
     this.user = { name: "Nick Jones", picture: "assets/images/nick.png" };
@@ -111,14 +102,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleLang() {
     this.langgService.langLoading.next(true);
     setTimeout(() => {
-      this.isArabic = !this.isArabic;
-      if (this.isArabic) {
+      if (localStorage.getItem('langg')=='en') {
         this.langgService.language.next("ar");
-        this.currentBtnLang = "English";
         this.langgService.langLoading.next(false);
       } else {
         this.langgService.language.next("en");
-        this.currentBtnLang = "عربي";
         this.langgService.langLoading.next(false);
       }
       this.translateMenus();

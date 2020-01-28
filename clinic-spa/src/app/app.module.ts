@@ -5,13 +5,10 @@
  */
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgModule } from "@angular/core";
+import { NgModule, LOCALE_ID } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { of as observableOf } from "rxjs";
 
-import { SharedModule } from "./shared/shared.module";
-import { AppComponent } from "./app.component";
-import { AppRoutingModule } from "./app-routing.module";
 import {
   NbChatModule,
   NbDialogModule,
@@ -21,6 +18,21 @@ import {
   NbWindowModule
 } from "@nebular/theme";
 import { NbSecurityModule, NbRoleProvider } from "@nebular/security";
+import { registerLocaleData } from '@angular/common';
+import localeArabic from '@angular/common/locales/ar';
+import localeEnglish from '@angular/common/locales/en';
+
+import { SharedModule } from "./shared/shared.module";
+import { AppComponent } from "./app.component";
+import { AppRoutingModule } from "./app-routing.module";
+import { LanggService } from './shared/services/langg.service';
+import { arLocale } from 'ngx-bootstrap/locale';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+
+defineLocale('ar', arLocale);
+
+registerLocaleData(localeArabic);
+registerLocaleData(localeEnglish);
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
   getRole() {
@@ -60,12 +72,16 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
       }
     })
   ],
-  bootstrap: [AppComponent],
   providers: [
     {
       provide: NbRoleProvider,
       useClass: NbSimpleRoleProvider
-    }
-  ]
+    },
+    {provide: LOCALE_ID,
+      deps: [LanggService],
+      useFactory: (LanggService: { locale: string; }) => LanggService.locale
+     }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

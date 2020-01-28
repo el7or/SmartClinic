@@ -1,4 +1,21 @@
 [
-    {"ar":"إدارة العيادات","en":"easy Clinic"},
-    {"ar":"بحث","en":"Search"}
-    ]
+  { "ar": "العيادة الذكية", "en": "Smart Clinic" },
+  { "ar": "الملف الشخصي", "en": "Profile" },
+  { "ar": "تسجيل خروج", "en": "Log out" },
+  { "ar": "الحجوزات الحالية", "en": "Current Bookings" },
+  { "ar": "سجل الحجوزات", "en": "All Bookings" },
+  { "ar": "سجلات المرضى", "en": "Patient Records" },
+  { "ar": "المحادثات", "en": "Chat" },
+  { "ar": "الحسابات", "en": "Payments" },
+  { "ar": "الإعدادات", "en": "Settings" },
+  { "ar": "المستخدمين", "en": "Users" },
+  { "ar": "الأسعار", "en": "Pricing" },
+  { "ar": "التقارير", "en": "Reports" },
+  { "ar": "تقرير 1", "en": "Report 1" },
+  { "ar": "تقرير 2", "en": "Report 2" },
+  { "ar": "تواصل مع المطور", "en": "Contact Developer" },
+  { "ar": "للاختبار", "en": "To Test" },
+  { "ar": "الدخول", "en": "Auth" },
+  { "ar": "تسجيل الدخول", "en": "Login" },
+  { "ar": "إنشاء حساب", "en": "Register" }
+]

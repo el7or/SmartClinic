@@ -2,82 +2,78 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'الحجوزات الحالية',
+    title: 'Current Bookings',
     icon: 'calendar-outline',
     link: '/pages/home',
     home: true,
   },
   {
-    title: 'سجل الحجوزات',
+    title: 'All Bookings',
     icon: 'browser-outline',
     link: '/pages/iot-dashboard',
   },
   {
-    title: 'سجلات المرضى',
+    title: 'Patient Records',
     icon: 'archive-outline',
     link: '/pages/iot-dashboard',
   },
   {
-    title: 'المحادثات',
+    title: 'Chat',
     icon: 'message-circle-outline',
     link: '/pages/chat',
   },
   {
-    title: 'الحسابات',
+    title: 'Payments',
     icon: 'edit-2-outline',
     link: '/pages/iot-dashboard',
   },
   {
-    title: 'الإعدادات',
+    title: 'Settings',
     icon: 'settings-outline',
     children: [
       {
-        title: 'المستخدمين',
+        title: 'Users',
         link: '/pages/layout/stepper',
       },
       {
-        title: 'الأسعار',
+        title: 'Pricing',
         link: '/pages/layout/list',
-      },
-      {
-        title: 'التشخيصات',
-        link: '/pages/layout/infinite-list',
       }
     ],
   },
   {
-    title: 'التقارير',
+    title: 'Reports',
     icon: 'monitor-outline',
     children: [
       {
-        title: 'تقرير 1',
+        title: 'Report 1',
         link: '/pages/forms/inputs',
       },
       {
-        title: 'تقرير 2',
+        title: 'Report 2',
         link: '/pages/forms/layouts',
       }
     ]
   },
   {
-    title: 'تواصل مع المطور',
+    title: 'Contact Developer',
     icon: 'info-outline',
     link: '/pages/iot-dashboard',
   },
     {
-    title: 'للاختبار',
+    title: 'To Test',
     group: true,
   },
   {
-    title: 'الدخول',
+    title: 'Auth',
     icon: 'lock-outline',
     children: [
       {
-        title: 'تسجيل الدخول',
+        title: 'Login',
         link: '/auth/login',
       },
       {
-        title: 'إنشاء حساب',
+        title: 'Register',
         link: '/auth/register',
       }
     ],

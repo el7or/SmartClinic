@@ -29,6 +29,7 @@ import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { TinyMCEComponent } from './components/tiny-mce/tiny-mce.component';
+import { LanggPipe } from './pipes/langg.pipe';
 
 
 const NB_MODULES = [
@@ -59,7 +60,7 @@ const PIPES = [
 @NgModule({
   imports: [CommonModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS, LanggDirective],
-  declarations: [...COMPONENTS, ...PIPES, LanggDirective],
+  declarations: [...COMPONENTS, ...PIPES, LanggDirective, LanggPipe],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

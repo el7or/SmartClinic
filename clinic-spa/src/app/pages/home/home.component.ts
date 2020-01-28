@@ -23,7 +23,6 @@ export class HomeComponent implements OnInit,OnDestroy{
   locle:any;
   langObservable: Subscription;
 
-  //calendarEvents = 'https://fullcalendar.io/demo-events.json';
   calendarEvents = [
     {
       title: 'كشف',

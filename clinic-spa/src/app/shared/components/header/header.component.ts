@@ -1,30 +1,44 @@
-import { Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService, NbLayoutDirection, NbLayoutDirectionService, NbWindowService } from '@nebular/theme';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  TemplateRef,
+  ChangeDetectorRef,
+} from "@angular/core";
+import {
+  NbMediaBreakpointsService,
+  NbMenuService,
+  NbSidebarService,
+  NbThemeService,
+  NbWindowService
+} from "@nebular/theme";
+import { map, takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
 
-import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { LanggService } from '../../services/langg.service';
+import { LanggService } from "../../services/langg.service";
+import { LanggPipe } from "../../pipes/langg.pipe";
+import { MENU_ITEMS } from "../../../pages/pages-menu";
 
 @Component({
-  selector: 'ngx-header',
-  styleUrls: ['./header.component.scss'],
-  templateUrl: './header.component.html',
+  selector: "ngx-header",
+  styleUrls: ["./header.component.scss"],
+  templateUrl: "./header.component.html"
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
 
   themes = [
     {
-      value: 'default',
-      name: 'Light',
+      value: "default",
+      name: "Light"
     },
     {
-      value: 'dark',
-      name: 'Dark',
-    },
+      value: "dark",
+      name: "Dark"
+    }
     /* {
       value: 'cosmic',
       name: 'Cosmic',
@@ -35,52 +49,54 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, */
   ];
 
-  currentTheme = 'default';
-  isArabic:boolean;
-  currentBtnLang:string;
+  menu = MENU_ITEMS;
+  isArabic: boolean;
+  currentBtnLang: string;
+  //currentTheme = "default";
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: "Profile" }, { title: "Log out" }];
 
-  constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private breakpointService: NbMediaBreakpointsService,
-              private dirService: NbLayoutDirectionService,
-              private windowService: NbWindowService,
-              private langgService: LanggService) {
-  }
+  constructor(
+    private sidebarService: NbSidebarService,
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private breakpointService: NbMediaBreakpointsService,
+    private windowService: NbWindowService,
+    private langgService: LanggService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-    this.currentTheme = this.themeService.currentTheme;
-    if (localStorage.getItem('langg')=='en') {
-      this.langgService.language.next('en');
+    //this.currentTheme = this.themeService.currentTheme;
+    if (localStorage.getItem("langg") == "en") {
       this.isArabic = false;
-      this.currentBtnLang = 'عربي';
-      this.dirService.setDirection(NbLayoutDirection.LTR);
-    }
-    else{
-      this.langgService.language.next('ar');
+      this.currentBtnLang = "عربي";
+    } else {
       this.isArabic = true;
-      this.currentBtnLang = 'English';
-      this.dirService.setDirection(NbLayoutDirection.RTL);
+      this.currentBtnLang = "English";
     }
+    this.translateMenus();
 
-      this.user = { name: 'Nick Jones', picture: 'assets/images/nick.png' };
+    this.user = { name: "Nick Jones", picture: "assets/images/nick.png" };
 
     const { xl } = this.breakpointService.getBreakpointsMap();
-    this.themeService.onMediaQueryChange()
+    this.themeService
+      .onMediaQueryChange()
       .pipe(
         map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
-      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+      .subscribe(
+        (isLessThanXl: boolean) => (this.userPictureOnly = isLessThanXl)
+      );
 
-    this.themeService.onThemeChange()
+    /* this.themeService
+      .onThemeChange()
       .pipe(
         map(({ name }) => name),
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
-      .subscribe(themeName => this.currentTheme = themeName);
+      .subscribe(themeName => (this.currentTheme = themeName)); */
   }
 
   ngOnDestroy() {
@@ -92,33 +108,36 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.themeService.changeTheme(themeName);
   }
 
-  toggleLang(){
-    this.isArabic = !this.isArabic;
-    if(this.isArabic){
-      this.langgService.language.next('ar');
-      this.currentBtnLang = 'English';
-      this.dirService.setDirection(NbLayoutDirection.RTL);
-    }
-    else{
-      this.langgService.language.next('en');
-      this.currentBtnLang = 'عربي';
-      this.dirService.setDirection(NbLayoutDirection.LTR);
-    }
+  toggleLang() {
+    this.langgService.langLoading.next(true);
+    setTimeout(() => {
+      this.isArabic = !this.isArabic;
+      if (this.isArabic) {
+        this.langgService.language.next("ar");
+        this.currentBtnLang = "English";
+        this.langgService.langLoading.next(false);
+      } else {
+        this.langgService.language.next("en");
+        this.currentBtnLang = "عربي";
+        this.langgService.langLoading.next(false);
+      }
+      this.translateMenus();
+    }, 1000);
   }
 
-  changeDir(dir: string) {
-    console.log(dir);
-    if(dir=='rtl'){
-    this.dirService.setDirection(NbLayoutDirection.RTL);
-    }
-    else{
-      this.dirService.setDirection(NbLayoutDirection.LTR);
-    }
+  translateMenus(){
+    this.menu.concat(this.userMenu).forEach(element => {
+      element.title = this.langgService.translateWord(element.title);
+      if(element.children!=null){
+        element.children.forEach(el=>{
+          el.title = this.langgService.translateWord(el.title);
+        })
+      }
+    });
   }
 
   toggleSidebar(): boolean {
-    this.sidebarService.toggle(true, 'menu-sidebar');
-
+    this.sidebarService.toggle(true, "menu-sidebar");
     return false;
   }
 
@@ -127,11 +146,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  @ViewChild('contentTemplate', { static: false }) contentTemplate: TemplateRef<any>;
-  openNotifications(){
-    this.windowService.open(
-      this.contentTemplate,
-      { title: 'Window content from template', context: { text: 'some text to pass into template' } },
-    );
+  @ViewChild("contentTemplate", { static: false }) contentTemplate: TemplateRef<
+    any
+  >;
+  openNotifications() {
+    this.windowService.open(this.contentTemplate, {
+      title: "Window content from template",
+      context: { text: "some text to pass into template" }
+    });
   }
 }

@@ -1,23 +1,14 @@
+import { takeUntil, map } from "rxjs/operators";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  TemplateRef,
-  ChangeDetectorRef,
-} from "@angular/core";
-import {
-  NbMediaBreakpointsService,
   NbMenuService,
   NbSidebarService,
-  NbThemeService,
-  NbWindowService
+  NbThemeService
 } from "@nebular/theme";
-import { map, takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
 
 import { LanggService } from "../../services/langg.service";
 import { MENU_ITEMS } from "../../../pages/pages-menu";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "ngx-header",
@@ -25,9 +16,13 @@ import { MENU_ITEMS } from "../../../pages/pages-menu";
   templateUrl: "./header.component.html"
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private destroy$: Subject<void> = new Subject<void>();
-  userPictureOnly: boolean = false;
   user: any;
+  menu = MENU_ITEMS;
+  currentTheme = "default";
+  selectedTheme = "Light";
+  private destroy$: Subject<void> = new Subject<void>();
+
+  userMenu = [{ title: "Profile" }, { title: "Log out" }];
 
   themes = [
     {
@@ -37,57 +32,68 @@ export class HeaderComponent implements OnInit, OnDestroy {
     {
       value: "dark",
       name: "Dark"
-    }
-    /* {
-      value: 'cosmic',
-      name: 'Cosmic',
     },
     {
-      value: 'corporate',
-      name: 'Corporate',
-    }, */
+      value: "cosmic",
+      name: "Cosmic"
+    }
   ];
-
-  menu = MENU_ITEMS;
-  isArabic: boolean;
-  //currentTheme = "default";
-
-  userMenu = [{ title: "Profile" }, { title: "Log out" }];
 
   constructor(
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     private themeService: NbThemeService,
-    private breakpointService: NbMediaBreakpointsService,
-    private windowService: NbWindowService,
-    private langgService: LanggService,
-    private cdr: ChangeDetectorRef
+    private langgService: LanggService
   ) {}
 
   ngOnInit() {
-    //this.currentTheme = this.themeService.currentTheme;
+    // =====> translate main menu & user menu on first initial:
     this.translateMenus();
 
-    this.user = { name: "Nick Jones", picture: "assets/images/nick.png" };
-
-    const { xl } = this.breakpointService.getBreakpointsMap();
+    // =====> setting og theme:
+    this.currentTheme =
+      localStorage.getItem("theme") === null
+        ? "default"
+        : localStorage.getItem("theme");
+    this.onChangeTheme(this.currentTheme);
     this.themeService
-      .onMediaQueryChange()
-      .pipe(
-        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(
-        (isLessThanXl: boolean) => (this.userPictureOnly = isLessThanXl)
-      );
-
-    /* this.themeService
       .onThemeChange()
       .pipe(
         map(({ name }) => name),
         takeUntil(this.destroy$)
       )
-      .subscribe(themeName => (this.currentTheme = themeName)); */
+      .subscribe(themeName => (this.currentTheme = themeName));
+
+    // =====> add user name and photo to header icon:
+    this.user = { name: "دكتور محمد", picture: "assets/images/nick.png" };
+
+    /* this.menuSubscription = this.menuService.onItemClick().subscribe(event => {
+        switch (event.item.data) {
+          case "en":
+          case "ar":
+            this.langgService.langLoading.next(true);
+            setTimeout(() => {
+              this.langgService.language.next(event.item.data);
+              this.checkLangg(event.item.data);
+              this.langgService.langLoading.next(false);
+            }, 1000);
+            break;
+          case "Log out":
+            this.logOut();
+            break;
+          case "Profile":
+            this.router.navigateByUrl("/pages/members/edit");
+            break;
+          case "like":
+            this.router.navigateByUrl("/pages/likes");
+            break;
+          case "msg":
+            this.router.navigateByUrl("/pages/chat");
+            break;
+          default:
+            break;
+        }
+      }); */
   }
 
   ngOnDestroy() {
@@ -95,14 +101,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
-  }
-
-  toggleLang() {
+  // =====> toggle language from button in header:
+  onToggleLanguage() {
     this.langgService.langLoading.next(true);
     setTimeout(() => {
-      if (localStorage.getItem('langg')=='en') {
+      if (localStorage.getItem("langg") == "en") {
         this.langgService.language.next("ar");
         this.langgService.langLoading.next(false);
       } else {
@@ -113,34 +116,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  translateMenus(){
+  // =====> translate main menu & user menu on first initial:
+  translateMenus() {
     this.menu.concat(this.userMenu).forEach(element => {
       element.title = this.langgService.translateWord(element.title);
-      if(element.children!=null){
-        element.children.forEach(el=>{
+      if (element.children != null) {
+        element.children.forEach(el => {
           el.title = this.langgService.translateWord(el.title);
-        })
+        });
       }
     });
   }
 
-  toggleSidebar(): boolean {
+  // =====> on change them from select list in header:
+  onChangeTheme(themeName: string) {
+    localStorage.setItem("theme", themeName);
+    this.selectedTheme = this.themes.find(
+      theme => theme.value == themeName
+    ).name;
+    this.themeService.changeTheme(themeName);
+  }
+
+  // =====> toogle main menu:
+  onToggleSidebar(): boolean {
     this.sidebarService.toggle(true, "menu-sidebar");
     return false;
-  }
-
-  navigateHome() {
-    this.menuService.navigateHome();
-    return false;
-  }
-
-  @ViewChild("contentTemplate", { static: false }) contentTemplate: TemplateRef<
-    any
-  >;
-  openNotifications() {
-    this.windowService.open(this.contentTemplate, {
-      title: "Window content from template",
-      context: { text: "some text to pass into template" }
-    });
   }
 }

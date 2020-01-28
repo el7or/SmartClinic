@@ -30,6 +30,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { TinyMCEComponent } from './components/tiny-mce/tiny-mce.component';
 import { LanggPipe } from './pipes/langg.pipe';
+import { RouterModule } from '@angular/router';
 
 
 const NB_MODULES = [
@@ -58,7 +59,7 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
+  imports: [CommonModule, ...NB_MODULES,RouterModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS, LanggDirective],
   declarations: [...COMPONENTS, ...PIPES, LanggDirective, LanggPipe],
 })

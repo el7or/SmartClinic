@@ -21,13 +21,13 @@ import { NbSecurityModule, NbRoleProvider } from "@nebular/security";
 import { registerLocaleData } from '@angular/common';
 import localeArabic from '@angular/common/locales/ar';
 import localeEnglish from '@angular/common/locales/en';
+import { arLocale } from 'ngx-bootstrap/locale';
+import { defineLocale } from 'ngx-bootstrap/chronos';
 
 import { SharedModule } from "./shared/shared.module";
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { LanggService } from './shared/services/langg.service';
-import { arLocale } from 'ngx-bootstrap/locale';
-import { defineLocale } from 'ngx-bootstrap/chronos';
 
 defineLocale('ar', arLocale);
 

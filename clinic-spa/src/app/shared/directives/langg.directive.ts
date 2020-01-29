@@ -1,30 +1,23 @@
-import { Directive, ElementRef, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Directive, ElementRef, AfterViewInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
 
-import { LanggService } from './../services/langg.service';
-// @ts-ignore
-import * as words from '../../../assets/locale/translation.json'
+import { LanggService } from "./../services/langg.service";
 
 @Directive({
-  selector: '[langg]'
+  selector: "[langg]"
 })
-export class LanggDirective
-  implements OnInit, AfterViewInit, OnDestroy {
+export class LanggDirective implements AfterViewInit, OnDestroy {
   langgSubscription: Subscription;
-  _words = [];
+
   constructor(private ref: ElementRef, private langgService: LanggService) {}
 
-  ngOnInit() {
-    this._words = words.default;
-  }
-
+  // =====> translate inner text in html elements with 'langg' directive:
   ngAfterViewInit() {
-    this.langgSubscription = this.langgService.lang.subscribe(lang => {
+    this.langgSubscription = this.langgService.lang.subscribe(() => {
       try {
-        let words = this._words.filter(o =>
-          Object.keys(o).some(k => o[k]==this.ref.nativeElement.innerText)
+        this.ref.nativeElement.innerText = this.langgService.translateWord(
+          this.ref.nativeElement.innerText
         );
-        this.ref.nativeElement.innerText = words[0][lang];
       } catch {}
     });
   }

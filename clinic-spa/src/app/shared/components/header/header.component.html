@@ -7,7 +7,7 @@
   </div>
   <nb-select id="theme" [selected]="currentTheme" (selectedChange)="onChangeTheme($event)" status="primary" size="small">
     <nb-select-label [innerHtml]="selectedTheme |langg"></nb-select-label>
-    <nb-option langg *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name | langg }}</nb-option>
+    <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name | langg }}</nb-option>
   </nb-select>
 </div>
 

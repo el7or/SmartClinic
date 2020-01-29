@@ -21,5 +21,8 @@
   { "ar": "إنشاء حساب", "en": "Register" },
   { "ar": "فاتح", "en": "Light" },
   { "ar": "داكن", "en": "Dark" },
-  { "ar": "أورجواني", "en": "Cosmic" }
+  { "ar": "أورجواني", "en": "Cosmic" },
+  { "ar": "خطأ رقم 404", "en": "404 Page Not Found" },
+  { "ar": "الصفحة المطلوبة غير موجودة!", "en": "The page you were looking for doesn't exist!" },
+  { "ar": "الذهاب للصفحة الرئيسية", "en": "Take me home" }
 ]

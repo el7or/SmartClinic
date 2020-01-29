@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable, OnDestroy } from "@angular/core";
+import { BehaviorSubject, Subscription } from "rxjs";
 import { Title } from "@angular/platform-browser";
 import { registerLocaleData } from "@angular/common";
 import localeArabic from "@angular/common/locales/ar";
@@ -10,17 +10,16 @@ import { NbLayoutDirectionService, NbLayoutDirection } from "@nebular/theme";
 import * as words from "../../../assets/locale/translation.json";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-export class LanggService {
+export class LanggService implements OnDestroy {
   _words = [];
-  elementsArray = new BehaviorSubject<[]>([]);
-  placholdersArray = new BehaviorSubject<[]>([]);
   language = new BehaviorSubject<string>(
     localStorage.getItem("langg") == "en" ? "en" : "ar"
   );
   lang = this.language.asObservable();
   langLoading = new BehaviorSubject<boolean>(false);
+  langgSubscription: Subscription;
 
   _locale: string;
   set locale(value: string) {
@@ -30,13 +29,15 @@ export class LanggService {
     return localStorage.getItem("langg") || "ar";
   }
 
-  // change language from button to translate from langg directive:
   constructor(
     titleService: Title,
     private dirService: NbLayoutDirectionService
   ) {
+    // =====> get list of translations from json file:
     this._words = words.default;
-    this.lang.subscribe(lang => {
+
+    // =====> change language based on value of BehaviorSubject 'language':
+    this.langgSubscription = this.lang.subscribe(lang => {
       if (lang == "en") {
         localStorage.setItem("langg", "en");
         titleService.setTitle("Smart Clinic");
@@ -55,12 +56,16 @@ export class LanggService {
     });
   }
 
+  ngOnDestroy() {
+    this.langgSubscription.unsubscribe();
+  }
+
+  // =====> register culture for providers in app module:
   registerCulture(culture: string) {
     if (!culture) {
       return;
     }
     this.locale = culture;
-
     switch (culture) {
       case "ar": {
         registerLocaleData(localeArabic);
@@ -73,11 +78,12 @@ export class LanggService {
     }
   }
 
-  translateWord(value){
+  // =====> translate any words from json file:
+  translateWord(value) {
     let words = this._words.filter(o =>
       Object.keys(o).some(k => o[k] == value)
     );
     value = words[0][this.locale];
-      return value;
+    return value;
   }
 }

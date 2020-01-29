@@ -1,3 +1,4 @@
+import { PatientsModule } from './patients/patients.module';
 import { ChatComponent } from './chat/chat.component';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -20,6 +21,7 @@ const COMPONENTS = [
 const MODULES = [
   PagesRoutingModule,
     SharedModule,
+    PatientsModule,
     NbMenuModule,
     NbAlertModule,
     FormsModule,
@@ -40,7 +42,7 @@ const MODULES = [
     ...MODULES
   ],
   declarations: [
-    ...COMPONENTS,
+    ...COMPONENTS
   ],
 })
 export class PagesModule {

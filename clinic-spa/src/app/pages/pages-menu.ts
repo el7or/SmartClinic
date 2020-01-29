@@ -9,18 +9,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Add New Patient',
-    icon: 'browser-outline',
-    link: '/pages/iot-dashboard',
+    icon: 'person-add-outline',
+    link: '/pages/new-patient',
   },
   {
     title: 'All Bookings',
     icon: 'browser-outline',
-    link: '/pages/iot-dashboard',
+    link: '/pages/test',
   },
   {
     title: 'Patient Records',
     icon: 'archive-outline',
-    link: '/pages/iot-dashboard',
+    link: '/pages/test',
   },
   {
     title: 'Settings',
@@ -28,18 +28,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Users',
-        link: '/pages/layout/stepper',
+        link: '/pages/test',
       },
       {
         title: 'Pricing',
-        link: '/pages/layout/list',
+        link: '/pages/test',
       }
     ],
   },
   {
     title: 'Payments',
     icon: 'edit-2-outline',
-    link: '/pages/iot-dashboard',
+    link: '/pages/test',
   },
   {
     title: 'Reports',
@@ -47,11 +47,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Report 1',
-        link: '/pages/forms/inputs',
+        link: '/pages/test',
       },
       {
         title: 'Report 2',
-        link: '/pages/forms/layouts',
+        link: '/pages/test',
       }
     ]
   },
@@ -63,7 +63,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Contact Developer',
     icon: 'info-outline',
-    link: '/pages/iot-dashboard',
+    link: '/pages/test',
   },
     {
     title: 'To Test',

@@ -11,6 +11,8 @@ export class LanggPipe implements PipeTransform {
 
   // =====> translate value in html elements with 'langg' pipe:
   transform(value: string, args?: any): any {
-    return this.langgService.translateWord(value);
+    try {
+      return this.langgService.translateWord(value);
+    } catch (error) {}
   }
 }

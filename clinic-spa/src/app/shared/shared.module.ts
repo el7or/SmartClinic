@@ -55,13 +55,14 @@ const COMPONENTS = [
   TinyMCEComponent
 ];
 const PIPES = [
-  TimeAgoPipe
+  TimeAgoPipe,
+  LanggPipe
 ];
 
 @NgModule({
   imports: [CommonModule, ...NB_MODULES,RouterModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS, LanggDirective],
-  declarations: [...COMPONENTS, ...PIPES, LanggDirective, LanggPipe],
+  declarations: [...COMPONENTS, ...PIPES, LanggDirective],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

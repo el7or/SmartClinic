@@ -9,7 +9,17 @@
     }
   }
 
+  // =====> remove uppercase from nebular buttons:
   [nbButton].appearance-filled{
     text-transform: none;
+  }
+
+  // =====> add style to error message if input not valid:
+  p.error-message{
+    color: red;
+    margin-bottom: 0;
+  }
+  .form-control-group{
+    margin-bottom: 1rem;
   }
 }

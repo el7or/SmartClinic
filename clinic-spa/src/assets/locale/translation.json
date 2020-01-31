@@ -46,7 +46,7 @@
   { "ar": "ملاحظات", "en": "Note" },
   { "ar": "إضافة", "en": "Add" },
   { "ar": "تنبيه !", "en": "Attention !" },
-  { "ar": "هذا الاسم موجود بالفعل في قائمة المرضى. هل ترغب في الاستمرار في إضافته هنا، أم الذهاب إلى تفاصيل المريض المُضاف سابقاً؟", "en": "This name is already on the patient list. Do you want to continue to adding here, or Go to the details of the previously added patient?" },
+  { "ar": "هذا الاسم موجود بالفعل في قائمة المرضى!", "en": "This name is already on the patient list!" },
   { "ar": "الذهاب إلى تفاصيل المريض المضاف سابقا", "en": "Go to previously added patient" },
   { "ar": "الاستمرار في الإضافة هنا", "en": "Continue adding here" },
   { "ar": "نعم", "en": "Yes" },

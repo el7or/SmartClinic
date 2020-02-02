@@ -1,22 +1,35 @@
-import { SharedModule } from './../../shared/shared.module';
-import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NbAccordionModule, NbTabsetModule, NbCardModule, NbInputModule, NbButtonModule, NbRadioModule, NbSelectModule, NbSpinnerModule } from '@nebular/theme';
+import { RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {
+  NbAccordionModule,
+  NbTabsetModule,
+  NbCardModule,
+  NbInputModule,
+  NbButtonModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbSpinnerModule,
+  NbRouteTabsetModule
+} from "@nebular/theme";
+import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
-import { NewPatientComponent } from './new-patient/new-patient.component';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
-
+import { PatientsComponent } from "./patients.component";
+import { NewPatientComponent } from "./new-patient/new-patient.component";
+import { SharedModule } from "./../../shared/shared.module";
+import { SearchPatientComponent } from './search-patient/search-patient.component';
 
 @NgModule({
-  declarations: [NewPatientComponent],
+  declarations: [PatientsComponent, NewPatientComponent, SearchPatientComponent],
   imports: [
     CommonModule,
+    RouterModule,
     SharedModule,
     FormsModule,
     NbAccordionModule,
     NbTabsetModule,
+    NbRouteTabsetModule,
     NbCardModule,
     NbInputModule,
     NbButtonModule,
@@ -26,4 +39,4 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     SweetAlert2Module.forRoot()
   ]
 })
-export class PatientsModule { }
+export class PatientsModule {}

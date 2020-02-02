@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
@@ -8,9 +8,10 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
   templateUrl: "./new-patient.component.html",
   styleUrls: ["./new-patient.component.scss"]
 })
-export class NewPatientComponent implements OnInit {
+export class NewPatientComponent implements OnInit,OnDestroy {
   formLoading = false;
   nameLoading = false;
+  @ViewChild('form', { static: false }) form: NgForm;
   @ViewChild("unsavedSwal", { static: false }) unsavedSwal: SwalComponent;
 
   constructor(private router: Router) {}
@@ -19,6 +20,10 @@ export class NewPatientComponent implements OnInit {
 
   onAddPatient(form: NgForm) {
     console.log(form.value);
+  }
+
+  ngOnDestroy(){
+    this.form.reset();
   }
 
   onBlurName(patientName: NgForm) {

@@ -8,18 +8,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Add New Patient',
-    icon: 'person-add-outline',
-    link: '/pages/new-patient',
+    title: 'Patient Records',
+    icon: 'file-text-outline',
+    link: '/pages/patients/search',
+    pathMatch: '/pages/patients'
   },
   {
     title: 'All Bookings',
     icon: 'browser-outline',
-    link: '/pages/test',
-  },
-  {
-    title: 'Patient Records',
-    icon: 'archive-outline',
     link: '/pages/test',
   },
   {

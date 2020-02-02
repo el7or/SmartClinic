@@ -25,19 +25,19 @@ export class HomeComponent implements OnInit,OnDestroy{
 
   calendarEvents = [
     {
-      title: 'كشف',
-      start: '2020-01-01T10:30:00',
-      description: 'محمد أحمد'
+      title: 'الكشوفات: 12',
+      start: '2020-01-01',
+      description: 'د/محمد أحمد'
     },
     {
-      title: 'استشارة',
-      start: '2020-01-01T10:45:00',
-      description: 'أحمد مصطفى'
+      title: 'الاستشارات: 7',
+      start: '2020-01-01',
+      description: 'د/أحمد مصطفى'
     },
     {
-      title: 'كشف',
-      start: '2020-01-03T09:00:00',
-      description: 'سناء عزت'
+      title: 'الكشوفات: 10',
+      start: '2020-01-03',
+      description: 'د/سناء عزت'
     },
   ];
 

@@ -2,7 +2,7 @@ import { PatientsModule } from './patients/patients.module';
 import { ChatComponent } from './chat/chat.component';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { NbMenuModule, NbAlertModule, NbCardModule, NbLayoutModule, NbSidebarModule, NbChatModule, NbListModule, NbUserModule, NbSpinnerModule, NbButtonModule, NbTooltipModule } from '@nebular/theme';
+import { NbMenuModule, NbAlertModule, NbCardModule, NbLayoutModule, NbSidebarModule, NbChatModule, NbListModule, NbUserModule, NbSpinnerModule, NbButtonModule, NbTooltipModule, NbIconModule } from '@nebular/theme';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { SharedModule } from './../shared/shared.module';
@@ -34,7 +34,8 @@ const MODULES = [
     NbUserModule,
     NbSpinnerModule,
     NbButtonModule,
-    NbTooltipModule
+    NbTooltipModule,
+    NbIconModule
 ];
 
 @NgModule({

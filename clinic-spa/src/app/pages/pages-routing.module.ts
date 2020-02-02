@@ -1,3 +1,4 @@
+import { SearchPatientComponent } from './patients/search-patient/search-patient.component';
 import { NewPatientComponent } from './patients/new-patient/new-patient.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -6,6 +7,7 @@ import { PagesComponent } from './pages.component';
 import { HomeComponent } from './home/home.component';
 import { ChatComponent } from './chat/chat.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { PatientsComponent } from './patients/patients.component';
 
 const routes: Routes = [{
   path: '',
@@ -16,8 +18,23 @@ const routes: Routes = [{
       component: HomeComponent,
     },
     {
-      path: 'new-patient',
-      component: NewPatientComponent,
+      path: 'patients',
+      component: PatientsComponent,
+      children: [
+        {
+          path: '',
+          redirectTo: 'tab1',
+          pathMatch: 'full',
+        },
+        {
+          path: 'search',
+          component: SearchPatientComponent,
+        },
+        {
+          path: 'new',
+          component: NewPatientComponent,
+        },
+      ]
     },
     {
       path: 'chat',

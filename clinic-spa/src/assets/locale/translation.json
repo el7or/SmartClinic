@@ -65,5 +65,8 @@
   { "ar": "هل تعاني من اضطرابات في الغدة الدرقية؟", "en": "Do you have thyroid disorders?" },
   { "ar": "هل هناك حمل؟", "en": "Do you have a pregnancy?" },
   { "ar": "هل هناك رضاعة؟", "en": "Do you have breastfeeding?" },
-  { "ar": "هل أجريت أي عملية جراحية خلال آخر ستة شهور؟", "en": "Have you had any surgery in the last six months?" }
+  { "ar": "هل أجريت أي عملية جراحية خلال آخر ستة شهور؟", "en": "Have you had any surgery in the last six months?" },
+  { "ar": "الزيارات", "en": "Visits" },
+  { "ar": "ملخص الزيارات", "en": "Visits Details" },
+  { "ar": "ملف المريض", "en": "Patient Profile" }
 ]

@@ -1,4 +1,4 @@
-@import './themes';
+@import "./themes";
 
 @mixin nb-overrides() {
   nb-select.size-medium button {
@@ -10,26 +10,29 @@
   }
 
   // =====> remove uppercase from nebular buttons and tab titles:
-  [nbButton].appearance-filled, [nbButton].appearance-hero, nb-route-tabset span{
+  [nbButton].appearance-filled,
+  [nbButton].appearance-hero,
+  [nbButton].appearance-outline.status-info,
+  nb-route-tabset span {
     text-transform: none !important;
   }
 
   // =====> add style to error message if input not valid:
-  p.error-message{
+  p.error-message {
     color: red;
     margin-bottom: 0;
   }
-  .form-control-group{
+  .form-control-group {
     margin-bottom: 1rem;
   }
 
   // =====> less padding for layout in home:
-  .columns nb-layout-column{
+  .columns nb-layout-column {
     padding: 0.5rem 1rem !important;
   }
 
   // =====> style tow buttons in end of form:
-  .nbButton-group button{
+  .nbButton-group button {
     width: 5rem;
     margin: 0 0.5rem;
   }
@@ -39,15 +42,15 @@
     padding-top: 1rem !important;
   }
 
-// =====> reset border radius for first and last buttons in pagination:
-  pagination /deep/ .page-item:first-child .page-link {
+  // =====> reset border radius for first and last buttons in pagination:
+  pagination ::ng-deep .page-item:first-child .page-link {
     border-radius: unset;
     @include nb-ltr(border-top-left-radius, 0.25rem);
     @include nb-ltr(border-bottom-left-radius, 0.25rem);
     @include nb-rtl(border-top-right-radius, 0.25rem);
     @include nb-rtl(border-bottom-right-radius, 0.25rem);
   }
-  pagination /deep/ .page-item:last-child .page-link {
+  pagination ::ng-deep .page-item:last-child .page-link {
     border-radius: unset;
     @include nb-ltr(border-top-right-radius, 0.25rem);
     @include nb-ltr(border-bottom-right-radius, 0.25rem);

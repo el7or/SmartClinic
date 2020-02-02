@@ -23,7 +23,7 @@ const routes: Routes = [{
       children: [
         {
           path: '',
-          redirectTo: 'tab1',
+          redirectTo: 'search',
           pathMatch: 'full',
         },
         {

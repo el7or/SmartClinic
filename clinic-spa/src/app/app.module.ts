@@ -1,3 +1,4 @@
+import { BookingsSummaryComponent } from './pages/bookings/bookings-summary/bookings-summary.component';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.

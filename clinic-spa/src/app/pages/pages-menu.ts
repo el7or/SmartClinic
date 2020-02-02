@@ -10,7 +10,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Patient Records',
     icon: 'file-text-outline',
-    link: '/pages/patients/search',
+    link: '/pages/patients',
     pathMatch: '/pages/patients'
   },
   {

@@ -38,4 +38,20 @@
   nb-route-tabset router-outlet + * {
     padding-top: 1rem !important;
   }
+
+// =====> reset border radius for first and last buttons in pagination:
+  pagination /deep/ .page-item:first-child .page-link {
+    border-radius: unset;
+    @include nb-ltr(border-top-left-radius, 0.25rem);
+    @include nb-ltr(border-bottom-left-radius, 0.25rem);
+    @include nb-rtl(border-top-right-radius, 0.25rem);
+    @include nb-rtl(border-bottom-right-radius, 0.25rem);
+  }
+  pagination /deep/ .page-item:last-child .page-link {
+    border-radius: unset;
+    @include nb-ltr(border-top-right-radius, 0.25rem);
+    @include nb-ltr(border-bottom-right-radius, 0.25rem);
+    @include nb-rtl(border-top-left-radius, 0.25rem);
+    @include nb-rtl(border-bottom-left-radius, 0.25rem);
+  }
 }

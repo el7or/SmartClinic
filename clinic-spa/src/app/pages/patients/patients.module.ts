@@ -14,6 +14,7 @@ import {
   NbRouteTabsetModule
 } from "@nebular/theme";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
+import { PaginationModule } from 'ngx-bootstrap';
 
 import { PatientsComponent } from "./patients.component";
 import { NewPatientComponent } from "./new-patient/new-patient.component";
@@ -36,7 +37,8 @@ import { SearchPatientComponent } from './search-patient/search-patient.componen
     NbRadioModule,
     NbSelectModule,
     NbSpinnerModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    PaginationModule.forRoot()
   ]
 })
 export class PatientsModule {}

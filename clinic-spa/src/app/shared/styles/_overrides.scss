@@ -43,14 +43,14 @@
   }
 
   // =====> reset border radius for first and last buttons in pagination:
-  pagination ::ng-deep .page-item:first-child .page-link {
+  pagination .page-item:first-child .page-link {
     border-radius: unset;
     @include nb-ltr(border-top-left-radius, 0.25rem);
     @include nb-ltr(border-bottom-left-radius, 0.25rem);
     @include nb-rtl(border-top-right-radius, 0.25rem);
     @include nb-rtl(border-bottom-right-radius, 0.25rem);
   }
-  pagination ::ng-deep .page-item:last-child .page-link {
+  pagination .page-item:last-child .page-link {
     border-radius: unset;
     @include nb-ltr(border-top-right-radius, 0.25rem);
     @include nb-ltr(border-bottom-right-radius, 0.25rem);

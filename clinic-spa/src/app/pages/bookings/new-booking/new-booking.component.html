@@ -1,0 +1,135 @@
+<form #form="ngForm" (ngSubmit)="onAddBooking(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
+  <nb-card class="dialog-center">
+    <nb-card-header>{{ patientDetails }}</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-control-group">
+            <nb-select fullWidth ngModel #bookingDoctor="ngModel" name="bookingDoctor"
+              [placeholder]="'Doctor Name' | langg" required
+              [status]="bookingDoctor.touched ? (bookingDoctor.invalid  ? 'danger' : 'success') : ''">
+              <nb-option value="1">عادل حسن</nb-option>
+              <nb-option value="2">علي أبو مضاوي</nb-option>
+              <nb-option value="3">محمد زادة</nb-option>
+            </nb-select>
+          </div>
+          <div class="form-control-group" [nbSpinner]="bookingDateLoading" nbSpinnerStatus="success">
+            <input type="text" bsDatepicker nbInput ngModel #bookingDate="ngModel" name="bookingDate" fullWidth required
+              [minDate]="todayDate"
+              [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
+              (bsValueChange)="onChooseBookingDate(bookingDate)" [placeholder]="'Booking Date' | langg"
+              [status]="bookingDate.dirty ? (bookingDate.invalid  ? 'danger' : 'success') : ''"
+              [attr.aria-invalid]="bookingDate.invalid && bookingDate.touched ? true : null" langg>
+            <ng-container *ngIf="bookingDate.invalid && bookingDate.touched">
+              <p class="error-message text-danger" *ngIf="bookingDate?.errors.required" langg>
+                Bookings Date is required!
+              </p>
+            </ng-container>
+          </div>
+          <div class="form-control-group">
+            <timepicker ngModel #bookingTime="ngModel" name="bookingTime" required showMeridian="true"
+              labelMinutes="Minutes" minuteStep="15" style="direction: ltr;" ariaLabelHours="09"></timepicker>
+          </div>
+          <div class="form-control-group">
+            <nb-select fullWidth ngModel #bookingType="ngModel" name="bookingType"
+              [placeholder]="'Booking Type' | langg" required
+              [status]="bookingType.touched ? (bookingType.invalid  ? 'danger' : 'success') : ''">
+              <nb-option value="1" langg>Diagnose</nb-option>
+              <nb-option value="2" langg>Consult</nb-option>
+              <nb-option value="3" langg>Urgent Diagnose</nb-option>
+              <nb-option value="4" langg>Foreign Diagnose</nb-option>
+              <nb-option value="5" langg>Just Service</nb-option>
+            </nb-select>
+          </div>
+          <div class="form-control-group">
+            <nb-select multiple fullWidth name="bookingService"
+              [placeholder]="'Add Service' | langg">
+              <nb-option value="1">{{'X-Ray' | langg}}</nb-option>
+              <nb-option value="2">{{'Analsis' | langg}}</nb-option>
+              <nb-option value="3">{{'Sonar' | langg}}</nb-option>
+              <nb-option value="4">{{'Laser Session' | langg}}</nb-option>
+              <nb-option value="5">{{'Therapy Session' | langg}}</nb-option>
+            </nb-select>
+          </div>
+          <!-- <div class="form-control-group">
+            <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'Note' | langg" fullWidth></textarea>
+          </div> -->
+          <nb-alert accent="info" class="text-nowrap">
+            <span langg>Total Amount:</span>&nbsp;{{50 | currency:'EGP'}}
+          </nb-alert>
+        </div>
+        <div class="col-6" *ngIf="ChoosenDate!=null">
+          <h6 langg>Same Date Bookings:</h6>
+          <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th langg>Time</th>
+                <th langg>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>05:00</td>
+                <td langg>Diagnose</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>05:30</td>
+                <td langg>Consult</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>06:00</td>
+                <td langg>Diagnose</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>07:00</td>
+                <td langg>Diagnose</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>07:30</td>
+                <td langg>Consult</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>08:00</td>
+                <td langg>Diagnose</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>09:00</td>
+                <td langg>Sonar</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>09:30</td>
+                <td langg>Consult</td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td>10:00</td>
+                <td langg>Diagnose</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="text-center nbButton-group">
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Book</button>
+        <button nbButton type="button" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button>
+        <button nbButton type="button" status="danger" [routerLink]="['/']" langg
+          (click)="dialogRef.close()">Cancel</button></div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

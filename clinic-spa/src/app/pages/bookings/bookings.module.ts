@@ -1,15 +1,26 @@
-import { NbCardModule, NbButtonModule, NbListModule } from '@nebular/theme';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import {
+  NbCardModule,
+  NbButtonModule,
+  NbListModule,
+  NbSpinnerModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbInputModule,
+  NbAlertModule
+} from "@nebular/theme";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import { BsDatepickerModule, TimepickerModule } from "ngx-bootstrap";
+import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
-import { SharedModule } from './../../shared/shared.module';
-import { BookingsSummaryComponent } from './bookings-summary/bookings-summary.component';
-
+import { SharedModule } from "./../../shared/shared.module";
+import { BookingsSummaryComponent } from "./bookings-summary/bookings-summary.component";
+import { NewBookingComponent } from "./new-booking/new-booking.component";
 
 @NgModule({
-  declarations: [BookingsSummaryComponent],
+  declarations: [BookingsSummaryComponent, NewBookingComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -17,8 +28,16 @@ import { BookingsSummaryComponent } from './bookings-summary/bookings-summary.co
     FormsModule,
     NbCardModule,
     NbButtonModule,
-    NbListModule
+    NbListModule,
+    NbSpinnerModule,
+    NbRadioModule,
+    NbSelectModule,
+    NbInputModule,
+    NbAlertModule,
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
+    SweetAlert2Module.forRoot()
   ],
-  entryComponents:[BookingsSummaryComponent],
+  entryComponents: [BookingsSummaryComponent, NewBookingComponent]
 })
-export class BookingsModule { }
+export class BookingsModule {}

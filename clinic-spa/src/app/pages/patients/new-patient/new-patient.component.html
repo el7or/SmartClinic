@@ -1,164 +1,169 @@
 <nb-card>
   <nb-card-body>
-<form #form="ngForm" (ngSubmit)="onAddPatient(form)" aria-labelledby="title" [nbSpinner]="formLoading">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-control-group" [nbSpinner]="nameLoading" nbSpinnerStatus="success">
-        <input nbInput ngModel #patientName="ngModel" name="patientName" [placeholder]="'Patient Name' | langg"
-          autofocus fullWidth required minlength="5" maxlength="50" (blur)="onBlurName(patientName)"
-          [status]="patientName.dirty ? (patientName.invalid  ? 'danger' : 'success') : ''"
-          [attr.aria-invalid]="patientName.invalid && patientName.touched ? true : null">
-        <ng-container *ngIf="patientName.invalid && patientName.touched">
-          <p class="error-message" *ngIf="patientName?.errors.required" langg>
-            Patient Name is required!
-          </p>
-          <p class="error-message" *ngIf="patientName?.errors.minlength || patientName?.errors.maxlength" langg>
-            Patient Name should contains from 5 to 50 characters!
-          </p>
-        </ng-container>
+    <form #form="ngForm" (ngSubmit)="onAddPatient(form)" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-control-group" [nbSpinner]="nameLoading" nbSpinnerStatus="success">
+            <input nbInput ngModel #patientName="ngModel" name="patientName" [placeholder]="'Patient Name' | langg"
+              autofocus fullWidth required minlength="5" maxlength="50" (blur)="onBlurName(patientName)"
+              [status]="patientName.dirty ? (patientName.invalid  ? 'danger' : 'success') : ''"
+              [attr.aria-invalid]="patientName.invalid && patientName.touched ? true : null">
+            <ng-container *ngIf="patientName.invalid && patientName.touched">
+              <p class="error-message" *ngIf="patientName?.errors.required" langg>
+                Patient Name is required!
+              </p>
+              <p class="error-message" *ngIf="patientName?.errors.minlength || patientName?.errors.maxlength" langg>
+                Patient Name should contains from 5 to 50 characters!
+              </p>
+            </ng-container>
+          </div>
+          <div class="form-control-group">
+            <input nbInput ngModel #age="ngModel" name="age" [placeholder]="'Age' | langg" fullWidth required
+              type="number" min="1" max="120" [status]="age.dirty ? (age.invalid  ? 'danger' : 'success') : ''"
+              [attr.aria-invalid]="age.invalid && age.touched ? true : null">
+            <ng-container *ngIf="age.invalid && age.touched">
+              <p class="error-message" *ngIf="age?.errors.required" langg>
+                Patient Age is required!
+              </p>
+            </ng-container>
+          </div>
+          <div class="form-control-group form-inline mx-1">
+            <label class="label" for="input-gender" langg>Gender:</label>
+            <nb-radio-group ngModel #gender="ngModel" id="input-gender" name="gender" class="form-inline">
+              <nb-radio [value]="1"><span langg>Male</span>&nbsp;&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>Female</span>&nbsp;&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group">
+            <nb-select fullWidth ngModel #socialStatus="ngModel" name="socialStatus"
+              [placeholder]="'Social Status' | langg">
+              <nb-option value="1" langg>Single</nb-option>
+              <nb-option value="2" langg>Married</nb-option>
+            </nb-select>
+          </div>
+          <div class="form-control-group">
+            <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'Mobile' | langg" fullWidth
+              pattern="[0-9]*" minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''">
+            <ng-container *ngIf="phone.invalid && phone.touched">
+              <p class="error-message" *ngIf="phone?.errors.pattern || phone?.errors.minlength" langg>
+                Mobile must be real number!
+              </p>
+            </ng-container>
+          </div>
+          <div class="form-control-group">
+            <input nbInput ngModel #email="ngModel" name="email" [placeholder]="'Email' | langg" fullWidth type="email"
+              email [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''">
+            <ng-container *ngIf="email.invalid && email.touched">
+              <p class="error-message" *ngIf="email?.errors" langg>
+                Email should be the real one!
+              </p>
+            </ng-container>
+          </div>
+          <div class="form-control-group">
+            <input nbInput ngModel #career="ngModel" name="career" [placeholder]="'Career' | langg" fullWidth>
+          </div>
+          <div class="form-control-group">
+            <textarea nbInput ngModel #adress="ngModel" name="adress" [placeholder]="'Address' | langg" rows="2"
+              fullWidth></textarea>
+          </div>
+          <div class="form-control-group">
+            <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'Note' | langg" fullWidth
+              rows="3"></textarea>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have blood pressure?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have blood thinners?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have diabetes?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have heart disease?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have liver disease?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have kidney disease?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have chest diseases?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have thyroid disorders?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have a pregnancy?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have breastfeeding?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Have you had any surgery in the last six months?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+          </div>
+        </div>
+        <div class="col-12 text-center nbButton-group">
+          <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Add</button>
+          <button nbButton type="button" status="danger" [routerLink]="['/']" langg
+            (click)="location.back()">Cancel</button></div>
       </div>
-      <div class="form-control-group">
-        <input nbInput ngModel #age="ngModel" name="age" [placeholder]="'Age' | langg" fullWidth required type="number"
-          min="1" max="120" [status]="age.dirty ? (age.invalid  ? 'danger' : 'success') : ''"
-          [attr.aria-invalid]="age.invalid && age.touched ? true : null">
-        <ng-container *ngIf="age.invalid && age.touched">
-          <p class="error-message" *ngIf="age?.errors.required" langg>
-            Patient Age is required!
-          </p>
-        </ng-container>
-      </div>
-      <div class="form-control-group form-inline mx-1">
-        <label class="label" for="input-gender" langg>Gender:</label>
-        <nb-radio-group ngModel #gender="ngModel" id="input-gender" name="gender" class="form-inline">
-          <nb-radio [value]="1"><span langg>Male</span>&nbsp;&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>Female</span>&nbsp;&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group">
-        <nb-select fullWidth ngModel #socialStatus="ngModel" name="socialStatus"
-          [placeholder]="'Social Status' | langg">
-          <nb-option value="1" langg>Single</nb-option>
-          <nb-option value="2" langg>Married</nb-option>
-        </nb-select>
-      </div>
-      <div class="form-control-group">
-        <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'Mobile' | langg" fullWidth pattern="[0-9]*"
-          minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''">
-        <ng-container *ngIf="phone.invalid && phone.touched">
-          <p class="error-message" *ngIf="phone?.errors.pattern || phone?.errors.minlength" langg>
-            Mobile must be real number!
-          </p>
-        </ng-container>
-      </div>
-      <div class="form-control-group">
-        <input nbInput ngModel #email="ngModel" name="email" [placeholder]="'Email' | langg" fullWidth type="email"
-          email [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''">
-        <ng-container *ngIf="email.invalid && email.touched">
-          <p class="error-message" *ngIf="email?.errors" langg>
-            Email should be the real one!
-          </p>
-        </ng-container>
-      </div>
-      <div class="form-control-group">
-        <input nbInput ngModel #career="ngModel" name="career" [placeholder]="'Career' | langg" fullWidth>
-      </div>
-      <div class="form-control-group">
-        <textarea nbInput ngModel #adress="ngModel" name="adress" [placeholder]="'Address' | langg" rows="2"
-          fullWidth></textarea>
-      </div>
-      <div class="form-control-group">
-        <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'Note' | langg" fullWidth
-          rows="3"></textarea>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have blood pressure?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have blood thinners?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have diabetes?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have heart disease?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have liver disease?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have kidney disease?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have chest diseases?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have thyroid disorders?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have a pregnancy?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Do you have breastfeeding?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-      <div class="form-control-group form-inline text-center">
-        <label class="label" for="input-quset1" langg>Have you had any surgery in the last six months?</label>
-        <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-          <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-          <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-        </nb-radio-group>
-      </div>
-    </div>
-    <div class="col-12 text-center nbButton-group">
-      <button nbButton status="success" [disabled]="!form.valid" langg>Add</button>
-      <button nbButton status="danger" [routerLink]="['/']" langg>Cancel</button></div>
-  </div>
-</form>
-</nb-card-body>
+    </form>
+  </nb-card-body>
 </nb-card>
 
-<swal #unsavedSwal showCancelButton="true" [title]="'Attention !' | langg" focusCancel="true" icon="warning"
+<swal #duplicateNameSwal icon="warning" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
   [text]="'This name is already on the patient list!' | langg"
   [confirmButtonText]="'Go to previously added patient' | langg" [cancelButtonText]="'Continue adding here' | langg">
+</swal>
+
+<swal #doneSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Success' | langg" [text]="'Done successfully!' | langg"
+  [confirmButtonText]="'Add New Booking' | langg" [cancelButtonText]="'Close' | langg">
 </swal>

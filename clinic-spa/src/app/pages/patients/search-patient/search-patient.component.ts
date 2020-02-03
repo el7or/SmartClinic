@@ -1,33 +1,29 @@
-import { NgForm } from '@angular/forms';
-import { BookingsSummaryComponent } from './../../bookings/bookings-summary/bookings-summary.component';
-import { Component, OnInit } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NgForm } from "@angular/forms";
+import { BookingsSummaryComponent } from "./../../bookings/bookings-summary/bookings-summary.component";
+import { Component, OnInit } from "@angular/core";
+import { NbDialogService } from "@nebular/theme";
 
 @Component({
-  selector: 'search-patient',
-  templateUrl: './search-patient.component.html',
-  styleUrls: ['./search-patient.component.scss']
+  selector: "search-patient",
+  templateUrl: "./search-patient.component.html",
+  styleUrls: ["./search-patient.component.scss"]
 })
 export class SearchPatientComponent implements OnInit {
-  formLoading= false;
+  formLoading = false;
 
-  constructor(private dialogService: NbDialogService) { }
+  constructor(private dialogService: NbDialogService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  onSearch(form:NgForm){
+  onSearch(form: NgForm) {}
 
-  }
-
-  onOpenBookingsSummery(patientId:number){
+  onOpenBookingsSummery(patientId: number) {
     this.dialogService.open(BookingsSummaryComponent, {
       context: {
-        title: 'ملخص زيارات محمد أحمد السيد:',
+        patientDetails: "ملخص زيارات محمد أحمد السيد:"
       },
-      autoFocus:true,
-      hasBackdrop :true
+      autoFocus: true,
+      hasBackdrop: true
     });
   }
-
 }

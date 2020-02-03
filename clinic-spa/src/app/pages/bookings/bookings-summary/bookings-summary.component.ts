@@ -7,7 +7,7 @@ import { NbDialogRef } from '@nebular/theme';
   styleUrls: ['./bookings-summary.component.scss']
 })
 export class BookingsSummaryComponent implements OnInit {
-  @Input() title: string;
+  @Input() patientDetails: string;
 
   constructor(protected dialogRef: NbDialogRef<BookingsSummaryComponent>) { }
 

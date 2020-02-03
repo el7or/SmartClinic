@@ -13,6 +13,8 @@ export class LanggPipe implements PipeTransform {
   transform(value: string, args?: any): any {
     try {
       return this.langgService.translateWord(value);
-    } catch (error) {}
+    } catch (error) {
+      return value;
+    }
   }
 }

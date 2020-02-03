@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -41,7 +42,7 @@ export class HomeComponent implements OnInit,OnDestroy{
     },
   ];
 
-  constructor(private langgService:LanggService){
+  constructor(private langgService:LanggService, private router:Router){
   }
   ngOnInit(){
     this.langObservable = this.langgService.lang.subscribe(
@@ -74,6 +75,7 @@ export class HomeComponent implements OnInit,OnDestroy{
   }
 
   onDateClick(info){
+    this.router.navigateByUrl('/pages/patients/search');
     /* alert('Clicked on: ' + info.dateStr);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
     alert('Current view: ' + info.view.type);

@@ -1,7 +1,10 @@
 import { NgForm } from "@angular/forms";
-import { BookingsSummaryComponent } from "./../../bookings/bookings-summary/bookings-summary.component";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { NbDialogService } from "@nebular/theme";
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+
+import { BookingsSummaryComponent } from "./../../bookings/bookings-summary/bookings-summary.component";
+import { NewBookingComponent } from '../../bookings/new-booking/new-booking.component';
 
 @Component({
   selector: "search-patient",
@@ -9,6 +12,8 @@ import { NbDialogService } from "@nebular/theme";
   styleUrls: ["./search-patient.component.scss"]
 })
 export class SearchPatientComponent implements OnInit {
+  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
+  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   formLoading = false;
 
   constructor(private dialogService: NbDialogService) {}
@@ -24,6 +29,27 @@ export class SearchPatientComponent implements OnInit {
       },
       autoFocus: true,
       hasBackdrop: true
+    });
+  }
+
+  onNewBook(){
+    this.dialogService.open(NewBookingComponent, {
+      context: {
+        patientDetails: "حجز جديد للمريض: محمد أحمد السيد"
+      },
+      autoFocus: true,
+      hasBackdrop: true,
+      closeOnBackdropClick:false,
+      closeOnEsc:false
+    });
+  }
+
+  onDeletePatient(){
+    this.deleteSwal.fire().then(result => {
+      // =====> if click on add new booking:
+      if (result.value) {
+        this.doneSwal.fire();
+      }
     });
   }
 }

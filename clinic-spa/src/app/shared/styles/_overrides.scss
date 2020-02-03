@@ -64,4 +64,9 @@
     max-height: 90vh !important;
     margin: 0 auto !important;
   }
+
+  // =====> style button (AM-PM) in timePicker:
+  timepicker .btn-default {
+    background-color: lightgrey !important;
+  }
 }

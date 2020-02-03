@@ -6,7 +6,7 @@ import {
   NbRadioModule,
   NbSelectModule,
   NbInputModule,
-  NbAlertModule
+  NbAlertModule,
 } from "@nebular/theme";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";

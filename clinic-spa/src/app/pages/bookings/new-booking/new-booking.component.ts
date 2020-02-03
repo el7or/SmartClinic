@@ -2,7 +2,7 @@ import { NgForm } from "@angular/forms";
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 @Component({
   selector: "new-booking",
@@ -14,7 +14,7 @@ export class NewBookingComponent implements OnInit {
   @Input() patientDetails: string;
   formLoading = false;
   bookingDateLoading = false;
-  todayDate:Date = new Date();
+  todayDate: Date = new Date();
   ChoosenDate = null;
 
   constructor(
@@ -26,13 +26,13 @@ export class NewBookingComponent implements OnInit {
 
   ngOnInit() {}
 
-  onChooseBookingDate(input:NgForm) {
-    console.log(input);
+  onChooseBookingDate(input: NgForm) {
+    //console.log(input);
     this.ChoosenDate = input.value;
   }
 
   onAddBooking(form: NgForm) {
-this.doneSwal.fire();
-this.dialogRef.close();
+    this.doneSwal.fire();
+    this.dialogRef.close();
   }
 }

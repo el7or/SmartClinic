@@ -19,8 +19,7 @@
               [minDate]="todayDate"
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
               (bsValueChange)="onChooseBookingDate(bookingDate)" [placeholder]="'Booking Date' | langg"
-              [status]="bookingDate.dirty ? (bookingDate.invalid  ? 'danger' : 'success') : ''"
-              [attr.aria-invalid]="bookingDate.invalid && bookingDate.touched ? true : null" langg>
+              [status]="bookingDate.touched ? (bookingDate.invalid  ? 'danger' : 'success') : ''" >
             <ng-container *ngIf="bookingDate.invalid && bookingDate.touched">
               <p class="error-message text-danger" *ngIf="bookingDate?.errors.required" langg>
                 Bookings Date is required!
@@ -124,7 +123,7 @@
       <div class="text-center nbButton-group">
         <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Book</button>
         <button nbButton type="button" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button>
-        <button nbButton type="button" status="danger" [routerLink]="['/']" langg
+        <button nbButton type="button" status="danger" langg
           (click)="dialogRef.close()">Cancel</button></div>
     </nb-card-footer>
   </nb-card>

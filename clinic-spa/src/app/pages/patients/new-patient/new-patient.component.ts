@@ -16,8 +16,7 @@ export class NewPatientComponent implements OnInit, OnDestroy {
   formLoading = false;
   nameLoading = false;
   @ViewChild("form", { static: false }) form: NgForm;
-  @ViewChild("duplicateNameSwal", { static: false })
-  duplicateNameSwal: SwalComponent;
+  @ViewChild("duplicateNameSwal", { static: false }) duplicateNameSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(

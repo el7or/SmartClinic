@@ -24,12 +24,14 @@ import { NewPatientComponent } from "./new-patient/new-patient.component";
 import { SharedModule } from "./../../shared/shared.module";
 import { SearchPatientComponent } from "./search-patient/search-patient.component";
 import { BookingsModule } from './../bookings/bookings.module';
+import { PatientDetailsComponent } from './patient-details/patient-details.component';
 
 @NgModule({
   declarations: [
     PatientsComponent,
     NewPatientComponent,
-    SearchPatientComponent
+    SearchPatientComponent,
+    PatientDetailsComponent
   ],
   imports: [
     CommonModule,

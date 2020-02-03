@@ -1,3 +1,4 @@
+import { PatientDetailsComponent } from './patients/patient-details/patient-details.component';
 import { SearchPatientComponent } from './patients/search-patient/search-patient.component';
 import { NewPatientComponent } from './patients/new-patient/new-patient.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -34,7 +35,15 @@ const routes: Routes = [{
           path: 'new',
           component: NewPatientComponent,
         },
+        /* {
+          path: 'details/:id',
+          component: PatientDetailsComponent,
+        }, */
       ]
+    },
+    {
+      path: 'patient-detail/:id',
+      component: PatientDetailsComponent,
     },
     {
       path: 'chat',

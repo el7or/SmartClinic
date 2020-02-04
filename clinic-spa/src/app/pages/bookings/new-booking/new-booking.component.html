@@ -19,7 +19,7 @@
               [minDate]="todayDate"
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
               (bsValueChange)="onChooseBookingDate(bookingDate)" [placeholder]="'Booking Date' | langg"
-              [status]="bookingDate.touched ? (bookingDate.invalid  ? 'danger' : 'success') : ''" >
+              [status]="bookingDate.touched ? (bookingDate.invalid  ? 'danger' : 'success') : ''">
             <ng-container *ngIf="bookingDate.invalid && bookingDate.touched">
               <p class="error-message text-danger" *ngIf="bookingDate?.errors.required" langg>
                 Bookings Date is required!
@@ -27,13 +27,14 @@
             </ng-container>
           </div>
           <div class="form-control-group">
-            <timepicker (ngModelChange)="onChooseBookingTime(bookingTime)" ngModel #bookingTime="ngModel" name="bookingTime" required showMeridian="true"
-              labelMinutes="Minutes" minuteStep="15" style="direction: ltr;" ariaLabelHours="09"></timepicker>
-              <ng-container *ngIf="bookingTime.invalid">
-                <p class="error-message text-danger" *ngIf="bookingTime?.errors.duplicateTime">
-                  <span langg>This Time</span>&nbsp;05:00&nbsp;<span langg>is already Booked!</span>
-                </p>
-              </ng-container>
+            <timepicker (ngModelChange)="onChooseBookingTime(bookingTime)" ngModel #bookingTime="ngModel"
+              name="bookingTime" required showMeridian="true" labelMinutes="Minutes" minuteStep="15"
+              style="direction: ltr;" ariaLabelHours="09"></timepicker>
+            <ng-container *ngIf="bookingTime.invalid">
+              <p class="error-message text-danger" *ngIf="bookingTime?.errors.duplicateTime">
+                <span langg>This Time</span>&nbsp;05:00&nbsp;<span langg>is already Booked!</span>
+              </p>
+            </ng-container>
           </div>
           <div class="form-control-group">
             <nb-select fullWidth ngModel #bookingType="ngModel" name="bookingType"
@@ -47,8 +48,7 @@
             </nb-select>
           </div>
           <div class="form-control-group">
-            <nb-select multiple fullWidth name="bookingService"
-              [placeholder]="'Add Service' | langg">
+            <nb-select multiple fullWidth name="bookingService" [placeholder]="'Add Service' | langg">
               <nb-option value="1">{{'X-Ray' | langg}}</nb-option>
               <nb-option value="2">{{'Analsis' | langg}}</nb-option>
               <nb-option value="3">{{'Sonar' | langg}}</nb-option>
@@ -65,6 +65,11 @@
         </div>
         <div class="col-6" *ngIf="ChoosenDate!=null">
           <h6 langg>Same Date Bookings:</h6>
+          <small>
+            <b langg>Urgent Diagnoses</b>:2&nbsp;
+            <b langg>Diagnoses</b>:15&nbsp;
+            <b langg>Consults</b>:5
+          </small>
           <table class="table table-striped table-hover">
             <thead class="thead-dark">
               <tr>
@@ -128,8 +133,7 @@
       <div class="text-center nbButton-group">
         <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Book</button>
         <button nbButton type="button" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button>
-        <button nbButton type="button" status="danger" langg
-          (click)="dialogRef.close()">Cancel</button></div>
+        <button nbButton type="button" status="danger" langg (click)="dialogRef.close()">Cancel</button></div>
     </nb-card-footer>
   </nb-card>
 </form>

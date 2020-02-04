@@ -60,7 +60,7 @@ export class InfoDetailComponent implements OnInit, OnDestroy {
         if (result.value) {
           this.dialogService.open(NewBookingComponent, {
             context: {
-              patientDetails: "حجز جديد للمريض: " + this.form.value['patientName']
+              patientDetails: this.form.value['patientName']
             },
             autoFocus: true,
             hasBackdrop: true,

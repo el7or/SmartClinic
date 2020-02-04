@@ -11,6 +11,7 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 })
 export class NewBookingComponent implements OnInit {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
   @Input() patientDetails: string;
   formLoading = false;
   bookingDateLoading = false;
@@ -49,6 +50,12 @@ export class NewBookingComponent implements OnInit {
     }
     else{
       input.control.setErrors(null)
+    }
+  }
+
+  onChangeType(input: NgForm){
+    if (input.value=='2') {
+      this.expiredSwal.fire();
     }
   }
 

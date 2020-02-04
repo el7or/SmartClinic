@@ -35,7 +35,7 @@ export class SearchPatientComponent implements OnInit {
   onNewBook(){
     this.dialogService.open(NewBookingComponent, {
       context: {
-        patientDetails: "حجز جديد للمريض: محمد أحمد السيد"
+        patientDetails: "محمد أحمد السيد"
       },
       autoFocus: true,
       hasBackdrop: true,

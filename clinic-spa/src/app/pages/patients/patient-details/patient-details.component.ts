@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./patient-details.component.scss']
 })
 export class PatientDetailsComponent implements OnInit {
+  isNewPatient = false;
 
   constructor(private route: ActivatedRoute, protected location:Location) { }
 
@@ -15,10 +16,10 @@ export class PatientDetailsComponent implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       const patientId = paramMap.get('id');
       if (patientId=='new') {
-        console.log('new');
+        this.isNewPatient = true;
       }
       else{
-        console.log('old');
+        this.isNewPatient = false;
       }
       /* if (!paramMap.has('id')) {
         this.location.back();

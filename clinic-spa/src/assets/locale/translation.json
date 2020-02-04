@@ -47,12 +47,12 @@
   { "ar": "المهنة", "en": "Career" },
   { "ar": "العنوان", "en": "Address" },
   { "ar": "ملاحظات", "en": "Note" },
-  { "ar": "إضافة", "en": "Add" },
+  { "ar": "حفظ", "en": "Save" },
   { "ar": "إلغاء", "en": "Cancel" },
   { "ar": "تنبيه !", "en": "Attention !" },
   { "ar": "هذا الاسم موجود بالفعل في قائمة المرضى!", "en": "This name is already on the patient list!" },
-  { "ar": "الذهاب إلى ملف المريض المضاف سابقا", "en": "Go to previously added patient" },
-  { "ar": "الاستمرار في الإضافة هنا", "en": "Continue adding here" },
+  { "ar": "جلب بيانات المريض المضاف سابقاً", "en": "Get previously added patient" },
+  { "ar": "الاستمرار في الإضافة", "en": "Continue adding" },
   { "ar": "نعم", "en": "Yes" },
   { "ar": "لا", "en": "No" },
   { "ar": "هل تعاني من ضغط الدم؟", "en": "Do you have blood pressure?" },
@@ -106,5 +106,9 @@
   { "ar": "الخصم يجب ألا يتجاوز المبلغ الإجمالي!", "en": "Discount must not exceed the Total Amount!" },
   { "ar": "خصم من المبلغ الإجمالي", "en": "Discount" },
   { "ar": "توضيح سبب الخصم", "en": "Discount Note" },
-  { "ar": "لابد من توضيح سبب الخصم!", "en": "Discount Note is required!" }
+  { "ar": "لابد من توضيح سبب الخصم!", "en": "Discount Note is required!" },
+  { "ar": "المعلومات الأساسية", "en": "Basic info" },
+  { "ar": "الأشعة", "en": "X-Rays" },
+  { "ar": "التحاليل", "en": "analyses" },
+  { "ar": "تقرير الزيارات", "en": "Visits Report" }
 ]

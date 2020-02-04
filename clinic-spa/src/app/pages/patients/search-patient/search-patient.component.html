@@ -1,8 +1,13 @@
 <nb-card>
   <nb-card-header>
+    <button nbButton [routerLink]="['/pages/patients/details/new']" hero size="small">
+      <nb-icon icon="person-add-outline"></nb-icon><span langg>Add New Patient</span>
+    </button>
+  </nb-card-header>
+  <nb-card-body>
     <form #form="ngForm" (ngSubmit)="onSearch(form)" aria-labelledby="title" [nbSpinner]="formLoading">
-      <div class="row">
-        <div class="col-3">
+      <div class="row mb-2">
+        <div class="col-md-3 col-sm-6">
           <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'بحث بإسم المريض'" pattern="[0-9]*"
             minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth>
           <ng-container *ngIf="phone.invalid && phone.touched">
@@ -11,7 +16,7 @@
             </p>
           </ng-container>
         </div>
-        <div class="col-3">
+        <div class="col-md-3 col-sm-6">
           <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'بحث برقم الموبايل'" pattern="[0-9]*"
             minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth>
           <ng-container *ngIf="phone.invalid && phone.touched">
@@ -20,7 +25,7 @@
             </p>
           </ng-container>
         </div>
-        <div class="col-3">
+        <div class="col-md-3 col-sm-6">
           <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'بحث بكود المريض'" pattern="[0-9]*"
             minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth>
           <ng-container *ngIf="phone.invalid && phone.touched">
@@ -29,14 +34,11 @@
             </p>
           </ng-container>
         </div>
-        <div class="col-3">
+        <div class="col-md-3 col-sm-6">
           <button nbButton status="primary" fullWidth>بحث</button>
         </div>
       </div>
     </form>
-  </nb-card-header>
-  <nb-card-body>
-    <button nbButton [routerLink]="['/pages/patients/details/new']" hero size="small" class="mb-2"><nb-icon icon="person-add-outline"></nb-icon><span langg>Add New Patient</span></button>
     <table class="table table-striped table-hover">
       <thead class="thead-dark">
         <tr>
@@ -59,7 +61,8 @@
             </button>
           </td>
           <td>
-            <button nbButton [routerLink]="['/pages/patient-detail',1]" size="small" status="info" langg >Patient Profile</button>&nbsp;|
+            <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
+              Profile</button>&nbsp;|
             <button nbButton (click)="onNewBook()" size="small" status="success" langg>Book</button>&nbsp;|
             <button nbButton (click)="onDeletePatient()" size="small" status="danger" langg>Delete</button>
           </td>
@@ -73,7 +76,8 @@
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td>
-            <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg >Patient Profile</button>&nbsp;|
+            <button nbButton [routerLink]="['/pages/patients/details',2]" size="small" status="info" langg>Patient
+              Profile</button>&nbsp;|
             <button nbButton (click)="onNewBook()" size="small" status="success" langg>Book</button>&nbsp;|
             <button nbButton (click)="onDeletePatient()" size="small" status="danger" langg>Delete</button>
           </td>
@@ -87,7 +91,8 @@
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td>
-            <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg >Patient Profile</button>&nbsp;|
+            <button nbButton [routerLink]="['/pages/patients/details',3]" size="small" status="info" langg>Patient
+              Profile</button>&nbsp;|
             <button nbButton (click)="onNewBook()" size="small" status="success" langg>Book</button>&nbsp;|
             <button nbButton (click)="onDeletePatient()" size="small" status="danger" langg>Delete</button>
           </td>
@@ -101,7 +106,8 @@
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td>
-            <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg >Patient Profile</button>&nbsp;|
+            <button nbButton [routerLink]="['/pages/patients/details',4]" size="small" status="info" langg>Patient
+              Profile</button>&nbsp;|
             <button nbButton (click)="onNewBook()" size="small" status="success" langg>Book</button>&nbsp;|
             <button nbButton (click)="onDeletePatient()" size="small" status="danger" langg>Delete</button>
           </td>
@@ -115,8 +121,9 @@
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td>
-            <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg >Patient Profile</button>&nbsp;|
-            <button nbButton (click)="onNewBook()"size="small" status="success" langg>Book</button>&nbsp;|
+            <button nbButton [routerLink]="['/pages/patients/details',5]" size="small" status="info" langg>Patient
+              Profile</button>&nbsp;|
+            <button nbButton (click)="onNewBook()" size="small" status="success" langg>Book</button>&nbsp;|
             <button nbButton (click)="onDeletePatient()" size="small" status="danger" langg>Delete</button>
           </td>
         </tr>

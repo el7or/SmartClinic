@@ -6,18 +6,17 @@
     </nav>
   </nb-card-header>
   <nb-card-body>
-    <!-- <nb-route-tabset [tabs]="tabs"></nb-route-tabset> -->
     <nb-tabset>
-      <nb-tab tabTitle="المعلومات الأساسية">
-        <info-detail></info-detail>
+      <nb-tab [tabTitle]="'Basic info' | langg">
+        <info-detail [(isNewPatient)]="isNewPatient"></info-detail>
       </nb-tab>
-      <nb-tab tabTitle="الأشعة">
+      <nb-tab [tabTitle]="'X-Rays' | langg" [disabled]="isNewPatient">
         .......
       </nb-tab>
-      <nb-tab tabTitle="التحاليل">
+      <nb-tab [tabTitle]="'analyses' | langg" [disabled]="isNewPatient">
         ......
       </nb-tab>
-      <nb-tab tabTitle="تقرير الزيارات">
+      <nb-tab [tabTitle]="'Visits Report' | langg" [disabled]="isNewPatient">
         .......
       </nb-tab>
      </nb-tabset>

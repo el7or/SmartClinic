@@ -1,16 +1,16 @@
-<form #form="ngForm" (ngSubmit)="onAddPatient(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+<form #form="ngForm" (ngSubmit)="onSubmitPatient()" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
   <nb-card>
     <nb-card-body>
       <div class="row">
         <div class="col-md-6">
           <div class="form-control-group" [nbSpinner]="nameLoading" nbSpinnerStatus="success">
-            <input nbInput ngModel #patientName="ngModel" name="patientName" [placeholder]="'Patient Name' | langg"
+            <input nbInput [(ngModel)]="patientNameData" #patientName name="patientName" [placeholder]="'Patient Name' | langg"
               autofocus fullWidth required minlength="5" maxlength="50" (blur)="onBlurName(patientName)"
               [status]="patientName.dirty ? (patientName.invalid  ? 'danger' : 'success') : ''"
               [attr.aria-invalid]="patientName.invalid && patientName.touched ? true : null">
             <ng-container *ngIf="patientName.invalid && patientName.touched">
-              <p class="error-message" *ngIf="patientName?.errors.required" >
+              <p class="error-message" *ngIf="patientName?.errors.required" langg>
                 Patient Name is required!
               </p>
               <p class="error-message" *ngIf="patientName?.errors.minlength || patientName?.errors.maxlength" langg>
@@ -19,7 +19,7 @@
             </ng-container>
           </div>
           <div class="form-control-group">
-            <input nbInput ngModel #age="ngModel" name="age" [placeholder]="'Age' | langg" fullWidth required
+            <input nbInput [(ngModel)]="patientAgeData" #age="ngModel" name="age" [placeholder]="'Age' | langg" fullWidth required
               type="number" min="1" max="120" [status]="age.dirty ? (age.invalid  ? 'danger' : 'success') : ''"
               [attr.aria-invalid]="age.invalid && age.touched ? true : null">
             <ng-container *ngIf="age.invalid && age.touched">
@@ -155,16 +155,15 @@
     </nb-card-body>
     <nb-card-footer>
       <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Add</button>
-        <button nbButton type="button" status="danger" [routerLink]="['/']" langg
-          (click)="location.back()">Cancel</button>
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </nb-card-footer>
   </nb-card>
 </form>
 <swal #duplicateNameSwal icon="warning" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
   [text]="'This name is already on the patient list!' | langg"
-  [confirmButtonText]="'Go to previously added patient' | langg" [cancelButtonText]="'Continue adding here' | langg">
+  [confirmButtonText]="'Get previously added patient' | langg" [cancelButtonText]="'Continue adding' | langg">
 </swal>
 
 <swal #doneSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Success' | langg"

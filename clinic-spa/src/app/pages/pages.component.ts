@@ -12,7 +12,7 @@ import { LanggService } from '../shared/services/langg.service';
         <ngx-header></ngx-header>
       </nb-layout-header>
 
-      <nb-sidebar start class="menu-sidebar" tag="menu-sidebar">
+      <nb-sidebar start class="menu-sidebar" tag="menu-sidebar" responsive="true" [compactedBreakpoints]="['xs', 'is', 'sm', 'md']" [collapsedBreakpoints]="['xs', 'is']">
       <nb-menu [items]="menu"></nb-menu>
       </nb-sidebar>
 

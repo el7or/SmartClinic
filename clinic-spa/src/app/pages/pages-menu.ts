@@ -16,7 +16,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'All Bookings',
     icon: 'browser-outline',
-    link: '/pages/test',
+    link: '/pages/bookings',
   },
   {
     title: 'Settings',

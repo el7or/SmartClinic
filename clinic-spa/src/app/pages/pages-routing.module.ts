@@ -1,3 +1,4 @@
+import { BookingsSearchComponent } from './bookings/bookings-search/bookings-search.component';
 import { PatientDetailsComponent } from './patients/patient-details/patient-details.component';
 import { PatientSearchComponent } from './patients/patient-search/patient-search.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -35,6 +36,10 @@ const routes: Routes = [{
           component: PatientDetailsComponent,
         },
       ]
+    },
+    {
+      path: 'bookings',
+      component: BookingsSearchComponent,
     },
     {
       path: 'chat',

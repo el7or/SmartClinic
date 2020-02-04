@@ -7,12 +7,14 @@ import {
   NbSelectModule,
   NbInputModule,
   NbAlertModule,
+  NbIconModule,
+  NbTooltipModule,
 } from "@nebular/theme";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
-import { BsDatepickerModule, TimepickerModule } from "ngx-bootstrap";
+import { BsDatepickerModule, TimepickerModule, PaginationModule } from "ngx-bootstrap";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
 import { SharedModule } from "./../../shared/shared.module";
@@ -35,6 +37,9 @@ import { BookingsSearchComponent } from './bookings-search/bookings-search.compo
     NbSelectModule,
     NbInputModule,
     NbAlertModule,
+    NbIconModule,
+    NbTooltipModule,
+    PaginationModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     SweetAlert2Module.forRoot()

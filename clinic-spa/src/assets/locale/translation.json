@@ -97,5 +97,7 @@
   { "ar": "حذف", "en": "Delete" },
   { "ar": "سيتم حذف هذه البيانات نهائياً وجميع البيانات الأخرى المتعلقة بها، ولن يمكن استرجاعها مرة أخرى!", "en": "This data will be deleted forever and all other data related to it, and it will not be retrievable again!" },
   { "ar": "الموعد", "en": "Time" },
-  { "ar": "النوع", "en": "Type" }
+  { "ar": "النوع", "en": "Type" },
+  { "ar": "هذا الموعد", "en": "This Time" },
+  { "ar": "محجوز بالفعل!", "en": "is already Booked!" }
 ]

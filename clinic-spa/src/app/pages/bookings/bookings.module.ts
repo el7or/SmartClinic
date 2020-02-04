@@ -18,9 +18,10 @@ import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { SharedModule } from "./../../shared/shared.module";
 import { BookingsSummaryComponent } from "./bookings-summary/bookings-summary.component";
 import { NewBookingComponent } from "./new-booking/new-booking.component";
+import { BookingsSearchComponent } from './bookings-search/bookings-search.component';
 
 @NgModule({
-  declarations: [BookingsSummaryComponent, NewBookingComponent],
+  declarations: [BookingsSummaryComponent, NewBookingComponent, BookingsSearchComponent],
   imports: [
     CommonModule,
     RouterModule,

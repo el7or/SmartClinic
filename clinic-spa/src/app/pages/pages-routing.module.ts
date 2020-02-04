@@ -1,5 +1,5 @@
 import { PatientDetailsComponent } from './patients/patient-details/patient-details.component';
-import { SearchPatientComponent } from './patients/search-patient/search-patient.component';
+import { PatientSearchComponent } from './patients/patient-search/patient-search.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
@@ -28,7 +28,7 @@ const routes: Routes = [{
         },
         {
           path: 'search',
-          component: SearchPatientComponent,
+          component: PatientSearchComponent,
         },
         {
           path: 'details/:id',

@@ -3,15 +3,15 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { NbDialogService } from "@nebular/theme";
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
-import { BookingsSummaryComponent } from "./../../bookings/bookings-summary/bookings-summary.component";
+import { BookingsSummaryComponent } from "../../bookings/bookings-summary/bookings-summary.component";
 import { NewBookingComponent } from '../../bookings/new-booking/new-booking.component';
 
 @Component({
-  selector: "search-patient",
-  templateUrl: "./search-patient.component.html",
-  styleUrls: ["./search-patient.component.scss"]
+  selector: "patient-search",
+  templateUrl: "./patient-search.component.html",
+  styleUrls: ["./patient-search.component.scss"]
 })
-export class SearchPatientComponent implements OnInit {
+export class PatientSearchComponent implements OnInit {
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   formLoading = false;

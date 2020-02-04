@@ -21,7 +21,7 @@ import { PaginationModule } from "ngx-bootstrap";
 
 import { PatientsComponent } from "./patients.component";
 import { SharedModule } from "./../../shared/shared.module";
-import { SearchPatientComponent } from "./search-patient/search-patient.component";
+import { PatientSearchComponent } from "./patient-search/patient-search.component";
 import { BookingsModule } from './../bookings/bookings.module';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
 import { InfoDetailComponent } from './patient-details/info-detail/info-detail.component';
@@ -29,7 +29,7 @@ import { InfoDetailComponent } from './patient-details/info-detail/info-detail.c
 @NgModule({
   declarations: [
     PatientsComponent,
-    SearchPatientComponent,
+    PatientSearchComponent,
     PatientDetailsComponent,
     InfoDetailComponent
   ],

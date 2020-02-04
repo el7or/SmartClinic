@@ -20,18 +20,18 @@ import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { PaginationModule } from "ngx-bootstrap";
 
 import { PatientsComponent } from "./patients.component";
-import { NewPatientComponent } from "./new-patient/new-patient.component";
 import { SharedModule } from "./../../shared/shared.module";
 import { SearchPatientComponent } from "./search-patient/search-patient.component";
 import { BookingsModule } from './../bookings/bookings.module';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
+import { InfoDetailComponent } from './patient-details/info-detail/info-detail.component';
 
 @NgModule({
   declarations: [
     PatientsComponent,
-    NewPatientComponent,
     SearchPatientComponent,
-    PatientDetailsComponent
+    PatientDetailsComponent,
+    InfoDetailComponent
   ],
   imports: [
     CommonModule,

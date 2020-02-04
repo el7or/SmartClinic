@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -7,32 +8,24 @@ import { Location } from '@angular/common';
   styleUrls: ['./patient-details.component.scss']
 })
 export class PatientDetailsComponent implements OnInit {
-  tabs: any[] = [
-    {
-      title: 'المعلومات الأساسية',
-      route: '/pages/patient-detail/1',
-      icon:'search-outline',
-    },
-    {
-      title: 'الأمراض المصاحبة',
-      route: '/pages/patient-detail/2',
-      icon:'person-add-outline'
-    },
-    {
-      title: 'الأشعة والتحاليل',
-      route: '/pages/patient-detail/3',
-      icon:'person-add-outline'
-    },
-    {
-      title: 'تقرير الزيارات',
-      route: '/pages/patient-detail/4',
-      icon:'person-add-outline'
-    },
-  ];
 
-  constructor(protected location:Location) { }
+  constructor(private route: ActivatedRoute, protected location:Location) { }
 
   ngOnInit() {
+    this.route.paramMap.subscribe(paramMap => {
+      const patientId = paramMap.get('id');
+      if (patientId=='new') {
+        console.log('new');
+      }
+      else{
+        console.log('old');
+      }
+      /* if (!paramMap.has('id')) {
+        this.location.back();
+        console.log('back');
+        return;
+      } */
+    });
   }
 
 }

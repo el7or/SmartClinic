@@ -1,18 +1,18 @@
-import { Router } from "@angular/router";
-import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
-import { Location } from "@angular/common";
-import { NbDialogService } from "@nebular/theme";
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { Router } from '@angular/router';
+import { NbDialogService } from '@nebular/theme';
+import { Location } from '@angular/common';
 
-import { NewBookingComponent } from "./../../bookings/new-booking/new-booking.component";
+import { NewBookingComponent } from '../../../bookings/new-booking/new-booking.component';
 
 @Component({
-  selector: "new-patient",
-  templateUrl: "./new-patient.component.html",
-  styleUrls: ["./new-patient.component.scss"]
+  selector: 'info-detail',
+  templateUrl: './info-detail.component.html',
+  styleUrls: ['./info-detail.component.scss']
 })
-export class NewPatientComponent implements OnInit, OnDestroy {
+export class InfoDetailComponent implements OnInit, OnDestroy {
   formLoading = false;
   nameLoading = false;
   @ViewChild("form", { static: false }) form: NgForm;

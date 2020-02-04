@@ -16,6 +16,7 @@ export class NewBookingComponent implements OnInit {
   bookingDateLoading = false;
   todayDate: Date = new Date();
   ChoosenDate = null;
+  bookingHasDiscount = false;
 
   constructor(
     protected dialogRef: NbDialogRef<NewBookingComponent>,
@@ -26,6 +27,13 @@ export class NewBookingComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  // =====> on submit new booking:
+  onAddBooking(form: NgForm) {
+    console.log(form.controls);
+    this.doneSwal.fire();
+    this.dialogRef.close();
+  }
 
   // =====> on choose booking date will fill table with all bookings in same day:
   onChooseBookingDate(input: NgForm) {
@@ -44,9 +52,14 @@ export class NewBookingComponent implements OnInit {
     }
   }
 
-  // =====> on submit new booking:
-  onAddBooking(form: NgForm) {
-    this.doneSwal.fire();
-    this.dialogRef.close();
+  // =====> check if discount in range of amount:
+  onChangeDiscount(input: NgForm){
+    if (input.value > 50 || input.value < 0) {
+      input.control.setErrors({'outRange':true})
+    }
+    else{
+      input.control.setErrors(null);
+      input.value > 0 ? this.bookingHasDiscount = true: this.bookingHasDiscount = false;
+    }
   }
 }

@@ -48,7 +48,7 @@
             </nb-select>
           </div>
           <div class="form-control-group">
-            <nb-select multiple fullWidth name="bookingService" [placeholder]="'Add Service' | langg">
+            <nb-select multiple fullWidth #bookingService name="bookingService" [placeholder]="'Add Service' | langg">
               <nb-option value="1">{{'X-Ray' | langg}}</nb-option>
               <nb-option value="2">{{'Analsis' | langg}}</nb-option>
               <nb-option value="3">{{'Sonar' | langg}}</nb-option>
@@ -56,11 +56,29 @@
               <nb-option value="5">{{'Therapy Session' | langg}}</nb-option>
             </nb-select>
           </div>
-          <!-- <div class="form-control-group">
-            <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'Note' | langg" fullWidth></textarea>
-          </div> -->
+          <div class="form-control-group">
+            <input nbInput ngModel #discount="ngModel" type="number"
+              name="discount" [placeholder]="'Discount' | langg" fullWidth
+              [min]="0" [max]="50" (ngModelChange)="onChangeDiscount(discount)"
+              [status]="discount.dirty ? (discount.invalid  ? 'danger' : (discount.value > 0?'success':'')) : ''">
+              <ng-container *ngIf="discount.invalid">
+                <p class="error-message text-danger" *ngIf="discount?.errors.outRange" langg>
+                  Discount must not exceed the Total Amount!
+                </p>
+              </ng-container>
+          </div>
+          <div class="form-control-group" *ngIf="bookingHasDiscount">
+            <input nbInput ngModel #discountNote="ngModel" type="text" [required]="bookingHasDiscount"
+              name="discountNote" [placeholder]="'Discount Note' | langg" fullWidth
+              [status]="discount.value > 0 ? (discountNote.invalid  ? 'danger' : 'success') : ''">
+              <ng-container *ngIf="discountNote.invalid && discountNote.touched">
+                <p class="error-message text-danger" *ngIf="discountNote?.errors.required" langg>
+                  Discount Note is required!
+                </p>
+              </ng-container>
+          </div>
           <nb-alert accent="info" class="text-nowrap">
-            <span langg>Total Amount:</span>&nbsp;{{50 | currency:'EGP'}}
+            <span langg>Total Amount:</span>&nbsp;{{50-discount.value | currency:'EGP'}}
           </nb-alert>
         </div>
         <div class="col-6" *ngIf="ChoosenDate!=null">

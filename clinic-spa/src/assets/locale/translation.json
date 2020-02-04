@@ -102,5 +102,9 @@
   { "ar": "الموعد", "en": "Time" },
   { "ar": "النوع", "en": "Type" },
   { "ar": "هذا الموعد", "en": "This Time" },
-  { "ar": "محجوز بالفعل!", "en": "is already Booked!" }
+  { "ar": "محجوز بالفعل!", "en": "is already Booked!" },
+  { "ar": "الخصم يجب ألا يتجاوز المبلغ الإجمالي!", "en": "Discount must not exceed the Total Amount!" },
+  { "ar": "خصم من المبلغ الإجمالي", "en": "Discount" },
+  { "ar": "توضيح سبب الخصم", "en": "Discount Note" },
+  { "ar": "لابد من توضيح سبب الخصم!", "en": "Discount Note is required!" }
 ]

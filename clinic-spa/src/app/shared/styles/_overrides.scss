@@ -89,10 +89,10 @@
     display: inline-table !important;
   }
 
+  // =====> style drag item on drag drop table:
    .table-danger > th, .table-danger > td,
     .table-success > th, .table-success > td,
     .table-light > th, .table-light > td{
-    //border: 1px solid #dee2e6 !important;
     padding: 0.75rem !important;
     vertical-align: top !important;
     font-family: Open Sans, sans-serif;

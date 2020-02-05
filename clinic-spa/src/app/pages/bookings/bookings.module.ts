@@ -10,6 +10,7 @@ import {
   NbIconModule,
   NbTooltipModule,
   NbTabsetModule,
+  NbCheckboxModule,
 } from "@nebular/theme";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -43,6 +44,7 @@ import { BookingsTodayComponent } from './bookings-today/bookings-today.componen
     NbIconModule,
     NbTooltipModule,
     NbTabsetModule,
+    NbCheckboxModule,
     PaginationModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),

@@ -69,4 +69,22 @@
   timepicker .btn-default {
     background-color: lightgrey !important;
   }
+
+  // =====> modify padding for tabs:
+  nb-tab{
+    padding: 1rem 0 0 !important;
+  }
+
+/*   // =====> change mouse cursor to hover table:
+  table.table-hover tbody tr{
+    cursor: pointer !important;
+  }
+  table.table-hover tbody tr.bg-danger{
+    cursor: default !important;
+  } */
+
+  // =====> style checkbox:
+  nb-checkbox label.label{
+    padding: 0 !important;
+  }
 }

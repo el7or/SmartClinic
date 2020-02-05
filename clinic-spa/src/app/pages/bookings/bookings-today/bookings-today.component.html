@@ -1,1 +1,129 @@
-<p>bookings-today works!</p>
+<div class="mb-2">
+  <h6 class="d-inline" langg>Doctor Name</h6>:
+  <div class="d-inline">
+    <nb-select #bookingDoctor name="bookingDoctor" id="input-doctor" selected="2">
+      <nb-option value="1">عادل حسن</nb-option>
+      <nb-option value="2">علي أبو مضاوي</nb-option>
+      <nb-option value="3">محمد زادة</nb-option>
+    </nb-select>
+  </div>
+</div>
+<table class="table table-hover table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" langg>Time</th>
+      <th scope="col" langg>Name</th>
+      <th scope="col" langg>Mobile</th>
+      <th langg>Attendance</th>
+      <th langg>Entrance</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [class]="chkEnter1?.value? 'table-danger':(chkAttend1?.value?'table-success':'')">
+      <th scope="row">1</th>
+      <td>05:00</td>
+      <td>محمد أحمد السيد</td>
+      <td>0215215215</td>
+      <td class="text-center">
+        <nb-checkbox #chkAttend1 [checked]="true" status="success" [disabled]="chkEnter1?.value"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <nb-checkbox #chkEnter1 [checked]="true" status="danger"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
+          Profile</button>&nbsp;
+        <button *ngIf="chkEnter1?.value" (click)="onNewBook()" nbButton size="small" status="basic" langg>New Booking</button>
+        <button *ngIf="!chkEnter1?.value" (click)="onNewBook()" nbButton size="small" status="warning" langg>Edit Booking</button>&nbsp;
+        <button *ngIf="!chkEnter1?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger" langg>Delete</button>
+      </td>
+    </tr>
+    <tr [class]="chkEnter2?.value? 'table-danger':(chkAttend2?.value?'table-success':'')">
+      <th scope="row">2</th>
+      <td>05:30</td>
+      <td>علي محمود</td>
+      <td>035135132</td>
+      <td class="text-center">
+        <nb-checkbox #chkAttend2 [checked]="true" status="success" [disabled]="chkEnter2?.value"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <nb-checkbox #chkEnter2 [checked]="false" status="danger"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
+          Profile</button>&nbsp;
+        <button *ngIf="chkEnter2?.value" (click)="onNewBook()" nbButton size="small" status="basic" langg>New Booking</button>
+        <button *ngIf="!chkEnter2?.value" (click)="onNewBook()" nbButton size="small" status="warning" langg>Edit Booking</button>&nbsp;
+        <button *ngIf="!chkEnter2?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger" langg>Delete</button>
+      </td>
+    </tr>
+    <tr [class]="chkEnter3?.value? 'table-danger':(chkAttend3?.value?'table-success':'')">
+      <th scope="row">3</th>
+      <td>06:00</td>
+      <td>عبير ابراهيم</td>
+      <td>024415415</td>
+      <td class="text-center">
+        <nb-checkbox #chkAttend3 [checked]="true" status="success" [disabled]="chkEnter3?.value"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <nb-checkbox #chkEnter3 [checked]="false" status="danger"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
+          Profile</button>&nbsp;
+        <button *ngIf="chkEnter3?.value" (click)="onNewBook()" nbButton size="small" status="basic" langg>New Booking</button>
+        <button *ngIf="!chkEnter3?.value" (click)="onNewBook()" nbButton size="small" status="warning" langg>Edit Booking</button>&nbsp;
+        <button *ngIf="!chkEnter3?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger" langg>Delete</button>
+      </td>
+    </tr>
+    <tr [class]="chkEnter4?.value? 'table-danger':(chkAttend4?.value?'table-success':'')">
+      <th scope="row">4</th>
+      <td>07:00</td>
+      <td>محمود علي</td>
+      <td>0251454554</td>
+      <td class="text-center">
+        <nb-checkbox #chkAttend4 [checked]="false" status="success" [disabled]="chkEnter4?.value"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <nb-checkbox #chkEnter4 [checked]="false" status="danger"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
+          Profile</button>&nbsp;
+        <button *ngIf="chkEnter4?.value" (click)="onNewBook()" nbButton size="small" status="basic" langg>New Booking</button>
+        <button *ngIf="!chkEnter4?.value" (click)="onNewBook()" nbButton size="small" status="warning" langg>Edit Booking</button>&nbsp;
+        <button *ngIf="!chkEnter4?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger" langg>Delete</button>
+      </td>
+    </tr>
+    <tr [class]="chkEnter5?.value? 'table-danger':(chkAttend5?.value?'table-success':'')">
+      <th scope="row">5</th>
+      <td>07:30</td>
+      <td>عبد العزيز عبد المتجلي عبد الرحمن</td>
+      <td>0215451145</td>
+      <td class="text-center">
+        <nb-checkbox #chkAttend5 [checked]="false" status="success" [disabled]="chkEnter5?.value"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <nb-checkbox #chkEnter5 [checked]="false" status="danger"></nb-checkbox>
+      </td>
+      <td class="text-center">
+        <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
+          Profile</button>&nbsp;
+        <button *ngIf="chkEnter5?.value" (click)="onNewBook()" nbButton size="small" status="basic" langg>New Booking</button>
+        <button *ngIf="!chkEnter5?.value" (click)="onNewBook()" nbButton size="small" status="warning" langg>Edit Booking</button>&nbsp;
+        <button *ngIf="!chkEnter5?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger" langg>Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
+  [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
+  [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
+</swal>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

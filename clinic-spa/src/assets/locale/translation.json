@@ -9,7 +9,6 @@
   { "ar": "سجل الحجوزات", "en": "All Bookings" },
   { "ar": "بيانات المرضى", "en": "Patient Records" },
   { "ar": "بحث المرضى", "en": "Patients Search" },
-  { "ar": "إدخال مريض جديد", "en": "Add New Patient" },
   { "ar": "دردشة", "en": "Chat" },
   { "ar": "محاسبات", "en": "Payments" },
   { "ar": "الإعدادات", "en": "Settings" },
@@ -31,6 +30,7 @@
   { "ar": "الذهاب للصفحة الرئيسية", "en": "Take me home" },
   { "ar": "اسم المريض", "en": "Patient Name" },
   { "ar": "لابد من إدخال اسم المريض!", "en": "Patient Name is required!" },
+  { "ar": "لابد من إدخال رقم الموبايل!", "en": "Mobile is required!" },
   { "ar": "اسم المريض يجب أن يحتوي مابين 5 إلى 50 حرف!", "en": "Patient Name should contains from 5 to 50 characters!" },
   { "ar": "السن", "en": "Age" },
   { "ar": "النوع:", "en": "Gender:" },
@@ -52,7 +52,9 @@
   { "ar": "تنبيه !", "en": "Attention !" },
   { "ar": "هذا الاسم موجود بالفعل في قائمة المرضى!", "en": "This name is already on the patient list!" },
   { "ar": "جلب بيانات المريض المضاف سابقاً", "en": "Get previously added patient" },
-  { "ar": "الاستمرار في الإضافة", "en": "Continue adding" },
+  { "ar": "تغيير اسم المريض الجديد", "en": "Change current Patient Name" },
+  { "ar": "رقم الموبايل هذا موجود بالفعل في قائمة المرضى!", "en": "This Mobile is already on the patient list!" },
+  { "ar": "تغيير رقم الموبايل الجديد", "en": "Change current Patient Mobile" },
   { "ar": "نعم", "en": "Yes" },
   { "ar": "لا", "en": "No" },
   { "ar": "هل تعاني من ضغط الدم؟", "en": "Do you have blood pressure?" },
@@ -116,5 +118,8 @@
   { "ar": "حجز جديد للمريض: ", "en": "New Booking for:" },
   { "ar": "بحث", "en": "search" },
   { "ar": "حسناً", "en": "Ok" },
-  { "ar": "مدة صلاحية الاستشارة انتهت.", "en": "Consult is expired." }
+  { "ar": "مدة صلاحية الاستشارة انتهت.", "en": "Consult is expired." },
+  { "ar": "بحث باسم المريض", "en": "Patient Name Search" },
+  { "ar": "بحث بالموبايل", "en": "Patient Mobile Search" },
+  { "ar": "بحث بكود المريض", "en": "Patient Code Search" }
 ]

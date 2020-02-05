@@ -21,9 +21,10 @@ import { SharedModule } from "./../../shared/shared.module";
 import { BookingsSummaryComponent } from "./bookings-summary/bookings-summary.component";
 import { NewBookingComponent } from "./new-booking/new-booking.component";
 import { BookingsSearchComponent } from './bookings-search/bookings-search.component';
+import { BookingsComponent } from './bookings.component';
 
 @NgModule({
-  declarations: [BookingsSummaryComponent, NewBookingComponent, BookingsSearchComponent],
+  declarations: [BookingsSummaryComponent, NewBookingComponent, BookingsSearchComponent, BookingsComponent],
   imports: [
     CommonModule,
     RouterModule,

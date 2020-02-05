@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit,OnDestroy{
   }
 
   onDateClick(info){
-    this.router.navigateByUrl('/pages/patients/search');
+    this.router.navigateByUrl('/pages/bookings');
     /* alert('Clicked on: ' + info.dateStr);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
     alert('Current view: ' + info.view.type);

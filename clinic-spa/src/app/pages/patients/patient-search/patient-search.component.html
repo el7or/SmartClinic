@@ -8,34 +8,32 @@
     <form #form="ngForm" (ngSubmit)="onSearch(form)" aria-labelledby="title" [nbSpinner]="formLoading">
       <div class="row mb-2">
         <div class="col-md-3 col-sm-6">
-          <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'بحث بإسم المريض'" pattern="[0-9]*"
-            minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth fieldSize="small">
-          <ng-container *ngIf="phone.invalid && phone.touched">
-            <p class="error-message" *ngIf="phone?.errors.pattern || phone?.errors.minlength" langg>
-              Mobile must be real number!
-            </p>
+          <input nbInput ngModel #patientName="ngModel" name="patientName" [placeholder]="'Patient Name Search' | langg"
+            autofocus fullWidth minlength="5" maxlength="50"
+            [status]="patientName.dirty ? (patientName.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
+          <ng-container *ngIf="patientName.invalid && patientName.touched">
+            <small class="error-message" *ngIf="patientName?.errors.minlength || patientName?.errors.maxlength"
+              langg>Patient Name should contains from 5 to 50 characters!</small>
           </ng-container>
         </div>
         <div class="col-md-3 col-sm-6">
-          <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'بحث برقم الموبايل'" pattern="[0-9]*"
-            minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth fieldSize="small">
+          <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'Patient Mobile Search' | langg" pattern="[0-9]*"
+            minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth
+            fieldSize="small">
           <ng-container *ngIf="phone.invalid && phone.touched">
-            <p class="error-message" *ngIf="phone?.errors.pattern || phone?.errors.minlength" langg>
-              Mobile must be real number!
-            </p>
+            <small class="error-message" *ngIf="phone?.errors.pattern || phone?.errors.minlength" langg>Mobile must be
+              real number!</small>
           </ng-container>
         </div>
         <div class="col-md-3 col-sm-6">
-          <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'بحث بكود المريض'" pattern="[0-9]*"
-            minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth fieldSize="small">
-          <ng-container *ngIf="phone.invalid && phone.touched">
-            <p class="error-message" *ngIf="phone?.errors.pattern || phone?.errors.minlength" langg>
-              Mobile must be real number!
-            </p>
-          </ng-container>
+          <input nbInput ngModel #patientCode="ngModel" name="patientCode" [placeholder]="'Patient Code Search' | langg"
+              fullWidth type="number" min="1"
+              [status]="patientCode.dirty ? (patientCode.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
         </div>
         <div class="col-md-3 col-sm-6">
-          <button nbButton status="primary" fullWidth size="small"><nb-icon icon="search-outline"></nb-icon><span langg>search</span></button>
+          <button nbButton status="primary" fullWidth size="small">
+            <nb-icon icon="search-outline"></nb-icon><span langg>search</span>
+          </button>
         </div>
       </div>
     </form>

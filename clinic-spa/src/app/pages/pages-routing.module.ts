@@ -1,6 +1,6 @@
 import { BookingsComponent } from './bookings/bookings.component';
 import { PatientDetailsComponent } from './patients/patient-details/patient-details.component';
-import { PatientSearchComponent } from './patients/patient-search/patient-search.component';
+import { PatientsListComponent } from './patients/patients-list/patients-list.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
@@ -24,12 +24,12 @@ const routes: Routes = [{
       children: [
         {
           path: '',
-          redirectTo: 'search',
+          redirectTo: 'list',
           pathMatch: 'full',
         },
         {
-          path: 'search',
-          component: PatientSearchComponent,
+          path: 'list',
+          component: PatientsListComponent,
         },
         {
           path: 'details/:id',

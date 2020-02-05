@@ -7,11 +7,11 @@ import { BookingsSummaryComponent } from "../../bookings/bookings-summary/bookin
 import { NewBookingComponent } from '../../bookings/new-booking/new-booking.component';
 
 @Component({
-  selector: "patient-search",
-  templateUrl: "./patient-search.component.html",
-  styleUrls: ["./patient-search.component.scss"]
+  selector: "patients-list",
+  templateUrl: "./patients-list.component.html",
+  styleUrls: ["./patients-list.component.scss"]
 })
-export class PatientSearchComponent implements OnInit {
+export class PatientsListComponent implements OnInit {
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   formLoading = false;

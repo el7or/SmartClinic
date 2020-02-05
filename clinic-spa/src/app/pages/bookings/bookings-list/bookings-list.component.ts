@@ -4,11 +4,11 @@ import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { BsLocaleService } from 'ngx-bootstrap';
 
 @Component({
-  selector: 'bookings-search',
-  templateUrl: './bookings-search.component.html',
-  styleUrls: ['./bookings-search.component.scss']
+  selector: 'bookings-list',
+  templateUrl: './bookings-list.component.html',
+  styleUrls: ['./bookings-list.component.scss']
 })
-export class BookingsSearchComponent implements OnInit {
+export class BookingsListComponent implements OnInit {
   formLoading:boolean = false;
   today = new Date();
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;

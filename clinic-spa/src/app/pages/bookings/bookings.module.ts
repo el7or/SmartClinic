@@ -22,12 +22,12 @@ import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { SharedModule } from "./../../shared/shared.module";
 import { BookingsSummaryComponent } from "./bookings-summary/bookings-summary.component";
 import { NewBookingComponent } from "./new-booking/new-booking.component";
-import { BookingsSearchComponent } from './bookings-search/bookings-search.component';
+import { BookingsListComponent } from './bookings-list/bookings-list.component';
 import { BookingsComponent } from './bookings.component';
 import { BookingsTodayComponent } from './bookings-today/bookings-today.component';
 
 @NgModule({
-  declarations: [BookingsSummaryComponent, NewBookingComponent, BookingsSearchComponent, BookingsComponent, BookingsTodayComponent],
+  declarations: [BookingsSummaryComponent, NewBookingComponent, BookingsListComponent, BookingsComponent, BookingsTodayComponent],
   imports: [
     CommonModule,
     RouterModule,

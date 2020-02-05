@@ -121,5 +121,7 @@
   { "ar": "مدة صلاحية الاستشارة انتهت.", "en": "Consult is expired." },
   { "ar": "بحث باسم المريض", "en": "Patient Name Search" },
   { "ar": "بحث بالموبايل", "en": "Patient Mobile Search" },
-  { "ar": "بحث بكود المريض", "en": "Patient Code Search" }
+  { "ar": "بحث بكود المريض", "en": "Patient Code Search" },
+  { "ar": "حجوزات اليوم", "en": "Today Bookings" },
+  { "ar": "بحث عن حجز", "en": "Search Bookings" }
 ]

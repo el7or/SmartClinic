@@ -9,6 +9,7 @@ import {
   NbAlertModule,
   NbIconModule,
   NbTooltipModule,
+  NbTabsetModule,
 } from "@nebular/theme";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -22,9 +23,10 @@ import { BookingsSummaryComponent } from "./bookings-summary/bookings-summary.co
 import { NewBookingComponent } from "./new-booking/new-booking.component";
 import { BookingsSearchComponent } from './bookings-search/bookings-search.component';
 import { BookingsComponent } from './bookings.component';
+import { BookingsTodayComponent } from './bookings-today/bookings-today.component';
 
 @NgModule({
-  declarations: [BookingsSummaryComponent, NewBookingComponent, BookingsSearchComponent, BookingsComponent],
+  declarations: [BookingsSummaryComponent, NewBookingComponent, BookingsSearchComponent, BookingsComponent, BookingsTodayComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -40,6 +42,7 @@ import { BookingsComponent } from './bookings.component';
     NbAlertModule,
     NbIconModule,
     NbTooltipModule,
+    NbTabsetModule,
     PaginationModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),

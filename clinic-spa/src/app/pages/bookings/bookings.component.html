@@ -1,1 +1,12 @@
-<p>bookings works!</p>
+<nb-card>
+  <nb-card-body>
+    <nb-tabset>
+      <nb-tab [tabTitle]="'Today Bookings' | langg" tabIcon="clipboard-outline">
+        <bookings-today></bookings-today>
+      </nb-tab>
+      <nb-tab [tabTitle]="'Search Bookings' | langg" tabIcon="search-outline">
+        <bookings-search></bookings-search>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

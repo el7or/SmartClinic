@@ -25,6 +25,7 @@ import { NewBookingComponent } from "./new-booking/new-booking.component";
 import { BookingsListComponent } from './bookings-list/bookings-list.component';
 import { BookingsComponent } from './bookings.component';
 import { BookingsTodayComponent } from './bookings-today/bookings-today.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [BookingsSummaryComponent, NewBookingComponent, BookingsListComponent, BookingsComponent, BookingsTodayComponent],
@@ -46,6 +47,7 @@ import { BookingsTodayComponent } from './bookings-today/bookings-today.componen
     NbTabsetModule,
     NbCheckboxModule,
     PaginationModule,
+    DragDropModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     SweetAlert2Module.forRoot()

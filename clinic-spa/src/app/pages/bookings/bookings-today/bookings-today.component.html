@@ -20,11 +20,11 @@
       <th></th>
     </tr>
   </thead>
-  <tbody>
-    <tr [class]="chkEnter1?.value? 'table-danger':(chkAttend1?.value?'table-success':'')">
+  <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+    <tr [class]="chkEnter1?.value ? 'table-danger':(chkAttend1?.value?'table-success':'table-light')" cdkDrag>
       <th scope="row">1</th>
       <td>05:00</td>
-      <td>محمد أحمد السيد</td>
+      <td >محمد أحمد السيد</td>
       <td>0215215215</td>
       <td class="text-center">
         <nb-checkbox #chkAttend1 [checked]="true" status="success" [disabled]="chkEnter1?.value"></nb-checkbox>
@@ -40,7 +40,7 @@
         <button *ngIf="!chkEnter1?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger" langg>Delete</button>
       </td>
     </tr>
-    <tr [class]="chkEnter2?.value? 'table-danger':(chkAttend2?.value?'table-success':'')">
+    <tr [class]="chkEnter2?.value? 'table-danger':(chkAttend2?.value?'table-success':'table-light')" cdkDrag>
       <th scope="row">2</th>
       <td>05:30</td>
       <td>علي محمود</td>
@@ -59,7 +59,7 @@
         <button *ngIf="!chkEnter2?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger" langg>Delete</button>
       </td>
     </tr>
-    <tr [class]="chkEnter3?.value? 'table-danger':(chkAttend3?.value?'table-success':'')">
+    <tr [class]="chkEnter3?.value? 'table-danger':(chkAttend3?.value?'table-success':'table-light')" cdkDrag>
       <th scope="row">3</th>
       <td>06:00</td>
       <td>عبير ابراهيم</td>
@@ -78,7 +78,7 @@
         <button *ngIf="!chkEnter3?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger" langg>Delete</button>
       </td>
     </tr>
-    <tr [class]="chkEnter4?.value? 'table-danger':(chkAttend4?.value?'table-success':'')">
+    <tr [class]="chkEnter4?.value? 'table-danger':(chkAttend4?.value?'table-success':'table-light')" cdkDrag>
       <th scope="row">4</th>
       <td>07:00</td>
       <td>محمود علي</td>
@@ -97,7 +97,7 @@
         <button *ngIf="!chkEnter4?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger" langg>Delete</button>
       </td>
     </tr>
-    <tr [class]="chkEnter5?.value? 'table-danger':(chkAttend5?.value?'table-success':'')">
+    <tr [class]="chkEnter5?.value? 'table-danger':(chkAttend5?.value?'table-success':'table-light')" cdkDrag>
       <th scope="row">5</th>
       <td>07:30</td>
       <td>عبد العزيز عبد المتجلي عبد الرحمن</td>
@@ -127,3 +127,11 @@
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
   [showConfirmButton]="false">
 </swal>
+
+<!-- <div cdkDropList class="dragDrop-list" (cdkDropListDropped)="drop($event)">
+  <div class="dragDrop-box" *ngFor="let movie of movies" cdkDrag>
+    <div class="dragDrop-custom-placeholder" *cdkDragPlaceholder></div>
+    {{movie}}
+  </div>
+</div> -->
+

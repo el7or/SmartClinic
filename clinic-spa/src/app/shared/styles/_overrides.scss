@@ -71,20 +71,38 @@
   }
 
   // =====> modify padding for tabs:
-  nb-tab{
+  nb-tab {
     padding: 1rem 0 0 !important;
   }
 
-/*   // =====> change mouse cursor to hover table:
+    // =====> change mouse cursor to drag drop table:
   table.table-hover tbody tr{
-    cursor: pointer !important;
+    cursor: move !important;
   }
-  table.table-hover tbody tr.bg-danger{
-    cursor: default !important;
-  } */
+
+  // =====> text align in drag drop table:
+  .cdk-drag-preview{
+    @include nb-ltr(text-align, left);
+    @include nb-rtl(text-align, right);
+    @include nb-ltr(direction, ltr);
+    @include nb-rtl(direction, rtl);
+    display: inline-table !important;
+  }
+
+   .table-danger > th, .table-danger > td,
+    .table-success > th, .table-success > td,
+    .table-light > th, .table-light > td{
+    //border: 1px solid #dee2e6 !important;
+    padding: 0.75rem !important;
+    vertical-align: top !important;
+    font-family: Open Sans, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+  }
 
   // =====> style checkbox:
-  nb-checkbox label.label{
+  nb-checkbox label.label {
     padding: 0 !important;
   }
 }

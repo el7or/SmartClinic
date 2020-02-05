@@ -22,7 +22,6 @@ import { NewBookingComponent } from "../../../bookings/new-booking/new-booking.c
 export class InfoDetailComponent implements OnInit, OnDestroy {
   formLoading = false;
   nameLoading = false;
-  phoneLoading = false;
   patientNameData: String;
   patientPhoneData: string;
   patientAgeData: number;
@@ -107,29 +106,6 @@ export class InfoDetailComponent implements OnInit, OnDestroy {
           });
         }
         this.nameLoading = false;
-      }, 1000);
-    }
-  }
-
-  // =====> check if patient mobile is exist:
-  onBlurPhone(patientPhone: NgForm) {
-    if (patientPhone.valid) {
-      this.phoneLoading = true;
-      setTimeout(() => {
-        if (patientPhone.value == "01112821144") {
-          this.duplicatePhoneSwal.fire().then(result => {
-            if (result.value) {
-              // =====> load another patient details:
-              this.patientNameData = "أحمد محمد علي";
-              this.patientPhoneData = "01112821144";
-              this.patientAgeData = 25;
-            } else {
-              // =====> reset patient mobile:
-              this.patientPhoneData = "";
-            }
-          });
-        }
-        this.phoneLoading = false;
       }, 1000);
     }
   }

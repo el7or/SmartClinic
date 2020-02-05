@@ -18,9 +18,9 @@
               </p>
             </ng-container>
           </div>
-          <div class="form-control-group" [nbSpinner]="phoneLoading" nbSpinnerStatus="success">
+          <div class="form-control-group">
             <input nbInput [(ngModel)]="patientPhoneData" #patientPhone="ngModel" name="patientPhone"
-              [placeholder]="'Mobile' | langg" fullWidth (blur)="onBlurPhone(patientPhone)" pattern="[0-9]*"
+              [placeholder]="'Mobile' | langg" fullWidth pattern="[0-9]*"
               minlength="10" required
               [status]="patientPhone.touched ? (patientPhone.invalid  ? 'danger' : 'success') : ''">
             <ng-container *ngIf="patientPhone.invalid && patientPhone.touched">
@@ -165,12 +165,6 @@
   [text]="'This Name is already on the patient list!' | langg"
   [confirmButtonText]="'Get previously added patient' | langg"
   [cancelButtonText]="'Change current Patient Name' | langg">
-</swal>
-
-<swal #duplicatePhoneSwal icon="warning" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
-  [text]="'This Mobile is already on the patient list!' | langg"
-  [confirmButtonText]="'Get previously added patient' | langg"
-  [cancelButtonText]="'Change current Patient Mobile' | langg">
 </swal>
 
 <swal #doneSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Success' | langg"

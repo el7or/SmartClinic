@@ -95,8 +95,6 @@
   { "ar": "جلسة علاج", "en": "Therapy Session" },
   { "ar": "المبلغ الإجمالي:", "en": "Total Amount:" },
   { "ar": "حجوزات نفس اليوم:", "en": "Same Date Bookings:" },
-  { "ar": "إغلاق", "en": "الموعد" },
-  { "ar": "إغلاق", "en": "النوع" },
   { "ar": "حجز", "en": "Book" },
   { "ar": "حجز وطباعة الفاتورة", "en": "Book & Print Invoice" },
   { "ar": "حذف", "en": "Delete" },

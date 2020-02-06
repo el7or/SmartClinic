@@ -12,11 +12,12 @@ import {
   NbTabsetModule,
   NbCheckboxModule,
   NbDialogModule,
+  NbRouteTabsetModule,
 } from "@nebular/theme";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { BsDatepickerModule, TimepickerModule, PaginationModule, TypeaheadModule } from "ngx-bootstrap";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -49,6 +50,7 @@ import { FinanceModule } from './../finance/finance.module';
     NbTooltipModule,
     NbTabsetModule,
     NbCheckboxModule,
+    NbRouteTabsetModule,
     NbDialogModule.forRoot(),
     PaginationModule,
     DragDropModule,

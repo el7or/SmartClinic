@@ -126,5 +126,9 @@ export class BookingsTodayComponent implements OnInit, AfterViewInit {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.bookingsList, event.previousIndex, event.currentIndex);
+    // =====> sort array after deag drop:
+    this.bookingsList
+      .sort((a, b) => +b.isEnter - +a.isEnter)
+      .map((item, index) => (item.seq = index + 1));
   }
 }

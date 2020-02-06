@@ -79,6 +79,9 @@
   table.table-hover tbody tr{
     cursor: move !important;
   }
+  table.table-hover tbody tr.cdk-drag-disabled {
+    cursor: default !important;
+  }
 
   // =====> text align in drag drop table:
   .cdk-drag-preview{

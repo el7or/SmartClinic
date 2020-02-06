@@ -70,13 +70,8 @@
     background-color: lightgrey !important;
   }
 
-  // =====> modify padding for tabs:
-  nb-tab {
-    padding: 1rem 0 0 !important;
-  }
-
-    // =====> change mouse cursor to drag drop table:
-  table.table-hover tbody tr{
+  // =====> change mouse cursor to drag drop table:
+  table.table-hover tbody tr {
     cursor: move !important;
   }
   table.table-hover tbody tr.cdk-drag-disabled {
@@ -84,7 +79,7 @@
   }
 
   // =====> text align in drag drop table:
-  .cdk-drag-preview{
+  .cdk-drag-preview {
     @include nb-ltr(text-align, left);
     @include nb-rtl(text-align, right);
     @include nb-ltr(direction, ltr);
@@ -93,10 +88,13 @@
   }
 
   // =====> style drag item on drag drop table:
-   .table-danger > th, .table-danger > td,
-    .table-success > th, .table-success > td,
-    .table-light > th, .table-light > td{
-    padding: 0.75rem !important;
+  .table-danger > th,
+  .table-danger > td,
+  .table-success > th,
+  .table-success > td,
+  .table-light > th,
+  .table-light > td {
+    padding: 0.5rem !important;
     vertical-align: top !important;
     font-family: Open Sans, sans-serif;
     font-size: 0.8rem;
@@ -107,5 +105,46 @@
   // =====> style checkbox:
   nb-checkbox label.label {
     padding: 0 !important;
+  }
+
+  // =====> remove white spaces in repeate nb-card:
+  nb-card nb-card-body nb-card-body {
+    padding: 1rem 0 0;
+    overflow: hidden;
+  }
+  nb-card nb-card {
+    margin-bottom: 0;
+  }
+
+  // =====> modify padding for tabs:
+  nb-tab {
+    padding: 1rem 0 0 !important;
+    overflow: hidden;
+  }
+
+  // =====> center th in tables:
+  .table thead th {
+    vertical-align: middle !important;
+  }
+
+  // =====> less padding in tables cells:
+  .table th,
+  .table td {
+    padding: 0.25rem;
+  }
+
+  // =====> less padding if button tiny:
+  [nbButton].appearance-filled.size-tiny,
+  [nbButton].appearance-ghost.size-tiny {
+    padding: 0.25rem 0.25rem;
+  }
+  [nbButton]:focus {
+    box-shadow: 0 0 0 0.1rem #e4e9f2;
+  }
+
+  // =====> text align in autocomplete:
+  .dropdown-menu{
+    @include nb-ltr(text-align, left);
+    @include nb-rtl(text-align, right);
   }
 }

@@ -1,11 +1,11 @@
 <nb-card>
   <nb-card-body>
     <nb-tabset>
-      <nb-tab [tabTitle]="'Today Bookings' | langg" tabIcon="clipboard-outline">
-        <bookings-today></bookings-today>
-      </nb-tab>
       <nb-tab [tabTitle]="'Browse Bookings' | langg" tabIcon="search-outline">
         <bookings-list></bookings-list>
+      </nb-tab>
+      <nb-tab [tabTitle]="'Today Bookings' | langg" tabIcon="clipboard-outline">
+        <bookings-today></bookings-today>
       </nb-tab>
     </nb-tabset>
   </nb-card-body>

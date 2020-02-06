@@ -17,6 +17,7 @@
       <th langg>Booking Type</th>
       <th langg>Name</th>
       <th langg>Mobile</th>
+      <th langg>Cost</th>
       <th langg>Attendance</th>
       <th langg>Entrance</th>
       <th></th>
@@ -32,6 +33,11 @@
       <td langg>{{booking.type}}</td>
       <td>{{booking.name}}</td>
       <td>{{booking.mobile}}</td>
+      <td langg>{{booking.cost | currency:'EGP'}}
+        <button nbButton (click)="onOpenPaymentSummary(1)" ghost size="tiny" status="warning" [nbTooltip]="'Payment Details' | langg">
+          <nb-icon icon="info"></nb-icon>
+        </button>
+      </td>
       <td class="text-center">
         <nb-checkbox [checked]="booking.isAttend" [(ngModel)]="booking.isAttend" status="success" [disabled]="booking.isEnter"></nb-checkbox>
         <div *ngIf="booking.isAttend">
@@ -45,105 +51,16 @@
         </div>
       </td>
       <td class="text-center">
-        <button nbButton [routerLink]="['/pages/patients/details',booking.id]" size="tiny" status="info" langg>Patient
-          Profile</button>&nbsp;
         <button *ngIf="booking.isEnter" (click)="onNewBook()" nbButton size="tiny" status="basic" langg>New
           Booking</button>
         <button *ngIf="!booking.isEnter" (click)="onNewBook()" nbButton size="tiny" status="warning" langg>Edit
           Booking</button>&nbsp;
         <button *ngIf="!booking.isEnter" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
-          langg>Delete</button>
+          langg>Delete</button>&nbsp;
+        <button nbButton [routerLink]="['/pages/patients/details',booking.id]" size="tiny" status="info" langg>Patient
+          Profile</button>
       </td>
     </tr>
-    <!-- <tr [class]="chkEnter2?.value? 'table-danger':(chkAttend2?.value?'table-success':'table-light')" cdkDrag>
-      <th>2</th>
-      <td>05:30</td>
-      <td>علي محمود</td>
-      <td>035135132</td>
-      <td class="text-center">
-        <nb-checkbox #chkAttend2 [checked]="true" status="success" [disabled]="chkEnter2?.value"></nb-checkbox>
-
-      </td>
-      <td class="text-center">
-        <nb-checkbox #chkEnter2 [checked]="false" status="danger"></nb-checkbox>
-      </td>
-      <td class="text-center">
-        <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
-          Profile</button>&nbsp;
-        <button *ngIf="chkEnter2?.value" (click)="onNewBook()" nbButton size="small" status="basic" langg>New
-          Booking</button>
-        <button *ngIf="!chkEnter2?.value" (click)="onNewBook()" nbButton size="small" status="warning" langg>Edit
-          Booking</button>&nbsp;
-        <button *ngIf="!chkEnter2?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger"
-          langg>Delete</button>
-      </td>
-    </tr>
-    <tr [class]="chkEnter3?.value? 'table-danger':(chkAttend3?.value?'table-success':'table-light')" cdkDrag>
-      <th>3</th>
-      <td>06:00</td>
-      <td>عبير ابراهيم</td>
-      <td>024415415</td>
-      <td class="text-center">
-        <nb-checkbox #chkAttend3 [checked]="true" status="success" [disabled]="chkEnter3?.value"></nb-checkbox>
-      </td>
-      <td class="text-center">
-        <nb-checkbox #chkEnter3 [checked]="false" status="danger"></nb-checkbox>
-      </td>
-      <td class="text-center">
-        <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
-          Profile</button>&nbsp;
-        <button *ngIf="chkEnter3?.value" (click)="onNewBook()" nbButton size="small" status="basic" langg>New
-          Booking</button>
-        <button *ngIf="!chkEnter3?.value" (click)="onNewBook()" nbButton size="small" status="warning" langg>Edit
-          Booking</button>&nbsp;
-        <button *ngIf="!chkEnter3?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger"
-          langg>Delete</button>
-      </td>
-    </tr>
-    <tr [class]="chkEnter4?.value? 'table-danger':(chkAttend4?.value?'table-success':'table-light')" cdkDrag>
-      <th>4</th>
-      <td>07:00</td>
-      <td>محمود علي</td>
-      <td>0251454554</td>
-      <td class="text-center">
-        <nb-checkbox #chkAttend4 [checked]="false" status="success" [disabled]="chkEnter4?.value"></nb-checkbox>
-      </td>
-      <td class="text-center">
-        <nb-checkbox #chkEnter4 [checked]="false" status="danger"></nb-checkbox>
-      </td>
-      <td class="text-center">
-        <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
-          Profile</button>&nbsp;
-        <button *ngIf="chkEnter4?.value" (click)="onNewBook()" nbButton size="small" status="basic" langg>New
-          Booking</button>
-        <button *ngIf="!chkEnter4?.value" (click)="onNewBook()" nbButton size="small" status="warning" langg>Edit
-          Booking</button>&nbsp;
-        <button *ngIf="!chkEnter4?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger"
-          langg>Delete</button>
-      </td>
-    </tr>
-    <tr [class]="chkEnter5?.value? 'table-danger':(chkAttend5?.value?'table-success':'table-light')" cdkDrag>
-      <th>5</th>
-      <td>07:30</td>
-      <td>عبد العزيز عبد المتجلي عبد الرحمن</td>
-      <td>0215451145</td>
-      <td class="text-center">
-        <nb-checkbox #chkAttend5 [checked]="false" status="success" [disabled]="chkEnter5?.value"></nb-checkbox>
-      </td>
-      <td class="text-center">
-        <nb-checkbox #chkEnter5 [checked]="false" status="danger"></nb-checkbox>
-      </td>
-      <td class="text-center">
-        <button nbButton [routerLink]="['/pages/patients/details',1]" size="small" status="info" langg>Patient
-          Profile</button>&nbsp;
-        <button *ngIf="chkEnter5?.value" (click)="onNewBook()" nbButton size="small" status="basic" langg>New
-          Booking</button>
-        <button *ngIf="!chkEnter5?.value" (click)="onNewBook()" nbButton size="small" status="warning" langg>Edit
-          Booking</button>&nbsp;
-        <button *ngIf="!chkEnter5?.value" (click)="onDeleteBooking()" nbButton size="small" status="danger"
-          langg>Delete</button>
-      </td>
-    </tr> -->
   </tbody>
 </table>
 

@@ -129,5 +129,16 @@
   { "ar": "الحضور", "en": "Attendance" },
   { "ar": "الدخول", "en": "Entrance" },
   { "ar": "تعديل الحجز", "en": "Edit Booking" },
-  { "ar": "حجز جديد", "en": "New Booking" }
+  { "ar": "حجز جديد", "en": "New Booking" },
+  { "ar": "اليوم السابق", "en": "Previous Day" },
+  { "ar": "اليوم التالي", "en": "Next Day" },
+  { "ar": "حالة الحجز", "en": "Booking Status" },
+  { "ar": "تم", "en": "Done" },
+  { "ar": "لم يتم", "en": "Not Done" },
+  { "ar": "خدمات", "en": "Services" },
+  { "ar": "إلغاء الحجز", "en": "Cancel Booking" },
+  { "ar": "المبلغ", "en": "Cost" },
+  { "ar": "بيانات الدفع", "en": "Payment Details" },
+  { "ar": "اسم المريض أو رقم الموبايل", "en": "Patient Name Or Mobile" },
+  { "ar": "لاتوجد نتائج مشابهة!", "en": "No Results Found!" }
 ]

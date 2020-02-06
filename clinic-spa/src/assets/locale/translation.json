@@ -123,7 +123,7 @@
   { "ar": "بحث بالموبايل", "en": "Patient Mobile Search" },
   { "ar": "بحث بكود المريض", "en": "Patient Code Search" },
   { "ar": "حجوزات اليوم", "en": "Today Bookings" },
-  { "ar": "بحث عن حجز", "en": "Search Bookings" },
+  { "ar": "تصفح الحجوزات", "en": "Browse Bookings" },
   { "ar": "كود", "en": "ID" },
   { "ar": "الإسم", "en": "Name" },
   { "ar": "الحضور", "en": "Attendance" },

@@ -62,11 +62,11 @@
           <td *ngIf="booking.isEnter" langg>Done</td>
           <td *ngIf="!booking.isEnter" langg>Not Done</td>
           <td class="text-center">
-            <button *ngIf="booking.isEnter" (click)="onNewBook()" nbButton size="tiny" status="success"
+            <button *ngIf="booking.isEnter" (click)="onBook(0)" nbButton size="tiny" status="success"
               [nbTooltip]="'New Booking' | langg">
               <nb-icon icon="file-add"></nb-icon>
             </button>
-            <button *ngIf="!booking.isEnter" (click)="onNewBook()" nbButton size="tiny" status="warning"
+            <button *ngIf="!booking.isEnter" (click)="onBook(1)" nbButton size="tiny" status="warning"
               [nbTooltip]="'Edit Booking' | langg">
               <nb-icon icon="edit"></nb-icon>
             </button>&nbsp;

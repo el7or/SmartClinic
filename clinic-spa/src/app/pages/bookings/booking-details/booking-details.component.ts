@@ -5,33 +5,48 @@ import { BsLocaleService } from "ngx-bootstrap";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 @Component({
-  selector: "new-booking",
-  templateUrl: "./new-booking.component.html",
-  styleUrls: ["./new-booking.component.scss"]
+  selector: "booking-details",
+  templateUrl: "./booking-details.component.html",
+  styleUrls: ["./booking-details.component.scss"]
 })
-export class NewBookingComponent implements OnInit {
+export class BookingDetailsComponent implements OnInit {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
   @Input() patientDetails: string;
+  @Input() isNewBookings: boolean;
   formLoading = false;
   bookingDateLoading = false;
   todayDate: Date = new Date();
   ChoosenDate = null;
   bookingHasDiscount = false;
 
+  bookingDoctorData;
+  bookingDateData;
+  bookingTimeData;
+  bookingTypeData;
+  bookingServiceData:any[];
+
   constructor(
-    protected dialogRef: NbDialogRef<NewBookingComponent>,
+    protected dialogRef: NbDialogRef<BookingDetailsComponent>,
     private localeService: BsLocaleService
   ) {
     // =====> localize datepicker:
     this.localeService.use(localStorage.getItem("langg"));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.isNewBookings) {
+    } else {
+      this.bookingDoctorData = '1'
+      this.bookingDateData = new Date();
+      this.bookingTimeData = new Date();
+      this.bookingTypeData = '1'
+    }
+  }
 
   // =====> on submit new booking:
   onAddBooking(form: NgForm) {
-    console.log(form.controls);
+    console.log(form.value);
     this.doneSwal.fire();
     this.dialogRef.close();
   }
@@ -43,30 +58,33 @@ export class NewBookingComponent implements OnInit {
   }
 
   // =====> check if choosen booking time is already taken in same date:
-  onChooseBookingTime(input: NgForm){
+  onChooseBookingTime(input: NgForm) {
     //console.log(input);
-    if (new Date(input.value).getHours()==5&&new Date(input.value).getMinutes()==0) {
-      input.control.setErrors({'duplicateTime':true})
-    }
-    else{
-      input.control.setErrors(null)
+    if (
+      new Date(input.value).getHours() == 5 &&
+      new Date(input.value).getMinutes() == 0
+    ) {
+      input.control.setErrors({ duplicateTime: true });
+    } else {
+      input.control.setErrors(null);
     }
   }
 
-  onChangeType(input: NgForm){
-    if (input.value=='2') {
+  onChangeType(input: NgForm) {
+    if (input.value == "2") {
       this.expiredSwal.fire();
     }
   }
 
   // =====> check if discount in range of amount:
-  onChangeDiscount(input: NgForm){
+  onChangeDiscount(input: NgForm) {
     if (input.value > 50 || input.value < 0) {
-      input.control.setErrors({'outRange':true})
-    }
-    else{
+      input.control.setErrors({ outRange: true });
+    } else {
       input.control.setErrors(null);
-      input.value > 0 ? this.bookingHasDiscount = true: this.bookingHasDiscount = false;
+      input.value > 0
+        ? (this.bookingHasDiscount = true)
+        : (this.bookingHasDiscount = false);
     }
   }
 }

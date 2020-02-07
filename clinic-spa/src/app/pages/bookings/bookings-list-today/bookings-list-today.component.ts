@@ -10,7 +10,7 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
 import { BookingsService } from './../bookings.service';
-import { NewBookingComponent } from "../new-booking/new-booking.component";
+import { BookingDetailsComponent } from "../booking-details/booking-details.component";
 import { PaymentSummaryComponent } from '../../finance/payment-summary/payment-summary.component';
 
 @Component({
@@ -18,7 +18,7 @@ import { PaymentSummaryComponent } from '../../finance/payment-summary/payment-s
   templateUrl: "./bookings-list-today.component.html",
   styleUrls: ["./bookings-list-today.component.scss"]
 })
-export class BookingsTodayComponent implements OnInit, AfterViewInit {
+export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
@@ -37,10 +37,11 @@ export class BookingsTodayComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
 
-  onNewBook() {
-    this.dialogService.open(NewBookingComponent, {
+  onBook(bookingId) {
+    this.dialogService.open(BookingDetailsComponent, {
       context: {
-        patientDetails: "محمد أحمد السيد"
+        patientDetails: "محمد أحمد السيد",
+        isNewBookings: bookingId==0? true:false
       },
       autoFocus: true,
       hasBackdrop: true,

@@ -1,10 +1,10 @@
 import { NgForm } from "@angular/forms";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NbDialogService } from "@nebular/theme";
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 import { BookingsSummaryComponent } from "../../bookings/bookings-summary/bookings-summary.component";
-import { NewBookingComponent } from '../../bookings/new-booking/new-booking.component';
+import { BookingDetailsComponent } from "../../bookings/booking-details/booking-details.component";
 
 @Component({
   selector: "patients-list",
@@ -32,19 +32,20 @@ export class PatientsListComponent implements OnInit {
     });
   }
 
-  onNewBook(){
-    this.dialogService.open(NewBookingComponent, {
+  onBook(bookingId) {
+    this.dialogService.open(BookingDetailsComponent, {
       context: {
-        patientDetails: "محمد أحمد السيد"
+        patientDetails: "محمد أحمد السيد",
+        isNewBookings: bookingId==0? true:false
       },
       autoFocus: true,
       hasBackdrop: true,
-      closeOnBackdropClick:false,
-      closeOnEsc:false
+      closeOnBackdropClick: false,
+      closeOnEsc: false
     });
   }
 
-  onDeletePatient(){
+  onDeletePatient() {
     this.deleteSwal.fire().then(result => {
       // =====> if click on add new booking:
       if (result.value) {

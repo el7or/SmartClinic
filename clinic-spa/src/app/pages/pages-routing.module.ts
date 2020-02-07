@@ -1,8 +1,3 @@
-import { BookingsTodayComponent } from './bookings/bookings-list-today/bookings-list-today.component';
-import { BookingsListComponent } from './bookings/bookings-list/bookings-list.component';
-import { BookingsComponent } from "./bookings/bookings.component";
-import { PatientDetailsComponent } from "./patients/patient-details/patient-details.component";
-import { PatientsListComponent } from "./patients/patients-list/patients-list.component";
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
@@ -11,6 +6,11 @@ import { HomeComponent } from "./home/home.component";
 import { ChatComponent } from "./chat/chat.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { PatientsComponent } from "./patients/patients.component";
+import { PatientDetailsComponent } from "./patients/patient-details/patient-details.component";
+import { PatientsListComponent } from "./patients/patients-list/patients-list.component";
+import { BookingsListTodayComponent } from './bookings/bookings-list-today/bookings-list-today.component';
+import { BookingsListComponent } from './bookings/bookings-list/bookings-list.component';
+import { BookingsComponent } from "./bookings/bookings.component";
 
 const routes: Routes = [
   {
@@ -54,7 +54,7 @@ const routes: Routes = [
         },
         {
           path: "today",
-          component: BookingsTodayComponent
+          component: BookingsListTodayComponent
         }]
       },
       {

@@ -12,17 +12,16 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-control-group">
-            <nb-select fullWidth ngModel #bookingDoctor="ngModel" name="bookingDoctor"
-              [placeholder]="'Doctor Name' | langg" required
-              [status]="bookingDoctor.touched ? (bookingDoctor.invalid  ? 'danger' : 'success') : ''">
+            <nb-select fullWidth [(ngModel)]="bookingDoctorData" #bookingDoctor="ngModel" name="bookingDoctor"
+              [placeholder]="'Doctor Name' | langg" required [status]="!bookingDoctorData ? 'danger' : 'success'">
               <nb-option value="1">عادل حسن</nb-option>
               <nb-option value="2">علي أبو مضاوي</nb-option>
               <nb-option value="3">محمد زادة</nb-option>
             </nb-select>
           </div>
           <div class="form-control-group" [nbSpinner]="bookingDateLoading" nbSpinnerStatus="success">
-            <input type="text" bsDatepicker nbInput ngModel #bookingDate="ngModel" name="bookingDate" fullWidth required
-              [minDate]="todayDate"
+            <input type="text" bsDatepicker nbInput #bookingDate name="bookingDate" fullWidth required
+              [minDate]="todayDate" [bsValue]="bookingDateData"
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
               (bsValueChange)="onChooseBookingDate(bookingDate)" [placeholder]="'Booking Date' | langg"
               [status]="bookingDate.touched ? (bookingDate.invalid  ? 'danger' : 'success') : ''">
@@ -33,9 +32,9 @@
             </ng-container>
           </div>
           <div class="form-control-group">
-            <timepicker (ngModelChange)="onChooseBookingTime(bookingTime)" ngModel #bookingTime="ngModel"
-              name="bookingTime" required showMeridian="true" labelMinutes="Minutes" minuteStep="15"
-              style="direction: ltr;" ariaLabelHours="09"></timepicker>
+            <timepicker (ngModelChange)="onChooseBookingTime(bookingTime)" [(ngModel)]="bookingTimeData"
+              #bookingTime="ngModel" name="bookingTime" required showMeridian="true" labelMinutes="Minutes"
+              minuteStep="15" style="direction: ltr;" ariaLabelHours="09"></timepicker>
             <ng-container *ngIf="bookingTime.invalid">
               <p class="error-message text-danger" *ngIf="bookingTime?.errors.duplicateTime">
                 <span langg>This Time</span>&nbsp;05:00&nbsp;<span langg>is already Booked!</span>
@@ -43,9 +42,9 @@
             </ng-container>
           </div>
           <div class="form-control-group">
-            <nb-select fullWidth ngModel #bookingType="ngModel" name="bookingType"
+            <nb-select fullWidth [(ngModel)]="bookingTypeData" #bookingType="ngModel" name="bookingType"
               [placeholder]="'Booking Type' | langg" required (ngModelChange)="onChangeType(bookingType)"
-              [status]="bookingType.touched ? (bookingType.invalid  ? 'danger' : 'success') : ''">
+              [status]="!bookingTypeData ? 'danger' : 'success'">
               <nb-option value="1" langg>Diagnose</nb-option>
               <nb-option value="2" langg>Consult</nb-option>
               <nb-option value="3" langg>Urgent Diagnose</nb-option>
@@ -54,7 +53,8 @@
             </nb-select>
           </div>
           <div class="form-control-group">
-            <nb-select multiple fullWidth #bookingService name="bookingService" [placeholder]="'Add Service' | langg">
+            <nb-select multiple fullWidth [(selected)]="bookingServiceData" #bookingService name="bookingService" [placeholder]="'Add Service' | langg"
+            [status]="bookingTypeData=='5' && !bookingServiceData ? 'danger' : ( bookingServiceData ? 'success':'')">
               <nb-option value="1">{{'X-Ray' | langg}}</nb-option>
               <nb-option value="2">{{'Analsis' | langg}}</nb-option>
               <nb-option value="3">{{'Sonar' | langg}}</nb-option>
@@ -63,25 +63,24 @@
             </nb-select>
           </div>
           <div class="form-control-group">
-            <input nbInput ngModel #discount="ngModel" type="number"
-              name="discount" [placeholder]="'Discount' | langg" fullWidth
-              [min]="0" [max]="50" (ngModelChange)="onChangeDiscount(discount)"
+            <input nbInput ngModel #discount="ngModel" type="number" name="discount" [placeholder]="'Discount' | langg"
+              fullWidth [min]="0" [max]="50" (ngModelChange)="onChangeDiscount(discount)"
               [status]="discount.dirty ? (discount.invalid  ? 'danger' : (discount.value > 0?'success':'')) : ''">
-              <ng-container *ngIf="discount.invalid">
-                <p class="error-message text-danger" *ngIf="discount?.errors.outRange" langg>
-                  Discount must not exceed the Total Amount!
-                </p>
-              </ng-container>
+            <ng-container *ngIf="discount.invalid">
+              <p class="error-message text-danger" *ngIf="discount?.errors.outRange" langg>
+                Discount must not exceed the Total Amount!
+              </p>
+            </ng-container>
           </div>
           <div class="form-control-group" *ngIf="bookingHasDiscount">
             <input nbInput ngModel #discountNote="ngModel" type="text" [required]="bookingHasDiscount"
               name="discountNote" [placeholder]="'Discount Note' | langg" fullWidth
               [status]="discount.value > 0 ? (discountNote.invalid  ? 'danger' : 'success') : ''">
-              <ng-container *ngIf="discountNote.invalid && discountNote.touched">
-                <p class="error-message text-danger" *ngIf="discountNote?.errors.required" langg>
-                  Discount Note is required!
-                </p>
-              </ng-container>
+            <ng-container *ngIf="discountNote.invalid && discountNote.touched">
+              <p class="error-message text-danger" *ngIf="discountNote?.errors.required" langg>
+                Discount Note is required!
+              </p>
+            </ng-container>
           </div>
           <nb-alert accent="info" class="text-nowrap">
             <span langg>Total Amount:</span>&nbsp;{{50-discount.value | currency:'EGP'}}

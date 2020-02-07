@@ -12,7 +12,7 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { NbDialogService } from "@nebular/theme";
 import { Location } from "@angular/common";
 
-import { NewBookingComponent } from "../../../bookings/new-booking/new-booking.component";
+import { BookingDetailsComponent } from "../../../bookings/booking-details/booking-details.component";
 
 @Component({
   selector: "info-detail",
@@ -68,9 +68,10 @@ export class InfoDetailComponent implements OnInit, OnDestroy {
       this.doneSwal.fire().then(result => {
         // =====> if click on add new booking:
         if (result.value) {
-          this.dialogService.open(NewBookingComponent, {
+          this.dialogService.open(BookingDetailsComponent, {
             context: {
-              patientDetails: this.form.value["patientName"]
+              patientDetails: this.form.value["patientName"],
+              isNewBookings: true
             },
             autoFocus: true,
             hasBackdrop: true,

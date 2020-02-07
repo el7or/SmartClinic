@@ -6,7 +6,7 @@ import { NbDialogService } from "@nebular/theme";
 
 import { BookingsService } from "./../bookings.service";
 import { LanggService } from "./../../../shared/services/langg.service";
-import { NewBookingComponent } from "../new-booking/new-booking.component";
+import { BookingDetailsComponent } from "../booking-details/booking-details.component";
 import { PaymentSummaryComponent } from "../../finance/payment-summary/payment-summary.component";
 
 @Component({
@@ -96,10 +96,11 @@ export class BookingsListComponent implements OnInit {
     }, 1000);
   }
 
-  onNewBook() {
-    this.dialogService.open(NewBookingComponent, {
+  onBook(bookingId) {
+    this.dialogService.open(BookingDetailsComponent, {
       context: {
-        patientDetails: "محمد أحمد السيد"
+        patientDetails: "محمد أحمد السيد",
+        isNewBookings: bookingId==0? true:false
       },
       autoFocus: true,
       hasBackdrop: true,

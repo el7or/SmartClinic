@@ -41,19 +41,19 @@
       <td class="text-center">
         <nb-checkbox [checked]="booking.isAttend" [(ngModel)]="booking.isAttend" status="success" [disabled]="booking.isEnter"></nb-checkbox>
         <div *ngIf="booking.isAttend">
-        <small class="text-success">04:45</small>
+        <small class="text-success">{{booking.attendTime}}</small>
         </div>
       </td>
       <td class="text-center">
         <nb-checkbox [checked]="booking.isEnter" [(ngModel)]="booking.isEnter" status="danger"></nb-checkbox>
         <div *ngIf="booking.isEnter">
-          <small class="text-danger">05:10</small>
+          <small class="text-danger">{{booking.entryTime}}</small>
         </div>
       </td>
       <td class="text-center">
-        <button *ngIf="booking.isEnter" (click)="onNewBook()" nbButton size="tiny" status="basic" langg>New
+        <button *ngIf="booking.isEnter" (click)="onBook(0)" nbButton size="tiny" status="basic" langg>New
           Booking</button>
-        <button *ngIf="!booking.isEnter" (click)="onNewBook()" nbButton size="tiny" status="warning" langg>Edit
+        <button *ngIf="!booking.isEnter" (click)="onBook(1)" nbButton size="tiny" status="warning" langg>Edit
           Booking</button>&nbsp;
         <button *ngIf="!booking.isEnter" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
           langg>Delete</button>&nbsp;

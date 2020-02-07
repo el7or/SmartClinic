@@ -12,26 +12,37 @@ import {
   NbTabsetModule,
   NbCheckboxModule,
   NbDialogModule,
-  NbRouteTabsetModule,
+  NbRouteTabsetModule
 } from "@nebular/theme";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
-import { BsDatepickerModule, TimepickerModule, PaginationModule, TypeaheadModule } from "ngx-bootstrap";
+import {
+  BsDatepickerModule,
+  TimepickerModule,
+  PaginationModule,
+  TypeaheadModule
+} from "ngx-bootstrap";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 import { SharedModule } from "./../../shared/shared.module";
 import { BookingsSummaryComponent } from "./bookings-summary/bookings-summary.component";
-import { NewBookingComponent } from "./new-booking/new-booking.component";
-import { BookingsListComponent } from './bookings-list/bookings-list.component';
-import { BookingsComponent } from './bookings.component';
-import { BookingsTodayComponent } from './bookings-list-today/bookings-list-today.component';
-import { FinanceModule } from './../finance/finance.module';
+import { BookingDetailsComponent } from "./booking-details/booking-details.component";
+import { BookingsListComponent } from "./bookings-list/bookings-list.component";
+import { BookingsComponent } from "./bookings.component";
+import { BookingsListTodayComponent } from "./bookings-list-today/bookings-list-today.component";
+import { FinanceModule } from "./../finance/finance.module";
 
 @NgModule({
-  declarations: [BookingsSummaryComponent, NewBookingComponent, BookingsListComponent, BookingsComponent, BookingsTodayComponent],
+  declarations: [
+    BookingsSummaryComponent,
+    BookingDetailsComponent,
+    BookingsListComponent,
+    BookingsComponent,
+    BookingsListTodayComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -59,6 +70,6 @@ import { FinanceModule } from './../finance/finance.module';
     TimepickerModule.forRoot(),
     SweetAlert2Module.forRoot()
   ],
-  entryComponents: [BookingsSummaryComponent, NewBookingComponent]
+  entryComponents: [BookingsSummaryComponent, BookingDetailsComponent]
 })
 export class BookingsModule {}

@@ -68,6 +68,7 @@ export class HomeComponent implements OnInit,OnDestroy{
   }
 
   onEventClick(info) {
+    this.router.navigateByUrl('/pages/bookings');
     /* alert('Event: ' + info.event.title);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
     alert('View: ' + info.view.type);
@@ -75,7 +76,14 @@ export class HomeComponent implements OnInit,OnDestroy{
   }
 
   onDateClick(info){
+    const todayString = new Date().toLocaleDateString();
+    const dateClicked = new Date(info.dateStr).toLocaleDateString();
+    if(todayString==dateClicked){
+      this.router.navigateByUrl('/pages/bookings/today');
+    }
+    else{
     this.router.navigateByUrl('/pages/bookings');
+    }
     /* alert('Clicked on: ' + info.dateStr);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
     alert('Current view: ' + info.view.type);

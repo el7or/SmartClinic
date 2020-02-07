@@ -9,7 +9,7 @@
       <div class="row mb-2">
         <div class="col-md-3 col-sm-6">
           <input nbInput ngModel #patientName="ngModel" name="patientName" [placeholder]="'Patient Name Search' | langg"
-            autofocus fullWidth minlength="5" maxlength="50"
+            fullWidth minlength="5" maxlength="50"
             [status]="patientName.dirty ? (patientName.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
           <ng-container *ngIf="patientName.invalid && patientName.touched">
             <small class="error-message" *ngIf="patientName?.errors.minlength || patientName?.errors.maxlength"

@@ -14,9 +14,9 @@ import { NewBookingComponent } from "../new-booking/new-booking.component";
 import { PaymentSummaryComponent } from '../../finance/payment-summary/payment-summary.component';
 
 @Component({
-  selector: "bookings-today",
-  templateUrl: "./bookings-today.component.html",
-  styleUrls: ["./bookings-today.component.scss"]
+  selector: "bookings-list-today",
+  templateUrl: "./bookings-list-today.component.html",
+  styleUrls: ["./bookings-list-today.component.scss"]
 })
 export class BookingsTodayComponent implements OnInit, AfterViewInit {
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;

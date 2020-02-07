@@ -1,4 +1,4 @@
-import { BookingsTodayComponent } from './bookings/bookings-today/bookings-today.component';
+import { BookingsTodayComponent } from './bookings/bookings-list-today/bookings-list-today.component';
 import { BookingsListComponent } from './bookings/bookings-list/bookings-list.component';
 import { BookingsComponent } from "./bookings/bookings.component";
 import { PatientDetailsComponent } from "./patients/patient-details/patient-details.component";

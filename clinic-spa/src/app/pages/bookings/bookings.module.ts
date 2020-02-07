@@ -27,7 +27,7 @@ import { BookingsSummaryComponent } from "./bookings-summary/bookings-summary.co
 import { NewBookingComponent } from "./new-booking/new-booking.component";
 import { BookingsListComponent } from './bookings-list/bookings-list.component';
 import { BookingsComponent } from './bookings.component';
-import { BookingsTodayComponent } from './bookings-today/bookings-today.component';
+import { BookingsTodayComponent } from './bookings-list-today/bookings-list-today.component';
 import { FinanceModule } from './../finance/finance.module';
 
 @NgModule({

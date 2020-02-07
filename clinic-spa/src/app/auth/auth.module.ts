@@ -2,8 +2,6 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-
-import { NgxAuthRoutingModule } from "./auth-routing.module";
 import { NbAuthModule, NbDummyAuthStrategy } from "@nebular/auth";
 import {
   NbAlertModule,
@@ -12,6 +10,9 @@ import {
   NbInputModule,
   NbSpinnerModule
 } from "@nebular/theme";
+
+import { NgxAuthRoutingModule } from "./auth-routing.module";
+import { SharedModule } from './../shared/shared.module';
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 
@@ -19,6 +20,7 @@ import { RegisterComponent } from "./register/register.component";
   imports: [
     CommonModule,
     FormsModule,
+    SharedModule,
     RouterModule,
     NbAlertModule,
     NbInputModule,

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { takeUntil, map } from "rxjs/operators";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
@@ -5,10 +6,11 @@ import {
   NbSidebarService,
   NbThemeService
 } from "@nebular/theme";
+import { Subject, Subscription } from "rxjs";
 
+import { AuthService } from "./../../../auth/auth.service";
 import { LanggService } from "../../services/langg.service";
 import { MENU_ITEMS } from "../../../pages/pages-menu";
-import { Subject } from "rxjs";
 
 @Component({
   selector: "ngx-header",
@@ -20,9 +22,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menu = MENU_ITEMS;
   currentTheme = "default";
   selectedTheme = "Light";
+  menuSubscription:Subscription;
   private destroy$: Subject<void> = new Subject<void>();
 
-  userMenu = [{ title: "Profile" }, { title: "Log out" }];
+  userMenu = [{ title: "Profile" }, { title: "Log out",data:'Logout' }];
 
   themes = [
     {
@@ -43,7 +46,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     private themeService: NbThemeService,
-    private langgService: LanggService
+    private langgService: LanggService,
+    private authService: AuthService,
+    private router:Router
   ) {}
 
   ngOnInit() {
@@ -67,38 +72,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // =====> add user name and photo to header icon:
     this.user = { name: "دكتور محمد", picture: "assets/images/nick.png" };
 
-    /* this.menuSubscription = this.menuService.onItemClick().subscribe(event => {
-        switch (event.item.data) {
-          case "en":
-          case "ar":
-            this.langgService.langLoading.next(true);
-            setTimeout(() => {
-              this.langgService.language.next(event.item.data);
-              this.checkLangg(event.item.data);
-              this.langgService.langLoading.next(false);
-            }, 1000);
-            break;
-          case "Log out":
-            this.logOut();
-            break;
-          case "Profile":
-            this.router.navigateByUrl("/pages/members/edit");
-            break;
-          case "like":
-            this.router.navigateByUrl("/pages/likes");
-            break;
-          case "msg":
-            this.router.navigateByUrl("/pages/chat");
-            break;
-          default:
-            break;
-        }
-      }); */
+    this.menuSubscription = this.menuService.onItemClick().subscribe(event => {
+      switch (event.item.data) {
+        case "Logout":
+          this.authService.logout();
+          this.router.navigateByUrl('/auth/login');
+          break;
+        /* case "Profile":
+          this.router.navigateByUrl("/pages/members/edit");
+          break;
+        case "like":
+          this.router.navigateByUrl("/pages/likes");
+          break;
+        case "msg":
+          this.router.navigateByUrl("/pages/chat");
+          break; */
+        default:
+          break;
+      }
+    });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.menuSubscription.unsubscribe();
   }
 
   // =====> toggle language from button in header:

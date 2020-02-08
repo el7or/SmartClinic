@@ -17,13 +17,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Today Booking',
     icon: 'browser-outline',
     link: '/pages/bookings/today',
-    pathMatch: '/pages/bookings/today'
   },
   {
     title: 'Browse Bookings',
     icon: 'browser-outline',
-    link: '/pages/bookings/list',
-    pathMatch: '/pages/bookings/list'
+    link: '/pages/bookings/list/0',
   },
   {
     title: 'Chat',

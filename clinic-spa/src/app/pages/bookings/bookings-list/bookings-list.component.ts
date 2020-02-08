@@ -3,7 +3,7 @@ import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { BsLocaleService } from "ngx-bootstrap";
 import { NbDialogService } from "@nebular/theme";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 
 import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
@@ -43,8 +43,18 @@ export class BookingsListComponent implements OnInit {
     // =====> check  param:date:
     this.route.paramMap.subscribe(paramMap => {
       const paramDate = new Date(paramMap.get("date"));
-      if (paramMap.has('date') && !isNaN(paramDate.getTime())) {
-      this.currentDay = paramDate;
+      // =====> if param has date to set it in datepicker value:
+      if (paramMap.has("date") && !isNaN(paramDate.getTime())) {
+        this.currentDay = paramDate;
+      }
+      // =====> if no param set datepicker to first day in current month:
+      if(paramMap.get("date")=='0') {
+        const firstDay = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          1
+        );
+        this.currentDay = firstDay;
       }
     });
 

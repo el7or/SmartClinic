@@ -36,11 +36,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'settings-outline',
     children: [
       {
-        title: 'Users',
-        link: '/pages/test',
+        title: 'Clinic Setting',
+        link: '/pages/settings/clinic',
       },
       {
-        title: 'Pricing',
+        title: 'Users',
         link: '/pages/test',
       }
     ],

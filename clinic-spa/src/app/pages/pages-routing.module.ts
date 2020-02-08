@@ -8,9 +8,11 @@ import { NotFoundComponent } from "./not-found/not-found.component";
 import { PatientsComponent } from "./patients/patients.component";
 import { PatientDetailsComponent } from "./patients/patient-details/patient-details.component";
 import { PatientsListComponent } from "./patients/patients-list/patients-list.component";
-import { BookingsListTodayComponent } from './bookings/bookings-list-today/bookings-list-today.component';
-import { BookingsListComponent } from './bookings/bookings-list/bookings-list.component';
+import { BookingsListTodayComponent } from "./bookings/bookings-list-today/bookings-list-today.component";
+import { BookingsListComponent } from "./bookings/bookings-list/bookings-list.component";
 import { BookingsComponent } from "./bookings/bookings.component";
+import { SettingsComponent } from "./settings/settings.component";
+import { ClinicSettingComponent } from "./settings/clinic-setting/clinic-setting.component";
 
 const routes: Routes = [
   {
@@ -43,23 +45,40 @@ const routes: Routes = [
       {
         path: "bookings",
         component: BookingsComponent,
-        children: [{
-          path: "",
-          redirectTo: "list",
-          pathMatch: "full"
-        },
-        {
-          path: "list",
-          component: BookingsListComponent
-        },
-        {
-          path: "today",
-          component: BookingsListTodayComponent
-        }]
+        children: [
+          {
+            path: "",
+            redirectTo: "list",
+            pathMatch: "full"
+          },
+          {
+            path: "list",
+            component: BookingsListComponent
+          },
+          {
+            path: "today",
+            component: BookingsListTodayComponent
+          }
+        ]
       },
       {
         path: "chat",
         component: ChatComponent
+      },
+      {
+        path: "settings",
+        component: SettingsComponent,
+        children: [
+          {
+            path: "",
+            redirectTo: "clinic",
+            pathMatch: "full"
+          },
+          {
+            path: "clinic",
+            component: ClinicSettingComponent
+          }
+        ]
       },
       {
         path: "",

@@ -9,10 +9,8 @@ import {
   NbAlertModule,
   NbIconModule,
   NbTooltipModule,
-  NbTabsetModule,
   NbCheckboxModule,
   NbDialogModule,
-  NbRouteTabsetModule
 } from "@nebular/theme";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -59,9 +57,7 @@ import { FinanceModule } from "./../finance/finance.module";
     NbAlertModule,
     NbIconModule,
     NbTooltipModule,
-    NbTabsetModule,
     NbCheckboxModule,
-    NbRouteTabsetModule,
     NbDialogModule.forRoot(),
     PaginationModule,
     DragDropModule,

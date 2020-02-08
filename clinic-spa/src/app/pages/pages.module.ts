@@ -16,6 +16,8 @@ import {
 } from "@nebular/theme";
 import { FullCalendarModule } from "@fullcalendar/angular";
 
+import { BookingsModule } from './bookings/bookings.module';
+import { SettingsModule } from './settings/settings.module';
 import { PatientsModule } from "./patients/patients.module";
 import { ChatComponent } from "./chat/chat.component";
 import { SharedModule } from "./../shared/shared.module";
@@ -35,6 +37,8 @@ const MODULES = [
   PagesRoutingModule,
   SharedModule,
   PatientsModule,
+  BookingsModule,
+  SettingsModule,
   NbMenuModule,
   NbAlertModule,
   FormsModule,

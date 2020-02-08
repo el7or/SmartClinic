@@ -21,7 +21,7 @@ export class ChatComponent {
   messages: any[];
   loading = false;
 
-  constructor(protected chatService: ChatService) {
+  constructor(public chatService: ChatService) {
     this.messages = this.chatService.loadMessages();
     this.users=[{
       id: '1',

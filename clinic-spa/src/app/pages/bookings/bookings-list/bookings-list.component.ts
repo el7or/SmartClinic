@@ -26,7 +26,7 @@ export class BookingsListComponent implements OnInit {
 
   constructor(
     private bookingService: BookingsService,
-    protected langgService: LanggService,
+    public langgService: LanggService,
     private localeService: BsLocaleService,
     private dialogService: NbDialogService
   ) {

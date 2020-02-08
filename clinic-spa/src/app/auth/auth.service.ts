@@ -15,10 +15,11 @@ export class AuthService {
   }
 
   isAuthenticated():boolean{
-    if(this.currentUser.userName=='el7or' && this.currentUser.password == '123456'){
+    return true;
+    /* if(this.currentUser.userName=='el7or' && this.currentUser.password == '123456'){
       return true;
     }
-    return false;
+    return false; */
   }
 
   logout(){

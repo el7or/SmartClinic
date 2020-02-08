@@ -9,7 +9,7 @@ import { NbDialogRef } from '@nebular/theme';
 export class PaymentSummaryComponent implements OnInit {
   @Input() patientDetails: string;
 
-  constructor(protected dialogRef: NbDialogRef<PaymentSummaryComponent>) { }
+  constructor(public dialogRef: NbDialogRef<PaymentSummaryComponent>) { }
 
   ngOnInit() {
   }

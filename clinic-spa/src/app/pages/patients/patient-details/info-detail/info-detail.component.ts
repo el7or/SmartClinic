@@ -35,7 +35,7 @@ export class InfoDetailComponent implements OnInit, OnDestroy {
   duplicatePhoneSwal: SwalComponent;
 
   constructor(
-    protected location: Location,
+    public location: Location,
     private dialogService: NbDialogService
   ) {}
 

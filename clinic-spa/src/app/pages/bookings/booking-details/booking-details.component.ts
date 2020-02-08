@@ -27,7 +27,7 @@ export class BookingDetailsComponent implements OnInit {
   bookingServiceData:any[];
 
   constructor(
-    protected dialogRef: NbDialogRef<BookingDetailsComponent>,
+    public dialogRef: NbDialogRef<BookingDetailsComponent>,
     private localeService: BsLocaleService
   ) {
     // =====> localize datepicker:

@@ -19,6 +19,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/bookings',
   },
   {
+    title: 'Chat',
+    icon: 'message-circle-outline',
+    link: '/pages/chat',
+  },
+  {
     title: 'Settings',
     icon: 'settings-outline',
     children: [
@@ -33,6 +38,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Contact Developer',
+    icon: 'info-outline',
+    link: '/pages/test',
+  }
+  /* {
     title: 'Payments',
     icon: 'edit-2-outline',
     link: '/pages/test',
@@ -50,33 +60,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/test',
       }
     ]
-  },
-  {
-    title: 'Chat',
-    icon: 'message-circle-outline',
-    link: '/pages/chat',
-  },
-  {
-    title: 'Contact Developer',
-    icon: 'info-outline',
-    link: '/pages/test',
-  },
-    {
-    title: 'To Test',
-    group: true,
-  },
-  {
-    title: 'Auth',
-    icon: 'lock-outline',
-    children: [
-      {
-        title: 'Login',
-        link: '/auth/login',
-      },
-      {
-        title: 'Register',
-        link: '/auth/register',
-      }
-    ],
-  },
+  }, */
 ];

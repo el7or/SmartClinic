@@ -12,7 +12,7 @@ export class PatientDetailsComponent implements OnInit {
   pageHeader:string;
   patientName:string;
 
-  constructor(private route: ActivatedRoute, protected location:Location) { }
+  constructor(private route: ActivatedRoute, public location:Location) { }
 
   ngOnInit() {
     // =====> check if new patient or details of old patient:

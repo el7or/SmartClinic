@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
-import { BsLocaleService, TypeaheadMatch } from "ngx-bootstrap";
+import { BsLocaleService } from "ngx-bootstrap";
 import { NbDialogService } from "@nebular/theme";
 
 import { BookingsService } from "./../bookings.service";
@@ -52,10 +52,9 @@ export class BookingsListComponent implements OnInit {
     this.tableLoading = true;
     setTimeout(() => {
       if (this.currentDay == null) {
-       this.currentDay ==  new Date(new Date().setDate(day.getDate() - 1))
-      }
-      else{
-      this.currentDay = new Date(this.currentDay.setDate(day.getDate() - 1));
+        this.currentDay == new Date(new Date().setDate(day.getDate() - 1));
+      } else {
+        this.currentDay = new Date(this.currentDay.setDate(day.getDate() - 1));
       }
       this.tableLoading = false;
     }, 1000);
@@ -66,10 +65,9 @@ export class BookingsListComponent implements OnInit {
     this.tableLoading = true;
     setTimeout(() => {
       if (this.currentDay == null) {
-       this.currentDay ==  new Date(new Date().setDate(day.getDate() + 1))
-      }
-      else{
-      this.currentDay = new Date(this.currentDay.setDate(day.getDate() + 1));
+        this.currentDay == new Date(new Date().setDate(day.getDate() + 1));
+      } else {
+        this.currentDay = new Date(this.currentDay.setDate(day.getDate() + 1));
       }
       this.tableLoading = false;
     }, 1000);
@@ -84,23 +82,12 @@ export class BookingsListComponent implements OnInit {
     }, 1000);
   }
 
-  // =====> on select from autocomplete:
-  onSelectAutocomplete(event: TypeaheadMatch) {
-    this.tableLoading = true;
-    setTimeout(() => {
-      this.currentDay = null;
-      this.bookingsList = this.bookingsList.filter(
-        booking => booking.id == event.item.id
-      );
-      this.tableLoading = false;
-    }, 1000);
-  }
-
+  // =====> on click on new booking or edit booking:
   onBook(bookingId) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
         patientDetails: "محمد أحمد السيد",
-        isNewBookings: bookingId==0? true:false
+        isNewBookings: bookingId == 0 ? true : false
       },
       autoFocus: true,
       hasBackdrop: true,
@@ -109,6 +96,7 @@ export class BookingsListComponent implements OnInit {
     });
   }
 
+  // =====> on click on delete booking:
   onDeleteBooking() {
     this.deleteSwal.fire().then(result => {
       if (result.value) {
@@ -126,4 +114,16 @@ export class BookingsListComponent implements OnInit {
       hasBackdrop: true
     });
   }
+
+  /* // =====> on select from autocomplete:
+  onSelectAutocomplete(event: TypeaheadMatch) {
+    this.tableLoading = true;
+    setTimeout(() => {
+      this.currentDay = null;
+      this.bookingsList = this.bookingsList.filter(
+        booking => booking.id == event.item.id
+      );
+      this.tableLoading = false;
+    }, 1000);
+  } */
 }

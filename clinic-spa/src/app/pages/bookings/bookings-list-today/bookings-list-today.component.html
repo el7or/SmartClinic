@@ -1,74 +1,80 @@
-<div class="mb-2">
-  <h6 class="d-inline" langg>Doctor Name</h6>:
-  <div class="d-inline">
-    <nb-select #bookingDoctor name="bookingDoctor" id="input-doctor" selected="2">
-      <nb-option value="1">عادل حسن</nb-option>
-      <nb-option value="2">علي أبو مضاوي</nb-option>
-      <nb-option value="3">محمد زادة</nb-option>
-    </nb-select>
-  </div>
-</div>
-<table class="table table-hover table-bordered">
-  <thead class="thead-dark">
-    <tr>
-      <th>#</th>
-      <th langg>ID</th>
-      <th langg>Time</th>
-      <th langg>Booking Type</th>
-      <th langg>Name</th>
-      <th langg>Mobile</th>
-      <th langg>Cost</th>
-      <th langg>Attendance</th>
-      <th langg>Entrance</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-    <tr *ngFor="let booking of bookingsList; let i = index;"
-    [class]="booking.isEnter ? 'table-danger':(booking.isAttend?'table-success':'table-light')"
-    cdkDrag [cdkDragDisabled]="booking.isEnter">
-      <th>{{booking.seq}}</th>
-      <th>{{booking.id}}</th>
-      <td>{{booking.time}}</td>
-      <td langg>{{booking.type}}</td>
-      <td>{{booking.name}}</td>
-      <td>{{booking.mobile}}</td>
-      <td langg>{{booking.cost | currency:'EGP'}}
-        <button nbButton (click)="onOpenPaymentSummary(1)" ghost size="tiny" status="warning" [nbTooltip]="'Payment Details' | langg">
-          <nb-icon icon="info"></nb-icon>
-        </button>
-      </td>
-      <td class="text-center">
-        <nb-checkbox [checked]="booking.isAttend" [(ngModel)]="booking.isAttend" status="success" [disabled]="booking.isEnter"></nb-checkbox>
-        <div *ngIf="booking.isAttend">
-        <small class="text-success">{{booking.attendTime}}</small>
-        </div>
-      </td>
-      <td class="text-center">
-        <nb-checkbox [checked]="booking.isEnter" [(ngModel)]="booking.isEnter" status="danger"></nb-checkbox>
-        <div *ngIf="booking.isEnter">
-          <small class="text-danger">{{booking.entryTime}}</small>
-        </div>
-      </td>
-      <td class="text-center">
-        <button *ngIf="booking.isEnter" (click)="onBook(0)" nbButton size="tiny" status="basic" langg>New
-          Booking</button>
-        <button *ngIf="!booking.isEnter" (click)="onBook(1)" nbButton size="tiny" status="warning" langg>Edit
-          Booking</button>&nbsp;
-        <button *ngIf="!booking.isEnter" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
-          langg>Delete</button>&nbsp;
-        <button nbButton [routerLink]="['/pages/patients/details',booking.id]" size="tiny" status="info" langg>Patient
-          Profile</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<nb-card>
+  <nb-card-header>
+    <h6 class="d-inline" langg>Doctor Name</h6>:
+    <div class="d-inline">
+      <nb-select #bookingDoctor name="bookingDoctor" id="input-doctor" selected="2">
+        <nb-option value="1">عادل حسن</nb-option>
+        <nb-option value="2">علي أبو مضاوي</nb-option>
+        <nb-option value="3">محمد زادة</nb-option>
+      </nb-select>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th langg>ID</th>
+          <th langg>Time</th>
+          <th langg>Booking Type</th>
+          <th langg>Name</th>
+          <th langg>Mobile</th>
+          <th langg>Cost</th>
+          <th langg>Attendance</th>
+          <th langg>Entrance</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+        <tr *ngFor="let booking of bookingsList; let i = index;"
+          [class]="booking.isEnter ? 'table-danger':(booking.isAttend?'table-success':'table-light')" cdkDrag
+          [cdkDragDisabled]="booking.isEnter">
+          <th>{{booking.seq}}</th>
+          <th>{{booking.id}}</th>
+          <td>{{booking.time}}</td>
+          <td langg>{{booking.type}}</td>
+          <td>{{booking.name}}</td>
+          <td>{{booking.mobile}}</td>
+          <td langg>{{booking.cost | currency:'EGP'}}
+            <button nbButton (click)="onOpenPaymentSummary(1)" ghost size="tiny" status="warning"
+              [nbTooltip]="'Payment Details' | langg">
+              <nb-icon icon="info"></nb-icon>
+            </button>
+          </td>
+          <td class="text-center">
+            <nb-checkbox [checked]="booking.isAttend" [(ngModel)]="booking.isAttend" status="success"
+              [disabled]="booking.isEnter"></nb-checkbox>
+            <div *ngIf="booking.isAttend">
+              <small class="text-success">{{booking.attendTime}}</small>
+            </div>
+          </td>
+          <td class="text-center">
+            <nb-checkbox [checked]="booking.isEnter" [(ngModel)]="booking.isEnter" status="danger"></nb-checkbox>
+            <div *ngIf="booking.isEnter">
+              <small class="text-danger">{{booking.entryTime}}</small>
+            </div>
+          </td>
+          <td class="text-center">
+            <button *ngIf="booking.isEnter" (click)="onBook(0)" nbButton size="tiny" status="basic" langg>New
+              Booking</button>
+            <button *ngIf="!booking.isEnter" (click)="onBook(1)" nbButton size="tiny" status="warning" langg>Edit
+              Booking</button>&nbsp;
+            <button *ngIf="!booking.isEnter" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
+              langg>Delete</button>&nbsp;
+            <button nbButton [routerLink]="['/pages/patients/details',booking.id]" size="tiny" status="info"
+              langg>Patient
+              Profile</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
 
-<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
-  [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
-  [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
-</swal>
+  <swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
+    [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
+    [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
+  </swal>
 
-<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
-  [showConfirmButton]="false">
-</swal>
+  <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+    [showConfirmButton]="false">
+  </swal>

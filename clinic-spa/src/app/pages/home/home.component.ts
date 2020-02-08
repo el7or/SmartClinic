@@ -36,7 +36,17 @@ export class HomeComponent implements OnInit,OnDestroy{
       description: 'د/أحمد مصطفى'
     },
     {
+      title: 'كل الحجوزات: 19',
+      start: '2020-02-01',
+      description: 'د/أحمد مصطفى'
+    },
+    {
       title: 'الكشوفات: 10',
+      start: '2020-02-03',
+      description: 'د/سناء عزت'
+    },
+    {
+      title: 'كل الحجوزات: 10',
       start: '2020-02-03',
       description: 'د/سناء عزت'
     },

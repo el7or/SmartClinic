@@ -14,14 +14,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
     pathMatch: '/pages/patients'
   },
   {
-    title: 'All Bookings',
+    title: 'Today Booking',
     icon: 'browser-outline',
-    link: '/pages/bookings',
+    link: '/pages/bookings/today',
+    pathMatch: '/pages/bookings/today'
+  },
+  {
+    title: 'Browse Bookings',
+    icon: 'browser-outline',
+    link: '/pages/bookings/list',
+    pathMatch: '/pages/bookings/list'
   },
   {
     title: 'Chat',
     icon: 'message-circle-outline',
     link: '/pages/chat',
+    pathMatch: '/pages/chat'
   },
   {
     title: 'Settings',
@@ -41,6 +49,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Contact Developer',
     icon: 'info-outline',
     link: '/pages/test',
+    pathMatch: '/pages/test'
   }
   /* {
     title: 'Payments',

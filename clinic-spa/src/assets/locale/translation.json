@@ -4,9 +4,8 @@
   { "ar": "الملف الشخصي", "en": "Profile" },
   { "ar": "تسجيل خروج", "en": "Log out" },
   { "ar": "إضافة مريض جديد", "en": "Add New Patient" },
-  { "ar": "حجوزات اليوم", "en": "Today Booking" },
+  { "ar": "حجوزات اليوم الحالي", "en": "Today Booking" },
   { "ar": "ملخص الحجوزات", "en": "Current Bookings" },
-  { "ar": "سجل الحجوزات", "en": "All Bookings" },
   { "ar": "بيانات المرضى", "en": "Patient Records" },
   { "ar": "بحث المرضى", "en": "Patients Search" },
   { "ar": "دردشة", "en": "Chat" },
@@ -147,5 +146,6 @@
   {"ar":"كلمة المرور لابد أن تكون من","en":"Password should contains from"},
   {"ar":"إلى","en":"to"},
   {"ar":"حرف!","en":"characters"},
-  {"ar":"دخول","en":"Log In"}
+  {"ar":"دخول","en":"Log In"},
+  {"ar":"اختيار اليوم","en":"Choose Day"}
 ]

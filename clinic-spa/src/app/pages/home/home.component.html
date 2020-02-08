@@ -8,6 +8,6 @@
     <full-calendar [events]="calendarEvents" [plugins]="calendarPlugins" defaultView="dayGridMonth"
       titleFormat="D MMM YYYY" [header]="calendarHeader" (dateClick)="onDateClick($event)"
       (eventClick)="onEventClick($event)" (eventMouseEnter)="onMouseOver($event)" (eventRender)="onEventRender($event)"
-      [locale]="locle"></full-calendar>
+      [locale]="locle" [hiddenDays]="calendarHiddenDays"></full-calendar>
   </nb-card-body>
 </nb-card>

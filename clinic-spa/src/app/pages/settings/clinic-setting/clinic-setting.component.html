@@ -1,1 +1,54 @@
-<p>clinic-setting works!</p>
+<form [formGroup]="form" (ngSubmit)="onSaveSetting()" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
+  <nb-card class="dialog-center">
+    <nb-card-header>
+      <span langg>Clinic Setting</span>:
+    </nb-card-header>
+    <nb-card-body>
+      <div class="form-control-group">
+        <label for="input-workdays"><span langg>Work Days</span>:</label>
+        <nb-select multiple fullWidth formControlName="workdays" [placeholder]="'Work Days' | langg"
+          id="input-workdays">
+          <nb-option [value]="6">{{'Saturday' | langg}}</nb-option>
+          <nb-option [value]="7">{{'Sunday' | langg}}</nb-option>
+          <nb-option [value]="1">{{'Monday' | langg}}</nb-option>
+          <nb-option [value]="2">{{'Tuesday' | langg}}</nb-option>
+          <nb-option [value]="3">{{'Wednesday' | langg}}</nb-option>
+          <nb-option [value]="4">{{'Thursday' | langg}}</nb-option>
+          <nb-option [value]="5">{{'Friday' | langg}}</nb-option>
+        </nb-select>
+        <small class="form-text text-muted" langg>The days when Bookings will be allowed.</small>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="text-center nbButton-group">
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>
+
+<!-- <nb-accordion>
+  <nb-accordion-item>
+    <nb-accordion-item-header>
+      <span langg>Work Days</span>
+    </nb-accordion-item-header>
+    <nb-accordion-item-body>
+
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+
+  <nb-accordion-item disabled="true">
+    <nb-accordion-item-header>
+      <span langg>Bookings Types & Services</span>
+    </nb-accordion-item-header>
+    <nb-accordion-item-body>
+
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+</nb-accordion> -->

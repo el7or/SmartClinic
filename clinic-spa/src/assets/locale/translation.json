@@ -148,5 +148,15 @@
   {"ar":"حرف!","en":"characters"},
   {"ar":"دخول","en":"Log In"},
   {"ar":"اختيار اليوم","en":"Choose Day"},
-  {"ar":"إعدادات العيادة","en":"Clinic Setting"}
+  {"ar":"إعدادات العيادة","en":"Clinic Setting"},
+  {"ar":"أيام العمل","en":"Work Days"},
+  {"ar":"أنواع الحجوزات والخدمات","en":"Bookings Types & Services"},
+  {"ar":"السبت","en":"Saturday"},
+  {"ar":"الأحد","en":"Sunday"},
+  {"ar":"الإثنين","en":"Monday"},
+  {"ar":"الثلاثاء","en":"Tuesday"},
+  {"ar":"الأربعاء","en":"Wednesday"},
+  {"ar":"الخميس","en":"Thursday"},
+  {"ar":"الجمعة","en":"Friday"},
+  {"ar":"الأيام التي يُسمح فيها بالحجز.","en":"The days when Bookings will be allowed."}
 ]

@@ -1,3 +1,4 @@
+import { SettingsService } from './../../settings/settings.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
@@ -20,6 +21,7 @@ export class BookingsListComponent implements OnInit {
   bookingsList: any[];
   autoCompleteList: any[] = [];
   tableLoading = false;
+  weekendDays:number[];
   noResultAutoComplete: boolean = false;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
@@ -27,6 +29,7 @@ export class BookingsListComponent implements OnInit {
   constructor(
     private bookingService: BookingsService,
     public langgService: LanggService,
+    private settingService:SettingsService,
     private localeService: BsLocaleService,
     private dialogService: NbDialogService
   ) {
@@ -45,6 +48,9 @@ export class BookingsListComponent implements OnInit {
         nameMobile: booking.mobile + " - " + booking.name
       });
     });
+
+    // =====> get weekends to disable it:
+    this.weekendDays = this.settingService.getWeekEndsDays();
   }
 
   // =====> get bookings in previous day:

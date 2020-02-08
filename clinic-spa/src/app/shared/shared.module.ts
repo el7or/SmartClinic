@@ -31,6 +31,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { TinyMCEComponent } from './components/tiny-mce/tiny-mce.component';
 import { LanggPipe } from './pipes/langg.pipe';
 import { RouterModule } from '@angular/router';
+import { DateWithoutTimePipe } from './pipes/date-without-time.pipe';
 
 
 const NB_MODULES = [
@@ -62,7 +63,7 @@ const PIPES = [
 @NgModule({
   imports: [CommonModule, ...NB_MODULES,RouterModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS, LanggDirective],
-  declarations: [...COMPONENTS, ...PIPES, LanggDirective],
+  declarations: [...COMPONENTS, ...PIPES, LanggDirective, DateWithoutTimePipe],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

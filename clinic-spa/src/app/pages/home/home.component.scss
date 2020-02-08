@@ -11,7 +11,7 @@
   ::ng-deep .fc-title{
     font-weight: bold !important;
   }
-  ::ng-deep a.fc-event,::ng-deep .fc-past,::ng-deep .fc-today{
+  ::ng-deep a.fc-event,::ng-deep .fc-past,::ng-deep .fc-today, ::ng-deep .fc-content-skeleton{
     cursor: pointer;
   }
   ::ng-deep .fc-future{
@@ -19,6 +19,9 @@
   }
   ::ng-deep .fc-past{
     background-color: lightgray;
+  }
+  ::ng-deep a.fc-event{
+    cursor: default;
   }
 
   .tooltipCalendar{

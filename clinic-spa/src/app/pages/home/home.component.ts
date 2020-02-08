@@ -1,3 +1,4 @@
+import { DateWithoutTimePipe } from './../../shared/pipes/date-without-time.pipe';
 import { Router } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -102,8 +103,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onDateClick(info) {
     // =====> check clicked date if today or past or future:
-    const todayString = new Date().toLocaleDateString();
-    const dateClicked = new Date(info.dateStr).toLocaleDateString();
+    const todayShort= new DateWithoutTimePipe().transform(new Date());
+    const todayString = new Date(todayShort).toISOString();
+    const dateClicked = new Date(info.dateStr).toISOString();
     // =====> if clicked on today:
     if (todayString == dateClicked) {
       this.router.navigateByUrl("/pages/bookings/today");
@@ -117,10 +119,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       // =====> save clicked date to next booking:
       this.bookingService.setChosenbookingDate(info.date);
       this.toastrService.info(
+         info.dateStr,
         this.langgService.translateWord(
-          "Choose a Patient to add booking for on this day."
+          "Choose a Patient to add booking for on chosen day:"
         ),
-        this.langgService.translateWord("Chosen Day") + ": " + info.dateStr,
         {
           icon: "info-outline",
           duration: 5000,
@@ -138,17 +140,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   onMouseOver(info) {
     /* console.log(info.el);
     info.el.setAttribute('nbTooltip',info.event.extendedProps.description); */
-  }
-
-  onDayRender(info) {
-    // =====> check clicked date if in the past:
-    /* const todayString = new Date().toLocaleDateString();
-    const dateClicked = new Date(info.date).toLocaleDateString();
-    const todayString = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate(),0,0,0,0).toISOString();
-    const dateClicked = new Date(info.date.getFullYear(),info.date.getMonth() , info.date.getDate(),0,0,0,0).toISOString();
-    if (dateClicked < todayString) {
-      info.el.style.backgroundColor = "lightgray";
-    }*/
   }
 
   onEventRender(info) {

@@ -1,10 +1,11 @@
-import { SettingsService } from './../../settings/settings.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { BsLocaleService } from "ngx-bootstrap";
 import { NbDialogService } from "@nebular/theme";
+import { ActivatedRoute } from '@angular/router';
 
+import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
 import { LanggService } from "./../../../shared/services/langg.service";
 import { BookingDetailsComponent } from "../booking-details/booking-details.component";
@@ -21,7 +22,7 @@ export class BookingsListComponent implements OnInit {
   bookingsList: any[];
   autoCompleteList: any[] = [];
   tableLoading = false;
-  weekendDays:number[];
+  weekendDays: number[];
   noResultAutoComplete: boolean = false;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
@@ -29,15 +30,24 @@ export class BookingsListComponent implements OnInit {
   constructor(
     private bookingService: BookingsService,
     public langgService: LanggService,
-    private settingService:SettingsService,
+    private settingService: SettingsService,
     private localeService: BsLocaleService,
-    private dialogService: NbDialogService
+    private dialogService: NbDialogService,
+    private route: ActivatedRoute
   ) {
     // =====> localize datepicker:
     this.localeService.use(langgService.locale);
   }
 
   ngOnInit() {
+    // =====> check  param:date:
+    this.route.paramMap.subscribe(paramMap => {
+      const paramDate = new Date(paramMap.get("date"));
+      if (paramMap.has('date') && !isNaN(paramDate.getTime())) {
+      this.currentDay = paramDate;
+      }
+    });
+
     // =====> get bookings list for today:
     this.bookingsList = this.bookingService.getBookingsListToday(new Date());
 

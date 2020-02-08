@@ -11,10 +11,19 @@
   ::ng-deep .fc-title{
     font-weight: bold !important;
   }
-  ::ng-deep a.fc-event{
+  ::ng-deep a.fc-event,::ng-deep .fc-past,::ng-deep .fc-today{
     cursor: pointer;
   }
-  ::ng-deep .fc-bg, ::ng-deep  .fc-content-skeleton{
+  ::ng-deep .fc-future{
     cursor: cell;
+  }
+  ::ng-deep .fc-past{
+    background-color: lightgray;
+  }
+
+  .tooltipCalendar{
+    position: absolute;
+    height: 100vh;
+    width: 90%;
   }
 }

@@ -12,7 +12,8 @@ import {
   NbSpinnerModule,
   NbButtonModule,
   NbTooltipModule,
-  NbIconModule
+  NbIconModule,
+  NbToastrModule
 } from "@nebular/theme";
 import { FullCalendarModule } from "@fullcalendar/angular";
 
@@ -52,7 +53,8 @@ const MODULES = [
   NbSpinnerModule,
   NbButtonModule,
   NbTooltipModule,
-  NbIconModule
+  NbIconModule,
+  NbToastrModule.forRoot()
 ];
 
 @NgModule({

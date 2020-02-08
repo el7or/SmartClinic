@@ -1,3 +1,4 @@
+import { BookingsService } from './../bookings.service';
 import { NgForm } from "@angular/forms";
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
@@ -28,17 +29,19 @@ export class BookingDetailsComponent implements OnInit {
 
   constructor(
     public dialogRef: NbDialogRef<BookingDetailsComponent>,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,
+    private bookingService: BookingsService
   ) {
     // =====> localize datepicker:
     this.localeService.use(localStorage.getItem("langg"));
   }
 
   ngOnInit() {
+    this.bookingDateData = this.bookingService.getChosenbookingDate();
     if (this.isNewBookings) {
     } else {
       this.bookingDoctorData = '1'
-      this.bookingDateData = new Date();
+      //this.bookingDateData = new Date();
       this.bookingTimeData = new Date();
       this.bookingTypeData = '1'
     }

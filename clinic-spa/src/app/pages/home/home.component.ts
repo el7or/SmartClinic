@@ -1,4 +1,3 @@
-import { SettingsService } from "./../settings/settings.service";
 import { Router } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -9,7 +8,10 @@ import arLocale from "@fullcalendar/core/locales/ar";
 import enLocale from "@fullcalendar/core/locales/en-gb";
 import momentPlugin from "@fullcalendar/moment";
 import { Subscription } from "rxjs";
+import { NbToastrService } from "@nebular/theme";
 
+import { BookingsService } from "./../bookings/bookings.service";
+import { SettingsService } from "./../settings/settings.service";
 import { LanggService } from "../../shared/services/langg.service";
 
 @Component({
@@ -61,7 +63,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private langgService: LanggService,
-    private settingService: SettingsService
+    private toastrService: NbToastrService,
+    private settingService: SettingsService,
+    private bookingService: BookingsService
   ) {}
   ngOnInit() {
     // =====> localize fullcalendar:
@@ -89,7 +93,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onEventClick(info) {
-    this.router.navigateByUrl("/pages/bookings");
+    //this.router.navigateByUrl("/pages/bookings");
     /* alert('Event: ' + info.event.title);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
     alert('View: ' + info.view.type);
@@ -97,12 +101,33 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onDateClick(info) {
+    // =====> check clicked date if today or past or future:
     const todayString = new Date().toLocaleDateString();
     const dateClicked = new Date(info.dateStr).toLocaleDateString();
+    // =====> if clicked on today:
     if (todayString == dateClicked) {
       this.router.navigateByUrl("/pages/bookings/today");
-    } else {
-      this.router.navigateByUrl("/pages/bookings");
+    }
+    // =====> if clicked on past:
+    else if (todayString > dateClicked) {
+      this.router.navigate(["/pages/bookings/list", info.dateStr]);
+    }
+    // =====> if clicked on future:
+    else if (todayString < dateClicked) {
+      // =====> save clicked date to next booking:
+      this.bookingService.setChosenbookingDate(info.date);
+      this.toastrService.info(
+        this.langgService.translateWord(
+          "Choose a Patient to add booking for on this day."
+        ),
+        this.langgService.translateWord("Chosen Day") + ": " + info.dateStr,
+        {
+          icon: "info-outline",
+          duration: 5000,
+          destroyByClick: true
+        }
+      );
+      this.router.navigateByUrl("/pages/patients");
     }
     /* alert('Clicked on: ' + info.dateStr);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
@@ -113,6 +138,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   onMouseOver(info) {
     /* console.log(info.el);
     info.el.setAttribute('nbTooltip',info.event.extendedProps.description); */
+  }
+
+  onDayRender(info) {
+    // =====> check clicked date if in the past:
+    /* const todayString = new Date().toLocaleDateString();
+    const dateClicked = new Date(info.date).toLocaleDateString();
+    const todayString = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate(),0,0,0,0).toISOString();
+    const dateClicked = new Date(info.date.getFullYear(),info.date.getMonth() , info.date.getDate(),0,0,0,0).toISOString();
+    if (dateClicked < todayString) {
+      info.el.style.backgroundColor = "lightgray";
+    }*/
   }
 
   onEventRender(info) {

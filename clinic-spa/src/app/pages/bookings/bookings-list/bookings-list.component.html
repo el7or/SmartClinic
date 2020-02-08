@@ -59,8 +59,9 @@
               <nb-icon icon="info"></nb-icon>
             </button>
           </td>
-          <td *ngIf="booking.isEnter" langg>Done</td>
-          <td *ngIf="!booking.isEnter" langg>Not Done</td>
+          <td *ngIf="booking.isCanceled" langg>Canceled</td>
+          <td *ngIf="booking.isEnter && !booking.isCanceled" langg>Done</td>
+          <td *ngIf="!booking.isEnter && !booking.isCanceled" langg>Not Done</td>
           <td class="text-center">
             <button *ngIf="booking.isEnter" (click)="onBook(0)" nbButton size="tiny" status="success"
               [nbTooltip]="'New Booking' | langg">

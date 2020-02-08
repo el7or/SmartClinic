@@ -148,6 +148,7 @@
   {"ar":"حرف!","en":"characters"},
   {"ar":"دخول","en":"Log In"},
   {"ar":"اختيار اليوم","en":"Choose Day"},
+  {"ar":"اليوم المحدد","en":"Chosen Day"},
   {"ar":"إعدادات العيادة","en":"Clinic Setting"},
   {"ar":"أيام العمل","en":"Work Days"},
   {"ar":"أنواع الحجوزات والخدمات","en":"Bookings Types & Services"},
@@ -158,5 +159,8 @@
   {"ar":"الأربعاء","en":"Wednesday"},
   {"ar":"الخميس","en":"Thursday"},
   {"ar":"الجمعة","en":"Friday"},
-  {"ar":"الأيام التي يُسمح فيها بالحجز.","en":"The days when Bookings will be allowed."}
+  {"ar":"الأيام التي يُسمح فيها بالحجز.","en":"The days when Bookings will be allowed."},
+  {"ar":"ملغي","en":"Canceled"},
+  {"ar":"انقر فوق أي يوم لإضافة حجز فيه","en":"Click on any day to add Booking at it"},
+  {"ar":"اختر مريضًا لإضافة الحجز إليه في هذا اليوم.","en":"Choose a Patient to add booking for on this day."}
 ]

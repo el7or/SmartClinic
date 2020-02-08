@@ -48,11 +48,11 @@ const routes: Routes = [
         children: [
           {
             path: "",
-            redirectTo: "list",
+            redirectTo: "today",
             pathMatch: "full"
           },
           {
-            path: "list",
+            path: "list/:date",
             component: BookingsListComponent
           },
           {

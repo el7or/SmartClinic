@@ -31,7 +31,6 @@ export class LoginComponent extends NbLoginComponent {
   }
 
   login() {
-    console.log(this.form.value);
     this.loading = true;
     setTimeout(() => {
       const loginUser: User = {

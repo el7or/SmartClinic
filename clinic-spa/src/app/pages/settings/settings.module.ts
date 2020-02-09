@@ -11,6 +11,7 @@ import {
   NbRadioModule,
   NbCheckboxModule,
   NbInputModule,
+  NbToggleModule
 } from "@nebular/theme";
 
 import { UsersSettingComponent } from './users-setting/users-setting.component';
@@ -33,6 +34,7 @@ import { SettingsComponent } from "./settings.component";
     NbRadioModule,
     NbCheckboxModule,
     NbInputModule,
+    NbToggleModule,
     SweetAlert2Module.forRoot()
   ]
 })

@@ -1,7 +1,7 @@
 [
   { "ar": "English", "en": "عربي" },
   { "ar": "العيادة الذكية", "en": "Smart Clinic" },
-  { "ar": "الملف الشخصي", "en": "Profile" },
+  { "ar": "تغيير الإسم", "en": "Change Name" },
   { "ar": "تسجيل خروج", "en": "Log out" },
   { "ar": "إضافة مريض جديد", "en": "Add New Patient" },
   { "ar": "حجوزات اليوم الحالي", "en": "Today Booking" },

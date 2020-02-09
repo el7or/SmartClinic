@@ -1,17 +1,19 @@
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import { takeUntil, map } from "rxjs/operators";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   NbMenuService,
   NbSidebarService,
   NbThemeService,
-  NbSearchService
+  NbSearchService,
+  NbDialogService
 } from "@nebular/theme";
 import { Subject, Subscription } from "rxjs";
 
 import { AuthService } from "./../../../auth/auth.service";
 import { LanggService } from "../../services/langg.service";
 import { MENU_ITEMS } from "../../../pages/pages-menu";
+import { ProfileComponent } from "../profile/profile.component";
 
 @Component({
   selector: "ngx-header",
@@ -23,11 +25,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menu = MENU_ITEMS;
   currentTheme = "default";
   selectedTheme = "Light";
-  menuSubscription:Subscription;
-  searchSubscription:Subscription;
+  menuSubscription: Subscription;
+  searchSubscription: Subscription;
+  nameSubscription: Subscription;
   private destroy$: Subject<void> = new Subject<void>();
 
-  userMenu = [{ title: "Profile" }, { title: "Log out",data:'Logout' }];
+  userMenu = [
+    { title: "Change Name", data: "profile" },
+    { title: "Log out", data: "logout" }
+  ];
 
   themes = [
     {
@@ -50,11 +56,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private themeService: NbThemeService,
     private langgService: LanggService,
     private authService: AuthService,
-    private searchService:NbSearchService,
-    private router:Router
+    private searchService: NbSearchService,
+    private dialogService: NbDialogService,
+    private router: Router
   ) {
-    this.searchSubscription = this.searchService.onSearchSubmit().subscribe((data: any) => {
-      router.navigateByUrl('/pages/patients/list?name='+data.term);
+    this.searchSubscription = this.searchService
+      .onSearchSubmit()
+      .subscribe((data: any) => {
+        router.navigateByUrl("/pages/patients/list?name=" + data.term);
       });
   }
 
@@ -77,23 +86,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(themeName => (this.currentTheme = themeName));
 
     // =====> add user name and photo to header icon:
-    this.user = { name: "دكتور محمد", picture: "assets/images/nick.png" };
+     this.nameSubscription= this.authService.userName.subscribe(username => {
+      this.user = {
+        name: username,
+        picture: "assets/images/nick.png"
+      };
+    });
 
     this.menuSubscription = this.menuService.onItemClick().subscribe(event => {
       switch (event.item.data) {
-        case "Logout":
+        case "logout":
           this.authService.logout();
-          this.router.navigateByUrl('/auth/login');
+          this.router.navigateByUrl("/auth/login");
           break;
-        /* case "Profile":
-          this.router.navigateByUrl("/pages/members/edit");
+        case "profile":
+          this.dialogService.open(ProfileComponent, {
+            autoFocus: true,
+            hasBackdrop: true,
+            closeOnBackdropClick: false,
+            closeOnEsc: false
+          });
           break;
-        case "like":
-          this.router.navigateByUrl("/pages/likes");
-          break;
-        case "msg":
-          this.router.navigateByUrl("/pages/chat");
-          break; */
         default:
           break;
       }
@@ -105,6 +118,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
     this.menuSubscription.unsubscribe();
     this.searchSubscription.unsubscribe();
+    this.nameSubscription.unsubscribe();
   }
 
   // =====> toggle language from button in header:

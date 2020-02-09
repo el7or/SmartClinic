@@ -15,11 +15,14 @@ import {
   DEFAULT_MEDIA_BREAKPOINTS,
   NbLayoutDirection,
   NbCardModule,
-  NbListModule
+  NbListModule,
+  NbDialogModule,
+  NbInputModule
 } from "@nebular/theme";
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { NbSecurityModule } from "@nebular/security";
 
+import { ProfileComponent } from './components/profile/profile.component';
 import { DEFAULT_THEME } from "./styles/theme.default";
 import { COSMIC_THEME } from "./styles/theme.cosmic";
 import { CORPORATE_THEME } from "./styles/theme.corporate";
@@ -49,9 +52,11 @@ const NB_MODULES = [
   NbIconModule,
   NbEvaIconsModule,
   NbCardModule,
-  NbListModule
+  NbListModule,
+  NbInputModule,
+  NbDialogModule.forRoot()
 ];
-const COMPONENTS = [HeaderComponent, FooterComponent, TinyMCEComponent];
+const COMPONENTS = [HeaderComponent, FooterComponent, ProfileComponent, TinyMCEComponent];
 const PIPES = [
   TimeAgoPipe,
   LanggPipe,
@@ -63,7 +68,8 @@ const PIPES = [
 @NgModule({
   imports: [CommonModule, ...NB_MODULES, RouterModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS, LanggDirective],
-  declarations: [...COMPONENTS, ...PIPES, LanggDirective]
+  declarations: [...COMPONENTS, ...PIPES, LanggDirective],
+  entryComponents:[ProfileComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

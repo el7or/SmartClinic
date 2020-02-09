@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { User } from './auth.model';
@@ -7,6 +8,8 @@ import { User } from './auth.model';
 })
 export class AuthService {
   currentUser:User= {userName:'',password:''};
+
+  userName = new BehaviorSubject<string>('دكتور محمد');
 
   constructor() { }
 
@@ -24,5 +27,9 @@ export class AuthService {
 
   logout(){
     this.currentUser = {userName:'',password:''};
+  }
+
+  getUserName(){
+    return this.userName.asObservable();
   }
 }

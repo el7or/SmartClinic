@@ -28,7 +28,9 @@ export class PatientsListComponent implements OnInit {
         patientDetails: "ملخص زيارات محمد أحمد السيد:"
       },
       autoFocus: true,
-      hasBackdrop: true
+      hasBackdrop: true,
+      closeOnBackdropClick: false,
+      closeOnEsc: false
     });
   }
 

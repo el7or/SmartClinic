@@ -1,0 +1,10 @@
+
+<nb-card>
+  <nb-card-header><span langg>Change Name</span>:</nb-card-header>
+  <nb-card-body>
+    <input nbInput #newName [value]="currentName">
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton hero status="primary" (click)="saveNewName(newName)" langg status="success">Save</button>
+  </nb-card-footer>
+</nb-card>

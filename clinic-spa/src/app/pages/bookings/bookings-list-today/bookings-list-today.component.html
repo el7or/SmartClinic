@@ -22,9 +22,9 @@
       <thead class="thead-dark">
         <tr>
           <th>#</th>
-          <th langg>ID</th>
           <th langg>Time</th>
           <th langg>Booking Type</th>
+          <th langg>ID</th>
           <th langg>Name</th>
           <th langg>Mobile</th>
           <th langg>Cost</th>
@@ -36,11 +36,11 @@
       <tbody cdkDropList (cdkDropListDropped)="drop($event)">
         <tr *ngFor="let booking of bookingsList; let i = index;"
           [class]="booking.isEnter ? 'table-danger':(booking.isAttend?'table-success':'table-light')" cdkDrag
-          [cdkDragDisabled]="booking.isEnter || sortBookingsBy!='Manual'">
+          [cdkDragDisabled]="booking.isEnter || sortBookingsBy!='manual'">
           <th>{{booking.seq}}</th>
-          <th>{{booking.id}}</th>
           <td>{{booking.time | date: 'hh:mm'}}</td>
           <td langg>{{booking.type}}</td>
+          <th>{{booking.id}}</th>
           <td>{{booking.name}}
             <button nbButton outline *ngIf="nextBooking==i" status="warning" size="tiny" class="btn-label" langg>Next Booking</button>
           </td>

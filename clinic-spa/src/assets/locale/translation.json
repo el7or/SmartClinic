@@ -168,5 +168,8 @@
   {"ar":"بأسبقية الحضور","en":"According to the Attendance"},
   {"ar":"بموعد الحجز","en":"According to the Booking Time"},
   {"ar":"يدوي","en":"Manual"},
-  {"ar":"الترتيب الحالي للحجوزات يتم حسب إعدادت العيادة","en":"Current Order of Bookings made according to the Clinic Settings"}
+  {"ar":"الترتيب الحالي للحجوزات يتم حسب إعدادت العيادة","en":"Current Order of Bookings made according to the Clinic Settings"},
+  {"ar":"التشخيص المبدئي","en":"Initial Diagnosis"},
+  {"ar":"التشخيص النهائي","en":"Final Diagnosis"},
+  {"ar":"الأدوية","en":"Medicine"}
 ]

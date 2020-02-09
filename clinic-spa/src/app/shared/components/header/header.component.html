@@ -15,7 +15,7 @@
     <button nbButton shape="round" (click)="onToggleLanguage()" size="small" status="info" langg>عربي</button>
   <nb-actions size="small">
     <nb-action class="control-item">
-      <nb-search type="rotate-layout"></nb-search>
+      <nb-search type="rotate-layout" [placeholder]="'Patient Name Search' | langg" [hint]="'Hit enter to search' | langg"></nb-search>
     </nb-action>
     <nb-action class="control-item" icon="email-outline" badgeText="9" badgePosition="top left" badgeStatus="danger" [routerLink]="['/pages/chat']"></nb-action>
     <!-- <nb-action class="control-item" icon="bell-outline" [routerLink]="['/']">

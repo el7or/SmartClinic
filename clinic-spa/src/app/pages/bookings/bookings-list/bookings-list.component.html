@@ -30,7 +30,7 @@
         typeaheadOptionField="nameMobile" (typeaheadNoResults)="noResultAutoComplete = $event"
         (typeaheadOnSelect)="onSelectAutocomplete($event)" [isAnimated]="true" class="form-control">
       <p class="error-message" *ngIf="noResultAutoComplete" langg>No Results Found!</p> -->
-    <table class="table table-striped table-bordered" [nbSpinner]="tableLoading" nbSpinnerStatus="info">
+    <table class="table table-striped table-bordered table-light" [nbSpinner]="tableLoading" nbSpinnerStatus="info">
       <thead class="thead-dark">
         <tr>
           <th>#</th>

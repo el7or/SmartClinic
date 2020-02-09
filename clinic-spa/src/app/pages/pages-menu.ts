@@ -11,7 +11,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Patient Records',
     icon: 'file-text-outline',
     link: '/pages/patients',
-    pathMatch: '/pages/patients'
+    pathMatch: "prefix"
   },
   {
     title: 'Today Booking',
@@ -22,13 +22,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Browse Bookings',
     icon: 'browser-outline',
     link: '/pages/bookings/list',
-    pathMatch: '/pages/bookings/list'
+    pathMatch: "prefix"
   },
   {
     title: 'Chat',
     icon: 'message-circle-outline',
     link: '/pages/chat',
-    pathMatch: '/pages/chat'
+    pathMatch: "full"
   },
   {
     title: 'Settings',
@@ -48,7 +48,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Contact Developer',
     icon: 'info-outline',
     link: '/pages/test',
-    pathMatch: '/pages/test'
+    pathMatch: "full"
   }
   /* {
     title: 'Payments',

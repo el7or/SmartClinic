@@ -4,7 +4,8 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   NbMenuService,
   NbSidebarService,
-  NbThemeService
+  NbThemeService,
+  NbSearchService
 } from "@nebular/theme";
 import { Subject, Subscription } from "rxjs";
 
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentTheme = "default";
   selectedTheme = "Light";
   menuSubscription:Subscription;
+  searchSubscription:Subscription;
   private destroy$: Subject<void> = new Subject<void>();
 
   userMenu = [{ title: "Profile" }, { title: "Log out",data:'Logout' }];
@@ -48,8 +50,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private themeService: NbThemeService,
     private langgService: LanggService,
     private authService: AuthService,
+    private searchService:NbSearchService,
     private router:Router
-  ) {}
+  ) {
+    this.searchSubscription = this.searchService.onSearchSubmit().subscribe((data: any) => {
+      router.navigateByUrl('/pages/patients/list?name='+data.term);
+      });
+  }
 
   ngOnInit() {
     // =====> translate main menu & user menu on first initial:
@@ -97,6 +104,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
     this.menuSubscription.unsubscribe();
+    this.searchSubscription.unsubscribe();
   }
 
   // =====> toggle language from button in header:

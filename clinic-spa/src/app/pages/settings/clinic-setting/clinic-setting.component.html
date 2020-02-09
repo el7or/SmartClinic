@@ -20,6 +20,11 @@
               <nb-option [value]="5">{{'Friday' | langg}}</nb-option>
             </nb-select>
             <small class="form-text text-muted" langg>The days when Bookings will be allowed.</small>
+            <ng-container *ngIf="form.get('workdays').invalid">
+              <p class="error-message text-danger" *ngIf="form.get('workdays').errors.required" langg>
+                Work Days is required!
+              </p>
+            </ng-container>
           </div>
         </div>
         <div class="col-md-6">

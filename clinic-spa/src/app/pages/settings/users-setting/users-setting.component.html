@@ -3,8 +3,8 @@
     <h5><span langg>Users List</span>:</h5>
   </nb-card-header>
   <nb-card-body>
-    <table class="table table-striped table-hover">
-      <thead class="thead-dark">
+    <table class="table table-striped font-weight-bolder">
+      <thead class="thead-dark h6">
         <tr>
           <th langg>الإسم</th>
           <th langg>مستوى الصلاحية</th>
@@ -13,24 +13,24 @@
       </thead>
       <tbody>
         <tr>
-          <td>دكتور أحمد علي</td>
+          <td>دكتور محمد</td>
           <td>طبيب</td>
           <td>
-            <nb-toggle [checked]="true" disabled></nb-toggle>
+            <nb-toggle [checked]="true" disabled status="success"></nb-toggle>
           </td>
         </tr>
         <tr>
           <td>شيماء محمود</td>
           <td>استقبال</td>
           <td>
-            <nb-toggle [checked]="true"></nb-toggle>
+            <nb-toggle [checked]="true" status="success"></nb-toggle>
           </td>
         </tr>
         <tr>
           <td>حسين جلال</td>
           <td>استقبال</td>
           <td>
-            <nb-toggle [checked]="false"></nb-toggle>
+            <nb-toggle [checked]="false" status="success"></nb-toggle>
           </td>
         </tr>
       </tbody>

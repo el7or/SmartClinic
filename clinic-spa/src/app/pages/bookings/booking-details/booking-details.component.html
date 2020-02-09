@@ -21,7 +21,7 @@
           </div>
           <div class="form-control-group" [nbSpinner]="bookingDateLoading" nbSpinnerStatus="success">
             <input type="text" bsDatepicker nbInput #bookingDate name="bookingDate" fullWidth required
-              [minDate]="todayDate" [bsValue]="bookingDateData"
+              [minDate]="todayDate" [bsValue]="bookingDateData" [daysDisabled]="weekendDays"
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
               (bsValueChange)="onChooseBookingDate(bookingDate)" [placeholder]="'Booking Date' | langg"
               [status]="bookingDate.touched ? (bookingDate.invalid  ? 'danger' : 'success') : ''">

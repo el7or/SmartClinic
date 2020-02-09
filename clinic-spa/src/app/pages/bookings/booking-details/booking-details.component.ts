@@ -1,3 +1,4 @@
+import { SettingsService } from './../../settings/settings.service';
 import { BookingsService } from './../bookings.service';
 import { NgForm } from "@angular/forms";
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
@@ -25,12 +26,14 @@ export class BookingDetailsComponent implements OnInit {
   bookingDateData;
   bookingTimeData;
   bookingTypeData;
+  weekendDays: number[];
   bookingServiceData:any[];
 
   constructor(
     public dialogRef: NbDialogRef<BookingDetailsComponent>,
     private localeService: BsLocaleService,
-    private bookingService: BookingsService
+    private bookingService: BookingsService,
+    private settingService: SettingsService
   ) {
     // =====> localize datepicker:
     this.localeService.use(localStorage.getItem("langg"));
@@ -45,6 +48,9 @@ export class BookingDetailsComponent implements OnInit {
       this.bookingTimeData = new Date();
       this.bookingTypeData = '1'
     }
+
+    // =====> get weekends to disable it:
+    this.weekendDays = this.settingService.getWeekEndsDays();
   }
 
   // =====> on submit new booking:

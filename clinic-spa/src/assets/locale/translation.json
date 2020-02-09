@@ -176,5 +176,8 @@
   {"ar":"الترتيب الحالي للحجوزات يتم حسب إعدادت العيادة","en":"Current Order of Bookings made according to the Clinic Settings"},
   {"ar":"التشخيص المبدئي","en":"Initial Diagnosis"},
   {"ar":"التشخيص النهائي","en":"Final Diagnosis"},
-  {"ar":"الأدوية","en":"Medicine"}
+  {"ar":"الأدوية","en":"Medicine"},
+  {"ar":"قائمة المستخدمين","en":"Users List"},
+  {"ar":"اضغط Enter للبحث","en":"Hit enter to search"},
+  {"ar":"لابد من إدخال أيام العمل!","en":"Work Days is required!"}
 ]

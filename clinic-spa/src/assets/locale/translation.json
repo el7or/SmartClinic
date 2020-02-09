@@ -77,7 +77,7 @@
   { "ar": "إسم الطبيب", "en": "Doctor Name" },
   { "ar": "يوم الحجز", "en": "Booking Date" },
   { "ar": "لابد من تحديد يوم الحجز!", "en": "Bookings Date is required!" },
-  { "ar": "لابد من تحديد سعر الكشف!", "en": "Diagnose Price is required!" },
+  { "ar": "لابد من تحديد السعر!", "en": "Price is required!" },
   { "ar": "نوع الحجز", "en": "Booking Type" },
   { "ar": "أسعار الحجوزات", "en": "Bookings prices" },
   { "ar": "أسعار الخدمات", "en": "Services prices" },

@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
+import { UsersSettingComponent } from './settings/users-setting/users-setting.component';
 import { PagesComponent } from "./pages.component";
 import { HomeComponent } from "./home/home.component";
 import { ChatComponent } from "./chat/chat.component";
@@ -81,6 +82,10 @@ const routes: Routes = [
           {
             path: "clinic",
             component: ClinicSettingComponent
+          },
+          {
+            path: "users",
+            component: UsersSettingComponent
           }
         ]
       },

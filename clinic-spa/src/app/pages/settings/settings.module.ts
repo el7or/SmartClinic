@@ -11,17 +11,15 @@ import {
   NbRadioModule,
   NbCheckboxModule,
   NbInputModule,
-  NbIconModule,
-  NbToggleModule
 } from "@nebular/theme";
 
+import { UsersSettingComponent } from './users-setting/users-setting.component';
 import { SharedModule } from "./../../shared/shared.module";
 import { ClinicSettingComponent } from "./clinic-setting/clinic-setting.component";
 import { SettingsComponent } from "./settings.component";
-import { UsersSettingComponent } from './users-setting/users-setting.component';
 
 @NgModule({
-  declarations: [ClinicSettingComponent, SettingsComponent, UsersSettingComponent],
+  declarations: [SettingsComponent,ClinicSettingComponent, UsersSettingComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -35,8 +33,6 @@ import { UsersSettingComponent } from './users-setting/users-setting.component';
     NbRadioModule,
     NbCheckboxModule,
     NbInputModule,
-    NbIconModule,
-    NbToggleModule,
     SweetAlert2Module.forRoot()
   ]
 })

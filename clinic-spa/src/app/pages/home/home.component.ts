@@ -1,4 +1,3 @@
-import { DateWithoutTimePipe } from './../../shared/pipes/date-without-time.pipe';
 import { Router } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -14,6 +13,7 @@ import { NbToastrService } from "@nebular/theme";
 import { BookingsService } from "./../bookings/bookings.service";
 import { SettingsService } from "./../settings/settings.service";
 import { LanggService } from "../../shared/services/langg.service";
+import { DateWithoutTimePipe } from './../../shared/pipes/date-without-time.pipe';
 
 @Component({
   selector: "home",

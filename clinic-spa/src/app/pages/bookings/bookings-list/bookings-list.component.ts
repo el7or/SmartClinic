@@ -25,8 +25,8 @@ export class BookingsListComponent implements OnInit {
   weekendDays: number[];
   noResultAutoComplete: boolean = false;
   totalCost:number;
-  @ViewChild("deleteSwal") deleteSwal: SwalComponent;
-  @ViewChild("doneSwal") doneSwal: SwalComponent;
+  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
+  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(
     private bookingService: BookingsService,

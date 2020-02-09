@@ -6,7 +6,7 @@ import { BookingsSummaryComponent } from './pages/bookings/bookings-summary/book
  */
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgModule, LOCALE_ID, Injectable } from "@angular/core";
+import { NgModule, LOCALE_ID } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { of as observableOf } from "rxjs";
 
@@ -35,7 +35,6 @@ defineLocale('ar', arLocale);
 registerLocaleData(localeArabic);
 registerLocaleData(localeEnglish);
 
-@Injectable()
 export class NbSimpleRoleProvider extends NbRoleProvider {
   getRole() {
     return observableOf("guest");

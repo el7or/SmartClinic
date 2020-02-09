@@ -13,7 +13,7 @@ import { SettingsService } from "./../settings.service";
 export class ClinicSettingComponent implements OnInit {
   formLoading: boolean = false;
   form: FormGroup;
-  @ViewChild("doneSwal") doneSwal: SwalComponent;
+  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(
     public location: Location,

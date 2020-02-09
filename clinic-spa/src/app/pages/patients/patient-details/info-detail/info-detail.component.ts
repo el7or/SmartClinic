@@ -27,11 +27,11 @@ export class InfoDetailComponent implements OnInit, OnDestroy {
   patientAgeData: number;
   @Input() isNewPatient: boolean;
   @Output() isNewPatientChange = new EventEmitter<boolean>();
-  @ViewChild("form") form: NgForm;
-  @ViewChild("doneSwal") doneSwal: SwalComponent;
-  @ViewChild("duplicateNameSwal")
+  @ViewChild("form", { static: false }) form: NgForm;
+  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("duplicateNameSwal", { static: false })
   duplicateNameSwal: SwalComponent;
-  @ViewChild("duplicatePhoneSwal")
+  @ViewChild("duplicatePhoneSwal", { static: false })
   duplicatePhoneSwal: SwalComponent;
 
   constructor(

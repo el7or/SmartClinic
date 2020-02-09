@@ -56,6 +56,10 @@ const routes: Routes = [
             component: BookingsListComponent
           },
           {
+            path: "list",
+            component: BookingsListComponent
+          },
+          {
             path: "today",
             component: BookingsListTodayComponent
           }

@@ -48,7 +48,7 @@ export class BookingsListComponent implements OnInit {
         this.currentDay = paramDate;
       }
       // =====> if no param set datepicker to first day in current month:
-      if(paramMap.get("date")=='0') {
+      else {
         const firstDay = new Date(
           new Date().getFullYear(),
           new Date().getMonth(),

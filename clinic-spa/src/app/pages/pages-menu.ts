@@ -21,7 +21,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Browse Bookings',
     icon: 'browser-outline',
-    link: '/pages/bookings/list/0',
+    link: '/pages/bookings/list',
+    pathMatch: '/pages/bookings/list'
   },
   {
     title: 'Chat',

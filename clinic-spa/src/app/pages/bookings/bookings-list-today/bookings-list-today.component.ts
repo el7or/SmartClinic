@@ -26,8 +26,8 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   sortBookingsBy: string;
   sortBookingsByText: string;
   totalCost:number;
-  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
-  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("deleteSwal") deleteSwal: SwalComponent;
+  @ViewChild("doneSwal") doneSwal: SwalComponent;
 
   constructor(
     private bookingService: BookingsService,

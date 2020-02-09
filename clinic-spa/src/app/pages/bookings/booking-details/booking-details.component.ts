@@ -11,8 +11,8 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
   styleUrls: ["./booking-details.component.scss"]
 })
 export class BookingDetailsComponent implements OnInit {
-  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
-  @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
+  @ViewChild("doneSwal") doneSwal: SwalComponent;
+  @ViewChild("expiredSwal") expiredSwal: SwalComponent;
   @Input() patientDetails: string;
   @Input() isNewBookings: boolean;
   formLoading = false;

@@ -12,8 +12,8 @@ import { BookingDetailsComponent } from "../../bookings/booking-details/booking-
   styleUrls: ["./patients-list.component.scss"]
 })
 export class PatientsListComponent implements OnInit {
-  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
-  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("deleteSwal") deleteSwal: SwalComponent;
+  @ViewChild("doneSwal") doneSwal: SwalComponent;
   formLoading = false;
 
   constructor(private dialogService: NbDialogService) {}

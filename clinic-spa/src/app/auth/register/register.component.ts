@@ -8,7 +8,7 @@ import { NbRegisterComponent } from '@nebular/auth';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent extends NbRegisterComponent {
-  @ViewChild('form', {static: false}) form: NgForm;
+  @ViewChild('form') form: NgForm;
 
   register() {
     console.log(this.form.value);

@@ -17,9 +17,9 @@
           </ng-container>
         </div>
         <div class="col-md-3 col-sm-6">
-          <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'Patient Mobile Search' | langg" pattern="[0-9]*"
-            minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth
-            fieldSize="small">
+          <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'Patient Mobile Search' | langg"
+            pattern="[0-9]*" minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''"
+            fullWidth fieldSize="small">
           <ng-container *ngIf="phone.invalid && phone.touched">
             <small class="error-message" *ngIf="phone?.errors.pattern || phone?.errors.minlength" langg>Mobile must be
               real number!</small>
@@ -27,8 +27,8 @@
         </div>
         <div class="col-md-3 col-sm-6">
           <input nbInput ngModel #patientCode="ngModel" name="patientCode" [placeholder]="'Patient Code Search' | langg"
-              fullWidth type="number" min="1"
-              [status]="patientCode.dirty ? (patientCode.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
+            fullWidth type="number" min="1"
+            [status]="patientCode.dirty ? (patientCode.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
         </div>
         <div class="col-md-3 col-sm-6">
           <button nbButton status="primary" fullWidth size="small">
@@ -70,7 +70,8 @@
           <td>منى السيد عبد الحفيظ</td>
           <td>01245646546</td>
           <td>5
-            <button nbButton ghost size="tiny" status="warning" [nbTooltip]="'Visits Details' | langg">
+            <button nbButton ghost size="tiny" status="warning" [nbTooltip]="'Visits Details' | langg"
+              (click)="onOpenBookingsSummery(1)">
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td class="text-center">
@@ -85,7 +86,8 @@
           <td>حسين محمود جلال</td>
           <td>021548646</td>
           <td>7
-            <button nbButton ghost size="tiny" status="warning" [nbTooltip]="'Visits Details' | langg">
+            <button nbButton ghost size="tiny" status="warning" [nbTooltip]="'Visits Details' | langg"
+              (click)="onOpenBookingsSummery(1)">
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td class="text-center">
@@ -100,7 +102,8 @@
           <td>محمد أحمد علي</td>
           <td>0224165456</td>
           <td>20
-            <button nbButton ghost size="tiny" status="warning" [nbTooltip]="'Visits Details' | langg">
+            <button nbButton ghost size="tiny" status="warning" [nbTooltip]="'Visits Details' | langg"
+              (click)="onOpenBookingsSummery(1)">
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td class="text-center">
@@ -115,7 +118,8 @@
           <td>منى السيد عبد الحفيظ</td>
           <td>01245646546</td>
           <td>5
-            <button nbButton ghost size="tiny" status="warning" [nbTooltip]="'Visits Details' | langg">
+            <button nbButton ghost size="tiny" status="warning" [nbTooltip]="'Visits Details' | langg"
+              (click)="onOpenBookingsSummery(1)">
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td class="text-center">

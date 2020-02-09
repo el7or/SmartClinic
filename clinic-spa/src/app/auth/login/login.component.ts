@@ -16,7 +16,7 @@ import { AuthService } from "./../auth.service";
   styleUrls: ["./login.component.scss"]
 })
 export class LoginComponent extends NbLoginComponent {
-  @ViewChild("form", { static: false }) form: NgForm;
+  @ViewChild("form") form: NgForm;
   loading = false;
 
   constructor(

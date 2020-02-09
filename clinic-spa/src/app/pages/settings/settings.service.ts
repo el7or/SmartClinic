@@ -5,11 +5,13 @@ import { Injectable } from "@angular/core";
 })
 export class SettingsService {
   workdays: number[]= [1,2,3,4,5,6,7];
+  sortBookingsBy:string = 'manual';
 
   constructor() {}
 
-  saveSetting(days: number[]): void {
+  saveSetting(days: number[],sortBy): void {
     this.workdays = days;
+    this.sortBookingsBy = sortBy;
   }
 
   getWeekEndsDays():number[] {

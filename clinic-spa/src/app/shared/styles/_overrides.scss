@@ -13,6 +13,7 @@
   [nbButton].appearance-filled,
   [nbButton].appearance-hero,
   [nbButton].appearance-outline.status-info,
+  [nbButton].appearance-outline.status-warning,
   nb-route-tabset span {
     text-transform: none !important;
   }
@@ -147,5 +148,9 @@
   .dropdown-menu{
     @include nb-ltr(text-align, left);
     @include nb-rtl(text-align, right);
+  }
+
+  .font-naskh{
+    font-family: 'ah-naskh-hadith';
   }
 }

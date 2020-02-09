@@ -8,6 +8,7 @@ import {
   NbSpinnerModule,
   NbSelectModule,
   NbButtonModule,
+  NbRadioModule,
 } from "@nebular/theme";
 
 import { SharedModule } from "./../../shared/shared.module";
@@ -26,6 +27,7 @@ import { SettingsComponent } from "./settings.component";
     NbSpinnerModule,
     NbSelectModule,
     NbButtonModule,
+    NbRadioModule,
     SweetAlert2Module.forRoot()
   ]
 })

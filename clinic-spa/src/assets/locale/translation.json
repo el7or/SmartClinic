@@ -162,5 +162,11 @@
   {"ar":"الأيام التي يُسمح فيها بالحجز.","en":"The days when Bookings will be allowed."},
   {"ar":"ملغي","en":"Canceled"},
   {"ar":"انقر فوق أي يوم قادم لإضافة حجز فيه","en":"Click on any upcoming day to add Booking at it"},
-  {"ar":"اختر مريضًا لإضافة الحجز إليه في اليوم المحدد:","en":"Choose a Patient to add booking for on chosen day:"}
+  {"ar":"اختر مريضًا لإضافة الحجز إليه في اليوم المحدد:","en":"Choose a Patient to add booking for on chosen day:"},
+  {"ar":"الدور القادم","en":"Next Booking"},
+  {"ar":"ترتيب الحجوزات","en":"Entry order"},
+  {"ar":"بأسبقية الحضور","en":"According to the Attendance"},
+  {"ar":"بموعد الحجز","en":"According to the Booking Time"},
+  {"ar":"يدوي","en":"Manual"},
+  {"ar":"الترتيب الحالي للحجوزات يتم حسب إعدادت العيادة","en":"Current Order of Bookings made according to the Clinic Settings"}
 ]

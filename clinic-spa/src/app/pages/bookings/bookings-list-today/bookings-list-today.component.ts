@@ -25,6 +25,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   nextBooking: number;
   sortBookingsBy: string;
   sortBookingsByText: string;
+  totalCost:number;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
@@ -38,6 +39,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     // =====> get list bookings in today (come from DB with sorting depends on setting):
     this.bookingsList = this.bookingService.getBookingsListToday(new Date());
+    this.totalCost = this.bookingsList.reduce((acc,booking) => acc + booking.cost, 0);
 
     // =====> (will reomve after create DB):
     this.sortBookingsBy = this.settingService.sortBookingsBy;

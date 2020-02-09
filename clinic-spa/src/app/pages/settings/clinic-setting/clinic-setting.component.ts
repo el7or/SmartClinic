@@ -28,11 +28,43 @@ export class ClinicSettingComponent implements OnInit {
       }),
       sortBookings: new FormControl(null, {
         validators: [Validators.required]
-      })
+      }),
+      diagnose: new FormControl(null, {
+        validators: [Validators.required,Validators.min(0)]
+      }),
+      isDiagnose: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      /* consult: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      urgentDiagnos: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      foreignDiagnose: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      justService: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      xRay: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      analsis: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      sonar: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      laserSession: new FormControl(null, {
+        validators: [Validators.required]
+      }) */
     });
     this.form.setValue({
       workdays: this.settingService.workdays,
-      sortBookings: 'manual'
+      sortBookings: 'manual',
+      diagnose:0,
+      isDiagnose:true
     })
   }
 

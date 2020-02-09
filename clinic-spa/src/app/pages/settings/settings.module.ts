@@ -9,6 +9,8 @@ import {
   NbSelectModule,
   NbButtonModule,
   NbRadioModule,
+  NbCheckboxModule,
+  NbInputModule,
 } from "@nebular/theme";
 
 import { SharedModule } from "./../../shared/shared.module";
@@ -28,6 +30,8 @@ import { SettingsComponent } from "./settings.component";
     NbSelectModule,
     NbButtonModule,
     NbRadioModule,
+    NbCheckboxModule,
+    NbInputModule,
     SweetAlert2Module.forRoot()
   ]
 })

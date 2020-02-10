@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
@@ -13,7 +13,7 @@ import { NbToastrService } from "@nebular/theme";
 import { BookingsService } from "./../bookings/bookings.service";
 import { SettingsService } from "./../settings/settings.service";
 import { LanggService } from "../../shared/services/langg.service";
-import { DateWithoutTimePipe } from './../../shared/pipes/date-without-time.pipe';
+import { DateWithoutTimePipe } from "./../../shared/pipes/date-without-time.pipe";
 
 @Component({
   selector: "home",
@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   locle: any;
   langSubscription: Subscription;
 
+  calendarDefaultView = 'dayGridMonth';
   calendarHiddenDays: number[];
   calendarPlugins = [
     dayGridPlugin,
@@ -68,7 +69,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     private settingService: SettingsService,
     private bookingService: BookingsService
   ) {}
+
   ngOnInit() {
+    // =====> Detect Responsive Screen Size to some changes on calendar:
+    if (window.innerWidth < 835) {
+      this.calendarHeader = { center: "" };
+    }
+    if(window.innerWidth < 500){
+      this.calendarDefaultView = 'listWeek';
+    }
+
     // =====> localize fullcalendar:
     this.langSubscription = this.langgService.lang.subscribe(lang => {
       if (lang == "en") {
@@ -103,7 +113,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onDateClick(info) {
     // =====> check clicked date if today or past or future:
-    const todayShort= new DateWithoutTimePipe().transform(new Date());
+    const todayShort = new DateWithoutTimePipe().transform(new Date());
     const todayString = new Date(todayShort).toISOString();
     const dateClicked = new Date(info.dateStr).toISOString();
     // =====> if clicked on today:
@@ -119,7 +129,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       // =====> save clicked date to next booking:
       this.bookingService.setChosenbookingDate(info.date);
       this.toastrService.info(
-         info.dateStr,
+        info.dateStr,
         this.langgService.translateWord(
           "Choose a Patient to add booking for on chosen day:"
         ),

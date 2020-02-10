@@ -8,7 +8,7 @@
   <nb-card-body>
     <div class="tooltipCalendar" [nbTooltip]="'Click on any upcoming day to add Booking at it' | langg" nbTooltipPlacement="top" nbTooltipStatus="info">
     </div>
-    <full-calendar [events]="calendarEvents" [plugins]="calendarPlugins" defaultView="dayGridMonth"
+    <full-calendar [events]="calendarEvents" [plugins]="calendarPlugins" [defaultView]="calendarDefaultView"
       titleFormat="D MMM YYYY" [header]="calendarHeader" (dateClick)="onDateClick($event)"
       (eventClick)="onEventClick($event)" (eventMouseEnter)="onMouseOver($event)" (eventRender)="onEventRender($event)"
       [locale]="locle" [hiddenDays]="calendarHiddenDays"></full-calendar>

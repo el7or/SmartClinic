@@ -179,5 +179,14 @@
   {"ar":"الأدوية","en":"Medicine"},
   {"ar":"قائمة المستخدمين","en":"Users List"},
   {"ar":"اضغط Enter للبحث","en":"Hit enter to search"},
-  {"ar":"لابد من إدخال أيام العمل!","en":"Work Days is required!"}
+  {"ar":"لابد من إدخال أيام العمل!","en":"Work Days is required!"},
+  {"ar":"تواصل معنا في أي وقت","en":"Keep in touch"},
+  {"ar":"أين الرسالة عزيزي!","en":"Where is the message dear!"},
+  {"ar":"اكتب لنا الرسالة","en":"Write us a message"},
+  {"ar":"الموضوع","en":"Subject"},
+  {"ar":"إرسال","en":"Send"},
+  {"ar":"مشكلة في البرنامج","en":"Problem in program"},
+  {"ar":"طلب تطوير","en":"Development request"},
+  {"ar":"أخرى","en":"Other"},
+  {"ar":"أو اتصل بنا على","en":"Or call us on"}
 ]

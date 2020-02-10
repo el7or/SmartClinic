@@ -1,0 +1,41 @@
+<form #form="ngForm" (ngSubmit)="onSend(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
+  <nb-card>
+    <nb-card-header class="text-center">
+      <h6 langg class="font-naskh">Keep in touch</h6>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="form-control-group">
+        <label for="input-subject"><span langg>Subject</span>:</label>
+        <nb-radio-group id="input-subject" ngModel #sendSubject="ngModel" name="sendSubject" class="form-inline">
+          <nb-radio value="byAttend"><span langg>Problem in program</span>&nbsp;</nb-radio>
+          <nb-radio value="byTime"><span langg>Development request</span>&nbsp;</nb-radio>
+          <nb-radio value="manual"><span langg>Other</span>&nbsp;</nb-radio>
+        </nb-radio-group>
+      </div>
+      <div class="form-control-group">
+        <label for="input-text"><span langg>Write us a message</span>:</label>
+        <textarea nbInput ngModel #sendText="ngModel" rows="5" required name="sendText" id="input-text" fullWidth
+          [status]="sendText.dirty ? (sendText.invalid  ? 'danger' : 'success') : ''"></textarea>
+        <ng-container *ngIf="sendText.invalid && sendText.touched">
+          <p class="error-message text-danger" *ngIf="sendText?.errors.required" langg>
+            Where is the message dear!
+          </p>
+        </ng-container>
+      </div>
+      <div class="text-center callNumber font-naskh">
+        <span langg>Or call us on</span>:&nbsp; 01021205844
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="text-center nbButton-group">
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Send</button>
+        <button nbButton type="button" status="danger" [routerLink]="['/']" langg>Cancel</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

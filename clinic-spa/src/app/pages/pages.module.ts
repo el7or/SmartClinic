@@ -17,6 +17,7 @@ import {
 } from "@nebular/theme";
 import { FullCalendarModule } from "@fullcalendar/angular";
 
+import { ContactModule } from './contact/contact.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { SettingsModule } from './settings/settings.module';
 import { PatientsModule } from "./patients/patients.module";
@@ -40,6 +41,7 @@ const MODULES = [
   PatientsModule,
   BookingsModule,
   SettingsModule,
+  ContactModule,
   NbMenuModule,
   NbAlertModule,
   FormsModule,

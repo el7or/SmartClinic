@@ -151,6 +151,7 @@
   }
 
   .font-naskh{
-    font-family: 'ah-naskh-hadith';
+    @include nb-ltr(font-family, cursive);
+    @include nb-rtl(font-family, 'ah-naskh-hadith');
   }
 }

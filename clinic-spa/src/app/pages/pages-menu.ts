@@ -47,7 +47,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Contact Developer',
     icon: 'info-outline',
-    link: '/pages/test',
+    link: '/pages/contact',
     pathMatch: "full"
   }
   /* {

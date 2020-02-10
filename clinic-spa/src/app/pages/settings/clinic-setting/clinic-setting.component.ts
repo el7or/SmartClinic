@@ -22,6 +22,10 @@ export class ClinicSettingComponent implements OnInit {
 
   ngOnInit() {
     // =====> create reactive form:
+    this.createForm();
+  }
+
+  createForm(){
     this.form = new FormGroup({
       workdays: new FormControl(null, {
         validators: [Validators.required]
@@ -41,9 +45,6 @@ export class ClinicSettingComponent implements OnInit {
         validators: [Validators.required, Validators.min(0)]
       }),
       isUrgentDiagnos: new FormControl(null),
-      /* foreignDiagnose: new FormControl(null, {
-        validators: [Validators.required,Validators.min(0)]
-      }), */
       xRay: new FormControl(null, {
         validators: [Validators.required,Validators.min(0)]
       }),

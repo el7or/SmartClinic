@@ -1,6 +1,6 @@
 import { SettingsService } from './../../settings/settings.service';
 import { BookingsService } from './../bookings.service';
-import { NgForm } from "@angular/forms";
+import { NgForm, FormGroup, FormControl, Validators } from "@angular/forms";
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
@@ -12,15 +12,16 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
   styleUrls: ["./booking-details.component.scss"]
 })
 export class BookingDetailsComponent implements OnInit {
-  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
-  @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
-  @Input() patientDetails: string;
-  @Input() isNewBookings: boolean;
+  form: FormGroup;
   formLoading = false;
   bookingDateLoading = false;
   todayDate: Date = new Date();
   ChoosenDate = null;
   bookingHasDiscount = false;
+  @Input() patientDetails: string;
+  @Input() isNewBookings: boolean;
+  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
 
   bookingDoctorData;
   bookingDateData;
@@ -40,22 +41,42 @@ export class BookingDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bookingDateData = this.bookingService.getChosenbookingDate();
-    if (this.isNewBookings) {
-    } else {
-      this.bookingDoctorData = '1'
-      //this.bookingDateData = new Date();
-      this.bookingTimeData = new Date();
-      this.bookingTypeData = '1'
-    }
+    // =====> create reactive form:
+    this.createForm();
 
-    // =====> get weekends to disable it:
+    // =====> get weekends to disable it in datepicker:
     this.weekendDays = this.settingService.getWeekEndsDays();
   }
 
+  createForm(){
+    this.form = new FormGroup({
+      bookingDoctor: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      bookingDate: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+    });
+
+    if(this.isNewBookings){
+    this.form.setValue({
+      bookingDoctor: null,
+      bookingDate:this.bookingService.getChosenbookingDate(),
+    });
+  }
+  else{
+    this.form.setValue({
+      bookingDoctor: '1',
+      bookingDate: new Date(),
+      /* bookingTime: new Date(),
+      bookingType: '1', */
+    });
+  }
+  }
+
   // =====> on submit new booking:
-  onAddBooking(form: NgForm) {
-    console.log(form.value);
+  onAddBooking() {
+    console.log(this.form.value);
     this.doneSwal.fire();
     this.dialogRef.close();
   }
@@ -68,7 +89,6 @@ export class BookingDetailsComponent implements OnInit {
 
   // =====> check if choosen booking time is already taken in same date:
   onChooseBookingTime(input: NgForm) {
-    //console.log(input);
     if (
       new Date(input.value).getHours() == 5 &&
       new Date(input.value).getMinutes() == 0

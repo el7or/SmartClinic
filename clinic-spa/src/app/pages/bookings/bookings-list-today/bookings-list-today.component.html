@@ -17,7 +17,8 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <small class="form-text text-muted font-weight-bold">&#9733;&nbsp;<span langg>Current Order of Bookings made according to the Clinic Settings</span>:&nbsp;<span langg>{{sortBookingsByText | langg}}</span>.</small>
+    <small class="form-text text-muted font-weight-bold">&#9733;&nbsp;<span langg>Current Order of Bookings made
+        according to the Clinic Settings</span>:&nbsp;<span langg>{{sortBookingsByText | langg}}</span>.</small>
     <table class="table table-hover table-bordered">
       <thead class="thead-dark">
         <tr>
@@ -42,7 +43,8 @@
           <td langg>{{booking.type}}</td>
           <th>{{booking.id}}</th>
           <td>{{booking.name}}
-            <button nbButton outline *ngIf="nextBooking==i" status="warning" size="tiny" class="btn-label" langg>Next Booking</button>
+            <button nbButton outline *ngIf="nextBooking==i" status="warning" size="tiny" class="btn-label" langg>Next
+              Booking</button>
           </td>
           <td>{{booking.mobile}}</td>
           <td langg>{{booking.cost | currency:'EGP'}}
@@ -60,21 +62,28 @@
           </td>
           <td class="text-center">
             <nb-checkbox [checked]="booking.isEnter" [(ngModel)]="booking.isEnter" status="danger"
-            (ngModelChange)="onChangeEnter(booking)"></nb-checkbox>
+              (ngModelChange)="onChangeEnter(booking)"></nb-checkbox>
             <div *ngIf="booking.isEnter">
-              <small class="text-danger" >{{booking.entryTime | time12Hour}}</small>
+              <small class="text-danger">{{booking.entryTime | time12Hour}}</small>
             </div>
           </td>
           <td class="text-center">
-            <button *ngIf="booking.isEnter" (click)="onBook(0)" nbButton size="tiny" status="basic" langg>New
-              Booking</button>
-            <button *ngIf="!booking.isEnter" (click)="onBook(1)" nbButton size="tiny" status="warning" langg>Edit
-              Booking</button>&nbsp;
+            <button *ngIf="booking.isEnter" (click)="onBook(0)" nbButton size="tiny" status="success"
+              [nbTooltip]="'New Booking' | langg">
+              <nb-icon icon="file-add"></nb-icon>
+            </button>
+            <button *ngIf="!booking.isEnter" (click)="onBook(1)" nbButton size="tiny" status="warning"
+              [nbTooltip]="'Edit Booking' | langg">
+              <nb-icon icon="edit"></nb-icon>
+            </button>&nbsp;
             <button *ngIf="!booking.isEnter" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
-              langg>Delete</button>&nbsp;
+              [nbTooltip]="'Cancel Booking' | langg">
+              <nb-icon icon="trash-2"></nb-icon>
+            </button>&nbsp;
             <button nbButton [routerLink]="['/pages/patients/details',booking.id]" size="tiny" status="info"
-              langg>Patient
-              Profile</button>
+              [nbTooltip]="'Patient Profile' | langg">
+              <nb-icon icon="folder"></nb-icon>
+            </button>
           </td>
         </tr>
         <tr class="table-dark font-weight-bolder lead" cdkDrag cdkDragDisabled>

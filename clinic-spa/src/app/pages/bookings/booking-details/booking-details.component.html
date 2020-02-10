@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onAddBooking(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+<form #form="ngForm" (ngSubmit)="onAddBooking(form)" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
   <nb-card class="dialog-center">
     <nb-card-header><b langg>New Booking for:</b>{{ patientDetails }}
@@ -12,26 +12,26 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-control-group">
-            <nb-select fullWidth formControlName="bookingDoctor" [placeholder]="'Doctor Name' | langg" required
-              [status]="!form.value.bookingDoctor ? 'danger' : 'success'">
+            <nb-select fullWidth [(ngModel)]="bookingDoctorData" #bookingDoctor="ngModel" name="bookingDoctor"
+              [placeholder]="'Doctor Name' | langg" required [status]="!bookingDoctorData ? 'danger' : 'success'">
               <nb-option value="1">عادل حسن</nb-option>
               <nb-option value="2">علي أبو مضاوي</nb-option>
               <nb-option value="3">محمد زادة</nb-option>
             </nb-select>
           </div>
           <div class="form-control-group" [nbSpinner]="bookingDateLoading" nbSpinnerStatus="success">
-            <input type="text" bsDatepicker nbInput formControlName="bookingDate" fullWidth
+            <input type="text" bsDatepicker nbInput #bookingDate name="bookingDate" fullWidth required
               [minDate]="todayDate" [bsValue]="bookingDateData" [daysDisabled]="weekendDays"
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
-              (bsValueChange)="onChooseBookingDate(form.value.bookingDate)" [placeholder]="'Booking Date' | langg"
-              [status]="form.get('bookingDate').touched ? (form.get('bookingDate').invalid  ? 'danger' : 'success') : ''">
-            <ng-container *ngIf="form.get('bookingDate').invalid && form.get('bookingDate').touched">
-              <p class="error-message text-danger" *ngIf="form.get('bookingDate')?.errors.required" langg>
+              (bsValueChange)="onChooseBookingDate(bookingDate)" [placeholder]="'Booking Date' | langg"
+              [status]="bookingDate.touched ? (bookingDate.invalid  ? 'danger' : 'success') : ''">
+            <ng-container *ngIf="bookingDate.invalid && bookingDate.touched">
+              <p class="error-message text-danger" *ngIf="bookingDate?.errors.required" langg>
                 Bookings Date is required!
               </p>
             </ng-container>
           </div>
-          <!-- <div class="form-control-group">
+          <div class="form-control-group">
             <timepicker (ngModelChange)="onChooseBookingTime(bookingTime)" [(ngModel)]="bookingTimeData"
               #bookingTime="ngModel" name="bookingTime" required showMeridian="true" labelMinutes="Minutes"
               minuteStep="15" style="direction: ltr;" ariaLabelHours="09"></timepicker>
@@ -53,9 +53,8 @@
             </nb-select>
           </div>
           <div class="form-control-group">
-            <nb-select multiple fullWidth [(selected)]="bookingServiceData" #bookingService name="bookingService"
-              [placeholder]="'Add Service' | langg"
-              [status]="bookingTypeData=='5' && !bookingServiceData ? 'danger' : ( bookingServiceData ? 'success':'')">
+            <nb-select multiple fullWidth [(selected)]="bookingServiceData" #bookingService name="bookingService" [placeholder]="'Add Service' | langg"
+            [status]="bookingTypeData=='5' && !bookingServiceData ? 'danger' : ( bookingServiceData ? 'success':'')">
               <nb-option value="1">{{'X-Ray' | langg}}</nb-option>
               <nb-option value="2">{{'Analsis' | langg}}</nb-option>
               <nb-option value="3">{{'Sonar' | langg}}</nb-option>
@@ -85,7 +84,7 @@
           </div>
           <nb-alert accent="info" class="text-nowrap">
             <span langg>Total Amount:</span>&nbsp;{{50-discount.value | currency:'EGP'}}
-          </nb-alert>-->
+          </nb-alert>
         </div>
         <div class="col-md-6" *ngIf="ChoosenDate!=null">
           <h6 langg>Same Date Bookings:</h6>

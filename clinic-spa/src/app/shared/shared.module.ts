@@ -55,7 +55,7 @@ const NB_MODULES = [
   NbCardModule,
   NbListModule,
   NbInputModule,
-  NbDialogModule.forRoot()
+  NbDialogModule.forChild()
 ];
 const COMPONENTS = [HeaderComponent, FooterComponent, ProfileComponent, TinyMCEComponent];
 const PIPES = [

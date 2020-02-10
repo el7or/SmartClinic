@@ -50,7 +50,7 @@ import { InfoDetailComponent } from './patient-details/info-detail/info-detail.c
     NbSpinnerModule,
     NbIconModule,
     NbTooltipModule,
-    NbDialogModule.forRoot(),
+    NbDialogModule.forChild(),
     SweetAlert2Module.forRoot(),
     PaginationModule.forRoot()
   ]

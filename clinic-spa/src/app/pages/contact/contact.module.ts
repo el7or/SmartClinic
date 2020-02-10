@@ -24,7 +24,7 @@ import { ContactUsComponent } from './contact-us.component';
     NbSpinnerModule,
     NbInputModule,
     NbRadioModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forChild()
   ]
 })
 export class ContactModule { }

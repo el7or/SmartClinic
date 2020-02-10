@@ -15,7 +15,7 @@ import { PaymentSummaryComponent } from './payment-summary/payment-summary.compo
     NbCardModule,
     NbListModule,
     NbButtonModule,
-    NbDialogModule.forRoot()
+    NbDialogModule.forChild()
   ],
   entryComponents:[PaymentSummaryComponent]
 })

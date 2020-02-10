@@ -35,7 +35,7 @@ import { SettingsComponent } from "./settings.component";
     NbCheckboxModule,
     NbInputModule,
     NbToggleModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forChild()
   ]
 })
 export class SettingsModule {}

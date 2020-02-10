@@ -58,13 +58,13 @@ import { FinanceModule } from "./../finance/finance.module";
     NbIconModule,
     NbTooltipModule,
     NbCheckboxModule,
-    NbDialogModule.forRoot(),
+    NbDialogModule.forChild(),
     PaginationModule,
     DragDropModule,
     BsDatepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
     TimepickerModule.forRoot(),
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forChild()
   ],
   entryComponents: [BookingsSummaryComponent, BookingDetailsComponent]
 })

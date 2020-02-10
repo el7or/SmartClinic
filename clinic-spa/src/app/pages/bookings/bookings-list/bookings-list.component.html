@@ -48,7 +48,7 @@
       <tbody>
         <tr *ngFor="let booking of bookingsList; let i = index;">
           <td>{{booking.seq}}</td>
-          <td>{{booking.time | date: 'hh:mm'}}</td>
+          <td>{{booking.time | time12Hour}}</td>
           <td>{{booking.id}}</td>
           <td>{{booking.name}}</td>
           <td>{{booking.mobile}}</td>

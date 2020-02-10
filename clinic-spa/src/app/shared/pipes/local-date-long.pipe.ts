@@ -1,11 +1,11 @@
-import { LanggService } from './../services/langg.service';
+import { LanggService } from '../services/langg.service';
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-  name: "localLongDate",
+  name: "localDateLong",
   pure: false
 })
-export class LocalLongDatePipe implements PipeTransform {
+export class LocalDateLongPipe implements PipeTransform {
 
   constructor(private langgService:LanggService){}
   transform(value: any, ...args: any[]): any {

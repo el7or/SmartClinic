@@ -4,9 +4,9 @@ import { formatDate } from '@angular/common';
 import { LanggService } from '../services/langg.service';
 
 @Pipe({
-  name: 'localShortDate'
+  name: 'localDateShort'
 })
-export class LocalShortDatePipe implements PipeTransform {
+export class LocalDateShortPipe implements PipeTransform {
 
   constructor(private langgService: LanggService) { }
 

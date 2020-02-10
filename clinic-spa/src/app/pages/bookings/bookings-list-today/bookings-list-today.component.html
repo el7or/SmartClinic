@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="col-8">
-        <h5 class="font-naskh">{{today | localLongDate}}</h5>
+        <h5 class="font-naskh">{{today | localDateLong}}</h5>
       </div>
     </div>
   </nb-card-header>
@@ -38,7 +38,7 @@
           [class]="booking.isEnter ? 'table-danger':(booking.isAttend?'table-success':'table-light')" cdkDrag
           [cdkDragDisabled]="booking.isEnter || sortBookingsBy!='manual'">
           <th>{{booking.seq}}</th>
-          <td>{{booking.time | date: 'hh:mm'}}</td>
+          <td>{{booking.time | time12Hour}}</td>
           <td langg>{{booking.type}}</td>
           <th>{{booking.id}}</th>
           <td>{{booking.name}}
@@ -55,14 +55,14 @@
             <nb-checkbox [checked]="booking.isAttend" [(ngModel)]="booking.isAttend" status="success"
               [disabled]="booking.isEnter" (ngModelChange)="onChangeAttend(booking)"></nb-checkbox>
             <div *ngIf="booking.isAttend || booking.isEnter">
-              <small class="text-success">{{booking.attendTime | date: 'hh:mm' }}</small>
+              <small class="text-success">{{booking.attendTime | time12Hour }}</small>
             </div>
           </td>
           <td class="text-center">
             <nb-checkbox [checked]="booking.isEnter" [(ngModel)]="booking.isEnter" status="danger"
             (ngModelChange)="onChangeEnter(booking)"></nb-checkbox>
             <div *ngIf="booking.isEnter">
-              <small class="text-danger" >{{booking.entryTime | date: 'hh:mm'}}</small>
+              <small class="text-danger" >{{booking.entryTime | time12Hour}}</small>
             </div>
           </td>
           <td class="text-center">

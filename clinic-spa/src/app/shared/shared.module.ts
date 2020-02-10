@@ -35,8 +35,9 @@ import { TinyMCEComponent } from "./components/tiny-mce/tiny-mce.component";
 import { LanggPipe } from "./pipes/langg.pipe";
 import { RouterModule } from "@angular/router";
 import { DateWithoutTimePipe } from "./pipes/date-without-time.pipe";
-import { LocalLongDatePipe } from "./pipes/local-long-date.pipe";
-import { LocalShortDatePipe } from "./pipes/local-short-date.pipe";
+import { LocalDateShortPipe } from "./pipes/local-date-short.pipe";
+import { LocalDateLongPipe } from './pipes/local-date-long.pipe';
+import { Time12HourPipe } from './pipes/time-12-hour.pipe';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -61,8 +62,9 @@ const PIPES = [
   TimeAgoPipe,
   LanggPipe,
   DateWithoutTimePipe,
-  LocalLongDatePipe,
-  LocalShortDatePipe
+  LocalDateLongPipe,
+  LocalDateShortPipe,
+  Time12HourPipe
 ];
 
 @NgModule({

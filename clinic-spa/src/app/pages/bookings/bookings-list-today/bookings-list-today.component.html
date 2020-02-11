@@ -17,6 +17,11 @@
     </div>
   </nb-card-header>
   <nb-card-body>
+    <button (click)="onBookToday()" nbButton size="small" status="success"
+              [nbTooltip]="'New Booking' | langg">
+              <nb-icon icon="file-add"></nb-icon>
+              <span langg>Add New Booking</span>
+            </button>
     <small class="form-text text-muted font-weight-bold">&#9733;&nbsp;<span langg>Current Order of Bookings made
         according to the Clinic Settings</span>:&nbsp;<span langg>{{sortBookingsByText | langg}}</span>.</small>
     <table class="table table-hover table-bordered">

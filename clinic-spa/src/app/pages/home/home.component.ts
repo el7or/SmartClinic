@@ -91,6 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // =====> set weekends days to hide them:
     this.calendarHiddenDays = this.settingService.getWeekEndsDays();
   }
+
   ngOnDestroy() {
     this.langSubscription.unsubscribe();
   }

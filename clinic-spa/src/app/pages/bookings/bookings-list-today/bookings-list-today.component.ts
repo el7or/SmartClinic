@@ -1,4 +1,5 @@
-import { SettingsService } from "./../../settings/settings.service";
+import { DateWithoutTimePipe } from './../../../shared/pipes/date-without-time.pipe';
+import { Router } from '@angular/router';
 import {
   Component,
   OnInit,
@@ -6,10 +7,12 @@ import {
   AfterViewInit,
   ChangeDetectorRef
 } from "@angular/core";
-import { NbDialogService } from "@nebular/theme";
+import { NbDialogService, NbToastrService } from "@nebular/theme";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
+import { LanggService } from './../../../shared/services/langg.service';
+import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
 import { BookingDetailsComponent } from "../booking-details/booking-details.component";
 import { PaymentSummaryComponent } from "../../finance/payment-summary/payment-summary.component";
@@ -33,6 +36,9 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
     private bookingService: BookingsService,
     private dialogService: NbDialogService,
     private settingService: SettingsService,
+    private toastrService:NbToastrService,
+    private langgService:LanggService,
+    private router:Router,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -55,7 +61,24 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
 
-  // =====> on add new booking or edit booking:
+  // =====> on add new booking on current day tp patient out the table:
+  onBookToday(){
+    this.bookingService.setChosenbookingDate(new Date());
+    this.toastrService.info(
+      new DateWithoutTimePipe().transform(new Date()),
+      this.langgService.translateWord(
+        "Choose a Patient to add booking for on chosen day:"
+      ),
+      {
+        icon: "info-outline",
+        duration: 5000,
+        destroyByClick: true
+      }
+    );
+    this.router.navigateByUrl("/pages/patients");
+  }
+
+  // =====> on add new booking or edit booking to patients in the table:
   onBook(bookingId) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {

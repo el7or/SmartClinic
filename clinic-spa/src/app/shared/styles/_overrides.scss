@@ -156,11 +156,15 @@
     @include nb-rtl(font-family, 'ah-naskh-hadith');
   }
 
-  /* // =====> less width for sidebar:
-  nb-sidebar{
-    width: 12.5rem !important;
+  // =====> less width for sidebar:
+  nb-sidebar.expanded{
+    width: 13rem;
   }
   nb-sidebar .main-container{
-    width: 12.5rem !important;
-  } */
+    width: 13rem;
+  }
+
+  nb-tabset .tab-link{
+    padding: 1rem !important;
+  }
 }

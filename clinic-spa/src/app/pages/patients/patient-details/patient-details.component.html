@@ -12,13 +12,16 @@
       <nb-tab [tabTitle]="'Basic info' | langg" >
         <info-detail [(isNewPatient)]="isNewPatient"></info-detail>
       </nb-tab>
+      <nb-tab [tabTitle]="'Associated Diseases' | langg" [disabled]="isNewPatient" >
+        <questions></questions>
+      </nb-tab>
       <nb-tab [tabTitle]="'Initial Diagnosis' | langg" [disabled]="isNewPatient" >
         .......
       </nb-tab>
-      <nb-tab [tabTitle]="'Final Diagnosis' | langg" [disabled]="isNewPatient">
+      <nb-tab [tabTitle]="'C/O' | langg" [disabled]="isNewPatient" >
         .......
       </nb-tab>
-      <nb-tab [tabTitle]="'Medicine' | langg" [disabled]="isNewPatient">
+      <nb-tab [tabTitle]="'EX' | langg" [disabled]="isNewPatient" >
         .......
       </nb-tab>
       <nb-tab [tabTitle]="'X-Rays' | langg" [disabled]="isNewPatient">
@@ -27,7 +30,10 @@
       <nb-tab [tabTitle]="'analyses' | langg" [disabled]="isNewPatient">
         ......
       </nb-tab>
-      <nb-tab [tabTitle]="'Visits Report' | langg" [disabled]="isNewPatient">
+      <nb-tab [tabTitle]="'Medicine' | langg" [disabled]="isNewPatient">
+        .......
+      </nb-tab>
+      <nb-tab [tabTitle]="'Diagnosis Summary' | langg" [disabled]="isNewPatient">
         .......
       </nb-tab>
     </nb-tabset>

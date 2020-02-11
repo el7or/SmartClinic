@@ -63,6 +63,7 @@
   { "ar": "هل تعاني من أمراض الكبد؟", "en": "Do you have liver disease?" },
   { "ar": "هل تعاني من أمراض الكلى؟", "en": "Do you have kidney disease?" },
   { "ar": "هل تعاني من أمراض الصدر؟", "en": "Do you have chest diseases?" },
+  { "ar": "هل تعاني من الصدفية؟", "en": "Do you have psoriasis?" },
   { "ar": "هل تعاني من اضطرابات في الغدة الدرقية؟", "en": "Do you have thyroid disorders?" },
   { "ar": "هل هناك حمل؟", "en": "Do you have a pregnancy?" },
   { "ar": "هل هناك رضاعة؟", "en": "Do you have breastfeeding?" },
@@ -114,7 +115,7 @@
   { "ar": "المعلومات الأساسية", "en": "Basic info" },
   { "ar": "الأشعة", "en": "X-Rays" },
   { "ar": "التحاليل", "en": "analyses" },
-  { "ar": "تقرير الزيارات", "en": "Visits Report" },
+  { "ar": "ملخص التشخيص", "en": "Diagnosis Summary" },
   { "ar": "نوع آخر زيارة", "en": "Last Visit Type" },
   { "ar": "تاريخ آخر زيارة", "en": "Last Visit Date" },
   { "ar": "حجز جديد للمريض: ", "en": "New Booking for:" },
@@ -189,5 +190,7 @@
   {"ar":"طلب تطوير","en":"Development request"},
   {"ar":"أخرى","en":"Other"},
   {"ar":"أو اتصل بنا على","en":"Or call us on"},
-  {"ar":"إعدادات التشخيص","en":"Diagnosis Setting"}
+  {"ar":"إعدادات التشخيص","en":"Diagnosis Setting"},
+  {"ar":"الأمراض المصاحبة","en":"Associated Diseases"},
+  {"ar":"توضيح","en":"Caption"}
 ]

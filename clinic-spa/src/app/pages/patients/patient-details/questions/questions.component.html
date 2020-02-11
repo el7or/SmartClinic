@@ -1,0 +1,120 @@
+<form #form="ngForm" (ngSubmit)="onSubmitQuest()" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
+  <nb-card>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-6 border-after">
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset1" langg>Do you have blood pressure?</label>
+            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset1.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset2" langg>Do you have blood thinners?</label>
+            <nb-radio-group ngModel #quset2="ngModel" id="input-quset2" name="quset2" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset2.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset3" langg>Do you have diabetes?</label>
+            <nb-radio-group ngModel #quset3="ngModel" id="input-quset3" name="quset3" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset3.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset4" langg>Do you have heart disease?</label>
+            <nb-radio-group ngModel #quset4="ngModel" id="input-quset4" name="quset4" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset4.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset5" langg>Do you have liver disease?</label>
+            <nb-radio-group ngModel #quset5="ngModel" id="input-quset5" name="quset5" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset5.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset6" langg>Do you have kidney disease?</label>
+            <nb-radio-group ngModel #quset6="ngModel" id="input-quset6" name="quset6" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset6.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset7" langg>Do you have chest diseases?</label>
+            <nb-radio-group ngModel #quset7="ngModel" id="input-quset7" name="quset7" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset7.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset8" langg>Do you have psoriasis?</label>
+            <nb-radio-group ngModel #quset8="ngModel" id="input-quset8" name="quset8" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset8.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset9" langg>Do you have thyroid disorders?</label>
+            <nb-radio-group ngModel #quset9="ngModel" id="input-quset9" name="quset9" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset9.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset10" langg>Do you have a pregnancy?</label>
+            <nb-radio-group ngModel #quset10="ngModel" id="input-quset10" name="quset10" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset10.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset11" langg>Do you have breastfeeding?</label>
+            <nb-radio-group ngModel #quset11="ngModel" id="input-quset11" name="quset11" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset11.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+          <div class="form-control-group form-inline text-center">
+            <label class="label" for="input-quset12" langg>Have you had any surgery in the last six months?</label>
+            <nb-radio-group ngModel #quset12="ngModel" id="input-quset12" name="quset12" class="form-inline mx-1">
+              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+            </nb-radio-group>
+            <input *ngIf="quset12.value==1" nbInput type="text" [placeholder]="'Caption' | langg" fieldSize="small" fullWidth>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="text-center nbButton-group">
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<swal #doneSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Success' | langg"
+  [text]="'Done successfully!' | langg" [confirmButtonText]="'Add New Booking' | langg"
+  [cancelButtonText]="'Close' | langg" confirmButtonColor="#00d68f">
+</swal>

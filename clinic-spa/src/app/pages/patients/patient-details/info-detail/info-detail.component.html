@@ -50,6 +50,8 @@
               <nb-option value="2" langg>Married</nb-option>
             </nb-select>
           </div>
+        </div>
+        <div class="col-md-6">
           <div class="form-control-group">
             <input nbInput ngModel #email="ngModel" name="email" [placeholder]="'Email' | langg" fullWidth type="email"
               email [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''">
@@ -69,85 +71,6 @@
           <div class="form-control-group">
             <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'Note' | langg" fullWidth
               rows="3"></textarea>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have blood pressure?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have blood thinners?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have diabetes?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have heart disease?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have liver disease?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have kidney disease?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have chest diseases?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have thyroid disorders?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have a pregnancy?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Do you have breastfeeding?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
-          </div>
-          <div class="form-control-group form-inline text-center">
-            <label class="label" for="input-quset1" langg>Have you had any surgery in the last six months?</label>
-            <nb-radio-group ngModel #quset1="ngModel" id="input-quset1" name="quset1" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="2"><span langg>No</span>&nbsp;</nb-radio>
-            </nb-radio-group>
           </div>
         </div>
       </div>

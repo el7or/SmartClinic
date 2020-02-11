@@ -25,13 +25,15 @@ import { PatientsListComponent } from "./patients-list/patients-list.component";
 import { BookingsModule } from './../bookings/bookings.module';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
 import { InfoDetailComponent } from './patient-details/info-detail/info-detail.component';
+import { QuestionsComponent } from './patient-details/questions/questions.component';
 
 @NgModule({
   declarations: [
     PatientsComponent,
     PatientsListComponent,
     PatientDetailsComponent,
-    InfoDetailComponent
+    InfoDetailComponent,
+    QuestionsComponent
   ],
   imports: [
     CommonModule,

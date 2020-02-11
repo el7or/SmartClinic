@@ -14,6 +14,7 @@
   [nbButton].appearance-hero,
   [nbButton].appearance-outline.status-info,
   [nbButton].appearance-outline.status-warning,
+  nb-tabset .tab-link,
   nb-route-tabset span {
     text-transform: none !important;
   }
@@ -41,6 +42,17 @@
   // =====> add padding top to tab content:
   nb-route-tabset router-outlet + * {
     padding-top: 1rem !important;
+  }
+
+  // =====> modify padding for tabs:
+  nb-tab {
+    padding: 1rem 0 0 !important;
+    overflow: hidden;
+  }
+
+  // =====> less pading to tabs titles:
+  nb-tabset .tab-link {
+    padding: 1rem !important;
   }
 
   // =====> reset border radius for first and last buttons in pagination:
@@ -118,12 +130,6 @@
     box-shadow: none;
   }
 
-  // =====> modify padding for tabs:
-  nb-tab {
-    padding: 1rem 0 0 !important;
-    overflow: hidden;
-  }
-
   // =====> center th in tables:
   .table thead th {
     vertical-align: middle !important;
@@ -145,29 +151,34 @@
   }
 
   // =====> text align in autocomplete:
-  .dropdown-menu{
+  .dropdown-menu {
     @include nb-ltr(text-align, left);
     @include nb-rtl(text-align, right);
   }
 
   // =====> good arabic font but with arabic number only:
-  .font-naskh{
+  .font-naskh {
     @include nb-ltr(font-family, cursive);
-    @include nb-rtl(font-family, 'ah-naskh-hadith');
+    @include nb-rtl(font-family, "ah-naskh-hadith");
   }
 
   // =====> less width for sidebar:
-  nb-sidebar{
+  nb-sidebar {
     width: 13rem;
   }
-  nb-sidebar.expanded{
+  nb-sidebar.expanded {
     width: 13rem;
   }
-  nb-sidebar .main-container{
+  nb-sidebar .main-container {
     width: 13rem;
+  }
+  .menu-sidebar .scrollable {
+    padding-top: 1rem !important;
   }
 
-  nb-tabset .tab-link{
-    padding: 1rem !important;
+  // =====> add border after block based on direction:
+  .border-after{
+    @include nb-ltr(border-right, 0.125rem solid #edf1f7);
+    @include nb-rtl(border-left, 0.125rem solid #edf1f7);
   }
 }

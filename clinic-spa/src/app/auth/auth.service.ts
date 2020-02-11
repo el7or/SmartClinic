@@ -8,7 +8,6 @@ import { User } from './auth.model';
 })
 export class AuthService {
   currentUser:User= {userName:'',password:''};
-
   userName = new BehaviorSubject<string>('دكتور محمد');
 
   constructor() { }
@@ -18,11 +17,11 @@ export class AuthService {
   }
 
   isAuthenticated():boolean{
-    //return true;
-    if(this.currentUser.userName=='el7or' && this.currentUser.password == '123456'){
+    return true;
+    /* if(this.currentUser.userName=='el7or' && this.currentUser.password == '123456'){
       return true;
     }
-    return false;
+    return false; */
   }
 
   logout(){

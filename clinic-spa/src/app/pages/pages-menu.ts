@@ -15,7 +15,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Today Booking',
-    icon: 'browser-outline',
+    icon: 'clipboard-outline',
     link: '/pages/bookings/today',
   },
   {

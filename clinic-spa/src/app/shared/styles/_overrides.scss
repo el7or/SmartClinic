@@ -150,8 +150,17 @@
     @include nb-rtl(text-align, right);
   }
 
+  // =====> good arabic font but with arabic number only:
   .font-naskh{
     @include nb-ltr(font-family, cursive);
     @include nb-rtl(font-family, 'ah-naskh-hadith');
   }
+
+  /* // =====> less width for sidebar:
+  nb-sidebar{
+    width: 12.5rem !important;
+  }
+  nb-sidebar .main-container{
+    width: 12.5rem !important;
+  } */
 }

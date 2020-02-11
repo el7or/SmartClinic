@@ -68,14 +68,14 @@
             </div>
           </td>
           <td class="text-center">
+            <button (click)="onBook(1)" nbButton size="tiny" status="warning"
+              [nbTooltip]="'Edit Booking' | langg">
+              <nb-icon icon="edit"></nb-icon>
+            </button>&nbsp;
             <button *ngIf="booking.isEnter" (click)="onBook(0)" nbButton size="tiny" status="success"
               [nbTooltip]="'New Booking' | langg">
               <nb-icon icon="file-add"></nb-icon>
             </button>
-            <button *ngIf="!booking.isEnter" (click)="onBook(1)" nbButton size="tiny" status="warning"
-              [nbTooltip]="'Edit Booking' | langg">
-              <nb-icon icon="edit"></nb-icon>
-            </button>&nbsp;
             <button *ngIf="!booking.isEnter" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
               [nbTooltip]="'Cancel Booking' | langg">
               <nb-icon icon="trash-2"></nb-icon>

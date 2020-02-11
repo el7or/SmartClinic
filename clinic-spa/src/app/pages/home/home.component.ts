@@ -71,13 +71,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // =====> Detect Responsive Screen Size to some changes on calendar:
+    /* // =====> Detect Responsive Screen Size to some changes on calendar:
     if (window.innerWidth < 835) {
       this.calendarHeader = { center: "" };
     }
     if(window.innerWidth < 500){
       this.calendarDefaultView = 'listWeek';
-    }
+    } */
 
     // =====> localize fullcalendar:
     this.langSubscription = this.langgService.lang.subscribe(lang => {

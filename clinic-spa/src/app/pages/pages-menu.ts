@@ -39,6 +39,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/settings/clinic',
       },
       {
+        title: 'Diagnosis Setting',
+        link: '/pages/settings/patient',
+      },
+      {
         title: 'Users',
         link: '/pages/settings/users',
       }

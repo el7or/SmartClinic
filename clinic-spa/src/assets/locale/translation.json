@@ -188,5 +188,6 @@
   {"ar":"مشكلة في البرنامج","en":"Problem in program"},
   {"ar":"طلب تطوير","en":"Development request"},
   {"ar":"أخرى","en":"Other"},
-  {"ar":"أو اتصل بنا على","en":"Or call us on"}
+  {"ar":"أو اتصل بنا على","en":"Or call us on"},
+  {"ar":"إعدادات التشخيص","en":"Diagnosis Setting"}
 ]

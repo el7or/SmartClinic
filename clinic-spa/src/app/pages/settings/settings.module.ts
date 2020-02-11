@@ -18,9 +18,10 @@ import { UsersSettingComponent } from './users-setting/users-setting.component';
 import { SharedModule } from "./../../shared/shared.module";
 import { ClinicSettingComponent } from "./clinic-setting/clinic-setting.component";
 import { SettingsComponent } from "./settings.component";
+import { PatientSettingComponent } from './patient-setting/patient-setting.component';
 
 @NgModule({
-  declarations: [SettingsComponent,ClinicSettingComponent, UsersSettingComponent],
+  declarations: [SettingsComponent,ClinicSettingComponent, UsersSettingComponent, PatientSettingComponent],
   imports: [
     CommonModule,
     RouterModule,

@@ -1,3 +1,4 @@
+import { PatientSettingComponent } from './settings/patient-setting/patient-setting.component';
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
@@ -83,6 +84,10 @@ const routes: Routes = [
           {
             path: "clinic",
             component: ClinicSettingComponent
+          },
+          {
+            path: "patient",
+            component: PatientSettingComponent
           },
           {
             path: "users",

@@ -20,7 +20,7 @@ import { LanggService } from '../shared/services/langg.service';
       <router-outlet></router-outlet>
       </nb-layout-column>
 
-      <nb-layout-footer fixed>
+      <nb-layout-footer fixed id="footer">
         <ngx-footer></ngx-footer>
       </nb-layout-footer>
     </nb-layout>

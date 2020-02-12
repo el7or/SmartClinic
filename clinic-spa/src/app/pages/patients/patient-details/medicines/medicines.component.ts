@@ -34,8 +34,8 @@ export class MedicinesComponent implements OnInit {
 
   onOpenMedicinesSummary() {
     this.dialogService.open(MedicinesSummaryComponent, {
-      context:{
-        patientDetails:'روشتة المريض: أحمد محمد علي، بتاريخ: 15/3/2020'
+      context: {
+        patientDetails: "روشتة المريض: أحمد محمد علي، بتاريخ: 15/3/2020"
       },
       autoFocus: true,
       hasBackdrop: true,
@@ -44,24 +44,31 @@ export class MedicinesComponent implements OnInit {
     });
   }
 
-  onAddMedicine(){
-    this.medicines.push(
-      {
-        name: "",
-        concentration: "",
-        form: "",
-        dose: "",
-        timing: "",
-        period: ""
-      }
-    )
+  onAddMedicine() {
+    this.medicines.push({
+      name: "",
+      concentration: "",
+      form: "",
+      dose: "",
+      timing: "",
+      period: ""
+    });
   }
 
-  onRemoveMedicine(index){
-    this.medicines.splice(index,1);
+  onRemoveMedicine(index) {
+    this.medicines.splice(index, 1);
   }
 
-  onSavePrint(){
-    window.print();
+  onSavePrint() {
+    const printContent = document.getElementById("print-medicines");
+    const WindowPrt = window.open(
+      "",
+      "",
+      "left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0"
+    );
+    WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.document.close();
+    //WindowPrt.focus();
+    WindowPrt.print();
   }
 }

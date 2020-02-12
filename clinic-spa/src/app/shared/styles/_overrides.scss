@@ -162,7 +162,7 @@
     @include nb-rtl(font-family, "ah-naskh-hadith");
   }
 
-  .font-r{
+  .font-r {
     font-family: "ToyorAljanah";
     font-weight: bold;
   }
@@ -182,7 +182,7 @@
   }
 
   // =====> add border after block based on direction:
-  .border-after{
+  .border-after {
     @include nb-ltr(border-right, 0.125rem solid #edf1f7);
     @include nb-rtl(border-left, 0.125rem solid #edf1f7);
   }

@@ -116,7 +116,8 @@
               </nb-select>
             </td>
             <td>
-              <button (click)="onRemoveMedicine(i)" nbButton [nbTooltip]="'Add Medicine' | langg" size="tiny" status="danger">
+              <button (click)="onRemoveMedicine(i)" nbButton [nbTooltip]="'Add Medicine' | langg" size="tiny"
+                status="danger">
                 <nb-icon icon="close-square"></nb-icon>
               </button>
             </td>
@@ -130,7 +131,8 @@
     <nb-card-footer>
       <div class="text-center nbButton-group">
         <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
-        <button nbButton type="button" status="success" (click)="onSavePrint()" [disabled]="!form.valid" langg>Save & Print</button>
+        <button nbButton type="button" status="success" (click)="onSavePrint()" [disabled]="!form.valid" langg>Save &
+          Print</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </nb-card-footer>
@@ -142,24 +144,4 @@
   [cancelButtonText]="'Close' | langg" confirmButtonColor="#00d68f">
 </swal>
 
-<div class="print">
-<nb-card >
-  <nb-card-header>روشتة المريض: أحمد محمد علي، بتاريخ: 15/3/2020</nb-card-header>
-  <nb-card-body>
-    <nb-list dir="ltr" class="text-left">
-      <nb-list-item>
-        <span class="font-r">R/ </span>Antox 2 mg Tab مرتان يومياً بعد الأكل
-      </nb-list-item>
-      <nb-list-item>
-        <span class="font-r">R/ </span>Plaquanile 5 mg Caps مرة واحدة يومياً قبل النوم
-      </nb-list-item>
-      <nb-list-item>
-        <span class="font-r">R/ </span>Tolmet 35 mg Syrap ثلاث مرات يومياً بعد الأكل
-      </nb-list-item>
-    </nb-list>
-  </nb-card-body>
-  <nb-card-footer>
-............................
- </nb-card-footer>
-</nb-card>
-</div>
+<medicines-print></medicines-print>

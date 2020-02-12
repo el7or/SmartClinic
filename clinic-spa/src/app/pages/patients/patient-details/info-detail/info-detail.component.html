@@ -4,73 +4,110 @@
     <nb-card-body>
       <div class="row">
         <div class="col-md-6">
-          <div class="form-control-group" [nbSpinner]="nameLoading" nbSpinnerStatus="success">
-            <input nbInput [(ngModel)]="patientNameData" #patientName="ngModel" name="patientName"
-              [placeholder]="'Patient Name' | langg" autofocus fullWidth required minlength="5" maxlength="50"
-              (blur)="onBlurName(patientName)"
-              [status]="patientName.touched ? (patientName.invalid  ? 'danger' : 'success') : ''">
-            <ng-container *ngIf="patientName.invalid && patientName.touched">
-              <p class="error-message" *ngIf="patientName?.errors.required" langg>
-                Patient Name is required!
-              </p>
-              <p class="error-message" *ngIf="patientName?.errors.minlength || patientName?.errors.maxlength" langg>
-                Patient Name should contains from 5 to 50 characters!
-              </p>
-            </ng-container>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-control-group" [nbSpinner]="nameLoading" nbSpinnerStatus="success">
+                <label for="input-name" class="label"><span langg>Patient Name</span>:</label>
+                <input nbInput [(ngModel)]="patientNameData" #patientName="ngModel" name="patientName" id="input-name"
+                  [placeholder]="'Patient Name' | langg" fullWidth required minlength="5" maxlength="50"
+                  (blur)="onBlurName(patientName)"
+                  [status]="patientName.touched ? (patientName.invalid  ? 'danger' : 'success') : ''">
+                <ng-container *ngIf="patientName.invalid && patientName.touched">
+                  <p class="error-message" *ngIf="patientName?.errors.required" langg>
+                    Patient Name is required!
+                  </p>
+                  <p class="error-message" *ngIf="patientName?.errors.minlength || patientName?.errors.maxlength" langg>
+                    Patient Name should contains from 5 to 50 characters!
+                  </p>
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-control-group">
+                <label for="input-mobile" class="label"><span langg>Mobile</span>:</label>
+                <input nbInput [(ngModel)]="patientPhoneData" #patientPhone="ngModel" name="patientPhone"
+                  id="input-mobile" [placeholder]="'Mobile' | langg" fullWidth pattern="[0-9]*" minlength="10" required
+                  [status]="patientPhone.touched ? (patientPhone.invalid  ? 'danger' : 'success') : ''">
+                <ng-container *ngIf="patientPhone.invalid && patientPhone.touched">
+                  <p class="error-message" *ngIf="patientPhone?.errors.required" langg>
+                    Mobile is required!
+                  </p>
+                  <p class="error-message" *ngIf="patientPhone?.errors.pattern || patientPhone?.errors.minlength" langg>
+                    Mobile must be real number!
+                  </p>
+                </ng-container>
+              </div>
+            </div>
           </div>
-          <div class="form-control-group">
-            <input nbInput [(ngModel)]="patientPhoneData" #patientPhone="ngModel" name="patientPhone"
-              [placeholder]="'Mobile' | langg" fullWidth pattern="[0-9]*"
-              minlength="10" required
-              [status]="patientPhone.touched ? (patientPhone.invalid  ? 'danger' : 'success') : ''">
-            <ng-container *ngIf="patientPhone.invalid && patientPhone.touched">
-              <p class="error-message" *ngIf="patientPhone?.errors.required" langg>
-                Mobile is required!
-              </p>
-              <p class="error-message" *ngIf="patientPhone?.errors.pattern || patientPhone?.errors.minlength" langg>
-                Mobile must be real number!
-              </p>
-            </ng-container>
-          </div>
-          <div class="form-control-group">
-            <input nbInput [(ngModel)]="patientAgeData" #age="ngModel" name="age" [placeholder]="'Age' | langg"
-              fullWidth type="number" min="1" max="120">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-control-group">
+                <label for="input-birthDate" class="label"><span langg>Birth Date</span>:</label>
+                <input type="text" bsDatepicker nbInput #birthDate name="birthDate" id="input-birthDate" fullWidth
+                  [placeholder]="'Birth Date' | langg"
+                  [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
+                  [bsValue]="">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-control-group">
+                <label for="input-age" class="label"><span langg>Age</span>:</label>
+                <input nbInput [(ngModel)]="patientAgeData" #age="ngModel" name="age" id="input-age"
+                  [placeholder]="'Age' | langg" fullWidth type="number" min="1" max="120">
+              </div>
+            </div>
           </div>
           <div class="form-control-group form-inline mx-1">
-            <label class="label" for="input-gender" langg>Gender:</label>
+            <label for="input-gender" class="label" langg>Gender:</label>
             <nb-radio-group ngModel #gender="ngModel" id="input-gender" name="gender" class="form-inline">
               <nb-radio [value]="1"><span langg>Male</span>&nbsp;&nbsp;</nb-radio>
               <nb-radio [value]="2"><span langg>Female</span>&nbsp;&nbsp;</nb-radio>
             </nb-radio-group>
           </div>
-          <div class="form-control-group">
-            <nb-select fullWidth ngModel #socialStatus="ngModel" name="socialStatus"
-              [placeholder]="'Social Status' | langg">
-              <nb-option value="1" langg>Single</nb-option>
-              <nb-option value="2" langg>Married</nb-option>
-            </nb-select>
-          </div>
         </div>
         <div class="col-md-6">
-          <div class="form-control-group">
-            <input nbInput ngModel #email="ngModel" name="email" [placeholder]="'Email' | langg" fullWidth type="email"
-              email [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''">
-            <ng-container *ngIf="email.invalid && email.touched">
-              <p class="error-message" *ngIf="email?.errors" langg>
-                Email should be the real one!
-              </p>
-            </ng-container>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-control-group">
+                <label for="input-status" class="label"><span langg>Social Status</span>:</label>
+                <nb-select fullWidth ngModel #socialStatus="ngModel" name="socialStatus" id="input-status"
+                  [placeholder]="'Social Status' | langg">
+                  <nb-option value="1" langg>Single</nb-option>
+                  <nb-option value="2" langg>Married</nb-option>
+                </nb-select>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-control-group">
+                <label for="input-children" class="label"><span langg>Children Number</span>:</label>
+                <input nbInput ngModel type="number" #children="ngModel" name="children" id="input-children"
+                  [placeholder]="'Children Number' | langg" fullWidth>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-control-group">
+                <label for="input-email" class="label"><span langg>Email</span>:</label>
+                <input nbInput ngModel #email="ngModel" name="email" id="input-email" [placeholder]="'Email' | langg"
+                  fullWidth type="email" email [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''">
+                <ng-container *ngIf="email.invalid && email.touched">
+                  <p class="error-message" *ngIf="email?.errors" langg>
+                    Email should be the real one!
+                  </p>
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-control-group">
+                <label for="input-career" class="label"><span langg>Career</span>:</label>
+                <input nbInput ngModel #career="ngModel" name="career" id="input-career" [placeholder]="'Career' | langg" fullWidth>
+              </div>
+            </div>
           </div>
           <div class="form-control-group">
-            <input nbInput ngModel #career="ngModel" name="career" [placeholder]="'Career' | langg" fullWidth>
-          </div>
-          <div class="form-control-group">
-            <textarea nbInput ngModel #adress="ngModel" name="adress" [placeholder]="'Address' | langg" rows="2"
-              fullWidth></textarea>
-          </div>
-          <div class="form-control-group">
-            <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'Note' | langg" fullWidth
-              rows="3"></textarea>
+            <label for="input-adress" class="label"><span langg>Address</span>:</label>
+            <input nbInput ngModel #adress="ngModel" name="adress" id="input-adress" [placeholder]="'Address' | langg" fullWidth>
           </div>
         </div>
       </div>

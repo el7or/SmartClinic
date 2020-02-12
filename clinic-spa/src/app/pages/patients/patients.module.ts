@@ -17,7 +17,7 @@ import {
   NbDialogModule
 } from "@nebular/theme";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
-import { PaginationModule } from "ngx-bootstrap";
+import { PaginationModule, BsDatepickerModule } from "ngx-bootstrap";
 
 import { PatientsComponent } from "./patients.component";
 import { SharedModule } from "./../../shared/shared.module";
@@ -53,6 +53,7 @@ import { QuestionsComponent } from './patient-details/questions/questions.compon
     NbIconModule,
     NbTooltipModule,
     NbDialogModule.forChild(),
+    BsDatepickerModule.forRoot(),
     SweetAlert2Module.forRoot(),
     PaginationModule.forRoot()
   ]

@@ -60,4 +60,8 @@ export class MedicinesComponent implements OnInit {
   onRemoveMedicine(index){
     this.medicines.splice(index,1);
   }
+
+  onSavePrint(){
+    window.print();
+  }
 }

@@ -130,7 +130,7 @@
     <nb-card-footer>
       <div class="text-center nbButton-group">
         <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
-        <button nbButton type="button" status="success" [disabled]="!form.valid" langg>Save & Print</button>
+        <button nbButton type="button" status="success" (click)="onSavePrint()" [disabled]="!form.valid" langg>Save & Print</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </nb-card-footer>

@@ -1,1 +1,21 @@
-<p>patient-setting works!</p>
+<nb-card>
+  <nb-card-header>
+    <span langg>Diagnosis Setting</span>:
+  </nb-card-header>
+  <nb-card-body>
+    <nb-tabset>
+      <nb-tab [tabTitle]="'Associated Diseases' | langg">
+        <questions-setting></questions-setting>
+      </nb-tab>
+      <nb-tab [tabTitle]="'X-Rays' | langg">
+        .......
+      </nb-tab>
+      <nb-tab [tabTitle]="'analyses' | langg">
+        ......
+      </nb-tab>
+      <nb-tab [tabTitle]="'Medicine' | langg">
+        .......
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

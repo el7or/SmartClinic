@@ -1,0 +1,19 @@
+<form #form="ngForm" (ngSubmit)="onSaveSetting(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
+  <label for="" class="label"><span langg>List of Associated Disease questions that appear in each patient's
+      file</span>:</label>
+  <div class="row m-0">
+    <div *ngFor="let quest of questionsList" class="form-control-group col-md-6">
+      <nb-checkbox ngModel [name]="quest.id" [checked]="quest.isActive" [(ngModel)]="quest.isActive">{{quest.question | langg}}</nb-checkbox>
+    </div>
+  </div>
+
+  <div class="text-center nbButton-group">
+    <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+    <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+  </div>
+</form>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

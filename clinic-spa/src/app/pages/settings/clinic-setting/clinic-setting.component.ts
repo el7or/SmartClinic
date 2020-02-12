@@ -83,10 +83,14 @@ export class ClinicSettingComponent implements OnInit {
   }
 
   onSaveSetting() {
-    this.settingService.saveSetting(
+    this.formLoading = true;
+    setTimeout(() => {
+    this.settingService.saveClinicSetting(
       this.form.value.workdays,
       this.form.value.sortBookings
     );
     this.doneSwal.fire();
+      this.formLoading = false;
+    }, 1000);
   }
 }

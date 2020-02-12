@@ -1,5 +1,9 @@
+import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+
+import { Question } from '../../../settings/settings.model';
+import { SettingsService } from '../../../settings/settings.service';
 
 @Component({
   selector: 'questions',
@@ -8,14 +12,16 @@ import { Location } from '@angular/common';
 })
 export class QuestionsComponent implements OnInit {
   formLoading = false;
+  questionsList: Question[];
 
-  constructor(public location:Location) { }
+  constructor(public location:Location,private settingService: SettingsService) { }
 
   ngOnInit() {
+    this.questionsList = this.settingService.getQuestionSetting();
   }
 
-  onSubmitQuest(){
-
+  onSubmitQuest(form:NgForm){
+console.log(form);
   }
 
 }

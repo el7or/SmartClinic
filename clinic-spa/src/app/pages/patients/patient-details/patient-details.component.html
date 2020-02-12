@@ -8,7 +8,7 @@
     <h5><span langg>{{pageHeader}}</span>: <span>{{patientName}}</span></h5>
   </nb-card-header>
   <nb-card-body>
-    <nb-tabset fullWidth>
+    <nb-tabset>
       <nb-tab [tabTitle]="'Basic info' | langg" >
         <info-detail [(isNewPatient)]="isNewPatient"></info-detail>
       </nb-tab>

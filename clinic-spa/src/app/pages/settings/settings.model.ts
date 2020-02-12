@@ -1,2 +1,5 @@
-export interface Settings {
+export interface Question {
+  id: number;
+  question: string;
+  isActive: boolean;
 }

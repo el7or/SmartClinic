@@ -1,0 +1,19 @@
+<nb-card class="dialog-center">
+  <nb-card-header>{{ patientDetails }}</nb-card-header>
+  <nb-card-body>
+    <nb-list dir="ltr" class="text-left">
+      <nb-list-item>
+        <span class="font-r">R/ </span>Antox 2 mg Tab مرتان يومياً بعد الأكل
+      </nb-list-item>
+      <nb-list-item>
+        <span class="font-r">R/ </span>Plaquanile 5 mg Caps مرة واحدة يومياً قبل النوم
+      </nb-list-item>
+      <nb-list-item>
+        <span class="font-r">R/ </span>Tolmet 35 mg Syrap ثلاث مرات يومياً بعد الأكل
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton hero status="primary" (click)="dialogRef.close()" langg>Close</button>
+  </nb-card-footer>
+</nb-card>

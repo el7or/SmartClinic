@@ -162,6 +162,11 @@
     @include nb-rtl(font-family, "ah-naskh-hadith");
   }
 
+  .font-r{
+    font-family: "ToyorAljanah";
+    font-weight: bold;
+  }
+
   // =====> less width for sidebar:
   nb-sidebar {
     width: 13rem;

@@ -14,7 +14,8 @@ import {
   NbRouteTabsetModule,
   NbIconModule,
   NbTooltipModule,
-  NbDialogModule
+  NbDialogModule,
+  NbListModule
 } from "@nebular/theme";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { PaginationModule, BsDatepickerModule } from "ngx-bootstrap";
@@ -26,6 +27,8 @@ import { BookingsModule } from './../bookings/bookings.module';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
 import { InfoDetailComponent } from './patient-details/info-detail/info-detail.component';
 import { QuestionsComponent } from './patient-details/questions/questions.component';
+import { MedicinesComponent } from './patient-details/medicines/medicines.component';
+import { MedicinesSummaryComponent } from './patient-details/medicines/medicines-summary/medicines-summary.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,9 @@ import { QuestionsComponent } from './patient-details/questions/questions.compon
     PatientsListComponent,
     PatientDetailsComponent,
     InfoDetailComponent,
-    QuestionsComponent
+    QuestionsComponent,
+    MedicinesComponent,
+    MedicinesSummaryComponent
   ],
   imports: [
     CommonModule,
@@ -52,10 +57,12 @@ import { QuestionsComponent } from './patient-details/questions/questions.compon
     NbSpinnerModule,
     NbIconModule,
     NbTooltipModule,
+    NbListModule,
     NbDialogModule.forChild(),
     BsDatepickerModule.forRoot(),
     SweetAlert2Module.forRoot(),
     PaginationModule.forRoot()
-  ]
+  ],
+  entryComponents:[MedicinesSummaryComponent]
 })
 export class PatientsModule {}

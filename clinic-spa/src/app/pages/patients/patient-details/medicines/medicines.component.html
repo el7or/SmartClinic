@@ -1,0 +1,143 @@
+<form #form="ngForm" (ngSubmit)="onAddPrescription(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
+  <nb-card>
+    <nb-card-body>
+      <h6 langg>Past Prescriptions:</h6>
+      <table class="table table-bordered table-sm">
+        <thead class="thead-dark">
+          <tr>
+            <th langg>Date</th>
+            <th langg>Medicines</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody class="small">
+          <tr>
+            <td>1/1/2020</td>
+            <td>Antox, Cornivita, Multirelax, Plaquanile, Tolmet
+              <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
+                [nbTooltip]="'Prescription Details' | langg">
+                <nb-icon icon="info"></nb-icon>
+              </button>
+            </td>
+            <td class="text-center">
+              <button nbButton type="submit" status="basic" size="tiny" langg>Print</button>
+            </td>
+          </tr>
+          <tr>
+            <td>5/2/2020</td>
+            <td>Antox, Cornivita
+              <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
+                [nbTooltip]="'Prescription Details' | langg">
+                <nb-icon icon="info"></nb-icon>
+              </button>
+            </td>
+            <td class="text-center">
+              <button nbButton type="submit" status="basic" size="tiny" langg>Print</button>
+            </td>
+          </tr>
+          <tr>
+            <td>3/3/2020</td>
+            <td>Plaquanile, Tolmet
+              <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
+                [nbTooltip]="'Prescription Details' | langg">
+                <nb-icon icon="info"></nb-icon>
+              </button>
+            </td>
+            <td class="text-center">
+              <button nbButton type="submit" status="basic" size="tiny" langg>Print</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h6 langg>Add Prescription:</h6>
+      <table class="table mb-1">
+        <tbody>
+          <tr *ngFor="let item of medicines; index as i;">
+            <td>
+              <nb-select fullWidth [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Medication Name' | langg" size="small">
+                <nb-option value="1">Antox</nb-option>
+                <nb-option value="2">Cornivita</nb-option>
+                <nb-option value="3">Plaquanile</nb-option>
+                <nb-option value="4">Tolmet</nb-option>
+                <nb-option value="5">Multirelax</nb-option>
+              </nb-select>
+            </td>
+            <td>
+              <nb-select fullWidth [(ngModel)]="item.concentration" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Concentration' | langg" size="small">
+                <nb-option value="1">1 mg</nb-option>
+                <nb-option value="2">2 mg</nb-option>
+                <nb-option value="3">10 mg</nb-option>
+                <nb-option value="4">35 mg</nb-option>
+                <nb-option value="5">60 mg</nb-option>
+              </nb-select>
+            </td>
+            <td>
+              <nb-select fullWidth [(ngModel)]="item.form" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Form' | langg" size="small">
+                <nb-option value="1">Tab</nb-option>
+                <nb-option value="2">Caps</nb-option>
+                <nb-option value="3">Syrap</nb-option>
+                <nb-option value="4">Vail</nb-option>
+                <nb-option value="5">Ampule</nb-option>
+              </nb-select>
+            </td>
+            <td>
+              <nb-select fullWidth [(ngModel)]="item.dose" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Dose' | langg" size="small">
+                <nb-option value="1">مرة واحدة يومياً</nb-option>
+                <nb-option value="2">مرتان يومياً</nb-option>
+                <nb-option value="3">ثلاث مرات يومياً</nb-option>
+                <nb-option value="4">مرة أسبوعياً</nb-option>
+                <nb-option value="5">يوم ويوم</nb-option>
+                <nb-option value="5">عند اللزوم</nb-option>
+              </nb-select>
+            </td>
+            <td>
+              <nb-select fullWidth [(ngModel)]="item.timing" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Timing' | langg" size="small">
+                <nb-option value="1">قبل الأكل</nb-option>
+                <nb-option value="2">بعد الأكل</nb-option>
+                <nb-option value="3">أثناء الأكل</nb-option>
+                <nb-option value="4">بعد الإفطار</nb-option>
+                <nb-option value="5">قبل النوم</nb-option>
+              </nb-select>
+            </td>
+            <td>
+              <nb-select fullWidth [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Period' | langg" size="small">
+                <nb-option value="1">لمدة يوم واحد</nb-option>
+                <nb-option value="2">لمدة ثلاثة أيام</nb-option>
+                <nb-option value="3">لمدة عشرة أيام</nb-option>
+                <nb-option value="4">لمدة أسبوع</nb-option>
+                <nb-option value="5">لمدة شهر</nb-option>
+              </nb-select>
+            </td>
+            <td>
+              <button (click)="onRemoveMedicine(i)" nbButton [nbTooltip]="'Add Medicine' | langg" size="tiny" status="danger">
+                <nb-icon icon="close-square"></nb-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button (click)="onAddMedicine()" nbButton [nbTooltip]="'Add Medicine' | langg" size="small" class="mb-1">
+        <nb-icon icon="plus"></nb-icon>
+      </button>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="text-center nbButton-group">
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="button" status="success" [disabled]="!form.valid" langg>Save & Print</button>
+        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<swal #doneSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Success' | langg"
+  [text]="'Done successfully!' | langg" [confirmButtonText]="'Add New Booking' | langg"
+  [cancelButtonText]="'Close' | langg" confirmButtonColor="#00d68f">
+</swal>

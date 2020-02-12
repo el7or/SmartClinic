@@ -139,7 +139,9 @@ export class BookingsListComponent implements OnInit {
         patientDetails: "ملخص حالة الدفع:"
       },
       autoFocus: true,
-      hasBackdrop: true
+      hasBackdrop: true,
+      closeOnBackdropClick: false,
+      closeOnEsc: false
     });
   }
 

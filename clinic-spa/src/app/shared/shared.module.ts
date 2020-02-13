@@ -22,7 +22,7 @@ import {
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { NbSecurityModule } from "@nebular/security";
 
-import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileComponent } from "./components/profile/profile.component";
 import { DEFAULT_THEME } from "./styles/theme.default";
 import { COSMIC_THEME } from "./styles/theme.cosmic";
 import { CORPORATE_THEME } from "./styles/theme.corporate";
@@ -36,8 +36,10 @@ import { LanggPipe } from "./pipes/langg.pipe";
 import { RouterModule } from "@angular/router";
 import { DateWithoutTimePipe } from "./pipes/date-without-time.pipe";
 import { LocalDateShortPipe } from "./pipes/local-date-short.pipe";
-import { LocalDateLongPipe } from './pipes/local-date-long.pipe';
-import { Time12HourPipe } from './pipes/time-12-hour.pipe';
+import { LocalDateLongPipe } from "./pipes/local-date-long.pipe";
+import { Time12HourPipe } from "./pipes/time-12-hour.pipe";
+import { PrintMedicinesComponent } from "./components/prints/print-medicines/print-medicines.component";
+import { PrintInvoiceComponent } from "./components/prints/print-invoice/print-invoice.component";
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -57,7 +59,14 @@ const NB_MODULES = [
   NbInputModule,
   NbDialogModule.forChild()
 ];
-const COMPONENTS = [HeaderComponent, FooterComponent, ProfileComponent, TinyMCEComponent];
+const COMPONENTS = [
+  HeaderComponent,
+  FooterComponent,
+  ProfileComponent,
+  TinyMCEComponent,
+  PrintMedicinesComponent,
+  PrintInvoiceComponent
+];
 const PIPES = [
   TimeAgoPipe,
   LanggPipe,
@@ -71,7 +80,7 @@ const PIPES = [
   imports: [CommonModule, ...NB_MODULES, RouterModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS, LanggDirective],
   declarations: [...COMPONENTS, ...PIPES, LanggDirective],
-  entryComponents:[ProfileComponent]
+  entryComponents: [ProfileComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

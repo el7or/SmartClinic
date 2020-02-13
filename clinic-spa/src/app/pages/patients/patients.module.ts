@@ -29,7 +29,6 @@ import { InfoDetailComponent } from './patient-details/info-detail/info-detail.c
 import { QuestionsComponent } from './patient-details/questions/questions.component';
 import { MedicinesComponent } from './patient-details/medicines/medicines.component';
 import { MedicinesSummaryComponent } from './patient-details/medicines/medicines-summary/medicines-summary.component';
-import { MedicinesPrintComponent } from './patient-details/medicines/medicines-print/medicines-print.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +39,6 @@ import { MedicinesPrintComponent } from './patient-details/medicines/medicines-p
     QuestionsComponent,
     MedicinesComponent,
     MedicinesSummaryComponent,
-    MedicinesPrintComponent
   ],
   imports: [
     CommonModule,

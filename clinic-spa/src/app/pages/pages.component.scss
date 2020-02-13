@@ -30,4 +30,9 @@
     @include nb-ltr(margin, 0 0.5rem 0 0);
       @include nb-rtl(margin, 0 0 0 0.5rem);
   }
+
+  print-medicines,
+    print-invoice{
+      display: none;
+    }
 }

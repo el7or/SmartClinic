@@ -139,9 +139,6 @@
   </nb-card>
 </form>
 
-<swal #doneSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Success' | langg"
-  [text]="'Done successfully!' | langg" [confirmButtonText]="'Add New Booking' | langg"
-  [cancelButtonText]="'Close' | langg" confirmButtonColor="#00d68f">
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
 </swal>
-
-<medicines-print></medicines-print>

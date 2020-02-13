@@ -1,9 +1,11 @@
 import { NbDialogService } from "@nebular/theme";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Location } from "@angular/common";
 import { NgForm } from "@angular/forms";
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { MedicinesSummaryComponent } from "./medicines-summary/medicines-summary.component";
+import { PrintService, printSections } from './../../../../shared/services/print.service';
 
 @Component({
   selector: "medicines",
@@ -12,6 +14,7 @@ import { MedicinesSummaryComponent } from "./medicines-summary/medicines-summary
 })
 export class MedicinesComponent implements OnInit {
   formLoading: boolean = false;
+  @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   medicines: any[] = [
     {
       name: "",
@@ -25,7 +28,8 @@ export class MedicinesComponent implements OnInit {
 
   constructor(
     public location: Location,
-    private dialogService: NbDialogService
+    private dialogService: NbDialogService,
+    private printService:PrintService
   ) {}
 
   ngOnInit() {}
@@ -60,15 +64,12 @@ export class MedicinesComponent implements OnInit {
   }
 
   onSavePrint() {
-    const printContent = document.getElementById("print-medicines");
-    const WindowPrt = window.open(
-      "",
-      "",
-      "left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0"
-    );
-    WindowPrt.document.write(printContent.innerHTML);
-    WindowPrt.document.close();
-    //WindowPrt.focus();
-    WindowPrt.print();
+    this.formLoading =  true;
+    this.printService.printSection.next(printSections.printMedicines);
+    setTimeout(() => {
+    window.print();
+    this.formLoading = false;
+    this.doneSwal.fire();
+    }, 1000);
   }
 }

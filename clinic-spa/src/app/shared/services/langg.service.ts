@@ -33,9 +33,6 @@ export class LanggService implements OnDestroy {
     titleService: Title,
     private dirService: NbLayoutDirectionService
   ) {
-    // =====> get list of translations from json file:
-    this._words = words.default;
-
     // =====> change language based on value of BehaviorSubject 'language':
     this.langgSubscription = this.lang.subscribe(lang => {
       if (lang == "en") {
@@ -54,6 +51,9 @@ export class LanggService implements OnDestroy {
         }
       }
     });
+
+    // =====> get list of translations from json file:
+    this._words = words.default;
   }
 
   ngOnDestroy() {

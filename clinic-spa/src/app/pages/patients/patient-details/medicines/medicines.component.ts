@@ -5,7 +5,7 @@ import { Location } from "@angular/common";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
-import { MedicinesService } from './medicines.service';
+import { MedicinesService } from "./medicines.service";
 import { MedicinesSummaryComponent } from "./medicines-summary/medicines-summary.component";
 
 @Component({
@@ -31,7 +31,7 @@ export class MedicinesComponent implements OnInit {
     public location: Location,
     private dialogService: NbDialogService,
     private router: Router,
-    private medicineService:MedicinesService
+    private medicineService: MedicinesService
   ) {}
 
   ngOnInit() {}
@@ -63,6 +63,24 @@ export class MedicinesComponent implements OnInit {
 
   onRemoveMedicine(index) {
     this.medicines.splice(index, 1);
+  }
+
+  onSave() {
+    this.formLoading = true;
+    setTimeout(() => {
+      this.formLoading = false;
+      this.doneSwal.fire();
+      this.medicines = [
+        {
+          name: "",
+          concentration: "",
+          form: "",
+          dose: "",
+          timing: "",
+          period: ""
+        }
+      ];
+    }, 1000);
   }
 
   onSavePrint() {

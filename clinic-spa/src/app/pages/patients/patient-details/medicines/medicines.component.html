@@ -1,53 +1,7 @@
-  <nb-card>
-    <nb-card-body>
-      <h6 langg>Past Prescriptions:</h6>
-      <table class="table table-bordered table-sm">
-        <thead class="thead-dark">
-          <tr>
-            <th langg>Date</th>
-            <th langg>Medicines</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody class="small">
-          <tr>
-            <td>1/1/2020</td>
-            <td>Antox, Cornivita, Multirelax, Plaquanile, Tolmet
-              <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
-                [nbTooltip]="'Prescription Details' | langg">
-                <nb-icon icon="info"></nb-icon>
-              </button>
-            </td>
-            <td class="text-center">
-              <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint()" langg >Print</button>
-            </td>
-          </tr>
-          <tr>
-            <td>5/2/2020</td>
-            <td>Antox, Cornivita
-              <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
-                [nbTooltip]="'Prescription Details' | langg">
-                <nb-icon icon="info"></nb-icon>
-              </button>
-            </td>
-            <td class="text-center">
-              <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint()" langg>Print</button>
-            </td>
-          </tr>
-          <tr>
-            <td>3/3/2020</td>
-            <td>Plaquanile, Tolmet
-              <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
-                [nbTooltip]="'Prescription Details' | langg">
-                <nb-icon icon="info"></nb-icon>
-              </button>
-            </td>
-            <td class="text-center">
-              <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint()" langg>Print</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<nb-card>
+  <nb-card-body>
+    <form #form="ngForm" (ngSubmit)="onAddPrescription(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+      nbSpinnerStatus="success">
       <h6 langg>Add Prescription:</h6>
       <table class="table mb-1">
         <tbody>
@@ -115,26 +69,81 @@
             </td>
             <td>
               <button (click)="onRemoveMedicine(i)" nbButton [nbTooltip]="'Add Medicine' | langg" size="tiny"
-                status="danger">
+                status="danger" [hidden]="item== medicines[0]">
                 <nb-icon icon="close-square"></nb-icon>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
-      <button (click)="onAddMedicine()" nbButton [nbTooltip]="'Add Medicine' | langg" size="small" class="mb-1">
+      <button (click)="onAddMedicine()" nbButton [nbTooltip]="'Add Medicine' | langg" size="small" class="mb-1"
+        [disabled]="!medicines[0].name">
         <nb-icon icon="plus"></nb-icon>
       </button>
-    </nb-card-body>
-    <nb-card-footer>
-      <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!medicines[0].name" langg>Save</button>
-        <button nbButton type="button" status="success" (click)="onSavePrint()" [disabled]="!medicines[0].name" langg>Save &
+      <div class="form-control-group">
+        <textarea nbInput ngModel #adress="ngModel" name="adress" [placeholder]="'Other medications or Notes ...' | langg" fullWidth ></textarea>
+      </div>
+      <div class="text-center nbButton-group mb-1">
+        <button nbButton type="submit" status="success" (click)="onSave()" [disabled]="!medicines[0].name" langg>Save</button>
+        <button nbButton type="button" status="success" (click)="onSavePrint()" [disabled]="!medicines[0].name"
+          langg>Save
+          &
           Print</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
-    </nb-card-footer>
-  </nb-card>
+    </form>
+  </nb-card-body>
+  <nb-card-footer>
+    <h6 langg>Past Prescriptions:</h6>
+    <table class="table table-bordered table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th langg>Date</th>
+          <th langg>Medicines</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="small">
+        <tr>
+          <td>1/1/2020</td>
+          <td>Antox, Cornivita, Multirelax, Plaquanile, Tolmet
+            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
+              [nbTooltip]="'Prescription Details' | langg">
+              <nb-icon icon="info"></nb-icon>
+            </button>
+          </td>
+          <td class="text-center">
+            <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint()" langg>Print</button>
+          </td>
+        </tr>
+        <tr>
+          <td>5/2/2020</td>
+          <td>Antox, Cornivita
+            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
+              [nbTooltip]="'Prescription Details' | langg">
+              <nb-icon icon="info"></nb-icon>
+            </button>
+          </td>
+          <td class="text-center">
+            <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint()" langg>Print</button>
+          </td>
+        </tr>
+        <tr>
+          <td>3/3/2020</td>
+          <td>Plaquanile, Tolmet
+            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
+              [nbTooltip]="'Prescription Details' | langg">
+              <nb-icon icon="info"></nb-icon>
+            </button>
+          </td>
+          <td class="text-center">
+            <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint()" langg>Print</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-footer>
+</nb-card>
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
   [showConfirmButton]="false">

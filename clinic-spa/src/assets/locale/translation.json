@@ -198,6 +198,7 @@
   {"ar":"الأمراض المصاحبة","en":"Associated Diseases"},
   {"ar":"توضيح","en":"Caption"},
   {"ar":"مستوى الصلاحية","en":"Role"},
+  {"ar":"التفعيل","en":"Activation"},
   {"ar":"قائمة الأسئلة الخاصة بالأمراض المصاحبة التي تظهر في ملف كل مريض","en":"List of Associated Disease questions that appear in each patient's file"},
   {"ar":"الروشتات السابقة:","en":"Past Prescriptions:"},
   {"ar":"إضافة روشيتة:","en":"Add Prescription:"},
@@ -211,5 +212,6 @@
   {"ar":"الجرعة","en":"Dose"},
   {"ar":"الوقت","en":"Timing"},
   {"ar":"الفترة","en":"Period"},
-  {"ar":"إضافة دواء","en":"Add Medicine"}
+  {"ar":"إضافة دواء","en":"Add Medicine"},
+  {"ar":"أدوية أخرى أو ملاحظات ....","en":"Other medications or Notes ..."}
 ]

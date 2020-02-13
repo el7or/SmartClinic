@@ -8,6 +8,18 @@ import { Question } from "./settings.model";
 export class SettingsService {
   workdays: number[] = [0, 1, 2, 3, 4, 5, 6];
   sortBookingsBy: string = "manual";
+
+  printInfo: {} =
+    {
+      doctorName: "دكتور بهاء علي قرنة",
+      doctorDegree: "أستاذ جراحة العظام والمفاصل جامعة الأزهر",
+      clinicTitle: "مركز العظام والمفاصل للأطفال والكبار",
+      phone1: "01254215215",
+      phone2: "02315251512",
+      phone3: "",
+      address1: "المهندسين شارع نجيب محفوظ عمارة 5 شقة 6",
+      address2: ""
+    };
   questionsList: Question[] = [
     {
       id: 1,

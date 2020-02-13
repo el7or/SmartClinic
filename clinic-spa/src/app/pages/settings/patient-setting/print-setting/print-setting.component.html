@@ -1,0 +1,117 @@
+<form #form="ngForm" (ngSubmit)="onSubmit(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
+  <nb-card>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-control-group">
+            <label for="input-name" class="label"><span langg>Doctor Name which will appear by same text in the top
+                right of Prescription during printing</span>:</label>
+            <input nbInput ngModel [(ngModel)]="printInfoSetting.doctorName" #doctorName name="doctorName" id="input-name" fullWidth
+              [placeholder]="'Doctor Name' | langg" fieldSize="small" required minlength="5" maxlength="50"
+              [status]="doctorName.touched ? (doctorName.invalid  ? 'danger' : 'success') : ''">
+            <ng-container *ngIf="doctorName.invalid && doctorName.touched">
+              <p class="error-message" *ngIf="doctorName?.errors.required" langg>
+                Doctor Name is required!
+              </p>
+              <p class="error-message" *ngIf="doctorName?.errors.minlength || doctorName?.errors.maxlength" langg>
+                Doctor Name should contains from 5 to 50 characters!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-control-group">
+            <label for="input-clinic" class="label"><span langg>Clinic Title which will appear by same text in the top
+                left of Prescription during printing</span>:</label>
+            <input nbInput ngModel [(ngModel)]="printInfoSetting.clinicTitle" #clinicTitle name="clinicTitle" id="input-clinic" fullWidth
+              [placeholder]="'Clinic Title' | langg" fieldSize="small" required minlength="5" maxlength="50"
+              [status]="clinicTitle.touched ? (clinicTitle.invalid  ? 'danger' : 'success') : ''">
+            <ng-container *ngIf="clinicTitle.invalid && clinicTitle.touched">
+              <p class="error-message" *ngIf="clinicTitle?.errors.required" langg>
+                Clinic Title is required!
+              </p>
+              <p class="error-message" *ngIf="clinicTitle?.errors.minlength || clinicTitle?.errors.maxlength" langg>
+                Clinic Title should contains from 5 to 50 characters!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-control-group">
+            <label for="input-degree" class="label"><span langg>Degree and Career of Doctor which will appear by same
+                text
+                under Doctor Name during printing</span>:</label>
+            <input nbInput ngModel [(ngModel)]="printInfoSetting.doctorDegree" #doctorDegree name="doctorDegree" id="input-degree" fullWidth
+              [placeholder]="'Degree and Career' | langg" fieldSize="small" required minlength="5" maxlength="50"
+              [status]="doctorDegree.touched ? (doctorDegree.invalid  ? 'danger' : 'success') : ''">
+            <ng-container *ngIf="doctorDegree.invalid && doctorDegree.touched">
+              <p class="error-message" *ngIf="doctorDegree?.errors.required" langg>
+                Doctor Degree is required!
+              </p>
+              <p class="error-message" *ngIf="doctorDegree?.errors.minlength || doctorDegree?.errors.maxlength" langg>
+                Doctor Degree should contains from 5 to 50 characters!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-control-group">
+            <label for="input-address" class="label"><span langg>Address which will appear in the right bottom of Prescription during printing</span>:</label>
+            <input nbInput ngModel [(ngModel)]="printInfoSetting.address1" #address1 name="address1" id="input-address" fullWidth class="mb-1"
+              [placeholder]="'Address 1' | langg" fieldSize="small" required minlength="5" maxlength="50"
+              [status]="address1.touched ? (address1.invalid  ? 'danger' : 'success') : ''">
+            <input nbInput ngModel [(ngModel)]="printInfoSetting.address2" #address2 name="address2" fullWidth [placeholder]="'Address 2' | langg"
+              fieldSize="small" minlength="5" maxlength="50"
+              [status]="address2.dirty ? (address2.invalid  ? 'danger' : 'success') : ''">
+            <ng-container *ngIf="(address1.invalid && address1.touched) ||(address2.invalid && address2.touched)">
+              <p class="error-message" *ngIf="address1?.errors?.required" langg>
+                At least one Address is required!
+              </p>
+              <p class="error-message"
+                *ngIf="address1?.errors?.minlength || address1?.errors?.maxlength || address2?.errors?.minlength || address2?.errors?.maxlength"
+                langg>
+                Address should contains from 5 to 50 characters!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-control-group">
+            <label for="input-mobile1" class="label"><span langg>Phone numbers which will appear in the left bottom of Prescription during printing</span>:</label>
+            <input nbInput ngModel [(ngModel)]="printInfoSetting.phone1" #phone1 name="phone1" id="input-mobile1" [placeholder]="'Mobile 1' | langg"
+              fullWidth pattern="[0-9]*" minlength="10" required class="mb-1" fieldSize="small"
+              [status]="phone1.touched ? (phone1.invalid  ? 'danger' : 'success') : ''">
+            <input nbInput [(ngModel)]="printInfoSetting.phone2" #phone2 name="phone2" [placeholder]="'Mobile 2' | langg" fullWidth
+              pattern="[0-9]*" minlength="10" class="mb-1" fieldSize="small"
+              [status]="phone2.dirty ? (phone2.invalid  ? 'danger' : 'success') : ''">
+            <input nbInput [(ngModel)]="printInfoSetting.phone3" #phone3 name="phone3" [placeholder]="'Mobile 3' | langg" fullWidth
+              pattern="[0-9]*" minlength="10" fieldSize="small"
+              [status]="phone3.dirty ? (phone3.invalid  ? 'danger' : 'success') : ''">
+            <ng-container
+              *ngIf="(phone1.invalid && phone1.touched) ||(phone2.invalid && phone2.touched) ||(phone3.invalid && phone3.touched)">
+              <p class="error-message" *ngIf="phone1?.errors?.required" langg>
+                At least one phone is required!
+              </p>
+              <p class="error-message"
+                *ngIf="phone1?.errors?.pattern || phone1?.errors?.minlength ||phone2?.errors?.pattern || phone2?.errors?.minlength ||phone3?.errors?.pattern || phone3?.errors?.minlength"
+                langg>
+                Mobile must be real number!
+              </p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="text-center nbButton-group">
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

@@ -5,12 +5,12 @@
   <header>
     <div class="row">
       <div class="col-4 left">
-        <h2>مركز العظام والمفاصل للأطفال والكبار</h2>
+        <h2>{{printInfoSetting.clinicTitle}}</h2>
       </div>
       <div class="col-4"></div>
       <div class="col-4 right">
-        <h4>دكتور بهاء علي قرنة</h4>
-        <h5>أستاذ جراحة العظام والمفاصل جامعة الأزهر</h5>
+        <h4>{{printInfoSetting.doctorName}}</h4>
+        <h5>{{printInfoSetting.doctorDegree}}</h5>
       </div>
     </div>
   </header>
@@ -50,11 +50,11 @@
   <footer>
     <div class="row">
       <div class="col-4 left">
-        <h6>01254215215 - 02315251512</h6>
+        <h6>{{printInfoSetting.phone1}} - {{printInfoSetting.phone2}} - {{printInfoSetting.phone3}}</h6>
       </div>
       <div class="col-4"></div>
       <div class="col-4 right">
-        <h6>المهندسين شارع نجيب محفوظ عمارة 5 شقة 6</h6>
+        <h6>{{printInfoSetting.address1}} - {{printInfoSetting.address2}}</h6>
       </div>
     </div>
   </footer>

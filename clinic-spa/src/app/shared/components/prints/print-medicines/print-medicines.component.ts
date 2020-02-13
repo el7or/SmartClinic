@@ -1,3 +1,4 @@
+import { SettingsService } from './../../../../pages/settings/settings.service';
 import { Router } from "@angular/router";
 import { Component, OnInit, AfterViewInit } from "@angular/core";
 
@@ -9,6 +10,7 @@ import { MedicinesService } from "../../../../pages/patients/patient-details/med
   styleUrls: ["./print-medicines.component.scss"]
 })
 export class PrintMedicinesComponent implements OnInit, AfterViewInit {
+  printInfoSetting:any;
   medicines: any[] = [
     {
       name: "",
@@ -22,11 +24,13 @@ export class PrintMedicinesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private medicineService: MedicinesService
+    private medicineService: MedicinesService,
+    private settingsService:SettingsService
   ) {}
 
   ngOnInit() {
     this.medicines = this.medicineService.medicinesForPrint;
+    this.printInfoSetting =  this.settingsService.printInfo;
   }
 
   ngAfterViewInit() {

@@ -23,7 +23,6 @@ export class BookingsListComponent implements OnInit {
   autoCompleteList: any[] = [];
   tableLoading = false;
   weekendDays: number[];
-  noResultAutoComplete: boolean = false;
   totalCost:number;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
@@ -144,16 +143,4 @@ export class BookingsListComponent implements OnInit {
       closeOnEsc: false
     });
   }
-
-  /* // =====> on select from autocomplete:
-  onSelectAutocomplete(event: TypeaheadMatch) {
-    this.tableLoading = true;
-    setTimeout(() => {
-      this.currentDay = null;
-      this.bookingsList = this.bookingsList.filter(
-        booking => booking.id == event.item.id
-      );
-      this.tableLoading = false;
-    }, 1000);
-  } */
 }

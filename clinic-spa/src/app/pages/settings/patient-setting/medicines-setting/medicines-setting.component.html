@@ -1,0 +1,33 @@
+<form #form="ngForm" (ngSubmit)="onSaveMedicines()" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
+  <nb-card>
+    <nb-card-body>
+      <label class="label"><span langg>Choose medicine to add to favourite list</span>:</label>
+      <input nbInput ngModel [placeholder]="'Type Medicine Name ..' | langg" [typeahead]="allMedicinesList"
+        typeaheadOptionField="nameMobile" (typeaheadNoResults)="noResultAutoComplete = $event"
+        (typeaheadOnSelect)="onSelectAutocomplete($event)" [isAnimated]="true" [ngModelOptions]="{standalone: true}"
+        class="form-control">
+      <p class="error-message" *ngIf="noResultAutoComplete" langg>No Results Found!</p>
+        <h6 class="my-2"><span langg>Medicines favourite list</span>:</h6>
+      <div class="row my-2 text-left">
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-1" *ngFor="let item of chosenMedicines; index as i">
+          <label class="bold mx-1">{{item}}</label>
+          <button (click)="onRemoveMedicine(i,item)" nbButton type="button" size="tiny" status="basic"
+          [disabled]="chosenMedicines.length==1">
+            <nb-icon icon="close-square"></nb-icon>
+          </button>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="text-center nbButton-group">
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

@@ -213,5 +213,9 @@
   {"ar":"الوقت","en":"Timing"},
   {"ar":"الفترة","en":"Period"},
   {"ar":"إضافة دواء","en":"Add Medicine"},
-  {"ar":"أدوية أخرى أو ملاحظات ....","en":"Other medications or Notes ..."}
+  {"ar":"إزالة دواء","en":"Remove Medicine"},
+  {"ar":"أدوية أخرى أو ملاحظات ....","en":"Other medications or Notes ..."},
+  {"ar":"اكتب اسم الدواء ..","en":"Type Medicine Name .."},
+  {"ar":"اختر دواء لإضافته لقائمة الأدوية المفضلة","en":"Choose medicine to add to favourite list"},
+  {"ar":"قائمة الأدوية المفضلة","en":"Medicines favourite list"}
 ]

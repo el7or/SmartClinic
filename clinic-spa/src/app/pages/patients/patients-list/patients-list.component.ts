@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { NgForm } from "@angular/forms";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NbDialogService } from "@nebular/theme";
@@ -16,9 +17,12 @@ export class PatientsListComponent implements OnInit {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   formLoading = false;
 
-  constructor(private dialogService: NbDialogService) {}
+  constructor(private dialogService: NbDialogService, private route:ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    let patientName = this.route.snapshot.queryParamMap.get('name');
+    console.log(patientName);
+  }
 
   onSearch(form: NgForm) {}
 

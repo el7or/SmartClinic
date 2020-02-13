@@ -22,6 +22,8 @@ import { ClinicSettingComponent } from "./clinic-setting/clinic-setting.componen
 import { SettingsComponent } from "./settings.component";
 import { PatientSettingComponent } from "./patient-setting/patient-setting.component";
 import { QuestionsSettingComponent } from "./patient-setting/questions-setting/questions-setting.component";
+import { MedicinesSettingComponent } from './patient-setting/medicines-setting/medicines-setting.component';
+import { TypeaheadModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { QuestionsSettingComponent } from "./patient-setting/questions-setting/q
     ClinicSettingComponent,
     UsersSettingComponent,
     PatientSettingComponent,
-    QuestionsSettingComponent
+    QuestionsSettingComponent,
+    MedicinesSettingComponent
   ],
   imports: [
     CommonModule,
@@ -47,6 +50,7 @@ import { QuestionsSettingComponent } from "./patient-setting/questions-setting/q
     NbToggleModule,
     NbTabsetModule,
     NbIconModule,
+    TypeaheadModule.forRoot(),
     SweetAlert2Module.forChild()
   ]
 })

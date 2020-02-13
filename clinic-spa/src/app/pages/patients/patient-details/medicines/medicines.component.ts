@@ -83,7 +83,15 @@ export class MedicinesComponent implements OnInit {
     }, 1000);
   }
 
-  onSavePrint() {
+  onSavePrint(form) {
+    this.medicines.push({
+      name: form.value.note,
+      concentration: "",
+      form: "",
+      dose: "",
+      timing: "",
+      period: ""
+    })
     this.formLoading = true;
     this.medicineService.medicinesForPrint = this.medicines;
     setTimeout(() => {

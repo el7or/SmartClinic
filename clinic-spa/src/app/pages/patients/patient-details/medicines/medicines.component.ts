@@ -2,10 +2,13 @@ import { NbDialogService } from "@nebular/theme";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Location } from "@angular/common";
 import { NgForm } from "@angular/forms";
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 import { MedicinesSummaryComponent } from "./medicines-summary/medicines-summary.component";
-import { PrintService, printSections } from './../../../../shared/services/print.service';
+import {
+  PrintService,
+  printSections
+} from "./../../../../shared/services/print.service";
 
 @Component({
   selector: "medicines",
@@ -29,7 +32,7 @@ export class MedicinesComponent implements OnInit {
   constructor(
     public location: Location,
     private dialogService: NbDialogService,
-    private printService:PrintService
+    private printService: PrintService
   ) {}
 
   ngOnInit() {}
@@ -64,12 +67,12 @@ export class MedicinesComponent implements OnInit {
   }
 
   onSavePrint() {
-    this.formLoading =  true;
+    this.formLoading = true;
     this.printService.printSection.next(printSections.printMedicines);
     setTimeout(() => {
-    window.print();
-    this.formLoading = false;
-    this.doneSwal.fire();
+      window.print();
+      this.formLoading = false;
+      this.doneSwal.fire();
     }, 1000);
   }
 }

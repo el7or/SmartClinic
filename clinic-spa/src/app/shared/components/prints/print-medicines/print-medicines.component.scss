@@ -1,6 +1,96 @@
-.print {
+
+.print-container{
+  direction: ltr ;
+  width: 90% ;
+  height: 90% ;
+  margin: 0 auto ;
+  padding-top: 5rem ;
+}
+
+.print-container .logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.print-container .logo img {
+  width: 90px;
+}
+
+.print-container header{
+  border-top: 1px solid  #5D6975;
+  border-bottom: 1px solid  #5D6975;
+  text-align: center ;
+  padding: 2rem 0;
+}
+.print-container footer{
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #5D6975;
+  padding: 1rem 0 3rem;
+  width: 90%;
+}
+
+.print-container div.left{
+  float: left ;
+}
+.print-container div.right{
+  float: right ;
+}
+
+.print-container main table{
+  width: 100%;
+}
+
+.print-container main table thead{
+  border-bottom: 1px solid #C1CED9;
+}
+
+.print-container main table th div.right{
+  text-align: right;
+  direction: rtl;
+  padding: 1rem 0;
+}
+.print-container main table th div.right label.dotted{
+  border-bottom: 1px dashed;
+}
+
+/* .print-container main table tbody tr td.left{
+  padding-top: 2rem;
+} */
+.print-container main table tbody tr td.right{
+  padding-top: 3rem;
+}
+
+.print-container h2, .print-container h4, .print-container h5{
+  font-family: 'DecoType Naskh';
+  //font-family: "DecoType Naskh", "Aldhabi", "Andalus", "Sakkal Majalla", "Simplified Arabic", "Traditional Arabic", "Arabic Typesetting", "Urdu Typesetting", "Tahoma";
+}
+.print-container table thead div.right{
+  font-family: 'Arabic Typesetting';
+  font-size: 1.5rem;
+}
+.print-container span.r{
+  font-family:'ToyorAljanah';
+  font-weight: bolder;
+  font-size: 3rem;
+}
+.print-container span.medicine , .print-container span.concentration , .print-container span.form {
+font-family: "Urdu Typesetting";
+font-weight: bold;
+  font-size: 1.5rem;
+}
+.print-container tbody td.right{
+  font-family: "Traditional Arabic";
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+
+/* .print {
   //display: none;
-  direction: ltr !important;
+  direction: ltr ;
 }
 
 .clearfix:after {
@@ -140,4 +230,4 @@ footer {
   padding: 8px 0;
   text-align: center;
 }
-
+ */

@@ -31,30 +31,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let item of medicines">
           <td class="left">
             <span class="r">R/</span>&nbsp;
-            <span class="medicine">Cornivita</span>&nbsp;
-            <span class="concentration">2 mg</span>&nbsp;
-            <span class="form">Caps</span>
+            <span class="medicine">{{item.name}}</span>&nbsp;
+            <span class="concentration">{{item.concentration}}</span>&nbsp;
+            <span class="form">{{item.form}}</span>
           </td>
           <td class="right">
-            <span class="Dose">مرتان يومياً</span>&nbsp;
-            <span class="timing">بعد الأكل</span>&nbsp;
-            <span class="period">لمدة أسبوع</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="left">
-            <span class="r">R/</span>&nbsp;
-            <span class="medicine">Cornivita</span>&nbsp;
-            <span class="concentration">2 mg</span>&nbsp;
-            <span class="form">Caps</span>
-          </td>
-          <td class="right">
-            <span class="Dose">مرتان يومياً</span>&nbsp;
-            <span class="timing">بعد الأكل</span>&nbsp;
-            <span class="period">لمدة أسبوع</span>
+            <span class="Dose">{{item.dose}}</span>&nbsp;
+            <span class="timing">{{item.timing}}</span>&nbsp;
+            <span class="period">{{item.period}}</span>
           </td>
         </tr>
       </tbody>

@@ -40,7 +40,7 @@ const routes: Routes = [
             component: PatientsListComponent
           },
           {
-            path: "details/:id",
+            path: "details/:id/:tab",
             component: PatientDetailsComponent
           }
         ]

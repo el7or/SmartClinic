@@ -11,12 +11,13 @@ export class PatientDetailsComponent implements OnInit {
   isNewPatient = false;
   pageHeader:string;
   patientName:string;
+  isTapPrescription:boolean = false;
 
   constructor(private route: ActivatedRoute, public location:Location) { }
 
   ngOnInit() {
-    // =====> check if new patient or details of old patient:
     this.route.paramMap.subscribe(paramMap => {
+    // =====> check if new patient or details of old patient:
       const patientId = paramMap.get('id');
       if (patientId=='new') {
         this.isNewPatient = true;
@@ -28,11 +29,12 @@ export class PatientDetailsComponent implements OnInit {
         this.pageHeader = 'Patient Profile';
         this.patientName = "أحمد محمد علي";
       }
-      /* if (!paramMap.has('id')) {
-        this.location.back();
-        console.log('back');
-        return;
-      } */
+
+      // =====> check if want open Prescription tab:
+      const tapParam = paramMap.get('tab');
+      if (tapParam=='prescription') {
+        this.isTapPrescription = true;
+      }
     });
   }
 

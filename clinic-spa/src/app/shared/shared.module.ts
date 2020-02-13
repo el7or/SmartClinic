@@ -1,3 +1,4 @@
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
@@ -57,7 +58,8 @@ const NB_MODULES = [
   NbCardModule,
   NbListModule,
   NbInputModule,
-  NbDialogModule.forChild()
+  NbDialogModule.forChild(),
+  SweetAlert2Module.forRoot()
 ];
 const COMPONENTS = [
   HeaderComponent,

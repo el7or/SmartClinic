@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <button nbButton [routerLink]="['/pages/patients/details/new']" hero size="small">
+    <button nbButton [routerLink]="['/pages/patients/details','new','basic']" hero size="small">
       <nb-icon icon="person-add-outline"></nb-icon><span langg>Add New Patient</span>
     </button>
   </nb-card-header>
@@ -58,7 +58,7 @@
             </button>
           </td>
           <td class="text-center">
-            <button nbButton [routerLink]="['/pages/patients/details',1]" size="tiny" status="info" langg>Patient
+            <button nbButton [routerLink]="['/pages/patients/details',1,'basic']" size="tiny" status="info" langg>Patient
               Profile</button>&nbsp;
             <button nbButton (click)="onBook(0)" size="tiny" status="success" langg>Book</button>&nbsp;
             <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button>
@@ -73,7 +73,7 @@
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td class="text-center">
-            <button nbButton [routerLink]="['/pages/patients/details',2]" size="tiny" status="info" langg>Patient
+            <button nbButton [routerLink]="['/pages/patients/details',2,'basic']" size="tiny" status="info" langg>Patient
               Profile</button>&nbsp;
             <button nbButton (click)="onBook(0)" size="tiny" status="success" langg>Book</button>&nbsp;
             <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button>
@@ -88,7 +88,7 @@
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td class="text-center">
-            <button nbButton [routerLink]="['/pages/patients/details',3]" size="tiny" status="info" langg>Patient
+            <button nbButton [routerLink]="['/pages/patients/details',3,'basic']" size="tiny" status="info" langg>Patient
               Profile</button>&nbsp;
             <button nbButton (click)="onBook(0)" size="tiny" status="success" langg>Book</button>&nbsp;
             <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button>
@@ -103,7 +103,7 @@
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td class="text-center">
-            <button nbButton [routerLink]="['/pages/patients/details',4]" size="tiny" status="info" langg>Patient
+            <button nbButton [routerLink]="['/pages/patients/details',4,'basic']" size="tiny" status="info" langg>Patient
               Profile</button>&nbsp;
             <button nbButton (click)="onBook(0)" size="tiny" status="success" langg>Book</button>&nbsp;
             <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button>
@@ -118,7 +118,7 @@
               <nb-icon icon="info"></nb-icon>
             </button></td>
           <td class="text-center">
-            <button nbButton [routerLink]="['/pages/patients/details',5]" size="tiny" status="info" langg>Patient
+            <button nbButton [routerLink]="['/pages/patients/details',5,'basic']" size="tiny" status="info" langg>Patient
               Profile</button>&nbsp;
             <button nbButton (click)="onBook(0)" size="tiny" status="success" langg>Book</button>&nbsp;
             <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button>

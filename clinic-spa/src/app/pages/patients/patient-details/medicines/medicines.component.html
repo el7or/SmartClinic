@@ -1,5 +1,3 @@
-<form #form="ngForm" (ngSubmit)="onAddPrescription(form)" aria-labelledby="title" [nbSpinner]="formLoading"
-  nbSpinnerStatus="success">
   <nb-card>
     <nb-card-body>
       <h6 langg>Past Prescriptions:</h6>
@@ -21,7 +19,7 @@
               </button>
             </td>
             <td class="text-center">
-              <button nbButton type="submit" status="basic" size="tiny" langg>Print</button>
+              <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint()" langg >Print</button>
             </td>
           </tr>
           <tr>
@@ -33,7 +31,7 @@
               </button>
             </td>
             <td class="text-center">
-              <button nbButton type="submit" status="basic" size="tiny" langg>Print</button>
+              <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint()" langg>Print</button>
             </td>
           </tr>
           <tr>
@@ -45,7 +43,7 @@
               </button>
             </td>
             <td class="text-center">
-              <button nbButton type="submit" status="basic" size="tiny" langg>Print</button>
+              <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint()" langg>Print</button>
             </td>
           </tr>
         </tbody>
@@ -57,62 +55,62 @@
             <td>
               <nb-select fullWidth [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Medication Name' | langg" size="small">
-                <nb-option value="1">Antox</nb-option>
-                <nb-option value="2">Cornivita</nb-option>
-                <nb-option value="3">Plaquanile</nb-option>
-                <nb-option value="4">Tolmet</nb-option>
-                <nb-option value="5">Multirelax</nb-option>
+                <nb-option value="Antox">Antox</nb-option>
+                <nb-option value="Cornivita">Cornivita</nb-option>
+                <nb-option value="Plaquanile">Plaquanile</nb-option>
+                <nb-option value="Tolmet">Tolmet</nb-option>
+                <nb-option value="Multirelax">Multirelax</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.concentration" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Concentration' | langg" size="small">
-                <nb-option value="1">1 mg</nb-option>
-                <nb-option value="2">2 mg</nb-option>
-                <nb-option value="3">10 mg</nb-option>
-                <nb-option value="4">35 mg</nb-option>
-                <nb-option value="5">60 mg</nb-option>
+                <nb-option value="1 mg">1 mg</nb-option>
+                <nb-option value="2 mg">2 mg</nb-option>
+                <nb-option value="10 mg">10 mg</nb-option>
+                <nb-option value="35 mg">35 mg</nb-option>
+                <nb-option value="60 mg">60 mg</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.form" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Form' | langg" size="small">
-                <nb-option value="1">Tab</nb-option>
-                <nb-option value="2">Caps</nb-option>
-                <nb-option value="3">Syrap</nb-option>
-                <nb-option value="4">Vail</nb-option>
-                <nb-option value="5">Ampule</nb-option>
+                <nb-option value="Tab">Tab</nb-option>
+                <nb-option value="Caps">Caps</nb-option>
+                <nb-option value="Syrap">Syrap</nb-option>
+                <nb-option value="Vail">Vail</nb-option>
+                <nb-option value="Ampule">Ampule</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.dose" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Dose' | langg" size="small">
-                <nb-option value="1">مرة واحدة يومياً</nb-option>
-                <nb-option value="2">مرتان يومياً</nb-option>
-                <nb-option value="3">ثلاث مرات يومياً</nb-option>
-                <nb-option value="4">مرة أسبوعياً</nb-option>
-                <nb-option value="5">يوم ويوم</nb-option>
-                <nb-option value="5">عند اللزوم</nb-option>
+                <nb-option value="مرة واحدة يومياً">مرة واحدة يومياً</nb-option>
+                <nb-option value="مرتان يومياً">مرتان يومياً</nb-option>
+                <nb-option value="ثلاث مرات يومياً">ثلاث مرات يومياً</nb-option>
+                <nb-option value="مرة أسبوعياً">مرة أسبوعياً</nb-option>
+                <nb-option value="يوم ويوم">يوم ويوم</nb-option>
+                <nb-option value="عند اللزوم">عند اللزوم</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.timing" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Timing' | langg" size="small">
-                <nb-option value="1">قبل الأكل</nb-option>
-                <nb-option value="2">بعد الأكل</nb-option>
-                <nb-option value="3">أثناء الأكل</nb-option>
-                <nb-option value="4">بعد الإفطار</nb-option>
-                <nb-option value="5">قبل النوم</nb-option>
+                <nb-option value="قبل الأكل">قبل الأكل</nb-option>
+                <nb-option value="بعد الأكل">بعد الأكل</nb-option>
+                <nb-option value="أثناء الأكل">أثناء الأكل</nb-option>
+                <nb-option value="بعد الإفطار">بعد الإفطار</nb-option>
+                <nb-option value="قبل النوم">قبل النوم</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Period' | langg" size="small">
-                <nb-option value="1">لمدة يوم واحد</nb-option>
-                <nb-option value="2">لمدة ثلاثة أيام</nb-option>
-                <nb-option value="3">لمدة عشرة أيام</nb-option>
-                <nb-option value="4">لمدة أسبوع</nb-option>
-                <nb-option value="5">لمدة شهر</nb-option>
+                <nb-option value="لمدة يوم واحد">لمدة يوم واحد</nb-option>
+                <nb-option value="لمدة ثلاثة أيام">لمدة ثلاثة أيام</nb-option>
+                <nb-option value="لمدة عشرة أيام">لمدة عشرة أيام</nb-option>
+                <nb-option value="لمدة أسبوع">لمدة أسبوع</nb-option>
+                <nb-option value="لمدة شهر">لمدة شهر</nb-option>
               </nb-select>
             </td>
             <td>
@@ -130,14 +128,13 @@
     </nb-card-body>
     <nb-card-footer>
       <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
-        <button nbButton type="button" status="success" (click)="onSavePrint()" [disabled]="!form.valid" langg>Save &
+        <button nbButton type="submit" status="success" [disabled]="!medicines[0].name" langg>Save</button>
+        <button nbButton type="button" status="success" (click)="onSavePrint()" [disabled]="!medicines[0].name" langg>Save &
           Print</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </nb-card-footer>
   </nb-card>
-</form>
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
   [showConfirmButton]="false">

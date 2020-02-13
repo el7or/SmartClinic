@@ -187,11 +187,11 @@
     @include nb-rtl(border-left, 0.125rem solid #edf1f7);
   }
 
-  // =====> hide all component in print except print components:
+  /* // =====> hide all component in print except print components:
   @media print{
     nb-layout{display:none !important;}
     .print-section{
       display: block !important;
     }
-  }
+  } */
 }

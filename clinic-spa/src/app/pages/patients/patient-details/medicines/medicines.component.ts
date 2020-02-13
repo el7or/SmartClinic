@@ -1,14 +1,12 @@
+import { Router } from "@angular/router";
 import { NbDialogService } from "@nebular/theme";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Location } from "@angular/common";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
+import { MedicinesService } from './medicines.service';
 import { MedicinesSummaryComponent } from "./medicines-summary/medicines-summary.component";
-import {
-  PrintService,
-  printSections
-} from "./../../../../shared/services/print.service";
 
 @Component({
   selector: "medicines",
@@ -32,7 +30,8 @@ export class MedicinesComponent implements OnInit {
   constructor(
     public location: Location,
     private dialogService: NbDialogService,
-    private printService: PrintService
+    private router: Router,
+    private medicineService:MedicinesService
   ) {}
 
   ngOnInit() {}
@@ -68,11 +67,10 @@ export class MedicinesComponent implements OnInit {
 
   onSavePrint() {
     this.formLoading = true;
-    this.printService.printSection.next(printSections.printMedicines);
+    this.medicineService.medicinesForPrint = this.medicines;
     setTimeout(() => {
-      window.print();
       this.formLoading = false;
-      this.doneSwal.fire();
+      this.router.navigateByUrl("/print/medicines");
     }, 1000);
   }
 }

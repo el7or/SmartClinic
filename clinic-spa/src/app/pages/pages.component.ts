@@ -1,4 +1,3 @@
-import { PrintService, printSections } from './../shared/services/print.service';
 import { Subscription } from "rxjs";
 import { OnInit, OnDestroy } from "@angular/core";
 import { Component } from "@angular/core";
@@ -34,45 +33,23 @@ import { LanggService } from "../shared/services/langg.service";
         <ngx-footer></ngx-footer>
       </nb-layout-footer>
     </nb-layout>
-    <print-medicines [class.print-section]="isPrintMedicines"></print-medicines>
-    <print-invoice [class.print-section]="isPrintInvoice"></print-invoice>
   `
 })
 export class PagesComponent implements OnInit, OnDestroy {
   menu = MENU_ITEMS;
   langgloading: boolean;
   langSubscription: Subscription;
-  printSubscription: Subscription;
-  isPrintMedicines:boolean = false;
-  isPrintInvoice:boolean = false;
 
-  constructor(private langgService: LanggService, private printService:PrintService) {}
+  constructor(private langgService: LanggService) {}
 
   ngOnInit() {
     // =====> spin loader on change language from header component:
     this.langSubscription = this.langgService.langLoading.subscribe(
       langSpin => (this.langgloading = langSpin)
     );
-
-    // =====> check if any print section is on:
-    this.printService.getPrintSection().subscribe((printSection:printSections) =>{
-      if(printSection== printSections.printMedicines){
-        this.isPrintMedicines = true;
-        this.isPrintInvoice = false;
-      }
-      else if(printSection== printSections.printInvoice){
-        this.isPrintInvoice = true;
-        this.isPrintMedicines = false;
-      }
-      else{
-        this.isPrintInvoice = false;
-        this.isPrintMedicines = false;
-      }
-    })
   }
 
   ngOnDestroy() {
     this.langSubscription.unsubscribe();
-    this.printSubscription.unsubscribe();
   }
 }

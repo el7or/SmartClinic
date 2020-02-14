@@ -19,6 +19,7 @@ import {
 } from "@nebular/theme";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { PaginationModule, BsDatepickerModule } from "ngx-bootstrap";
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { PatientsComponent } from "./patients.component";
 import { SharedModule } from "./../../shared/shared.module";
@@ -30,6 +31,7 @@ import { QuestionsComponent } from './patient-details/questions/questions.compon
 import { MedicinesComponent } from './patient-details/medicines/medicines.component';
 import { MedicinesSummaryComponent } from './patient-details/medicines/medicines-summary/medicines-summary.component';
 import { HistoryComponent } from './patient-details/history/history.component';
+import { XRaysComponent } from './patient-details/x-rays/x-rays.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { HistoryComponent } from './patient-details/history/history.component';
     MedicinesComponent,
     MedicinesSummaryComponent,
     HistoryComponent,
+    XRaysComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +63,7 @@ import { HistoryComponent } from './patient-details/history/history.component';
     NbIconModule,
     NbTooltipModule,
     NbListModule,
+    Ng2SmartTableModule,
     NbDialogModule.forChild(),
     BsDatepickerModule.forRoot(),
     SweetAlert2Module.forRoot(),

@@ -24,12 +24,12 @@
       <nb-tab [tabTitle]="'EX' | langg" [disabled]="isNewPatient" >
         .......
       </nb-tab>
-      <nb-tab [tabTitle]="'X-Rays' | langg" [disabled]="isNewPatient">
-        .......
-      </nb-tab>
       <nb-tab [tabTitle]="'analyses' | langg" [disabled]="isNewPatient">
         ......
       </nb-tab> -->
+      <nb-tab [tabTitle]="'X-Rays' | langg" [disabled]="isNewPatient">
+        <x-rays></x-rays>
+      </nb-tab>
       <nb-tab [tabTitle]="'Prescription' | langg" [disabled]="isNewPatient" [active]="isTapPrescription">
         <medicines></medicines>
       </nb-tab>

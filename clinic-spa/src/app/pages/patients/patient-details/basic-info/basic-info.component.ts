@@ -15,9 +15,9 @@ import { Location } from "@angular/common";
 import { BookingDetailsComponent } from "../../../bookings/booking-details/booking-details.component";
 
 @Component({
-  selector: "info-detail",
-  templateUrl: "./info-detail.component.html",
-  styleUrls: ["./info-detail.component.scss"]
+  selector: "basic-info",
+  templateUrl: "./basic-info.component.html",
+  styleUrls: ["./basic-info.component.scss"]
 })
 export class InfoDetailComponent implements OnInit, OnDestroy {
   formLoading = false;

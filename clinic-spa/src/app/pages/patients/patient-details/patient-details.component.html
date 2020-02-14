@@ -10,15 +10,15 @@
   <nb-card-body>
     <nb-tabset>
       <nb-tab [tabTitle]="'Basic info' | langg" >
-        <info-detail [(isNewPatient)]="isNewPatient"></info-detail>
+        <basic-info [(isNewPatient)]="isNewPatient"></basic-info>
+      </nb-tab>
+      <nb-tab [tabTitle]="'Patient History' | langg" [disabled]="isNewPatient" >
+        <history></history>
       </nb-tab>
       <nb-tab [tabTitle]="'Associated Diseases' | langg" [disabled]="isNewPatient" >
         <questions></questions>
       </nb-tab>
-      <!-- <nb-tab [tabTitle]="'Patient History' | langg" [disabled]="isNewPatient" >
-        .......
-      </nb-tab>
-      <nb-tab [tabTitle]="'C/O' | langg" [disabled]="isNewPatient" >
+      <!-- <nb-tab [tabTitle]="'C/O' | langg" [disabled]="isNewPatient" >
         .......
       </nb-tab>
       <nb-tab [tabTitle]="'EX' | langg" [disabled]="isNewPatient" >

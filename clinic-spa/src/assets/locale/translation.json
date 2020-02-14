@@ -177,7 +177,6 @@
   {"ar":"بموعد الحجز","en":"According to the Booking Time"},
   {"ar":"يدوي","en":"Manual"},
   {"ar":"الترتيب الحالي للحجوزات يتم حسب إعدادت العيادة","en":"Current Order of Bookings made according to the Clinic Settings"},
-  {"ar":"التاريخ المرضي","en":"Patient History"},
   {"ar":"الروشتة","en":"Prescription"},
   {"ar":"الأدوية","en":"Medicines"},
   {"ar":"عمليات","en":"Operation"},
@@ -238,5 +237,9 @@
   {"ar":"العنوان 1","en":"Address 1"},
   {"ar":"العنوان 2","en":"Address 2"},
   {"ar":"لابد على الأقل من إدخال عنوان واحد!","en":"At least one Address is required!"},
-  {"ar":"لابد أن يكون العنوان ما بين 5 إلى 50 حرف!","en":"Address should contains from 5 to 50 characters!"}
+  {"ar":"لابد أن يكون العنوان ما بين 5 إلى 50 حرف!","en":"Address should contains from 5 to 50 characters!"},
+  {"ar":"السجل المرضي","en":"Patient History"},
+  {"ar":"شكوى المريض","en":"Patient Complaint"},
+  {"ar":"التاريخ المرضي","en":"Medical History"},
+  {"ar":"تاريخ العائلة المرضي","en":"Family Medical History"}
 ]

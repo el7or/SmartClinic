@@ -25,10 +25,11 @@ import { SharedModule } from "./../../shared/shared.module";
 import { PatientsListComponent } from "./patients-list/patients-list.component";
 import { BookingsModule } from './../bookings/bookings.module';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
-import { InfoDetailComponent } from './patient-details/info-detail/info-detail.component';
+import { InfoDetailComponent } from './patient-details/basic-info/basic-info.component';
 import { QuestionsComponent } from './patient-details/questions/questions.component';
 import { MedicinesComponent } from './patient-details/medicines/medicines.component';
 import { MedicinesSummaryComponent } from './patient-details/medicines/medicines-summary/medicines-summary.component';
+import { HistoryComponent } from './patient-details/history/history.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MedicinesSummaryComponent } from './patient-details/medicines/medicines
     QuestionsComponent,
     MedicinesComponent,
     MedicinesSummaryComponent,
+    HistoryComponent,
   ],
   imports: [
     CommonModule,

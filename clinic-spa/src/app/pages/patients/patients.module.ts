@@ -19,7 +19,7 @@ import {
 } from "@nebular/theme";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { PaginationModule, BsDatepickerModule } from "ngx-bootstrap";
-import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { PatientsComponent } from "./patients.component";
 import { SharedModule } from "./../../shared/shared.module";
@@ -63,7 +63,7 @@ import { XRaysComponent } from './patient-details/x-rays/x-rays.component';
     NbIconModule,
     NbTooltipModule,
     NbListModule,
-    Ng2SmartTableModule,
+    FileUploadModule,
     NbDialogModule.forChild(),
     BsDatepickerModule.forRoot(),
     SweetAlert2Module.forRoot(),

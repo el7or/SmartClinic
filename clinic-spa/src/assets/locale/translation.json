@@ -104,6 +104,7 @@
   { "ar": "حجوزات نفس اليوم:", "en": "Same Date Bookings:" },
   { "ar": "حجز", "en": "Book" },
   { "ar": "حجز وطباعة الفاتورة", "en": "Book & Print Invoice" },
+  { "ar": "تعديل", "en": "Edit" },
   { "ar": "حذف", "en": "Delete" },
   { "ar": "سيتم حذف هذه البيانات نهائياً وجميع البيانات الأخرى المتعلقة بها، ولن يمكن استرجاعها مرة أخرى!", "en": "This data will be deleted forever and all other data related to it, and it will not be retrievable again!" },
   { "ar": "الموعد", "en": "Time" },
@@ -241,5 +242,13 @@
   {"ar":"السجل المرضي","en":"Patient History"},
   {"ar":"شكوى المريض","en":"Patient Complaint"},
   {"ar":"التاريخ المرضي","en":"Medical History"},
-  {"ar":"تاريخ العائلة المرضي","en":"Family Medical History"}
+  {"ar":"تاريخ العائلة المرضي","en":"Family Medical History"},
+  {"ar":"إضافة أشعة جديدة","en":"Add New X-Ray"},
+  {"ar":"تاريخ الطلب","en":"Request Date"},
+  {"ar":"النتيجة","en":"Result"},
+  {"ar":"تاريخ النتيجة","en":"Result Date"},
+  {"ar":"ملف الأشعة","en":"X-Ray File"},
+  {"ar":"تنزيل","en":"Download"},
+  {"ar":"رفع","en":"Upload"},
+  {"ar":"إزالة","en":"Remove"}
 ]

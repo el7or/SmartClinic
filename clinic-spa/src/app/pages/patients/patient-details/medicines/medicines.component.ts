@@ -17,11 +17,11 @@ import { medicinesValues } from './medicines.model';
 export class MedicinesComponent implements OnInit {
   formLoading: boolean = false;
   medicinesValues:medicinesValues;
-  noResultAutoComplete: boolean = false;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   medicines: any[] = [
     {
       name: "",
+      isNameValid:true,
       concentration: "",
       form: "",
       dose: "",
@@ -45,6 +45,7 @@ export class MedicinesComponent implements OnInit {
   onAddMedicine() {
     this.medicines.push({
       name: "",
+      isNameValid:true,
       concentration: "",
       form: "",
       dose: "",
@@ -59,16 +60,15 @@ export class MedicinesComponent implements OnInit {
   }
 
   // =====> on add new medication name to medicines list:
-  onAddNewMedicinetoList(input:NgModel) {
-    if(!this.medicinesValues.names.find(n => n==input.value)){
-    this.medicinesValues.names.push(input.value);
-    }
-    input.reset();
+  onAddNewMedicinetoList(medicineName) {
+    this.medicinesValues.names.push(medicineName);
     this.doneSwal.fire();
   }
 
   // =====> on save prescription without print:
-  onSave(form: NgForm) {}
+  onSave(form: NgForm) {
+    console.log(form);
+  }
 
     // =====> on save prescription with print:
   onSavePrint(form: NgForm) {
@@ -76,6 +76,7 @@ export class MedicinesComponent implements OnInit {
     if (form.value.note) {
       this.medicines.push({
         name: form.value.note,
+        isNameValid:true,
         concentration: "",
         form: "",
         dose: "",

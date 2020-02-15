@@ -8,9 +8,15 @@
             <td>
               <input nbInput [(ngModel)]="item.name" [placeholder]="'Type Medicine Name ..' | langg"
                 [typeahead]="medicinesValues.names" typeaheadOptionField="nameMobile" fullWidth
-                (typeaheadNoResults)="noResultAutoComplete = $event" [placeholder]="'Medication Name' | langg"
-                [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}">
-              <p class="error-message" *ngIf="noResultAutoComplete&& item[i] == item" langg>No Results Found!</p>
+                (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Medication Name' | langg"
+                [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
+                [typeaheadScrollable]="true"
+                [typeaheadOptionsInScrollableView]="15">
+              <ng-container *ngIf="!item.isNameValid">
+                <label class="error-message" langg>This Medication Name does not exist! Do you add it to the list?</label>&nbsp;
+                <button nbButton type="button" (click)="onAddNewMedicinetoList(item.name);item.isNameValid=true"
+                  status="info" size="small" class="mt-2" langg>Add</button>
+              </ng-container>
               <!-- <nb-select fullWidth [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Medication Name' | langg" size="small">
                 <nb-option *ngFor="let item of medicinesValues.names" value="item">{{item}}</nb-option>
@@ -56,7 +62,7 @@
         </tbody>
       </table>
       <button (click)="onAddMedicine()" nbButton [nbTooltip]="'Add Medicine' | langg" size="small" class="mb-1"
-        [disabled]="!medicines[0].name">
+        [disabled]="!medicines[0].name || medicines[0].isNameValid">
         <nb-icon icon="plus"></nb-icon>
       </button>
       <div class="form-control-group">
@@ -64,28 +70,27 @@
           fullWidth></textarea>
       </div>
 
-      <div class="form-control-group">
+      <!-- <div class="form-control-group">
         <label for="input-newMedicine" class="label"><span langg>Add a new non-existing Medication Name to the list
             above</span>:</label>&nbsp;
         <input nbInput ngModel #newMedicine="ngModel" type="text" [placeholder]="'New Medication Name' | langg"
           fieldSize="small" [ngModelOptions]="{standalone: true}">&nbsp;
         <button nbButton type="button" (click)="onAddNewMedicinetoList(newMedicine)" [disabled]="!newMedicine.value"
           status="info" size="small" langg>Add</button>
-      </div>
+      </div> -->
 
       <div class="text-center nbButton-group mb-1">
-        <button nbButton type="submit" status="success" (click)="onSave(form)" [disabled]="!medicines[0].name"
-          langg>Save</button>
-        <button nbButton type="submit" status="success" (click)="onSavePrint(form)" [disabled]="!medicines[0].name"
-          langg>Save
+        <button nbButton type="submit" status="success" (click)="onSave(form)"
+          [disabled]="!medicines[0].name || !medicines[0].isNameValid" langg>Save</button>
+        <button nbButton type="submit" status="success" (click)="onSavePrint(form)"
+          [disabled]="!medicines[0].name || !medicines[0].isNameValid" langg>Save
           &
           Print</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </form>
-  </nb-card-body>
 
-  <nb-card-footer>
+
     <h6 langg>Past Prescriptions:</h6>
     <table class="table table-bordered table-sm">
       <thead class="thead-dark">
@@ -134,7 +139,7 @@
         </tr>
       </tbody>
     </table>
-  </nb-card-footer>
+  </nb-card-body>
 </nb-card>
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"

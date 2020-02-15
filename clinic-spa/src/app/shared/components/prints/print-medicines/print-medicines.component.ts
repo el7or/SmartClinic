@@ -14,6 +14,7 @@ export class PrintMedicinesComponent implements OnInit, AfterViewInit {
   medicines: any[] = [
     {
       name: "",
+      isNameValid:false,
       concentration: "",
       form: "",
       dose: "",

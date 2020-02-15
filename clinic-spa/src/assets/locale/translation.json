@@ -258,5 +258,7 @@
   {"ar":"رفع","en":"Upload"},
   {"ar":"إزالة","en":"Remove"},
   {"ar":"إضافة","en":"Add"},
-  {"ar":"بيانات الروشتة","en":"Prescription Data"}
+  {"ar":"بيانات الروشتة","en":"Prescription Data"},
+  {"ar":"إسم الدواء هذا غير موجود! هل تضيفه إلى القائمة؟","en":"This Medication Name does not exist! Do you add it to the list?"},
+  {"ar":"إضافة","en":"Add"}
 ]

@@ -9,10 +9,11 @@
               {{item.type=='xRay'?('Request X-Ray' | langg):('Request Analysis' | langg)}}&nbsp;:</td>
             <td>
               <input nbInput [(ngModel)]="item.name" [placeholder]="'Type Medicine Name ..' | langg"
-                [typeahead]="item.type=='xRay'? xRayNames: analysisNames" fullWidth (typeaheadNoResults)="item.isNameValid = !$event"
-                [placeholder]="item.type=='xRay'?('X-Ray Name' | langg):('Analysis Name' | langg)" [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0"
-                [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
-                [typeaheadOptionsInScrollableView]="15">
+                [typeahead]="item.type=='xRay'? xRayNames: analysisNames" fullWidth
+                (typeaheadNoResults)="item.isNameValid = !$event"
+                [placeholder]="item.type=='xRay'?('X-Ray Name' | langg):('Analysis Name' | langg)" [isAnimated]="true"
+                fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
+                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
               <ng-container *ngIf="!item.isNameValid">
                 <label class="error-message" langg>This Name does not exist! Do you add it to the
                   list?</label>&nbsp;
@@ -21,8 +22,8 @@
               </ng-container>
             </td>
             <td>
-              <input nbInput [(ngModel)]="item.note" [ngModelOptions]="{standalone: true}" [placeholder]="'Note' | langg" fullWidth
-                fieldSize="small">
+              <input nbInput [(ngModel)]="item.note" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Note' | langg" fullWidth fieldSize="small">
             </td>
             <td>
               <button (click)="onRemoveRequest(i)" nbButton [nbTooltip]="'Remove Request' | langg" size="tiny"
@@ -34,12 +35,12 @@
         </tbody>
       </table>
 
-      <button nbButton size="small" (click)="onAddRequest('xray')" [disabled]="requests[0]?.type && (!requests[0]?.name || !requests[0]?.isNameValid)"
-        class="mx-1 mb-1">
+      <button nbButton size="small" (click)="onAddRequest('xray')"
+        [disabled]="requests[0]?.type && (!requests[0]?.name || !requests[0]?.isNameValid)" class="mx-1 mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Request X-Ray</span>
       </button>
-      <button nbButton size="small" (click)="onAddRequest('analysis')" [disabled]="requests[0]?.type && (!requests[0]?.name || !requests[0]?.isNameValid)"
-        class="mx-1 mb-1">
+      <button nbButton size="small" (click)="onAddRequest('analysis')"
+        [disabled]="requests[0]?.type && (!requests[0]?.name || !requests[0]?.isNameValid)" class="mx-1 mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Request Analysis</span>
       </button>
 
@@ -84,8 +85,8 @@
           <td>DIABETES PROFILE</td>
           <td langg>Registered Result</td>
           <td class="text-center">
-            <button nbButton [routerLink]="['/pages/patients/details/1']" [queryParams]="{tab:6}" type="submit"
-              status="info" size="tiny" langg>Show Results</button>
+            <button nbButton [routerLink]="['/pages/patients/details',1,6]" type="button" status="info" size="tiny"
+              langg>Show Results</button>
           </td>
         </tr>
       </tbody>

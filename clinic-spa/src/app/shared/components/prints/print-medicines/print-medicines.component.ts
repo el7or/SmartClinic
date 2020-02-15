@@ -40,9 +40,7 @@ export class PrintMedicinesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       window.print();
-      this.router.navigate(["/pages/patients/details", 1], {
-        queryParams: { tab: 8 }
-      });
+      this.router.navigate(["/pages/patients/details", 1,8]);
     }, 1000);
   }
 }

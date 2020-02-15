@@ -1,70 +1,49 @@
 <nb-card>
   <nb-card-body>
-    <form #form="ngForm" (ngSubmit)="onAddPrescription(form)" aria-labelledby="title" [nbSpinner]="formLoading"
-      nbSpinnerStatus="success">
+    <form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
       <h6 langg>Add Prescription:</h6>
       <table class="table mb-1">
         <tbody>
           <tr *ngFor="let item of medicines; index as i;">
             <td>
-              <nb-select fullWidth [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}"
+              <input nbInput [(ngModel)]="item.name" [placeholder]="'Type Medicine Name ..' | langg"
+                [typeahead]="medicinesValues.names" typeaheadOptionField="nameMobile" fullWidth
+                (typeaheadNoResults)="noResultAutoComplete = $event" [placeholder]="'Medication Name' | langg"
+                [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}">
+              <p class="error-message" *ngIf="noResultAutoComplete&& item[i] == item" langg>No Results Found!</p>
+              <!-- <nb-select fullWidth [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Medication Name' | langg" size="small">
-                <nb-option value="Antox">Antox</nb-option>
-                <nb-option value="Cornivita">Cornivita</nb-option>
-                <nb-option value="Plaquanile">Plaquanile</nb-option>
-                <nb-option value="Tolmet">Tolmet</nb-option>
-                <nb-option value="Multirelax">Multirelax</nb-option>
-              </nb-select>
+                <nb-option *ngFor="let item of medicinesValues.names" value="item">{{item}}</nb-option>
+              </nb-select> -->
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.concentration" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Concentration' | langg" size="small">
-                <nb-option value="1 mg">1 mg</nb-option>
-                <nb-option value="2 mg">2 mg</nb-option>
-                <nb-option value="10 mg">10 mg</nb-option>
-                <nb-option value="35 mg">35 mg</nb-option>
-                <nb-option value="60 mg">60 mg</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.concentrations" value="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.form" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Form' | langg" size="small">
-                <nb-option value="Tab">Tab</nb-option>
-                <nb-option value="Caps">Caps</nb-option>
-                <nb-option value="Syrap">Syrap</nb-option>
-                <nb-option value="Vail">Vail</nb-option>
-                <nb-option value="Ampule">Ampule</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.forms" value="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.dose" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Dose' | langg" size="small">
-                <nb-option value="مرة واحدة يومياً">مرة واحدة يومياً</nb-option>
-                <nb-option value="مرتان يومياً">مرتان يومياً</nb-option>
-                <nb-option value="ثلاث مرات يومياً">ثلاث مرات يومياً</nb-option>
-                <nb-option value="مرة أسبوعياً">مرة أسبوعياً</nb-option>
-                <nb-option value="يوم ويوم">يوم ويوم</nb-option>
-                <nb-option value="عند اللزوم">عند اللزوم</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.doses" value="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.timing" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Timing' | langg" size="small">
-                <nb-option value="قبل الأكل">قبل الأكل</nb-option>
-                <nb-option value="بعد الأكل">بعد الأكل</nb-option>
-                <nb-option value="أثناء الأكل">أثناء الأكل</nb-option>
-                <nb-option value="بعد الإفطار">بعد الإفطار</nb-option>
-                <nb-option value="قبل النوم">قبل النوم</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.timings" value="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Period' | langg" size="small">
-                <nb-option value="لمدة يوم واحد">لمدة يوم واحد</nb-option>
-                <nb-option value="لمدة ثلاثة أيام">لمدة ثلاثة أيام</nb-option>
-                <nb-option value="لمدة عشرة أيام">لمدة عشرة أيام</nb-option>
-                <nb-option value="لمدة أسبوع">لمدة أسبوع</nb-option>
-                <nb-option value="لمدة شهر">لمدة شهر</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.periods" value="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
@@ -81,11 +60,23 @@
         <nb-icon icon="plus"></nb-icon>
       </button>
       <div class="form-control-group">
-        <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'Other medications or Notes ...' | langg" fullWidth ></textarea>
+        <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'Other Notes ...' | langg"
+          fullWidth></textarea>
       </div>
+
+      <div class="form-control-group">
+        <label for="input-newMedicine" class="label"><span langg>Add a new non-existing Medication Name to the list
+            above</span>:</label>&nbsp;
+        <input nbInput ngModel #newMedicine="ngModel" type="text" [placeholder]="'New Medication Name' | langg"
+          fieldSize="small" [ngModelOptions]="{standalone: true}">&nbsp;
+        <button nbButton type="button" (click)="onAddNewMedicinetoList(newMedicine)" [disabled]="!newMedicine.value"
+          status="info" size="small" langg>Add</button>
+      </div>
+
       <div class="text-center nbButton-group mb-1">
-        <button nbButton type="submit" status="success" (click)="onSave()" [disabled]="!medicines[0].name" langg>Save</button>
-        <button nbButton type="button" status="success" (click)="onSavePrint(form)" [disabled]="!medicines[0].name"
+        <button nbButton type="submit" status="success" (click)="onSave(form)" [disabled]="!medicines[0].name"
+          langg>Save</button>
+        <button nbButton type="submit" status="success" (click)="onSavePrint(form)" [disabled]="!medicines[0].name"
           langg>Save
           &
           Print</button>
@@ -93,6 +84,7 @@
       </div>
     </form>
   </nb-card-body>
+
   <nb-card-footer>
     <h6 langg>Past Prescriptions:</h6>
     <table class="table table-bordered table-sm">

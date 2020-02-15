@@ -216,7 +216,9 @@
   {"ar":"الفترة","en":"Period"},
   {"ar":"إضافة دواء","en":"Add Medicine"},
   {"ar":"إزالة دواء","en":"Remove Medicine"},
-  {"ar":"أدوية أخرى أو ملاحظات ....","en":"Other medications or Notes ..."},
+  {"ar":"اسم الدواء الجديد","en":"New Medication Name"},
+  {"ar":"أضف اسم دواء جديد غير موجود إلى القائمة أعلاه","en":"Add a new non-existing Medication Name to the list above"},
+  {"ar":"ملاحظات أخرى ...","en":"Other Notes ..."},
   {"ar":"اكتب اسم الدواء ..","en":"Type Medicine Name .."},
   {"ar":"اختر دواء لإضافته لقائمة الأدوية المفضلة","en":"Choose medicine to add to favourite list"},
   {"ar":"قائمة الأدوية المفضلة","en":"Medicines favourite list"},
@@ -254,5 +256,7 @@
   {"ar":"ملف التقرير","en":"Report File"},
   {"ar":"تنزيل","en":"Download"},
   {"ar":"رفع","en":"Upload"},
-  {"ar":"إزالة","en":"Remove"}
+  {"ar":"إزالة","en":"Remove"},
+  {"ar":"إضافة","en":"Add"},
+  {"ar":"بيانات الروشتة","en":"Prescription Data"}
 ]

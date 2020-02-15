@@ -62,7 +62,7 @@
         </tbody>
       </table>
       <button (click)="onAddMedicine()" nbButton [nbTooltip]="'Add Medicine' | langg" size="small" class="mb-1"
-        [disabled]="!medicines[0].name || medicines[0].isNameValid">
+        [disabled]="!medicines[0].name || !medicines[0].isNameValid">
         <nb-icon icon="plus"></nb-icon>
       </button>
       <div class="form-control-group">

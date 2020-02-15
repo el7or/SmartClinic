@@ -32,6 +32,8 @@ import { MedicinesComponent } from './patient-details/medicines/medicines.compon
 import { MedicinesSummaryComponent } from './patient-details/medicines/medicines-summary/medicines-summary.component';
 import { HistoryComponent } from './patient-details/history/history.component';
 import { XRaysComponent } from './patient-details/x-rays/x-rays.component';
+import { AnalysisComponent } from './patient-details/analysis/analysis.component';
+import { RequestsComponent } from './patient-details/requests/requests.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { XRaysComponent } from './patient-details/x-rays/x-rays.component';
     MedicinesSummaryComponent,
     HistoryComponent,
     XRaysComponent,
+    AnalysisComponent,
+    RequestsComponent,
   ],
   imports: [
     CommonModule,

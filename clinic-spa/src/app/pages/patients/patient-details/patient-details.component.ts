@@ -16,8 +16,8 @@ export class PatientDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, public location:Location) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(paramMap => {
     // =====> check if new patient or details of old patient:
+    this.route.paramMap.subscribe(paramMap => {
       const patientId = paramMap.get('id');
       if (patientId=='new') {
         this.isNewPatient = true;

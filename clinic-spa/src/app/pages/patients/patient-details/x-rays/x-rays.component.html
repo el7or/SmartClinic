@@ -1,115 +1,42 @@
 <nb-card>
   <nb-card-body>
-    <button (click)="onAddXray()" nbButton class="mb-1" langg [nbTooltip]="'Add New X-Ray' | langg">
-      <nb-icon icon="plus"></nb-icon>
-    </button>
-    <table class="table table-bordered text-center">
+    <button [routerLink]="['/pages/patients/details',1,'request']"  nbButton class="mb-1" langg>Request New X-Ray</button>
+    <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
-          <th style="width: 10%" langg>Request Date</th>
-          <th style="width: 10%" langg>X-Ray</th>
-          <th style="width: 10%" langg>Note</th>
-          <th style="width: 10%" langg>Result Date</th>
-          <th style="width: 10%" langg>Result</th>
-          <th style="width: 10%" langg>Disease Severity</th>
-          <th style="width: 10%" langg>X-Ray Image</th>
-          <th style="width: 10%" langg>Report File</th>
-          <th style="width: 10%"></th>
+          <th langg>X-Rays</th>
+          <th langg>Result Date</th>
+          <th langg>Result</th>
+          <th langg>Disease Severity</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of xRaysList; index as i">
-          <td style="width: 10%">
-            <label>{{item.requestDate}}</label>
+        <tr>
+          <td>PLAIN X RAY FILM</td>
+          <td>2020-5-2</td>
+          <td>500/800 Nil</td>
+          <td>Grade 1</td>
+          <td class="text-center">
+            <button nbButton (click)="onOpenXrayDetails()" type="submit" status="info" size="small" langg>Details</button>
           </td>
-          <td style="width: 10%">
-            <nb-select [disabled]="!item.isEditing" [(ngModel)]="item.xRayName" [ngModelOptions]="{standalone: true}"
-              size="small">
-              <nb-option value="PLAIN  X RAY FILM">PLAIN X RAY FILM</nb-option>
-              <nb-option value="COLORED DOPPLER(DUPPLEX)">COLORED DOPPLER(DUPPLEX)</nb-option>
-              <nb-option value="ULTRASONOGRAPHY">ULTRASONOGRAPHY</nb-option>
-              <nb-option value="M . R . I">M . R . I</nb-option>
-            </nb-select>
+        </tr>
+        <tr>
+          <td>ULTRASONOGRAPHY</td>
+          <td>2020-4-1</td>
+          <td>Poor Control</td>
+          <td>Grade 3</td>
+          <td class="text-center">
+            <button nbButton (click)="onOpenXrayDetails()" type="button" status="info" size="small" langg>Details</button>
           </td>
-          <td style="width: 10%">
-            <input [disabled]="!item.isEditing" nbInput [(ngModel)]="item.note" [ngModelOptions]="{standalone: true}"
-              [placeholder]="item.isEditing? ('Note' | langg):''" fieldSize="small">
-          </td>
-          <td style="width: 10%">
-            <input [disabled]="!item.isEditing" type="text" bsDatepicker nbInput fieldSize="small"
-                  [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
-                  [(bsValue)]="item.resultDate">
-          </td>
-          <td style="width: 10%">
-            <input [disabled]="!item.isEditing" nbInput [(ngModel)]="item.result" [ngModelOptions]="{standalone: true}"
-              [placeholder]="item.isEditing? ('Result' | langg):''" fieldSize="small">
-          </td>
-          <td style="width: 10%">
-            Grade 4
-          </td>
-          <!-- Download or Upload -->
-          <td style="width: 10%">
-            <a *ngIf="!item.isEditing" href="../../../../../assets/images/team.png" download nbButton
-            [nbTooltip]="'Download' | langg" size="tiny">
-            <nb-icon icon="download"></nb-icon>
-          </a>
-          <a *ngIf="!item.isEditing" href="../../../../../assets/images/team.png" download nbButton
-            [nbTooltip]="'Download' | langg" size="tiny" status="info">
-            <nb-icon icon="search-outline"></nb-icon>
-          </a>
-          <a *ngIf="!item.isEditing" href="../../../../../assets/images/team.png" download nbButton
-            [nbTooltip]="'Download' | langg" size="tiny" status="danger">
-            <nb-icon icon="trash-outline"></nb-icon>
-          </a>
-          </td>
-          <td style="width: 10%">
-            <a *ngIf="!item.isEditing" href="../../../../../assets/images/team.png" download nbButton
-              [nbTooltip]="'Download' | langg" size="tiny">
-              <nb-icon icon="download"></nb-icon>
-            </a>
-            <a *ngIf="!item.isEditing" href="../../../../../assets/images/team.png" download nbButton
-              [nbTooltip]="'Download' | langg" size="tiny" status="warning">
-              <nb-icon icon="search-outline"></nb-icon>
-            </a>
-            <a *ngIf="!item.isEditing" href="../../../../../assets/images/team.png" download nbButton
-              [nbTooltip]="'Download' | langg" size="tiny" status="danger">
-              <nb-icon icon="trash-outline"></nb-icon>
-            </a>
-            <!-- <input *ngIf="item.isEditing && !uploader.queue[i]?.file" nbInput type="file" ng2FileSelect
-              [uploader]="uploader" fieldSize="tiny">
-            <div *ngIf="uploader.queue[i]?.file && item.isEditing">
-              <div *ngIf="!uploader.queue[i]?.isError" class="progress" style="margin-bottom: 0;">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.queue[i]?.progress + '%' }">
-                </div>
-              </div>
-              <button *ngIf="!uploader.queue[i]?.isError" type="button" nbButton (click)="uploader.queue[i]?.upload()"
-                [disabled]="uploader.queue[i]?.isReady || uploader.queue[i]?.isUploading || uploader.queue[i]?.isSuccess"
-                size="small" status="success" langg>Upload</button>&nbsp;
-              <button *ngIf="!uploader.queue[i]?.isError" nbButton type="button" class="btn btn-danger btn-xs"
-                (click)="uploader.queue[i]?.remove()" size="small" status="danger" langg>Remove</button>
-              <nb-icon *ngIf="uploader.queue[i]?.isError" icon="done-all-outline"></nb-icon>
-            </div>
-            <div>
-            </div> -->
-          </td>
-          <!-- Edit or Delete -->
-          <td style="width: 10%">
-            <button *ngIf="!item.isEditing" (click)="item.isEditing=true" nbButton [nbTooltip]="'Edit' | langg"
-              size="tiny" status="warning">
-              <nb-icon icon="edit"></nb-icon>
-            </button>
-            <button *ngIf="item.isEditing" [disabled]="!item.xRayName" (click)="item.isEditing=false" nbButton [nbTooltip]="'Save' | langg"
-              size="tiny" status="success">
-              <nb-icon icon="checkmark-square-2"></nb-icon>
-            </button>&nbsp;
-            <button *ngIf="item.isEditing" (click)="item.isEditing=false" nbButton [nbTooltip]="'Delete' | langg"
-              size="tiny" status="basic">
-              <nb-icon icon="close-square"></nb-icon>
-            </button>
-            <button *ngIf="!item.isEditing" (click)="onRemoveXray(i)" nbButton [nbTooltip]="'Delete' | langg"
-              size="tiny" status="danger">
-              <nb-icon icon="trash-2-outline"></nb-icon>
-            </button>
+        </tr>
+        <tr>
+          <td>ISOTOPIC  SCAN</td>
+          <td></td>
+          <td>{{'No Result' | langg}}</td>
+          <td></td>
+          <td class="text-center">
+            <button nbButton (click)="onOpenXrayDetails()" type="button" status="success" size="small" langg>Register Result</button>
           </td>
         </tr>
       </tbody>

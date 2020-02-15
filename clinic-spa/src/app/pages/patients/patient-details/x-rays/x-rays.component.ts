@@ -1,3 +1,5 @@
+import { XRayDetailComponent } from './x-ray-detail/x-ray-detail.component';
+import { NbDialogService } from '@nebular/theme';
 import { Component, OnInit } from "@angular/core";
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload';
 
@@ -14,32 +16,7 @@ export class XRaysComponent implements OnInit {
   uploader:FileUploader;
   response:string;
 
-  xRaysList: any[] = [
-    {
-      id:11235,
-      requestDate: "2020-5-3",
-      xRayName: "PLAIN  X RAY FILM",
-      note: "",
-      result: "",
-      resultDate: "2020-12-17",
-      xRayFile: "fghfg",
-      isEditing: false,
-      isDeleted: false
-    },
-    {
-      id:11335,
-      requestDate: "2020-3-3",
-      xRayName: "COLORED DOPPLER(DUPPLEX)",
-      note: "",
-      result: "",
-      resultDate: "",
-      xRayFile: "",
-      isEditing: false,
-      isDeleted: false
-    }
-  ];
-
-  constructor() {
+  constructor(private dialogService: NbDialogService) {
     this.uploader = new FileUploader({
       url: URL,
       disableMultipart: true, // 'DisableMultipart' must be 'true' for formatDataFunction to be called.
@@ -61,21 +38,15 @@ export class XRaysComponent implements OnInit {
 
   ngOnInit() {}
 
-  onAddXray(){
-    this.xRaysList.push({
-      id:11235,
-      requestDate: "2020-2-14",
-      xRayName: "",
-      note: "",
-      result: "",
-      resultDate: "",
-      xRayFile: "fghfg",
-      isEditing: true,
-      isDeleted: false
-    },)
-  }
-
-  onRemoveXray(index){
-    this.xRaysList.splice(index,1);
+  onOpenXrayDetails(){
+    this.dialogService.open(XRayDetailComponent, {
+      context: {
+        xRayDetails: "PLAIN X RAY FILM",
+      },
+      autoFocus: true,
+      hasBackdrop: true,
+      closeOnBackdropClick: false,
+      closeOnEsc: false
+    });
   }
 }

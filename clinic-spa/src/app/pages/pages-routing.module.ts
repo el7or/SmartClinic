@@ -1,9 +1,15 @@
-import { PatientSettingComponent } from './settings/patient-setting/patient-setting.component';
+import { RequestsComponent } from "./patients/patient-details/requests/requests.component";
+import { MedicinesComponent } from "./patients/patient-details/medicines/medicines.component";
+import { QuestionsComponent } from "./patients/patient-details/questions/questions.component";
+import { AnalysisComponent } from "./patients/patient-details/analysis/analysis.component";
+import { XRaysComponent } from "./patients/patient-details/x-rays/x-rays.component";
+import { HistoryComponent } from "./patients/patient-details/history/history.component";
+import { PatientSettingComponent } from "./settings/patient-setting/patient-setting.component";
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
-import { ContactUsComponent } from './contact/contact-us.component';
-import { UsersSettingComponent } from './settings/users-setting/users-setting.component';
+import { ContactUsComponent } from "./contact/contact-us.component";
+import { UsersSettingComponent } from "./settings/users-setting/users-setting.component";
 import { PagesComponent } from "./pages.component";
 import { HomeComponent } from "./home/home.component";
 import { ChatComponent } from "./chat/chat.component";
@@ -16,6 +22,7 @@ import { BookingsListComponent } from "./bookings/bookings-list/bookings-list.co
 import { BookingsComponent } from "./bookings/bookings.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { ClinicSettingComponent } from "./settings/clinic-setting/clinic-setting.component";
+import { BasicInfoComponent } from "./patients/patient-details/basic-info/basic-info.component";
 
 const routes: Routes = [
   {
@@ -40,8 +47,46 @@ const routes: Routes = [
             component: PatientsListComponent
           },
           {
-            path: "details/:id/:tab",
-            component: PatientDetailsComponent
+            path: "details/:id",
+            component: PatientDetailsComponent,
+            children: [
+              {
+                path: "basic",
+                component: BasicInfoComponent
+              },
+              {
+                path: "history",
+                component: HistoryComponent
+              },
+              {
+                path: "co"
+                //component: HistoryComponent
+              },
+              {
+                path: "ex"
+                //component: BasicInfoComponent
+              },
+              {
+                path: "xray",
+                component: XRaysComponent
+              },
+              {
+                path: "analysis",
+                component: AnalysisComponent
+              },
+              {
+                path: "questions",
+                component: QuestionsComponent
+              },
+              {
+                path: "prescription",
+                component: MedicinesComponent
+              },
+              {
+                path: "request",
+                component: RequestsComponent
+              }
+            ]
           }
         ]
       },

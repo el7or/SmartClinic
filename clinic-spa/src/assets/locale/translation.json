@@ -272,5 +272,11 @@
   {"ar":"حالة الطلب","en":"Request Status"},
   {"ar":"لم تُسجل النتيجة","en":"No Result"},
   {"ar":"تم تسجيل النتيجة","en":"Registered Result"},
-  {"ar":"مشاهدة النتائج","en":"Show Results"}
+  {"ar":"تسجيل النتيجة","en":"Register Result"},
+  {"ar":"مشاهدة النتائج","en":"Show Results"},
+  {"ar":"طلب أشعة جديدة","en":"Request New X-Ray"},
+  {"ar":"طلب تحاليل جديدة","en":"Request New Analysis"},
+  {"ar":"التفاصيل","en":"Details"},
+  {"ar":"ملاحظات الأشعة","en":"X-Ray Note"},
+  {"ar":"معاينة","en":"Preview"}
 ]

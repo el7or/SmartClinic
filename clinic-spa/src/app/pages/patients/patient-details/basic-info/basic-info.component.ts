@@ -1,32 +1,25 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  Input,
-  Output,
-  EventEmitter
-} from "@angular/core";
+import { Router } from "@angular/router";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { NbDialogService } from "@nebular/theme";
 import { Location } from "@angular/common";
 
 import { BookingDetailsComponent } from "../../../bookings/booking-details/booking-details.component";
+import { BasicInfoService } from "./basic-info.service";
 
 @Component({
   selector: "basic-info",
   templateUrl: "./basic-info.component.html",
   styleUrls: ["./basic-info.component.scss"]
 })
-export class InfoDetailComponent implements OnInit, OnDestroy {
+export class BasicInfoComponent implements OnInit, OnDestroy {
   formLoading = false;
   nameLoading = false;
   patientNameData: String;
   patientPhoneData: string;
   patientAgeData: number;
-  @Input() isNewPatient: boolean;
-  @Output() isNewPatientChange = new EventEmitter<boolean>();
+  isNewPatient: boolean;
   @ViewChild("form", { static: false }) form: NgForm;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("duplicateNameSwal", { static: false })
@@ -36,11 +29,18 @@ export class InfoDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     public location: Location,
-    private dialogService: NbDialogService
+    private dialogService: NbDialogService,
+    private basicInfoService: BasicInfoService,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    this.isNewPatient = this.basicInfoService.isNewPatient;
+
     if (this.isNewPatient) {
+      this.patientNameData = "";
+      this.patientPhoneData = "";
+      this.patientAgeData = null;
     } else {
       this.patientNameData = "أحمد محمد علي";
       this.patientPhoneData = "01112821144";
@@ -55,10 +55,8 @@ export class InfoDetailComponent implements OnInit, OnDestroy {
   onSubmitPatient() {
     if (this.isNewPatient) {
       this.addNewPatient();
-      console.log("new");
     } else {
       this.updatePatient();
-      console.log("old");
     }
   }
 
@@ -82,7 +80,7 @@ export class InfoDetailComponent implements OnInit, OnDestroy {
       });
       this.formLoading = false;
       // =====> to unlock other tabs in patient details:
-      this.isNewPatientChange.emit(false);
+      this.router.navigate(["/pages/patients/details", 1, "basic"]);
     }, 1000);
   }
 

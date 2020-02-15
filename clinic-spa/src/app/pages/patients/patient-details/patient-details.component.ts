@@ -1,10 +1,35 @@
+import { BasicInfoService } from './basic-info/basic-info.service';
+import { LanggService } from "./../../../shared/services/langg.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 
 @Component({
   selector: "patient-details",
-  templateUrl: "./patient-details.component.html",
+  template: `
+    <nb-card>
+      <nb-card-header>
+        <nav class="navigation">
+          <a
+            [routerLink]=""
+            routerLinkActive="router-link-active"
+            (click)="location.back()"
+            class="link back-link"
+            aria-label="Back"
+          >
+            <nb-icon icon="arrow-back"></nb-icon>
+          </a>
+        </nav>
+        <h5>
+          <span langg>{{ pageHeader }}</span
+          >: <span>{{ patientName }}</span>
+        </h5>
+      </nb-card-header>
+      <nb-card-body>
+        <nb-route-tabset [tabs]="patientTabs" fullWidth></nb-route-tabset>
+      </nb-card-body>
+    </nb-card>
+  `,
   styleUrls: ["./patient-details.component.scss"]
 })
 export class PatientDetailsComponent implements OnInit {
@@ -13,26 +38,70 @@ export class PatientDetailsComponent implements OnInit {
   patientName: string;
   tabNumber: number = 1;
 
-  constructor(private route: ActivatedRoute, private router:Router, public location: Location) {}
+  patientTabs: any[];
+
+  constructor(
+    private route: ActivatedRoute,
+    public location: Location,
+    private basicInfoService:BasicInfoService,
+    private langgService: LanggService
+  ) {}
 
   ngOnInit() {
     // =====> check if new patient or details of old patient:
     this.route.paramMap.subscribe(paramMap => {
       const patientId = paramMap.get("id");
       if (patientId == "new") {
-        this.isNewPatient = true;
+        this.isNewPatient = this.basicInfoService.isNewPatient = true;
         this.pageHeader = "Add New Patient";
         this.patientName = "";
       } else {
-        this.isNewPatient = false;
+        this.isNewPatient = this.basicInfoService.isNewPatient = false;
         this.pageHeader = "Patient Profile";
         this.patientName = "أحمد محمد علي";
       }
 
-      // =====> check query param for tab:
-      setTimeout(() => {
-      this.tabNumber = +paramMap.get("tab");
-      }, 1000);
+      // =====> create tabs:
+      this.patientTabs = [
+        {
+          title: this.langgService.translateWord("Basic info"),
+          route: "./basic"
+        },
+        {
+          title: this.langgService.translateWord("Patient History"),
+          route: "./history",
+          disabled: this.isNewPatient
+        },
+        {
+          title: this.langgService.translateWord("EX"),
+          disabled: true
+        },
+        {
+          title: this.langgService.translateWord("X-Rays"),
+          route: "./xray",
+          disabled: this.isNewPatient
+        },
+        {
+          title: this.langgService.translateWord("Analyses"),
+          route: "./analysis",
+          disabled: this.isNewPatient
+        },
+        {
+          title: this.langgService.translateWord("Associated Diseases"),
+          route: "./questions",
+          disabled: this.isNewPatient
+        },
+        {
+          title: this.langgService.translateWord("Prescription"),
+          route: "./prescription",
+          disabled: this.isNewPatient
+        },
+        {
+          title: this.langgService.translateWord("Request X-Ray & Analysis"),
+          route: "./request",
+          disabled: this.isNewPatient
+        }
+      ];
     });
   }
 }

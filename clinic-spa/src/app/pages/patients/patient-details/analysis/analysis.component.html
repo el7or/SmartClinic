@@ -1,1 +1,45 @@
-<p>analysis works!</p>
+<nb-card>
+  <nb-card-body>
+    <button [routerLink]="['/pages/patients/details',1,'request']"  nbButton class="mb-1" langg>Request New Analysis</button>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th langg>Analyses</th>
+          <th langg>Result Date</th>
+          <th langg>Result</th>
+          <th langg>Disease Severity</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AUTOIMMUNE DISEASES</td>
+          <td>2020-5-2</td>
+          <td>500/800 Nil</td>
+          <td>Grade 1</td>
+          <td class="text-center">
+            <button nbButton (click)="onOpenDetails()" type="submit" status="info" size="small" langg>Details</button>
+          </td>
+        </tr>
+        <tr>
+          <td>LIPID PROFILE</td>
+          <td>2020-4-1</td>
+          <td>Poor Control</td>
+          <td>Grade 3</td>
+          <td class="text-center">
+            <button nbButton (click)="onOpenDetails()" type="button" status="info" size="small" langg>Details</button>
+          </td>
+        </tr>
+        <tr>
+          <td>RHEUMATOLOGY PROFILE</td>
+          <td></td>
+          <td>{{'No Result' | langg}}</td>
+          <td></td>
+          <td class="text-center">
+            <button nbButton (click)="onOpenDetails()" type="button" status="success" size="small" langg>Register Result</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

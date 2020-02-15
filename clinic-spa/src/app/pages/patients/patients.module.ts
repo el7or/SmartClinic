@@ -26,7 +26,7 @@ import { SharedModule } from "./../../shared/shared.module";
 import { PatientsListComponent } from "./patients-list/patients-list.component";
 import { BookingsModule } from './../bookings/bookings.module';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
-import { InfoDetailComponent } from './patient-details/basic-info/basic-info.component';
+import { BasicInfoComponent } from './patient-details/basic-info/basic-info.component';
 import { QuestionsComponent } from './patient-details/questions/questions.component';
 import { MedicinesComponent } from './patient-details/medicines/medicines.component';
 import { MedicinesSummaryComponent } from './patient-details/medicines/medicines-summary/medicines-summary.component';
@@ -34,13 +34,15 @@ import { HistoryComponent } from './patient-details/history/history.component';
 import { XRaysComponent } from './patient-details/x-rays/x-rays.component';
 import { AnalysisComponent } from './patient-details/analysis/analysis.component';
 import { RequestsComponent } from './patient-details/requests/requests.component';
+import { XRayDetailComponent } from './patient-details/x-rays/x-ray-detail/x-ray-detail.component';
+import { AnalysisDetailComponent } from './patient-details/analysis/analysis-detail/analysis-detail.component';
 
 @NgModule({
   declarations: [
     PatientsComponent,
     PatientsListComponent,
     PatientDetailsComponent,
-    InfoDetailComponent,
+    BasicInfoComponent,
     QuestionsComponent,
     MedicinesComponent,
     MedicinesSummaryComponent,
@@ -48,6 +50,8 @@ import { RequestsComponent } from './patient-details/requests/requests.component
     XRaysComponent,
     AnalysisComponent,
     RequestsComponent,
+    XRayDetailComponent,
+    AnalysisDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -74,6 +78,6 @@ import { RequestsComponent } from './patient-details/requests/requests.component
     SweetAlert2Module.forRoot(),
     PaginationModule.forRoot()
   ],
-  entryComponents:[MedicinesSummaryComponent]
+  entryComponents:[MedicinesSummaryComponent,XRayDetailComponent,AnalysisDetailComponent]
 })
 export class PatientsModule {}

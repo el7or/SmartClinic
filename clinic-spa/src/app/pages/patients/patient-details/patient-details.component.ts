@@ -11,7 +11,7 @@ export class PatientDetailsComponent implements OnInit {
   isNewPatient = false;
   pageHeader:string;
   patientName:string;
-  isTapPrescription:boolean = false;
+  tabNumber:number = 1;
 
   constructor(private route: ActivatedRoute, public location:Location) { }
 
@@ -30,11 +30,8 @@ export class PatientDetailsComponent implements OnInit {
         this.patientName = "أحمد محمد علي";
       }
 
-      // =====> check if want open Prescription tab:
-      const tapParam = paramMap.get('tab');
-      if (tapParam=='prescription') {
-        this.isTapPrescription = true;
-      }
+      // =====> check query param for tab:
+       this.tabNumber = +this.route.snapshot.queryParamMap.get('tab');
     });
   }
 

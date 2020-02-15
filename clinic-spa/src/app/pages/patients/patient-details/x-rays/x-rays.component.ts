@@ -21,7 +21,7 @@ export class XRaysComponent implements OnInit {
       xRayName: "PLAIN  X RAY FILM",
       note: "",
       result: "",
-      resultDate: "",
+      resultDate: "2020-12-17",
       xRayFile: "fghfg",
       isEditing: false,
       isDeleted: false

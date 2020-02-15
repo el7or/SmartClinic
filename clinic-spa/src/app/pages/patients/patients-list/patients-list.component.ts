@@ -20,7 +20,7 @@ export class PatientsListComponent implements OnInit {
   constructor(private dialogService: NbDialogService, private route:ActivatedRoute) {}
 
   ngOnInit() {
-    let patientName = this.route.snapshot.queryParamMap.get('name');
+    const patientName = this.route.snapshot.queryParamMap.get('name');
     console.log(patientName);
   }
 

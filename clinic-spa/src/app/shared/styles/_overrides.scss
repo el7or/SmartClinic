@@ -39,14 +39,9 @@
     margin: 0 0.5rem;
   }
 
-  // =====> add padding top to tab content:
-  nb-route-tabset router-outlet + * {
-    padding-top: 1rem !important;
-  }
-
-  // =====> modify padding for tabs:
+  // =====> remove padding for tabs:
   nb-tab {
-    padding: 1rem 0 0 !important;
+    padding: 0 !important;
     overflow: hidden;
   }
 

@@ -37,7 +37,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="printType=='medicine'">
         <tr *ngFor="let item of medicines">
           <td class="left">
             <span class="r">R/</span>&nbsp;
@@ -49,6 +49,18 @@
             <span class="Dose">{{item.dose}}</span>&nbsp;
             <span class="timing">{{item.timing}}</span>&nbsp;
             <span class="period">{{item.period}}</span>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="printType=='request'">
+        <tr *ngFor="let item of requests">
+          <td class="left">
+            <span class="r">R/</span>&nbsp;
+            <span class="medicine">{{item.name}}</span>
+          </td>
+          <td class="right">
+            <span class="Dose">{{item.note}}</span>&nbsp;
+            <span class="period">{{item.type=='xRay'?('Request X-Ray' | langg):('Request Analysis' | langg)}}</span>
           </td>
         </tr>
       </tbody>

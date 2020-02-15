@@ -60,14 +60,25 @@ export class MedicinesComponent implements OnInit {
   }
 
   // =====> on add new medication name to medicines list:
-  onAddNewMedicinetoList(medicineName) {
+  onAddNewMedicineToList(medicineName) {
     this.medicinesValues.names.push(medicineName);
     this.doneSwal.fire();
   }
 
   // =====> on save prescription without print:
   onSave(form: NgForm) {
-    console.log(form);
+    this.medicines= [
+      {
+        name: "",
+        isNameValid:true,
+        concentration: "",
+        form: "",
+        dose: "",
+        timing: "",
+        period: ""
+      }
+    ];
+    this.doneSwal.fire();
   }
 
     // =====> on save prescription with print:
@@ -87,7 +98,7 @@ export class MedicinesComponent implements OnInit {
     this.medicineService.medicinesForPrint = this.medicines;
     setTimeout(() => {
       this.formLoading = false;
-      this.router.navigateByUrl("/print/medicines");
+      this.router.navigate(["/print/medicines"],{queryParams:{type:'medicine'}});
     }, 1000);
   }
 

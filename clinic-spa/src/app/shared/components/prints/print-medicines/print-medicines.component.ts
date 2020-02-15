@@ -1,7 +1,8 @@
-import { SettingsService } from './../../../../pages/settings/settings.service';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, AfterViewInit } from "@angular/core";
 
+import { RequestsService } from "./../../../../pages/patients/patient-details/requests/requests.service";
+import { SettingsService } from "./../../../../pages/settings/settings.service";
 import { MedicinesService } from "../../../../pages/patients/patient-details/medicines/medicines.service";
 
 @Component({
@@ -10,34 +11,38 @@ import { MedicinesService } from "../../../../pages/patients/patient-details/med
   styleUrls: ["./print-medicines.component.scss"]
 })
 export class PrintMedicinesComponent implements OnInit, AfterViewInit {
-  printInfoSetting:any;
-  medicines: any[] = [
-    {
-      name: "",
-      isNameValid:false,
-      concentration: "",
-      form: "",
-      dose: "",
-      timing: "",
-      period: ""
-    }
-  ];
+  printInfoSetting: any;
+  printType: string;
+  medicines: any[];
+  requests: any[];
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private medicineService: MedicinesService,
-    private settingsService:SettingsService
+    private requestService: RequestsService,
+    private settingsService: SettingsService
   ) {}
 
   ngOnInit() {
-    this.medicines = this.medicineService.medicinesForPrint;
-    this.printInfoSetting =  this.settingsService.printInfo;
+    this.printInfoSetting = this.settingsService.printInfo;
+
+    // =====> check query param for type of print:
+    this.printType = this.route.snapshot.queryParamMap.get("type");
+    if (this.printType == "medicine") {
+      this.medicines = this.medicineService.medicinesForPrint;
+    }
+    if (this.printType == "request") {
+      this.requests = this.requestService.requestsForPrint;
+    }
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       window.print();
-      this.router.navigate(["/pages/patients/details", 1],{queryParams:{tab:8}});
+      this.router.navigate(["/pages/patients/details", 1], {
+        queryParams: { tab: 8 }
+      });
     }, 1000);
   }
 }

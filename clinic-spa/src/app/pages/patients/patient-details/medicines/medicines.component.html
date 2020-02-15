@@ -7,14 +7,14 @@
           <tr *ngFor="let item of medicines; index as i;">
             <td>
               <input nbInput [(ngModel)]="item.name" [placeholder]="'Type Medicine Name ..' | langg"
-                [typeahead]="medicinesValues.names" typeaheadOptionField="nameMobile" fullWidth
-                (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Medication Name' | langg"
-                [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
-                [typeaheadScrollable]="true"
+                [typeahead]="medicinesValues.names" fullWidth (typeaheadNoResults)="item.isNameValid = !$event"
+                [placeholder]="'Medication Name' | langg" [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0"
+                [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
                 [typeaheadOptionsInScrollableView]="15">
               <ng-container *ngIf="!item.isNameValid">
-                <label class="error-message" langg>This Medication Name does not exist! Do you add it to the list?</label>&nbsp;
-                <button nbButton type="button" (click)="onAddNewMedicinetoList(item.name);item.isNameValid=true"
+                <label class="error-message" langg>This Medication Name does not exist! Do you add it to the
+                  list?</label>&nbsp;
+                <button nbButton type="button" (click)="onAddNewMedicineToList(item.name);item.isNameValid=true"
                   status="info" size="small" class="mt-2" langg>Add</button>
               </ng-container>
               <!-- <nb-select fullWidth [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}"
@@ -25,31 +25,31 @@
             <td>
               <nb-select fullWidth [(ngModel)]="item.concentration" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Concentration' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.concentrations" value="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.concentrations" [value]="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.form" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Form' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.forms" value="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.forms" [value]="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.dose" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Dose' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.doses" value="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.doses" [value]="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.timing" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Timing' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.timings" value="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.timings" [value]="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Period' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.periods" value="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of medicinesValues.periods" [value]="item">{{item}}</nb-option>
               </nb-select>
             </td>
             <td>
@@ -93,7 +93,7 @@
 
     <h6 langg>Past Prescriptions:</h6>
     <table class="table table-bordered table-sm">
-      <thead class="thead-dark">
+      <thead class="thead-light">
         <tr>
           <th langg>Date</th>
           <th langg>Medicines</th>

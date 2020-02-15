@@ -208,6 +208,7 @@
   {"ar":"تفاصيل الروشتة","en":"Prescription Details"},
   {"ar":"طباعة","en":"Print"},
   {"ar":"حفظ وطباعة الروشتة","en":"Save & Print"},
+  {"ar":"حفظ وطباعة الطلب","en":"Save & Print Request"},
   {"ar":"اسم الدواء","en":"Medication Name"},
   {"ar":"التركيز","en":"Concentration"},
   {"ar":"الشكل","en":"Form"},
@@ -259,6 +260,17 @@
   {"ar":"إزالة","en":"Remove"},
   {"ar":"إضافة","en":"Add"},
   {"ar":"بيانات الروشتة","en":"Prescription Data"},
-  {"ar":"إسم الدواء هذا غير موجود! هل تضيفه إلى القائمة؟","en":"This Medication Name does not exist! Do you add it to the list?"},
-  {"ar":"إضافة","en":"Add"}
+  {"ar":"هذا الإسم غير موجود! هل تضيفه إلى القائمة؟","en":"This Name does not exist! Do you add it to the list?"},
+  {"ar":"طلب أشعة","en":"Request X-Ray"},
+  {"ar":"طلب تحاليل","en":"Request Analysis"},
+  {"ar":"إضافة طلب جديد:","en":"Add New Requests:"},
+  {"ar":"إسم الأشعة","en":"X-Ray Name"},
+  {"ar":"إسم التحليل","en":"Analysis Name"},
+  {"ar":"طلبات الأشعة والتحاليل السابقة:","en":"Past Requests:"},
+  {"ar":"الطلب","en":"Request"},
+  {"ar":"حذف الطلب","en":"Remove Request"},
+  {"ar":"حالة الطلب","en":"Request Status"},
+  {"ar":"لم تُسجل النتيجة","en":"No Result"},
+  {"ar":"تم تسجيل النتيجة","en":"Registered Result"},
+  {"ar":"مشاهدة النتائج","en":"Show Results"}
 ]

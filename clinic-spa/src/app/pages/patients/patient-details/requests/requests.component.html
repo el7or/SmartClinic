@@ -1,1 +1,98 @@
-<p>requests works!</p>
+<nb-card>
+  <nb-card-body>
+    <h6 langg>Add New Requests:</h6>
+    <form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
+      <table class="table requests">
+        <tbody>
+          <tr *ngFor="let item of requests; index as i;">
+            <td class="font-weight-bold text-center">
+              {{item.type=='xRay'?('Request X-Ray' | langg):('Request Analysis' | langg)}}&nbsp;:</td>
+            <td>
+              <input nbInput [(ngModel)]="item.name" [placeholder]="'Type Medicine Name ..' | langg"
+                [typeahead]="item.type=='xRay'? xRayNames: analysisNames" fullWidth (typeaheadNoResults)="item.isNameValid = !$event"
+                [placeholder]="item.type=='xRay'?('X-Ray Name' | langg):('Analysis Name' | langg)" [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0"
+                [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
+                [typeaheadOptionsInScrollableView]="15">
+              <ng-container *ngIf="!item.isNameValid">
+                <label class="error-message" langg>This Name does not exist! Do you add it to the
+                  list?</label>&nbsp;
+                <button nbButton type="button" (click)="onAddNewItemToList(item.name,item.type);item.isNameValid=true"
+                  status="info" size="small" class="mt-2" langg>Add</button>
+              </ng-container>
+            </td>
+            <td>
+              <input nbInput [(ngModel)]="item.note" [ngModelOptions]="{standalone: true}" [placeholder]="'Note' | langg" fullWidth
+                fieldSize="small">
+            </td>
+            <td>
+              <button (click)="onRemoveRequest(i)" nbButton [nbTooltip]="'Remove Request' | langg" size="tiny"
+                status="danger">
+                <nb-icon icon="close-square"></nb-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button nbButton size="small" (click)="onAddRequest('xray')" [disabled]="requests[0]?.type && (!requests[0]?.name || !requests[0]?.isNameValid)"
+        class="mx-1 mb-1">
+        <nb-icon icon="plus-outline"></nb-icon><span langg>Request X-Ray</span>
+      </button>
+      <button nbButton size="small" (click)="onAddRequest('analysis')" [disabled]="requests[0]?.type && (!requests[0]?.name || !requests[0]?.isNameValid)"
+        class="mx-1 mb-1">
+        <nb-icon icon="plus-outline"></nb-icon><span langg>Request Analysis</span>
+      </button>
+
+      <div class="text-center nbButton-group mb-1">
+        <button nbButton type="submit" status="success" (click)="onSave(form)"
+          [disabled]="!requests[0]?.name || !requests[0]?.isNameValid" langg>Save</button>
+        <button nbButton type="submit" status="success" (click)="onSavePrint(form)"
+          [disabled]="!requests[0]?.name || !requests[0]?.isNameValid" langg>Save
+          &
+          Print Request</button>
+        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+      </div>
+    </form>
+
+
+    <h6 langg>Past Requests:</h6>
+    <table class="table table-bordered table-sm">
+      <thead class="thead-light">
+        <tr>
+          <th langg>Request Date</th>
+          <th langg>Type</th>
+          <th langg>Request</th>
+          <th langg>Request Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="small">
+        <tr>
+          <td>2020-5-2</td>
+          <td langg>X-Ray</td>
+          <td>PLAIN X RAY FILM</td>
+          <td langg>No Result</td>
+          <td class="text-center">
+            <button nbButton type="submit" status="basic" size="tiny" langg>Print</button>&nbsp;
+            <button nbButton type="submit" status="warning" size="tiny" langg>Edit</button>&nbsp;
+            <button nbButton type="submit" status="danger" size="tiny" langg>Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2020-3-2</td>
+          <td langg>Analysis</td>
+          <td>DIABETES PROFILE</td>
+          <td langg>Registered Result</td>
+          <td class="text-center">
+            <button nbButton [routerLink]="['/pages/patients/details/1']" [queryParams]="{tab:6}" type="submit"
+              status="info" size="tiny" langg>Show Results</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

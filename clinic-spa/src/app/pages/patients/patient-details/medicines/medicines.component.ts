@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { NbDialogService } from "@nebular/theme";
+import { NbDialogService, NbLayoutScrollService } from "@nebular/theme";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Location } from "@angular/common";
 import { NgForm, } from "@angular/forms";
@@ -34,7 +34,8 @@ export class MedicinesComponent implements OnInit {
     public location: Location,
     private dialogService: NbDialogService,
     private router: Router,
-    private medicineService: MedicinesService
+    private medicineService: MedicinesService,
+    private scrollService:NbLayoutScrollService
   ) {}
 
   ngOnInit() {
@@ -148,5 +149,8 @@ export class MedicinesComponent implements OnInit {
         period: ""
       }
     ];
+
+    // =====> scroll to top:
+    this.scrollService.scrollTo(0,0);
   }
 }

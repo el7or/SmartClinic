@@ -57,7 +57,7 @@
 
 
     <h6 langg>Past Requests:</h6>
-    <table class="table table-bordered table-sm">
+    <table class="table table-bordered">
       <thead class="thead-light">
         <tr>
           <th langg>Request Date</th>
@@ -67,16 +67,16 @@
           <th></th>
         </tr>
       </thead>
-      <tbody class="small">
+      <tbody>
         <tr>
           <td>2020-5-2</td>
           <td langg>X-Ray</td>
           <td>PLAIN X RAY FILM</td>
           <td langg>No Result</td>
           <td class="text-center">
-            <button nbButton type="submit" status="basic" size="tiny" langg>Print</button>&nbsp;
-            <button nbButton type="submit" status="warning" size="tiny" langg>Edit</button>&nbsp;
-            <button nbButton type="submit" status="danger" size="tiny" langg>Delete</button>
+            <button nbButton type="button" (click)="onSavePrint()" status="basic" size="small"
+              langg>Print</button>&nbsp;
+            <button nbButton type="button" (click)="onDeleteRequest()" status="danger" size="small" langg>Delete</button>
           </td>
         </tr>
         <tr>
@@ -85,8 +85,8 @@
           <td>DIABETES PROFILE</td>
           <td langg>Registered Result</td>
           <td class="text-center">
-            <button nbButton [routerLink]="['/pages/patients/details',1,'analysis']" type="button" status="info" size="tiny"
-              langg>Show Results</button>
+            <button nbButton [routerLink]="['/pages/patients/details',1,'analysis']" type="button" status="info"
+              size="small" langg>Show Results</button>
           </td>
         </tr>
       </tbody>
@@ -96,4 +96,9 @@
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
   [showConfirmButton]="false">
+</swal>
+
+<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
+  [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
+  [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
 </swal>

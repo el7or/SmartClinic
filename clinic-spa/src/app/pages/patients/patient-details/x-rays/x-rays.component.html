@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-body>
-    <button [routerLink]="['/pages/patients/details',1,'request']"  nbButton class="mb-1" langg>Request New X-Ray</button>
+    <button [routerLink]="['/pages/patients/details',1,'request']" [queryParams]="{type:'xray'}" nbButton class="mb-1" langg>Request New X-Ray</button>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>

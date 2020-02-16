@@ -1,10 +1,10 @@
-import { RequestsService } from './requests.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
-import { query } from '@angular/animations';
+import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
+
+import { RequestsService } from "./requests.service";
 
 @Component({
   selector: "requests",
@@ -14,14 +14,9 @@ import { query } from '@angular/animations';
 export class RequestsComponent implements OnInit {
   formLoading: boolean = false;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
-  requests: any[] = [
-    {
-      type: "xRay",
-      name: "",
-      isNameValid: true,
-      note: ""
-    }
-  ];
+  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
+  requests: any[] = [];
+
   xRayNames: string[] = [
     "ULTRASONOGRAPHY",
     "COLORED DOPPLER(DUPPLEX)",
@@ -33,11 +28,34 @@ export class RequestsComponent implements OnInit {
     "HORMONES"
   ];
 
-  constructor(public location: Location, private router: Router, private requestService:RequestsService) {}
+  constructor(
+    public location: Location,
+    private router: Router,
+    private route: ActivatedRoute,
+    private requestService: RequestsService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // =====> add empty request based on type in query param:
+    const typeParam = this.route.snapshot.queryParamMap.get("type");
+    if (typeParam == "xray") {
+      this.requests.push({
+        type: "xRay",
+        name: "",
+        isNameValid: true,
+        note: ""
+      });
+    } else if (typeParam == "analysis") {
+      this.requests.push({
+        type: "analysis",
+        name: "",
+        isNameValid: true,
+        note: ""
+      });
+    }
+  }
 
-  // =====> on add new request to form:
+  // =====> on add new request to form from button:
   onAddRequest(type) {
     if (type == "xray") {
       this.requests.push({
@@ -57,31 +75,23 @@ export class RequestsComponent implements OnInit {
   }
 
   // =====> on add new xray name or analysis name to thier list:
-  onAddNewItemToList(itemName,itemType) {
-    if(itemType=='xRay'){
+  onAddNewItemToList(itemName, itemType) {
+    if (itemType == "xRay") {
       this.xRayNames.push(itemName);
-    }else{
+    } else {
       this.analysisNames.push(itemName);
     }
     this.doneSwal.fire();
   }
 
- // =====> on remove row from requests:
-   onRemoveRequest(index) {
+  // =====> on remove row from requests:
+  onRemoveRequest(index) {
     this.requests.splice(index, 1);
-
   }
 
   // =====> on save requests without print:
   onSave(form: NgForm) {
-    this.requests = [
-      {
-        type: "xRay",
-        name: "",
-        isNameValid: true,
-        note: ""
-      }
-    ];
+    this.requests = [ ];
     this.doneSwal.fire();
   }
 
@@ -91,7 +101,17 @@ export class RequestsComponent implements OnInit {
     this.requestService.requestsForPrint = this.requests;
     setTimeout(() => {
       this.formLoading = false;
-      this.router.navigate(["/print/medicines"],{queryParams:{type:'request'}});
+      this.router.navigate(["/print/medicines"], {
+        queryParams: { type: "request" }
+      });
     }, 1000);
+  }
+
+  onDeleteRequest(){
+    this.deleteSwal.fire().then(result => {
+      if (result.value) {
+        this.doneSwal.fire();
+      }
+    });
   }
 }

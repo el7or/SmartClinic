@@ -17,7 +17,7 @@
             <input nbInput type="text" disabled [value]="xRayDetails" id="input-name" fullWidth>
           </div>
           <div class="form-control-group">
-            <label for="input-note" class="label"><span langg>X-Ray Note</span>:</label>
+            <label for="input-note" class="label"><span langg>X-Ray Request Note</span>:</label>
             <input nbInput type="text" disabled id="input-note" fullWidth>
           </div>
           <div class="form-control-group">
@@ -36,7 +36,7 @@
               [placeholder]="'Register Result' | langg" fullWidth>
           </div>
           <div class="form-control-group">
-            <label for="input-resultGrade" class="label"><span langg>Result</span>:</label>
+            <label for="input-resultGrade" class="label"><span langg>Disease Severity</span>:</label>
             <nb-select fullWidth ngModel #resultGrade="ngModel" name="resultGrade"
               [placeholder]="'Disease Severity' | langg">
               <nb-option value="0">Grade 0</nb-option>
@@ -47,25 +47,117 @@
             </nb-select>
           </div>
           <div class="form-control-group">
-            <label  class="label"><span langg>X-Ray Image</span>:</label>
-            <br>
-            <button nbButton type="button" status="info" size="small" langg>Preview</button>&nbsp;
-            <button nbButton type="button" size="small" langg>Download</button>&nbsp;
-            <button nbButton type="button" status="danger" size="small" langg>Delete</button>
+            <label for="input-report" class="label"><span langg>X-Ray Report</span>:</label>
+            <textarea nbInput id="input-report" fullWidth></textarea>
           </div>
           <div class="form-control-group">
-            <label  class="label"><span langg>Report File</span>:</label>
-            <br>
-            <button nbButton type="button" status="basic" size="small" langg>Upload</button>
+            <label for="input-file" class="label"><span langg>Report File</span>:</label>
+            <input nbInput type="file" #reportFile name="reportFile" ng2FileSelect [uploader]="uploader" id="input-file"
+              fieldSize="small" fullWidth (click)="fileType='report'" />
+
+            <div *ngIf="fileType=='report'">
+              <div *ngFor="let item of uploader.queue" class="row m-0">
+                <ng-container *ngIf="!item.isSuccess && !item.isError">
+                  <div *ngIf="uploader.options.isHTML5" class="progress col-12 my-1">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                  </div>
+                  <div *ngIf="uploader.options.isHTML5" class="col-6">
+                    <span langg>File size:</span> {{ item?.file?.size/1024/1024 | number:'.0-2' }} MB
+                  </div>
+                  <div class="col-6">
+                    <button nbButton type="button" (click)="item.upload()"
+                      [disabled]="item.isReady || item.isUploading || item.isSuccess" status="success" size="tiny">
+                      <nb-icon icon="cloud-upload-outline"></nb-icon><span langg>Upload</span>
+                    </button>&nbsp;
+                    <button nbButton type="button" (click)="item.remove();reportFile.value=null" status="danger"
+                      size="tiny">
+                      <nb-icon icon="trash-2-outline"></nb-icon><span langg>Remove</span>
+                    </button>
+                  </div>
+                </ng-container>
+                <div class="col-12 text-center">
+                  <div *ngIf="item.isSuccess || item.isError" class="alert alert-success mb-1" role="alert">
+                    <span langg>Upload successful</span>&nbsp;
+                    <nb-icon icon="done-all-outline"></nb-icon>
+                  </div>
+                  <!-- <div *ngIf="item.isSuccess" class="alert alert-success" role="alert">
+                  <span langg>Upload successful</span>&nbsp;
+                  <nb-icon icon="done-all-outline"></nb-icon>
+                </div>
+                <div *ngIf="item.isError" class="alert alert-danger" role="alert">
+                  <span langg>Upload failed</span>&nbsp;
+                  <nb-icon icon="alert-triangle-outline"></nb-icon>
+                </div> -->
+                </div>
+                <div *ngIf="item.isSuccess || item.isError" class="col-12">
+                  <a nbButton href="../../../../../../assets/images/team.png" target="_blank" status="info" size="small"
+                    langg>Preview</a>&nbsp;
+                  <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_report" size="small"
+                    langg>Download</a>&nbsp;
+                  <button nbButton type="button" (click)="item.remove();reportFile.value=null" status="danger"
+                    size="small" langg>Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-control-group">
+            <label for="input-image" class="label"><span langg>X-Ray Image</span>:</label>
+            <input nbInput type="file" #xrayImage ng2FileSelect [uploader]="uploader" id="input-image" fieldSize="small"
+              fullWidth (click)="fileType='xray'"/>
+
+            <div *ngIf="fileType=='xray'">
+              <div *ngFor="let item of uploader.queue" class="row m-0">
+                <ng-container *ngIf="!item.isSuccess && !item.isError">
+                  <div *ngIf="uploader.options.isHTML5" class="progress col-12 my-1">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                  </div>
+                  <div *ngIf="uploader.options.isHTML5" class="col-6">
+                    <span langg>File size:</span> {{ item?.file?.size/1024/1024 | number:'.0-2' }} MB
+                  </div>
+                  <div class="col-6">
+                    <button nbButton type="button" (click)="item.upload()"
+                      [disabled]="item.isReady || item.isUploading || item.isSuccess" status="success" size="tiny">
+                      <nb-icon icon="cloud-upload-outline"></nb-icon><span langg>Upload</span>
+                    </button>&nbsp;
+                    <button nbButton type="button" (click)="item.remove();xrayImage.value=null" status="danger"
+                      size="tiny">
+                      <nb-icon icon="trash-2-outline"></nb-icon><span langg>Remove</span>
+                    </button>
+                  </div>
+                </ng-container>
+                <div class="col-12 text-center">
+                  <div *ngIf="item.isSuccess || item.isError" class="alert alert-success mb-1" role="alert">
+                    <span langg>Upload successful</span>&nbsp;
+                    <nb-icon icon="done-all-outline"></nb-icon>
+                  </div>
+                  <!-- <div *ngIf="item.isSuccess" class="alert alert-success" role="alert">
+                    <span langg>Upload successful</span>&nbsp;
+                    <nb-icon icon="done-all-outline"></nb-icon>
+                  </div>
+                  <div *ngIf="item.isError" class="alert alert-danger" role="alert">
+                    <span langg>Upload failed</span>&nbsp;
+                    <nb-icon icon="alert-triangle-outline"></nb-icon>
+                  </div> -->
+                </div>
+                <div *ngIf="item.isSuccess || item.isError" class="col-12">
+                  <a nbButton href="../../../../../../assets/images/team.png" target="_blank" status="info" size="small"
+                    langg>Preview</a>&nbsp;
+                  <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image" size="small"
+                    langg>Download</a>&nbsp;
+                  <button nbButton type="button" (click)="item.remove();xrayImage.value=null" status="danger"
+                    size="small" langg>Delete</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </nb-card-body>
     <nb-card-footer>
       <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
-        <!-- <button nbButton type="button" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button> -->
-        <button nbButton type="button" status="danger" langg (click)="dialogRef.close()">Cancel</button></div>
+        <button nbButton type="submit" status="success" [disabled]="!form.valid || (uploader.queue.length >0 && !uploader?.queue[0]?.isSuccess && !uploader?.queue[0]?.isError)" langg>Save</button>
+        <button nbButton type="button" status="danger" langg (click)="dialogRef.close()">Cancel</button>
+      </div>
     </nb-card-footer>
   </nb-card>
 </form>

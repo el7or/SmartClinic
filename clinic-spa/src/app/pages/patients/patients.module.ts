@@ -15,7 +15,8 @@ import {
   NbIconModule,
   NbTooltipModule,
   NbDialogModule,
-  NbListModule
+  NbListModule,
+  NbAlertModule
 } from "@nebular/theme";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { PaginationModule, BsDatepickerModule, TypeaheadModule } from "ngx-bootstrap";
@@ -72,6 +73,7 @@ import { AnalysisDetailComponent } from './patient-details/analysis/analysis-det
     NbTooltipModule,
     NbListModule,
     FileUploadModule,
+    NbAlertModule,
     NbDialogModule.forChild(),
     TypeaheadModule.forRoot(),
     BsDatepickerModule.forRoot(),

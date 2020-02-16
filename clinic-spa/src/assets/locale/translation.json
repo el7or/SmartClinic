@@ -277,6 +277,10 @@
   {"ar":"طلب أشعة جديدة","en":"Request New X-Ray"},
   {"ar":"طلب تحاليل جديدة","en":"Request New Analysis"},
   {"ar":"التفاصيل","en":"Details"},
-  {"ar":"ملاحظات الأشعة","en":"X-Ray Note"},
-  {"ar":"معاينة","en":"Preview"}
+  {"ar":"ملاحظات طلب الأشعة","en":"X-Ray Request Note"},
+  {"ar":"معاينة","en":"Preview"},
+  {"ar":"تقرير الأشعة","en":"X-Ray Report"},
+  {"ar":"حجم الملف:","en":"File size:"},
+  {"ar":"تم الرفع بنجاح","en":"Upload successful"},
+  {"ar":"فشل الرفع","en":"Upload failed"}
 ]

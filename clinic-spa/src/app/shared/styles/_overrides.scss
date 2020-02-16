@@ -181,4 +181,9 @@
     @include nb-ltr(border-right, 0.125rem solid #edf1f7);
     @include nb-rtl(border-left, 0.125rem solid #edf1f7);
   }
+
+  // =====> less padding for bootstrap alerts:
+  .alert {
+    padding: 0.5rem 1rem;
+  }
 }

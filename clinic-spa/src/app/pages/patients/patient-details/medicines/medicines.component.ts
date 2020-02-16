@@ -2,7 +2,7 @@ import { Router } from "@angular/router";
 import { NbDialogService } from "@nebular/theme";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Location } from "@angular/common";
-import { NgForm, NgModel } from "@angular/forms";
+import { NgForm, } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 import { MedicinesService } from "./medicines.service";
@@ -85,22 +85,22 @@ export class MedicinesComponent implements OnInit {
   onSavePrint(form: NgForm) {
     this.formLoading = true;
     setTimeout(() => {
-    if (form.value.note) {
-      this.medicines.push({
-        name: form.value.note,
-        isNameValid: true,
-        concentration: "",
-        form: "",
-        dose: "",
-        timing: "",
-        period: ""
+      if (form.value.note) {
+        this.medicines.push({
+          name: form.value.note,
+          isNameValid: true,
+          concentration: "",
+          form: "",
+          dose: "",
+          timing: "",
+          period: ""
+        });
+      }
+      this.medicineService.medicinesForPrint = this.medicines;
+      this.formLoading = false;
+      this.router.navigate(["/print/medicines"], {
+        queryParams: { type: "medicine" }
       });
-    }
-    this.medicineService.medicinesForPrint = this.medicines;
-    this.formLoading = false;
-    this.router.navigate(["/print/medicines"], {
-      queryParams: { type: "medicine" }
-    });
     }, 1000);
   }
 
@@ -115,5 +115,38 @@ export class MedicinesComponent implements OnInit {
       closeOnBackdropClick: false,
       closeOnEsc: false
     });
+  }
+
+  // =====> on make copy from previous prescription:
+  onCopy() {
+    this.medicines = [
+      {
+        name: "Antox",
+        isNameValid: true,
+        concentration: "1 mg",
+        form: "Tab",
+        dose: "",
+        timing: "",
+        period: ""
+      },
+      {
+        name: "Cornivita",
+        isNameValid: true,
+        concentration: "2 mg",
+        form: "Caps",
+        dose: "",
+        timing: "",
+        period: ""
+      },
+      {
+        name: "Plaquanile",
+        isNameValid: true,
+        concentration: "5 mg",
+        form: "Vail",
+        dose: "",
+        timing: "",
+        period: ""
+      }
+    ];
   }
 }

@@ -92,49 +92,53 @@
 
 
     <h6 langg>Past Prescriptions:</h6>
-    <table class="table table-bordered table-sm">
-      <thead class="thead-light">
+    <table class="table table-bordered">
+      <thead class="thead-dark">
         <tr>
           <th langg>Date</th>
           <th langg>Medicines</th>
           <th></th>
         </tr>
       </thead>
-      <tbody class="small">
+      <tbody>
         <tr>
           <td>1/1/2020</td>
           <td>Antox, Cornivita, Multirelax, Plaquanile, Tolmet
-            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
+            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="small" status="warning"
               [nbTooltip]="'Prescription Details' | langg">
               <nb-icon icon="info"></nb-icon>
             </button>
           </td>
           <td class="text-center">
-            <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint(form)" langg>Print</button>
+            <button nbButton type="submit" status="info" size="small" (click)="onCopy()" langg>Copy</button>&nbsp;
+            <button nbButton type="submit" status="basic" size="small" (click)="onSavePrint(form)" langg>Print</button>
           </td>
         </tr>
         <tr>
           <td>5/2/2020</td>
           <td>Antox, Cornivita
-            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
+            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="small" status="warning"
               [nbTooltip]="'Prescription Details' | langg">
               <nb-icon icon="info"></nb-icon>
             </button>
           </td>
           <td class="text-center">
-            <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint(form)" langg>Print</button>
+            <button nbButton type="submit" status="info" size="small" (click)="onCopy()" langg>Copy</button>&nbsp;
+            <button nbButton type="submit" status="basic" size="small" (click)="onSavePrint(form)" langg>Print</button>
           </td>
         </tr>
         <tr>
           <td>3/3/2020</td>
           <td>Plaquanile, Tolmet
-            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="tiny" status="warning"
+            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="small" status="warning"
               [nbTooltip]="'Prescription Details' | langg">
               <nb-icon icon="info"></nb-icon>
             </button>
           </td>
           <td class="text-center">
-            <button nbButton type="submit" status="basic" size="tiny" (click)="onSavePrint(form)" langg>Print</button>
+            <button nbButton type="submit" status="info" size="small" (click)="onCopy()"
+              langg>Copy</button>&nbsp;
+            <button nbButton type="submit" status="basic" size="small" (click)="onSavePrint(form)" langg>Print</button>
           </td>
         </tr>
       </tbody>

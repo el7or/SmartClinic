@@ -284,5 +284,6 @@
   {"ar":"حجم الملف:","en":"File size:"},
   {"ar":"تم الرفع بنجاح","en":"Upload successful"},
   {"ar":"فشل الرفع","en":"Upload failed"},
-  {"ar":"ملف التحليل","en":"Analysis File"}
+  {"ar":"ملف التحليل","en":"Analysis File"},
+  {"ar":"نسخ","en":"Copy"}
 ]

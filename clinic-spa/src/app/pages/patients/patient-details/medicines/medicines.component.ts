@@ -7,7 +7,7 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 import { MedicinesService } from "./medicines.service";
 import { MedicinesSummaryComponent } from "./medicines-summary/medicines-summary.component";
-import { medicinesValues } from './medicines.model';
+import { medicinesValues } from "./medicines.model";
 
 @Component({
   selector: "medicines",
@@ -16,12 +16,12 @@ import { medicinesValues } from './medicines.model';
 })
 export class MedicinesComponent implements OnInit {
   formLoading: boolean = false;
-  medicinesValues:medicinesValues;
+  medicinesValues: medicinesValues;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   medicines: any[] = [
     {
       name: "",
-      isNameValid:true,
+      isNameValid: true,
       concentration: "",
       form: "",
       dose: "",
@@ -45,7 +45,7 @@ export class MedicinesComponent implements OnInit {
   onAddMedicine() {
     this.medicines.push({
       name: "",
-      isNameValid:true,
+      isNameValid: true,
       concentration: "",
       form: "",
       dose: "",
@@ -67,10 +67,10 @@ export class MedicinesComponent implements OnInit {
 
   // =====> on save prescription without print:
   onSave(form: NgForm) {
-    this.medicines= [
+    this.medicines = [
       {
         name: "",
-        isNameValid:true,
+        isNameValid: true,
         concentration: "",
         form: "",
         dose: "",
@@ -81,13 +81,14 @@ export class MedicinesComponent implements OnInit {
     this.doneSwal.fire();
   }
 
-    // =====> on save prescription with print:
+  // =====> on save prescription with print:
   onSavePrint(form: NgForm) {
     this.formLoading = true;
+    setTimeout(() => {
     if (form.value.note) {
       this.medicines.push({
         name: form.value.note,
-        isNameValid:true,
+        isNameValid: true,
         concentration: "",
         form: "",
         dose: "",
@@ -96,9 +97,10 @@ export class MedicinesComponent implements OnInit {
       });
     }
     this.medicineService.medicinesForPrint = this.medicines;
-    setTimeout(() => {
-      this.formLoading = false;
-      this.router.navigate(["/print/medicines"],{queryParams:{type:'medicine'}});
+    this.formLoading = false;
+    this.router.navigate(["/print/medicines"], {
+      queryParams: { type: "medicine" }
+    });
     }, 1000);
   }
 

@@ -1,5 +1,5 @@
 import { Router, ActivatedRoute } from "@angular/router";
-import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
 import { RequestsService } from "./../../../../pages/patients/patient-details/requests/requests.service";
 import { SettingsService } from "./../../../../pages/settings/settings.service";
@@ -10,7 +10,8 @@ import { MedicinesService } from "../../../../pages/patients/patient-details/med
   templateUrl: "./print-medicines.component.html",
   styleUrls: ["./print-medicines.component.scss"]
 })
-export class PrintMedicinesComponent implements OnInit, AfterViewInit {
+export class PrintMedicinesComponent
+  implements OnInit, OnDestroy {
   printInfoSetting: any;
   printType: string;
   medicines: any[];
@@ -31,21 +32,15 @@ export class PrintMedicinesComponent implements OnInit, AfterViewInit {
     this.printType = this.route.snapshot.queryParamMap.get("type");
     if (this.printType == "medicine") {
       this.medicines = this.medicineService.medicinesForPrint;
+      this.router.navigate(["/pages/patients/details", 1, "prescription"]);
     }
     if (this.printType == "request") {
       this.requests = this.requestService.requestsForPrint;
+      this.router.navigate(["/pages/patients/details", 1, "request"]);
     }
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      window.print();
-      if (this.printType == "medicine") {
-        this.router.navigate(["/pages/patients/details", 1, "prescription"]);
-      }
-      if (this.printType == "request") {
-        this.router.navigate(["/pages/patients/details", 1, "request"]);
-      }
-    }, 1000);
+  ngOnDestroy() {
+    window.print();
   }
 }

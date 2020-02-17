@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { NgForm } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
-import { FileUploader, FileItem } from 'ng2-file-upload';
+import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 
 // const URL = '/api/';
 const URL = "https://api.imgur.com/3/upload";
@@ -17,7 +17,11 @@ export class AnalysisDetailComponent implements OnInit {
   formLoading: boolean = false;
   uploader: FileUploader;
   response: string;
+  todayDate: Date = new Date();
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
+
+  attachedFile: any;
 
   constructor(public dialogRef: NbDialogRef<AnalysisDetailComponent>) {
     this.uploader = new FileUploader({
@@ -42,6 +46,17 @@ export class AnalysisDetailComponent implements OnInit {
       this.uploader.queue.push(latestFile);
       console.log(this.uploader.queue);
     };
+
+    this.uploader.onCompleteItem = (
+      item: FileItem,
+      response: string,
+      status: number,
+      headers: ParsedResponseHeaders
+    ) => {
+      this.uploader.queue = [];
+      this.attachedFile = null;
+      this.doneSwal.fire();
+    };
   }
 
   ngOnInit() {
@@ -50,6 +65,14 @@ export class AnalysisDetailComponent implements OnInit {
   onSave(form: NgForm) {
     this.doneSwal.fire();
     this.dialogRef.close();
+  }
+
+  onAddAttach() {
+    this.attachedFile = {
+      fileType: "",
+      fileNote: "",
+      file: ""
+    };
   }
 
 }

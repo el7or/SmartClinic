@@ -1,14 +1,14 @@
-<form #form="ngForm" (ngSubmit)="onSave(form)" aria-labelledby="title" [nbSpinner]="formLoading"
-  nbSpinnerStatus="success">
-  <nb-card class="dialog-center">
-    <nb-card-header>
-      <span langg>X-Ray Name</span>:&nbsp;{{ xRayDetails }}
-      <br>
-      <small class="font-weight-bold">
-        <span langg>Request Date</span>:&nbsp; 1/5/2020
-      </small>
-    </nb-card-header>
-    <nb-card-body>
+<nb-card class="dialog-center">
+  <nb-card-header>
+    <span langg>X-Ray Name</span>:&nbsp;{{ xRayDetails }}
+    <br>
+    <small class="font-weight-bold">
+      <span langg>Request Date</span>:&nbsp; 1/5/2020
+    </small>
+  </nb-card-header>
+  <nb-card-body>
+    <form #form="ngForm" (ngSubmit)="onSave(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+      nbSpinnerStatus="success">
       <div class="row">
         <div class="col-md-6">
           <div class="form-control-group">
@@ -39,55 +39,62 @@
             <textarea nbInput id="input-report" fullWidth></textarea>
           </div>
         </div>
-        <div class="col-12">
-          <label class="label"><span langg>Attached Files</span>:</label>
-          <br>
-          <button nbButton size="small" (click)="onAddAttach()" [disabled]="attachedFile" class="mb-1">
-            <nb-icon icon="plus-outline"></nb-icon><span langg>Add Attachment</span>
-          </button>
-          <div *ngIf="attachedFile" class="row">
-            <div class="col-3">
-              <nb-select #fileType="ngModel" name="fileType" [(ngModel)]="attachedFile.type"
-                [ngModelOptions]="{standalone: true}" required [placeholder]="'File Type' | langg" size="small"
-                [nbTooltip]="fileType.invalid? ('File Type is required!' | langg):('File Type' | langg)"
-                [nbTooltipStatus]="fileType.invalid?'danger':'basic'"
-                [status]="fileType.touched ? (fileType.invalid  ? 'danger' : 'success') : ''" fullWidth>
-                <nb-option value="item" langg>X-Ray Image</nb-option>
-                <nb-option value="item" langg>Report File</nb-option>
-                <nb-option value="item" langg>Before Treatment</nb-option>
-                <nb-option value="item" langg>After Treatment</nb-option>
-              </nb-select>
-            </div>
-            <div class="col-3 form-control-group">
-              <input nbInput [(ngModel)]="attachedFile.note" [ngModelOptions]="{standalone: true}"
-                [placeholder]="'Note' | langg" [nbTooltip]="'Note' | langg" fullWidth fieldSize="small">
-            </div>
-            <div class="col-3 form-control-group">
-              <input nbInput type="file" #attachment name="attachment" ng2FileSelect [uploader]="uploader"
-                [status]="!uploader.queue.length ? 'danger' : 'success'" [nbTooltip]="'Choose File' | langg"
-                [nbTooltipStatus]="!uploader.queue.length?'danger':'basic'" fieldSize="small" fullWidth />
-            </div>
-            <div class="col-3 form-control-group">
-              <div class="row">
-                <div class="progress col-12">
-                  <div class="progress-bar" role="progressbar"
-                    [ngStyle]="{ 'width': uploader.queue[0]?.progress + '%' }"></div>
+        <div class="col-12 text-center nbButton-group border-bottom pb-1">
+          <button nbButton type="submit" status="success" [disabled]="!form.valid || !form.dirty || attachedFile"
+            langg>Save</button>
+          <button nbButton type="button" status="danger" [disabled]="attachedFile" langg (click)="dialogRef.close()">Cancel</button>
+        </div>
+      </div>
+    </form>
+    <div class="row mt-1">
+      <div class="col-12">
+        <h6><span langg>Attached Files</span>:</h6>
+        <button nbButton size="tiny" type="button" (click)="onAddAttach()" [disabled]="attachedFile" class="mb-1">
+          <nb-icon icon="plus-outline"></nb-icon><span langg>Add Attachment</span>
+        </button>
+        <div *ngIf="attachedFile" class="row">
+          <div class="col-3">
+            <nb-select #fileType="ngModel" name="fileType" [(ngModel)]="attachedFile.type"
+              [ngModelOptions]="{standalone: true}" required [placeholder]="'File Type' | langg" size="small"
+              [nbTooltip]="fileType.invalid? ('File Type is required!' | langg):('File Type' | langg)"
+              [nbTooltipStatus]="fileType.invalid?'danger':'basic'"
+              [status]="fileType.touched ? (fileType.invalid  ? 'danger' : 'success') : ''" fullWidth>
+              <nb-option value="item" langg>X-Ray Image</nb-option>
+              <nb-option value="item" langg>Report File</nb-option>
+              <nb-option value="item" langg>Before Treatment</nb-option>
+              <nb-option value="item" langg>After Treatment</nb-option>
+            </nb-select>
+          </div>
+          <div class="col-3 form-control-group">
+            <input nbInput [(ngModel)]="attachedFile.note" [ngModelOptions]="{standalone: true}"
+              [placeholder]="'Note' | langg" [nbTooltip]="'Note' | langg" fullWidth fieldSize="small">
+          </div>
+          <div class="col-3 form-control-group">
+            <input nbInput type="file" #attachment name="attachment" ng2FileSelect [uploader]="uploader"
+              [status]="!uploader.queue.length ? 'danger' : 'success'" [nbTooltip]="'Choose File' | langg"
+              [nbTooltipStatus]="!uploader.queue.length?'danger':'basic'" fieldSize="small" fullWidth />
+          </div>
+          <div class="col-3 form-control-group">
+            <div class="row">
+              <div class="progress col-12">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.queue[0]?.progress + '%' }">
                 </div>
-                <div *ngIf="uploader.options.isHTML5" class="col-6 p-0">
-                  <span langg>File size:</span> {{ uploader.queue[0]?.file?.size/1024/1024 | number:'.0-2' }} MB
-                </div>
-                <div class="col-6 p-0">
-                  <button nbButton type="button"
-                    [disabled]="!uploader.queue.length || fileType.invalid || uploader.queue[0]?.isReady || uploader.queue[0]?.isUploading || uploader.queue[0]?.isSuccess"
-                    (click)="uploader.queue[0]?.upload()" status="success" size="small">
-                    <span langg>Upload</span>
-                  </button>&nbsp;
-                  <button nbButton type="button" (click)="uploader.queue[0]?.remove(); attachedFile=null"
-                    status="danger" size="small">
-                    <span langg>Cancel</span>
-                  </button>
-                </div>
-                <!-- <div class="col-12 text-center">
+              </div>
+              <div *ngIf="uploader.options.isHTML5" class="col-6 p-0">
+                <span langg>File size:</span> {{ uploader.queue[0]?.file?.size/1024/1024 | number:'.0-2' }} MB
+              </div>
+              <div class="col-6 p-0">
+                <button nbButton type="button"
+                  [disabled]="!uploader.queue.length || fileType.invalid || uploader.queue[0]?.isReady || uploader.queue[0]?.isUploading || uploader.queue[0]?.isSuccess"
+                  (click)="uploader.queue[0]?.upload()" status="success" size="small">
+                  <span langg>Upload</span>
+                </button>&nbsp;
+                <button nbButton type="button" (click)="uploader.queue[0]?.remove(); attachedFile=null" status="danger"
+                  size="small">
+                  <span langg>Cancel</span>
+                </button>
+              </div>
+              <!-- <div class="col-12 text-center">
                   <div *ngIf="uploader.queue[0]?.isSuccess" class="alert alert-success" role="alert">
                     <span langg>Upload successful</span>&nbsp;
                     <nb-icon icon="done-all-outline"></nb-icon>
@@ -97,158 +104,54 @@
                     <nb-icon icon="alert-triangle-outline"></nb-icon>
                   </div>
                 </div> -->
-              </div>
             </div>
           </div>
-
-          <!-- <div class="form-control-group">
-            <label for="input-file" class="label"><span langg>Report File</span>:</label>
-            <input nbInput type="file" #reportFile name="reportFile" ng2FileSelect [uploader]="uploader" id="input-file"
-              fieldSize="small" fullWidth (click)="fileType='report'" />
-
-            <div *ngIf="fileType=='report'">
-              <div *ngFor="let item of uploader.queue" class="row m-0">
-                <ng-container *ngIf="!item.isSuccess && !item.isError">
-                  <div *ngIf="uploader.options.isHTML5" class="progress col-12 my-1">
-                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                  </div>
-                  <div *ngIf="uploader.options.isHTML5" class="col-6">
-                    <span langg>File size:</span> {{ item?.file?.size/1024/1024 | number:'.0-2' }} MB
-                  </div>
-                  <div class="col-6">
-                    <button nbButton type="button" (click)="item.upload()"
-                      [disabled]="item.isReady || item.isUploading || item.isSuccess" status="success" size="tiny">
-                      <nb-icon icon="cloud-upload-outline"></nb-icon><span langg>Upload</span>
-                    </button>&nbsp;
-                    <button nbButton type="button" (click)="item.remove();reportFile.value=null" status="danger"
-                      size="tiny">
-                      <nb-icon icon="trash-2-outline"></nb-icon><span langg>Remove</span>
-                    </button>
-                  </div>
-                </ng-container>
-                <div class="col-12 text-center">
-                  <div *ngIf="item.isSuccess" class="alert alert-success" role="alert">
-                  <span langg>Upload successful</span>&nbsp;
-                  <nb-icon icon="done-all-outline"></nb-icon>
-                </div>
-                <div *ngIf="item.isError" class="alert alert-danger" role="alert">
-                  <span langg>Upload failed</span>&nbsp;
-                  <nb-icon icon="alert-triangle-outline"></nb-icon>
-                </div>
-                </div>
-                <div *ngIf="item.isSuccess || item.isError" class="col-12">
-                  <a nbButton href="../../../../../../assets/images/team.png" target="_blank" status="info" size="small"
-                    langg>Preview</a>&nbsp;
-                  <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_report" size="small"
-                    langg>Download</a>&nbsp;
-                  <button nbButton type="button" (click)="item.remove();reportFile.value=null" status="danger"
-                    size="small" langg>Delete</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-control-group">
-            <label for="input-image" class="label"><span langg>X-Ray Image</span>:</label>
-            <input nbInput type="file" #xrayImage ng2FileSelect [uploader]="uploader" id="input-image" fieldSize="small"
-              fullWidth (click)="fileType='xray'" />
-
-            <div *ngIf="fileType=='xray'">
-              <div *ngFor="let item of uploader.queue" class="row m-0">
-                <ng-container *ngIf="!item.isSuccess && !item.isError">
-                  <div *ngIf="uploader.options.isHTML5" class="progress col-12 my-1">
-                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                  </div>
-                  <div *ngIf="uploader.options.isHTML5" class="col-6">
-                    <span langg>File size:</span> {{ item?.file?.size/1024/1024 | number:'.0-2' }} MB
-                  </div>
-                  <div class="col-6">
-                    <button nbButton type="button" (click)="item.upload()"
-                      [disabled]="item.isReady || item.isUploading || item.isSuccess" status="success" size="tiny">
-                      <nb-icon icon="cloud-upload-outline"></nb-icon><span langg>Upload</span>
-                    </button>&nbsp;
-                    <button nbButton type="button" (click)="item.remove();xrayImage.value=null" status="danger"
-                      size="tiny">
-                      <nb-icon icon="trash-2-outline"></nb-icon><span langg>Remove</span>
-                    </button>
-                  </div>
-                </ng-container>
-                <div class="col-12 text-center">
-                  <div *ngIf="item.isSuccess || item.isError" class="alert alert-success mb-1" role="alert">
-                    <span langg>Upload successful</span>&nbsp;
-                    <nb-icon icon="done-all-outline"></nb-icon>
-                  </div>
-                  <div *ngIf="item.isSuccess" class="alert alert-success" role="alert">
-                    <span langg>Upload successful</span>&nbsp;
-                    <nb-icon icon="done-all-outline"></nb-icon>
-                  </div>
-                  <div *ngIf="item.isError" class="alert alert-danger" role="alert">
-                    <span langg>Upload failed</span>&nbsp;
-                    <nb-icon icon="alert-triangle-outline"></nb-icon>
-                  </div>
-                </div>
-                <div *ngIf="item.isSuccess || item.isError" class="col-12">
-                  <a nbButton href="../../../../../../assets/images/team.png" target="_blank" status="info" size="small"
-                    langg>Preview</a>&nbsp;
-                  <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image" size="small"
-                    langg>Download</a>&nbsp;
-                  <button nbButton type="button" (click)="item.remove();xrayImage.value=null" status="danger"
-                    size="small" langg>Delete</button>
-                </div>
-              </div>
-            </div>
-          </div> -->
-        </div>
-
-        <div class="col-12">
-          <table class="table table-striped">
-            <thead class="thead-dark">
-              <tr>
-                <th langg>Upload Date</th>
-                <th langg>File Type</th>
-                <th langg>Note</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>5/6/2020</td>
-                <td langg>X-Ray Image</td>
-                <td>Left knee</td>
-                <td>
-                  <a nbButton href="../../../../../../assets/images/team.png" target="_blank" status="info" size="small"
-                    langg>Preview</a>&nbsp;
-                  <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image" size="small"
-                    langg>Download</a>&nbsp;
-                  <button nbButton type="button" (click)="deleteSwal.fire()" status="danger" size="small"
-                    langg>Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <td>12/6/2020</td>
-                <td langg>Report File</td>
-                <td>Right knee</td>
-                <td>
-                  <a nbButton href="../../../../../../assets/images/team.png" target="_blank" status="info" size="small"
-                    langg>Preview</a>&nbsp;
-                  <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image" size="small"
-                    langg>Download</a>&nbsp;
-                  <button nbButton type="button" (click)="deleteSwal.fire()" status="danger" size="small"
-                    langg>Delete</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
-    </nb-card-body>
-    <nb-card-footer>
-      <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!form.valid || attachedFile" langg>Save</button>
-        <button nbButton type="button" status="danger" langg (click)="dialogRef.close()">Cancel</button>
+
+      <div class="col-12">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th langg>Upload Date</th>
+              <th langg>File Type</th>
+              <th langg>Note</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>5/6/2020</td>
+              <td langg>X-Ray Image</td>
+              <td>Left knee</td>
+              <td>
+                <a nbButton href="../../../../../../assets/images/team.png" target="_blank" [ngClass]="attachedFile?'disabled':''" status="info" size="small"
+                  langg>Preview</a>&nbsp;
+                <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image" [ngClass]="attachedFile?'disabled':''" size="small"
+                  langg>Download</a>&nbsp;
+                <button nbButton type="button" (click)="deleteSwal.fire()" status="danger" [disabled]="attachedFile" size="small"
+                  langg>Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>12/6/2020</td>
+              <td langg>Report File</td>
+              <td>Right knee</td>
+              <td>
+                <a nbButton href="../../../../../../assets/images/team.png" target="_blank" [ngClass]="attachedFile?'disabled':''" status="info" size="small"
+                  langg>Preview</a>&nbsp;
+                <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image" [ngClass]="attachedFile?'disabled':''" size="small"
+                  langg>Download</a>&nbsp;
+                <button nbButton type="button" (click)="deleteSwal.fire()" status="danger" [disabled]="attachedFile" size="small"
+                  langg>Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </nb-card-footer>
-  </nb-card>
-</form>
+    </div>
+  </nb-card-body>
+</nb-card>
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
   [showConfirmButton]="false">

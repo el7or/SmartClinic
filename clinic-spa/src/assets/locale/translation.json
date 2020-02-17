@@ -281,6 +281,7 @@
   {"ar":"ملاحظات طلب التحاليل","en":"Analysis Request Note"},
   {"ar":"معاينة","en":"Preview"},
   {"ar":"تقرير الأشعة","en":"X-Ray Report"},
+  {"ar":"تقرير التحليل","en":"Analysis Report"},
   {"ar":"حجم الملف:","en":"File size:"},
   {"ar":"تم الرفع بنجاح","en":"Upload successful"},
   {"ar":"فشل الرفع","en":"Upload failed"},
@@ -292,6 +293,6 @@
   {"ar":"إضافة مرفق","en":"Add Attachment"},
   {"ar":"قبل العلاج","en":"Before Treatment"},
   {"ar":"بعد العلاج","en":"After Treatment"},
-  {"ar":"لابد من اختيار نوع الملف!","en":"File Type is required!"},
+  {"ar":"لابد من اختيار نوع المرفق!","en":"File Type is required!"},
   {"ar":"اختيار الملف","en":"Choose File"}
 ]

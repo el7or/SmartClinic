@@ -191,4 +191,11 @@
   .alert {
     padding: 0.5rem 1rem;
   }
+
+  // =====> change color hyper link if class disabled:
+  a.disabled{
+    background-color: #edf1f7 !important;
+    border-color: #edf1f7 !important;
+    color: #c5cee0 !important;
+  }
 }

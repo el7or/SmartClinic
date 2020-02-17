@@ -68,7 +68,7 @@
 
   // =====> style dialogs:
   nb-card.dialog-center {
-    min-width: 100vh;
+    min-width: 90vh !important;
     max-height: 90vh !important;
     margin: 0 auto !important;
   }
@@ -113,6 +113,11 @@
   // =====> style checkbox:
   nb-checkbox label.label {
     padding: 0 !important;
+  }
+
+  // =====> style label class:
+  .label {
+    color: #696e76;
   }
 
   // =====> remove white spaces in repeate nb-card:

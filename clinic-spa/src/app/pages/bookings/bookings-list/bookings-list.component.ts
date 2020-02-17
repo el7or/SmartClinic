@@ -24,8 +24,8 @@ export class BookingsListComponent implements OnInit {
   tableLoading = false;
   weekendDays: number[];
   totalCost:number;
-  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
 
   constructor(
     private bookingService: BookingsService,

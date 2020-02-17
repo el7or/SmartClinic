@@ -18,7 +18,11 @@ export class XRayDetailComponent implements OnInit {
   uploader: FileUploader;
   response: string;
   fileType: string;
+  todayDate: Date = new Date();
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
+
+  attachedFile: any;
 
   constructor(public dialogRef: NbDialogRef<XRayDetailComponent>) {
     this.uploader = new FileUploader({
@@ -44,14 +48,16 @@ export class XRayDetailComponent implements OnInit {
       console.log(this.uploader.queue);
     };
 
-    /* this.uploader.onCompleteItem = (
+    this.uploader.onCompleteItem = (
       item: FileItem,
       response: string,
       status: number,
       headers: ParsedResponseHeaders
     ) => {
       this.uploader.queue = [];
-    }; */
+      this.attachedFile = null;
+      this.doneSwal.fire();
+    };
 
     this.uploader.response.subscribe(res => (this.response = res));
   }
@@ -61,5 +67,13 @@ export class XRayDetailComponent implements OnInit {
   onSave(form: NgForm) {
     this.doneSwal.fire();
     this.dialogRef.close();
+  }
+
+  onAddAttach() {
+    this.attachedFile = {
+      fileType: "",
+      fileNote: "",
+      file: ""
+    };
   }
 }

@@ -285,5 +285,13 @@
   {"ar":"تم الرفع بنجاح","en":"Upload successful"},
   {"ar":"فشل الرفع","en":"Upload failed"},
   {"ar":"ملف التحليل","en":"Analysis File"},
-  {"ar":"نسخ","en":"Copy"}
+  {"ar":"نسخ","en":"Copy"},
+  {"ar":"ملفات مرفقة","en":"Attached Files"},
+  {"ar":"تاريخ الرفع","en":"Upload Date"},
+  {"ar":"نوع المرفق","en":"File Type"},
+  {"ar":"إضافة مرفق","en":"Add Attachment"},
+  {"ar":"قبل العلاج","en":"Before Treatment"},
+  {"ar":"بعد العلاج","en":"After Treatment"},
+  {"ar":"لابد من اختيار نوع الملف!","en":"File Type is required!"},
+  {"ar":"اختيار الملف","en":"Choose File"}
 ]

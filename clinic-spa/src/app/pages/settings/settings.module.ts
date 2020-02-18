@@ -23,7 +23,7 @@ import { SettingsComponent } from "./settings.component";
 import { PatientSettingComponent } from "./patient-setting/patient-setting.component";
 import { QuestionsSettingComponent } from "./patient-setting/questions-setting/questions-setting.component";
 import { MedicinesSettingComponent } from './patient-setting/medicines-setting/medicines-setting.component';
-import { TypeaheadModule } from 'ngx-bootstrap';
+import { TypeaheadModule, TimepickerModule } from 'ngx-bootstrap';
 import { PrintSettingComponent } from './patient-setting/print-setting/print-setting.component';
 
 @NgModule({
@@ -52,6 +52,7 @@ import { PrintSettingComponent } from './patient-setting/print-setting/print-set
     NbToggleModule,
     NbTabsetModule,
     NbIconModule,
+    TimepickerModule,
     TypeaheadModule.forRoot(),
     SweetAlert2Module.forChild()
   ]

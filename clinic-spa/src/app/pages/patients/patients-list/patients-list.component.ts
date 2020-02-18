@@ -21,7 +21,7 @@ export class PatientsListComponent implements OnInit {
 
   ngOnInit() {
     const patientName = this.route.snapshot.queryParamMap.get('name');
-    console.log(patientName);
+    console.log('search:',patientName);
   }
 
   onSearch(form: NgForm) {}

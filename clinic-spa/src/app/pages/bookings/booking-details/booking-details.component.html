@@ -34,7 +34,7 @@
           <div class="form-control-group">
             <timepicker (ngModelChange)="onChooseBookingTime(bookingTime)" [(ngModel)]="bookingTimeData"
               #bookingTime="ngModel" name="bookingTime" required showMeridian="true" labelMinutes="Minutes"
-              minuteStep="15" style="direction: ltr;" ariaLabelHours="09"></timepicker>
+              minuteStep="15" style="direction: ltr;" [min]="bookingTimeMin" [max]="bookingTimeMax"></timepicker>
             <ng-container *ngIf="bookingTime.invalid">
               <p class="error-message text-danger" *ngIf="bookingTime?.errors.duplicateTime">
                 <span langg>This Time</span>&nbsp;05:00&nbsp;<span langg>is already Booked!</span>

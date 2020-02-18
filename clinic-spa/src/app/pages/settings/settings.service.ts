@@ -8,6 +8,8 @@ import { Question } from "./settings.model";
 export class SettingsService {
   workdays: number[] = [6, 0, 1, 2, 3, 4, 5];
   sortBookingsBy: string = "manual";
+  bookingTimeFrom:Date = new Date(2020,1,1,8,0,0,0);
+  bookingTimeTo:Date = new Date(2020,1,1,22,0,0,0);
 
   printInfo: {} = {
     doctorName: "دكتور بهاء علي قرنة",
@@ -86,9 +88,11 @@ export class SettingsService {
 
   // =====> get/set clinic setting:
   getClinicSetting() {}
-  saveClinicSetting(days: number[], sortBy): void {
+  saveClinicSetting(days: number[], sortBy,bookingFrom,bookingTo): void {
     this.workdays = days;
     this.sortBookingsBy = sortBy;
+    this.bookingTimeFrom = bookingFrom;
+    this.bookingTimeTo = bookingTo;
   }
 
   // =====> get week end days to disable it in datepickers & calendar:

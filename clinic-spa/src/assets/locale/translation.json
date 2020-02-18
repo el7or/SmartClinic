@@ -294,5 +294,13 @@
   {"ar":"قبل العلاج","en":"Before Treatment"},
   {"ar":"بعد العلاج","en":"After Treatment"},
   {"ar":"لابد من اختيار نوع المرفق!","en":"File Type is required!"},
-  {"ar":"اختيار الملف","en":"Choose File"}
+  {"ar":"ساعات الحجوزات المسموح بها في أيام العمل.","en":"Allowed Bookings Hours on Work Days."},
+  {"ar":"ساعات الحجز","en":"Bookings Hours"},
+  {"ar":"لابد من إدخال ساعات الحجز","en":"Bookings Hours is required!"},
+  {"ar":"من","en":"From"},
+  {"ar":"إلى","en":"To"},
+  {"ar":"مدة كل حجز","en":"Booking Period"},
+  {"ar":"اختر مدة محددة","en":"Choose Period"},
+  {"ar":"دقيقة","en":"Minutes"},
+  {"ar":"ساعة","en":"An Hour"}
 ]

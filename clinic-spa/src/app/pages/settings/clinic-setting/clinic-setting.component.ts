@@ -13,6 +13,8 @@ import { SettingsService } from "./../settings.service";
 export class ClinicSettingComponent implements OnInit {
   formLoading: boolean = false;
   form: FormGroup;
+  bookingTimeFromData:Date;
+  bookingTimeToData:Date;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(
@@ -31,6 +33,12 @@ export class ClinicSettingComponent implements OnInit {
         validators: [Validators.required]
       }),
       sortBookings: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      bookingTimeFrom: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      bookingTimeTo: new FormControl(null, {
         validators: [Validators.required]
       }),
       diagnose: new FormControl(null, {
@@ -65,6 +73,8 @@ export class ClinicSettingComponent implements OnInit {
     this.form.setValue({
       workdays: this.settingService.workdays,
       sortBookings: "manual",
+      bookingTimeFrom:this.settingService.bookingTimeFrom,
+      bookingTimeTo:this.settingService.bookingTimeTo,
       diagnose: 0,
       isDiagnose: true,
       consult: 0,
@@ -87,7 +97,9 @@ export class ClinicSettingComponent implements OnInit {
     setTimeout(() => {
     this.settingService.saveClinicSetting(
       this.form.value.workdays,
-      this.form.value.sortBookings
+      this.form.value.sortBookings,
+      this.form.value.bookingTimeFrom,
+      this.form.value.bookingTimeTo
     );
     this.doneSwal.fire();
       this.formLoading = false;

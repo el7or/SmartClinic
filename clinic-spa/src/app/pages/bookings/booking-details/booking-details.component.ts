@@ -25,6 +25,8 @@ export class BookingDetailsComponent implements OnInit {
   bookingDoctorData;
   bookingDateData;
   bookingTimeData;
+  bookingTimeMin;
+  bookingTimeMax;
   bookingTypeData;
   weekendDays: number[];
   bookingServiceData:any[];
@@ -51,13 +53,10 @@ export class BookingDetailsComponent implements OnInit {
 
     // =====> get weekends to disable it in datepicker:
     this.weekendDays = this.settingService.getWeekEndsDays();
-  }
 
-  // =====> on submit new booking:
-  onAddBooking(form: NgForm) {
-    console.log(form.value);
-    this.doneSwal.fire();
-    this.dialogRef.close();
+    // =====> get min & max booking period to disable another times in datepicker:
+    this.bookingTimeData = this.bookingTimeMin = this.settingService.bookingTimeFrom;
+    this.bookingTimeMax = this.settingService.bookingTimeTo;
   }
 
   // =====> on choose booking date will fill table with all bookings in same day:
@@ -95,5 +94,12 @@ export class BookingDetailsComponent implements OnInit {
         ? (this.bookingHasDiscount = true)
         : (this.bookingHasDiscount = false);
     }
+  }
+
+  // =====> on submit new booking:
+  onAddBooking(form: NgForm) {
+    console.log(form.value);
+    this.doneSwal.fire();
+    this.dialogRef.close();
   }
 }

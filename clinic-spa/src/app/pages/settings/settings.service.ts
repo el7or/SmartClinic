@@ -6,20 +6,19 @@ import { Question } from "./settings.model";
   providedIn: "root"
 })
 export class SettingsService {
-  workdays: number[] = [0, 1, 2, 3, 4, 5, 6];
+  workdays: number[] = [6, 0, 1, 2, 3, 4, 5];
   sortBookingsBy: string = "manual";
 
-  printInfo: {} =
-    {
-      doctorName: "دكتور بهاء علي قرنة",
-      doctorDegree: "أستاذ جراحة العظام والمفاصل جامعة الأزهر",
-      clinicTitle: "مركز العظام والمفاصل للأطفال والكبار",
-      phone1: "01254215215",
-      phone2: "02315251512",
-      phone3: "",
-      address1: "المهندسين شارع نجيب محفوظ عمارة 5 شقة 6",
-      address2: ""
-    };
+  printInfo: {} = {
+    doctorName: "دكتور بهاء علي قرنة",
+    doctorDegree: "أستاذ جراحة العظام والمفاصل جامعة الأزهر",
+    clinicTitle: "مركز العظام والمفاصل للأطفال والكبار",
+    phone1: "01254215215",
+    phone2: "02315251512",
+    phone3: "",
+    address1: "المهندسين شارع نجيب محفوظ عمارة 5 شقة 6",
+    address2: ""
+  };
   questionsList: Question[] = [
     {
       id: 1,
@@ -94,7 +93,7 @@ export class SettingsService {
 
   // =====> get week end days to disable it in datepickers & calendar:
   getWeekEndsDays(): number[] {
-    const weekDays = [0, 1, 2, 3, 4, 5, 6];
+    const weekDays = [6, 0, 1, 2, 3, 4, 5];
     let Weekend = weekDays.filter(item => this.workdays.indexOf(item) < 0);
     return Weekend;
   }

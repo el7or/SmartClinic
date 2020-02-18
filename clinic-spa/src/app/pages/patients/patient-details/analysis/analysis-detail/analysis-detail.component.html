@@ -3,7 +3,8 @@
     <span langg>Analysis Name</span>:&nbsp;{{ analysisDetails }}
     <br>
     <small class="font-weight-bold">
-      <span langg>Request Date</span>:&nbsp; 1/5/2020
+      <span langg>Request Date</span>:&nbsp;<span>1/5/2020</span>&nbsp;|
+      <span langg>Result Date</span>:&nbsp;<span>15/5/2020</span>
     </small>
   </nb-card-header>
   <nb-card-body>
@@ -16,26 +17,10 @@
             <textarea nbInput ngModel #result="ngModel" id="input-result" name="result"
               [placeholder]="'Register Result' | langg" fullWidth></textarea>
           </div>
-          <div class="form-control-group">
-            <label for="input-resultDate" class="label"><span langg>Result Date</span>:</label>
-            <input nbInput type="text" disabled id="input-resultDate"
-              [value]="result.value? (todayDate | localDateShort):''" fullWidth>
-          </div>
         </div>
         <div class="col-md-6">
           <div class="form-control-group">
-            <label for="input-resultGrade" class="label"><span langg>Disease Severity</span>:</label>
-            <nb-select fullWidth ngModel #resultGrade="ngModel" name="resultGrade"
-              [placeholder]="'Disease Severity' | langg">
-              <nb-option value="0">Grade 0</nb-option>
-              <nb-option value="1">Grade 1</nb-option>
-              <nb-option value="2">Grade 2</nb-option>
-              <nb-option value="3">Grade 3</nb-option>
-              <nb-option value="4">Grade 4</nb-option>
-            </nb-select>
-          </div>
-          <div class="form-control-group">
-            <label for="input-report" class="label"><span langg>Analysis Report</span>:</label>
+            <label for="input-report" class="label"><span langg>Note</span>:</label>
             <textarea nbInput id="input-report" fullWidth></textarea>
           </div>
         </div>

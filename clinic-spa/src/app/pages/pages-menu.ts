@@ -8,7 +8,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Patient Records',
+    title: 'Patients Records',
     icon: 'file-text-outline',
     link: '/pages/patients',
     pathMatch: "prefix"

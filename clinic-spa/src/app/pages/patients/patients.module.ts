@@ -37,6 +37,7 @@ import { AnalysisComponent } from './patient-details/analysis/analysis.component
 import { RequestsComponent } from './patient-details/requests/requests.component';
 import { XRayDetailComponent } from './patient-details/x-rays/x-ray-detail/x-ray-detail.component';
 import { AnalysisDetailComponent } from './patient-details/analysis/analysis-detail/analysis-detail.component';
+import { PatientRecordComponent } from './patient-details/patient-record/patient-record.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { AnalysisDetailComponent } from './patient-details/analysis/analysis-det
     RequestsComponent,
     XRayDetailComponent,
     AnalysisDetailComponent,
+    PatientRecordComponent,
   ],
   imports: [
     CommonModule,

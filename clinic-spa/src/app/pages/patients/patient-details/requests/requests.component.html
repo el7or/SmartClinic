@@ -9,10 +9,10 @@
               {{item.type=='xRay'?('Request X-Ray' | langg):('Request Analysis' | langg)}}&nbsp;:</td>
             <td>
               <input nbInput [(ngModel)]="item.name" [placeholder]="'Type Medicine Name ..' | langg"
-                [typeahead]="item.type=='xRay'? xRayNames: analysisNames" fullWidth
+                [typeahead]="item.type=='xRay'? xRayNames: item.type=='analysis'? analysisNames:[]" fullWidth
                 (typeaheadNoResults)="item.isNameValid = !$event"
-                [placeholder]="item.type=='xRay'?('X-Ray Name' | langg):('Analysis Name' | langg)" [isAnimated]="true"
-                fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
+                [placeholder]="item.type=='xRay'?('X-Ray Name' | langg):item.type=='analysis'?('Analysis Name' | langg):('P.T Name' | langg)"
+                [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
                 [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
               <ng-container *ngIf="!item.isNameValid">
                 <label class="error-message" langg>This Name does not exist! Do you add it to the
@@ -42,6 +42,10 @@
       <button nbButton size="small" (click)="onAddRequest('analysis')"
         [disabled]="requests[0]?.type && (!requests[0]?.name || !requests[0]?.isNameValid)" class="mx-1 mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Request Analysis</span>
+      </button>
+      <button nbButton size="small" (click)="onAddRequest('pt')"
+        [disabled]="requests[0]?.type && (!requests[0]?.name || !requests[0]?.isNameValid)" class="mx-1 mb-1">
+        <nb-icon icon="plus-outline"></nb-icon><span langg>Request P.T</span>
       </button>
 
       <div class="text-center nbButton-group mb-1">
@@ -76,7 +80,8 @@
           <td class="text-center">
             <button nbButton type="button" (click)="onSavePrint(form)" status="basic" size="small"
               langg>Print</button>&nbsp;
-            <button nbButton type="button" (click)="onDeleteRequest()" status="danger" size="small" langg>Delete</button>
+            <button nbButton type="button" (click)="onDeleteRequest()" status="danger" size="small"
+              langg>Delete</button>
           </td>
         </tr>
         <tr>

@@ -26,7 +26,7 @@ import { Location } from "@angular/common";
         </h5>
       </nb-card-header>
       <nb-card-body>
-        <nb-route-tabset [tabs]="patientTabs" fullWidth></nb-route-tabset>
+        <nb-route-tabset [tabs]="patientTabs"></nb-route-tabset>
       </nb-card-body>
     </nb-card>
   `,
@@ -68,14 +68,14 @@ export class PatientDetailsComponent implements OnInit {
           route: "./basic"
         },
         {
-          title: this.langgService.translateWord("Patient History"),
-          route: "./history",
+          title: this.langgService.translateWord("Patient Record"),
+          route: "./record",
           disabled: this.isNewPatient
         },
-        {
+        /* {
           title: this.langgService.translateWord("EX"),
           disabled: true
-        },
+        }, */
         {
           title: this.langgService.translateWord("X-Rays"),
           route: "./xray",
@@ -86,18 +86,18 @@ export class PatientDetailsComponent implements OnInit {
           route: "./analysis",
           disabled: this.isNewPatient
         },
-        {
+        /* {
           title: this.langgService.translateWord("Associated Diseases"),
           route: "./questions",
           disabled: this.isNewPatient
-        },
+        }, */
         {
           title: this.langgService.translateWord("Prescription"),
           route: "./prescription",
           disabled: this.isNewPatient
         },
         {
-          title: this.langgService.translateWord("Request X-Ray & Analysis"),
+          title: this.langgService.translateWord("Requests"),
           route: "./request",
           disabled: this.isNewPatient
         }

@@ -1,3 +1,4 @@
+import { PatientRecordComponent } from './patients/patient-details/patient-record/patient-record.component';
 import { RequestsComponent } from "./patients/patient-details/requests/requests.component";
 import { MedicinesComponent } from "./patients/patient-details/medicines/medicines.component";
 import { QuestionsComponent } from "./patients/patient-details/questions/questions.component";
@@ -55,16 +56,8 @@ const routes: Routes = [
                 component: BasicInfoComponent
               },
               {
-                path: "history",
-                component: HistoryComponent
-              },
-              {
-                path: "co"
-                //component: HistoryComponent
-              },
-              {
-                path: "ex"
-                //component: BasicInfoComponent
+                path: "record",
+                component: PatientRecordComponent
               },
               {
                 path: "xray",
@@ -73,10 +66,6 @@ const routes: Routes = [
               {
                 path: "analysis",
                 component: AnalysisComponent
-              },
-              {
-                path: "questions",
-                component: QuestionsComponent
               },
               {
                 path: "prescription",

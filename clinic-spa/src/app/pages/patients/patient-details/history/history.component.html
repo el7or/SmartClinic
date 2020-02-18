@@ -1,34 +1,23 @@
 <form #form="ngForm" (ngSubmit)="onSubmit()" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
-  <nb-card>
     <nb-card-body>
       <div class="row">
-        <div class="col-md-6">
-          <div class="form-control-group">
-            <label for="input-complain" class="label"><span langg>Patient Complaint</span>:</label>
-            <textarea nbInput ngModel #complain="ngModel" name="complain" id="input-complain"
-              [placeholder]="'Patient Complaint' | langg" fullWidth></textarea>
-          </div>
-          <div class="form-control-group">
+          <div class="col-md-6 form-control-group">
             <label for="input-history" class="label"><span langg>Medical History</span>:</label>
             <textarea nbInput ngModel #history="ngModel" name="history" id="input-history"
               [placeholder]="'Medical History' | langg" fullWidth></textarea>
           </div>
-          <div class="form-control-group">
+          <div class="col-md-6 form-control-group">
             <label for="input-family" class="label"><span langg>Family Medical History</span>:</label>
             <textarea nbInput ngModel #family="ngModel" name="family" id="input-family"
               [placeholder]="'Family Medical History' | langg" fullWidth></textarea>
           </div>
-        </div>
       </div>
-    </nb-card-body>
-    <nb-card-footer>
       <div class="text-center nbButton-group">
         <button nbButton type="submit" status="success" [disabled]="!form.dirty" langg>Save</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
-    </nb-card-footer>
-  </nb-card>
+    </nb-card-body>
 </form>
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"

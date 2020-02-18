@@ -41,13 +41,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <div class="form-control-group">
-                <label for="input-birthDate" class="label"><span langg>Birth Date</span>:</label>
-                <input type="text" bsDatepicker nbInput #birthDate name="birthDate" id="input-birthDate" fullWidth
-                  [placeholder]="'Birth Date' | langg"
-                  [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
-                  [bsValue]="">
-              </div>
+
             </div>
             <div class="col-6">
               <div class="form-control-group">
@@ -87,16 +81,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <div class="form-control-group">
-                <label for="input-email" class="label"><span langg>Email</span>:</label>
-                <input nbInput ngModel #email="ngModel" name="email" id="input-email" [placeholder]="'Email' | langg"
-                  fullWidth type="email" email [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''">
-                <ng-container *ngIf="email.invalid && email.touched">
-                  <p class="error-message" *ngIf="email?.errors" langg>
-                    Email should be the real one!
-                  </p>
-                </ng-container>
-              </div>
+
             </div>
             <div class="col-6">
               <div class="form-control-group">

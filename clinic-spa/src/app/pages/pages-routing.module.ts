@@ -1,3 +1,5 @@
+import { OperationsComponent } from './patients/patient-details/operations/operations.component';
+import { ReferralsComponent } from './patients/patient-details/referrals/referrals.component';
 import { PatientRecordComponent } from './patients/patient-details/patient-record/patient-record.component';
 import { RequestsComponent } from "./patients/patient-details/requests/requests.component";
 import { MedicinesComponent } from "./patients/patient-details/medicines/medicines.component";
@@ -74,6 +76,14 @@ const routes: Routes = [
               {
                 path: "request",
                 component: RequestsComponent
+              },
+              {
+                path: "referral",
+                component: ReferralsComponent
+              },
+              {
+                path: "operation",
+                component: OperationsComponent
               }
             ]
           }

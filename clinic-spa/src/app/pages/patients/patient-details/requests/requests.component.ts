@@ -57,50 +57,29 @@ export class RequestsComponent implements OnInit {
 
   // =====> on add new request to form from button:
   onAddRequest(type) {
-    switch (type) {
-      case "xray":
-        this.requests.push({
-          type: "xRay",
-          name: "",
-          isNameValid: true,
-          note: ""
-        });
-        break;
-      case "analysis":
-        this.requests.push({
-          type: "analysis",
-          name: "",
-          isNameValid: true,
-          note: ""
-        });
-        break;
-      case "pt":
-        this.requests.push({
-          type: "pt",
-          name: "",
-          isNameValid: true,
-          note: ""
-        });
-        break;
-      default:
-        break;
+    if (type == "xray") {
+      this.requests.push({
+        type: "xRay",
+        name: "",
+        isNameValid: true,
+        note: ""
+      });
+    } else {
+      this.requests.push({
+        type: "analysis",
+        name: "",
+        isNameValid: true,
+        note: ""
+      });
     }
   }
 
   // =====> on add new xray name or analysis name to thier list:
   onAddNewItemToList(itemName, itemType) {
-    switch (itemType) {
-      case "xray":
-        this.xRayNames.push(itemName);
-        break;
-      case "analysis":
-        this.analysisNames.push(itemName);
-        break;
-      case "pt":
-
-        break;
-      default:
-        break;
+    if (itemType == "xRay") {
+      this.xRayNames.push(itemName);
+    } else {
+      this.analysisNames.push(itemName);
     }
     this.doneSwal.fire();
   }
@@ -112,7 +91,7 @@ export class RequestsComponent implements OnInit {
 
   // =====> on save requests without print:
   onSave(form: NgForm) {
-    this.requests = [];
+    this.requests = [ ];
     this.doneSwal.fire();
   }
 
@@ -128,7 +107,7 @@ export class RequestsComponent implements OnInit {
     }, 1000);
   }
 
-  onDeleteRequest() {
+  onDeleteRequest(){
     this.deleteSwal.fire().then(result => {
       if (result.value) {
         this.doneSwal.fire();

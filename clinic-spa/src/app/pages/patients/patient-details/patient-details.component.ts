@@ -72,10 +72,6 @@ export class PatientDetailsComponent implements OnInit {
           route: "./record",
           disabled: this.isNewPatient
         },
-        /* {
-          title: this.langgService.translateWord("EX"),
-          disabled: true
-        }, */
         {
           title: this.langgService.translateWord("X-Rays"),
           route: "./xray",
@@ -86,19 +82,24 @@ export class PatientDetailsComponent implements OnInit {
           route: "./analysis",
           disabled: this.isNewPatient
         },
-        /* {
-          title: this.langgService.translateWord("Associated Diseases"),
-          route: "./questions",
-          disabled: this.isNewPatient
-        }, */
         {
           title: this.langgService.translateWord("Prescription"),
           route: "./prescription",
           disabled: this.isNewPatient
         },
         {
-          title: this.langgService.translateWord("Requests"),
+          title: this.langgService.translateWord("Request X-Ray & Analysis"),
           route: "./request",
+          disabled: this.isNewPatient
+        },
+        {
+          title: this.langgService.translateWord("External Referrals"),
+          route: "./referral",
+          disabled: this.isNewPatient
+        },
+        {
+          title: this.langgService.translateWord("Operations"),
+          route: "./operation",
           disabled: this.isNewPatient
         }
       ];

@@ -44,10 +44,13 @@
     padding: 0 !important;
     overflow: hidden;
   }
+  nb-route-tabset ul.route-tabset{
+    padding: 0 !important;
+  }
 
   // =====> less pading to tabs titles:
-  nb-tabset .tab-link {
-    padding: 1rem !important;
+  nb-tabset .tab-link, nb-route-tabset .tab-link {
+    padding: 1rem 1.5rem !important;
   }
 
   // =====> reset border radius for first and last buttons in pagination:

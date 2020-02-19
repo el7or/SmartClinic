@@ -267,6 +267,7 @@
   { "ar": "طباعة", "en": "Print" },
   { "ar": "حفظ وطباعة الروشتة", "en": "Save & Print" },
   { "ar": "حفظ وطباعة الطلب", "en": "Save & Print Request" },
+  { "ar": "حفظ وطباعة التحويل", "en": "Save & Print Referral" },
   { "ar": "اسم الدواء", "en": "Medication Name" },
   { "ar": "التركيز", "en": "Concentration" },
   { "ar": "الشكل", "en": "Form" },
@@ -366,9 +367,12 @@
   },
   { "ar": "طلب أشعة", "en": "Request X-Ray" },
   { "ar": "طلب تحاليل", "en": "Request Analysis" },
-  { "ar": "طلب علاج طبيعي", "en": "Request P.T" },
+  { "ar": "علاج طبيعي", "en": "Physical Therapy" },
   { "ar": "اسم العلاج الطبيعي", "en": "P.T Name" },
+  { "ar": "تحويل مستشفى", "en": "Hospital Referral" },
+  { "ar": "اسم التحويل", "en": "Referral Name" },
   { "ar": "إضافة طلب جديد:", "en": "Add New Requests:" },
+  { "ar": "إضافة تحويل جديد:", "en": "Add New Referral:" },
   { "ar": "إسم الأشعة", "en": "X-Ray Name" },
   { "ar": "إسم التحليل", "en": "Analysis Name" },
   { "ar": "طلبات الأشعة والتحاليل السابقة:", "en": "Past Requests:" },
@@ -410,5 +414,10 @@
   { "ar": "مدة كل حجز", "en": "Booking Period" },
   { "ar": "اختر مدة محددة", "en": "Choose Period" },
   { "ar": "دقيقة", "en": "Minutes" },
-  { "ar": "ساعة", "en": "An Hour" }
+  { "ar": "ساعة", "en": "An Hour" },
+  { "ar": "التحويلات السابقة:", "en": "Past Referrals:" },
+  { "ar": "التحويل", "en": "Referral" },
+  { "ar": "تاريخ التحويل", "en": "Referral Date" },
+  { "ar": "فتح الكل", "en": "Open All" },
+  { "ar": "إغلاق الكل", "en": "Close All" }
 ]

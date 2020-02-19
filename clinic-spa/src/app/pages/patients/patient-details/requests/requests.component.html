@@ -8,8 +8,7 @@
             <td class="font-weight-bold text-center">
               {{item.type=='xRay'?('Request X-Ray' | langg):('Request Analysis' | langg)}}&nbsp;:</td>
             <td>
-              <input nbInput [(ngModel)]="item.name" [placeholder]="'Type Medicine Name ..' | langg"
-                [typeahead]="item.type=='xRay'? xRayNames: analysisNames" fullWidth
+              <input nbInput [(ngModel)]="item.name" [typeahead]="item.type=='xRay'? xRayNames: analysisNames" fullWidth
                 (typeaheadNoResults)="item.isNameValid = !$event"
                 [placeholder]="item.type=='xRay'?('X-Ray Name' | langg):('Analysis Name' | langg)" [isAnimated]="true"
                 fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
@@ -76,7 +75,8 @@
           <td class="text-center">
             <button nbButton type="button" (click)="onSavePrint()" status="basic" size="small"
               langg>Print</button>&nbsp;
-            <button nbButton type="button" (click)="onDeleteRequest()" status="danger" size="small" langg>Delete</button>
+            <button nbButton type="button" (click)="onDeleteRequest()" status="danger" size="small"
+              langg>Delete</button>
           </td>
         </tr>
         <tr>

@@ -1,9 +1,20 @@
-nb-accordion-item{
-  background-color: aliceblue !important;
-}
+@import "../../../../shared/styles/themes";
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~@nebular/theme/styles/global/breakpoints";
 
-nb-accordion-item-body{
-  border: 1px solid #7ba3ff !important;
-  border-radius: 10px;
-  background-color: white !important;
+@include nb-install-component() {
+  nb-accordion-item {
+    background-color: aliceblue !important;
+  }
+
+  nb-accordion-item-body {
+    border: 1px solid #7ba3ff !important;
+    border-radius: 10px;
+    background-color: white !important;
+  }
+
+  .btns-acc {
+    @include nb-ltr(text-align, right);
+    @include nb-rtl(text-align, left);
+  }
 }

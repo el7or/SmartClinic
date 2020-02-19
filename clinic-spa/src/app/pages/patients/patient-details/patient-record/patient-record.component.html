@@ -1,4 +1,11 @@
-<nb-accordion multi>
+<div class="my-1 btns-acc">
+  <button nbButton (click)="acc.openAll()" size="tiny"><span langg>Open All</span>
+    <nb-icon icon="expand"></nb-icon>
+  </button>&nbsp;
+  <button nbButton (click)="acc.closeAll()" status="info" size="tiny"><span langg>Close All</span>
+    <nb-icon icon="collapse"></nb-icon></button>
+</div>
+<nb-accordion #acc multi>
   <nb-accordion-item expanded>
     <nb-accordion-item-header><span langg>Patient History</span>:</nb-accordion-item-header>
     <nb-accordion-item-body>
@@ -16,21 +23,28 @@
   <nb-accordion-item>
     <nb-accordion-item-header><span langg>Patient Complaint</span>:</nb-accordion-item-header>
     <nb-accordion-item-body>
-      شكوى المريض ...
+      <complaints></complaints>
     </nb-accordion-item-body>
   </nb-accordion-item>
 
   <nb-accordion-item>
     <nb-accordion-item-header><span langg>Examination</span>:</nb-accordion-item-header>
     <nb-accordion-item-body>
-      فحص المريض ...
+      <examination></examination>
     </nb-accordion-item-body>
   </nb-accordion-item>
 
   <nb-accordion-item>
     <nb-accordion-item-header><span langg>Diagnosis</span>:</nb-accordion-item-header>
     <nb-accordion-item-body>
-      تشخيص المريض ...
+      <diagnosis></diagnosis>
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+
+  <nb-accordion-item>
+    <nb-accordion-item-header><span langg>Operations</span>:</nb-accordion-item-header>
+    <nb-accordion-item-body>
+      <operations></operations>
     </nb-accordion-item-body>
   </nb-accordion-item>
 </nb-accordion>

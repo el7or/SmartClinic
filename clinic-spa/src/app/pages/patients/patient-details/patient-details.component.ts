@@ -97,11 +97,11 @@ export class PatientDetailsComponent implements OnInit {
           route: "./referral",
           disabled: this.isNewPatient
         },
-        {
+        /* {
           title: this.langgService.translateWord("Operations"),
           route: "./operation",
           disabled: this.isNewPatient
-        }
+        } */
       ];
     });
   }

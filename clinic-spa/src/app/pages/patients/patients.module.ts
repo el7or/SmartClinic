@@ -40,6 +40,9 @@ import { AnalysisDetailComponent } from './patient-details/analysis/analysis-det
 import { PatientRecordComponent } from './patient-details/patient-record/patient-record.component';
 import { ReferralsComponent } from './patient-details/referrals/referrals.component';
 import { OperationsComponent } from './patient-details/operations/operations.component';
+import { ComplaintsComponent } from './patient-details/complaints/complaints.component';
+import { ExaminationComponent } from './patient-details/examination/examination.component';
+import { DiagnosisComponent } from './patient-details/diagnosis/diagnosis.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +62,9 @@ import { OperationsComponent } from './patient-details/operations/operations.com
     PatientRecordComponent,
     ReferralsComponent,
     OperationsComponent,
+    ComplaintsComponent,
+    ExaminationComponent,
+    DiagnosisComponent,
   ],
   imports: [
     CommonModule,

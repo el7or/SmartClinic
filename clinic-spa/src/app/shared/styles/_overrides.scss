@@ -44,13 +44,24 @@
     padding: 0 !important;
     overflow: hidden;
   }
-  nb-route-tabset ul.route-tabset{
+  nb-route-tabset ul.route-tabset {
     padding: 0 !important;
   }
 
-  // =====> less pading to tabs titles:
-  nb-tabset .tab-link, nb-route-tabset .tab-link {
+  // =====> style tabs titles:
+  nb-tabset .tab-link,
+  nb-route-tabset .tab-link {
     padding: 1rem 1.5rem !important;
+    color: black;
+    font-family: "Tajawal" !important;
+  }
+  nb-route-tabset .route-tab:hover .tab-link {
+    background-color: transparent;
+    color: #598bff;
+  }
+  nb-route-tabset .route-tab.active .tab-link {
+    background-color: transparent;
+    color: #3366ff;
   }
 
   // =====> reset border radius for first and last buttons in pagination:
@@ -121,7 +132,7 @@
   // =====> style label class:
   .label {
     color: black;
-    font-family: 'Tajawal' !important;
+    font-family: "Tajawal" !important;
   }
 
   // =====> remove white spaces in repeate nb-card:
@@ -197,7 +208,7 @@
   }
 
   // =====> change color hyper link if class disabled:
-  a.disabled{
+  a.disabled {
     background-color: #edf1f7 !important;
     border-color: #edf1f7 !important;
     color: #c5cee0 !important;

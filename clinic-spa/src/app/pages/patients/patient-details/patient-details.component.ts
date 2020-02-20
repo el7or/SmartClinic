@@ -1,4 +1,4 @@
-import { BasicInfoService } from './basic-info/basic-info.service';
+import { BasicInfoService } from "./basic-info/basic-info.service";
 import { LanggService } from "./../../../shared/services/langg.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -24,6 +24,10 @@ import { Location } from "@angular/common";
           <span langg>{{ pageHeader }}</span
           >: <span>{{ patientName }}</span>
         </h5>
+        <label
+          ><span langg>Age</span>: <span>25</span> |
+          <span langg>Visits Count</span>: <span>15</span></label
+        >
       </nb-card-header>
       <nb-card-body>
         <nb-route-tabset [tabs]="patientTabs"></nb-route-tabset>
@@ -43,7 +47,7 @@ export class PatientDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public location: Location,
-    private basicInfoService:BasicInfoService,
+    private basicInfoService: BasicInfoService,
     private langgService: LanggService
   ) {}
 
@@ -96,7 +100,7 @@ export class PatientDetailsComponent implements OnInit {
           title: this.langgService.translateWord("External Referrals"),
           route: "./referral",
           disabled: this.isNewPatient
-        },
+        }
         /* {
           title: this.langgService.translateWord("Operations"),
           route: "./operation",

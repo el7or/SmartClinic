@@ -47,6 +47,10 @@
   { "ar": "الحالة الاجتماعية", "en": "Social Status" },
   { "ar": "أعزب / آنسة", "en": "Single" },
   { "ar": "متزوج / متزوجة", "en": "Married" },
+  { "ar": "مطلق / مطلقة", "en": "Divorced" },
+  { "ar": "أرمل / أرملة", "en": "Widower" },
+  { "ar": "عدد الزيجات السابقة", "en": "Previous Marriages" },
+  { "ar": "عدد الزيجات السابقة للشريك", "en": "Previous Marriages for Partner" },
   { "ar": "رقم الموبايل", "en": "Mobile" },
   {
     "ar": "لابد من إدخال رقم موبايل صحيح!",
@@ -99,6 +103,7 @@
     "en": "Have you had any surgery in the last six months"
   },
   { "ar": "الزيارات", "en": "Visits" },
+  { "ar": "عدد الزيارات", "en": "Visits Count" },
   { "ar": "ملخص الزيارات", "en": "Visits Details" },
   { "ar": "ملف المريض", "en": "Patient Profile" },
   { "ar": "عملية ناجحة", "en": "Success" },

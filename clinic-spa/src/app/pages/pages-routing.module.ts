@@ -1,3 +1,4 @@
+import { PrintSettingComponent } from './settings/patient-setting/print-setting/print-setting.component';
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
@@ -132,9 +133,13 @@ const routes: Routes = [
             path: "clinic",
             component: ClinicSettingComponent
           },
-          {
+          /* {
             path: "patient",
             component: PatientSettingComponent
+          }, */
+          {
+            path: "print",
+            component: PrintSettingComponent
           },
           {
             path: "users",

@@ -1,10 +1,10 @@
 import { NgForm } from "@angular/forms";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Location } from "@angular/common";
-
-import { Disease } from "../../../settings/settings.model";
-import { SettingsService } from "../../../settings/settings.service";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
+
+import { DiseasesService } from './diseases.service';
+import { Disease } from './diseases.model';
 
 @Component({
   selector: "diseases",
@@ -13,21 +13,22 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 })
 export class DiseasesComponent implements OnInit {
   formLoading = false;
-  questionsList: Disease[];
+  patientDiseases: Disease[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(
     public location: Location,
-    private settingService: SettingsService
+    private diseaseService: DiseasesService
   ) {}
 
   ngOnInit() {
-    this.questionsList = this.settingService.getDiseasesSetting();
+    this.patientDiseases = this.diseaseService.diseasesList;
   }
 
-  onSubmitQuest(form: NgForm) {
+  onSubmit(form: NgForm) {
     this.formLoading = true;
     setTimeout(() => {
+      this.diseaseService.diseasesList = this.patientDiseases;
       this.doneSwal.fire();
       this.formLoading = false;
     }, 1000);

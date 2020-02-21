@@ -225,6 +225,7 @@
   { "ar": "اختيار اليوم", "en": "Choose Day" },
   { "ar": "اليوم المحدد", "en": "Chosen Day" },
   { "ar": "إعدادات العيادة", "en": "Clinic Setting" },
+  { "ar": "إعدادات الطباعة", "en": "Print Setting" },
   { "ar": "أيام العمل", "en": "Work Days" },
   { "ar": "أنواع الحجوزات والخدمات", "en": "Bookings Types & Services" },
   { "ar": "السبت", "en": "Saturday" },

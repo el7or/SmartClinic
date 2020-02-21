@@ -1,16 +1,16 @@
-<form #form="ngForm" (ngSubmit)="onSubmitQuest(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+<form #form="ngForm" (ngSubmit)="onSubmit(form)" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
   <nb-card>
     <nb-card-body>
       <div class="row">
-        <ng-container *ngFor="let quest of questionsList">
-          <div *ngIf="quest.isActive" class="form-control-group  form-inline text-center col-md-6">
-            <label class="label" [for]="quest.id"><span langg>{{quest.questionText}}</span><span langg>?</span></label>
-            <nb-radio-group ngModel [id]="quest.id" [name]="quest.id" class="form-inline mx-1">
-              <nb-radio [value]="1"><span langg>Yes</span>&nbsp;</nb-radio>
-              <nb-radio [value]="0"><span langg>No</span>&nbsp;</nb-radio>
+        <ng-container *ngFor="let disease of patientDiseases">
+          <div *ngIf="disease.isActive" class="form-control-group  form-inline text-center col-md-6">
+            <label class="label" [for]="'input-'+disease.diseaseName"><span langg>{{disease.questionText}}</span><span langg>?</span></label>
+            <nb-radio-group [(ngModel)]="disease.isYes" [id]="'input-'+disease.diseaseName" [name]="disease.diseaseName" class="form-inline mx-1">
+              <nb-radio [value]="true"><span langg>Yes</span>&nbsp;</nb-radio>
+              <nb-radio [value]="false"><span langg>No</span>&nbsp;</nb-radio>
             </nb-radio-group>
-            <input *ngIf="form.controls[quest.id]?.value" nbInput type="text" [placeholder]="'Caption' | langg"
+            <input *ngIf="form.controls[disease.diseaseName]?.value" nbInput type="text" [(ngModel)]="disease.note" [name]="'note-'+disease.diseaseName" [placeholder]="'Caption' | langg"
               fieldSize="small" fullWidth>
           </div>
         </ng-container>

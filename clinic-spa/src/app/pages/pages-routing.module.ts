@@ -1,16 +1,15 @@
+import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from "@angular/core";
+
 import { OperationsComponent } from './patients/patient-details/operations/operations.component';
 import { ReferralsComponent } from './patients/patient-details/referrals/referrals.component';
 import { PatientRecordComponent } from './patients/patient-details/patient-record/patient-record.component';
 import { RequestsComponent } from "./patients/patient-details/requests/requests.component";
 import { MedicinesComponent } from "./patients/patient-details/medicines/medicines.component";
-import { QuestionsComponent } from "./patients/patient-details/questions/questions.component";
+import { DiseasesComponent } from "./patients/patient-details/diseases/diseases.component";
 import { AnalysisComponent } from "./patients/patient-details/analysis/analysis.component";
 import { XRaysComponent } from "./patients/patient-details/x-rays/x-rays.component";
-import { HistoryComponent } from "./patients/patient-details/history/history.component";
 import { PatientSettingComponent } from "./settings/patient-setting/patient-setting.component";
-import { RouterModule, Routes } from "@angular/router";
-import { NgModule } from "@angular/core";
-
 import { ContactUsComponent } from "./contact/contact-us.component";
 import { UsersSettingComponent } from "./settings/users-setting/users-setting.component";
 import { PagesComponent } from "./pages.component";
@@ -56,6 +55,10 @@ const routes: Routes = [
               {
                 path: "basic",
                 component: BasicInfoComponent
+              },
+              {
+                path: "diseases",
+                component:DiseasesComponent
               },
               {
                 path: "record",

@@ -20,8 +20,8 @@
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-mobile" class="label"><span langg>Mobile</span>:</label>
-          <input nbInput [(ngModel)]="patientPhoneData" #patientPhone="ngModel" name="patientPhone"
-            id="input-mobile" [placeholder]="'Mobile' | langg" fullWidth pattern="[0-9]*" minlength="10" required
+          <input nbInput [(ngModel)]="patientPhoneData" #patientPhone="ngModel" name="patientPhone" id="input-mobile"
+            [placeholder]="'Mobile' | langg" fullWidth pattern="[0-9]*" minlength="10" required
             [status]="patientPhone.touched ? (patientPhone.invalid  ? 'danger' : 'success') : ''">
           <ng-container *ngIf="patientPhone.invalid && patientPhone.touched">
             <p class="error-message" *ngIf="patientPhone?.errors.required" langg>
@@ -65,17 +65,26 @@
             [placeholder]="'Previous Marriages' | langg" fullWidth>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
-          <label for="input-prevMarriagePartner" class="label"><span langg>Previous Marriages for Partner</span>:</label>
-          <input nbInput ngModel type="number" #prevMarriagePartner="ngModel" name="prevMarriagePartner" id="input-prevMarriagePartner"
-            [placeholder]="'Previous Marriages for Partner' | langg" fullWidth>
+          <label for="input-prevMarriagePartner" class="label"><span langg>Previous Marriages for
+              Partner</span>:</label>
+          <input nbInput ngModel type="number" #prevMarriagePartner="ngModel" name="prevMarriagePartner"
+            id="input-prevMarriagePartner" [placeholder]="'Previous Marriages for Partner' | langg" fullWidth>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-career" class="label"><span langg>Career</span>:</label>
-          <input nbInput ngModel #career="ngModel" name="career" id="input-career" [placeholder]="'Career' | langg" fullWidth>
+          <input nbInput ngModel #career="ngModel" name="career" id="input-career" [placeholder]="'Career' | langg"
+            fullWidth>
         </div>
-        <div class="col-md-6 col-sm-6 form-control-group">
-          <label for="input-address" class="label"><span langg>Address</span>:</label>
-          <input nbInput ngModel #address="ngModel" name="address" id="input-address" [placeholder]="'Address' | langg" fullWidth>
+        <div class="col-md-3 col-sm-6 form-control-group">
+          <label for="input-governorate" class="label"><span langg>Governorate</span>:</label>
+          <nb-select fullWidth ngModel #governorate="ngModel" name="governorate" id="input-governorate"
+            [placeholder]="'Governorate' | langg">
+            <nb-option *ngFor="let item of citiesService.EgyptCities" [value]="item.en">{{item.en | langg}}</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-md-3 col-sm-6 form-control-group">
+          <label for="input-area" class="label"><span langg>Area</span>:</label>
+          <input nbInput ngModel #area="ngModel" name="area" id="input-area" [placeholder]="'Area' | langg" fullWidth>
         </div>
       </div>
     </nb-card-body>

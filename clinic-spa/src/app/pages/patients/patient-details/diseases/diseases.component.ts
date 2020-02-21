@@ -7,11 +7,11 @@ import { SettingsService } from "../../../settings/settings.service";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 @Component({
-  selector: "questions",
-  templateUrl: "./questions.component.html",
-  styleUrls: ["./questions.component.scss"]
+  selector: "diseases",
+  templateUrl: "./diseases.component.html",
+  styleUrls: ["./diseases.component.scss"]
 })
-export class QuestionsComponent implements OnInit {
+export class DiseasesComponent implements OnInit {
   formLoading = false;
   questionsList: Question[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;

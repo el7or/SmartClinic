@@ -28,7 +28,7 @@ import { PatientsListComponent } from "./patients-list/patients-list.component";
 import { BookingsModule } from './../bookings/bookings.module';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
 import { BasicInfoComponent } from './patient-details/basic-info/basic-info.component';
-import { QuestionsComponent } from './patient-details/questions/questions.component';
+import { DiseasesComponent } from './patient-details/diseases/diseases.component';
 import { MedicinesComponent } from './patient-details/medicines/medicines.component';
 import { MedicinesSummaryComponent } from './patient-details/medicines/medicines-summary/medicines-summary.component';
 import { HistoryComponent } from './patient-details/history/history.component';
@@ -50,7 +50,7 @@ import { DiagnosisComponent } from './patient-details/diagnosis/diagnosis.compon
     PatientsListComponent,
     PatientDetailsComponent,
     BasicInfoComponent,
-    QuestionsComponent,
+    DiseasesComponent,
     MedicinesComponent,
     MedicinesSummaryComponent,
     HistoryComponent,

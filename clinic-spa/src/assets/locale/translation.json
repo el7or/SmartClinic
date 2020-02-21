@@ -50,7 +50,10 @@
   { "ar": "مطلق / مطلقة", "en": "Divorced" },
   { "ar": "أرمل / أرملة", "en": "Widower" },
   { "ar": "عدد الزيجات السابقة", "en": "Previous Marriages" },
-  { "ar": "عدد الزيجات السابقة للشريك", "en": "Previous Marriages for Partner" },
+  {
+    "ar": "عدد الزيجات السابقة للشريك",
+    "en": "Previous Marriages for Partner"
+  },
   { "ar": "رقم الموبايل", "en": "Mobile" },
   {
     "ar": "لابد من إدخال رقم موبايل صحيح!",
@@ -63,6 +66,8 @@
   },
   { "ar": "المهنة", "en": "Career" },
   { "ar": "العنوان", "en": "Address" },
+  { "ar": "المحافظة", "en": "Governorate" },
+  { "ar": "المنطقة", "en": "Area" },
   { "ar": "ملاحظات", "en": "Note" },
   { "ar": "حفظ", "en": "Save" },
   { "ar": "إلغاء", "en": "Cancel" },
@@ -155,6 +160,7 @@
   { "ar": "توضيح سبب الخصم", "en": "Discount Note" },
   { "ar": "لابد من توضيح سبب الخصم!", "en": "Discount Note is required!" },
   { "ar": "المعلومات الأساسية", "en": "Basic info" },
+  { "ar": "الأمراض المصاحبة", "en": "Associated Diseases" },
   { "ar": "الأشعة", "en": "X-Rays" },
   { "ar": "التحاليل", "en": "Analyses" },
   { "ar": "التاريخ المرضي", "en": "Patient History" },
@@ -257,7 +263,6 @@
   { "ar": "أخرى", "en": "Other" },
   { "ar": "أو اتصل بنا على", "en": "Or call us on" },
   { "ar": "إعدادات التشخيص", "en": "Diagnosis Setting" },
-  { "ar": "الأمراض المصاحبة", "en": "Associated Diseases" },
   { "ar": "توضيح", "en": "Caption" },
   { "ar": "مستوى الصلاحية", "en": "Role" },
   { "ar": "التفعيل", "en": "Activation" },
@@ -424,5 +429,113 @@
   { "ar": "التحويل", "en": "Referral" },
   { "ar": "تاريخ التحويل", "en": "Referral Date" },
   { "ar": "فتح الكل", "en": "Open All" },
-  { "ar": "إغلاق الكل", "en": "Close All" }
+  { "ar": "إغلاق الكل", "en": "Close All" },
+  {
+    "ar": "الإسكندرية",
+    "en": "Alexandria"
+  },
+  {
+    "ar": "الإسماعيلية",
+    "en": "Ismailia"
+  },
+  {
+    "ar": "أسوان",
+    "en": "Aswan"
+  },
+  {
+    "ar": "أسيوط",
+    "en": "Asyut"
+  },
+  {
+    "ar": "الأقصر",
+    "en": "Luxor"
+  },
+  {
+    "ar": "البحر الأحمر",
+    "en": "Red Sea"
+  },
+  {
+    "ar": "البحيرة",
+    "en": "Beheira"
+  },
+  {
+    "ar": "بني سويف ",
+    "en": "Beni Suef"
+  },
+  {
+    "ar": "بورسعيد",
+    "en": "Port Said"
+  },
+  {
+    "ar": "جنوب سيناء",
+    "en": "South Sinai"
+  },
+  {
+    "ar": "الجيزة",
+    "en": "Giza"
+  },
+  {
+    "ar": "الدقهلية",
+    "en": "Dakahlia"
+  },
+  {
+    "ar": "دمياط",
+    "en": "Damietta"
+  },
+  {
+    "ar": "سوهاج",
+    "en": "Sohag"
+  },
+  {
+    "ar": "السويس",
+    "en": "Suez"
+  },
+  {
+    "ar": "الشرقية",
+    "en": "Sharqia"
+  },
+  {
+    "ar": "شمال سيناء",
+    "en": "North Sinai"
+  },
+  {
+    "ar": "الغربية",
+    "en": "Gharbia"
+  },
+  {
+    "ar": "الفيوم",
+    "en": "Faiyum"
+  },
+  {
+    "ar": "القاهرة",
+    "en": "Cairo"
+  },
+  {
+    "ar": "القليوبية",
+    "en": "Qalyubia"
+  },
+  {
+    "ar": "قنا",
+    "en": "Qena"
+  },
+  {
+    "ar": "كفر الشيخ",
+    "en": "Kafr El Sheikh"
+  },
+  {
+    "ar": "مطروح",
+    "en": "Matruh"
+  },
+  {
+    "ar": "المنوفية",
+    "en": "Monufia"
+  },
+  {
+    "ar": "المنيا",
+    "en": "Minya"
+  },
+  {
+    "ar": "الوادي الجديد",
+    "en": "New Valley"
+  }
 ]

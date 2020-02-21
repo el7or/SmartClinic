@@ -1,5 +1,6 @@
 <form #form="ngForm" (ngSubmit)="onSubmitQuest(form)" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
+  <nb-card>
     <nb-card-body>
       <div class="row">
         <ng-container *ngFor="let quest of questionsList">
@@ -19,6 +20,7 @@
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </nb-card-body>
+  </nb-card>
 </form>
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"

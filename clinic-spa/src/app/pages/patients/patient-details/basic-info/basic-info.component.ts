@@ -1,3 +1,4 @@
+import { CitiesService } from './../../../../shared/services/cities.service';
 import { Router } from "@angular/router";
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
@@ -31,6 +32,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     public location: Location,
     private dialogService: NbDialogService,
     private basicInfoService: BasicInfoService,
+    public citiesService:CitiesService,
     private router: Router
   ) {}
 

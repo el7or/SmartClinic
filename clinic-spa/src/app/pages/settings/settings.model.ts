@@ -1,5 +1,17 @@
-export interface Question {
+export interface Disease {
   id: number;
-  question: string;
+  diseaseName:string;
+  questionText: string;
   isActive: boolean;
+}
+
+export interface ClinicInfo{
+  doctorName:string;
+  doctorDegree:string;
+  clinicTitle:string;
+  phone1:string;
+  phone2:string;
+  phone3:string;
+  address1:string;
+  address2:string;
 }

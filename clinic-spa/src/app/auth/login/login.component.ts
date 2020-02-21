@@ -7,7 +7,7 @@ import {
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 
-import { User } from "./../auth.model";
+import { LoginUser } from "./../auth.model";
 import { AuthService } from "./../auth.service";
 
 @Component({
@@ -33,7 +33,7 @@ export class LoginComponent extends NbLoginComponent {
   login() {
     this.loading = true;
     setTimeout(() => {
-      const loginUser: User = {
+      const loginUser: LoginUser = {
         userName: this.form.value.email,
         password: this.form.value.password
       };

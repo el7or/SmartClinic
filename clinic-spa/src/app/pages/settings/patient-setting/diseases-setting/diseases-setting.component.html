@@ -5,9 +5,9 @@
       <label for="" class="label"><span langg>List of Associated Disease questions that appear in each patient's
           file</span>:</label>
       <div class="row m-0">
-        <div *ngFor="let quest of questionsList" class="form-control-group col-md-6">
+        <div *ngFor="let quest of diseasesList" class="form-control-group col-md-6">
           <nb-checkbox ngModel [name]="quest.id" [checked]="quest.isActive" [(ngModel)]="quest.isActive">
-            {{quest.question | langg}}</nb-checkbox>
+            {{quest.questionText | langg}}</nb-checkbox>
         </div>
       </div>
 

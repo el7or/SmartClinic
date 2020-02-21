@@ -21,7 +21,7 @@ import { SharedModule } from "./../../shared/shared.module";
 import { ClinicSettingComponent } from "./clinic-setting/clinic-setting.component";
 import { SettingsComponent } from "./settings.component";
 import { PatientSettingComponent } from "./patient-setting/patient-setting.component";
-import { QuestionsSettingComponent } from "./patient-setting/questions-setting/questions-setting.component";
+import { DiseasesSettingComponent } from "./patient-setting/diseases-setting/diseases-setting.component";
 import { MedicinesSettingComponent } from './patient-setting/medicines-setting/medicines-setting.component';
 import { TypeaheadModule, TimepickerModule } from 'ngx-bootstrap';
 import { PrintSettingComponent } from './patient-setting/print-setting/print-setting.component';
@@ -32,7 +32,7 @@ import { PrintSettingComponent } from './patient-setting/print-setting/print-set
     ClinicSettingComponent,
     UsersSettingComponent,
     PatientSettingComponent,
-    QuestionsSettingComponent,
+    DiseasesSettingComponent,
     MedicinesSettingComponent,
     PrintSettingComponent
   ],

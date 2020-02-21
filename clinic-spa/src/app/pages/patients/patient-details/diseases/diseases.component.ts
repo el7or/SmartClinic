@@ -2,7 +2,7 @@ import { NgForm } from "@angular/forms";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Location } from "@angular/common";
 
-import { Question } from "../../../settings/settings.model";
+import { Disease } from "../../../settings/settings.model";
 import { SettingsService } from "../../../settings/settings.service";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
@@ -13,7 +13,7 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 })
 export class DiseasesComponent implements OnInit {
   formLoading = false;
-  questionsList: Question[];
+  questionsList: Disease[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(
@@ -22,7 +22,7 @@ export class DiseasesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.questionsList = this.settingService.getQuestionSetting();
+    this.questionsList = this.settingService.getDiseasesSetting();
   }
 
   onSubmitQuest(form: NgForm) {

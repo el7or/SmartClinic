@@ -4,17 +4,17 @@ import { Location } from "@angular/common";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 import { SettingsService } from "../../settings.service";
-import { Question } from '../../settings.model';
+import { Disease } from '../../settings.model';
 
 @Component({
-  selector: "questions-setting",
-  templateUrl: "./questions-setting.component.html",
-  styleUrls: ["./questions-setting.component.scss"]
+  selector: "diseases-setting",
+  templateUrl: "./diseases-setting.component.html",
+  styleUrls: ["./diseases-setting.component.scss"]
 })
-export class QuestionsSettingComponent implements OnInit {
+export class DiseasesSettingComponent implements OnInit {
   formLoading: boolean = false;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
-  questionsList: Question[];
+  diseasesList: Disease[];
 
   constructor(
     public location: Location,
@@ -22,13 +22,13 @@ export class QuestionsSettingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.questionsList = this.settingService.getQuestionSetting();
+    this.diseasesList = this.settingService.getDiseasesSetting();
   }
 
   onSaveSetting(form: NgForm) {
     this.formLoading = true;
     setTimeout(() => {
-      this.settingService.saveQuestionSetting(this.questionsList);
+      this.settingService.saveDiseasesSetting(this.diseasesList);
       this.doneSwal.fire();
       this.formLoading = false;
     }, 1000);

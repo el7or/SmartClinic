@@ -1,8 +1,8 @@
 <form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
   <div class="row">
     <div class="col-md-6">
-      <label for="input-diseases" class="label"><span langg>Associated Diseases Summary</span>:</label>
-      <textarea nbInput [ngModel]="diseaseSummary" #diseases name="diseases" id="input-diseases" disabled fullWidth
+      <label for="input-diseasesInQuestions" class="label"><span langg>Associated Diseases Summary</span>:</label>
+      <textarea nbInput [ngModel]="diseaseSummary" #diseases name="diseases" id="input-diseasesInQuestions" disabled fullWidth
         rows="1"></textarea>
     </div>
     <div class="col-md-6">
@@ -27,7 +27,7 @@
       </nb-select>
     </div>
     <div class="col-4 form-control-group">
-      <input nbInput ngModel type="text" #note="ngModel" name="note" id="input-note" [placeholder]="'Note' | langg"
+      <input nbInput ngModel type="text" #note="ngModel" name="note"  [placeholder]="'Note' | langg"
         fullWidth>
     </div>
   </div>
@@ -45,7 +45,7 @@
       </nb-select>
     </div>
     <div class="col-4 form-control-group">
-      <input nbInput ngModel type="text" #note="ngModel" name="note" id="input-note" [placeholder]="'Note' | langg"
+      <input nbInput ngModel type="text" #note="ngModel" name="note"  [placeholder]="'Note' | langg"
         fullWidth>
     </div>
     <div class="col-4 form-control-group text-center">
@@ -59,7 +59,7 @@
       </nb-select>
     </div>
     <div class="col-4 form-control-group">
-      <input nbInput ngModel type="text" #note="ngModel" name="note" id="input-note" [placeholder]="'Note' | langg"
+      <input nbInput ngModel type="text" #note="ngModel" name="note"  [placeholder]="'Note' | langg"
         fullWidth>
     </div>
     <div class="col-4 form-control-group text-center">
@@ -73,7 +73,7 @@
       </nb-select>
     </div>
     <div class="col-4 form-control-group">
-      <input nbInput ngModel type="text" #note="ngModel" name="note" id="input-note" [placeholder]="'Note' | langg"
+      <input nbInput ngModel type="text" #note="ngModel" name="note"  [placeholder]="'Note' | langg"
         fullWidth>
     </div>
   </div>

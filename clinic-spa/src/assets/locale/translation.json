@@ -457,6 +457,11 @@
   { "ar": "أسئلة الكشف", "en": "Diagnostic Questions" },
   { "ar": "تحديد احتمالات التشخيص:", "en": "Exact Diagnosis Probability:" },
   { "ar": "أسئلة الاحتمال:", "en": "Probability Questions:" },
+  { "ar": "الوزن", "en": "Weight" },
+  { "ar": "الطول", "en": "Length" },
+  { "ar": "كتلة الجسم", "en": "Body Mass" },
+  { "ar": "ملاحظات عامة على الفحص", "en": "General notes on Examination" },
+  { "ar": "ملخص الفحوصات:", "en": "Examination Summary:" },
 
 
 

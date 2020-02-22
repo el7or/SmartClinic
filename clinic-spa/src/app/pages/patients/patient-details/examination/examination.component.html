@@ -1,1 +1,96 @@
-<p>فحص المريض ...</p>
+<form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
+  <div class="row">
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-weight" class="label"><span langg>Weight</span>:</label>
+      <input nbInput ngModel type="number" #weight="ngModel" name="weight" id="input-weight" fullWidth>
+    </div>
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-length" class="label"><span langg>Length</span>:</label>
+      <input nbInput ngModel type="number" #length="ngModel" name="length" id="input-length" fullWidth>
+    </div>
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-mass" class="label"><span langg>Body Mass</span>:</label>
+      <input nbInput ngModel type="text" #mass="ngModel" name="mass" id="input-mass" fullWidth>
+    </div>
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-pressure" class="label"><span langg>Blood pressure</span>:</label>
+      <input nbInput ngModel type="text" #pressure="ngModel" name="pressure" id="input-pressure" fullWidth>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 form-control-group text-center">
+      <label class="label"><span langg>طفح جلدي؟</span></label>
+    </div>
+    <div class="col-4 form-control-group">
+      <nb-select fullWidth ngModel #mainQuest="ngModel" name="mainQuest" [placeholder]="'' | langg">
+        <nb-option value="1" langg>باليد</nb-option>
+        <nb-option value="2" langg>بالبطن</nb-option>
+      </nb-select>
+    </div>
+    <div class="col-4 form-control-group">
+      <input nbInput ngModel type="text" #note="ngModel" name="note" id="input-note" [placeholder]="'Note' | langg"
+        fullWidth>
+    </div>
+    <div class="col-4 form-control-group text-center">
+      <label class="label"><span langg>ورم بالقدم</span></label>
+    </div>
+    <div class="col-4 form-control-group">
+      <nb-select fullWidth ngModel #mainQuest="ngModel" name="mainQuest" [placeholder]="'' | langg">
+        <nb-option value="1" langg>اليمنى</nb-option>
+        <nb-option value="2" langg>اليسرى</nb-option>
+      </nb-select>
+    </div>
+    <div class="col-4 form-control-group">
+      <input nbInput ngModel type="text" #note="ngModel" name="note" id="input-note" [placeholder]="'Note' | langg"
+        fullWidth>
+    </div>
+    <div class="col-12 form-control-group">
+      <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'General notes on Examination' | langg"
+        fullWidth></textarea>
+    </div>
+  </div>
+
+  <div class="text-center nbButton-group">
+    <button nbButton type="submit" status="success" [disabled]="!form.valid || !form.dirty" langg>Save</button>
+    <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+  </div>
+</form>
+<hr>
+<h6 langg>Examination Summary:</h6>
+<table class="table table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th langg>Visit Date</th>
+      <th langg>Examination</th>
+      <th langg>Notes</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2020-5-2</td>
+      <td>طفح جلدي باليد اليسرى</td>
+      <td>هياج في الجلد واحمرار</td>
+      <td class="text-center">
+        <button nbButton type="button" (click)="onDeleteExamination()" status="danger" size="small" langg>Delete</button>
+      </td>
+    </tr>
+    <tr>
+      <td>2020-3-2</td>
+      <td>تورم بالقدم اليمنى</td>
+      <td></td>
+      <td class="text-center">
+        <button nbButton type="button" (click)="onDeleteExamination()" status="danger" size="small" langg>Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>
+
+<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
+  [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
+  [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
+</swal>

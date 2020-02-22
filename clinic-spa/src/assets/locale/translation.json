@@ -443,6 +443,20 @@
   { "ar": "تاريخ التحويل", "en": "Referral Date" },
   { "ar": "فتح الكل", "en": "Open All" },
   { "ar": "إغلاق الكل", "en": "Close All" },
+  { "ar": "ملخص الأمراض المصاحبة", "en": "Associated Diseases Summary" },
+  { "ar": "الشكوى", "en": "Complaint" },
+  { "ar": "إضافة شكاوى للمريض:", "en": "Add Complaints:" },
+  { "ar": "إزالة الشكوى", "en": "Remove Complaint" },
+  { "ar": "إضافة شكوى", "en": "Add Complaint" },
+  { "ar": "ملخص الشكاوى:", "en": "Complaints Summary:" },
+  { "ar": "تاريخ الزيارة", "en": "Visit Date" },
+  { "ar": "الشكاوى", "en": "Complaints" },
+  { "ar": "ملاحظات", "en": "Notes" },
+  { "ar": "ملاحظات عامة على الشكوى", "en": "General notes on Complaint" },
+  { "ar": "علاجات سابقة", "en": "Previous Treatments" },
+
+
+
   {
     "ar": "الإسكندرية",
     "en": "Alexandria"

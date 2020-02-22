@@ -462,6 +462,8 @@
   { "ar": "كتلة الجسم", "en": "Body Mass" },
   { "ar": "ملاحظات عامة على الفحص", "en": "General notes on Examination" },
   { "ar": "ملخص الفحوصات:", "en": "Examination Summary:" },
+  { "ar": "ملاحظات عامة على التشخيص", "en": "General notes on Diagnosis" },
+  { "ar": "ملخص التشخيصات:", "en": "Diagnosis Summary:" },
 
 
 

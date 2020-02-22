@@ -1,1 +1,77 @@
-<p>عمليات المريض ...</p>
+<h6 langg>Add New Operation:</h6>
+<form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
+  <div class="row">
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-type" class="label"><span langg>Operation Type</span>:</label>
+      <nb-select fullWidth ngModel #type="ngModel" name="type" [placeholder]="'' | langg">
+        <nb-option value="1" langg>جراحة</nb-option>
+        <nb-option value="2" langg>جبس</nb-option>
+        <nb-option value="2" langg>ولادة</nb-option>
+      </nb-select>
+    </div>
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-date" class="label"><span langg>Operation Date</span>:</label>
+      <input type="text" bsDatepicker nbInput #date name="date" id="input-date" fullWidth
+        [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }">
+    </div>
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-place" class="label"><span langg>Operation Place</span>:</label>
+      <input nbInput ngModel type="text" #place="ngModel" name="place" id="input-place" fullWidth>
+    </div>
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-cost" class="label"><span langg>Operation Cost</span>:</label>
+      <input nbInput ngModel type="number" #cost="ngModel" name="cost" id="input-cost" fullWidth>
+    </div>
+    <div class="col-12 form-control-group">
+      <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'General notes on Operation' | langg"
+        fullWidth></textarea>
+    </div>
+  </div>
+
+  <div class="text-center nbButton-group">
+    <button nbButton type="submit" status="success" [disabled]="!form.valid || !form.dirty" langg>Save</button>
+    <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+  </div>
+</form>
+<hr>
+<h6 langg>Operations Summary:</h6>
+<table class="table table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th langg>Operation Type</th>
+      <th langg>Operation Place</th>
+      <th langg>Operation Date</th>
+      <th langg>Operation Cost</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2020-5-2</td>
+      <td>تركيب مفصل</td>
+      <td></td>
+      <td></td>
+      <td class="text-center">
+        <button nbButton type="button" (click)="onDeleteOperation()" status="danger" size="small" langg>Delete</button>
+      </td>
+    </tr>
+    <tr>
+      <td>2020-3-2</td>
+      <td>ولادة قيصرية</td>
+      <td></td>
+      <td></td>
+      <td class="text-center">
+        <button nbButton type="button" (click)="onDeleteOperation()" status="danger" size="small" langg>Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>
+
+<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
+  [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
+  [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
+</swal>

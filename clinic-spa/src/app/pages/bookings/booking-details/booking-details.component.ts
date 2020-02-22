@@ -33,9 +33,9 @@ export class BookingDetailsComponent implements OnInit {
 
   constructor(
     public dialogRef: NbDialogRef<BookingDetailsComponent>,
-    private localeService: BsLocaleService,
     private bookingService: BookingsService,
-    private settingService: SettingsService
+    private settingService: SettingsService,
+    private localeService: BsLocaleService
   ) {
     // =====> localize datepicker:
     this.localeService.use(localStorage.getItem("langg"));

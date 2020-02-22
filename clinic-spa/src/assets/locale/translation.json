@@ -465,6 +465,13 @@
   { "ar": "ملاحظات عامة على التشخيص", "en": "General notes on Diagnosis" },
   { "ar": "ملخص التشخيصات:", "en": "Diagnosis Summary:" },
   { "ar": "سعر الخدمة", "en": "Service Price" },
+  { "ar": "إضافة عملية جديدة:", "en": "Add New Operation:" },
+  { "ar": "نوع العملية", "en": "Operation Type" },
+  { "ar": "تاريخ العملية", "en": "Operation Date" },
+  { "ar": "مكان العملية", "en": "Operation Place" },
+  { "ar": "تكلفة العلمية", "en": "Operation Cost" },
+  { "ar": "ملخص العمليات:", "en": "Operations Summary:" },
+  { "ar": "ملاحظات عامة على العملية", "en": "General notes on Operation" },
 
 
 

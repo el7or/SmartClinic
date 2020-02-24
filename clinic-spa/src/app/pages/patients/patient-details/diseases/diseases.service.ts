@@ -11,7 +11,7 @@ export class DiseasesService {
       diseaseName: "Blood pressure",
       questionText: "Do you have blood pressure",
       isActive: true,
-      isYes: false,
+      isYes: true,
       note: ""
     },
     {
@@ -19,7 +19,7 @@ export class DiseasesService {
       diseaseName: "Blood thinners",
       questionText: "Do you have blood thinners",
       isActive: true,
-      isYes: false,
+      isYes: true,
       note: ""
     },
     {

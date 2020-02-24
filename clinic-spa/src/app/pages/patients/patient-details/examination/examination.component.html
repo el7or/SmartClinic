@@ -1,104 +1,128 @@
-<form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
-  <div class="row">
-    <div class="col-md-3 col-sm-6 form-control-group">
-      <label for="input-weight" class="label"><span langg>Weight</span>:</label>
-      <input nbInput ngModel type="number" #weight="ngModel" name="weight" id="input-weight" fullWidth>
-    </div>
-    <div class="col-md-3 col-sm-6 form-control-group">
-      <label for="input-length" class="label"><span langg>Length</span>:</label>
-      <input nbInput ngModel type="number" #length="ngModel" name="length" id="input-length" fullWidth>
-    </div>
-    <div class="col-md-3 col-sm-6 form-control-group">
-      <label for="input-mass" class="label"><span langg>Body Mass</span>:</label>
-      <input nbInput ngModel type="text" #mass="ngModel" name="mass" id="input-mass" fullWidth>
-    </div>
-    <div class="col-md-3 col-sm-6 form-control-group">
-      <label for="input-pressure" class="label"><span langg>Blood pressure</span>:</label>
-      <input nbInput ngModel type="text" #pressure="ngModel" name="pressure" id="input-pressure" fullWidth>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-4 form-control-group text-center">
-      <label class="label"><span langg>طفح جلدي؟</span></label>
-    </div>
-    <div class="col-4 form-control-group">
-      <nb-select fullWidth ngModel #mainQuest="ngModel" name="mainQuest" [placeholder]="'' | langg">
-        <nb-option value="1" langg>باليد</nb-option>
-        <nb-option value="2" langg>بالبطن</nb-option>
-      </nb-select>
-    </div>
-    <div class="col-4 form-control-group">
-      <input nbInput ngModel type="text" #note="ngModel" name="note" [placeholder]="'Note' | langg"
-        fullWidth>
-    </div>
-    <div class="col-4 form-control-group text-center">
-      <label class="label"><span langg>ورم بالقدم</span></label>
-    </div>
-    <div class="col-4 form-control-group">
-      <nb-select fullWidth ngModel #mainQuest="ngModel" name="mainQuest" [placeholder]="'' | langg">
-        <nb-option value="1" langg>اليمنى</nb-option>
-        <nb-option value="2" langg>اليسرى</nb-option>
-      </nb-select>
-    </div>
-    <div class="col-4 form-control-group">
-      <input nbInput ngModel type="text" #note="ngModel" name="note" [placeholder]="'Note' | langg"
-        fullWidth>
-    </div>
-    <div class="col-6 form-control-group">
-      <nb-select multiple fullWidth #bookingService name="bookingService" [placeholder]="'Add Service' | langg">
-        <nb-option value="1">{{'X-Ray' | langg}}</nb-option>
-        <nb-option value="2">{{'Analysis' | langg}}</nb-option>
-        <nb-option value="3">{{'Sonar' | langg}}</nb-option>
-        <nb-option value="4">{{'Laser Session' | langg}}</nb-option>
-        <nb-option value="5">{{'Therapy Session' | langg}}</nb-option>
-      </nb-select>
-    </div>
-    <div class="col-6 form-control-group">
-      <label class="label mt-2"><span langg>Cost</span>:&nbsp;<span>{{0 | currency:'EGP'}}</span></label>
-    </div>
-    <div class="col-12 form-control-group">
-      <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'General notes on Examination' | langg"
-        fullWidth></textarea>
-    </div>
-  </div>
+<div class="row">
+  <div class="col-md-7">
+    <form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
+      <div class="row">
+        <div class="col-md-6">
+          <label for="input-diseasesInQuestions" class="label"><span langg>Associated Diseases Summary</span>:</label>
+          <textarea nbInput [ngModel]="diseaseSummary" #diseases name="diseases" id="input-diseasesInQuestions" disabled
+            fullWidth rows="1"></textarea>
+        </div>
+        <div class="col-md-6">
+          <label for="input-complaints" class="label"><span langg>Complaints Summary:</span></label>
+          <textarea nbInput [ngModel]="complaintSummary" #complaints name="complaints" id="input-complaints" disabled
+            fullWidth rows="1"></textarea>
+        </div>
+        <div class="col-md-6 form-control-group">
+          <label for="input-weight" class="label"><span langg>Weight</span>:</label>
+          <input nbInput ngModel type="number" #weight="ngModel" name="weight" id="input-weight" fullWidth>
+        </div>
+        <div class="col-md-6 form-control-group">
+          <label for="input-length" class="label"><span langg>Length</span>:</label>
+          <input nbInput ngModel type="number" #length="ngModel" name="length" id="input-length" fullWidth>
+        </div>
+        <div class="col-md-6 form-control-group">
+          <label for="input-mass" class="label"><span langg>Body Mass</span>:</label>
+          <input nbInput ngModel type="text" #mass="ngModel" name="mass" id="input-mass" fullWidth>
+        </div>
+        <div class="col-md-6 form-control-group">
+          <label for="input-pressure" class="label"><span langg>Blood pressure</span>:</label>
+          <input nbInput ngModel type="text" #pressure="ngModel" name="pressure" id="input-pressure" fullWidth>
+        </div>
+        <div class="col-md-6 form-control-group">
+          <label for="input-temperature" class="label"><span langg>Temperature</span>:</label>
+          <input nbInput ngModel type="text" #temperature="ngModel" name="temperature" id="input-temperature" fullWidth>
+        </div>
 
-  <div class="text-center nbButton-group">
-    <button nbButton type="submit" status="success" [disabled]="!form.valid || !form.dirty" langg>Save</button>
-    <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+        <div class="col-12">
+          <h6 langg>Add Examination Types:</h6>
+          <table class="table mb-1">
+            <tbody>
+              <tr *ngFor="let item of examinations; index as i;">
+                <td>
+                  <input nbInput [(ngModel)]="item.name" [typeahead]="examinationsNames" fullWidth
+                    (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Examination Type' | langg"
+                    [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
+                    [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
+                  <ng-container *ngIf="!item.isNameValid">
+                    <label class="error-message" langg>This Name does not exist! Do you add it to the
+                      list?</label>&nbsp;
+                    <button nbButton type="button" (click)="onAddNewItemToList(item.name);item.isNameValid=true"
+                      status="info" size="small" class="mt-2" langg>Add</button>
+                  </ng-container>
+                </td>
+                <td>
+                  <input nbInput [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}"
+                    [placeholder]="'Caption' | langg" fullWidth fieldSize="small">
+                </td>
+                <td>
+                  <button (click)="onRemoveExamination(i)" nbButton [hidden]="item== examinations[0]"
+                    [nbTooltip]="'Remove Examination' | langg" size="tiny" status="danger">
+                    <nb-icon icon="close-square"></nb-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button nbButton size="small" (click)="onAddExamination()"
+            [disabled]="!examinations[0]?.name || !examinations[0]?.isNameValid" class="mb-1">
+            <nb-icon icon="plus-outline"></nb-icon><span langg>Add Examination Type</span>
+          </button>
+        </div>
+
+        <div class="col-12 form-control-group">
+          <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'General notes on Examination' | langg"
+            fullWidth></textarea>
+        </div>
+        <div class="col-6 form-control-group">
+          <nb-select multiple fullWidth #bookingService name="bookingService" [placeholder]="'Add Service' | langg">
+            <nb-option value="1">{{'X-Ray' | langg}}</nb-option>
+            <nb-option value="2">{{'Analysis' | langg}}</nb-option>
+            <nb-option value="3">{{'Sonar' | langg}}</nb-option>
+            <nb-option value="4">{{'Laser Session' | langg}}</nb-option>
+            <nb-option value="5">{{'Therapy Session' | langg}}</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-6 form-control-group">
+          <label class="label mt-2"><span langg>Cost</span>:&nbsp;<span>{{0 | currency:'EGP'}}</span></label>
+        </div>
+        <div class="col-12 text-center nbButton-group">
+          <button nbButton type="submit" status="success" [disabled]="!form.valid || !form.dirty" langg>Save</button>
+          <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+        </div>
+      </div>
+    </form>
   </div>
-</form>
-<hr>
-<h6 langg>Examination Summary:</h6>
-<table class="table table-bordered">
-  <thead class="thead-light">
-    <tr>
-      <th langg>Visit Date</th>
-      <th langg>Examination</th>
-      <th langg>Notes</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>2020-5-2</td>
-      <td>طفح جلدي باليد اليسرى</td>
-      <td>هياج في الجلد واحمرار</td>
-      <td class="text-center">
-        <button nbButton type="button" (click)="onDeleteExamination()" status="danger" size="small"
-          langg>Delete</button>
-      </td>
-    </tr>
-    <tr>
-      <td>2020-3-2</td>
-      <td>تورم بالقدم اليمنى</td>
-      <td></td>
-      <td class="text-center">
-        <button nbButton type="button" (click)="onDeleteExamination()" status="danger" size="small"
-          langg>Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <div class="col-md-5">
+    <h6 langg>Examination Summary:</h6>
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th langg>Visit Date</th>
+          <th langg>Examination</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2020-5-2</td>
+          <td>طفح جلدي باليد اليسرى</td>
+          <td class="text-center">
+            <button nbButton type="button" (click)="onDeleteExamination()" status="danger" size="small"
+              langg>Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2020-3-2</td>
+          <td>تورم بالقدم اليمنى</td>
+          <td class="text-center">
+            <button nbButton type="button" (click)="onDeleteExamination()" status="danger" size="small"
+              langg>Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
   [showConfirmButton]="false">

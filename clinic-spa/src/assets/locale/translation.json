@@ -445,7 +445,7 @@
   { "ar": "إغلاق الكل", "en": "Close All" },
   { "ar": "ملخص الأمراض المصاحبة", "en": "Associated Diseases Summary" },
   { "ar": "الشكوى", "en": "Complaint" },
-  { "ar": "إضافة شكاوى للمريض:", "en": "Add Complaints:" },
+  { "ar": "شكاوى المريض:", "en": "Patient Complaints:" },
   { "ar": "إزالة الشكوى", "en": "Remove Complaint" },
   { "ar": "إضافة شكوى", "en": "Add Complaint" },
   { "ar": "ملخص شكاوى المريض:", "en": "Complaints Summary:" },
@@ -472,6 +472,12 @@
   { "ar": "تكلفة العلمية", "en": "Operation Cost" },
   { "ar": "ملخص العمليات:", "en": "Operations Summary:" },
   { "ar": "ملاحظات عامة على العملية", "en": "General notes on Operation" },
+  { "ar": "إضافة أنواع الفحوصات:", "en": "Add Examination Types:" },
+  { "ar": "نوع الفحص", "en": "Examination Type" },
+  { "ar": "نوع فحص آخر", "en": "Add Examination Type" },
+  { "ar": "درجة الحرارة", "en": "Temperature" },
+  { "ar": "الاختيارات", "en": "Choices" },
+  { "ar": "تاريخ الإضافة", "en": "Added Date" },
 
 
 

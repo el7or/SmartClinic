@@ -1,3 +1,4 @@
+import { ComplaintsService } from './complaints.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
@@ -5,6 +6,7 @@ import { Location } from "@angular/common";
 
 import { LanggService } from "./../../../../shared/services/langg.service";
 import { DiseasesService } from "./../diseases/diseases.service";
+import { ComplaintValue, PatientComplaint } from './complaints.model';
 
 @Component({
   selector: "complaints",
@@ -13,49 +15,59 @@ import { DiseasesService } from "./../diseases/diseases.service";
 })
 export class ComplaintsComponent implements OnInit {
   formLoading: boolean = false;
+  today:Date= new Date();
   diseaseSummary: string;
+  complaintsValues: ComplaintValue[];
+  patientComplaints: PatientComplaint[]=[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
-  complaints: any[] = [{ name: "", isNameValid: true, period: "" }];
-  complaintsNames: string[] = ["صداع", "آلام الركبة", "تنميل الإيد"];
 
   constructor(
     private diseasesService: DiseasesService,
     private langgService: LanggService,
+    private complantService:ComplaintsService,
     public location: Location
   ) {}
 
   ngOnInit() {
+    // =====> get summary of disease:
     this.diseaseSummary = this.diseasesService.diseasesList
       .filter(d => d.isYes)
       .map(disease => {
         return this.langgService.translateWord(disease.diseaseName);
       })
       .join(" - ");
-      this.diseaseSummary==''?this.diseaseSummary='--':false;
+    this.diseaseSummary == "" ? (this.diseaseSummary = "--") : false;
+
+    // =====> get complaints values to dropdownlist:
+    this.complaintsValues = this.complantService.getComplaintsValues();
   }
 
-  onAddNewItemToList(complaintName) {
-    this.complaintsNames.push(complaintName);
+  // =====> on select Complaint from dropDownList:
+  onChangeComplaintValue(event,item:PatientComplaint){
+    item.allChoises = this.complaintsValues.find(c => c.compId==event).compChoises;
   }
 
-  // =====> on add new request to form from button:
+  // =====> on add new complaint to form from button:
   onAddComplaint() {
-    this.complaints.push({
-      name: "",
-      isNameValid: true,
-      period: ""
+    this.patientComplaints.push({
+      compId : 0,
+      compName: "",
+      choiseName: "",
+      period:"",
+      note:"",
+      allChoises:[]
     });
   }
 
   // =====> on remove row from requests:
   onRemoveComplaint(index) {
-    this.complaints.splice(index, 1);
+    this.patientComplaints.splice(index, 1);
   }
 
   // =====> on save requests without print:
   onSave(form: NgForm) {
-    this.complaints = [{ name: "", isNameValid: true, period: "" }];
+    this.patientComplaints = [];
     this.doneSwal.fire();
   }
 

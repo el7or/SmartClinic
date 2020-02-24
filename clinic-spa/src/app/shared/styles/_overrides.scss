@@ -213,4 +213,9 @@
     border-color: #edf1f7 !important;
     color: #c5cee0 !important;
   }
+
+  textarea:disabled{
+    color: black !important;
+    background-color: #faebd7 !important;
+  }
 }

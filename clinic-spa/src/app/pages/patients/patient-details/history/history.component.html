@@ -1,23 +1,47 @@
 <form #form="ngForm" (ngSubmit)="onSubmit()" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
-    <nb-card-body>
-      <div class="row">
-          <div class="col-md-6 form-control-group">
-            <label for="input-history" class="label"><span langg>Previous Treatments</span>:</label>
-            <textarea nbInput ngModel #history="ngModel" name="history" id="input-history"
-              [placeholder]="'Previous Treatments' | langg" fullWidth></textarea>
-          </div>
-          <div class="col-md-6 form-control-group">
-            <label for="input-family" class="label"><span langg>Family Medical History</span>:</label>
-            <textarea nbInput ngModel #family="ngModel" name="family" id="input-family"
-              [placeholder]="'Family Medical History' | langg" fullWidth></textarea>
-          </div>
-      </div>
-      <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!form.dirty" langg>Save</button>
-        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
-      </div>
-    </nb-card-body>
+  <div class="row">
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-status" class="label"><span langg>Social Status</span>:</label>
+      <nb-select fullWidth ngModel #socialStatus="ngModel" name="socialStatus" id="input-status"
+        [placeholder]="'Social Status' | langg">
+        <nb-option value="1" langg>Single</nb-option>
+        <nb-option value="2" langg>Married</nb-option>
+        <nb-option value="3" langg>Divorced</nb-option>
+        <nb-option value="4" langg>Widower</nb-option>
+      </nb-select>
+    </div>
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-children" class="label"><span langg>Children Number</span>:</label>
+      <input nbInput ngModel type="number" #children="ngModel" name="children" id="input-children"
+        [placeholder]="'Children Number' | langg" fullWidth>
+    </div>
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-prevMarriage" class="label"><span langg>Previous Marriages</span>:</label>
+      <input nbInput ngModel type="number" #prevMarriage="ngModel" name="prevMarriage" id="input-prevMarriage"
+        [placeholder]="'Previous Marriages' | langg" fullWidth>
+    </div>
+    <div class="col-md-3 col-sm-6 form-control-group">
+      <label for="input-prevMarriagePartner" class="label"><span langg>Previous Marriages for
+          Partner</span>:</label>
+      <input nbInput ngModel type="number" #prevMarriagePartner="ngModel" name="prevMarriagePartner"
+        id="input-prevMarriagePartner" [placeholder]="'Previous Marriages for Partner' | langg" fullWidth>
+    </div>
+    <div class="col-md-6 form-control-group">
+      <label for="input-history" class="label"><span langg>Previous Treatments</span>:</label>
+      <textarea nbInput ngModel #history="ngModel" name="history" id="input-history"
+        [placeholder]="'Previous Treatments' | langg" fullWidth></textarea>
+    </div>
+    <div class="col-md-6 form-control-group">
+      <label for="input-family" class="label"><span langg>Family Medical History</span>:</label>
+      <textarea nbInput ngModel #family="ngModel" name="family" id="input-family"
+        [placeholder]="'Family Medical History' | langg" fullWidth></textarea>
+    </div>
+  </div>
+  <div class="text-center nbButton-group">
+    <button nbButton type="submit" status="success" [disabled]="!form.dirty" langg>Save</button>
+    <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+  </div>
 </form>
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"

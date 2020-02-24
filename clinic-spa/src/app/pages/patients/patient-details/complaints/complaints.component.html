@@ -2,29 +2,40 @@
   <label for="input-diseasesInComplaints" class="label"><span langg>Associated Diseases Summary</span>:</label>
   <textarea nbInput [ngModel]="diseaseSummary" #diseases name="diseases" id="input-diseasesInComplaints" disabled
     fullWidth rows="1"></textarea>
-    <hr>
-    <h6 langg>Add Complaints:</h6>
+  <hr>
+  <h6 langg>Patient Complaints:</h6>
   <table class="table">
     <tbody>
-      <tr *ngFor="let item of complaints; index as i;">
+      <tr *ngFor="let item of patientComplaints; index as i;">
         <td>
-          <input nbInput [(ngModel)]="item.name" [typeahead]="complaintsNames" fullWidth
-            (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Complaint' | langg" [isAnimated]="true"
-            fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
-            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
-          <ng-container *ngIf="!item.isNameValid">
-            <label class="error-message" langg>This Name does not exist! Do you add it to the
-              list?</label>&nbsp;
-            <button nbButton type="button" (click)="onAddNewItemToList(item.name);item.isNameValid=true" status="info"
-              size="small" class="mt-2" langg>Add</button>
-          </ng-container>
+          <nb-select fullWidth [(ngModel)]="item.compId" [ngModelOptions]="{standalone: true}"
+            [placeholder]="'Complaint' | langg" size="small" (selectedChange)="onChangeComplaintValue($event,item)">
+            <nb-option *ngFor="let complaintValue of complaintsValues" [value]="complaintValue.compId">
+              {{complaintValue.compName}}
+            </nb-option>
+          </nb-select>
         </td>
         <td>
-          <input nbInput [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}" [placeholder]="'Period' | langg"
-            fullWidth fieldSize="small">
+          <nb-select *ngIf="item.allChoises?.length" fullWidth [(ngModel)]="item.choiseName"
+            [ngModelOptions]="{standalone: true}" [placeholder]="'Choices' | langg" size="small">
+            <nb-option *ngFor="let choise of item.allChoises" [value]="choise">
+              {{choise}}</nb-option>
+          </nb-select>
         </td>
         <td>
-          <button (click)="onRemoveComplaint(i)" nbButton [hidden]="item== complaints[0]" [nbTooltip]="'Remove Complaint' | langg" size="tiny"
+          <input *ngIf="item.allChoises?.length" nbInput [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}"
+            [placeholder]="'Period' | langg" fullWidth fieldSize="small">
+        </td>
+        <td>
+          <input *ngIf="item.allChoises?.length" nbInput ngModel #note="ngModel" name="note"
+            [placeholder]="'Notes' | langg" fullWidth fieldSize="small">
+        </td>
+        <td class="label pt-2">
+          <label *ngIf="item.allChoises?.length"><span langg>Added Date</span>:&nbsp;<b>{{today | localDateShort}}</b>
+          </label>
+        </td>
+        <td>
+          <button (click)="onRemoveComplaint(i)" nbButton [nbTooltip]="'Remove Complaint' | langg" size="tiny"
             status="danger">
             <nb-icon icon="close-square"></nb-icon>
           </button>
@@ -33,53 +44,17 @@
     </tbody>
   </table>
 
-  <button nbButton size="small" (click)="onAddComplaint()"
-    [disabled]="!complaints[0]?.name || !complaints[0]?.isNameValid" class="mx-1 mb-1">
+  <button nbButton size="small" (click)="onAddComplaint()" class="mx-1 mb-1">
     <nb-icon icon="plus-outline"></nb-icon><span langg>Add Complaint</span>
   </button>
-  <div class="form-control-group">
-    <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'General notes on Complaint' | langg"
-      fullWidth></textarea>
-  </div>
 
   <div class="text-center nbButton-group mb-1">
-    <button nbButton type="submit" status="success" (click)="onSave(form)"
-      [disabled]="!complaints[0]?.name || !complaints[0]?.isNameValid" langg>Save</button>
+    <button nbButton type="submit" status="success" (click)="onSave(form)" [disabled]="!patientComplaints?.length"
+      langg>Save</button>
     <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
   </div>
 </form>
 
-<h6 langg>Complaints Summary:</h6>
-    <table class="table table-bordered">
-      <thead class="thead-light">
-        <tr>
-          <th langg>Visit Date</th>
-          <th langg>Complaints</th>
-          <th langg>Notes</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>2020-5-2</td>
-          <td>صداع - آلام الركبة</td>
-          <td>بسبب تركيب مفصل</td>
-          <td class="text-center">
-            <button nbButton type="button" (click)="onDeleteComplaint()" status="danger" size="small"
-              langg>Delete</button>
-          </td>
-        </tr>
-        <tr>
-          <td>2020-3-2</td>
-          <td>آلام الكتف</td>
-          <td></td>
-          <td class="text-center">
-            <button nbButton type="button" (click)="onDeleteComplaint()" status="danger" size="small"
-              langg>Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
   [showConfirmButton]="false">

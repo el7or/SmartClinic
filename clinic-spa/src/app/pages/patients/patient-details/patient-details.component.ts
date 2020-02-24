@@ -80,7 +80,7 @@ export class PatientDetailsComponent implements OnInit {
           route: "./record",
           disabled: this.isNewPatient
         },
-        {
+        /* {
           title: this.langgService.translateWord("X-Rays"),
           route: "./xray",
           disabled: this.isNewPatient
@@ -89,7 +89,7 @@ export class PatientDetailsComponent implements OnInit {
           title: this.langgService.translateWord("Analyses"),
           route: "./analysis",
           disabled: this.isNewPatient
-        },
+        }, */
         {
           title: this.langgService.translateWord("Prescription"),
           route: "./prescription",

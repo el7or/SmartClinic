@@ -9,6 +9,7 @@ import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 })
 export class ExaminationComponent implements OnInit {
   formLoading:boolean = false;
+  today:Date = new Date();
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   diseaseSummary: string="ضغط - سكر - حمل";

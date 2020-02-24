@@ -447,12 +447,13 @@
   { "ar": "الشكوى", "en": "Complaint" },
   { "ar": "شكاوى المريض:", "en": "Patient Complaints:" },
   { "ar": "إزالة الشكوى", "en": "Remove Complaint" },
-  { "ar": "إضافة شكوى", "en": "Add Complaint" },
+  { "ar": "إضافة بند شكوى", "en": "Add Complaint Clause" },
   { "ar": "ملخص شكاوى المريض:", "en": "Complaints Summary:" },
   { "ar": "تاريخ الزيارة", "en": "Visit Date" },
   { "ar": "الشكاوى", "en": "Complaints" },
   { "ar": "ملاحظات", "en": "Notes" },
-  { "ar": "ملاحظات عامة على الشكوى", "en": "General notes on Complaint" },
+  { "ar": "الشكوى العامة للمريض", "en": "General Complaint" },
+  { "ar": "تفاصيل الشكوى", "en": "Complaint Details" },
   { "ar": "علاجات سابقة", "en": "Previous Treatments" },
   { "ar": "أسئلة الكشف", "en": "Diagnostic Questions" },
   { "ar": "تحديد احتمالات التشخيص:", "en": "Exact Diagnosis Probability:" },
@@ -478,6 +479,7 @@
   { "ar": "درجة الحرارة", "en": "Temperature" },
   { "ar": "الاختيارات", "en": "Choices" },
   { "ar": "تاريخ الإضافة", "en": "Added Date" },
+  { "ar": "عند إضافة خدمة ، ستتم إضافتها إلى آخر حجز للمريض وسيتم إبلاغ مكتب الاستقبال بذلك.", "en": "When adding a service, it will be added to the patient’s last reservation and the reception will be informed about it." },
 
 
 

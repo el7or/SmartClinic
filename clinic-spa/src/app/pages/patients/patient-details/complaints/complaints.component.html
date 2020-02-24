@@ -3,7 +3,10 @@
   <textarea nbInput [ngModel]="diseaseSummary" #diseases name="diseases" id="input-diseasesInComplaints" disabled
     fullWidth rows="1"></textarea>
   <hr>
-  <h6 langg>Patient Complaints:</h6>
+  <h6><span langg>General Complaint</span>:</h6>
+  <textarea nbInput ngModel #note="ngModel" name="note" fullWidth></textarea>
+<hr>
+  <h6><span langg>Complaint Details</span>:</h6>
   <table class="table">
     <tbody>
       <tr *ngFor="let item of patientComplaints; index as i;">
@@ -45,7 +48,7 @@
   </table>
 
   <button nbButton size="small" (click)="onAddComplaint()" class="mx-1 mb-1">
-    <nb-icon icon="plus-outline"></nb-icon><span langg>Add Complaint</span>
+    <nb-icon icon="plus-outline"></nb-icon><span langg>Add Complaint Clause</span>
   </button>
 
   <div class="text-center nbButton-group mb-1">

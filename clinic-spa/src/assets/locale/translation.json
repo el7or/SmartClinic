@@ -480,6 +480,9 @@
   { "ar": "الاختيارات", "en": "Choices" },
   { "ar": "تاريخ الإضافة", "en": "Added Date" },
   { "ar": "عند إضافة خدمة ، ستتم إضافتها إلى آخر حجز للمريض وسيتم إبلاغ مكتب الاستقبال بذلك.", "en": "When adding a service, it will be added to the patient’s last reservation and the reception will be informed about it." },
+  { "ar": "تشخيصات المريض", "en": "Patient Diagnoses" },
+  { "ar": "إضافة تشخيص آخر", "en": "Add Another Diagnose" },
+  { "ar": "إزالة التشخيص", "en": "Remove Diagnose" },
 
 
 

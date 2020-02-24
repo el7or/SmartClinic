@@ -5,6 +5,12 @@ export interface Disease {
   isActive: boolean;
 }
 
+export interface Recorditem {
+  id: number;
+  recordName:string;
+  isActive: boolean;
+}
+
 export interface ClinicInfo{
   doctorName:string;
   doctorDegree:string;

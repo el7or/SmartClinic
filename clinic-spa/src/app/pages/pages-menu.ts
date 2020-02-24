@@ -38,10 +38,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Clinic Setting',
         link: '/pages/settings/clinic',
       },
-      /* {
-        title: 'Diagnosis Setting',
+      {
+        title: 'Patient Profile Setting',
         link: '/pages/settings/patient',
-      }, */
+      },
       {
         title: 'Print Setting',
         link: '/pages/settings/print',

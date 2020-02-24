@@ -25,6 +25,7 @@ import { DiseasesSettingComponent } from "./patient-setting/diseases-setting/dis
 import { MedicinesSettingComponent } from './patient-setting/medicines-setting/medicines-setting.component';
 import { TypeaheadModule, TimepickerModule } from 'ngx-bootstrap';
 import { PrintSettingComponent } from './patient-setting/print-setting/print-setting.component';
+import { RecordSettingComponent } from './patient-setting/record-setting/record-setting.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PrintSettingComponent } from './patient-setting/print-setting/print-set
     PatientSettingComponent,
     DiseasesSettingComponent,
     MedicinesSettingComponent,
-    PrintSettingComponent
+    PrintSettingComponent,
+    RecordSettingComponent
   ],
   imports: [
     CommonModule,

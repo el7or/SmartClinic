@@ -133,10 +133,10 @@ const routes: Routes = [
             path: "clinic",
             component: ClinicSettingComponent
           },
-          /* {
+          {
             path: "patient",
             component: PatientSettingComponent
-          }, */
+          },
           {
             path: "print",
             component: PrintSettingComponent

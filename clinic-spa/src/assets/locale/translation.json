@@ -123,6 +123,7 @@
   { "ar": "عدد الزيارات", "en": "Visits Count" },
   { "ar": "ملخص الزيارات", "en": "Visits Details" },
   { "ar": "ملف المريض", "en": "Patient Profile" },
+  { "ar": "إعدادات ملف المريض", "en": "Patient Profile Setting" },
   { "ar": "عملية ناجحة", "en": "Success" },
   { "ar": "تمت حفظ البيانات بنجاح!", "en": "Done successfully!" },
   { "ar": "إضافة حجز جديد", "en": "Add New Booking" },
@@ -287,6 +288,10 @@
   {
     "ar": "قائمة الأسئلة الخاصة بالأمراض المصاحبة التي تظهر في ملف كل مريض",
     "en": "List of Associated Disease questions that appear in each patient's file"
+  },
+  {
+    "ar": "قائمة عناصر السجل المرضي التي تظهر في ملف كل مريض",
+    "en": "List of Patient Record Items that appear in each patient's file"
   },
   { "ar": "الروشتات السابقة:", "en": "Past Prescriptions:" },
   { "ar": "إضافة روشتة:", "en": "Add Prescription:" },

@@ -6,60 +6,41 @@
     <nb-icon icon="collapse"></nb-icon>
   </button>
 </div>
-<nb-accordion #acc multi>
-  <nb-accordion-item>
-    <nb-accordion-item-header><span langg>Patient Complaint</span>:</nb-accordion-item-header>
-    <nb-accordion-item-body>
-      <complaints></complaints>
-    </nb-accordion-item-body>
-  </nb-accordion-item>
+<nb-accordion #acc multi >
+    <nb-accordion-item *ngFor="let item of recordItems">
+      <nb-accordion-item-header *ngIf="item.recordName=='Patient Complaint' && item.isActive"><span langg>Patient Complaint</span>:</nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="item.recordName=='Patient Complaint' && item.isActive">
+        <complaints></complaints>
+      </nb-accordion-item-body>
 
-  <nb-accordion-item>
-    <nb-accordion-item-header><span langg>Patient History</span>:</nb-accordion-item-header>
-    <nb-accordion-item-body>
-      <history></history>
-    </nb-accordion-item-body>
-  </nb-accordion-item>
+      <nb-accordion-item-header *ngIf="item.recordName=='Patient History' && item.isActive"><span langg>Patient History</span>:</nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="item.recordName=='Patient History' && item.isActive">
+        <history></history>
+      </nb-accordion-item-body>
 
-  <!-- <nb-accordion-item>
-    <nb-accordion-item-header><span langg>Diagnostic Questions</span>:</nb-accordion-item-header>
-    <nb-accordion-item-body>
-      <questions></questions>
-    </nb-accordion-item-body>
-  </nb-accordion-item> -->
+    <nb-accordion-item-header *ngIf="item.recordName=='Examination' && item.isActive"><span langg>Examination</span>:</nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="item.recordName=='Examination' && item.isActive">
+        <examination></examination>
+      </nb-accordion-item-body>
 
-  <nb-accordion-item>
-    <nb-accordion-item-header><span langg>Examination</span>:</nb-accordion-item-header>
-    <nb-accordion-item-body>
-      <examination></examination>
-    </nb-accordion-item-body>
-  </nb-accordion-item>
+      <nb-accordion-item-header *ngIf="item.recordName=='Diagnosis' && item.isActive"><span langg>Diagnosis</span>:</nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="item.recordName=='Diagnosis' && item.isActive">
+        <diagnosis></diagnosis>
+      </nb-accordion-item-body>
 
-  <nb-accordion-item>
-    <nb-accordion-item-header><span langg>Diagnosis</span>:</nb-accordion-item-header>
-    <nb-accordion-item-body>
-      <diagnosis></diagnosis>
-    </nb-accordion-item-body>
-  </nb-accordion-item>
+      <nb-accordion-item-header *ngIf="item.recordName=='X-Rays' && item.isActive"><span langg>X-Rays</span>:</nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="item.recordName=='X-Rays' && item.isActive">
+        <x-rays></x-rays>
+      </nb-accordion-item-body>
 
-  <nb-accordion-item>
-    <nb-accordion-item-header><span langg>X-Rays</span>:</nb-accordion-item-header>
-    <nb-accordion-item-body>
-      <x-rays></x-rays>
-    </nb-accordion-item-body>
-  </nb-accordion-item>
+      <nb-accordion-item-header *ngIf="item.recordName=='Analyses' && item.isActive"><span langg>Analyses</span>:</nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="item.recordName=='Analyses' && item.isActive">
+        <analysis></analysis>
+      </nb-accordion-item-body>
 
-  <nb-accordion-item>
-    <nb-accordion-item-header><span langg>Analyses</span>:</nb-accordion-item-header>
-    <nb-accordion-item-body>
-      <analysis></analysis>
-    </nb-accordion-item-body>
-  </nb-accordion-item>
-
-  <nb-accordion-item>
-    <nb-accordion-item-header><span langg>Operations</span>:</nb-accordion-item-header>
-    <nb-accordion-item-body>
-      <operations></operations>
-    </nb-accordion-item-body>
-  </nb-accordion-item>
+      <nb-accordion-item-header *ngIf="item.recordName=='Operations' && item.isActive"><span langg>Operations</span>:</nb-accordion-item-header>
+      <nb-accordion-item-body *ngIf="item.recordName=='Operations' && item.isActive">
+        <operations></operations>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
 </nb-accordion>

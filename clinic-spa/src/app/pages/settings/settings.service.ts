@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { Disease, ClinicInfo } from "./settings.model";
+import { Disease, ClinicInfo, Recorditem } from "./settings.model";
 
 @Injectable({
   providedIn: "root"
@@ -95,6 +95,43 @@ export class SettingsService {
       isActive: true
     }
   ];
+  recordItems: Recorditem[] = [
+    {
+      id: 1,
+      recordName: "Patient Complaint",
+      isActive: true
+    },
+    {
+      id: 2,
+      recordName: "Patient History",
+      isActive: true
+    },
+    {
+      id: 3,
+      recordName: "Examination",
+      isActive: true
+    },
+    {
+      id: 4,
+      recordName: "Diagnosis",
+      isActive: true
+    },
+    {
+      id: 5,
+      recordName: "X-Rays",
+      isActive: true
+    },
+    {
+      id: 6,
+      recordName: "Analyses",
+      isActive: true
+    },
+    {
+      id: 7,
+      recordName: "Operations",
+      isActive: true
+    },
+  ];
 
   constructor() {}
 
@@ -114,11 +151,19 @@ export class SettingsService {
     return Weekend;
   }
 
-  // =====> get/set diseaseName:"",questionTexts setting:
+  // =====> get/set diseaseName setting:
   getDiseasesSetting() {
     return this.diseasesList;
   }
   saveDiseasesSetting(diseases: Disease[]) {
     diseases = this.diseasesList;
+  }
+
+  // =====> get/set record items setting:
+  getRecordItemsSetting() {
+    return this.recordItems.sort((a,b) =>  a.id - b.id);
+  }
+  saveRecordItemsSetting(recordItems: Recorditem[]) {
+     this.recordItems = recordItems;
   }
 }

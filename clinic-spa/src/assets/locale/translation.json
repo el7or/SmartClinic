@@ -150,6 +150,7 @@
   { "ar": "جلسة ليزر", "en": "Laser Session" },
   { "ar": "جلسة علاج", "en": "Therapy Session" },
   { "ar": "المبلغ الإجمالي:", "en": "Total Amount:" },
+  { "ar": "المبلغ المتبقي:", "en": "Amount Due:" },
   { "ar": "حجوزات نفس اليوم:", "en": "Same Date Bookings:" },
   { "ar": "حجز", "en": "Book" },
   { "ar": "حجز وطباعة الفاتورة", "en": "Book & Print Invoice" },
@@ -166,6 +167,10 @@
   {
     "ar": "الخصم يجب ألا يتجاوز المبلغ الإجمالي!",
     "en": "Discount must not exceed the Total Amount!"
+  },
+  {
+    "ar": "المبلغ المدفوع يجب ألا يتجاوز المبلغ الإجمالي!",
+    "en": "Paid must not exceed the Total Amount!"
   },
   { "ar": "يجب ألا يقل السعر عن: 0", "en": "Price cannot be less than: 0" },
   { "ar": "خصم من المبلغ الإجمالي", "en": "Discount" },
@@ -483,6 +488,7 @@
   { "ar": "تشخيصات المريض", "en": "Patient Diagnoses" },
   { "ar": "إضافة تشخيص آخر", "en": "Add Another Diagnose" },
   { "ar": "إزالة التشخيص", "en": "Remove Diagnose" },
+  { "ar": "المبلغ المدفوع", "en": "Amount Paid" },
 
 
 

@@ -62,6 +62,19 @@
               <nb-option value="5">{{'Therapy Session' | langg}}</nb-option>
             </nb-select>
           </div>
+          <nb-alert accent="info" class="text-nowrap">
+            <span langg>Total Amount:</span>&nbsp;{{50 | currency:'EGP'}}
+          </nb-alert>
+          <div class="form-control-group">
+            <input nbInput ngModel #payment="ngModel" type="number" name="payment" [placeholder]="'Amount Paid' | langg"
+              fullWidth [min]="0" [max]="50" (ngModelChange)="onChangePayment(payment)"
+              [status]="payment.dirty ? (payment.invalid  ? 'danger' : (payment.value > 0?'success':'')) : ''">
+            <ng-container *ngIf="payment.invalid">
+              <p class="error-message text-danger" *ngIf="payment?.errors.outRange" langg>
+                Paid must not exceed the Total Amount!
+              </p>
+            </ng-container>
+          </div>
           <div class="form-control-group">
             <input nbInput ngModel #discount="ngModel" type="number" name="discount" [placeholder]="'Discount' | langg"
               fullWidth [min]="0" [max]="50" (ngModelChange)="onChangeDiscount(discount)"
@@ -82,8 +95,8 @@
               </p>
             </ng-container>
           </div>
-          <nb-alert accent="info" class="text-nowrap">
-            <span langg>Total Amount:</span>&nbsp;{{50-discount.value | currency:'EGP'}}
+          <nb-alert accent="danger" class="text-nowrap">
+            <span langg>Amount Due:</span>&nbsp;{{ 50-discount.value-payment.value > 0 ? 50-discount.value-payment.value : 0 | currency:'EGP'}}
           </nb-alert>
         </div>
         <div class="col-md-6" *ngIf="ChoosenDate!=null">

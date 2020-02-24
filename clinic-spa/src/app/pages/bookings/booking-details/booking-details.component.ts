@@ -84,6 +84,15 @@ export class BookingDetailsComponent implements OnInit {
     }
   }
 
+  // =====> check if paid in range of amount:
+  onChangePayment(input: NgForm) {
+    if (input.value > 50 || input.value < 0) {
+      input.control.setErrors({ outRange: true });
+    } else {
+      input.control.setErrors(null);
+    }
+  }
+
   // =====> check if discount in range of amount:
   onChangeDiscount(input: NgForm) {
     if (input.value > 50 || input.value < 0) {

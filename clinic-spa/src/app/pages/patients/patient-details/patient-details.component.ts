@@ -89,7 +89,8 @@ export class PatientDetailsComponent implements OnInit {
           },
           {
             title: this.langgService.translateWord("Associated Diseases"),
-            route: "./diseases"
+            route: "./diseases",
+            disabled: this.isNewPatient
           },
           {
             title: this.langgService.translateWord("Patient Record"),

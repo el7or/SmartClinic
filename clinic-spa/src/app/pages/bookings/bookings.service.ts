@@ -92,7 +92,6 @@ export class BookingsService {
   setChosenbookingDate(date:Date):void{
     this.chosenBookingDate = date;
   }
-
   getChosenbookingDate():Date{
     return this.chosenBookingDate;
   }

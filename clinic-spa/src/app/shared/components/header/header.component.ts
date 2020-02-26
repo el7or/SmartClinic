@@ -14,6 +14,7 @@ import { AuthService } from "./../../../auth/auth.service";
 import { LanggService } from "../../services/langg.service";
 import { MENU_ITEMS } from "../../../pages/pages-menu";
 import { ProfileComponent } from "../profile/profile.component";
+import { UserRole } from "../../../auth/auth.model";
 
 @Component({
   selector: "ngx-header",
@@ -86,12 +87,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(themeName => (this.currentTheme = themeName));
 
     // =====> add user name and photo to header icon:
-     this.nameSubscription= this.authService.getNickName().subscribe(username => {
-      this.user = {
-        name: username,
-        picture: "assets/images/nick.png"
-      };
-    });
+    this.nameSubscription = this.authService
+      .getNickName()
+      .subscribe(username => {
+        this.user = {
+          name: username,
+          picture: this.authService.roleName == UserRole.Doctor? "assets/images/doctor.png" : "assets/images/employee.png"
+        };
+      });
 
     this.menuSubscription = this.menuService.onItemClick().subscribe(event => {
       switch (event.item.data) {
@@ -144,6 +147,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         element.children.forEach(el => {
           el.title = this.langgService.translateWord(el.title);
         });
+      }
+
+      // =====> hide items from employee:
+      if (element.data == "roleDoctor") {
+        if (this.authService.roleName == UserRole.Employee) {
+          element.hidden = true;
+        } else {
+          element.hidden = false;
+        }
       }
     });
   }

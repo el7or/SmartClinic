@@ -52,7 +52,7 @@ export class AuthService {
     this.currentUser = loginUser;
 
     localStorage.setItem("token", "userId + roleName + clinicId + specialtyId");
-    localStorage.setItem("nickName", "دكتور محمد");
+    localStorage.setItem("nickName", this.roleName== UserRole.Doctor?"دكتور محمد":"سكرتير هيثم");
   }
 
   // =====> get & set user nickName:

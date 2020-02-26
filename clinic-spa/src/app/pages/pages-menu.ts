@@ -33,6 +33,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Settings',
     icon: 'settings-outline',
+    expanded:false,
+    data:'roleDoctor',
     children: [
       {
         title: 'Clinic Setting',

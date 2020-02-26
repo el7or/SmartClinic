@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(themeName => (this.currentTheme = themeName));
 
     // =====> add user name and photo to header icon:
-     this.nameSubscription= this.authService.userName.subscribe(username => {
+     this.nameSubscription= this.authService.getNickName().subscribe(username => {
       this.user = {
         name: username,
         picture: "assets/images/nick.png"

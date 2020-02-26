@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.nameSubscription = this.authService.userName.subscribe(
+    this.nameSubscription = this.authService.getNickName().subscribe(
       name => (this.currentName = name)
     );
   }
@@ -27,8 +27,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   saveNewName(name) {
-    console.log(name.value);
-    this.authService.userName.next(name.value);
+    this.authService.setNickName(name.value);
     this.dialogRef.close();
   }
 }

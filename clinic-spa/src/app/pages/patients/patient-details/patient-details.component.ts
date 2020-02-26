@@ -1,8 +1,10 @@
+import { AuthService } from "./../../../auth/auth.service";
 import { BasicInfoService } from "./basic-info/basic-info.service";
 import { LanggService } from "./../../../shared/services/langg.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
+import { UserRole } from "../../../auth/auth.model";
 
 @Component({
   selector: "patient-details",
@@ -48,6 +50,7 @@ export class PatientDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     public location: Location,
     private basicInfoService: BasicInfoService,
+    private authService: AuthService,
     private langgService: LanggService
   ) {}
 
@@ -65,52 +68,51 @@ export class PatientDetailsComponent implements OnInit {
         this.patientName = "أحمد محمد علي";
       }
 
-      // =====> create tabs:
-      this.patientTabs = [
-        {
-          title: this.langgService.translateWord("Basic info"),
-          route: "./basic"
-        },
-        {
-          title: this.langgService.translateWord("Associated Diseases"),
-          route: "./diseases"
-        },
-        {
-          title: this.langgService.translateWord("Patient Record"),
-          route: "./record",
-          disabled: this.isNewPatient
-        },
-        /* {
-          title: this.langgService.translateWord("X-Rays"),
-          route: "./xray",
-          disabled: this.isNewPatient
-        },
-        {
-          title: this.langgService.translateWord("Analyses"),
-          route: "./analysis",
-          disabled: this.isNewPatient
-        }, */
-        {
-          title: this.langgService.translateWord("Prescription"),
-          route: "./prescription",
-          disabled: this.isNewPatient
-        },
-        {
-          title: this.langgService.translateWord("Request X-Ray & Analysis"),
-          route: "./request",
-          disabled: this.isNewPatient
-        },
-        {
-          title: this.langgService.translateWord("External Referrals"),
-          route: "./referral",
-          disabled: this.isNewPatient
-        }
-        /* {
-          title: this.langgService.translateWord("Operations"),
-          route: "./operation",
-          disabled: this.isNewPatient
-        } */
-      ];
+      // =====> create tabs based on user role:
+      if (this.authService.roleName == UserRole.Employee) {
+        this.patientTabs = [
+          {
+            title: this.langgService.translateWord("Basic info"),
+            route: "./basic"
+          },
+          {
+            title: this.langgService.translateWord("Associated Diseases"),
+            route: "./diseases"
+          }
+        ];
+      }
+      else {
+        this.patientTabs = [
+          {
+            title: this.langgService.translateWord("Basic info"),
+            route: "./basic"
+          },
+          {
+            title: this.langgService.translateWord("Associated Diseases"),
+            route: "./diseases"
+          },
+          {
+            title: this.langgService.translateWord("Patient Record"),
+            route: "./record",
+            disabled: this.isNewPatient
+          },
+          {
+            title: this.langgService.translateWord("Prescription"),
+            route: "./prescription",
+            disabled: this.isNewPatient
+          },
+          {
+            title: this.langgService.translateWord("Request X-Ray & Analysis"),
+            route: "./request",
+            disabled: this.isNewPatient
+          },
+          {
+            title: this.langgService.translateWord("External Referrals"),
+            route: "./referral",
+            disabled: this.isNewPatient
+          }
+        ];
+      }
     });
   }
 }

@@ -4,8 +4,14 @@ export interface LoginUser {
 }
 export interface CurrentUser {
   userId:string;
-  userName:string;
-  fullName:string;
-  clinicId:string;
   roleName:string;
+  userName:string;
+  nickName:string;
+  clinicId:string;
+  specialtyId:string;
+}
+
+export enum UserRole{
+  Doctor,
+  Employee
 }

@@ -5,7 +5,8 @@ import {
   PrintInfo,
   Recorditem,
   BookingTypePrice,
-  BookingSetting
+  BookingSetting,
+  BookingServicePrice
 } from "./settings.model";
 
 @Injectable({
@@ -162,6 +163,29 @@ export class SettingsService {
       isActive: true
     }
   ];
+  bookingServicePrices: BookingServicePrice[] = [
+    {
+      id: 1,
+      service: "xray",
+      title: "X-Ray",
+      price: 200,
+      isActive: true
+    },
+    {
+      id: 2,
+      service: "sonar",
+      title: "Sonar",
+      price: 150,
+      isActive: true
+    },
+    {
+      id: 3,
+      service: "laser",
+      title: "Laser Session",
+      price: 70,
+      isActive: true
+    }
+  ];
 
   constructor() {}
 
@@ -175,11 +199,20 @@ export class SettingsService {
     this.bookingPeriod = bookingSetting.bookPeriod;
   }
 
-  // =====> get week end days to disable it in datepickers & calendar:
-  getWeekEndsDays(): number[] {
-    const weekDays = [6, 0, 1, 2, 3, 4, 5];
-    let Weekend = weekDays.filter(item => this.workdays.indexOf(item) < 0);
-    return Weekend;
+  // =====> get/set bookings types prices:
+  getBookingTypePrices() {
+    return this.bookingTypePrices.sort((a, b) => a.id - b.id);
+  }
+  saveBookingTypePrices(bookingPrices: BookingTypePrice[]) {
+    this.bookingTypePrices = bookingPrices;
+  }
+
+  // =====> get/set bookings services prices:
+  getBookingServicePrices() {
+    return this.bookingServicePrices.sort((a, b) => a.id - b.id);
+  }
+  saveBookingServicePrices(servicePrices: BookingServicePrice[]) {
+    this.bookingServicePrices = servicePrices;
   }
 
   // =====> get/set diseaseName setting:
@@ -198,11 +231,10 @@ export class SettingsService {
     this.recordItems = recordItems;
   }
 
-  // =====> get/set bookings types prices:
-  getBookingTypePrices() {
-    return this.bookingTypePrices.sort((a, b) => a.id - b.id);
-  }
-  saveBookingTypePrices(bookingPrices: BookingTypePrice[]) {
-    this.bookingTypePrices = bookingPrices;
+  // =====> get week end days to disable it in datepickers & calendar:
+  getWeekEndsDays(): number[] {
+    const weekDays = [6, 0, 1, 2, 3, 4, 5];
+    let Weekend = weekDays.filter(item => this.workdays.indexOf(item) < 0);
+    return Weekend;
   }
 }

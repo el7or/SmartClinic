@@ -2,6 +2,10 @@ input{
   max-width: 10rem !important;
 }
 
+.table td{
+  border-top: unset !important;
+}
+
 .prices-group input{
   margin: 0 1rem;
   }

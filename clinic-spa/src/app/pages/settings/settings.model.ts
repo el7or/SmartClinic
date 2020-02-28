@@ -27,6 +27,14 @@ export interface BookingTypePrice {
   isActive: boolean;
 }
 
+export interface BookingServicePrice {
+  id: number;
+  service: string;
+  title: string;
+  price: number;
+  isActive: boolean;
+}
+
 export interface PrintInfo {
   doctorName: string;
   doctorDegree: string;

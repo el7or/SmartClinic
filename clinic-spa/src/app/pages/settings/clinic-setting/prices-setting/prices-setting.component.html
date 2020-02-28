@@ -1,37 +1,60 @@
-<!-- <label class="label"><span langg>Bookings prices</span>:</label>
-<table class="table">
-  <tr>
-    <td><label><span langg>Diagnose</span>:</label></td>
-    <td><input nbInput type="number" [min]="0" formControlName="diagnose" fieldSize="small"
-        [status]="form.get('diagnose').dirty ? (form.get('diagnose').invalid ? 'danger':'success'):''">
-      <label langg>EGP</label>
-      <ng-container *ngIf="form.get('diagnose').invalid && form.get('diagnose').touched">
-        <p class="error-message text-danger" *ngIf="form.get('diagnose').errors.required" langg>
-          Price is required!
-        </p>
-        <p class="error-message text-danger" *ngIf="form.get('diagnose').errors.min" langg>
-          Price cannot be less than: 0
-        </p>
-      </ng-container>
-    </td>
-  </tr>
-</table>
-  <label class="label"><span langg>Services prices</span>:</label>
-  <table class="table">
-    <tr [hidden]="!form.value.isXRay">
-      <td><label><span langg>X-Ray</span>:</label></td>
-      <td><input nbInput type="number" [min]="0" formControlName="xRay" fieldSize="small"
-          [status]="form.get('xRay').dirty ? (form.get('xRay').invalid ? 'danger':'success'):''">
-        <label langg>EGP</label>
-        <ng-container *ngIf="form.get('xRay').invalid && form.get('xRay').touched">
-          <p class="error-message text-danger" *ngIf="form.get('xRay').errors.required" langg>
-            Price is required!
-          </p>
-          <p class="error-message text-danger" *ngIf="form.get('xRay').errors.min" langg>
-            Price cannot be less than: 0
-          </p>
-        </ng-container>
-      </td>
-    </tr>
-  </table>
- -->
+<form #form="ngForm" (ngSubmit)="onSave()" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
+  <nb-card>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="label"><span langg>Bookings prices</span>:</label>
+          <table class="table">
+            <tr *ngFor="let item of bookingTypePricesList">
+              <td>
+                <nb-checkbox ngModel [name]="item.id" [checked]="item.isActive" [(ngModel)]="item.isActive">
+                </nb-checkbox>
+              </td>
+              <td><label><span langg>{{item.title}}</span>:</label></td>
+              <td><input nbInput type="number" [min]="0" ngModel [name]="item.type" [(ngModel)]="item.price"
+                  [disabled]="!item.isActive" fieldSize="small">
+                <label langg>EGP</label>
+                <ng-container *ngIf="item.price<0">
+                  <p class="error-message text-danger" langg>
+                    Price cannot be less than: 0
+                  </p>
+                </ng-container>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <label class="label"><span langg>Services prices</span>:</label>
+          <table class="table">
+            <tr *ngFor="let item of bookingServicePrices">
+              <td>
+                <nb-checkbox ngModel [name]="item.id" [checked]="item.isActive" [(ngModel)]="item.isActive">
+                </nb-checkbox>
+              </td>
+              <td><label><span langg>{{item.title}}</span>:</label></td>
+              <td><input nbInput type="number" [min]="0" ngModel [name]="item.service" [(ngModel)]="item.price"
+                  [disabled]="!item.isActive" fieldSize="small">
+                <label langg>EGP</label>
+                <ng-container *ngIf="item.price<0">
+                  <p class="error-message text-danger" langg>
+                    Price cannot be less than: 0
+                  </p>
+                </ng-container>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="text-center nbButton-group mt-1">
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

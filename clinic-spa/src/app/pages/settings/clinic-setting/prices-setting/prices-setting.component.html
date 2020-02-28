@@ -10,7 +10,7 @@
                 <nb-checkbox ngModel [name]="item.id" [checked]="item.isActive" [(ngModel)]="item.isActive">
                 </nb-checkbox>
               </td>
-              <td><label><span langg>{{item.title}}</span>:</label></td>
+              <td><label [class]="!item.isActive ? 'text-muted':''"><span langg>{{item.title}}</span>:</label></td>
               <td><input nbInput type="number" [min]="0" ngModel [name]="item.type" [(ngModel)]="item.price"
                   [disabled]="!item.isActive" fieldSize="small">
                 <label langg>EGP</label>
@@ -31,7 +31,7 @@
                 <nb-checkbox ngModel [name]="item.id" [checked]="item.isActive" [(ngModel)]="item.isActive">
                 </nb-checkbox>
               </td>
-              <td><label><span langg>{{item.title}}</span>:</label></td>
+              <td><label [class]="!item.isActive ? 'text-muted':''"><span langg>{{item.title}}</span>:</label></td>
               <td><input nbInput type="number" [min]="0" ngModel [name]="item.service" [(ngModel)]="item.price"
                   [disabled]="!item.isActive" fieldSize="small">
                 <label langg>EGP</label>

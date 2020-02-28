@@ -22,11 +22,11 @@
           </div>
           <div class="form-control-group" [nbSpinner]="bookingDateLoading" nbSpinnerStatus="success">
             <label for="input-bookingDate" class="label"><span langg>Booking Date</span>:</label>
-            <input type="text" bsDatepicker nbInput #bookingDate name="bookingDate" fullWidth required
+            <input type="text" bsDatepicker nbInput ngModel #bookingDate="ngModel" name="bookingDate" fullWidth required
               [minDate]="todayDate" [bsValue]="bookingDateData" [daysDisabled]="weekendDays"
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
               (bsValueChange)="onChooseBookingDate(bookingDate)" [placeholder]="'Booking Date' | langg"
-              [status]="bookingDate.touched ? (bookingDate.invalid  ? 'danger' : 'success') : ''">
+              [status]="bookingDate.invalid  ? 'danger' : 'success'">
             <ng-container *ngIf="bookingDate.invalid && bookingDate.touched">
               <p class="error-message text-danger" *ngIf="bookingDate?.errors.required" langg>
                 Bookings Date is required!
@@ -47,33 +47,30 @@
           <div class="form-control-group">
             <label for="input-bookingType" class="label"><span langg>Booking Type</span>:</label>
             <nb-select fullWidth [(ngModel)]="bookingTypeData" #bookingType="ngModel" name="bookingType"
-              [placeholder]="'Booking Type' | langg" required (ngModelChange)="onChangeType(bookingType)"
+              [placeholder]="'Booking Type' | langg" required (selectedChange)="onChangeType($event)"
               [status]="!bookingTypeData ? 'danger' : 'success'">
-              <nb-option value="1" langg>Diagnose</nb-option>
-              <nb-option value="2" langg>Consult</nb-option>
-              <nb-option value="3" langg>Urgent Diagnose</nb-option>
-              <nb-option value="4" langg>Foreign Diagnose</nb-option>
-              <nb-option value="5" langg>Just Service</nb-option>
+              <nb-option *ngFor="let item of bookingTypeValues" [value]="item.type" langg>
+                {{item.title | langg}}&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</nb-option>
+              <nb-option value="service" langg>Just Service</nb-option>
             </nb-select>
           </div>
           <div class="form-control-group">
             <label for="input-bookingService" class="label"><span langg>Add Service</span>:</label>
-            <nb-select multiple fullWidth [(selected)]="bookingServiceData" #bookingService name="bookingService" [placeholder]="'Add Service' | langg"
-            [status]="bookingTypeData=='5' && !bookingServiceData ? 'danger' : ( bookingServiceData ? 'success':'')">
-              <nb-option value="1">{{'X-Ray' | langg}}</nb-option>
-              <nb-option value="2">{{'Analysis' | langg}}</nb-option>
-              <nb-option value="3">{{'Sonar' | langg}}</nb-option>
-              <nb-option value="4">{{'Laser Session' | langg}}</nb-option>
-              <nb-option value="5">{{'Therapy Session' | langg}}</nb-option>
+            <nb-select fullWidth [(ngModel)]="bookingServiceData" #bookingService="ngModel" name="bookingService"
+              (selectedChange)="onChangeService($event)" [placeholder]="'Add Service' | langg"
+              [status]="bookingTypeData=='service' && !bookingServiceData ? 'danger' : ( bookingServiceData ? 'success':'')">
+              <nb-option *ngFor="let item of bookingServiceValues" [value]="item.service" langg>
+                {{item.title | langg}}&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</nb-option>
             </nb-select>
           </div>
           <nb-alert accent="info" class="text-nowrap">
-            <label><span langg>Price</span>:<u>&nbsp;{{50 | currency:'EGP'}}</u></label>
+            <label><span
+                langg>Price</span>:<u>&nbsp;{{bookingTypePrice + bookingServicePrice | currency:'EGP'}}</u></label>
           </nb-alert>
           <div class="form-control-group">
             <label for="input-addPayment" class="label"><span langg>Additional Payment</span>:</label>
-            <input nbInput ngModel #addPayment="ngModel" type="number" name="addPayment" [placeholder]="'Additional Payment' | langg"
-              fullWidth [min]="0"
+            <input nbInput ngModel #addPayment="ngModel" type="number" name="addPayment"
+              [placeholder]="'Additional Payment' | langg" fullWidth [min]="0"
               [status]="addPayment.dirty ? (addPayment.invalid  ? 'danger' : (addPayment.value > 0?'success':'')) : ''">
           </div>
           <div class="form-control-group" *ngIf="addPayment.value>0">
@@ -90,18 +87,13 @@
           <div class="form-control-group">
             <label for="input-discount" class="label"><span langg>Discount</span>:</label>
             <input nbInput ngModel #discount="ngModel" type="number" name="discount" [placeholder]="'Discount' | langg"
-              fullWidth [min]="0" [max]="50" (ngModelChange)="onChangeDiscount(discount)"
+              fullWidth [min]="0" [max]="50"
               [status]="discount.dirty ? (discount.invalid  ? 'danger' : (discount.value > 0?'success':'')) : ''">
-            <ng-container *ngIf="discount.invalid">
-              <p class="error-message text-danger" *ngIf="discount?.errors.outRange" langg>
-                Discount must not exceed the Total Amount!
-              </p>
-            </ng-container>
           </div>
           <div class="form-control-group" *ngIf="discount.value>0">
             <label for="input-discountNote" class="label"><span langg>Discount Note</span>:</label>
-            <input nbInput ngModel #discountNote="ngModel" type="text" [required]="discount.value>0"
-              name="discountNote" [placeholder]="'Discount Note' | langg" fullWidth
+            <input nbInput ngModel #discountNote="ngModel" type="text" [required]="discount.value>0" name="discountNote"
+              [placeholder]="'Discount Note' | langg" fullWidth
               [status]="discount.value > 0 ? (discountNote.invalid  ? 'danger' : 'success') : ''">
             <ng-container *ngIf="discountNote.invalid && discountNote.touched">
               <p class="error-message text-danger" *ngIf="discountNote?.errors.required" langg>
@@ -110,21 +102,23 @@
             </ng-container>
           </div>
           <nb-alert accent="warning" class="text-nowrap">
-            <label><span langg>Total Amount:</span><u>&nbsp;{{50 | currency:'EGP'}}</u></label>
+            <label><span langg>Total
+                Amount:</span><u>&nbsp;{{(bookingTypePrice + bookingServicePrice+addPayment.value-discount.value > 0 ? bookingTypePrice + bookingServicePrice+addPayment.value-discount.value : 0) | currency:'EGP'}}</u></label>
           </nb-alert>
           <div class="form-control-group">
             <label for="input-payment" class="label"><span langg>Amount Paid</span>:</label>
             <input nbInput ngModel #payment="ngModel" type="number" name="payment" [placeholder]="'Amount Paid' | langg"
-              fullWidth [min]="0" [max]="50+addPayment.value-discount.value-payment.value" (ngModelChange)="onChangePayment(payment)"
-              [status]="payment.dirty ? (payment.invalid  ? 'danger' : (payment.value > 0?'success':'')) : ''">
-            <ng-container *ngIf="payment.invalid">
-              <p class="error-message text-danger" *ngIf="payment?.errors.outRange" langg>
-                Paid must not exceed the Total Amount!
-              </p>
-            </ng-container>
+              fullWidth [min]="0" [max]="bookingTypePrice + bookingServicePrice+addPayment.value-discount.value"
+              [status]="payment.dirty ? (payment.value > (bookingTypePrice + bookingServicePrice+addPayment.value-discount.value)  ? 'danger' : (payment.value > 0?'success':'')) : ''">
+              <ng-container *ngIf="payment.value > (bookingTypePrice + bookingServicePrice+addPayment.value-discount.value)">
+                <p class="error-message text-danger" langg>
+                  Paid must not exceed the Total Amount!
+                </p>
+              </ng-container>
           </div>
           <nb-alert accent="danger" class="text-nowrap">
-            <label><span langg>Amount Due:</span><u>&nbsp;{{ (50+addPayment.value-discount.value-payment.value > 0 ? 50+addPayment.value-discount.value-payment.value  : 0) | currency:'EGP'}}</u></label>
+            <label><span langg>Amount
+                Due:</span><u>&nbsp;{{ (bookingTypePrice + bookingServicePrice+addPayment.value-discount.value-payment.value > 0 ? bookingTypePrice + bookingServicePrice+addPayment.value-discount.value-payment.value  : 0) | currency:'EGP'}}</u></label>
           </nb-alert>
         </div>
         <div class="col-md-6" *ngIf="ChoosenDate!=null">
@@ -195,7 +189,7 @@
     </nb-card-body>
     <nb-card-footer>
       <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Book</button>
+        <button nbButton type="submit" status="success" [disabled]="!form.valid || (bookingTypeData=='service' && !bookingServiceData) || payment.value > (bookingTypePrice + bookingServicePrice+addPayment.value-discount.value)" langg>Book</button>
         <!-- <button nbButton type="button" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button> -->
         <button nbButton type="button" status="danger" langg (click)="dialogRef.close()">Cancel</button></div>
     </nb-card-footer>

@@ -5,6 +5,7 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
+import { BookingServicePrice, BookingTypePrice } from '../../settings/settings.model';
 
 @Component({
   selector: "booking-details",
@@ -27,8 +28,13 @@ export class BookingDetailsComponent implements OnInit {
   bookingTimeMin;
   bookingTimeMax;
   bookingTypeData;
+  bookingServiceData;
   weekendDays: number[];
-  bookingServiceData:any[];
+  bookingTypeValues:BookingTypePrice[];
+  bookingServiceValues:BookingServicePrice[];
+
+  bookingTypePrice:number = 0;
+  bookingServicePrice = 0;
 
   constructor(
     public dialogRef: NbDialogRef<BookingDetailsComponent>,
@@ -49,6 +55,10 @@ export class BookingDetailsComponent implements OnInit {
       this.bookingTimeData = new Date();
       this.bookingTypeData = '1'
     }
+
+    // =====> get booking types and services from setting:
+    this.bookingTypeValues = this.settingService.getBookingTypePrices();
+    this.bookingServiceValues = this.settingService.getBookingServicePrices();
 
     // =====> get weekends to disable it in datepicker:
     this.weekendDays = this.settingService.getWeekEndsDays();
@@ -77,26 +87,19 @@ export class BookingDetailsComponent implements OnInit {
     }
   }
 
-  onChangeType(input: NgForm) {
-    if (input.value == "2") {
+
+  onChangeType(type) {
+    // =====> check expired date for consult:
+    if (type == "consult") {
       this.expiredSwal.fire();
     }
+    // =====> add chosen type price to total price:
+    this.bookingTypePrice = this.bookingTypeValues.find(t => t.type==type).price;
   }
 
-  // =====> check if paid in range of amount:
-  onChangePayment(input: NgForm) {
-    if (input.value > 50 || input.value < 0) {
-      input.control.setErrors({ outRange: true });
-    } else {
-      input.control.setErrors(null);
-    }
-  }
-
-  // =====> check if discount in range of amount:
-  onChangeDiscount(input: NgForm) {
-    if (input.value > 50 || input.value < 0) {
-      input.control.setErrors({ outRange: true });
-    }
+  onChangeService(service){
+    // =====> add chosen services price to total price:
+    this.bookingServicePrice= this.bookingServiceValues.find(t => t.service==service).price;
   }
 
   // =====> on submit new booking:

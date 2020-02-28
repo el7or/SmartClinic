@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { Disease, ClinicInfo, Recorditem } from "./settings.model";
+import { Disease, ClinicInfo, Recorditem, BookingTypePrice } from "./settings.model";
 
 @Injectable({
   providedIn: "root"
@@ -132,6 +132,30 @@ export class SettingsService {
       isActive: true
     },
   ];
+bookingTypePrices:BookingTypePrice[] = [
+  {
+    id:1,
+    type:'diagnose',
+    title: 'Diagnose',
+    price:50,
+    isActive:true
+  },
+  {
+    id:2,
+    type:'consult',
+    title: 'Consult',
+    price:20,
+    isActive:true
+  },
+  {
+    id:3,
+    type:'urgentDiagnos',
+    title: 'Urgent Diagnose',
+    price:120,
+    isActive:true
+  },
+]
+
 
   constructor() {}
 
@@ -165,5 +189,13 @@ export class SettingsService {
   }
   saveRecordItemsSetting(recordItems: Recorditem[]) {
      this.recordItems = recordItems;
+  }
+
+  // =====> get/set bookings types prices:
+  getBookingTypePrices(){
+    return this.bookingTypePrices.sort((a,b) =>  a.id - b.id);
+  }
+  saveBookingTypePrices(bookingPrices:BookingTypePrice[]){
+    this.bookingTypePrices = bookingPrices;
   }
 }

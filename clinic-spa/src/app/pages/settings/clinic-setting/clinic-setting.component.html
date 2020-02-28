@@ -75,7 +75,7 @@
           <table class="table">
             <tr [hidden]="!form.value.isDiagnose">
               <td><label><span langg>Diagnose</span>:</label></td>
-              <td><input nbInput type="number" formControlName="diagnose" fieldSize="small"
+              <td><input nbInput type="number" [min]="0" formControlName="diagnose" fieldSize="small"
                   [status]="form.get('diagnose').dirty ? (form.get('diagnose').invalid ? 'danger':'success'):''">
                 <label langg>EGP</label>
                 <ng-container *ngIf="form.get('diagnose').invalid && form.get('diagnose').touched">
@@ -90,7 +90,7 @@
             </tr>
             <tr [hidden]="!form.value.isConsult">
               <td><label><span langg>Consult</span>:</label></td>
-              <td><input nbInput type="number" formControlName="consult" fieldSize="small"
+              <td><input nbInput type="number" [min]="0" formControlName="consult" fieldSize="small"
                   [status]="form.get('consult').dirty ? (form.get('consult').invalid ? 'danger':'success'):''">
                 <label langg>EGP</label>
                 <ng-container *ngIf="form.get('consult').invalid && form.get('consult').touched">
@@ -105,7 +105,7 @@
             </tr>
             <tr [hidden]="!form.value.isUrgentDiagnos">
               <td><label><span langg>Urgent Diagnose</span>:</label></td>
-              <td><input nbInput type="number" formControlName="urgentDiagnos" fieldSize="small"
+              <td><input nbInput type="number" [min]="0" formControlName="urgentDiagnos" fieldSize="small"
                   [status]="form.get('urgentDiagnos').dirty ? (form.get('urgentDiagnos').invalid ? 'danger':'success'):''">
                 <label langg>EGP</label>
                 <ng-container *ngIf="form.get('urgentDiagnos').invalid && form.get('urgentDiagnos').touched">
@@ -125,7 +125,7 @@
           <table class="table">
             <tr [hidden]="!form.value.isXRay">
               <td><label><span langg>X-Ray</span>:</label></td>
-              <td><input nbInput type="number" formControlName="xRay" fieldSize="small"
+              <td><input nbInput type="number" [min]="0" formControlName="xRay" fieldSize="small"
                   [status]="form.get('xRay').dirty ? (form.get('xRay').invalid ? 'danger':'success'):''">
                 <label langg>EGP</label>
                 <ng-container *ngIf="form.get('xRay').invalid && form.get('xRay').touched">
@@ -140,7 +140,7 @@
             </tr>
             <tr [hidden]="!form.value.isAnalsis">
               <td><label><span langg>Analysis</span>:</label></td>
-              <td><input nbInput type="number" formControlName="analsis" fieldSize="small"
+              <td><input nbInput type="number" [min]="0" formControlName="analsis" fieldSize="small"
                   [status]="form.get('analsis').dirty ? (form.get('analsis').invalid ? 'danger':'success'):''">
                 <label langg>EGP</label>
                 <ng-container *ngIf="form.get('analsis').invalid && form.get('analsis').touched">
@@ -155,7 +155,7 @@
             </tr>
             <tr [hidden]="!form.value.isSonar">
               <td><label><span langg>Sonar</span>:</label></td>
-              <td><input nbInput type="number" formControlName="sonar" fieldSize="small"
+              <td><input nbInput type="number" [min]="0" formControlName="sonar" fieldSize="small"
                   [status]="form.get('sonar').dirty ? (form.get('sonar').invalid ? 'danger':'success'):''">
                 <label langg>EGP</label>
                 <ng-container *ngIf="form.get('sonar').invalid && form.get('sonar').touched">
@@ -170,7 +170,7 @@
             </tr>
             <tr [hidden]="!form.value.isLaserSession">
               <td><label><span langg>Laser Session</span>:</label></td>
-              <td><input nbInput type="number" formControlName="laserSession" fieldSize="small"
+              <td><input nbInput type="number" [min]="0" formControlName="laserSession" fieldSize="small"
                   [status]="form.get('laserSession').dirty ? (form.get('laserSession').invalid ? 'danger':'success'):''">
                 <label langg>EGP</label>
                 <ng-container *ngIf="form.get('laserSession').invalid && form.get('laserSession').touched">

@@ -1,23 +1,31 @@
 export interface Disease {
   id: number;
-  diseaseName:string;
+  diseaseName: string;
   questionText: string;
   isActive: boolean;
 }
 
 export interface Recorditem {
   id: number;
-  recordName:string;
+  recordName: string;
   isActive: boolean;
 }
 
-export interface ClinicInfo{
-  doctorName:string;
-  doctorDegree:string;
-  clinicTitle:string;
-  phone1:string;
-  phone2:string;
-  phone3:string;
-  address1:string;
-  address2:string;
+export interface ClinicInfo {
+  doctorName: string;
+  doctorDegree: string;
+  clinicTitle: string;
+  phone1: string;
+  phone2: string;
+  phone3: string;
+  address1: string;
+  address2: string;
+}
+
+export interface BookingTypePrice {
+  id: number;
+  type: string;
+  title:string;
+  price: number;
+  isActive: boolean;
 }

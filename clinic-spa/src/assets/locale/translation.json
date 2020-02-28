@@ -130,6 +130,7 @@
   { "ar": "إغلاق", "en": "Close" },
   { "ar": "إسم الطبيب", "en": "Doctor Name" },
   { "ar": "يوم الحجز", "en": "Booking Date" },
+  { "ar": "موعد الحجز", "en": "Booking Time" },
   { "ar": "لابد من تحديد يوم الحجز!", "en": "Bookings Date is required!" },
   { "ar": "لابد من تحديد السعر!", "en": "Price is required!" },
   { "ar": "نوع الحجز", "en": "Booking Type" },
@@ -163,6 +164,7 @@
   },
   { "ar": "الموعد", "en": "Time" },
   { "ar": "النوع", "en": "Type" },
+  { "ar": "السعر", "en": "Price" },
   { "ar": "هذا الموعد", "en": "This Time" },
   { "ar": "محجوز بالفعل!", "en": "is already Booked!" },
   {
@@ -174,8 +176,11 @@
     "en": "Paid must not exceed the Total Amount!"
   },
   { "ar": "يجب ألا يقل السعر عن: 0", "en": "Price cannot be less than: 0" },
-  { "ar": "خصم من المبلغ الإجمالي", "en": "Discount" },
+  { "ar": "إضافة إلى السعر", "en": "Additional Payment" },
+  { "ar": "خصم من السعر", "en": "Discount" },
+  { "ar": "توضيح سبب الإضافة", "en": "Additional Payment Note" },
   { "ar": "توضيح سبب الخصم", "en": "Discount Note" },
+  { "ar": "لابد من توضيح سبب الإضافة!", "en": "Additional Payment Note is required!" },
   { "ar": "لابد من توضيح سبب الخصم!", "en": "Discount Note is required!" },
   { "ar": "المعلومات الأساسية", "en": "Basic info" },
   { "ar": "الأمراض المصاحبة", "en": "Associated Diseases" },

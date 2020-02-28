@@ -8,11 +8,11 @@ export enum UserRole{
   Employee
 }
 
-/* export interface CurrentUser {
+export interface CurrentUser {
   userId:string;
   roleName:string;
   userName:string;
   nickName:string;
   clinicId:string;
   specialtyId:string;
-} */
+}

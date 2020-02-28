@@ -12,6 +12,7 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-control-group">
+            <label for="input-bookingDoctor" class="label"><span langg>Doctor Name</span>:</label>
             <nb-select fullWidth [(ngModel)]="bookingDoctorData" #bookingDoctor="ngModel" name="bookingDoctor"
               [placeholder]="'Doctor Name' | langg" required [status]="!bookingDoctorData ? 'danger' : 'success'">
               <nb-option value="1">عادل حسن</nb-option>
@@ -20,6 +21,7 @@
             </nb-select>
           </div>
           <div class="form-control-group" [nbSpinner]="bookingDateLoading" nbSpinnerStatus="success">
+            <label for="input-bookingDate" class="label"><span langg>Booking Date</span>:</label>
             <input type="text" bsDatepicker nbInput #bookingDate name="bookingDate" fullWidth required
               [minDate]="todayDate" [bsValue]="bookingDateData" [daysDisabled]="weekendDays"
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
@@ -32,6 +34,7 @@
             </ng-container>
           </div>
           <div class="form-control-group">
+            <label for="input-bookingTime" class="label"><span langg>Booking Time</span>:</label>
             <timepicker (ngModelChange)="onChooseBookingTime(bookingTime)" [(ngModel)]="bookingTimeData"
               #bookingTime="ngModel" name="bookingTime" required showMeridian="true" labelMinutes="Minutes"
               minuteStep="15" style="direction: ltr;" [min]="bookingTimeMin" [max]="bookingTimeMax"></timepicker>
@@ -42,6 +45,7 @@
             </ng-container>
           </div>
           <div class="form-control-group">
+            <label for="input-bookingType" class="label"><span langg>Booking Type</span>:</label>
             <nb-select fullWidth [(ngModel)]="bookingTypeData" #bookingType="ngModel" name="bookingType"
               [placeholder]="'Booking Type' | langg" required (ngModelChange)="onChangeType(bookingType)"
               [status]="!bookingTypeData ? 'danger' : 'success'">
@@ -53,6 +57,7 @@
             </nb-select>
           </div>
           <div class="form-control-group">
+            <label for="input-bookingService" class="label"><span langg>Add Service</span>:</label>
             <nb-select multiple fullWidth [(selected)]="bookingServiceData" #bookingService name="bookingService" [placeholder]="'Add Service' | langg"
             [status]="bookingTypeData=='5' && !bookingServiceData ? 'danger' : ( bookingServiceData ? 'success':'')">
               <nb-option value="1">{{'X-Ray' | langg}}</nb-option>
@@ -63,19 +68,27 @@
             </nb-select>
           </div>
           <nb-alert accent="info" class="text-nowrap">
-            <span langg>Total Amount:</span>&nbsp;{{50 | currency:'EGP'}}
+            <label><span langg>Price</span>:<u>&nbsp;{{50 | currency:'EGP'}}</u></label>
           </nb-alert>
           <div class="form-control-group">
-            <input nbInput ngModel #payment="ngModel" type="number" name="payment" [placeholder]="'Amount Paid' | langg"
-              fullWidth [min]="0" [max]="50" (ngModelChange)="onChangePayment(payment)"
-              [status]="payment.dirty ? (payment.invalid  ? 'danger' : (payment.value > 0?'success':'')) : ''">
-            <ng-container *ngIf="payment.invalid">
-              <p class="error-message text-danger" *ngIf="payment?.errors.outRange" langg>
-                Paid must not exceed the Total Amount!
+            <label for="input-addPayment" class="label"><span langg>Additional Payment</span>:</label>
+            <input nbInput ngModel #addPayment="ngModel" type="number" name="addPayment" [placeholder]="'Additional Payment' | langg"
+              fullWidth [min]="0"
+              [status]="addPayment.dirty ? (addPayment.invalid  ? 'danger' : (addPayment.value > 0?'success':'')) : ''">
+          </div>
+          <div class="form-control-group" *ngIf="addPayment.value>0">
+            <label for="input-addPaymentNote" class="label"><span langg>Additional Payment Note</span>:</label>
+            <input nbInput ngModel #addPaymentNote="ngModel" type="text" [required]="addPayment.value>0"
+              name="addPaymentNote" [placeholder]="'Additional Payment Note' | langg" fullWidth
+              [status]="addPayment.value > 0 ? (addPaymentNote.invalid  ? 'danger' : 'success') : ''">
+            <ng-container *ngIf="addPaymentNote.invalid && addPaymentNote.touched">
+              <p class="error-message text-danger" *ngIf="addPaymentNote?.errors.required" langg>
+                Additional Payment Note is required!
               </p>
             </ng-container>
           </div>
           <div class="form-control-group">
+            <label for="input-discount" class="label"><span langg>Discount</span>:</label>
             <input nbInput ngModel #discount="ngModel" type="number" name="discount" [placeholder]="'Discount' | langg"
               fullWidth [min]="0" [max]="50" (ngModelChange)="onChangeDiscount(discount)"
               [status]="discount.dirty ? (discount.invalid  ? 'danger' : (discount.value > 0?'success':'')) : ''">
@@ -85,8 +98,9 @@
               </p>
             </ng-container>
           </div>
-          <div class="form-control-group" *ngIf="bookingHasDiscount">
-            <input nbInput ngModel #discountNote="ngModel" type="text" [required]="bookingHasDiscount"
+          <div class="form-control-group" *ngIf="discount.value>0">
+            <label for="input-discountNote" class="label"><span langg>Discount Note</span>:</label>
+            <input nbInput ngModel #discountNote="ngModel" type="text" [required]="discount.value>0"
               name="discountNote" [placeholder]="'Discount Note' | langg" fullWidth
               [status]="discount.value > 0 ? (discountNote.invalid  ? 'danger' : 'success') : ''">
             <ng-container *ngIf="discountNote.invalid && discountNote.touched">
@@ -95,8 +109,22 @@
               </p>
             </ng-container>
           </div>
+          <nb-alert accent="warning" class="text-nowrap">
+            <label><span langg>Total Amount:</span><u>&nbsp;{{50 | currency:'EGP'}}</u></label>
+          </nb-alert>
+          <div class="form-control-group">
+            <label for="input-payment" class="label"><span langg>Amount Paid</span>:</label>
+            <input nbInput ngModel #payment="ngModel" type="number" name="payment" [placeholder]="'Amount Paid' | langg"
+              fullWidth [min]="0" [max]="50+addPayment.value-discount.value-payment.value" (ngModelChange)="onChangePayment(payment)"
+              [status]="payment.dirty ? (payment.invalid  ? 'danger' : (payment.value > 0?'success':'')) : ''">
+            <ng-container *ngIf="payment.invalid">
+              <p class="error-message text-danger" *ngIf="payment?.errors.outRange" langg>
+                Paid must not exceed the Total Amount!
+              </p>
+            </ng-container>
+          </div>
           <nb-alert accent="danger" class="text-nowrap">
-            <span langg>Amount Due:</span>&nbsp;{{ 50-discount.value-payment.value > 0 ? 50-discount.value-payment.value : 0 | currency:'EGP'}}
+            <label><span langg>Amount Due:</span><u>&nbsp;{{ (50+addPayment.value-discount.value-payment.value > 0 ? 50+addPayment.value-discount.value-payment.value  : 0) | currency:'EGP'}}</u></label>
           </nb-alert>
         </div>
         <div class="col-md-6" *ngIf="ChoosenDate!=null">

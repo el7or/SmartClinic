@@ -20,7 +20,6 @@ export class BookingDetailsComponent implements OnInit {
   bookingDateLoading = false;
   todayDate: Date = new Date();
   ChoosenDate = null;
-  bookingHasDiscount = false;
 
   bookingDoctorData;
   bookingDateData;
@@ -97,11 +96,6 @@ export class BookingDetailsComponent implements OnInit {
   onChangeDiscount(input: NgForm) {
     if (input.value > 50 || input.value < 0) {
       input.control.setErrors({ outRange: true });
-    } else {
-      input.control.setErrors(null);
-      input.value > 0
-        ? (this.bookingHasDiscount = true)
-        : (this.bookingHasDiscount = false);
     }
   }
 

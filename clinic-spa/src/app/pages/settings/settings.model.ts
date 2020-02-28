@@ -11,7 +11,23 @@ export interface Recorditem {
   isActive: boolean;
 }
 
-export interface ClinicInfo {
+export interface BookingSetting {
+  workdays: number[];
+  sortBookings: string;
+  bookingTimeFrom: Date;
+  bookingTimeTo: Date;
+  bookPeriod: string;
+}
+
+export interface BookingTypePrice {
+  id: number;
+  type: string;
+  title: string;
+  price: number;
+  isActive: boolean;
+}
+
+export interface PrintInfo {
   doctorName: string;
   doctorDegree: string;
   clinicTitle: string;
@@ -20,12 +36,4 @@ export interface ClinicInfo {
   phone3: string;
   address1: string;
   address2: string;
-}
-
-export interface BookingTypePrice {
-  id: number;
-  type: string;
-  title:string;
-  price: number;
-  isActive: boolean;
 }

@@ -24,8 +24,10 @@ import { PatientSettingComponent } from "./patient-setting/patient-setting.compo
 import { DiseasesSettingComponent } from "./patient-setting/diseases-setting/diseases-setting.component";
 import { MedicinesSettingComponent } from './patient-setting/medicines-setting/medicines-setting.component';
 import { TypeaheadModule, TimepickerModule } from 'ngx-bootstrap';
-import { PrintSettingComponent } from './patient-setting/print-setting/print-setting.component';
+import { PrintSettingComponent } from './clinic-setting/print-setting/print-setting.component';
 import { RecordSettingComponent } from './patient-setting/record-setting/record-setting.component';
+import { BookingSettingComponent } from './clinic-setting/booking-setting/booking-setting.component';
+import { PricesSettingComponent } from './clinic-setting/prices-setting/prices-setting.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { RecordSettingComponent } from './patient-setting/record-setting/record-
     DiseasesSettingComponent,
     MedicinesSettingComponent,
     PrintSettingComponent,
-    RecordSettingComponent
+    RecordSettingComponent,
+    BookingSettingComponent,
+    PricesSettingComponent
   ],
   imports: [
     CommonModule,

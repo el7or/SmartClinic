@@ -1,6 +1,12 @@
 import { Injectable } from "@angular/core";
 
-import { Disease, ClinicInfo, Recorditem, BookingTypePrice } from "./settings.model";
+import {
+  Disease,
+  PrintInfo,
+  Recorditem,
+  BookingTypePrice,
+  BookingSetting
+} from "./settings.model";
 
 @Injectable({
   providedIn: "root"
@@ -10,8 +16,9 @@ export class SettingsService {
   sortBookingsBy: string = "manual";
   bookingTimeFrom: Date = new Date(2020, 1, 1, 8, 0, 0, 0);
   bookingTimeTo: Date = new Date(2020, 1, 1, 22, 0, 0, 0);
+  bookingPeriod: string = "30m";
 
-  printInfo: ClinicInfo = {
+  printInfo: PrintInfo = {
     doctorName: "دكتور بهاء علي قرنة",
     doctorDegree: "أستاذ جراحة العظام والمفاصل جامعة الأزهر",
     clinicTitle: "مركز العظام والمفاصل للأطفال والكبار",
@@ -130,42 +137,42 @@ export class SettingsService {
       id: 7,
       recordName: "Operations",
       isActive: true
-    },
+    }
   ];
-bookingTypePrices:BookingTypePrice[] = [
-  {
-    id:1,
-    type:'diagnose',
-    title: 'Diagnose',
-    price:50,
-    isActive:true
-  },
-  {
-    id:2,
-    type:'consult',
-    title: 'Consult',
-    price:20,
-    isActive:true
-  },
-  {
-    id:3,
-    type:'urgentDiagnos',
-    title: 'Urgent Diagnose',
-    price:120,
-    isActive:true
-  },
-]
-
+  bookingTypePrices: BookingTypePrice[] = [
+    {
+      id: 1,
+      type: "diagnose",
+      title: "Diagnose",
+      price: 50,
+      isActive: true
+    },
+    {
+      id: 2,
+      type: "consult",
+      title: "Consult",
+      price: 20,
+      isActive: true
+    },
+    {
+      id: 3,
+      type: "urgentDiagnos",
+      title: "Urgent Diagnose",
+      price: 120,
+      isActive: true
+    }
+  ];
 
   constructor() {}
 
-  // =====> get/set clinic setting:
-  getClinicSetting() {}
-  saveClinicSetting(days: number[], sortBy, bookingFrom, bookingTo): void {
-    this.workdays = days;
-    this.sortBookingsBy = sortBy;
-    this.bookingTimeFrom = bookingFrom;
-    this.bookingTimeTo = bookingTo;
+  // =====> get/set booking setting:
+  getBookingSetting() {}
+  saveBookingSetting(bookingSetting: BookingSetting): void {
+    this.workdays = bookingSetting.workdays;
+    this.sortBookingsBy = bookingSetting.sortBookings;
+    this.bookingTimeFrom = bookingSetting.bookingTimeFrom;
+    this.bookingTimeTo = bookingSetting.bookingTimeTo;
+    this.bookingPeriod = bookingSetting.bookPeriod;
   }
 
   // =====> get week end days to disable it in datepickers & calendar:
@@ -185,17 +192,17 @@ bookingTypePrices:BookingTypePrice[] = [
 
   // =====> get/set record items setting:
   getRecordItemsSetting() {
-    return this.recordItems.sort((a,b) =>  a.id - b.id);
+    return this.recordItems.sort((a, b) => a.id - b.id);
   }
   saveRecordItemsSetting(recordItems: Recorditem[]) {
-     this.recordItems = recordItems;
+    this.recordItems = recordItems;
   }
 
   // =====> get/set bookings types prices:
-  getBookingTypePrices(){
-    return this.bookingTypePrices.sort((a,b) =>  a.id - b.id);
+  getBookingTypePrices() {
+    return this.bookingTypePrices.sort((a, b) => a.id - b.id);
   }
-  saveBookingTypePrices(bookingPrices:BookingTypePrice[]){
+  saveBookingTypePrices(bookingPrices: BookingTypePrice[]) {
     this.bookingTypePrices = bookingPrices;
   }
 }

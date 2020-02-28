@@ -1,0 +1,37 @@
+<!-- <label class="label"><span langg>Bookings prices</span>:</label>
+<table class="table">
+  <tr>
+    <td><label><span langg>Diagnose</span>:</label></td>
+    <td><input nbInput type="number" [min]="0" formControlName="diagnose" fieldSize="small"
+        [status]="form.get('diagnose').dirty ? (form.get('diagnose').invalid ? 'danger':'success'):''">
+      <label langg>EGP</label>
+      <ng-container *ngIf="form.get('diagnose').invalid && form.get('diagnose').touched">
+        <p class="error-message text-danger" *ngIf="form.get('diagnose').errors.required" langg>
+          Price is required!
+        </p>
+        <p class="error-message text-danger" *ngIf="form.get('diagnose').errors.min" langg>
+          Price cannot be less than: 0
+        </p>
+      </ng-container>
+    </td>
+  </tr>
+</table>
+  <label class="label"><span langg>Services prices</span>:</label>
+  <table class="table">
+    <tr [hidden]="!form.value.isXRay">
+      <td><label><span langg>X-Ray</span>:</label></td>
+      <td><input nbInput type="number" [min]="0" formControlName="xRay" fieldSize="small"
+          [status]="form.get('xRay').dirty ? (form.get('xRay').invalid ? 'danger':'success'):''">
+        <label langg>EGP</label>
+        <ng-container *ngIf="form.get('xRay').invalid && form.get('xRay').touched">
+          <p class="error-message text-danger" *ngIf="form.get('xRay').errors.required" langg>
+            Price is required!
+          </p>
+          <p class="error-message text-danger" *ngIf="form.get('xRay').errors.min" langg>
+            Price cannot be less than: 0
+          </p>
+        </ng-container>
+      </td>
+    </tr>
+  </table>
+ -->

@@ -45,10 +45,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/settings/patient',
       },
       {
-        title: 'Print Setting',
-        link: '/pages/settings/print',
-      },
-      {
         title: 'Users',
         link: '/pages/settings/users',
       }

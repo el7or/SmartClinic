@@ -1,4 +1,4 @@
-import { SettingsService } from "./../../settings.service";
+import { SettingsService } from "../../settings.service";
 import { NgForm } from "@angular/forms";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";

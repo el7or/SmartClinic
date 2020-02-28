@@ -236,7 +236,9 @@
   { "ar": "اختيار اليوم", "en": "Choose Day" },
   { "ar": "اليوم المحدد", "en": "Chosen Day" },
   { "ar": "إعدادات العيادة", "en": "Clinic Setting" },
-  { "ar": "إعدادات الطباعة", "en": "Print Setting" },
+  { "ar": "الحجوزات", "en": "Bookings" },
+  { "ar": "الأسعار", "en": "Prices" },
+  { "ar": "بيانات الطباعة", "en": "Print Data" },
   { "ar": "أيام العمل", "en": "Work Days" },
   { "ar": "أنواع الحجوزات والخدمات", "en": "Bookings Types & Services" },
   { "ar": "السبت", "en": "Saturday" },
@@ -249,6 +251,14 @@
   {
     "ar": "الأيام التي يُسمح فيها بالحجز.",
     "en": "The days when Bookings will be allowed."
+  },
+  {
+    "ar": "ترتيب الحجوزات الذي سيظهر في حجوزات اليوم الحالي.",
+    "en": "The order of Bookings that will appear in the current day’s Bookings."
+  },
+  {
+    "ar": "الفترة التي سيتم احتسابها لكل حجز ، أيا كان نوعه.",
+    "en": "The period that will be calculated for each Booking, whatever its type."
   },
   { "ar": "ملغي", "en": "Canceled" },
   {

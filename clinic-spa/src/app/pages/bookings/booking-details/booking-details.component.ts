@@ -1,11 +1,14 @@
-import { SettingsService } from './../../settings/settings.service';
-import { BookingsService } from './../bookings.service';
+import { SettingsService } from "./../../settings/settings.service";
+import { BookingsService } from "./../bookings.service";
 import { NgForm } from "@angular/forms";
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
-import { BookingServicePrice, BookingTypePrice } from '../../settings/settings.model';
+import {
+  BookingServicePrice,
+  BookingTypePrice
+} from "../../settings/settings.model";
 
 @Component({
   selector: "booking-details",
@@ -30,10 +33,10 @@ export class BookingDetailsComponent implements OnInit {
   bookingTypeData;
   bookingServiceData;
   weekendDays: number[];
-  bookingTypeValues:BookingTypePrice[];
-  bookingServiceValues:BookingServicePrice[];
+  bookingTypeValues: BookingTypePrice[];
+  bookingServiceValues: BookingServicePrice[];
 
-  bookingTypePrice:number = 0;
+  bookingTypePrice: number = 0;
   bookingServicePrice = 0;
 
   constructor(
@@ -50,10 +53,10 @@ export class BookingDetailsComponent implements OnInit {
     this.bookingDateData = this.bookingService.getChosenbookingDate();
     if (this.isNewBookings) {
     } else {
-      this.bookingDoctorData = '1'
+      this.bookingDoctorData = "1";
       //this.bookingDateData = new Date();
       this.bookingTimeData = new Date();
-      this.bookingTypeData = '1'
+      this.bookingTypeData = "1";
     }
 
     // =====> get booking types and services from setting:
@@ -87,19 +90,22 @@ export class BookingDetailsComponent implements OnInit {
     }
   }
 
-
   onChangeType(type) {
     // =====> check expired date for consult:
     if (type == "consult") {
       this.expiredSwal.fire();
     }
     // =====> add chosen type price to total price:
-    this.bookingTypePrice = this.bookingTypeValues.find(t => t.type==type).price;
+    this.bookingTypePrice = this.bookingTypeValues.find(
+      t => t.type == type
+    ).price;
   }
 
-  onChangeService(service){
-    // =====> add chosen services price to total price:
-    this.bookingServicePrice= this.bookingServiceValues.find(t => t.service==service).price;
+  // =====> add chosen services price to total price:
+  onChangeService(service) {
+    this.bookingServicePrice = this.bookingServiceValues.find(
+      t => t.service == service
+    ).price;
   }
 
   // =====> on submit new booking:

@@ -498,7 +498,7 @@
   { "ar": "تكلفة العلمية", "en": "Operation Cost" },
   { "ar": "ملخص العمليات:", "en": "Operations Summary:" },
   { "ar": "ملاحظات عامة على العملية", "en": "General notes on Operation" },
-  { "ar": "إضافة أنواع الفحوصات:", "en": "Add Examination Types:" },
+  { "ar": "أنواع الفحوصات:", "en": "Clinical Examination:" },
   { "ar": "نوع الفحص", "en": "Examination Type" },
   { "ar": "نوع فحص آخر", "en": "Add Examination Type" },
   { "ar": "درجة الحرارة", "en": "Temperature" },
@@ -511,6 +511,10 @@
   { "ar": "المبلغ المدفوع", "en": "Amount Paid" },
   { "ar": "الفترة أو ملاحظات", "en": "Period or Notes" },
   { "ar": "إضافة شكوى عامة", "en": "Add General Complaint" },
+  { "ar": "ضغط منخفض", "en": "Hypotension" },
+  { "ar": "ضغط مرتفع", "en": "Hypertension" },
+  { "ar": "ضغط عادي", "en": "Normal" },
+  { "ar": "مكان الفحص", "en": "Examination Area" },
 
 
 

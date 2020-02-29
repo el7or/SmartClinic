@@ -1,17 +1,22 @@
 import { Injectable } from "@angular/core";
-import { ComplaintValue, PatientComplaint } from "./complaints.model";
+import {
+  ComplaintDetailsValue,
+  PatientComplaintDetails,
+  PatientGeneralComplaint
+} from "./complaints.model";
 
 @Injectable({
   providedIn: "root"
 })
 export class ComplaintsService {
-  complaintsValues: ComplaintValue[];
-  patientComplaints: PatientComplaint[];
-
   constructor() {}
 
-  getComplaintsValues():ComplaintValue[] {
-    this.complaintsValues = [
+  getComplaintsGeneralValues(): string[] {
+    return ["تورم بالقدمين", "آلام الركبة"];
+  }
+
+  getComplaintsDetailsValues(): ComplaintDetailsValue[] {
+    return [
       {
         compId: 1,
         compName: "Pain",
@@ -25,11 +30,7 @@ export class ComplaintsService {
       {
         compId: 2,
         compName: "Onest",
-        compChoises: [
-          "GRADUAL",
-          "SUDDEN",
-          "POST - PARTUM"
-        ]
+        compChoises: ["GRADUAL", "SUDDEN", "POST - PARTUM"]
       },
       {
         compId: 3,
@@ -42,22 +43,17 @@ export class ComplaintsService {
           "MIGRATORY",
           "REMITTIVE"
         ]
-      },
+      }
     ];
-    return this.complaintsValues;
   }
 
-  getPatientComplaints(patientId: string): PatientComplaint[] {
-    // =====> if no complaints for this patient:
-    /* this.patientComplaints = [{
-      compId : 1,
-      compName: "Pain",
-      choiseName: "EXERTIONAL",
-      period:"",
-      note:"",
-      allChoises:[]
-    }] */
-    return this.patientComplaints;
+  getPatientGeneralComplaints(patientId: string): PatientGeneralComplaint[] {
+    return [];
   }
-  setPatientComplaints(patientComplaints: PatientComplaint[]) {}
+  setPatientGeneralComplaints(patientComplaints: PatientGeneralComplaint[]) {}
+
+  getPatientDetailsComplaints(patientId: string): PatientComplaintDetails[] {
+    return [];
+  }
+  setPatientDetailsComplaints(patientComplaints: PatientComplaintDetails[]) {}
 }

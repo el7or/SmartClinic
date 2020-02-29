@@ -23,8 +23,8 @@ export class ExaminationComponent implements OnInit {
   ngOnInit() {
   }
 
-  onAddNewItemToList(complaintName) {
-    this.examinationsNames.push(complaintName);
+  onAddNewItemToList(exName) {
+    this.examinationsNames.push(exName);
   }
 
   // =====> on add new request to form from button:

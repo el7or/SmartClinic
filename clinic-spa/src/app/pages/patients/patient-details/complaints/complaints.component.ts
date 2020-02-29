@@ -1,4 +1,4 @@
-import { ComplaintsService } from './complaints.service';
+import { ComplaintsService } from "./complaints.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
@@ -6,7 +6,11 @@ import { Location } from "@angular/common";
 
 import { LanggService } from "./../../../../shared/services/langg.service";
 import { DiseasesService } from "./../diseases/diseases.service";
-import { ComplaintValue, PatientComplaint } from './complaints.model';
+import {
+  ComplaintDetailsValue,
+  PatientComplaintDetails,
+  PatientGeneralComplaint
+} from "./complaints.model";
 
 @Component({
   selector: "complaints",
@@ -15,17 +19,19 @@ import { ComplaintValue, PatientComplaint } from './complaints.model';
 })
 export class ComplaintsComponent implements OnInit {
   formLoading: boolean = false;
-  today:Date= new Date();
+  today: Date = new Date();
   diseaseSummary: string;
-  complaintsValues: ComplaintValue[];
-  patientComplaints: PatientComplaint[]=[];
+  complaintsGeneralValues: string[];
+  complaintsDetailsValues: ComplaintDetailsValue[];
+  patientGeneralComplaints: PatientGeneralComplaint[] = [{compId:0 ,compName: "", isNameValid: true, note: "" }];
+  patientComplaintsDetails: PatientComplaintDetails[] = [];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
 
   constructor(
     private diseasesService: DiseasesService,
     private langgService: LanggService,
-    private complantService:ComplaintsService,
+    private complantService: ComplaintsService,
     public location: Location
   ) {}
 
@@ -40,42 +46,57 @@ export class ComplaintsComponent implements OnInit {
     this.diseaseSummary == "" ? (this.diseaseSummary = "--") : false;
 
     // =====> get complaints values to dropdownlist:
-    this.complaintsValues = this.complantService.getComplaintsValues();
+    this.complaintsGeneralValues = this.complantService.getComplaintsGeneralValues();
+    this.complaintsDetailsValues = this.complantService.getComplaintsDetailsValues();
   }
 
-  // =====> on select Complaint from dropDownList:
-  onChangeComplaintValue(event,item:PatientComplaint){
-    item.allChoises = this.complaintsValues.find(c => c.compId==event).compChoises;
+  // =====> on add new item to general complaints values:
+  onAddNewItemToList(complaintName) {
+    this.complaintsGeneralValues.push(complaintName);
+  }
+
+  // =====> on select Complaint details from dropDownList:
+  onChangeComplaintValue(event, item: PatientComplaintDetails) {
+    item.allChoises = this.complaintsDetailsValues.find(
+      c => c.compId == event
+    ).compChoises;
   }
 
   // =====> on add new complaint to form from button:
-  onAddComplaint() {
-    this.patientComplaints.push({
-      compId : 0,
-      compName: "",
-      choiseName: "",
-      period:"",
-      note:"",
-      allChoises:[]
-    });
+  onAddComplaint(type: string) {
+    if (type == "general") {
+      this.patientGeneralComplaints.push({
+        compId: 0,
+        compName: "",
+        note: "",
+        isNameValid:true
+      });
+    } else {
+      this.patientComplaintsDetails.push({
+        compId: 0,
+        compName: "",
+        choiseName: "",
+        period: "",
+        note: "",
+        allChoises: []
+      });
+    }
   }
 
   // =====> on remove row from requests:
-  onRemoveComplaint(index) {
-    this.patientComplaints.splice(index, 1);
+  onRemoveComplaint(index,type) {
+    if (type == "general") {this.patientGeneralComplaints.splice(index, 1);}
+    else{this.patientComplaintsDetails.splice(index, 1);}
   }
 
   // =====> on save requests without print:
   onSave(form: NgForm) {
-    this.patientComplaints = [];
+    this.formLoading=true;
+    setTimeout(() => {
+    this.patientGeneralComplaints = [];
+    this.patientComplaintsDetails = [];
     this.doneSwal.fire();
-  }
-
-  onDeleteComplaint() {
-    this.deleteSwal.fire().then(result => {
-      if (result.value) {
-        this.doneSwal.fire();
-      }
-    });
+      this.formLoading = false;
+    }, 1000);
   }
 }

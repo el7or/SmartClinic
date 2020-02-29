@@ -472,7 +472,7 @@
   { "ar": "الشكوى", "en": "Complaint" },
   { "ar": "شكاوى المريض:", "en": "Patient Complaints:" },
   { "ar": "إزالة الشكوى", "en": "Remove Complaint" },
-  { "ar": "إضافة بند شكوى", "en": "Add Complaint Clause" },
+  { "ar": "إضافة شكوى تفصيلية", "en": "Add Complaint Details" },
   { "ar": "ملخص شكاوى المريض:", "en": "Complaints Summary:" },
   { "ar": "تاريخ الزيارة", "en": "Visit Date" },
   { "ar": "الشكاوى", "en": "Complaints" },
@@ -509,6 +509,8 @@
   { "ar": "إضافة تشخيص آخر", "en": "Add Another Diagnose" },
   { "ar": "إزالة التشخيص", "en": "Remove Diagnose" },
   { "ar": "المبلغ المدفوع", "en": "Amount Paid" },
+  { "ar": "الفترة أو ملاحظات", "en": "Period or Notes" },
+  { "ar": "إضافة شكوى عامة", "en": "Add General Complaint" },
 
 
 

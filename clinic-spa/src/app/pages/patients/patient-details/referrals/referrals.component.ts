@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
-import { Location } from '@angular/common';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
+import { Location } from "@angular/common";
+import { NgForm } from "@angular/forms";
 
 @Component({
-  selector: 'referrals',
-  templateUrl: './referrals.component.html',
-  styleUrls: ['./referrals.component.scss']
+  selector: "referrals",
+  templateUrl: "./referrals.component.html",
+  styleUrls: ["./referrals.component.scss"]
 })
 export class ReferralsComponent implements OnInit {
   formLoading: boolean = false;
@@ -16,18 +16,21 @@ export class ReferralsComponent implements OnInit {
 
   ptNames: string[] = [];
   hospitalNames: string[] = [];
+  doctorNames: string[] = [];
 
-  constructor(public location: Location) { }
+  constructor(public location: Location) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  // =====> on add new xray name or analysis name to thier list:
+  // =====> on add new referral name to thier list:
   onAddNewItemToList(itemName, itemType) {
     if (itemType == "pt") {
       this.ptNames.push(itemName);
-    } else {
+    } else if (itemType == "hospital") {
       this.hospitalNames.push(itemName);
+    } else {
+      this.doctorNames.push(itemName);
+
     }
     this.doneSwal.fire();
   }
@@ -46,9 +49,16 @@ export class ReferralsComponent implements OnInit {
         isNameValid: true,
         note: ""
       });
-    } else {
+    } else if (type == "hospital") {
       this.referrals.push({
         type: "hospital",
+        name: "",
+        isNameValid: true,
+        note: ""
+      });
+    } else {
+      this.referrals.push({
+        type: "doctor",
         name: "",
         isNameValid: true,
         note: ""
@@ -58,7 +68,7 @@ export class ReferralsComponent implements OnInit {
 
   // =====> on save requests without print:
   onSave(form: NgForm) {
-    this.referrals = [ ];
+    this.referrals = [];
     this.doneSwal.fire();
   }
 
@@ -74,12 +84,11 @@ export class ReferralsComponent implements OnInit {
     }, 1000); */
   }
 
-  onDeleteReferral(){
+  onDeleteReferral() {
     this.deleteSwal.fire().then(result => {
       if (result.value) {
         this.doneSwal.fire();
       }
     });
   }
-
 }

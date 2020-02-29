@@ -22,6 +22,7 @@ export class RequestsComponent implements OnInit {
     "COLORED DOPPLER(DUPPLEX)",
     "VASCULAR  IMAGING"
   ];
+  xRayAreas: string[] = ["اليد اليمنى", "القدم اليسرى"];
   analysisNames: string[] = [
     "AUTOIMMUNE DISEASES",
     "DIABETES PROFILE",
@@ -43,6 +44,8 @@ export class RequestsComponent implements OnInit {
         type: "xRay",
         name: "",
         isNameValid: true,
+        area: "",
+        isAreaValid: true,
         note: ""
       });
     } else if (typeParam == "analysis") {
@@ -62,6 +65,8 @@ export class RequestsComponent implements OnInit {
         type: "xRay",
         name: "",
         isNameValid: true,
+        area: "",
+        isAreaValid: true,
         note: ""
       });
     } else {
@@ -78,6 +83,8 @@ export class RequestsComponent implements OnInit {
   onAddNewItemToList(itemName, itemType) {
     if (itemType == "xRay") {
       this.xRayNames.push(itemName);
+    } else if (itemType == "area") {
+      this.xRayAreas.push(itemName);
     } else {
       this.analysisNames.push(itemName);
     }
@@ -91,7 +98,7 @@ export class RequestsComponent implements OnInit {
 
   // =====> on save requests without print:
   onSave(form: NgForm) {
-    this.requests = [ ];
+    this.requests = [];
     this.doneSwal.fire();
   }
 
@@ -107,7 +114,7 @@ export class RequestsComponent implements OnInit {
     }, 1000);
   }
 
-  onDeleteRequest(){
+  onDeleteRequest() {
     this.deleteSwal.fire().then(result => {
       if (result.value) {
         this.doneSwal.fire();

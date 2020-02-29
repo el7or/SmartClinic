@@ -8,9 +8,9 @@
             <td class="font-weight-bold text-center">
               {{item.type=='pt'?('Physical Therapy' | langg):('Hospital Referral' | langg)}}&nbsp;:</td>
             <td>
-              <input nbInput [(ngModel)]="item.name" [typeahead]="item.type=='pt'? ptNames: hospitalNames" fullWidth
+              <input nbInput [(ngModel)]="item.name" [typeahead]="item.type=='pt'? ptNames: (item.type=='hospital'? hospitalNames:doctorNames)" fullWidth
                 (typeaheadNoResults)="item.isNameValid = !$event"
-                [placeholder]="item.type=='pt'?('P.T Name' | langg):('Referral Name' | langg)" [isAnimated]="true"
+                [placeholder]="item.type=='pt'?('P.T Name' | langg):(item.type=='hospital'?('Referral Name' | langg):('Doctor Name or Specialty' | langg))" [isAnimated]="true"
                 fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
                 [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
               <ng-container *ngIf="!item.isNameValid">
@@ -34,6 +34,10 @@
         </tbody>
       </table>
 
+      <button nbButton size="small" (click)="onAddReferral('doctor')"
+        [disabled]="referrals[0]?.type && (!referrals[0]?.name || !referrals[0]?.isNameValid)" class="mx-1 mb-1">
+        <nb-icon icon="plus-outline"></nb-icon><span langg>Doctor Referral</span>
+      </button>
       <button nbButton size="small" (click)="onAddReferral('pt')"
         [disabled]="referrals[0]?.type && (!referrals[0]?.name || !referrals[0]?.isNameValid)" class="mx-1 mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Physical Therapy</span>

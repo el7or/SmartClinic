@@ -131,6 +131,8 @@ export class PatientDetailsComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnDestroy() {
     this.routeSubs.unsubscribe();
-    this.infoSubs.unsubscribe();
+    if (this.infoSubs) {
+      this.infoSubs.unsubscribe();
+    }
   }
 }

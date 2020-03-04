@@ -29,7 +29,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   duplicatePhoneSwal: SwalComponent;
 
   routeSubs: Subscription;
-  infoSubs:Subscription;
+  infoSubs: Subscription;
 
   constructor(
     public location: Location,
@@ -48,7 +48,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
         this.patientInfo = { id: "", name: "", mobile: "" };
       } else {
         this.isNewPatient = false;
-        this.infoSubs= this.basicInfoService
+        this.infoSubs = this.basicInfoService
           .getPatientInfo(+patientId)
           .subscribe(data => (this.patientInfo = data));
       }
@@ -58,7 +58,9 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.form.reset();
     this.routeSubs.unsubscribe();
-    this.infoSubs.unsubscribe();
+    if (this.infoSubs) {
+      this.infoSubs.unsubscribe();
+    }
   }
 
   // =====> check if patient name is exist:
@@ -119,7 +121,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  fireSwalBook():void{
+  fireSwalBook(): void {
     this.doneSwal.fire().then(result => {
       // =====> if click on add new booking:
       if (result.value) {

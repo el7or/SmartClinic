@@ -1,19 +1,20 @@
 <nb-card>
   <nb-card-header>
-    <div class="row text-center">
-      <div class="col-4">
+    <div class="row">
+      <div class="col-4 text-center my-auto">
         <button nbButton (click)="onPrevDay(currentDay)" status="info" shape="semi-round">
           <nb-icon [icon]="langgService.locale=='ar' ? 'arrow-circle-right-outline':'arrow-circle-left-outline'">
           </nb-icon>
           <span langg>Previous Day</span>
         </button></div>
       <div class="col-4">
-        <input type="text" bsDatepicker nbInput #bookingDate name="bookingDate" fullWidth
+        <label for="input-bookingDate" class="label"><span langg>Bookings Date</span>:</label>
+        <input type="text" bsDatepicker nbInput #bookingDate name="bookingDate" fullWidth id="input-bookingDate"
           [placeholder]="'Choose Day' | langg"
           [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
           (bsValueChange)="onChooseBookingsDate(bookingDate)" [bsValue]="currentDay" [daysDisabled]="weekendDays">
       </div>
-      <div class="col-4">
+      <div class="col-4 text-center my-auto">
         <button nbButton (click)="onNextDay(currentDay)" status="info" shape="semi-round">
           <span langg>Next Day</span>
           <nb-icon [icon]="langgService.locale=='ar' ? 'arrow-circle-left-outline':'arrow-circle-right-outline'">

@@ -84,7 +84,7 @@ export class BookingsListComponent implements OnInit {
         this.currentDay = new Date(this.currentDay.setDate(day.getDate() - 1));
       }
       this.tableLoading = false;
-    }, 1000);
+    }, 500);
   }
 
   // =====> get bookings in next day:
@@ -97,7 +97,7 @@ export class BookingsListComponent implements OnInit {
         this.currentDay = new Date(this.currentDay.setDate(day.getDate() + 1));
       }
       this.tableLoading = false;
-    }, 1000);
+    }, 500);
   }
 
   // =====> on choose from datepicker:
@@ -106,7 +106,7 @@ export class BookingsListComponent implements OnInit {
     setTimeout(() => {
       // =====> load new data:
       this.tableLoading = false;
-    }, 1000);
+    }, 500);
   }
 
   // =====> on click on new booking or edit booking:

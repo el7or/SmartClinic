@@ -130,6 +130,7 @@
   { "ar": "إغلاق", "en": "Close" },
   { "ar": "إسم الطبيب", "en": "Doctor Name" },
   { "ar": "يوم الحجز", "en": "Booking Date" },
+  { "ar": "تاريخ الحجوزات", "en": "Bookings Date" },
   { "ar": "موعد الحجز", "en": "Booking Time" },
   { "ar": "لابد من تحديد يوم الحجز!", "en": "Bookings Date is required!" },
   { "ar": "لابد من تحديد السعر!", "en": "Price is required!" },

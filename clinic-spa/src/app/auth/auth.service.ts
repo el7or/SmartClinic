@@ -53,9 +53,6 @@ export class AuthService {
   public get doctorId():string{
     return 'adsgdsfgfdsgdsfgfds';
   }
-  public get specialtyId():string{
-    return 'adsgdsfgfdsgdsfgfds';
-  }
 
   constructor() {}
 
@@ -63,7 +60,7 @@ export class AuthService {
     // =====> (get user data from database):
     this.currentUser = loginUser;
 
-    localStorage.setItem("token", "userId + roleName + clinicId + doctorId + specialtyId");
+    localStorage.setItem("token", "userId + roleName + clinicId + doctorId");
     localStorage.setItem("nickName", this.roleName== UserRole.Doctor?"دكتور محمد":"سكرتير هيثم");
   }
 

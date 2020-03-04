@@ -34,8 +34,8 @@
   { "ar": "لابد من إدخال اسم المريض!", "en": "Patient Name is required!" },
   { "ar": "لابد من إدخال رقم الموبايل!", "en": "Mobile is required!" },
   {
-    "ar": "اسم المريض يجب أن يحتوي مابين 5 إلى 50 حرف!",
-    "en": "Patient Name should contains from 5 to 50 characters!"
+    "ar": "البحث عن المريض يجب أن يحتوي على 7 أحرف أو أرقام على الأقل!",
+    "en": "Patient Search should contains at least 7 characters!"
   },
   { "ar": "السن", "en": "Age" },
   { "ar": "تاريخ الميلاد", "en": "Birth Date" },
@@ -196,7 +196,7 @@
   { "ar": "بحث", "en": "search" },
   { "ar": "حسناً", "en": "Ok" },
   { "ar": "مدة صلاحية الاستشارة انتهت.", "en": "Consult is expired." },
-  { "ar": "بحث باسم المريض", "en": "Patient Name Search" },
+  { "ar": "بحث باسم المريض أو رقم الوبايل", "en": "Patient Name Search or Mobile number" },
   { "ar": "بحث بالموبايل", "en": "Patient Mobile Search" },
   { "ar": "بحث بكود المريض", "en": "Patient Code Search" },
   { "ar": "حجوزات اليوم", "en": "Today Bookings" },

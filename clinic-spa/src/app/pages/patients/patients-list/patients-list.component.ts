@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NbDialogService } from "@nebular/theme";
@@ -17,14 +17,22 @@ export class PatientsListComponent implements OnInit {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   formLoading = false;
 
-  constructor(private dialogService: NbDialogService, private route:ActivatedRoute) {}
+  constructor(
+    private dialogService: NbDialogService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    const patientName = this.route.snapshot.queryParamMap.get('name');
-    console.log('search:',patientName);
+    // =====> if search from icon in header:
+    const patientName = this.route.snapshot.queryParamMap.get("name");
+    if (patientName) {
+      this.onSearch(patientName);
+    }
   }
 
-  onSearch(form: NgForm) {}
+  onSearch(searchText: string) {
+    console.log(searchText);
+  }
 
   onOpenBookingsSummery(patientId: number) {
     this.dialogService.open(BookingsSummaryComponent, {
@@ -42,7 +50,7 @@ export class PatientsListComponent implements OnInit {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
         patientName: "محمد أحمد السيد",
-        isNewBookings: bookingId==0? true:false
+        isNewBookings: bookingId == 0 ? true : false
       },
       autoFocus: true,
       hasBackdrop: true,

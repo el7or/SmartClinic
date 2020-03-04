@@ -5,18 +5,18 @@
     </button>
   </nb-card-header>
   <nb-card-body>
-    <form #form="ngForm" (ngSubmit)="onSearch(form)" aria-labelledby="title" [nbSpinner]="formLoading">
+    <form #form="ngForm" (ngSubmit)="onSearch(patientSearch.value)" aria-labelledby="title" [nbSpinner]="formLoading">
       <div class="row mb-2">
-        <div class="col-md-3 col-sm-6">
-          <input nbInput ngModel #patientName="ngModel" name="patientName" [placeholder]="'Patient Name Search' | langg"
-            fullWidth minlength="5" maxlength="50"
-            [status]="patientName.dirty ? (patientName.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
-          <ng-container *ngIf="patientName.invalid && patientName.touched">
-            <small class="error-message" *ngIf="patientName?.errors.minlength || patientName?.errors.maxlength"
-              langg>Patient Name should contains from 5 to 50 characters!</small>
+        <div class="col-md-6 col-sm-6">
+          <input nbInput ngModel #patientSearch="ngModel" name="patientSearch" [placeholder]="'Patient Name Search or Mobile number' | langg"
+            fullWidth minlength="7" maxlength="50"
+            [status]="patientSearch.dirty && patientSearch.value ? (patientSearch.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
+          <ng-container *ngIf="patientSearch.invalid && patientSearch.touched">
+            <small class="error-message" *ngIf="patientSearch?.errors.minlength || patientSearch?.errors.maxlength"
+              langg>Patient Search should contains at least 7 characters!</small>
           </ng-container>
         </div>
-        <div class="col-md-3 col-sm-6">
+        <!-- <div class="col-md-3 col-sm-6">
           <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'Patient Mobile Search' | langg" pattern="[0-9]*"
             minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth
             fieldSize="small">
@@ -29,9 +29,9 @@
           <input nbInput ngModel #patientCode="ngModel" name="patientCode" [placeholder]="'Patient Code Search' | langg"
               fullWidth type="number" min="1"
               [status]="patientCode.dirty ? (patientCode.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
-        </div>
+        </div> -->
         <div class="col-md-3 col-sm-6">
-          <button nbButton status="primary" fullWidth size="small">
+          <button nbButton type="submit" [disabled]="!form.dirty" status="primary" fullWidth size="small">
             <nb-icon icon="search-outline"></nb-icon><span langg>search</span>
           </button>
         </div>

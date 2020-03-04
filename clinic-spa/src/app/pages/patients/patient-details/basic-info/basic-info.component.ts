@@ -1,13 +1,15 @@
-import { CitiesService } from './../../../../shared/services/cities.service';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { NbDialogService } from "@nebular/theme";
 import { Location } from "@angular/common";
 
+import { CitiesService } from "./../../../../shared/services/cities.service";
 import { BookingDetailsComponent } from "../../../bookings/booking-details/booking-details.component";
 import { BasicInfoService } from "./basic-info.service";
+import { BasicInfo } from "./basic-info.model";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "basic-info",
@@ -17,9 +19,7 @@ import { BasicInfoService } from "./basic-info.service";
 export class BasicInfoComponent implements OnInit, OnDestroy {
   formLoading = false;
   nameLoading = false;
-  patientNameData: String;
-  patientPhoneData: string;
-  patientAgeData: number;
+  patientInfo: BasicInfo;
   isNewPatient: boolean;
   @ViewChild("form", { static: false }) form: NgForm;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
@@ -28,65 +28,38 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   @ViewChild("duplicatePhoneSwal", { static: false })
   duplicatePhoneSwal: SwalComponent;
 
+  routeSubs: Subscription;
+  infoSubs:Subscription;
+
   constructor(
     public location: Location,
     private dialogService: NbDialogService,
     private basicInfoService: BasicInfoService,
-    public citiesService:CitiesService,
+    public citiesService: CitiesService,
+    private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.isNewPatient = this.basicInfoService.isNewPatient;
-
-    if (this.isNewPatient) {
-      this.patientNameData = "";
-      this.patientPhoneData = "";
-      this.patientAgeData = null;
-    } else {
-      this.patientNameData = "أحمد محمد علي";
-      this.patientPhoneData = "01112821144";
-      this.patientAgeData = 25;
-    }
+    this.routeSubs = this.route.parent.params.subscribe(params => {
+      const patientId = params["id"];
+      if (patientId == "new") {
+        this.isNewPatient = true;
+        this.patientInfo = { id: "", name: "", mobile: "" };
+      } else {
+        this.isNewPatient = false;
+        this.infoSubs= this.basicInfoService
+          .getPatientInfo(+patientId)
+          .subscribe(data => (this.patientInfo = data));
+      }
+    });
   }
 
   ngOnDestroy() {
     this.form.reset();
+    this.routeSubs.unsubscribe();
+    this.infoSubs.unsubscribe();
   }
-
-  onSubmitPatient() {
-    if (this.isNewPatient) {
-      this.addNewPatient();
-    } else {
-      this.updatePatient();
-    }
-  }
-
-  addNewPatient() {
-    this.formLoading = true;
-    setTimeout(() => {
-      this.doneSwal.fire().then(result => {
-        // =====> if click on add new booking:
-        if (result.value) {
-          this.dialogService.open(BookingDetailsComponent, {
-            context: {
-              patientDetails: this.form.value["patientName"],
-              isNewBookings: true
-            },
-            autoFocus: true,
-            hasBackdrop: true,
-            closeOnBackdropClick: false,
-            closeOnEsc: false
-          });
-        }
-      });
-      this.formLoading = false;
-      // =====> to unlock other tabs in patient details:
-      this.router.navigate(["/pages/patients/details", 1, "basic"]);
-    }, 1000);
-  }
-
-  updatePatient() {}
 
   // =====> check if patient name is exist:
   onBlurName(patientName: NgForm) {
@@ -97,17 +70,71 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
           this.duplicateNameSwal.fire().then(result => {
             if (result.value) {
               // =====> load another patient details:
-              this.patientNameData = "أحمد محمد علي";
-              this.patientPhoneData = "01112821144";
-              this.patientAgeData = 25;
+              this.patientInfo = {
+                id: "dsfsdafda",
+                name: "حاتم قطاوي",
+                mobile: "0111111111111",
+                age: 40,
+                gender: true,
+                visitsCount: 5
+              };
+              this.basicInfoService.patientInfo.next(this.patientInfo);
+              this.router.navigate(["/pages/patients/details", 1, "basic"]);
             } else {
               // =====> reset patient name:
-              this.patientNameData = "";
+              this.patientInfo.name = "";
             }
           });
         }
         this.nameLoading = false;
       }, 1000);
     }
+  }
+
+  onSave() {
+    if (this.isNewPatient) {
+      this.addNewPatient();
+    } else {
+      this.updatePatient();
+    }
+  }
+
+  addNewPatient() {
+    this.formLoading = true;
+    setTimeout(() => {
+      this.basicInfoService.saveNewPatient(this.form.value);
+      this.fireSwalBook();
+      this.formLoading = false;
+      // =====> to unlock other tabs in patient details:
+      this.router.navigate(["/pages/patients/details", 1, "basic"]);
+    }, 1000);
+  }
+
+  updatePatient() {
+    this.formLoading = true;
+    setTimeout(() => {
+      this.basicInfoService.updatePatientInfo(this.form.value);
+      this.fireSwalBook();
+      this.formLoading = false;
+    }, 1000);
+  }
+
+  fireSwalBook():void{
+    this.doneSwal.fire().then(result => {
+      // =====> if click on add new booking:
+      if (result.value) {
+        this.dialogService.open(BookingDetailsComponent, {
+          context: {
+            patientId: this.patientInfo.id,
+            patientName: this.form.value["patientName"],
+            isNewBookings: true
+          },
+          autoFocus: true,
+          hasBackdrop: true,
+          closeOnBackdropClick: false,
+          closeOnEsc: false
+        });
+      }
+    });
   }
 }

@@ -1,10 +1,12 @@
-import { BasicInfo } from './basic-info/basic-info.model';
+import { Subscription } from "rxjs";
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
+
+import { BasicInfo } from "./basic-info/basic-info.model";
 import { AuthService } from "./../../../auth/auth.service";
 import { BasicInfoService } from "./basic-info/basic-info.service";
 import { LanggService } from "./../../../shared/services/langg.service";
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Location } from "@angular/common";
 import { UserRole } from "../../../auth/auth.model";
 
 @Component({
@@ -24,12 +26,13 @@ import { UserRole } from "../../../auth/auth.model";
           </a>
         </nav>
         <h5>
-          <span langg>{{ pageHeader }}</span
+          <span>{{ pageHeader | langg }}</span
           >: <span>{{ patientInfo?.name }}</span>
         </h5>
         <label *ngIf="patientInfo"
-          ><span langg>Age</span>: <span>{{patientInfo?.age}}</span> |
-          <span langg>Visits Count</span>: <span>{{patientInfo?.visitsCount}}</span></label
+          ><span langg>Age</span>: <span>{{ patientInfo?.age }}</span> |
+          <span langg>Visits Count</span>:
+          <span>{{ patientInfo?.visitsCount }}</span></label
         >
       </nb-card-header>
       <nb-card-body>
@@ -39,10 +42,13 @@ import { UserRole } from "../../../auth/auth.model";
   `,
   styleUrls: ["./patient-details.component.scss"]
 })
-export class PatientDetailsComponent implements OnInit {
-  isNewPatient = false;
+export class PatientDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   pageHeader: string;
-  public patientInfo:BasicInfo;
+  isNewPatient:boolean;
+  patientInfo: BasicInfo;
+
+  routeSubs: Subscription;
+  infoSubs:Subscription;
 
   patientTabs: any[];
 
@@ -51,20 +57,23 @@ export class PatientDetailsComponent implements OnInit {
     public location: Location,
     private basicInfoService: BasicInfoService,
     private authService: AuthService,
-    private langgService: LanggService
+    private langgService: LanggService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     // =====> check if new patient or details of old patient:
-    this.route.paramMap.subscribe(paramMap => {
+    this.routeSubs= this.route.paramMap.subscribe(paramMap => {
       const patientId = paramMap.get("id");
       if (patientId == "new") {
-        this.isNewPatient = this.basicInfoService.isNewPatient = true;
+        this.isNewPatient = true;
         this.pageHeader = "Add New Patient";
       } else {
-        this.isNewPatient = this.basicInfoService.isNewPatient = false;
+        this.isNewPatient = false;
         this.pageHeader = "Patient Profile";
-        this.patientInfo =  this.basicInfoService.getPatientInfo(+patientId);
+        this.infoSubs= this.basicInfoService.patientInfo
+          .asObservable()
+          .subscribe(data => (this.patientInfo = data));
       }
 
       // =====> create tabs based on user role:
@@ -80,8 +89,7 @@ export class PatientDetailsComponent implements OnInit {
             disabled: this.isNewPatient
           }
         ];
-      }
-      else {
+      } else {
         this.patientTabs = [
           {
             title: this.langgService.translateWord("Basic info"),
@@ -115,5 +123,14 @@ export class PatientDetailsComponent implements OnInit {
         ];
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this.routeSubs.unsubscribe();
+    this.infoSubs.unsubscribe();
   }
 }

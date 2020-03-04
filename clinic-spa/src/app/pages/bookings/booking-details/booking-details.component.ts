@@ -18,7 +18,8 @@ import {
 export class BookingDetailsComponent implements OnInit {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
-  @Input() patientDetails: string;
+  @Input() patientId: string;
+  @Input() patientName: string;
   @Input() isNewBookings: boolean;
   formLoading = false;
   todayDate: Date = new Date();

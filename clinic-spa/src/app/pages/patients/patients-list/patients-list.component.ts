@@ -41,7 +41,7 @@ export class PatientsListComponent implements OnInit {
   onBook(bookingId) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
-        patientDetails: "محمد أحمد السيد",
+        patientName: "محمد أحمد السيد",
         isNewBookings: bookingId==0? true:false
       },
       autoFocus: true,

@@ -1,7 +1,7 @@
 <form #form="ngForm" (ngSubmit)="onAddBooking(form)" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
   <nb-card class="dialog-center">
-    <nb-card-header><b langg>New Booking for:</b>{{ patientDetails }}
+    <nb-card-header><b langg>New Booking for:</b>{{ patientName }}
       <br>
       <small>
         <b langg>Last Visit Type</b>: <span langg>Diagnose</span>&nbsp;|

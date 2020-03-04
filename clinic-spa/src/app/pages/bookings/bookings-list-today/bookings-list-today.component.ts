@@ -82,7 +82,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   onBook(bookingId) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
-        patientDetails: "محمد أحمد السيد",
+        patientName: "محمد أحمد السيد",
         isNewBookings: bookingId == 0 ? true : false
       },
       autoFocus: true,

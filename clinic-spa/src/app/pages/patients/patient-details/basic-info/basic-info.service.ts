@@ -1,20 +1,20 @@
 import { BehaviorSubject } from "rxjs";
 import { Injectable } from "@angular/core";
 
-import { BasicInfo } from "./basic-info.model";
+import { BasicInfo, NewPatient, EditPatient } from "./basic-info.model";
 
 @Injectable({
   providedIn: "root"
 })
 export class BasicInfoService {
-  isNewPatient: boolean;
+  patientInfo = new BehaviorSubject<BasicInfo>(null);
 
   constructor() {}
 
   // =====> get patient info by id:
   getPatientInfo(patientCodeId: number) {
     // =====> send to api pacientId(codeId) + clinicId to get all data for patient:
-    const patientInfo: BasicInfo = {
+    this.patientInfo.next({
       id: "dfgfdgsgd",
       name: "محمد أحمد السيد",
       mobile: "01545454645",
@@ -25,7 +25,17 @@ export class BasicInfoService {
       city: "Giza",
       area: "السادس من أكتوبر ",
       visitsCount: 15
-    };
-    return patientInfo;
+    });
+    return this.patientInfo.asObservable();
+  }
+
+  // =====> save new patient:
+  saveNewPatient(newPatient:NewPatient){
+
+  }
+
+  // =====> update basic info:
+  updatePatientInfo(patientInfo:EditPatient){
+
   }
 }

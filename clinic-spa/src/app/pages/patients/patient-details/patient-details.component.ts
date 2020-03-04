@@ -1,3 +1,4 @@
+import { BasicInfo } from './basic-info/basic-info.model';
 import { AuthService } from "./../../../auth/auth.service";
 import { BasicInfoService } from "./basic-info/basic-info.service";
 import { LanggService } from "./../../../shared/services/langg.service";
@@ -24,11 +25,11 @@ import { UserRole } from "../../../auth/auth.model";
         </nav>
         <h5>
           <span langg>{{ pageHeader }}</span
-          >: <span>{{ patientName }}</span>
+          >: <span>{{ patientInfo?.name }}</span>
         </h5>
-        <label
-          ><span langg>Age</span>: <span>25</span> |
-          <span langg>Visits Count</span>: <span>15</span></label
+        <label *ngIf="patientInfo"
+          ><span langg>Age</span>: <span>{{patientInfo?.age}}</span> |
+          <span langg>Visits Count</span>: <span>{{patientInfo?.visitsCount}}</span></label
         >
       </nb-card-header>
       <nb-card-body>
@@ -41,8 +42,7 @@ import { UserRole } from "../../../auth/auth.model";
 export class PatientDetailsComponent implements OnInit {
   isNewPatient = false;
   pageHeader: string;
-  patientName: string;
-  tabNumber: number = 1;
+  public patientInfo:BasicInfo;
 
   patientTabs: any[];
 
@@ -61,11 +61,10 @@ export class PatientDetailsComponent implements OnInit {
       if (patientId == "new") {
         this.isNewPatient = this.basicInfoService.isNewPatient = true;
         this.pageHeader = "Add New Patient";
-        this.patientName = "";
       } else {
         this.isNewPatient = this.basicInfoService.isNewPatient = false;
         this.pageHeader = "Patient Profile";
-        this.patientName = "أحمد محمد علي";
+        this.patientInfo =  this.basicInfoService.getPatientInfo(+patientId);
       }
 
       // =====> create tabs based on user role:

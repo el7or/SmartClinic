@@ -48,10 +48,10 @@
           <label for="input-status" class="label"><span langg>Social Status</span>:</label>
           <nb-select fullWidth ngModel #socialStatus="ngModel" name="socialStatus" id="input-status"
             [placeholder]="'Social Status' | langg">
-            <nb-option value="1" langg>Single</nb-option>
-            <nb-option value="2" langg>Married</nb-option>
-            <nb-option value="3" langg>Divorced</nb-option>
-            <nb-option value="4" langg>Widower</nb-option>
+            <nb-option value="single" langg>Single</nb-option>
+            <nb-option value="married" langg>Married</nb-option>
+            <nb-option value="divorced" langg>Divorced</nb-option>
+            <nb-option value="widower" langg>Widower</nb-option>
           </nb-select>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
@@ -60,8 +60,8 @@
             fullWidth>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
-          <label for="input-governorate" class="label"><span langg>Governorate</span>:</label>
-          <nb-select fullWidth ngModel #governorate="ngModel" name="governorate" id="input-governorate"
+          <label for="input-city" class="label"><span langg>Governorate</span>:</label>
+          <nb-select fullWidth ngModel #city="ngModel" name="city" id="input-city"
             [placeholder]="'Governorate' | langg">
             <nb-option *ngFor="let item of citiesService.EgyptCities" [value]="item.en">{{item.en | langg}}</nb-option>
           </nb-select>

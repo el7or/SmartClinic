@@ -21,7 +21,6 @@ export class BookingDetailsComponent implements OnInit {
   @Input() patientDetails: string;
   @Input() isNewBookings: boolean;
   formLoading = false;
-  bookingDateLoading = false;
   todayDate: Date = new Date();
   ChoosenDate = null;
 
@@ -31,7 +30,7 @@ export class BookingDetailsComponent implements OnInit {
   bookingTimeMin;
   bookingTimeMax;
   bookingTypeData;
-  bookingServiceData;
+  bookingServiceData:string[]=['xray','sonar'];
   weekendDays: number[];
   bookingTypeValues: BookingTypePrice[];
   bookingServiceValues: BookingServicePrice[];

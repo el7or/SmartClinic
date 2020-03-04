@@ -89,10 +89,11 @@ export class BookingsService {
     return bookingsList;
   }
 
-  setChosenbookingDate(date:Date):void{
-    this.chosenBookingDate = date;
-  }
+  // =====> get set choosen booking date from calendar in home:
   getChosenbookingDate():Date{
     return this.chosenBookingDate;
+  }
+  setChosenbookingDate(date:Date):void{
+    this.chosenBookingDate = date;
   }
 }

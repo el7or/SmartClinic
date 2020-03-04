@@ -44,6 +44,18 @@ export class AuthService {
       return UserRole.Employee;
     } */
   }
+  public get userId():string{
+    return 'adsgdsfgfdsgdsfgfds';
+  }
+  public get clinicId():string{
+    return 'adsgdsfgfdsgdsfgfds';
+  }
+  public get doctorId():string{
+    return 'adsgdsfgfdsgdsfgfds';
+  }
+  public get specialtyId():string{
+    return 'adsgdsfgfdsgdsfgfds';
+  }
 
   constructor() {}
 
@@ -51,7 +63,7 @@ export class AuthService {
     // =====> (get user data from database):
     this.currentUser = loginUser;
 
-    localStorage.setItem("token", "userId + roleName + clinicId + specialtyId");
+    localStorage.setItem("token", "userId + roleName + clinicId + doctorId + specialtyId");
     localStorage.setItem("nickName", this.roleName== UserRole.Doctor?"دكتور محمد":"سكرتير هيثم");
   }
 

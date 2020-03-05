@@ -78,7 +78,7 @@
         </tbody>
       </table>
       <button nbButton size="small" type="button" (click)="onAddExamination()"
-        [disabled]="!examinations[0]?.name || !examinations[0]?.isNameValid" class="mb-1">
+      [disabled]="examinations.length &&(!examinations[examinations?.length-1]?.name||!examinations[examinations?.length-1]?.isNameValid)" class="mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Add Examination Type</span>
       </button>
     </div>

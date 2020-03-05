@@ -423,7 +423,7 @@
   { "ar": "تحويل مستشفى", "en": "Hospital Referral" },
   { "ar": "تحويل لطبيب", "en": "Doctor Referral" },
   { "ar": "اسم التحويل", "en": "Referral Name" },
-  { "ar": "اسم الطبيب أو التخصص", "en": "Doctor Name or Specialty" },
+  { "ar": "التخصص", "en": "Specialty" },
   { "ar": "إضافة طلب جديد:", "en": "Add New Requests:" },
   { "ar": "إضافة تحويل جديد:", "en": "Add New Referral:" },
   { "ar": "إسم الأشعة", "en": "X-Ray Name" },

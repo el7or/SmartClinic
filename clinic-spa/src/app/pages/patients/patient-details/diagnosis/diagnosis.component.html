@@ -42,7 +42,7 @@
     </tbody>
   </table>
 
-  <button nbButton [disabled]="!patientDiagnoses[0]?.name || !patientDiagnoses[0]?.isNameValid" size="small"
+  <button nbButton [disabled]="patientDiagnoses.length &&(!patientDiagnoses[patientDiagnoses?.length-1]?.name || !patientDiagnoses[patientDiagnoses?.length-1]?.isNameValid)" size="small"
     (click)="onAddDiagnose()" class="mx-1 mb-1">
     <nb-icon icon="plus-outline"></nb-icon><span langg>Add Another Diagnose</span>
   </button>

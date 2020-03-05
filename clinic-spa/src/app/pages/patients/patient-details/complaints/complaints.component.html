@@ -36,7 +36,8 @@
       </tr>
     </tbody>
   </table>
-  <button nbButton size="small" (click)="onAddComplaint('general')" class="mx-1 mb-1">
+  <button nbButton size="small" (click)="onAddComplaint('general')"
+  [disabled]="patientGeneralComplaints.length &&(!patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compName || !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.isNameValid)" class="mx-1 mb-1">
     <nb-icon icon="plus-outline"></nb-icon><span langg>Add General Complaint</span>
   </button>
 <hr>
@@ -81,7 +82,8 @@
     </tbody>
   </table>
 
-  <button nbButton size="small" (click)="onAddComplaint('')" class="mx-1 mb-1">
+  <button nbButton size="small" (click)="onAddComplaint('')"
+  [disabled]="patientComplaintsDetails.length &&!patientComplaintsDetails[patientComplaintsDetails?.length-1]?.choiseName" class="mx-1 mb-1">
     <nb-icon icon="plus-outline"></nb-icon><span langg>Add Complaint Details</span>
   </button>
 

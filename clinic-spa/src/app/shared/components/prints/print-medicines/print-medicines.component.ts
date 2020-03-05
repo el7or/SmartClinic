@@ -1,3 +1,4 @@
+import { ReferralsService } from './../../../../pages/patients/patient-details/referrals/referrals.service';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 
@@ -16,18 +17,19 @@ export class PrintMedicinesComponent
   printType: string;
   medicines: any[];
   requests: any[];
+  referrals:any[];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private medicineService: MedicinesService,
     private requestService: RequestsService,
+    private referralService:ReferralsService,
     private settingsService: SettingsService
   ) {}
 
   ngOnInit() {
     this.printInfoSetting = this.settingsService.printInfo;
-
     // =====> check query param for type of print:
     this.printType = this.route.snapshot.queryParamMap.get("type");
     if (this.printType == "medicine") {
@@ -37,6 +39,10 @@ export class PrintMedicinesComponent
     if (this.printType == "request") {
       this.requests = this.requestService.requestsForPrint;
       this.router.navigate(["/pages/patients/details", 1, "request"]);
+    }
+    if (this.printType == "referral") {
+      this.referrals = this.referralService.referralForPrint;
+      this.router.navigate(["/pages/patients/details", 1, "referral"]);
     }
   }
 

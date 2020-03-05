@@ -1,7 +1,10 @@
+import { Router } from '@angular/router';
+import { ReferralsService } from './referrals.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
 import { NgForm } from "@angular/forms";
+import { Referral, ReferralValue } from './referrals.model';
 
 @Component({
   selector: "referrals",
@@ -10,29 +13,26 @@ import { NgForm } from "@angular/forms";
 })
 export class ReferralsComponent implements OnInit {
   formLoading: boolean = false;
+  referrals: Referral[] = [];
+  referralsValues: ReferralValue[];
+  diagnosesNames = ['التشخيص 1','التشخيص 2','التشخيص 3'];
+  today: Date = new Date();
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
-  referrals: any[] = [];
 
-  ptNames: string[] = [];
-  hospitalNames: string[] = [];
-  doctorNames: string[] = [];
+  constructor(private referralService:ReferralsService,
+    private router:Router,
+    public location: Location) {}
 
-  constructor(public location: Location) {}
+  ngOnInit() {
+    this.referralsValues = this.referralService.getReferralValues();
+  }
 
-  ngOnInit() {}
-
-  // =====> on add new referral name to thier list:
-  onAddNewItemToList(itemName, itemType) {
-    if (itemType == "pt") {
-      this.ptNames.push(itemName);
-    } else if (itemType == "hospital") {
-      this.hospitalNames.push(itemName);
-    } else {
-      this.doctorNames.push(itemName);
-
-    }
-    this.doneSwal.fire();
+  // =====> on choose specialty from drop down list:
+  onChangeReferralValue(event, item) {
+    item.doctors = this.referralsValues.find(
+      c => c.specialtyName == event
+    ).doctors;
   }
 
   // =====> on remove row from requests:
@@ -40,28 +40,18 @@ export class ReferralsComponent implements OnInit {
     this.referrals.splice(index, 1);
   }
 
-  // =====> on add new request to form from button:
-  onAddReferral(type) {
-    if (type == "pt") {
+  // =====> on add new referral to form from button:
+  onAddReferral(type: string) {
+    if (type == "doctor") {
       this.referrals.push({
-        type: "pt",
-        name: "",
-        isNameValid: true,
-        note: ""
-      });
-    } else if (type == "hospital") {
-      this.referrals.push({
-        type: "hospital",
-        name: "",
-        isNameValid: true,
-        note: ""
-      });
-    } else {
-      this.referrals.push({
-        type: "doctor",
-        name: "",
-        isNameValid: true,
-        note: ""
+        refId:0,
+        specialtyId: "",
+        specialtyName:'',
+        doctorId: "",
+        doctorName:'',
+        diagnose: "",
+        note: "",
+        doctors:[]
       });
     }
   }
@@ -74,14 +64,14 @@ export class ReferralsComponent implements OnInit {
 
   // =====> on save requests with print:
   onSavePrint(form: NgForm) {
-    /* this.formLoading = true;
-    this.requestService.requestsForPrint = this.requests;
+    this.formLoading = true;
+    this.referralService.referralForPrint = this.referrals;
     setTimeout(() => {
       this.formLoading = false;
       this.router.navigate(["/print/medicines"], {
-        queryParams: { type: "request" }
+        queryParams: { type: "referral" }
       });
-    }, 1000); */
+    }, 500);
   }
 
   onDeleteReferral() {

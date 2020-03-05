@@ -1,5 +1,5 @@
 import { Subscription } from "rxjs";
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit } from "@angular/core";
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit, AfterContentChecked } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 
@@ -42,7 +42,7 @@ import { UserRole } from "../../../auth/auth.model";
   `,
   styleUrls: ["./patient-details.component.scss"]
 })
-export class PatientDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PatientDetailsComponent implements OnInit, AfterContentChecked, OnDestroy {
   pageHeader: string;
   isNewPatient:boolean;
   patientInfo: BasicInfo;
@@ -135,7 +135,7 @@ export class PatientDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterContentChecked() {
     this.cd.detectChanges();
   }
 

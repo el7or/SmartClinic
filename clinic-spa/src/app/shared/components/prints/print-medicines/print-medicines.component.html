@@ -64,6 +64,21 @@
           </td>
         </tr>
       </tbody>
+      <tbody *ngIf="printType=='referral'">
+        <tr *ngFor="let item of referrals">
+          <td class="left">
+            <span class="r">R/</span>&nbsp;
+            <span class="medicine">{{item.diagnose}}</span>
+          </td>
+          <td class="right">
+            <span class="Dose"><span langg>Specialty</span>: {{item.specialtyName}}</span>&nbsp;
+            <br>
+            <span class="Dose"><span langg>Doctor Name</span>: {{item.doctorName}}</span>&nbsp;
+            <br>
+            <span class="Dose" *ngIf="item.note"><span langg>Notes</span>: {{item.note}}</span>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </main>
   <footer>

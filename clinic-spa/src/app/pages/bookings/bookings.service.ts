@@ -45,7 +45,7 @@ export class BookingsService {
         id: 325,
         time: new Date(2020,1,9,18,0),
         type: "Diagnose",
-        service: "Analsis",
+        service: "Analysis",
         name: "عبير احمد علي",
         mobile: "063546845",
         isEnter: false,

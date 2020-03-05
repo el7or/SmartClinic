@@ -159,6 +159,8 @@
   { "ar": "حجز وطباعة الفاتورة", "en": "Book & Print Invoice" },
   { "ar": "تعديل", "en": "Edit" },
   { "ar": "حذف", "en": "Delete" },
+  { "ar": "حجز جديد", "en": "New Book" },
+  { "ar": "سجل الزيارات", "en": "All Visits" },
   {
     "ar": "سيتم حذف هذه البيانات نهائياً وجميع البيانات الأخرى المتعلقة بها، ولن يمكن استرجاعها مرة أخرى!",
     "en": "This data will be deleted forever and all other data related to it, and it will not be retrievable again!"

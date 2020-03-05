@@ -1,7 +1,7 @@
-import { PrintSettingComponent } from './settings/clinic-setting/print-setting/print-setting.component';
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
+import { VisitsComponent } from './patients/patient-details/visits/visits.component';
 import { OperationsComponent } from './patients/patient-details/operations/operations.component';
 import { ReferralsComponent } from './patients/patient-details/referrals/referrals.component';
 import { PatientRecordComponent } from './patients/patient-details/patient-record/patient-record.component';
@@ -88,6 +88,10 @@ const routes: Routes = [
               {
                 path: "operation",
                 component: OperationsComponent
+              },
+              {
+                path: "visits",
+                component: VisitsComponent
               }
             ]
           }

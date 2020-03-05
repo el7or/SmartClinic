@@ -87,8 +87,8 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
       },
       autoFocus: true,
       hasBackdrop: true,
-      closeOnBackdropClick: false,
-      closeOnEsc: false
+      closeOnBackdropClick: true,
+      closeOnEsc: true
     });
   }
 

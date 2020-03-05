@@ -16,7 +16,7 @@ export class BasicInfoService {
     // =====> send to api pacientId(codeId) + clinicId to get all data for patient:
     this.patientInfo.next({
       id: "dfgfdgsgd",
-      name: "محمد أحمد السيد",
+      name: "حاتم قطاوي",
       mobile: "01545454645",
       age: 33,
       gender: true,

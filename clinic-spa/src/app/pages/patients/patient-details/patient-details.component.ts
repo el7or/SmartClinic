@@ -87,6 +87,11 @@ export class PatientDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             title: this.langgService.translateWord("Associated Diseases"),
             route: "./diseases",
             disabled: this.isNewPatient
+          },
+          {
+            title: this.langgService.translateWord("All Visits"),
+            route: "./visits",
+            disabled: this.isNewPatient
           }
         ];
       } else {
@@ -118,6 +123,11 @@ export class PatientDetailsComponent implements OnInit, AfterViewInit, OnDestroy
           {
             title: this.langgService.translateWord("External Referrals"),
             route: "./referral",
+            disabled: this.isNewPatient
+          },
+          {
+            title: this.langgService.translateWord("All Visits"),
+            route: "./visits",
             disabled: this.isNewPatient
           }
         ];

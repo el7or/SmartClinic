@@ -83,7 +83,7 @@
             </button>
             <button *ngIf="!booking.isEnter" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
               [nbTooltip]="'Cancel Booking' | langg">
-              <nb-icon icon="trash-2"></nb-icon>
+              <nb-icon icon="slash"></nb-icon>
             </button>&nbsp;
             <button nbButton [routerLink]="['/pages/patients/details',booking.id,'basic']" size="tiny" status="info"
               [nbTooltip]="'Patient Profile' | langg">

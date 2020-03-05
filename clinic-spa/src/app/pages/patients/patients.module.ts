@@ -44,6 +44,7 @@ import { ComplaintsComponent } from './patient-details/complaints/complaints.com
 import { ExaminationComponent } from './patient-details/examination/examination.component';
 import { DiagnosisComponent } from './patient-details/diagnosis/diagnosis.component';
 import { QuestionsComponent } from './patient-details/questions/questions.component';
+import { VisitsComponent } from './patient-details/visits/visits.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { QuestionsComponent } from './patient-details/questions/questions.compon
     ExaminationComponent,
     DiagnosisComponent,
     QuestionsComponent,
+    VisitsComponent,
   ],
   imports: [
     CommonModule,

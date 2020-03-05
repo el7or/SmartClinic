@@ -71,7 +71,7 @@
             </button>
             <button *ngIf="!booking.isEnter && !booking.isCanceled" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
               [nbTooltip]="'Cancel Booking' | langg">
-              <nb-icon icon="trash-2"></nb-icon>
+              <nb-icon icon="slash"></nb-icon>
             </button>&nbsp;
             <button nbButton [routerLink]="['/pages/patients/details',booking.id,'basic']" size="tiny" status="info"
               [nbTooltip]="'Patient Profile' | langg">
@@ -85,6 +85,8 @@
         </tr>
       </tbody>
     </table>
+  </nb-card-body>
+</nb-card>
 
     <swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
       [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
@@ -94,5 +96,3 @@
     <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
       [showConfirmButton]="false">
     </swal>
-  </nb-card-body>
-</nb-card>

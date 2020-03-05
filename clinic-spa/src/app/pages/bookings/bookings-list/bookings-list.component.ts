@@ -139,8 +139,8 @@ export class BookingsListComponent implements OnInit {
       },
       autoFocus: true,
       hasBackdrop: true,
-      closeOnBackdropClick: false,
-      closeOnEsc: false
+      closeOnBackdropClick: true,
+      closeOnEsc: true
     });
   }
 }

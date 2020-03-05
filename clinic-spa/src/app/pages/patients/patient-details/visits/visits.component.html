@@ -1,0 +1,43 @@
+<nb-card>
+  <nb-card-body>
+    <button nbButton type="button" (click)="onBook(0)" hero status="success" size="small" class="mb-2">
+      <nb-icon icon="file-add-outline"></nb-icon><span langg>New Book</span>
+    </button>
+    <table class="table table-striped table-bordered table-light">
+      <thead class="thead-dark">
+        <tr>
+          <th langg>Visit Date</th>
+          <th langg>Booking Type</th>
+          <th langg>Services</th>
+          <th langg>Booking Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let visit of visitsList; let i = index;">
+          <td>{{visit.date | localDateShort}}</td>
+          <td langg>{{visit.type}}</td>
+          <td><span *ngFor="let service of visit.servcies; index as i">{{service | langg}}<b *ngIf="i < visit.servcies.length-1">&nbsp;-&nbsp;</b></span></td>
+          <td *ngIf="visit.isCanceled" langg>Canceled</td>
+          <td *ngIf="visit.isEnter && !visit.isCanceled" langg>Done</td>
+          <td *ngIf="!visit.isEnter && !visit.isCanceled" langg>Not Done</td>
+          <td class="text-center">
+            <button (click)="onBook(visit.bookId)" nbButton size="small" status="info"
+              ><nb-icon icon="external-link-outline"></nb-icon><span langg>Details</span></button>&nbsp;
+            <button *ngIf="!visit.isEnter && !visit.isCanceled" (click)="onDeleteBooking()" nbButton size="small" status="danger"
+              ><nb-icon icon="slash-outline"></nb-icon><span langg>Cancel Booking</span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
+
+<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
+      [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
+      [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
+    </swal>
+
+    <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+      [showConfirmButton]="false">
+    </swal>

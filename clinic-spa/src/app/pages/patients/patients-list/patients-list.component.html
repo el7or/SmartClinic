@@ -57,8 +57,9 @@
           <td class="text-center">
             <button nbButton [routerLink]="['/pages/patients/details',item.codeId,'basic']" size="tiny" status="info" langg>Patient
               Profile</button>&nbsp;
-            <button nbButton (click)="onBook(0)" size="tiny" status="success" langg>Book</button>&nbsp;
-            <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button>
+            <button nbButton (click)="onBook(0)" size="tiny" status="success" langg>New Book</button>&nbsp;
+            <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button> |
+            <button nbButton [routerLink]="['/pages/patients/details',item.codeId,'visits']"  size="tiny" status="warning" langg>All Visits</button>
           </td>
         </tr>
         <!-- <tr>

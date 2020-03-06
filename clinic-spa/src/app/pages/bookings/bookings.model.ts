@@ -18,7 +18,7 @@ export interface BookingList {
 }
 
 export interface BookingDetails {
-  patientId: number;
+  patientId: string;
   clinicId: string;
   doctorId: string;
   date: Date;

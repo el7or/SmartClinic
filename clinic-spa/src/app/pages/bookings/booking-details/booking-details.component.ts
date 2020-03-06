@@ -1,7 +1,7 @@
 import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
 import { NgForm } from "@angular/forms";
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { Component, OnInit, Input, ViewChild, AfterViewInit } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
@@ -16,6 +16,7 @@ import {
   styleUrls: ["./booking-details.component.scss"]
 })
 export class BookingDetailsComponent implements OnInit {
+  @ViewChild("form", { static: false }) form: NgForm;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
   @Input() bookId: number;

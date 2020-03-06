@@ -23,7 +23,7 @@ export class BookingsListComponent implements OnInit {
   autoCompleteList: any[] = [];
   tableLoading = false;
   weekendDays: number[];
-  totalCost:number;
+  totalPaid:number;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
 
@@ -60,7 +60,7 @@ export class BookingsListComponent implements OnInit {
 
     // =====> get bookings list for today:
     this.bookingsList = this.bookingService.getBookingsListToday(new Date());
-    this.totalCost = this.bookingsList.reduce((acc,booking) => acc + booking.cost, 0);
+    this.totalPaid = this.bookingsList.reduce((acc,booking) => acc + booking.paid, 0);
 
     // =====> combine name with mobile to autocomplete search:
     this.bookingsList.forEach(booking => {

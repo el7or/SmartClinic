@@ -16,7 +16,7 @@ export class AuthService {
   public get isAuthenticated(): boolean {
     try {
       return true;
-     /*  if (
+      /* if (
         (this.currentUser.userName == "el7or" || this.currentUser.userName == "el7or2") &&
         this.currentUser.password == "123456"
       ) {

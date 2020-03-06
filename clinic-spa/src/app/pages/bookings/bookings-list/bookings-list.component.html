@@ -32,12 +32,12 @@
         <tr>
           <th>#</th>
           <th langg>Time</th>
-          <th langg>ID</th>
           <th langg>Name</th>
           <th langg>Mobile</th>
           <th langg>Booking Type</th>
           <th langg>Services</th>
-          <th langg>Cost</th>
+          <th langg>Amount Paid</th>
+          <th langg>Amount Due</th>
           <th langg>Booking Status</th>
           <th></th>
         </tr>
@@ -46,17 +46,12 @@
         <tr *ngFor="let booking of bookingsList; let i = index;">
           <td>{{booking.seq}}</td>
           <td>{{booking.time | time12Hour}}</td>
-          <td>{{booking.id}}</td>
           <td>{{booking.name}}</td>
           <td>{{booking.mobile}}</td>
           <td langg>{{booking.type}}</td>
           <td langg>{{booking.service}}</td>
-          <td langg>{{booking.cost | currency:'EGP'}}
-            <button nbButton (click)="onOpenPaymentSummary(1)" ghost size="tiny" status="warning"
-              [nbTooltip]="'Payment Details' | langg">
-              <nb-icon icon="info"></nb-icon>
-            </button>
-          </td>
+          <td langg>{{booking.paid | currency:'EGP':'symbol':'1.0'}}</td>
+          <td langg>{{booking.due | currency:'EGP':'symbol':'1.0'}}</td>
           <td *ngIf="booking.isCanceled" langg>Canceled</td>
           <td *ngIf="booking.isEnter && !booking.isCanceled" langg>Done</td>
           <td *ngIf="!booking.isEnter && !booking.isCanceled" langg>Not Done</td>
@@ -79,11 +74,13 @@
             </button>
           </td>
         </tr>
-        <tr class="table-dark font-weight-bolder lead">
-          <td colspan="7"><span langg>Total Amount:</span></td>
-          <td colspan="3">{{totalCost | currency:'EGP'}}</td>
-        </tr>
       </tbody>
+      <tfoot>
+        <tr class="table-dark font-weight-bolder lead">
+          <td colspan="6"><span langg>Total Amount:</span></td>
+          <td colspan="4">{{totalPaid | currency:'EGP':'symbol':'1.0'}}</td>
+        </tr>
+      </tfoot>
     </table>
   </nb-card-body>
 </nb-card>

@@ -17,11 +17,10 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <button (click)="onBookToday()" nbButton size="small" status="success"
-              [nbTooltip]="'New Booking' | langg">
-              <nb-icon icon="file-add-outline"></nb-icon>
-              <span langg>Add New Booking</span>
-            </button>
+    <button (click)="onBookToday()" nbButton size="small" status="success" [nbTooltip]="'New Booking' | langg">
+      <nb-icon icon="file-add-outline"></nb-icon>
+      <span langg>Add New Booking</span>
+    </button>
     <small class="form-text text-muted font-weight-bold">&#9733;&nbsp;<span langg>Current Order of Bookings made
         according to the Clinic Settings</span>:&nbsp;<span langg>{{sortBookingsByText | langg}}</span>.</small>
     <table class="table table-hover table-bordered">
@@ -30,10 +29,11 @@
           <th>#</th>
           <th langg>Time</th>
           <th langg>Booking Type</th>
-          <th langg>ID</th>
           <th langg>Name</th>
           <th langg>Mobile</th>
-          <th langg>Cost</th>
+          <th langg>Services</th>
+          <th langg>Amount Paid</th>
+          <th langg>Amount Due</th>
           <th langg>Attendance</th>
           <th langg>Entrance</th>
           <th></th>
@@ -41,23 +41,21 @@
       </thead>
       <tbody cdkDropList (cdkDropListDropped)="drop($event)">
         <tr *ngFor="let booking of bookingsList; let i = index;"
-          [class]="booking.isEnter ? 'table-danger':(booking.isAttend?'table-success':'table-light')" cdkDrag
-          [cdkDragDisabled]="booking.isEnter || sortBookingsBy!='manual'">
+          [class]="booking.isEnter || booking.isCanceled ? 'table-danger':(booking.isAttend?'table-success':'table-light')" cdkDrag
+          [cdkDragDisabled]="booking.isEnter || booking.isCanceled || sortBookingsBy!='manual'">
           <th>{{booking.seq}}</th>
           <td>{{booking.time | time12Hour}}</td>
           <td langg>{{booking.type}}</td>
-          <th>{{booking.id}}</th>
           <td>{{booking.name}}
             <button nbButton outline *ngIf="nextBooking==i" status="warning" size="tiny" class="btn-label" langg>Next
               Booking</button>
+            <button nbButton outline *ngIf="booking.isCanceled" status="danger" size="tiny" class="btn-label"
+              langg>Canceled Booking</button>
           </td>
           <td>{{booking.mobile}}</td>
-          <td langg>{{booking.cost | currency:'EGP'}}
-            <button nbButton (click)="onOpenPaymentSummary(1)" ghost size="tiny" status="warning"
-              [nbTooltip]="'Payment Details' | langg">
-              <nb-icon icon="info"></nb-icon>
-            </button>
-          </td>
+          <td langg>{{booking.service}}</td>
+          <td langg>{{booking.paid | currency:'EGP':'symbol':'1.0'}}</td>
+          <td langg>{{booking.due | currency:'EGP':'symbol':'1.0'}}</td>
           <td class="text-center">
             <nb-checkbox [checked]="booking.isAttend" [(ngModel)]="booking.isAttend" status="success"
               [disabled]="booking.isEnter" (ngModelChange)="onChangeAttend(booking)"></nb-checkbox>
@@ -73,15 +71,14 @@
             </div>
           </td>
           <td class="text-center">
-            <button (click)="onBook(1)" nbButton size="tiny" status="warning"
-              [nbTooltip]="'Edit Booking' | langg">
+            <button (click)="onBook(1)" nbButton size="tiny" status="warning" [nbTooltip]="'Edit Booking' | langg">
               <nb-icon icon="edit"></nb-icon>
             </button>&nbsp;
-            <button *ngIf="booking.isEnter" (click)="onBook(0)" nbButton size="tiny" status="success"
+            <button *ngIf="booking.isEnter || booking.isCanceled" (click)="onBook(0)" nbButton size="tiny" status="success"
               [nbTooltip]="'New Booking' | langg">
               <nb-icon icon="file-add"></nb-icon>
             </button>
-            <button *ngIf="!booking.isEnter" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
+            <button *ngIf="!booking.isEnter && !booking.isCanceled" (click)="onDeleteBooking()" nbButton size="tiny" status="danger"
               [nbTooltip]="'Cancel Booking' | langg">
               <nb-icon icon="slash"></nb-icon>
             </button>&nbsp;
@@ -91,11 +88,13 @@
             </button>
           </td>
         </tr>
+      </tbody>
+      <tfoot>
         <tr class="table-dark font-weight-bolder lead" cdkDrag cdkDragDisabled>
           <td colspan="6"><span langg>Total Amount:</span></td>
-          <td colspan="4">{{totalCost | currency:'EGP'}}</td>
+          <td colspan="5">{{totalPaid | currency:'EGP':'symbol':'1.0'}}</td>
         </tr>
-      </tbody>
+      </tfoot>
     </table>
   </nb-card-body>
 

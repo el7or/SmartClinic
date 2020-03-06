@@ -22,7 +22,8 @@ export class BookingsService {
         entryTime:new Date(2020,1,9,17,10),
         isAttend: true,
         attendTime: new Date(2020,1,9,16,45),
-        cost: 150,
+        paid: 150,
+        due:0,
         isCanceled: false
       },
       {
@@ -37,7 +38,8 @@ export class BookingsService {
         entryTime: new Date(2020,1,9,17,30),
         isAttend: true,
         attendTime: new Date(2020,1,9,17,45),
-        cost: 70,
+        paid: 70,
+        due:50,
         isCanceled: false
       },
       {
@@ -52,7 +54,8 @@ export class BookingsService {
         entryTime: null,
         isAttend: true,
         attendTime: new Date(2020,1,9,16,45),
-        cost: 200,
+        paid: 200,
+        due:0,
         isCanceled: false
       },
       {
@@ -67,7 +70,8 @@ export class BookingsService {
         entryTime: null,
         isAttend: false,
         attendTime: null,
-        cost: 20,
+        paid: 0,
+        due:0,
         isCanceled: true
       },
       {
@@ -82,7 +86,8 @@ export class BookingsService {
         entryTime: null,
         isAttend: false,
         attendTime: null,
-        cost: 50,
+        paid: 20,
+        due:100,
         isCanceled: false
       }
     ];

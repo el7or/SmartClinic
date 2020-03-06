@@ -1,5 +1,5 @@
-import { DateWithoutTimePipe } from './../../../shared/pipes/date-without-time.pipe';
-import { Router } from '@angular/router';
+import { DateWithoutTimePipe } from "./../../../shared/pipes/date-without-time.pipe";
+import { Router } from "@angular/router";
 import {
   Component,
   OnInit,
@@ -11,7 +11,7 @@ import { NbDialogService, NbToastrService } from "@nebular/theme";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
-import { LanggService } from './../../../shared/services/langg.service';
+import { LanggService } from "./../../../shared/services/langg.service";
 import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
 import { BookingDetailsComponent } from "../booking-details/booking-details.component";
@@ -28,7 +28,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   nextBooking: number;
   sortBookingsBy: string;
   sortBookingsByText: string;
-  totalCost: number;
+  totalPaid: number;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
@@ -36,17 +36,17 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
     private bookingService: BookingsService,
     private dialogService: NbDialogService,
     private settingService: SettingsService,
-    private toastrService:NbToastrService,
-    private langgService:LanggService,
-    private router:Router,
+    private toastrService: NbToastrService,
+    private langgService: LanggService,
+    private router: Router,
     private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     // =====> get list bookings in today (come from DB with sorting depends on setting):
     this.bookingsList = this.bookingService.getBookingsListToday(new Date());
-    this.totalCost = this.bookingsList.reduce(
-      (acc, booking) => acc + booking.cost,
+    this.totalPaid = this.bookingsList.reduce(
+      (acc, booking) => acc + booking.paid,
       0
     );
 
@@ -62,7 +62,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   }
 
   // =====> on add new booking on current day tp patient out the table:
-  onBookToday(){
+  onBookToday() {
     this.bookingService.setChosenbookingDate(new Date());
     this.toastrService.info(
       new DateWithoutTimePipe().transform(new Date()),
@@ -166,7 +166,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
         break;
       case "manual":
         this.bookingsList
-          .sort((a, b) => +b.isEnter - +a.isEnter)
+          .sort((a, b) => +b.isEnter - +a.isEnter || +b.isEnter - +a.isEnter)
           .map((item, index) => (item.seq = index + 1));
         this.sortBookingsByText = "Manual";
         break;

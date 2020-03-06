@@ -153,7 +153,7 @@
   { "ar": "جلسة ليزر", "en": "Laser Session" },
   { "ar": "جلسة علاج", "en": "Therapy Session" },
   { "ar": "المبلغ الإجمالي:", "en": "Total Amount:" },
-  { "ar": "المبلغ المتبقي:", "en": "Amount Due:" },
+  { "ar": "المبلغ المتبقي", "en": "Amount Due" },
   { "ar": "حجوزات نفس اليوم:", "en": "Same Date Bookings:" },
   { "ar": "حجز", "en": "Book" },
   { "ar": "حجز وطباعة الفاتورة", "en": "Book & Print Invoice" },
@@ -264,6 +264,7 @@
     "en": "The period that will be calculated for each Booking, whatever its type."
   },
   { "ar": "ملغي", "en": "Canceled" },
+  { "ar": "حجز ملغي", "en": "Canceled Booking" },
   {
     "ar": "انقر فوق أي يوم قادم لإضافة حجز فيه",
     "en": "Click on any upcoming day to add Booking at it"

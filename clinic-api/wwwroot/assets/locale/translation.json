@@ -159,6 +159,8 @@
   { "ar": "حجز وطباعة الفاتورة", "en": "Book & Print Invoice" },
   { "ar": "تعديل", "en": "Edit" },
   { "ar": "حذف", "en": "Delete" },
+  { "ar": "حجز جديد", "en": "New Book" },
+  { "ar": "سجل الزيارات", "en": "All Visits" },
   {
     "ar": "سيتم حذف هذه البيانات نهائياً وجميع البيانات الأخرى المتعلقة بها، ولن يمكن استرجاعها مرة أخرى!",
     "en": "This data will be deleted forever and all other data related to it, and it will not be retrievable again!"
@@ -421,7 +423,7 @@
   { "ar": "تحويل مستشفى", "en": "Hospital Referral" },
   { "ar": "تحويل لطبيب", "en": "Doctor Referral" },
   { "ar": "اسم التحويل", "en": "Referral Name" },
-  { "ar": "اسم الطبيب أو التخصص", "en": "Doctor Name or Specialty" },
+  { "ar": "التخصص", "en": "Specialty" },
   { "ar": "إضافة طلب جديد:", "en": "Add New Requests:" },
   { "ar": "إضافة تحويل جديد:", "en": "Add New Referral:" },
   { "ar": "إسم الأشعة", "en": "X-Ray Name" },

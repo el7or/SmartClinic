@@ -1,13 +1,13 @@
 import { Subscription } from "rxjs";
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit, AfterContentChecked } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterContentChecked } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 
-import { BasicInfo } from "./basic-info/basic-info.model";
+import { PatientsService } from './../patients.service';
 import { AuthService } from "./../../../auth/auth.service";
-import { BasicInfoService } from "./basic-info/basic-info.service";
 import { LanggService } from "./../../../shared/services/langg.service";
 import { UserRole } from "../../../auth/auth.model";
+import { PatientHeaderInfo } from '../patients.model';
 
 @Component({
   selector: "patient-details",
@@ -27,12 +27,12 @@ import { UserRole } from "../../../auth/auth.model";
         </nav>
         <h5>
           <span>{{ pageHeader | langg }}</span
-          >: <span>{{ patientInfo?.name }}</span>
+          >: <span>{{ patientHeaderInfo?.name }}</span>
         </h5>
-        <label *ngIf="patientInfo"
-          ><span langg>Age</span>: <span>{{ patientInfo?.age }}</span> |
+        <label *ngIf="patientHeaderInfo"
+          ><span langg>Age</span>: <span>{{ patientHeaderInfo?.age }}</span> |
           <span langg>Visits Count</span>:
-          <span>{{ patientInfo?.visitsCount }}</span></label
+          <span>{{ patientHeaderInfo?.visitsCount }}</span></label
         >
       </nb-card-header>
       <nb-card-body>
@@ -45,17 +45,16 @@ import { UserRole } from "../../../auth/auth.model";
 export class PatientDetailsComponent implements OnInit, AfterContentChecked, OnDestroy {
   pageHeader: string;
   isNewPatient:boolean;
-  patientInfo: BasicInfo;
+  patientHeaderInfo: PatientHeaderInfo;
 
   routeSubs: Subscription;
-  infoSubs:Subscription;
 
   patientTabs: any[];
 
   constructor(
     private route: ActivatedRoute,
     public location: Location,
-    private basicInfoService: BasicInfoService,
+    private patientsService: PatientsService,
     private authService: AuthService,
     private langgService: LanggService,
     private cd: ChangeDetectorRef
@@ -71,9 +70,7 @@ export class PatientDetailsComponent implements OnInit, AfterContentChecked, OnD
       } else {
         this.isNewPatient = false;
         this.pageHeader = "Patient Profile";
-        this.infoSubs= this.basicInfoService.patientInfo
-          .asObservable()
-          .subscribe(data => (this.patientInfo = data));
+        this.patientHeaderInfo = this.patientsService.getPatientHeaderInfo(+patientId)
       }
 
       // =====> create tabs based on user role:
@@ -141,8 +138,5 @@ export class PatientDetailsComponent implements OnInit, AfterContentChecked, OnD
 
   ngOnDestroy() {
     this.routeSubs.unsubscribe();
-    if (this.infoSubs) {
-      this.infoSubs.unsubscribe();
-    }
   }
 }

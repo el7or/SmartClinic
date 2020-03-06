@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PatientList } from './patients.model';
+import { PatientList, PatientHeaderInfo } from './patients.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,8 +54,14 @@ export class PatientsService {
     return patients;
   }
 
-  getPatientIdFromCodeId(codeId:number):string{
-    // =====> call database to get patient guid id:
-    return 'sdgfdsgsdfgd';
+  getPatientHeaderInfo(patientCodeId: number) {
+    // =====> send to api pacientId(codeId) + clinicId to get  data for patient:
+    const info:PatientHeaderInfo = {
+      patientId: "dfgfdgsgd",
+      name: "حاتم قطاوي",
+      age: 33,
+      visitsCount: 3
+    };
+    return info;
   }
 }

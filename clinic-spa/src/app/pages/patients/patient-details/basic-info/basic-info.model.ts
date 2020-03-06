@@ -1,5 +1,5 @@
 export interface BasicInfo {
-  id:string;
+  patientId:string;
   name:string;
   mobile:string;
   age?:number;
@@ -8,7 +8,6 @@ export interface BasicInfo {
   career?:string;
   city?:string;
   area?:string;
-  visitsCount?:number;
 }
 
 export interface NewPatient{

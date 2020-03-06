@@ -29,7 +29,6 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   duplicatePhoneSwal: SwalComponent;
 
   routeSubs: Subscription;
-  infoSubs: Subscription;
 
   constructor(
     public location: Location,
@@ -45,12 +44,11 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
       const patientId = params["id"];
       if (patientId == "new") {
         this.isNewPatient = true;
-        this.patientInfo = { id: "", name: "", mobile: "" };
+        this.patientInfo = { patientId: "", name: "", mobile: "" };
       } else {
         this.isNewPatient = false;
-        this.infoSubs = this.basicInfoService
-          .getPatientInfo(+patientId)
-          .subscribe(data => (this.patientInfo = data));
+        this.patientInfo = this.basicInfoService
+          .getPatientInfo(+patientId);
       }
     });
   }
@@ -58,9 +56,6 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.form.reset();
     this.routeSubs.unsubscribe();
-    if (this.infoSubs) {
-      this.infoSubs.unsubscribe();
-    }
   }
 
   // =====> check if patient name is exist:
@@ -73,14 +68,12 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
             if (result.value) {
               // =====> load another patient details:
               this.patientInfo = {
-                id: "dsfsdafda",
+                patientId: "dsfsdafda",
                 name: "حاتم قطاوي",
                 mobile: "0111111111111",
                 age: 40,
                 gender: true,
-                visitsCount: 5
               };
-              this.basicInfoService.patientInfo.next(this.patientInfo);
               this.router.navigate(["/pages/patients/details", 1, "basic"]);
             } else {
               // =====> reset patient name:
@@ -128,7 +121,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
         this.dialogService.open(BookingDetailsComponent, {
           context: {
             bookId: 0,
-            patientId: this.patientInfo.id,
+            patientId: this.patientInfo.patientId,
             patientName: this.patientInfo.name
           },
           autoFocus: true,

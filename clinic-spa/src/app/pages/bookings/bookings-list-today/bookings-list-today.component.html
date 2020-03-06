@@ -58,14 +58,14 @@
           <td langg>{{booking.due | currency:'EGP':'symbol':'1.0'}}</td>
           <td class="text-center">
             <nb-checkbox [checked]="booking.isAttend" [(ngModel)]="booking.isAttend" status="success"
-              [disabled]="booking.isEnter" (ngModelChange)="onChangeAttend(booking)"></nb-checkbox>
+              [disabled]="booking.isEnter || booking.isCanceled" (ngModelChange)="onChangeAttend(booking)"></nb-checkbox>
             <div *ngIf="booking.isAttend || booking.isEnter">
               <small class="text-success">{{booking.attendTime | time12Hour }}</small>
             </div>
           </td>
           <td class="text-center">
             <nb-checkbox [checked]="booking.isEnter" [(ngModel)]="booking.isEnter" status="danger"
-              (ngModelChange)="onChangeEnter(booking)"></nb-checkbox>
+            [disabled]="booking.isCanceled" (ngModelChange)="onChangeEnter(booking)"></nb-checkbox>
             <div *ngIf="booking.isEnter">
               <small class="text-danger">{{booking.entryTime | time12Hour}}</small>
             </div>

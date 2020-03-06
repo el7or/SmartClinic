@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { BookingList } from './bookings.model';
 
 @Injectable({
   providedIn: "root"
@@ -8,11 +9,13 @@ export class BookingsService {
 
   constructor() {}
 
-  getBookingsListToday(day) {
-    let bookingsList = [
+  getBookingsListByDate(date) {
+    const bookingsList:BookingList[] = [
       {
+        bookId: 125,
+        patientCodeId:1,
+        patientId:'dsafas',
         seq: 1,
-        id: 125,
         time: new Date(2020,1,9,5,0),
         type: "Urgent Diagnose",
         service: "X-Ray",
@@ -27,8 +30,10 @@ export class BookingsService {
         isCanceled: false
       },
       {
+        bookId: 112,
+        patientCodeId:2,
+        patientId:'dsafas',
         seq: 2,
-        id: 112,
         time: new Date(2020,1,9,17,30),
         type: "Diagnose",
         service: "Sonar",
@@ -43,8 +48,10 @@ export class BookingsService {
         isCanceled: false
       },
       {
+        bookId: 325,
+        patientCodeId:3,
+        patientId:'dsafas',
         seq: 3,
-        id: 325,
         time: new Date(2020,1,9,18,0),
         type: "Diagnose",
         service: "Analysis",
@@ -59,8 +66,10 @@ export class BookingsService {
         isCanceled: false
       },
       {
+        bookId: 222,
+        patientCodeId:4,
+        patientId:'dsafas',
         seq: 4,
-        id: 222,
         time: new Date(2020,1,9,19,30),
         type: "Consult",
         service: "X-Ray",
@@ -75,8 +84,10 @@ export class BookingsService {
         isCanceled: true
       },
       {
+        bookId: 56,
+        patientCodeId:5,
+        patientId:'dsafas',
         seq: 5,
-        id: 56,
         time: new Date(2020,1,9,19,0),
         type: "Consult",
         service: "Laser Session",

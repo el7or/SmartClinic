@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 
 import { VisitsService } from "./visits.service";
-import { PatientVisit } from "./visits.model";
+import { PatientVisit, PatientVisits } from "./visits.model";
 import { BookingDetailsComponent } from '../../../bookings/booking-details/booking-details.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { BookingDetailsComponent } from '../../../bookings/booking-details/booki
   styleUrls: ["./visits.component.scss"]
 })
 export class VisitsComponent implements OnInit, OnDestroy {
-  visitsList: PatientVisit[];
+  visitsList: PatientVisits;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
 
@@ -41,8 +41,9 @@ export class VisitsComponent implements OnInit, OnDestroy {
   onBook(bookingId) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
-        patientName: "محمد أحمد السيد",
-        isNewBookings: bookingId == 0 ? true : false
+        bookId:bookingId,
+        patientId:this.visitsList.patientId,
+        patientName: this.visitsList.patientName
       },
       autoFocus: true,
       hasBackdrop: true,

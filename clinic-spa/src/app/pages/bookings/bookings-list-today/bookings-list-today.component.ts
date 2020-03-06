@@ -16,6 +16,7 @@ import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
 import { BookingDetailsComponent } from "../booking-details/booking-details.component";
 import { PaymentSummaryComponent } from "../../finance/payment-summary/payment-summary.component";
+import { BookingList } from '../bookings.model';
 
 @Component({
   selector: "bookings-list-today",
@@ -23,7 +24,7 @@ import { PaymentSummaryComponent } from "../../finance/payment-summary/payment-s
   styleUrls: ["./bookings-list-today.component.scss"]
 })
 export class BookingsListTodayComponent implements OnInit, AfterViewInit {
-  bookingsList: any[];
+  bookingsList: BookingList[];
   today: Date = new Date();
   nextBooking: number;
   sortBookingsBy: string;
@@ -44,7 +45,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // =====> get list bookings in today (come from DB with sorting depends on setting):
-    this.bookingsList = this.bookingService.getBookingsListToday(new Date());
+    this.bookingsList = this.bookingService.getBookingsListByDate(new Date());
     this.totalPaid = this.bookingsList.reduce(
       (acc, booking) => acc + booking.paid,
       0
@@ -79,16 +80,17 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   }
 
   // =====> on add new booking or edit booking to patients in the table:
-  onBook(bookingId) {
+  onBook(bookingId,booking:BookingList) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
-        patientName: "محمد أحمد السيد",
-        isNewBookings: bookingId == 0 ? true : false
+        bookId:bookingId,
+        patientId:booking.patientId,
+        patientName: booking.name,
       },
       autoFocus: true,
       hasBackdrop: true,
-      closeOnBackdropClick: true,
-      closeOnEsc: true
+      closeOnBackdropClick: false,
+      closeOnEsc: false
     });
   }
 
@@ -122,9 +124,9 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   }
 
   // =====> on change attend checkbox:
-  onChangeAttend(booking) {
+  onChangeAttend(booking:BookingList) {
     this.bookingsList
-      .filter(b => b.id == booking.id)
+      .filter(b => b.bookId == booking.bookId)
       .map(b => {
         b.attendTime = new Date();
       });
@@ -134,7 +136,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   // =====> on change enter checkbox:
   onChangeEnter(booking) {
     this.bookingsList
-      .filter(b => b.id == booking.id)
+      .filter(b => b.bookId == booking.bookId)
       .map(b => {
         b.entryTime = new Date();
         if (!b.attendTime) {

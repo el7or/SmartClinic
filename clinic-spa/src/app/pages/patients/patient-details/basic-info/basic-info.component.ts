@@ -127,9 +127,9 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
       if (result.value) {
         this.dialogService.open(BookingDetailsComponent, {
           context: {
+            bookId: 0,
             patientId: this.patientInfo.id,
-            patientName: this.form.value["patientName"],
-            isNewBookings: true
+            patientName: this.patientInfo.name
           },
           autoFocus: true,
           hasBackdrop: true,

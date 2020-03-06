@@ -53,4 +53,9 @@ export class PatientsService {
     ]
     return patients;
   }
+
+  getPatientIdFromCodeId(codeId:number):string{
+    // =====> call database to get patient guid id:
+    return 'sdgfdsgsdfgd';
+  }
 }

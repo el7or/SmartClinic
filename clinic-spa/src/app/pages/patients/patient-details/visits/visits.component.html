@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let visit of visitsList; let i = index;">
+        <tr *ngFor="let visit of visitsList.patientVisits; let i = index;">
           <td>{{visit.date | localDateShort}}</td>
           <td langg>{{visit.type}}</td>
           <td><span *ngFor="let service of visit.servcies; index as i">{{service | langg}}<b *ngIf="i < visit.servcies.length-1">&nbsp;-&nbsp;</b></span></td>

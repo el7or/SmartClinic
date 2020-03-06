@@ -10,6 +10,7 @@ import { BookingsService } from "./../bookings.service";
 import { LanggService } from "./../../../shared/services/langg.service";
 import { BookingDetailsComponent } from "../booking-details/booking-details.component";
 import { PaymentSummaryComponent } from "../../finance/payment-summary/payment-summary.component";
+import { BookingList } from '../bookings.model';
 
 @Component({
   selector: "bookings-list",
@@ -19,7 +20,7 @@ import { PaymentSummaryComponent } from "../../finance/payment-summary/payment-s
 export class BookingsListComponent implements OnInit {
   formLoading: boolean = false;
   currentDay?: Date = new Date();
-  bookingsList: any[];
+  bookingsList: BookingList[];
   autoCompleteList: any[] = [];
   tableLoading = false;
   weekendDays: number[];
@@ -58,17 +59,9 @@ export class BookingsListComponent implements OnInit {
       }
     });
 
-    // =====> get bookings list for today:
-    this.bookingsList = this.bookingService.getBookingsListToday(new Date());
+    // =====> get bookings list for chosen date:
+    this.bookingsList = this.bookingService.getBookingsListByDate(this.currentDay);
     this.totalPaid = this.bookingsList.reduce((acc,booking) => acc + booking.paid, 0);
-
-    // =====> combine name with mobile to autocomplete search:
-    this.bookingsList.forEach(booking => {
-      this.autoCompleteList.push({
-        id: booking.id,
-        nameMobile: booking.mobile + " - " + booking.name
-      });
-    });
 
     // =====> get weekends to disable it:
     this.weekendDays = this.settingService.getWeekEndsDays();
@@ -110,11 +103,12 @@ export class BookingsListComponent implements OnInit {
   }
 
   // =====> on click on new booking or edit booking:
-  onBook(bookingId) {
+  onBook(bookingId,booking:BookingList) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
-        patientName: "محمد أحمد السيد",
-        isNewBookings: bookingId == 0 ? true : false
+        bookId: bookingId,
+        patientId:booking.patientId,
+        patientName: booking.name,
       },
       autoFocus: true,
       hasBackdrop: true,

@@ -18,9 +18,9 @@ import {
 export class BookingDetailsComponent implements OnInit {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
+  @Input() bookId: number;
   @Input() patientId: string;
   @Input() patientName: string;
-  @Input() isNewBookings: boolean;
   formLoading = false;
   todayDate: Date = new Date();
   ChoosenDate = null;
@@ -51,7 +51,7 @@ export class BookingDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.bookingDateData = this.bookingService.getChosenbookingDate();
-    if (this.isNewBookings) {
+    if (this.bookId==0) {
     } else {
       this.bookingDoctorData = "1";
       //this.bookingDateData = new Date();

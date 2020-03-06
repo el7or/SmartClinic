@@ -71,10 +71,10 @@
             </div>
           </td>
           <td class="text-center">
-            <button (click)="onBook(1)" nbButton size="tiny" status="warning" [nbTooltip]="'Edit Booking' | langg">
+            <button (click)="onBook(booking.bookId,booking)" nbButton size="tiny" status="warning" [nbTooltip]="'Edit Booking' | langg">
               <nb-icon icon="edit"></nb-icon>
             </button>&nbsp;
-            <button *ngIf="booking.isEnter || booking.isCanceled" (click)="onBook(0)" nbButton size="tiny" status="success"
+            <button *ngIf="booking.isEnter || booking.isCanceled" (click)="onBook(0,booking)" nbButton size="tiny" status="success"
               [nbTooltip]="'New Booking' | langg">
               <nb-icon icon="file-add"></nb-icon>
             </button>
@@ -82,7 +82,7 @@
               [nbTooltip]="'Cancel Booking' | langg">
               <nb-icon icon="slash"></nb-icon>
             </button>&nbsp;
-            <button nbButton [routerLink]="['/pages/patients/details',booking.id,'basic']" size="tiny" status="info"
+            <button nbButton [routerLink]="['/pages/patients/details',booking.patientCodeId,'basic']" size="tiny" status="info"
               [nbTooltip]="'Patient Profile' | langg">
               <nb-icon icon="folder"></nb-icon>
             </button>

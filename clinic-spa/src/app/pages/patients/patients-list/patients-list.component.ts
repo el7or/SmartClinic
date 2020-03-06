@@ -47,11 +47,12 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   }
 
   // =====> on click book in table:
-  onBook(bookingId) {
+  onBook(bookingId:number,patient:PatientList) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
-        patientName: "محمد أحمد السيد",
-        isNewBookings: bookingId == 0 ? true : false
+        bookId: bookingId,
+        patientId:patient.id,
+        patientName: patient.name
       },
       autoFocus: true,
       hasBackdrop: true,

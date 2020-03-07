@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { BookingList } from './bookings.model';
+
+import { BookingList, BookingEdit, BookingNew } from './bookings.model';
 
 @Injectable({
   providedIn: "root"
@@ -9,7 +10,7 @@ export class BookingsService {
 
   constructor() {}
 
-  getBookingsListByDate(date) {
+  getBookingsListByDate(date):BookingList[] {
     const bookingsList:BookingList[] = [
       {
         bookId: 125,
@@ -105,7 +106,28 @@ export class BookingsService {
     return bookingsList;
   }
 
-  // =====> get set choosen booking date from calendar in home:
+  getBookingDetailsById(id:number):BookingEdit{
+    const booking:BookingEdit = {
+      bookId:1,
+      date:new Date(2020,4,15,8,0),
+      time:new Date(2020,4,15,8,0),
+      typeId:4,
+      servicesIds:[1,2],
+      discount:10,
+      discountNote:'',
+      paid:20
+    };
+    return booking;
+  }
+
+  addNewBooking(booking:BookingNew){
+
+  }
+  updateBooking(booking:BookingEdit){
+
+  }
+
+  // =====> get/set choosen booking date from calendar in home:
   getChosenbookingDate():Date{
     return this.chosenBookingDate;
   }

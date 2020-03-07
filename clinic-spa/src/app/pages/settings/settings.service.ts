@@ -157,6 +157,13 @@ export class SettingsService {
     },
     {
       id: 3,
+      type: "justService",
+      title: "Just Service",
+      price: 0,
+      isActive: true
+    },
+    {
+      id: 4,
       type: "urgentDiagnos",
       title: "Urgent Diagnose",
       price: 120,

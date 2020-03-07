@@ -17,14 +17,25 @@ export interface BookingList {
   isCanceled: boolean;
 }
 
-export interface BookingDetails {
+export interface BookingNew{
   patientId: string;
   clinicId: string;
   doctorId: string;
   date: Date;
   time: Date;
-  type: number;
-  services: number[];
+  typeId: number;
+  servicesIds: number[];
+  discount: number;
+  discountNote: string;
+  paid: number;
+}
+
+export interface BookingEdit {
+  bookId:number;
+  date: Date;
+  time: Date;
+  typeId: number;
+  servicesIds: number[];
   discount: number;
   discountNote: string;
   paid: number;

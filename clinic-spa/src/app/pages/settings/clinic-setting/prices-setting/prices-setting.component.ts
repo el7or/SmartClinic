@@ -12,22 +12,21 @@ import { BookingTypePrice, BookingServicePrice } from '../../settings.model';
 })
 export class PricesSettingComponent implements OnInit {
   formLoading:boolean = false;
-  bookingTypePricesList:BookingTypePrice[];
+  bookingTypePrices:BookingTypePrice[];
   bookingServicePrices:BookingServicePrice[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(private settingService:SettingsService,public location:Location) { }
 
   ngOnInit() {
-    this.bookingTypePricesList = this.settingService.getBookingTypePrices();
-    this.bookingServicePrices = this.settingService.getBookingServicePrices();
+    this.bookingTypePrices = this.settingService.getBookingSetting().bookingTypePrices;
+    this.bookingServicePrices = this.settingService.getBookingSetting().bookingServicePrices;
   }
 
   onSave(){
     this.formLoading = true;
     setTimeout(() => {
-      this.settingService.saveBookingTypePrices(this.bookingTypePricesList);
-      this.settingService.saveBookingServicePrices(this.bookingServicePrices);
+      this.settingService.savePricesSetting(this.bookingTypePrices,this.bookingServicePrices);
       this.doneSwal.fire();
       this.formLoading = false;
     }, 1000);

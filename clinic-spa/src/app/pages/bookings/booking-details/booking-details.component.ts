@@ -11,12 +11,13 @@ import { BsLocaleService } from "ngx-bootstrap";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 import { AuthService } from "./../../../auth/auth.service";
-import { BookingNew, BookingEdit } from "./../bookings.model";
+import { BookingNew, BookingEdit, BookingBrief } from "./../bookings.model";
 import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
 import {
   BookingServicePrice,
-  BookingTypePrice
+  BookingTypePrice,
+  BookingSetting
 } from "../../settings/settings.model";
 
 @Component({
@@ -25,18 +26,14 @@ import {
   styleUrls: ["./booking-details.component.scss"]
 })
 export class BookingDetailsComponent implements OnInit, OnDestroy {
+  form: FormGroup;
   formLoading: boolean = false;
   todayDate: Date = new Date();
-  ChoosenDate: Date = null;
   bookingDetails: BookingEdit;
-  form: FormGroup;
-  bookingTypeValues: BookingTypePrice[];
-  bookingServiceValues: BookingServicePrice[];
-  weekendDays: number[];
-  bookingTimeMin: Date;
-  bookingTimeMax: Date;
+  bookingSetting: BookingSetting;
   bookingTypePrice: number = 0;
   bookingServicesPrice = 0;
+  bookingsBriefList: BookingBrief[];
 
   @Input() bookId: number;
   @Input() patientId: string;
@@ -44,9 +41,6 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
-
-  typeChangesSubs: Subscription;
-  discountChangesSubs: Subscription;
 
   constructor(
     public dialogRef: NbDialogRef<BookingDetailsComponent>,
@@ -61,16 +55,13 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // =====> get bookings settings:
-    this.getSettings();
+    this.bookingSetting = this.settingService.getBookingSetting();
 
     // =====> create reactive form:
     this.createForm();
   }
 
-  ngOnDestroy() {
-    if (this.typeChangesSubs) this.typeChangesSubs.unsubscribe();
-    if (this.discountChangesSubs) this.discountChangesSubs.unsubscribe();
-  }
+  ngOnDestroy() {}
 
   createForm() {
     this.form = new FormGroup({
@@ -99,64 +90,68 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
         validators: []
       }),
       paid: new FormControl(null, {
-        validators: [Validators.min(0),
+        validators: [
+          Validators.min(0),
           (control: AbstractControl) =>
             Validators.max(this.bookingTypePrice + this.bookingServicesPrice)(
               control
-            )]
+            )
+        ]
       })
     });
 
     // =====> get booking details if edit existing booking:
-    let bookingDetails: BookingEdit;
     if (this.bookId) {
-      bookingDetails = this.bookingService.getBookingDetailsById(this.bookId);
+      this.bookingDetails = this.bookingService.getBookingDetailsById(
+        this.bookId
+      );
     }
 
     // =====> initial values to form:
     this.form.setValue({
       date: !this.bookId
         ? this.bookingService.getChosenbookingDate()
-        : bookingDetails.date,
-      time: !this.bookId ? this.bookingTimeMin : bookingDetails.time,
-      type: !this.bookId ? 1 : bookingDetails.typeId,
-      services: !this.bookId ? [] : bookingDetails.servicesIds,
-      discount: !this.bookId ? 0 : bookingDetails.discount,
-      discountNote: !this.bookId ? "" : bookingDetails.discountNote,
-      paid: !this.bookId ? 0 : bookingDetails.paid
+        : this.bookingDetails.date,
+      time: !this.bookId
+        ? this.bookingSetting.bookingTimeFrom
+        : this.bookingDetails.time,
+      type: !this.bookId ? 1 : this.bookingDetails.typeId,
+      services: !this.bookId ? [] : this.bookingDetails.servicesIds,
+      discount: !this.bookId ? 0 : this.bookingDetails.discount,
+      discountNote: !this.bookId ? "" : this.bookingDetails.discountNote,
+      paid: !this.bookId ? 0 : this.bookingDetails.paid
     });
 
     // =====> add chosen type & services prices to total price:
-    this.bookingTypePrice = this.bookingTypeValues.find(
+    this.bookingTypePrice = this.bookingSetting.bookingTypePrices.find(
       t => t.id == this.form.value.type
     ).price;
-    this.bookingServicesPrice = this.bookingServiceValues
+    this.bookingServicesPrice = this.bookingSetting.bookingServicePrices
       .filter(s => this.form.value.services.some(i => i == s.id))
       .reduce((acc, service) => acc + service.price, 0);
   }
 
-  getSettings(): void {
-    // =====> get booking types values and services values from setting:
-    this.bookingTypeValues = this.settingService.getBookingTypePrices();
-    this.bookingServiceValues = this.settingService.getBookingServicePrices();
-
-    // =====> get setting for weekends to disable it in datepicker:
-    this.weekendDays = this.settingService.getWeekEndsDays();
-
-    // =====> get setting for min & max booking period to disable another times in datepicker:
-    this.bookingTimeMin = this.settingService.bookingTimeFrom;
-    this.bookingTimeMax = this.settingService.bookingTimeTo;
-  }
-
   // =====> on choose booking date will fill table with all bookings in same day:
-  onChooseBookingDate(event) {
-    //console.log(event);
+  onChooseBookingDate(date) {
+    this.bookingsBriefList = this.bookingService.getBookingsBriefByDate(date);
+    // =====> set next time if new booking:
+    if (!this.bookId) {
+      const lastTimeBooked = this.bookingsBriefList[
+        this.bookingsBriefList.length - 1
+      ].time;
+      let nextAvailableTime = new Date(lastTimeBooked);
+      nextAvailableTime.setMinutes(
+        lastTimeBooked.getMinutes() + this.bookingSetting.bookingPeriod
+      );
+      this.form.patchValue({
+        time: nextAvailableTime
+      });
+    }
   }
 
   // =====> check if choosen booking time is already taken in same date:
   onChooseBookingTime(event) {
-    //console.log(input);
-    if (new Date(event).getHours() == 5 && new Date(event).getMinutes() == 0) {
+    if (new Date(event).getHours() == 9 && new Date(event).getMinutes() == 0) {
       this.form.get("time").setErrors({ duplicateTime: true });
     } else {
       this.form.get("time").setErrors(null);
@@ -164,7 +159,8 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   }
 
   onChangeType(typeId) {
-    const type = this.bookingTypeValues.find(t => t.id == typeId).type;
+    const type = this.bookingSetting.bookingTypePrices.find(t => t.id == typeId)
+      .type;
     // =====> check expired date for consult:
     if (type == "consult") {
       this.expiredSwal.fire();
@@ -178,14 +174,14 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       this.form.get("services").updateValueAndValidity();
     }
     // =====> add chosen type price to total price:
-    this.bookingTypePrice = this.bookingTypeValues.find(
+    this.bookingTypePrice = this.bookingSetting.bookingTypePrices.find(
       t => t.id == this.form.value.type
     ).price;
   }
 
   onChangeService(services: number[]) {
     // =====> add chosen services price to total price:
-    this.bookingServicesPrice = this.bookingServiceValues
+    this.bookingServicesPrice = this.bookingSetting.bookingServicePrices
       .filter(s => services.some(i => i == s.id))
       .reduce((acc, service) => acc + service.price, 0);
   }

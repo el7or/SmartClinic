@@ -40,3 +40,10 @@ export interface BookingEdit {
   discountNote: string;
   paid: number;
 }
+
+export interface BookingBrief{
+  bookId:number;
+  seq:number;
+  time: Date;
+  typeTitle:string;
+}

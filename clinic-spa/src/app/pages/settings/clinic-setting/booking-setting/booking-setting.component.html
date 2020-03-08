@@ -56,11 +56,15 @@
         </div>
         <div class="col-md-6 form-control-group">
           <label class="label" for="input-period"><span langg>Booking Period</span>:</label>
-          <nb-select formControlName="bookPeriod" [placeholder]="'Choose Period' | langg" id="input-period"
+          <nb-select formControlName="bookingPeriod" [placeholder]="'Choose Period' | langg" id="input-period"
             class="d-block">
-            <nb-option value="15m">15 {{'Minutes' | langg}}</nb-option>
-            <nb-option value="30m">30 {{'Minutes' | langg}}</nb-option>
-            <nb-option value="1h">{{'An Hour' | langg}}</nb-option>
+            <nb-option [value]="5">5 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="10">10 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="15">15 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="20">20 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="30">30 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="45">45 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="60">{{'An Hour' | langg}}</nb-option>
           </nb-select>
           <small class="form-text text-muted" langg>The period that will be calculated for each Booking, whatever its type.</small>
         </div>

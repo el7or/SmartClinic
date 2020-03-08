@@ -13,11 +13,67 @@ import {
   providedIn: "root"
 })
 export class SettingsService {
-  workdays: number[] = [6, 0, 1, 2, 3, 4, 5];
-  sortBookingsBy: string = "manual";
-  bookingTimeFrom: Date = new Date(2020, 1, 1, 8, 0, 0, 0);
-  bookingTimeTo: Date = new Date(2020, 1, 1, 22, 0, 0, 0);
-  bookingPeriod: string = "30m";
+  bookingSettings: BookingSetting = {
+    workdays: [6, 0, 1, 2, 3, 4, 5],
+    weekEnds: [],
+    bookingTimeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
+    bookingTimeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
+    bookingPeriod: 15,
+    sortBookings: "manual",
+    bookingTypePrices: [
+      {
+        id: 1,
+        type: "diagnose",
+        title: "Diagnose",
+        price: 50,
+        isActive: true
+      },
+      {
+        id: 2,
+        type: "consult",
+        title: "Consult",
+        price: 20,
+        isActive: true
+      },
+      {
+        id: 3,
+        type: "justService",
+        title: "Just Service",
+        price: 0,
+        isActive: true
+      },
+      {
+        id: 4,
+        type: "urgentDiagnos",
+        title: "Urgent Diagnose",
+        price: 120,
+        isActive: true
+      }
+    ],
+    bookingServicePrices: [
+      {
+        id: 1,
+        service: "xray",
+        title: "X-Ray",
+        price: 200,
+        isActive: true
+      },
+      {
+        id: 2,
+        service: "sonar",
+        title: "Sonar",
+        price: 150,
+        isActive: true
+      },
+      {
+        id: 3,
+        service: "laser",
+        title: "Laser Session",
+        price: 70,
+        isActive: true
+      }
+    ]
+  };
 
   printInfo: PrintInfo = {
     doctorName: "دكتور بهاء علي قرنة",
@@ -140,86 +196,26 @@ export class SettingsService {
       isActive: true
     }
   ];
-  bookingTypePrices: BookingTypePrice[] = [
-    {
-      id: 1,
-      type: "diagnose",
-      title: "Diagnose",
-      price: 50,
-      isActive: true
-    },
-    {
-      id: 2,
-      type: "consult",
-      title: "Consult",
-      price: 20,
-      isActive: true
-    },
-    {
-      id: 3,
-      type: "justService",
-      title: "Just Service",
-      price: 0,
-      isActive: true
-    },
-    {
-      id: 4,
-      type: "urgentDiagnos",
-      title: "Urgent Diagnose",
-      price: 120,
-      isActive: true
-    }
-  ];
-  bookingServicePrices: BookingServicePrice[] = [
-    {
-      id: 1,
-      service: "xray",
-      title: "X-Ray",
-      price: 200,
-      isActive: true
-    },
-    {
-      id: 2,
-      service: "sonar",
-      title: "Sonar",
-      price: 150,
-      isActive: true
-    },
-    {
-      id: 3,
-      service: "laser",
-      title: "Laser Session",
-      price: 70,
-      isActive: true
-    }
-  ];
 
   constructor() {}
 
   // =====> get/set booking setting:
-  getBookingSetting() {}
+  getBookingSetting(): BookingSetting {
+    return this.bookingSettings;
+  }
   saveBookingSetting(bookingSetting: BookingSetting): void {
-    this.workdays = bookingSetting.workdays;
-    this.sortBookingsBy = bookingSetting.sortBookings;
-    this.bookingTimeFrom = bookingSetting.bookingTimeFrom;
-    this.bookingTimeTo = bookingSetting.bookingTimeTo;
-    this.bookingPeriod = bookingSetting.bookPeriod;
+    this.bookingSettings.workdays = bookingSetting.workdays;
+    this.bookingSettings.weekEnds = [6, 0, 1, 2, 3, 4, 5].filter(
+      item => this.bookingSettings.workdays.indexOf(item) < 0
+    );
+    this.bookingSettings.bookingTimeFrom = bookingSetting.bookingTimeFrom;
+    this.bookingSettings.bookingTimeTo = bookingSetting.bookingTimeTo;
+    this.bookingSettings.bookingPeriod = bookingSetting.bookingPeriod;
+    this.bookingSettings.sortBookings = bookingSetting.sortBookings;
   }
-
-  // =====> get/set bookings types prices:
-  getBookingTypePrices() {
-    return this.bookingTypePrices.sort((a, b) => a.id - b.id);
-  }
-  saveBookingTypePrices(bookingPrices: BookingTypePrice[]) {
-    this.bookingTypePrices = bookingPrices;
-  }
-
-  // =====> get/set bookings services prices:
-  getBookingServicePrices() {
-    return this.bookingServicePrices.sort((a, b) => a.id - b.id);
-  }
-  saveBookingServicePrices(servicePrices: BookingServicePrice[]) {
-    this.bookingServicePrices = servicePrices;
+  savePricesSetting(typePrices: BookingTypePrice[],servicePrices:BookingServicePrice[]): void{
+    this.bookingSettings.bookingTypePrices = typePrices;
+    this.bookingSettings.bookingServicePrices = servicePrices;
   }
 
   // =====> get/set diseaseName setting:
@@ -236,12 +232,5 @@ export class SettingsService {
   }
   saveRecordItemsSetting(recordItems: Recorditem[]) {
     this.recordItems = recordItems;
-  }
-
-  // =====> get week end days to disable it in datepickers & calendar:
-  getWeekEndsDays(): number[] {
-    const weekDays = [6, 0, 1, 2, 3, 4, 5];
-    let Weekend = weekDays.filter(item => this.workdays.indexOf(item) < 0);
-    return Weekend;
   }
 }

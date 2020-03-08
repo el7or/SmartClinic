@@ -33,7 +33,7 @@ export class ExaminationComponent implements OnInit {
 
   ngOnInit() {
     // =====> get list of services:
-    this.bookingServiceValues = this.settingService.getBookingServicePrices();
+    this.bookingServiceValues = this.settingService.getBookingSetting().bookingServicePrices;
   }
 
   onAddNewItemToList(name, type) {

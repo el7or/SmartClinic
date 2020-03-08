@@ -4,6 +4,7 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
 
 import { SettingsService } from "../../settings.service";
+import { BookingSetting } from '../../settings.model';
 
 @Component({
   selector: "booking-setting",
@@ -13,8 +14,7 @@ import { SettingsService } from "../../settings.service";
 export class BookingSettingComponent implements OnInit {
   formLoading: boolean = false;
   form: FormGroup;
-  bookingTimeFromData: Date;
-  bookingTimeToData: Date;
+  bookingSetting:BookingSetting;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(
@@ -23,6 +23,9 @@ export class BookingSettingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // =====> get current booking setting:
+    this.bookingSetting = this.settingService.getBookingSetting();
+
     // =====> create reactive form:
     this.createForm();
   }
@@ -41,16 +44,16 @@ export class BookingSettingComponent implements OnInit {
       bookingTimeTo: new FormControl(null, {
         validators: [Validators.required]
       }),
-      bookPeriod: new FormControl(null, {
+      bookingPeriod: new FormControl(null, {
         validators: [Validators.required]
       })
     });
     this.form.setValue({
-      workdays: this.settingService.workdays,
-      sortBookings: this.settingService.sortBookingsBy,
-      bookingTimeFrom: this.settingService.bookingTimeFrom,
-      bookingTimeTo: this.settingService.bookingTimeTo,
-      bookPeriod: this.settingService.bookingPeriod
+      workdays: this.bookingSetting.workdays,
+      sortBookings: this.bookingSetting.sortBookings,
+      bookingTimeFrom: this.bookingSetting.bookingTimeFrom,
+      bookingTimeTo: this.bookingSetting.bookingTimeTo,
+      bookingPeriod: this.bookingSetting.bookingPeriod
     });
   }
 

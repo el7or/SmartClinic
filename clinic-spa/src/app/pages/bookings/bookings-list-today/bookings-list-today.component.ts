@@ -52,7 +52,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
     );
 
     // =====> (will reomve after create DB):
-    this.sortBookingsBy = this.settingService.sortBookingsBy;
+    this.sortBookingsBy = this.settingService.getBookingSetting().sortBookings;
 
     // =====> reorder list of bookings depends on value of 'sortBookingsBy':
     this.sortBookings(this.sortBookingsBy);

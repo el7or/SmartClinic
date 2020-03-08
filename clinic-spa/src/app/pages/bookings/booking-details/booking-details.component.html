@@ -23,7 +23,7 @@
           <div class="form-control-group">
             <label for="input-bookingDate" class="label"><span langg>Booking Date</span>:</label>
             <input type="text" bsDatepicker nbInput formControlName="date" fullWidth [minDate]="todayDate"
-              [daysDisabled]="weekendDays" autocomplete="off"
+              [daysDisabled]="bookingSetting.weekEnds" autocomplete="off"
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
               (bsValueChange)="onChooseBookingDate($event)" [placeholder]="'Booking Date' | langg"
               [status]="form.get('date').invalid  ? 'danger' : 'success'">
@@ -36,11 +36,11 @@
           <div class="form-control-group">
             <label for="input-bookingTime" class="label"><span langg>Booking Time</span>:</label>
             <timepicker (ngModelChange)="onChooseBookingTime($event)" formControlName="time" showMeridian="true"
-              labelMinutes="Minutes" minuteStep="15" style="direction: ltr;" [min]="bookingTimeMin"
-              [max]="bookingTimeMax"></timepicker>
+              labelMinutes="Minutes" [minuteStep]="bookingSetting.bookingPeriod" style="direction: ltr;"
+             [min]="bookingSetting.bookingTimeFrom" [max]="bookingSetting.bookingTimeTo"></timepicker>
             <ng-container *ngIf="form.get('time').invalid">
               <p class="error-message text-danger" *ngIf="form.get('time')?.errors.duplicateTime">
-                <span langg>This Time</span>&nbsp;05:00&nbsp;<span langg>is already Booked!</span>
+                <span langg>This Time</span>&nbsp;{{form.value.time | time12Hour}}&nbsp;<span langg>is already Booked!</span>
               </p>
             </ng-container>
           </div>
@@ -48,7 +48,7 @@
             <label for="input-bookingType" class="label"><span langg>Booking Type</span>:</label>
             <nb-select fullWidth formControlName="type" [placeholder]="'Booking Type' | langg"
               (selectedChange)="onChangeType($event)" [status]="form.get('type').invalid ? 'danger' : 'success'">
-              <nb-option *ngFor="let item of bookingTypeValues" [value]="item.id" langg>
+              <nb-option *ngFor="let item of bookingSetting.bookingTypePrices" [value]="item.id" langg>
                 {{item.title | langg}}<span
                   *ngIf="item.type != 'justService'">&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</span>
               </nb-option>
@@ -59,7 +59,7 @@
             <nb-select multiple fullWidth formControlName="services" (selectedChange)="onChangeService($event)"
               [placeholder]="'Add Service' | langg"
               [status]="form.get('services').invalid ? 'danger' : ( form.value.services.length ? 'success':'')">
-              <nb-option *ngFor="let item of bookingServiceValues" [value]="item.id" langg>
+              <nb-option *ngFor="let item of bookingSetting.bookingServicePrices" [value]="item.id" langg>
                 {{item.title | langg}}&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</nb-option>
             </nb-select>
             <ng-container *ngIf="form.get('services').invalid && form.get('services').dirty">
@@ -117,11 +117,11 @@
         </div>
         <div class="col-md-6" *ngIf="form.value.date">
           <h6 langg>Same Date Bookings:</h6>
-          <small>
+          <!-- <small>
             <b langg>Urgent Diagnoses</b>: 2&nbsp;|
             <b langg>Diagnoses</b>: 15&nbsp;|
             <b langg>Consults</b>: 5|
-          </small>
+          </small> -->
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
@@ -131,50 +131,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>05:00</td>
-                <td langg>Diagnose</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>05:30</td>
-                <td langg>Consult</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>06:00</td>
-                <td langg>Diagnose</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>07:00</td>
-                <td langg>Diagnose</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>07:30</td>
-                <td langg>Consult</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>08:00</td>
-                <td langg>Diagnose</td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>09:00</td>
-                <td langg>Sonar</td>
-              </tr>
-              <tr>
-                <td>8</td>
-                <td>09:30</td>
-                <td langg>Consult</td>
-              </tr>
-              <tr>
-                <td>9</td>
-                <td>10:00</td>
-                <td langg>Diagnose</td>
+              <!-- <tr *ngFor="let booking of bookingsBriefList" [class]="bookId==booking.bookId?'table-danger':''" > -->
+              <tr *ngFor="let booking of bookingsBriefList" [class]="bookId && booking.bookId==111?'table-danger':''" >
+                <td>{{booking.seq}}</td>
+                <td>{{booking.time | time12Hour}}</td>
+                <td>{{booking.typeTitle | langg}}</td>
               </tr>
             </tbody>
           </table>

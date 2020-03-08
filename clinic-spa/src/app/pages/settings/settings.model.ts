@@ -13,10 +13,13 @@ export interface Recorditem {
 
 export interface BookingSetting {
   workdays: number[];
-  sortBookings: string;
+  weekEnds?: number[]; // to disable it in datepickers & calendar:
   bookingTimeFrom: Date;
   bookingTimeTo: Date;
-  bookPeriod: string;
+  bookingPeriod: number; // by minutes
+  sortBookings: string;
+  bookingTypePrices: BookingTypePrice[];
+  bookingServicePrices: BookingServicePrice[];
 }
 
 export interface BookingTypePrice {

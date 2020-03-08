@@ -5,14 +5,7 @@ import {
   Validators,
   AbstractControl
 } from "@angular/forms";
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewChild,
-  OnDestroy,
-  ChangeDetectorRef
-} from "@angular/core";
+import { Component, OnInit, Input, ViewChild, OnDestroy } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
@@ -60,8 +53,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     private bookingService: BookingsService,
     private settingService: SettingsService,
     private authService: AuthService,
-    private localeService: BsLocaleService,
-    private cdr: ChangeDetectorRef
+    private localeService: BsLocaleService
   ) {
     // =====> localize datepicker:
     this.localeService.use(localStorage.getItem("langg"));
@@ -107,7 +99,11 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
         validators: []
       }),
       paid: new FormControl(null, {
-        validators: [Validators.min(0)]
+        validators: [Validators.min(0),
+          (control: AbstractControl) =>
+            Validators.max(this.bookingTypePrice + this.bookingServicesPrice)(
+              control
+            )]
       })
     });
 
@@ -168,17 +164,17 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   }
 
   onChangeType(typeId) {
+    const type = this.bookingTypeValues.find(t => t.id == typeId).type;
     // =====> check expired date for consult:
-    if (typeId == 2) {
+    if (type == "consult") {
       this.expiredSwal.fire();
     }
     // =====> if type is "Just Service" make service control is required:
-    if (typeId == 3) {
+    if (type == "justService") {
       this.form.get("services").setValidators(Validators.required);
       this.form.get("services").updateValueAndValidity();
     } else {
-      this.form.get("services").setValidators(null);
-      this.form.get("services").setValidators(null);
+      this.form.get("services").clearValidators();
       this.form.get("services").updateValueAndValidity();
     }
     // =====> add chosen type price to total price:
@@ -187,8 +183,8 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     ).price;
   }
 
-  // =====> add chosen services price to total price:
   onChangeService(services: number[]) {
+    // =====> add chosen services price to total price:
     this.bookingServicesPrice = this.bookingServiceValues
       .filter(s => services.some(i => i == s.id))
       .reduce((acc, service) => acc + service.price, 0);
@@ -199,12 +195,10 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     if (val > 0) {
       this.form.get("discountNote").setValidators(Validators.required);
       this.form.get("discountNote").updateValueAndValidity();
-    }
-    else{
-      this.form.get("discountNote").setValidators(null);
+    } else {
+      this.form.get("discountNote").clearValidators();
       this.form.get("discountNote").updateValueAndValidity();
     }
-    this.cdr.detectChanges();
   }
 
   // =====> on submit new booking:

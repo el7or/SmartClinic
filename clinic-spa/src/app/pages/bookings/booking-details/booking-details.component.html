@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onAddBooking()" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
   <nb-card class="dialog-center">
-    <nb-card-header><b langg>Booking for:</b>{{ patientName }}
+    <nb-card-header><b>{{bookId?('Booking Details for:'|langg):('New Booking for:'|langg)}}</b>&nbsp;{{ patientName }}
       <!-- <br>
       <small>
         <b langg>Last Visit Type</b>: <span langg>Diagnose</span>&nbsp;|
@@ -49,7 +49,9 @@
             <nb-select fullWidth formControlName="type" [placeholder]="'Booking Type' | langg"
               (selectedChange)="onChangeType($event)" [status]="form.get('type').invalid ? 'danger' : 'success'">
               <nb-option *ngFor="let item of bookingTypeValues" [value]="item.id" langg>
-                {{item.title | langg}}&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</nb-option>
+                {{item.title | langg}}<span
+                  *ngIf="item.type != 'justService'">&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</span>
+              </nb-option>
             </nb-select>
           </div>
           <div class="form-control-group">
@@ -77,7 +79,8 @@
             <ng-container *ngIf="form.get('discount').invalid">
               <p class="error-message text-danger" *ngIf="form.get('discount')?.errors.max" langg>Discount must not
                 exceed the Price!</p>
-                <p class="error-message text-danger" *ngIf="form.get('discount')?.errors.min" langg>Can't be less than zero!</p>
+              <p class="error-message text-danger" *ngIf="form.get('discount')?.errors.min" langg>Can't be less than
+                zero!</p>
             </ng-container>
           </div>
           <div class="form-control-group" *ngIf="form.value.discount">
@@ -98,11 +101,13 @@
             <label for="input-payment" class="label"><span langg>Amount Paid</span>:</label>
             <input nbInput type="number" formControlName="paid" [placeholder]="'Amount Paid' | langg" fullWidth
               [min]="0" [max]="bookingTypePrice + bookingServicesPrice-form.value.discount"
-              [status]="form.get('paid').dirty ? (form.value.paid > (bookingTypePrice + bookingServicesPrice-form.value.discount)  ? 'danger' : (form.value.paid > 0?'success':'')) : ''">
-            <ng-container *ngIf="form.value.paid > (bookingTypePrice + bookingServicesPrice-form.value.discount)">
-              <p class="error-message text-danger" langg>
+              [status]="form.get('paid').dirty && form.get('paid').invalid ? 'danger' : (form.value.paid ? 'success' : '')">
+            <ng-container *ngIf="form.get('paid').invalid">
+              <p class="error-message text-danger" *ngIf="form.get('paid')?.errors.max" langg>
                 Paid must not exceed the Total Amount!
               </p>
+              <p class="error-message text-danger" *ngIf="form.get('paid')?.errors.min" langg>Can't be less than
+                zero!</p>
             </ng-container>
           </div>
           <nb-alert accent="danger" class="text-nowrap">
@@ -179,8 +184,8 @@
     <nb-card-footer>
       <div class="text-center nbButton-group">
         <button nbButton type="submit" status="success"
-          [disabled]="!form.valid || form.value.paid > (bookingTypePrice + bookingServicesPrice-form.value.discount)"
-          langg>Book</button>
+          [disabled]="!form.valid || form.value.paid > (bookingTypePrice + bookingServicesPrice-form.value.discount)">
+          {{bookId?('Save'|langg):('Book'|langg)}}</button>
         <!-- <button nbButton type="button" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button> -->
         <button nbButton type="button" status="danger" langg (click)="dialogRef.close()">Cancel</button></div>
     </nb-card-footer>

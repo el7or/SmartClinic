@@ -114,7 +114,7 @@ export class BookingsService {
       typeId:4,
       servicesIds:[1,2],
       discount:10,
-      discountNote:'',
+      discountNote:'نقابة',
       paid:20
     };
     return booking;

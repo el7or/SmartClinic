@@ -132,7 +132,8 @@
   { "ar": "يوم الحجز", "en": "Booking Date" },
   { "ar": "تاريخ الحجوزات", "en": "Bookings Date" },
   { "ar": "موعد الحجز", "en": "Booking Time" },
-  { "ar": "لابد من تحديد يوم الحجز!", "en": "Bookings Date is required!" },
+  { "ar": "لابد من تحديد يوم الحجز!", "en": "Booking Date is required!" },
+  { "ar": "لابد من تحديد الخدمة لأن نوع الحجز خدمة فقط!", "en": "Service is required if Booking Type is Just Service!" },
   { "ar": "لابد من تحديد السعر!", "en": "Price is required!" },
   { "ar": "نوع الحجز", "en": "Booking Type" },
   { "ar": "أسعار الحجوزات", "en": "Bookings prices" },
@@ -171,8 +172,12 @@
   { "ar": "هذا الموعد", "en": "This Time" },
   { "ar": "محجوز بالفعل!", "en": "is already Booked!" },
   {
-    "ar": "الخصم يجب ألا يتجاوز المبلغ الإجمالي!",
-    "en": "Discount must not exceed the Total Amount!"
+    "ar": "الخصم يجب ألا يتجاوز السعر!",
+    "en": "Discount must not exceed the Price!"
+  },
+  {
+    "ar": "لا يمكن أن يكون أقل من الصفر!",
+    "en": "Can't be less than zero!"
   },
   {
     "ar": "المبلغ المدفوع يجب ألا يتجاوز المبلغ الإجمالي!",

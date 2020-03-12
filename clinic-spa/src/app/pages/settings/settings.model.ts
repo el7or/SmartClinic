@@ -37,7 +37,6 @@ export interface BookingTypePrice {
   type: string;
   title: string;
   price: number;
-  isActive: boolean;
 }
 
 export interface BookingServicePrice {
@@ -45,7 +44,6 @@ export interface BookingServicePrice {
   service: string;
   title: string;
   price: number;
-  isActive: boolean;
 }
 
 export interface PrintInfo {

@@ -78,29 +78,25 @@ export class SettingsService {
         id: 1,
         type: "diagnose",
         title: "Diagnose",
-        price: 50,
-        isActive: true
+        price: 50
       },
       {
         id: 2,
         type: "consult",
         title: "Consult",
-        price: 20,
-        isActive: true
+        price: 20
       },
       {
         id: 3,
         type: "justService",
         title: "Just Service",
-        price: 0,
-        isActive: true
+        price: 0
       },
       {
         id: 4,
         type: "urgentDiagnos",
         title: "Urgent Diagnose",
-        price: 120,
-        isActive: true
+        price: 120
       }
     ],
     bookingServicePrices: [
@@ -108,22 +104,19 @@ export class SettingsService {
         id: 1,
         service: "xray",
         title: "X-Ray",
-        price: 200,
-        isActive: true
+        price: 200
       },
       {
         id: 2,
         service: "sonar",
         title: "Sonar",
-        price: 150,
-        isActive: true
+        price: 150
       },
       {
         id: 3,
         service: "laser",
         title: "Laser Session",
-        price: 70,
-        isActive: true
+        price: 70
       }
     ]
   };

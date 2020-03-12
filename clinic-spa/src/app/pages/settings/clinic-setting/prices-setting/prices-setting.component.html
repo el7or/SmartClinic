@@ -6,13 +6,9 @@
           <label class="label"><span langg>Bookings prices</span>:</label>
           <table class="table">
             <tr *ngFor="let item of bookingTypePrices">
-              <td>
-                <nb-checkbox ngModel [name]="item.id" [checked]="item.isActive" [(ngModel)]="item.isActive">
-                </nb-checkbox>
-              </td>
-              <td><label [class]="!item.isActive ? 'text-muted':''"><span langg>{{item.title}}</span>:</label></td>
+              <td><span langg>{{item.title}}</span>:</td>
               <td><input nbInput type="number" [min]="0" ngModel [name]="item.type" [(ngModel)]="item.price"
-                  [disabled]="!item.isActive" fieldSize="small">
+                  fieldSize="small">
                 <label langg>EGP</label>
                 <ng-container *ngIf="item.price<0">
                   <p class="error-message text-danger" langg>
@@ -22,18 +18,18 @@
               </td>
             </tr>
           </table>
+          <button nbButton size="small" type="button" (click)="onAddType()"
+            class="mx-1 mb-1">
+            <nb-icon icon="plus-outline"></nb-icon><span langg>Add Booking Type</span>
+          </button>
         </div>
         <div class="col-md-6">
           <label class="label"><span langg>Services prices</span>:</label>
           <table class="table">
             <tr *ngFor="let item of bookingServicePrices">
-              <td>
-                <nb-checkbox ngModel [name]="item.id" [checked]="item.isActive" [(ngModel)]="item.isActive">
-                </nb-checkbox>
-              </td>
-              <td><label [class]="!item.isActive ? 'text-muted':''"><span langg>{{item.title}}</span>:</label></td>
+              <td><span langg>{{item.title}}</span>:</td>
               <td><input nbInput type="number" [min]="0" ngModel [name]="item.service" [(ngModel)]="item.price"
-                  [disabled]="!item.isActive" fieldSize="small">
+                  fieldSize="small">
                 <label langg>EGP</label>
                 <ng-container *ngIf="item.price<0">
                   <p class="error-message text-danger" langg>
@@ -43,6 +39,10 @@
               </td>
             </tr>
           </table>
+          <button nbButton size="small" type="button" (click)="onAddService()"
+            class="mx-1 mb-1">
+            <nb-icon icon="plus-outline"></nb-icon><span langg>Add Service</span>
+          </button>
         </div>
       </div>
     </nb-card-body>

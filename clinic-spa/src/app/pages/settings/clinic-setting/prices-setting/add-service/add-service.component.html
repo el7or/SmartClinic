@@ -1,0 +1,10 @@
+<nb-card>
+  <nb-card-header><span langg>New Service Name</span>:</nb-card-header>
+  <nb-card-body>
+    <input nbInput #newName>
+  </nb-card-body>
+  <nb-card-footer class="text-center nbButton-group">
+    <button nbButton hero status="primary" (click)="addService(newName.value)" langg status="success">Add</button>
+    <button nbButton hero status="danger" langg (click)="dialogRef.close()">Cancel</button>
+  </nb-card-footer>
+</nb-card>

@@ -1,11 +1,99 @@
-<form [formGroup]="form" (ngSubmit)="onSaveSetting()" aria-labelledby="title" [nbSpinner]="formLoading"
+<form #form="ngForm" (ngSubmit)="onSaveSetting()" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
   <nb-card>
     <nb-card-body>
       <div class="row">
-        <div class="col-md-6 form-control-group">
-          <label class="label" for="input-workdays"><span langg>Work Days</span>:</label>
-          <nb-select multiple formControlName="workdays" [placeholder]="'Work Days' | langg" id="input-workdays"
+        <div class="col-md-4 form-control-group">
+          <label class="label" for="input-sort"><span langg>Entry order</span>:</label>
+          <nb-radio-group id="input-sort" name="sortBookings" [(ngModel)]="bookingSetting.sortBookings"
+            class="form-inline" fullWidth>
+            <nb-radio value="byAttend"><span langg>According to the Attendance</span>&nbsp;</nb-radio>
+            <nb-radio value="byTime"><span langg>According to the Booking Time</span>&nbsp;</nb-radio>
+            <nb-radio value="manual"><span langg>Manual</span>&nbsp;</nb-radio>
+          </nb-radio-group>
+          <small class="form-text text-muted" langg>The order of Bookings that will appear in the current day’s
+            Bookings.</small>
+        </div>
+        <div class="col-md-4 form-control-group">
+          <label class="label" for="input-period"><span langg>Booking Period</span>:</label>
+          <nb-select name="bookingPeriod" [(ngModel)]="bookingSetting.bookingPeriod"
+            [placeholder]="'Choose Period' | langg" id="input-period" fullWidth>
+            <nb-option [value]="5">5 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="10">10 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="15">15 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="20">20 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="30">30 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="45">45 {{'Minutes' | langg}}</nb-option>
+            <nb-option [value]="60">{{'An Hour' | langg}}</nb-option>
+          </nb-select>
+          <small class="form-text text-muted" langg>The period that will be calculated for each Booking, whatever its
+            type.</small>
+        </div>
+        <div class="col-md-4 form-control-group">
+          <label class="label" for="input-consultExpireDays"><span langg>Consult Expire after Days</span>:</label>
+          <input nbInput type="number" [min]="0" #consultExpireDays="ngModel" name="consultExpireDays"
+            [(ngModel)]="bookingSetting.ConsultExpireDays" required id="input-consultExpireDays" fullWidth
+            [status]="consultExpireDays.touched ? (consultExpireDays.invalid || consultExpireDays.value < 0 ? 'danger' : 'success') : ''">
+          <small class="form-text text-muted" langg>The period after which the Consult is expired.</small>
+          <ng-container *ngIf="consultExpireDays.touched">
+            <p class="error-message text-danger" *ngIf="consultExpireDays?.errors?.required" langg>
+              Consult Expire Days is required!
+            </p>
+            <p class="error-message text-danger" *ngIf="consultExpireDays.value < 0" langg>
+              Can't be less than zero!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <hr>
+      <label class="label" for="input-workdays"><span langg>Work Days and Times</span>:</label>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <nb-checkbox [checked]="isAllDays" (checkedChange)="onChangeAllDays($event)">
+                {{'All Days' | langg}}</nb-checkbox>
+            </th>
+            <th>
+              <nb-checkbox [checked]="bookingSetting.isSameTimeAllDays" [(value)]="bookingSetting.isSameTimeAllDays"
+                (checkedChange)="onChangeSameTimes()">
+                {{'Same Time From:' | langg}}</nb-checkbox>
+            </th>
+            <th>
+              <timepicker name="bookingTimeFrom" [(ngModel)]="bookingSetting.bookingTimeFrom" showMeridian="true"
+                [disabled]="!bookingSetting.isSameTimeAllDays" (ngModelChange)="onChangeAllTimeFrom($event)" labelMinutes="Minutes"
+                minuteStep="30" style="direction: ltr;"></timepicker>
+            </th>
+            <th><span langg>To</span>:</th>
+            <th>
+              <timepicker name="bookingTimeTo" [(ngModel)]="bookingSetting.bookingTimeTo" showMeridian="true"
+                [disabled]="!bookingSetting.isSameTimeAllDays" (ngModelChange)="onChangeAllTimeTo($event)" labelMinutes="Minutes"
+                minuteStep="30" style="direction: ltr;"></timepicker>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of bookingSetting.workDaysTimes">
+            <td class="align-middle">
+              <nb-checkbox [name]="item.dayTitle" [(ngModel)]="item.isDayActive" [checked]="item.isDayActive"
+                [disabled]="isAllDays">
+                {{item.dayTitle | langg}}</nb-checkbox>
+            </td>
+            <td class="align-middle"><span langg>From</span>:</td>
+            <td>
+              <timepicker [name]="item.dayTitle+'From'" [(ngModel)]="item.timeFrom" showMeridian="true"
+                [disabled]="bookingSetting.isSameTimeAllDays" labelMinutes="Minutes" minuteStep="30" style="direction: ltr;"></timepicker>
+            </td>
+            <td class="align-middle"><span langg>To</span>:</td>
+            <td>
+              <timepicker [name]="item.dayTitle+'To'" [(ngModel)]="item.timeTo" showMeridian="true"
+                labelMinutes="Minutes" [disabled]="bookingSetting.isSameTimeAllDays" minuteStep="30" style="direction: ltr;"></timepicker>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!--<div class="col-md-6 form-control-group">
+          <nb-select multiple name="workdays" [placeholder]="'Work Days' | langg" id="input-workdays"
             class="d-block">
             <nb-option [value]="6">{{'Saturday' | langg}}</nb-option>
             <nb-option [value]="0">{{'Sunday' | langg}}</nb-option>
@@ -16,59 +104,12 @@
             <nb-option [value]="5">{{'Friday' | langg}}</nb-option>
           </nb-select>
           <small class="form-text text-muted" langg>The days when Bookings will be allowed.</small>
-          <ng-container *ngIf="form.get('workdays').invalid">
+           <ng-container *ngIf="form.get('workdays').invalid">
             <p class="error-message text-danger" *ngIf="form.get('workdays').errors.required" langg>
               Work Days is required!
             </p>
           </ng-container>
-        </div>
-        <div class="col-md-6 form-control-group">
-          <label class="label" for="input-sort"><span langg>Entry order</span>:</label>
-          <nb-radio-group id="input-sort" formControlName="sortBookings" class="form-inline">
-            <nb-radio value="byAttend"><span langg>According to the Attendance</span>&nbsp;</nb-radio>
-            <nb-radio value="byTime"><span langg>According to the Booking Time</span>&nbsp;</nb-radio>
-            <nb-radio value="manual"><span langg>Manual</span>&nbsp;</nb-radio>
-          </nb-radio-group>
-          <small class="form-text text-muted" langg>The order of Bookings that will appear in the current day’s Bookings.</small>
-        </div>
-        <div class="col-md-6 form-control-group">
-          <label class="label" for="input-workdays"><span langg>Bookings Hours</span>:</label>
-          <div class="row">
-            <div class="col-6">
-              <span langg>From</span>:
-              <timepicker formControlName="bookingTimeFrom" required showMeridian="true" labelMinutes="Minutes"
-                minuteStep="30" style="direction: ltr;" ></timepicker>
-            </div>
-            <div class="col-5">
-              <span langg>To</span>:
-              <timepicker formControlName="bookingTimeTo" required showMeridian="true" labelMinutes="Minutes"
-                minuteStep="30" style="direction: ltr;" >
-              </timepicker>
-            </div>
-          </div>
-          <small class="form-text text-muted" langg>Allowed Bookings Hours on Work Days.</small>
-          <ng-container *ngIf="form.get('bookingTimeFrom').invalid || form.get('bookingTimeTo').invalid ">
-            <p class="error-message text-danger"
-              *ngIf="form.get('bookingTimeFrom').errors?.required || form.get('bookingTimeTo').errors?.required" langg>
-              Bookings Hours is required!
-            </p>
-          </ng-container>
-        </div>
-        <div class="col-md-6 form-control-group">
-          <label class="label" for="input-period"><span langg>Booking Period</span>:</label>
-          <nb-select formControlName="bookingPeriod" [placeholder]="'Choose Period' | langg" id="input-period"
-            class="d-block">
-            <nb-option [value]="5">5 {{'Minutes' | langg}}</nb-option>
-            <nb-option [value]="10">10 {{'Minutes' | langg}}</nb-option>
-            <nb-option [value]="15">15 {{'Minutes' | langg}}</nb-option>
-            <nb-option [value]="20">20 {{'Minutes' | langg}}</nb-option>
-            <nb-option [value]="30">30 {{'Minutes' | langg}}</nb-option>
-            <nb-option [value]="45">45 {{'Minutes' | langg}}</nb-option>
-            <nb-option [value]="60">{{'An Hour' | langg}}</nb-option>
-          </nb-select>
-          <small class="form-text text-muted" langg>The period that will be calculated for each Booking, whatever its type.</small>
-        </div>
-      </div>
+        </div> -->
     </nb-card-body>
     <nb-card-footer>
       <div class="text-center nbButton-group mt-1">

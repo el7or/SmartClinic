@@ -18,8 +18,61 @@ export class SettingsService {
     weekEnds: [],
     bookingTimeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
     bookingTimeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
+    isSameTimeAllDays:true,
+    workDaysTimes: [
+      {
+        day: 6,
+        dayTitle: "Saturday",
+        isDayActive: true,
+        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+      },
+      {
+        day: 0,
+        dayTitle: "Sunday",
+        isDayActive: true,
+        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+      },
+      {
+        day: 1,
+        dayTitle: "Monday",
+        isDayActive: true,
+        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+      },
+      {
+        day: 2,
+        dayTitle: "Tuesday",
+        isDayActive: true,
+        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+      },
+      {
+        day: 3,
+        dayTitle: "Wednesday",
+        isDayActive: true,
+        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+      },
+      {
+        day: 4,
+        dayTitle: "Thursday",
+        isDayActive: true,
+        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+      },
+      {
+        day: 5,
+        dayTitle: "Friday",
+        isDayActive: true,
+        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+      }
+    ],
     bookingPeriod: 15,
     sortBookings: "manual",
+    ConsultExpireDays: 15,
     bookingTypePrices: [
       {
         id: 1,
@@ -204,16 +257,26 @@ export class SettingsService {
     return this.bookingSettings;
   }
   saveBookingSetting(bookingSetting: BookingSetting): void {
-    this.bookingSettings.workdays = bookingSetting.workdays;
-    this.bookingSettings.weekEnds = [6, 0, 1, 2, 3, 4, 5].filter(
-      item => this.bookingSettings.workdays.indexOf(item) < 0
-    );
+    this.bookingSettings.workdays = bookingSetting.workDaysTimes
+      .filter(d => d.isDayActive)
+      .map(day => {
+        return day.day;
+      });
+    this.bookingSettings.weekEnds = bookingSetting.workDaysTimes
+      .filter(d => !d.isDayActive)
+      .map(day => {
+        return day.day;
+      });
     this.bookingSettings.bookingTimeFrom = bookingSetting.bookingTimeFrom;
     this.bookingSettings.bookingTimeTo = bookingSetting.bookingTimeTo;
     this.bookingSettings.bookingPeriod = bookingSetting.bookingPeriod;
     this.bookingSettings.sortBookings = bookingSetting.sortBookings;
+    this.bookingSettings.ConsultExpireDays = bookingSetting.ConsultExpireDays;
   }
-  savePricesSetting(typePrices: BookingTypePrice[],servicePrices:BookingServicePrice[]): void{
+  savePricesSetting(
+    typePrices: BookingTypePrice[],
+    servicePrices: BookingServicePrice[]
+  ): void {
     this.bookingSettings.bookingTypePrices = typePrices;
     this.bookingSettings.bookingServicePrices = servicePrices;
   }

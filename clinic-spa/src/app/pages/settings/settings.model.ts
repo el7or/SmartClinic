@@ -16,10 +16,20 @@ export interface BookingSetting {
   weekEnds?: number[]; // to disable it in datepickers & calendar:
   bookingTimeFrom: Date;
   bookingTimeTo: Date;
+  isSameTimeAllDays:boolean;
+  workDaysTimes: WorkDayTime[];
   bookingPeriod: number; // by minutes
   sortBookings: string;
+  ConsultExpireDays:number;
   bookingTypePrices: BookingTypePrice[];
   bookingServicePrices: BookingServicePrice[];
+}
+export interface WorkDayTime{
+  day:number;
+  dayTitle:string;
+  isDayActive:boolean;
+  timeFrom:Date;
+  timeTo:Date;
 }
 
 export interface BookingTypePrice {

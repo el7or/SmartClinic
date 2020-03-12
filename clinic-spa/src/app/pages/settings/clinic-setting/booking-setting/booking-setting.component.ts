@@ -1,10 +1,10 @@
+import { NgForm } from "@angular/forms";
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
 
 import { SettingsService } from "../../settings.service";
-import { BookingSetting } from '../../settings.model';
+import { BookingSetting } from "../../settings.model";
 
 @Component({
   selector: "booking-setting",
@@ -13,8 +13,8 @@ import { BookingSetting } from '../../settings.model';
 })
 export class BookingSettingComponent implements OnInit {
   formLoading: boolean = false;
-  form: FormGroup;
-  bookingSetting:BookingSetting;
+  isAllDays: boolean;
+  bookingSetting: BookingSetting;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(
@@ -25,42 +25,46 @@ export class BookingSettingComponent implements OnInit {
   ngOnInit() {
     // =====> get current booking setting:
     this.bookingSetting = this.settingService.getBookingSetting();
-
-    // =====> create reactive form:
-    this.createForm();
+    this.bookingSetting.workdays.length == 7
+      ? (this.isAllDays = true)
+      : (this.isAllDays = false);
   }
 
-  createForm() {
-    this.form = new FormGroup({
-      workdays: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      sortBookings: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      bookingTimeFrom: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      bookingTimeTo: new FormControl(null, {
-        validators: [Validators.required]
-      }),
-      bookingPeriod: new FormControl(null, {
-        validators: [Validators.required]
-      })
+  onChangeAllDays(event) {
+    this.isAllDays = event;
+    if (event) {
+      this.bookingSetting.workDaysTimes.forEach(
+        item => (item.isDayActive = true)
+      );
+    }
+  }
+
+  onChangeSameTimes() {
+    if (this.bookingSetting.isSameTimeAllDays) {
+      this.bookingSetting.workDaysTimes.forEach(item => {
+        item.timeFrom = this.bookingSetting.bookingTimeFrom;
+        item.timeTo = this.bookingSetting.bookingTimeTo;
+      });
+    }
+  }
+
+  onChangeAllTimeFrom(event) {
+    this.bookingSetting.bookingTimeFrom = event;
+    this.bookingSetting.workDaysTimes.forEach(item => {
+      item.timeFrom = this.bookingSetting.bookingTimeFrom;
     });
-    this.form.setValue({
-      workdays: this.bookingSetting.workdays,
-      sortBookings: this.bookingSetting.sortBookings,
-      bookingTimeFrom: this.bookingSetting.bookingTimeFrom,
-      bookingTimeTo: this.bookingSetting.bookingTimeTo,
-      bookingPeriod: this.bookingSetting.bookingPeriod
+  }
+  onChangeAllTimeTo(event) {
+    this.bookingSetting.bookingTimeTo = event;
+    this.bookingSetting.workDaysTimes.forEach(item => {
+      item.timeTo = this.bookingSetting.bookingTimeTo;
     });
   }
 
   onSaveSetting() {
     this.formLoading = true;
     setTimeout(() => {
-      this.settingService.saveBookingSetting(this.form.value);
+      this.settingService.saveBookingSetting(this.bookingSetting);
       this.doneSwal.fire();
       this.formLoading = false;
     }, 1000);

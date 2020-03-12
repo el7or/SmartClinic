@@ -27,7 +27,8 @@ export class XRayDetailComponent implements OnInit {
   constructor(public dialogRef: NbDialogRef<XRayDetailComponent>) {
     this.uploader = new FileUploader({
       url: URL,
-      disableMultipart: true, // 'DisableMultipart' must be 'true' for formatDataFunction to be called.
+      maxFileSize: 10 * 1024 * 1024,  // max size: 10 MB
+      disableMultipart: true,   // 'DisableMultipart' must be 'true' for formatDataFunction to be called.
       formatDataFunctionIsAsync: true,
       formatDataFunction: async item => {
         return new Promise((resolve, reject) => {
@@ -40,6 +41,22 @@ export class XRayDetailComponent implements OnInit {
         });
       }
     });
+
+
+    // =====> if file size bigger than maximum size 10MB:
+    this.uploader.onWhenAddingFileFailed = (item, filter, options) => {
+      switch (filter.name) {
+        case "fileSize":
+          //this.errorMessage = `Maximum upload size exceeded (${item.size} of ${this.maxFileSize} allowed)`;
+          break;
+        case "mimeType":
+          //const allowedTypes = this.allowedMimeType.join();
+          //this.errorMessage = `Type "${item.type} is not allowed. Allowed types: "${allowedTypes}"`;
+          break;
+        default:
+          //this.errorMessage = `Unknown error (filter is ${filter.name})`;
+      }
+    };
 
     this.uploader.onAfterAddingFile = (fileItem: FileItem) => {
       let latestFile = this.uploader.queue[this.uploader.queue.length - 1];

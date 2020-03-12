@@ -125,11 +125,13 @@ export class SettingsService {
     doctorName: "دكتور بهاء علي قرنة",
     doctorDegree: "أستاذ جراحة العظام والمفاصل جامعة الأزهر",
     clinicTitle: "مركز العظام والمفاصل للأطفال والكبار",
+    logoUrl:"",
     phone1: "01254215215",
     phone2: "02315251512",
     phone3: "",
     address1: "المهندسين شارع نجيب محفوظ عمارة 5 شقة 6",
-    address2: ""
+    address2: "شارع القصر العيني بجوار حدائق الأهرام الدور الخامس",
+    address3: ""
   };
   diseasesList: Disease[] = [
     {

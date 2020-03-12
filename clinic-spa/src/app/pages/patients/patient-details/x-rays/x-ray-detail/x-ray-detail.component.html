@@ -62,7 +62,7 @@
               [placeholder]="'Note' | langg" [nbTooltip]="'Note' | langg" fullWidth fieldSize="small">
           </div>
           <div class="col-3 form-control-group">
-            <input nbInput type="file" #attachment name="attachment" ng2FileSelect [uploader]="uploader"
+            <input nbInput type="file" accept=".pdf, image/*" #attachment name="attachment" ng2FileSelect [uploader]="uploader"
               [status]="!uploader.queue.length ? 'danger' : 'success'" [nbTooltip]="'Choose File' | langg"
               [nbTooltipStatus]="!uploader.queue.length?'danger':'basic'" fieldSize="small" fullWidth />
           </div>

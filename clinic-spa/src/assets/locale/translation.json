@@ -381,6 +381,10 @@
     "ar": "اسم العيادة الذي سيظهر بنفس النص في أعلى يسار الروشتة أثناء الطباعة",
     "en": "Clinic Title which will appear by same text in the top left of Prescription during printing"
   },
+  {
+    "ar": "صورة الشعار التي ستظهر بجوار اسم العيادة في أعلى يسار الروشتة أثناء الطباعة",
+    "en": "Logo photo that will appear next to the clinic name in the top left of the prescription while printing"
+  },
   { "ar": "لابد من إدخال إسم العيادة!", "en": "Clinic Title is required!" },
   {
     "ar": "لابد أن يكون اسم العيادة ما بين 5 إلى 50 حرف!",
@@ -404,6 +408,7 @@
   },
   { "ar": "العنوان 1", "en": "Address 1" },
   { "ar": "العنوان 2", "en": "Address 2" },
+  { "ar": "العنوان 3", "en": "Address 3" },
   {
     "ar": "لابد على الأقل من إدخال عنوان واحد!",
     "en": "At least one Address is required!"

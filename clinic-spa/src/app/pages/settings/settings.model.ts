@@ -50,9 +50,11 @@ export interface PrintInfo {
   doctorName: string;
   doctorDegree: string;
   clinicTitle: string;
+  logoUrl:string;
   phone1: string;
   phone2: string;
   phone3: string;
   address1: string;
   address2: string;
+  address3: string;
 }

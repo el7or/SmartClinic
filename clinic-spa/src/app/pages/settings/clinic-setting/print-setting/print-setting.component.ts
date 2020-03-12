@@ -1,8 +1,10 @@
-import { SettingsService } from "../../settings.service";
 import { NgForm } from "@angular/forms";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
+
+import { PrintInfo } from '../../settings.model';
+import { SettingsService } from "../../settings.service";
 
 @Component({
   selector: "print-setting",
@@ -11,7 +13,7 @@ import { Location } from "@angular/common";
 })
 export class PrintSettingComponent implements OnInit {
   formLoading: boolean = false;
-  printInfoSetting: any;
+  printInfoSetting: PrintInfo;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(

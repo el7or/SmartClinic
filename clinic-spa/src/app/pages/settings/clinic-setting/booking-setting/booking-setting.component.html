@@ -55,7 +55,7 @@
                 {{'All Days' | langg}}</nb-checkbox>
             </th>
             <th>
-              <nb-checkbox [checked]="bookingSetting.isSameTimeAllDays" [(value)]="bookingSetting.isSameTimeAllDays"
+              <nb-checkbox [(checked)]="bookingSetting.isSameTimeAllDays"
                 (checkedChange)="onChangeSameTimes()">
                 {{'Same Time From:' | langg}}</nb-checkbox>
             </th>

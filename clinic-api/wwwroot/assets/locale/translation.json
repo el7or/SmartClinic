@@ -148,6 +148,9 @@
   { "ar": "كشف أجانب", "en": "Foreign Diagnose" },
   { "ar": "خدمة فقط", "en": "Just Service" },
   { "ar": "إضافة خدمة", "en": "Add Service" },
+  { "ar": "إضافة نوع حجز", "en": "Add Booking Type" },
+  { "ar": "إسم نوع الحجز الجديد", "en": "New Booking Type Name" },
+  { "ar": "إسم الخدمة الجديدة", "en": "New Service Name" },
   { "ar": "أشعة", "en": "X-Ray" },
   { "ar": "تحليل", "en": "Analysis" },
   { "ar": "سونار", "en": "Sonar" },
@@ -200,7 +203,8 @@
   { "ar": "الفحص", "en": "Examination" },
   { "ar": "نوع آخر زيارة", "en": "Last Visit Type" },
   { "ar": "تاريخ آخر زيارة", "en": "Last Visit Date" },
-  { "ar": "حجز للمريض: ", "en": "Booking for:" },
+  { "ar": "تفاصيل الحجز للمريض:", "en": "Booking Details for:" },
+  { "ar": "حجز جديد للمريض:", "en": "New Booking for:" },
   { "ar": "بحث", "en": "search" },
   { "ar": "حسناً", "en": "Ok" },
   { "ar": "مدة صلاحية الاستشارة انتهت.", "en": "Consult is expired." },
@@ -248,6 +252,9 @@
   { "ar": "الأسعار", "en": "Prices" },
   { "ar": "بيانات الطباعة", "en": "Print Data" },
   { "ar": "أيام العمل", "en": "Work Days" },
+  { "ar": "كل الأيام", "en": "All Days" },
+  { "ar": "موعد موحد من:", "en": "Same Time From:" },
+  { "ar": "أيام ومواعيد العمل", "en": "Work Days and Times" },
   { "ar": "أنواع الحجوزات والخدمات", "en": "Bookings Types & Services" },
   { "ar": "السبت", "en": "Saturday" },
   { "ar": "الأحد", "en": "Sunday" },
@@ -256,6 +263,9 @@
   { "ar": "الأربعاء", "en": "Wednesday" },
   { "ar": "الخميس", "en": "Thursday" },
   { "ar": "الجمعة", "en": "Friday" },
+  { "ar": "لابد من إدخال أيام صلاحية الاستشارة!", "en": "Consult Expire Days is required!" },
+  { "ar": "عدد أيام صلاحية الاستشارة", "en": "Consult Expire after Days" },
+  { "ar": "الفترة التي بعدها يتم التنبيه بانتهاء مدة صلاحية الاستشارة.", "en": "The period after which the Consult is expired." },
   {
     "ar": "الأيام التي يُسمح فيها بالحجز.",
     "en": "The days when Bookings will be allowed."
@@ -371,6 +381,10 @@
     "ar": "اسم العيادة الذي سيظهر بنفس النص في أعلى يسار الروشتة أثناء الطباعة",
     "en": "Clinic Title which will appear by same text in the top left of Prescription during printing"
   },
+  {
+    "ar": "صورة الشعار التي ستظهر بجوار اسم العيادة في أعلى يسار الروشتة أثناء الطباعة",
+    "en": "Logo photo that will appear next to the clinic name in the top left of the prescription while printing"
+  },
   { "ar": "لابد من إدخال إسم العيادة!", "en": "Clinic Title is required!" },
   {
     "ar": "لابد أن يكون اسم العيادة ما بين 5 إلى 50 حرف!",
@@ -394,6 +408,7 @@
   },
   { "ar": "العنوان 1", "en": "Address 1" },
   { "ar": "العنوان 2", "en": "Address 2" },
+  { "ar": "العنوان 3", "en": "Address 3" },
   {
     "ar": "لابد على الأقل من إدخال عنوان واحد!",
     "en": "At least one Address is required!"

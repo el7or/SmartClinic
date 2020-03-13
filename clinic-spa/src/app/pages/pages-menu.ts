@@ -31,6 +31,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     pathMatch: "full"
   },
   {
+    title: 'External Requests',
+    icon: 'corner-down-left-outline',
+    link: '/pages/externals',
+    pathMatch: "full"
+  },
+  {
     title: 'Settings',
     icon: 'settings-outline',
     expanded:false,

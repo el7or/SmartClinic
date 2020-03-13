@@ -4,7 +4,8 @@
     <input nbInput #newName>
   </nb-card-body>
   <nb-card-footer class="text-center nbButton-group">
-    <button nbButton hero status="primary" (click)="addService(newName.value)" langg status="success">Add</button>
+    <button nbButton hero status="primary" (click)="addService(newName.value)"
+    [disabled]="!newName.value" langg status="success">Add</button>
     <button nbButton hero status="danger" langg (click)="dialogRef.close()">Cancel</button>
   </nb-card-footer>
 </nb-card>

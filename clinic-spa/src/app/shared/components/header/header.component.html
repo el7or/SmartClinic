@@ -12,12 +12,16 @@
 </div>
 
 <div class="header-container">
-    <button nbButton shape="round" (click)="onToggleLanguage()" size="small" status="info" langg>عربي</button>
+    <button nbButton shape="round" (click)="onToggleLanguage()" size="small" status="info" [nbTooltip]="'Change Language' | langg" nbTooltipPlacement="bottom" langg>عربي</button>
   <nb-actions size="small">
-    <nb-action class="control-item">
+    <nb-action class="control-item" [nbTooltip]="'Quick Search' | langg" nbTooltipPlacement="bottom">
       <nb-search type="rotate-layout" [placeholder]="'Patient Name Search' | langg" [hint]="'Hit enter to search' | langg"></nb-search>
     </nb-action>
-    <nb-action class="control-item" icon="email-outline" badgeText="9" badgePosition="top left" badgeStatus="danger" [routerLink]="['/pages/chat']"></nb-action>
+    <nb-action class="control-item" icon="corner-down-left-outline" [routerLink]="['/pages/externals']" badgeText="2" badgePosition="top left" badgeStatus="warning"
+    [nbTooltip]="'External Requests' | langg" nbTooltipPlacement="bottom">
+    </nb-action>
+    <nb-action class="control-item" icon="email-outline" badgeText="9" badgePosition="top left" badgeStatus="danger" [routerLink]="['/pages/chat']"
+    [nbTooltip]="'Messages' | langg" nbTooltipPlacement="bottom"></nb-action>
     <!-- <nb-action class="control-item" icon="bell-outline" [routerLink]="['/']">
     </nb-action> -->
     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >

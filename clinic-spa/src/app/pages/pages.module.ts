@@ -27,6 +27,7 @@ import { PagesComponent } from "./pages.component";
 import { PagesRoutingModule } from "./pages-routing.module";
 import { HomeComponent } from "./home/home.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
+import { ExternalsComponent } from './externals/externals.component';
 
 const COMPONENTS = [
   PagesComponent,
@@ -61,6 +62,6 @@ const MODULES = [
 
 @NgModule({
   imports: [...MODULES],
-  declarations: [...COMPONENTS]
+  declarations: [...COMPONENTS, ExternalsComponent]
 })
 export class PagesModule {}

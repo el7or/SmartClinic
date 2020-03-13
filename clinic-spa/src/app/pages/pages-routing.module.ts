@@ -1,3 +1,4 @@
+import { ExternalsComponent } from './externals/externals.component';
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
@@ -123,6 +124,10 @@ const routes: Routes = [
       {
         path: "chat",
         component: ChatComponent
+      },
+      {
+        path: "externals",
+        component: ExternalsComponent
       },
       {
         path: "settings",

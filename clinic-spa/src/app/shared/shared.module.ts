@@ -18,7 +18,8 @@ import {
   NbCardModule,
   NbListModule,
   NbDialogModule,
-  NbInputModule
+  NbInputModule,
+  NbTooltipModule
 } from "@nebular/theme";
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { NbSecurityModule } from "@nebular/security";
@@ -60,6 +61,7 @@ const NB_MODULES = [
   NbListModule,
   NbInputModule,
   NgxBarcodeModule,
+  NbTooltipModule,
   NbDialogModule.forChild(),
   SweetAlert2Module.forRoot()
 ];

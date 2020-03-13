@@ -548,6 +548,11 @@
   { "ar": "ضغط عادي", "en": "Normal" },
   { "ar": "مكان الفحص", "en": "Examination Area" },
   { "ar": "مكان الأشعة", "en": "X-Ray Area" },
+  { "ar": "طلبات الحجز من الخارج", "en": "Bookings Requests from abroad" },
+  { "ar": "نوع الطلب", "en": "Request Type" },
+  { "ar": "تاريخ الورود", "en": "Received Date" },
+  { "ar": "تأكيد الحجز", "en": "Confirm Booking" },
+  { "ar": "حذف الطلب", "en": "Delete Request" },
 
 
 

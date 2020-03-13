@@ -64,7 +64,6 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   // =====> on click delete in table:
   onDeletePatient() {
     this.deleteSwal.fire().then(result => {
-      // =====> if click on add new booking:
       if (result.value) {
         this.doneSwal.fire();
       }

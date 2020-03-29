@@ -2,7 +2,7 @@
   <nb-card>
     <nb-card-body>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label class="label"><span langg>Bookings prices</span>:</label>
           <table class="table">
             <tr *ngFor="let item of bookingTypePrices">
@@ -18,12 +18,11 @@
               </td>
             </tr>
           </table>
-          <button nbButton size="small" type="button" (click)="onAddType()"
-            class="mx-1 mb-1">
+          <button nbButton size="small" type="button" (click)="onAddType()" class="mx-1 mb-1">
             <nb-icon icon="plus-outline"></nb-icon><span langg>Add Booking Type</span>
           </button>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label class="label"><span langg>Services prices</span>:</label>
           <table class="table">
             <tr *ngFor="let item of bookingServicePrices">
@@ -39,9 +38,28 @@
               </td>
             </tr>
           </table>
-          <button nbButton size="small" type="button" (click)="onAddService()"
-            class="mx-1 mb-1">
+          <button nbButton size="small" type="button" (click)="onAddService()" class="mx-1 mb-1">
             <nb-icon icon="plus-outline"></nb-icon><span langg>Add Service</span>
+          </button>
+        </div>
+        <div class="col-md-4">
+          <label class="label"><span langg>Discounts prices</span>:</label>
+          <table class="table">
+            <tr *ngFor="let item of bookingDiscountPrices">
+              <td><span langg>{{item.title}}</span>:</td>
+              <td><input nbInput type="number" [min]="0" ngModel [name]="item.discount" [(ngModel)]="item.price"
+                  fieldSize="small">
+                <label langg>EGP</label>
+                <ng-container *ngIf="item.price<0">
+                  <p class="error-message text-danger" langg>
+                    Price cannot be less than: 0
+                  </p>
+                </ng-container>
+              </td>
+            </tr>
+          </table>
+          <button nbButton size="small" type="button" (click)="onAddDiscount()" class="mx-1 mb-1">
+            <nb-icon icon="plus-outline"></nb-icon><span langg>Add Discount</span>
           </button>
         </div>
       </div>

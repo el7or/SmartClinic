@@ -30,6 +30,7 @@ import { BookingSettingComponent } from './clinic-setting/booking-setting/bookin
 import { PricesSettingComponent } from './clinic-setting/prices-setting/prices-setting.component';
 import { AddTypeComponent } from './clinic-setting/prices-setting/add-type/add-type.component';
 import { AddServiceComponent } from './clinic-setting/prices-setting/add-service/add-service.component';
+import { AddDiscountComponent } from './clinic-setting/prices-setting/add-discount/add-discount.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AddServiceComponent } from './clinic-setting/prices-setting/add-service
     BookingSettingComponent,
     PricesSettingComponent,
     AddTypeComponent,
-    AddServiceComponent
+    AddServiceComponent,
+    AddDiscountComponent
   ],
   imports: [
     CommonModule,
@@ -66,6 +68,6 @@ import { AddServiceComponent } from './clinic-setting/prices-setting/add-service
     TypeaheadModule.forRoot(),
     SweetAlert2Module.forChild()
   ],
-  entryComponents:[AddTypeComponent,AddServiceComponent]
+  entryComponents:[AddTypeComponent,AddServiceComponent,AddDiscountComponent]
 })
 export class SettingsModule {}

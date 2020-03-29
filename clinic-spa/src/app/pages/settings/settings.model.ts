@@ -23,6 +23,7 @@ export interface BookingSetting {
   ConsultExpireDays:number;
   bookingTypePrices: BookingTypePrice[];
   bookingServicePrices: BookingServicePrice[];
+  bookingDiscountPrices:BookingDiscountPrice[];
 }
 export interface WorkDayTime{
   day:number;
@@ -42,6 +43,13 @@ export interface BookingTypePrice {
 export interface BookingServicePrice {
   id: number;
   service: string;
+  title: string;
+  price: number;
+}
+
+export interface BookingDiscountPrice {
+  id: number;
+  discount: string;
   title: string;
   price: number;
 }

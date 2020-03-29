@@ -118,6 +118,20 @@ export class SettingsService {
         title: "Laser Session",
         price: 70
       }
+    ],
+    bookingDiscountPrices: [
+      {
+        id: 1,
+        discount: "نقابة الأطباء",
+        title: "نقابة الأطباء",
+        price: 50
+      },
+      {
+        id: 2,
+        discount: "other",
+        title: "أخرى",
+        price: 70
+      }
     ]
   };
 

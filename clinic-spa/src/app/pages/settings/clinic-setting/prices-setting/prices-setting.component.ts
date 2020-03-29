@@ -4,9 +4,10 @@ import { Location } from '@angular/common';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { SettingsService } from './../../settings.service';
-import { BookingTypePrice, BookingServicePrice } from '../../settings.model';
+import { BookingTypePrice, BookingServicePrice, BookingDiscountPrice } from '../../settings.model';
 import { AddTypeComponent } from './add-type/add-type.component';
 import { AddServiceComponent } from './add-service/add-service.component';
+import { AddDiscountComponent } from './add-discount/add-discount.component';
 
 @Component({
   selector: 'prices-setting',
@@ -17,6 +18,7 @@ export class PricesSettingComponent implements OnInit {
   formLoading:boolean = false;
   bookingTypePrices:BookingTypePrice[];
   bookingServicePrices:BookingServicePrice[];
+  bookingDiscountPrices:BookingDiscountPrice[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   constructor(private settingService:SettingsService,
@@ -26,6 +28,7 @@ export class PricesSettingComponent implements OnInit {
   ngOnInit() {
     this.bookingTypePrices = this.settingService.getBookingSetting().bookingTypePrices;
     this.bookingServicePrices = this.settingService.getBookingSetting().bookingServicePrices;
+    this.bookingDiscountPrices = this.settingService.getBookingSetting().bookingDiscountPrices;
   }
 
   onAddType(){
@@ -43,7 +46,15 @@ export class PricesSettingComponent implements OnInit {
       closeOnBackdropClick: false,
       closeOnEsc: false
     });
+  }
 
+  onAddDiscount(){
+    this.dialogService.open(AddDiscountComponent, {
+      autoFocus: true,
+      hasBackdrop: true,
+      closeOnBackdropClick: false,
+      closeOnEsc: false
+    });
   }
 
   onSave(){

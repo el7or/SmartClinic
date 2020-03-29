@@ -20,7 +20,7 @@ export class AddServiceComponent implements OnInit {
     this.settingService.bookingSettings.bookingServicePrices.push({
       id:50,
       title: serviceTitle,
-      service:serviceTitle,
+      service:serviceTitle.replace(/\s/g, "").toLowerCase(),
       price:0
     });
     this.dialogRef.close();

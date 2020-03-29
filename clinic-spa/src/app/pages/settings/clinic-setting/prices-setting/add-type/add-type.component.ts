@@ -20,7 +20,7 @@ export class AddTypeComponent implements OnInit {
     this.settingService.bookingSettings.bookingTypePrices.push({
       id:50,
       title: typeTitle,
-      type:typeTitle,
+      type:typeTitle.replace(/\s/g, "").toLowerCase(),
       price:0
     });
     this.dialogRef.close();

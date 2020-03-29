@@ -24,7 +24,8 @@ export class PatientsService {
         name: "محمود السيد علي",
         mobile: "0151513535",
         visitsCount: 5,
-        lastVisit: new Date("2020/5/2")
+        lastVisit: new Date("2020/5/2"),
+        lastVisitType: "Diagnose"
       },
       {
         id: "sdfdasfas",
@@ -32,7 +33,8 @@ export class PatientsService {
         name: " السيد عبد السلام",
         mobile: "01245425152",
         visitsCount: 15,
-        lastVisit: new Date("2020/2/2")
+        lastVisit: new Date("2020/2/2"),
+        lastVisitType: "Diagnose"
       },
       {
         id: "sdfdasfas",
@@ -40,7 +42,8 @@ export class PatientsService {
         name: "هناء برعي محمود",
         mobile: "0111111545",
         visitsCount: 3,
-        lastVisit: new Date("2020/5/15")
+        lastVisit: new Date("2020/5/15"),
+        lastVisitType: "Consult"
       },
       {
         id: "sdfdasfas",
@@ -48,7 +51,8 @@ export class PatientsService {
         name: "عبد العزيز عبد الفتاح عبد المتجلي",
         mobile: "0151513535",
         visitsCount: 2,
-        lastVisit: new Date("2020/2/16")
+        lastVisit: new Date("2020/2/16"),
+        lastVisitType: "Diagnose"
       },
       {
         id: "sdfdasfas",
@@ -56,7 +60,8 @@ export class PatientsService {
         name: "منى عبد العال المنزلاوي",
         mobile: "01021564554",
         visitsCount: 1,
-        lastVisit: new Date("2020/1/27")
+        lastVisit: new Date("2020/1/27"),
+        lastVisitType: "Urgent Diagnose"
       }
     ];
     return patients;

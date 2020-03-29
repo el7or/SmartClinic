@@ -28,10 +28,11 @@
         <tr>
           <th>#</th>
           <th langg>Time</th>
-          <th langg>Booking Type</th>
           <th langg>Name</th>
           <th langg>Mobile</th>
+          <th langg>Booking Type</th>
           <th langg>Services</th>
+          <th langg>Price</th>
           <th langg>Amount Paid</th>
           <th langg>Amount Due</th>
           <th langg>Attendance</th>
@@ -45,7 +46,6 @@
           [cdkDragDisabled]="booking.isEnter || booking.isCanceled || sortBookingsBy!='manual'">
           <th>{{booking.seq}}</th>
           <td>{{booking.time | time12Hour}}</td>
-          <td langg>{{booking.type}}</td>
           <td>{{booking.name}}
             <button nbButton outline *ngIf="nextBooking==i" status="warning" size="tiny" class="btn-label" langg>Next
               Booking</button>
@@ -53,7 +53,9 @@
               langg>Canceled Booking</button>
           </td>
           <td>{{booking.mobile}}</td>
+          <td langg>{{booking.type}}</td>
           <td langg>{{booking.service}}</td>
+          <td langg>{{booking.paid + booking.due | currency:'EGP':'symbol':'1.0'}}</td>
           <td langg>{{booking.paid | currency:'EGP':'symbol':'1.0'}}</td>
           <td langg>{{booking.due | currency:'EGP':'symbol':'1.0'}}</td>
           <td class="text-center">
@@ -91,7 +93,7 @@
       </tbody>
       <tfoot>
         <tr class="table-dark font-weight-bolder lead" cdkDrag cdkDragDisabled>
-          <td colspan="6"><span langg>Total Amount:</span></td>
+          <td colspan="7"><span langg>Total Amount:</span></td>
           <td colspan="5">{{totalPaid | currency:'EGP':'symbol':'1.0'}}</td>
         </tr>
       </tfoot>

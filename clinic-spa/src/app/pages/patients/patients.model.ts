@@ -5,11 +5,12 @@ export interface PatientList {
   mobile: string;
   visitsCount: number;
   lastVisit: Date;
+  lastVisitType: string;
 }
 
-export interface PatientHeaderInfo{
-  patientId:string;
-  name:string;
-  age:number;
-visitsCount:number;
+export interface PatientHeaderInfo {
+  patientId: string;
+  name: string;
+  age: number;
+  visitsCount: number;
 }

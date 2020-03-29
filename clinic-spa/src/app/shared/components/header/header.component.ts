@@ -62,6 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private dialogService: NbDialogService,
     private router: Router
   ) {
+    // =====> on search from icon:
     this.searchSubscription = this.searchService
       .onSearchSubmit()
       .subscribe((data: any) => {
@@ -70,10 +71,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // =====> hide change clinic from user menu if not a doctor:
+    if (this.authService.roleName == UserRole.Employee){
+      this.userMenu = this.userMenu.filter(item => item.data != 'clinic2');
+    }
+
     // =====> translate main menu & user menu on first initial:
     this.translateMenus();
 
-    // =====> setting og theme:
+    // =====> setting the theme:
     this.currentTheme =
       localStorage.getItem("theme") === null
         ? "default"
@@ -93,10 +99,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(username => {
         this.user = {
           name: username,
-          picture: this.authService.roleName == UserRole.Doctor? "assets/images/doctor.png" : "assets/images/employee.png"
+          picture:
+            this.authService.roleName == UserRole.Doctor
+              ? "assets/images/doctor.png"
+              : "assets/images/employee.png"
         };
       });
 
+    // =====> on click on user menu:
     this.menuSubscription = this.menuService.onItemClick().subscribe(event => {
       switch (event.item.data) {
         case "profile":
@@ -107,9 +117,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
             closeOnEsc: false
           });
           break;
-          case "clinic2":
-            location.reload();
-            break;
+        case "clinic2":
+          location.reload();
+          break;
         case "logout":
           this.authService.logout();
           this.router.navigateByUrl("/auth/login");

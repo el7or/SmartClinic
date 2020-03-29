@@ -1,6 +1,6 @@
 import { Subscription } from "rxjs";
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterContentChecked } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 
 import { PatientsService } from './../patients.service';
@@ -53,6 +53,7 @@ export class PatientDetailsComponent implements OnInit, AfterContentChecked, OnD
 
   constructor(
     private route: ActivatedRoute,
+    private router:Router,
     public location: Location,
     private patientsService: PatientsService,
     private authService: AuthService,
@@ -128,6 +129,7 @@ export class PatientDetailsComponent implements OnInit, AfterContentChecked, OnD
             disabled: this.isNewPatient
           }
         ];
+        this.router.navigateByUrl('/pages/patients/details/'+patientId+'/record');
       }
     });
   }

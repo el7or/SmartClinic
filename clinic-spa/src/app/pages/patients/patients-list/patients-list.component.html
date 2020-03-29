@@ -45,6 +45,7 @@
           <th langg>Mobile</th>
           <th langg>Visits Count</th>
           <th langg>Last Visit Date</th>
+          <th langg>Last Visit Type</th>
           <th></th>
         </tr>
       </thead>
@@ -54,6 +55,7 @@
           <td>{{item.mobile}}</td>
           <td>{{item.visitsCount}}</td>
           <td>{{item.lastVisit | localDateShort}}</td>
+          <td>{{item.lastVisitType | langg}}</td>
           <td class="text-center">
             <button nbButton [routerLink]="['/pages/patients/details',item.codeId,'basic']" size="tiny" status="info" langg>Patient
               Profile</button>&nbsp;

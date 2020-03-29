@@ -1,7 +1,11 @@
+import { AuthService } from './../../auth/auth.service';
+import { ExternalsService } from './externals.service';
 import { NbDialogService } from '@nebular/theme';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+
 import { BookingDetailsComponent } from '../bookings/booking-details/booking-details.component';
+import { ExternalsList } from './externals.model';
 
 @Component({
   selector: 'externals',
@@ -9,12 +13,15 @@ import { BookingDetailsComponent } from '../bookings/booking-details/booking-det
   styleUrls: ['./externals.component.scss']
 })
 export class ExternalsComponent implements OnInit {
+  externalsList:ExternalsList[];
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
-  constructor(private dialogService:NbDialogService) { }
+  constructor(private externalService:ExternalsService,
+   private authService:AuthService, private dialogService:NbDialogService) { }
 
   ngOnInit() {
+    this.externalsList = this.externalService.getExternalsList(this.authService.clinicId);
   }
 
   onConfirmBook(patientId:string){
@@ -38,6 +45,4 @@ export class ExternalsComponent implements OnInit {
       }
     });
   }
-
-
 }

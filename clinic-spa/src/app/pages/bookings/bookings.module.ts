@@ -26,7 +26,6 @@ import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 
 import { SharedModule } from "./../../shared/shared.module";
-import { BookingsSummaryComponent } from "./bookings-summary/bookings-summary.component";
 import { BookingDetailsComponent } from "./booking-details/booking-details.component";
 import { BookingsListComponent } from "./bookings-list/bookings-list.component";
 import { BookingsComponent } from "./bookings.component";
@@ -35,7 +34,6 @@ import { FinanceModule } from "./../finance/finance.module";
 
 @NgModule({
   declarations: [
-    BookingsSummaryComponent,
     BookingDetailsComponent,
     BookingsListComponent,
     BookingsComponent,
@@ -67,6 +65,6 @@ import { FinanceModule } from "./../finance/finance.module";
     TimepickerModule.forRoot(),
     SweetAlert2Module.forChild()
   ],
-  entryComponents: [BookingsSummaryComponent, BookingDetailsComponent]
+  entryComponents: [BookingDetailsComponent]
 })
 export class BookingsModule {}

@@ -2,11 +2,11 @@
   nbSpinnerStatus="success">
   <nb-card class="dialog-center">
     <nb-card-header><b>{{bookId?('Booking Details for:'|langg):('New Booking for:'|langg)}}</b>&nbsp;{{ patientName }}
-      <!-- <br>
+      <br>
       <small>
         <b langg>Last Visit Type</b>: <span langg>Diagnose</span>&nbsp;|
         <b langg>Last Visit Date</b>: 1/5/2020م
-      </small> -->
+      </small>
     </nb-card-header>
     <nb-card-body>
       <div class="row">
@@ -117,11 +117,11 @@
         </div>
         <div class="col-md-6" *ngIf="form.value.date">
           <h6 langg>Same Date Bookings:</h6>
-          <!-- <small>
+          <small>
             <b langg>Urgent Diagnoses</b>: 2&nbsp;|
             <b langg>Diagnoses</b>: 15&nbsp;|
             <b langg>Consults</b>: 5|
-          </small> -->
+          </small>
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
@@ -147,7 +147,7 @@
         <button nbButton type="submit" status="success"
           [disabled]="!form.valid || form.value.paid > (bookingTypePrice + bookingServicesPrice-form.value.discount)">
           {{bookId?('Save'|langg):('Book'|langg)}}</button>
-        <!-- <button nbButton type="button" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button> -->
+        <!-- <button nbButton type="button" (click)="onAddBookingPrint()" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button> -->
         <button nbButton type="button" status="danger" langg (click)="dialogRef.close()">Cancel</button></div>
     </nb-card-footer>
   </nb-card>

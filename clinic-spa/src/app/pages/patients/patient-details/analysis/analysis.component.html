@@ -2,7 +2,8 @@
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
-          <th langg>Analyses</th>
+          <th hidden>Id</th>
+          <th langg>Analysis</th>
           <th langg>Request Date</th>
           <th langg>Result Date</th>
           <th langg>Disease Severity</th>
@@ -10,31 +11,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>AUTOIMMUNE DISEASES</td>
-          <td>2020-5-2</td>
-          <td>2020-5-7</td>
-          <td>Grade 1</td>
+        <tr *ngFor="let item of analysisList">
+          <th hidden>{{item.id}}</th>
+          <td>{{item.analysisName}}</td>
+          <td>{{item.requestDate | localDateShort}}</td>
+          <td>{{item.isHasResult ? (item.resultDate | localDateShort) : ('No Result' | langg)}}</td>
+          <td>{{item.isHasResult ? 'Grade '+item.resultGrade : ''}}</td>
           <td class="text-center">
-            <button nbButton (click)="onOpenDetails()" type="submit" status="info" size="small" langg>Details</button>
-          </td>
-        </tr>
-        <tr>
-          <td>LIPID PROFILE</td>
-          <td>2020-4-1</td>
-          <td>2020-5-2</td>
-          <td>Grade 3</td>
-          <td class="text-center">
-            <button nbButton (click)="onOpenDetails()" type="button" status="info" size="small" langg>Details</button>
-          </td>
-        </tr>
-        <tr>
-          <td>RHEUMATOLOGY PROFILE</td>
-          <td>2020-5-2</td>
-          <td>{{'No Result' | langg}}</td>
-          <td></td>
-          <td class="text-center">
-            <button nbButton (click)="onOpenDetails()" type="button" status="success" size="small" langg>Register Result</button>
+            <button nbButton (click)="onOpenDetails(item.id)" type="submit" [status]="item.isHasResult ? 'info' : 'success'" size="small">{{item.isHasResult ? ('Details' | langg) : ('Register Result' | langg)}}</button>
           </td>
         </tr>
       </tbody>

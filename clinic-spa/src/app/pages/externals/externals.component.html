@@ -15,23 +15,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th hidden>dfsgfdsgfdsgsd</th>
-          <td>أحمد محمود السيد</td>
-          <td>0156484616</td>
-          <td>تحويل من د. بهاء علي</td>
-          <td>2020/4/2</td>
-          <td class="text-center">
-            <button nbButton (click)="onConfirmBook('drgsfdggdsgs')" size="small" status="success" langg>Confirm Booking</button>&nbsp;
-            <button nbButton (click)="onDeleteRequest('drgsfdggdsgs')" size="small" status="danger" langg>Delete Request</button>
-          </td>
-        </tr>
-        <tr>
-          <th hidden>dfsgfdsgfdsgsd</th>
-          <td>منى علي عبد العال</td>
-          <td>01111111545</td>
-          <td>حجز من تطبيق الدليل</td>
-          <td>2020/3/28</td>
+        <tr *ngFor="let item of externalsList">
+          <th hidden>{{item.patientId}}</th>
+          <td>{{item.patientName}}</td>
+          <td>{{item.patientMobile}}</td>
+          <td>{{item.requestType}}</td>
+          <td>{{item.createdOn | localDateShort}}</td>
           <td class="text-center">
             <button nbButton (click)="onConfirmBook('drgsfdggdsgs')" size="small" status="success" langg>Confirm Booking</button>&nbsp;
             <button nbButton (click)="onDeleteRequest('drgsfdggdsgs')" size="small" status="danger" langg>Delete Request</button>

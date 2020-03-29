@@ -70,6 +70,13 @@
       display: none;
     }
   }
+
+  .ads{
+    background-color: aqua;
+    width: 20rem;
+    border-radius: 10px;
+    padding: 0.5rem;
+  }
 }
 
 ::ng-deep nb-context-menu .menu-item a .menu-title {

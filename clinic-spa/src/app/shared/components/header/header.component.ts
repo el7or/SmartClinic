@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { takeUntil, map } from "rxjs/operators";
+import { takeUntil, map, window } from "rxjs/operators";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   NbMenuService,
@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   userMenu = [
     { title: "Change Name", data: "profile" },
+    { title: "Change Clinic", data: "clinic2" },
     { title: "Log out", data: "logout" }
   ];
 
@@ -98,10 +99,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.menuSubscription = this.menuService.onItemClick().subscribe(event => {
       switch (event.item.data) {
-        case "logout":
-          this.authService.logout();
-          this.router.navigateByUrl("/auth/login");
-          break;
         case "profile":
           this.dialogService.open(ProfileComponent, {
             autoFocus: true,
@@ -109,6 +106,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
             closeOnBackdropClick: false,
             closeOnEsc: false
           });
+          break;
+          case "clinic2":
+            location.reload();
+            break;
+        case "logout":
+          this.authService.logout();
+          this.router.navigateByUrl("/auth/login");
           break;
         default:
           break;

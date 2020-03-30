@@ -33,6 +33,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   bookingSetting: BookingSetting;
   bookingTypePrice: number = 0;
   bookingServicesPrice = 0;
+  bookingDiscountPrice = 0;
   bookingsBriefList: BookingBrief[];
 
   @Input() bookId: number;
@@ -77,25 +78,16 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       services: new FormControl(null, {
         validators: []
       }),
-      discount: new FormControl(null, {
-        validators: [
-          Validators.min(0),
-          (control: AbstractControl) =>
-            Validators.max(this.bookingTypePrice + this.bookingServicesPrice)(
-              control
-            )
-        ]
-      }),
-      discountNote: new FormControl(null, {
-        validators: []
-      }),
+      discount: new FormControl(),
       paid: new FormControl(null, {
         validators: [
           Validators.min(0),
           (control: AbstractControl) =>
-            Validators.max(this.bookingTypePrice + this.bookingServicesPrice)(
-              control
-            )
+            Validators.max(
+              this.bookingTypePrice +
+                this.bookingServicesPrice -
+                this.bookingDiscountPrice
+            )(control)
         ]
       })
     });
@@ -117,18 +109,24 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
         : this.bookingDetails.time,
       type: !this.bookId ? 1 : this.bookingDetails.typeId,
       services: !this.bookId ? [] : this.bookingDetails.servicesIds,
-      discount: !this.bookId ? 0 : this.bookingDetails.discount,
-      discountNote: !this.bookId ? "" : this.bookingDetails.discountNote,
+      discount: !this.bookId ? 0 : this.bookingDetails.discountId,
       paid: !this.bookId ? 0 : this.bookingDetails.paid
     });
 
-    // =====> add chosen type & services prices to total price:
+    // =====> add chosen type & services prices & discount price to total price:
     this.bookingTypePrice = this.bookingSetting.bookingTypePrices.find(
       t => t.id == this.form.value.type
     ).price;
     this.bookingServicesPrice = this.bookingSetting.bookingServicePrices
       .filter(s => this.form.value.services.some(i => i == s.id))
       .reduce((acc, service) => acc + service.price, 0);
+    const discount = this.bookingSetting.bookingDiscountPrices.find(
+      t => t.id == this.form.value.discount
+    );
+    this.bookingDiscountPrice = discount.isPercent
+      ? ((this.bookingTypePrice + this.bookingServicesPrice) * discount.price) /
+        100
+      : discount.price;
   }
 
   // =====> on choose booking date will fill table with all bookings in same day:
@@ -186,15 +184,15 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       .reduce((acc, service) => acc + service.price, 0);
   }
 
-  // =====> check if discount > 0 make discount note is required:
-  onChangeDiscount(val) {
-    if (val > 0) {
-      this.form.get("discountNote").setValidators(Validators.required);
-      this.form.get("discountNote").updateValueAndValidity();
-    } else {
-      this.form.get("discountNote").clearValidators();
-      this.form.get("discountNote").updateValueAndValidity();
-    }
+  // =====> add chosen discount price to total price:
+  onChangeDiscount(discountId) {
+    const discount = this.bookingSetting.bookingDiscountPrices.find(
+      t => t.id == discountId
+    );
+    this.bookingDiscountPrice = discount.isPercent
+      ? ((this.bookingTypePrice + this.bookingServicesPrice) * discount.price) /
+        100
+      : discount.price;
   }
 
   // =====> on submit new booking:
@@ -211,8 +209,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           time: this.form.value.time,
           typeId: this.form.value.type,
           servicesIds: this.form.value.services,
-          discount: this.form.value.discount,
-          discountNote: this.form.value.discountNote,
+          discountId: this.form.value.discount,
           paid: this.form.value.paid
         };
         this.bookingService.addNewBooking(newBooking);
@@ -225,8 +222,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           time: this.form.value.time,
           typeId: this.form.value.type,
           servicesIds: this.form.value.services,
-          discount: this.form.value.discount,
-          discountNote: this.form.value.discountNote,
+          discountId: this.form.value.discount,
           paid: this.form.value.paid
         };
         this.bookingService.updateBooking(EditedBooking);

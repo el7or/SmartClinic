@@ -25,8 +25,7 @@ export interface BookingNew{
   time: Date;
   typeId: number;
   servicesIds: number[];
-  discount: number;
-  discountNote: string;
+  discountId: number;
   paid: number;
 }
 
@@ -36,8 +35,7 @@ export interface BookingEdit {
   time: Date;
   typeId: number;
   servicesIds: number[];
-  discount: number;
-  discountNote: string;
+  discountId: number;
   paid: number;
 }
 

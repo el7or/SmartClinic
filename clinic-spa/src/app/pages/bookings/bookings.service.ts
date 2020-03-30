@@ -148,8 +148,7 @@ export class BookingsService {
       time: new Date(2020, 1, 1, 8, 30, 0,0),
       typeId: 4,
       servicesIds: [1, 2],
-      discount: 10,
-      discountNote: "نقابة",
+      discountId: 4,
       paid: 20
     };
     return booking;

@@ -49,12 +49,17 @@
               <td><span langg>{{item.title}}</span>:</td>
               <td><input nbInput type="number" [min]="0" ngModel [name]="item.discount" [(ngModel)]="item.price"
                   fieldSize="small">
-                <label langg>EGP</label>
                 <ng-container *ngIf="item.price<0">
                   <p class="error-message text-danger" langg>
                     Price cannot be less than: 0
                   </p>
                 </ng-container>
+              </td>
+              <td>
+                <nb-select [(ngModel)]="item.isPercent" [ngModelOptions]="{standalone: true}" size="small">
+                  <nb-option [value]="false" langg>EGP</nb-option>
+                  <nb-option [value]="true">%</nb-option>
+                </nb-select>
               </td>
             </tr>
           </table>

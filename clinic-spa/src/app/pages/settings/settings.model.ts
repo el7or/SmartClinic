@@ -52,6 +52,7 @@ export interface BookingDiscountPrice {
   discount: string;
   title: string;
   price: number;
+  isPercent:boolean;
 }
 
 export interface PrintInfo {

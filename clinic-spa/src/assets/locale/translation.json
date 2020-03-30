@@ -199,7 +199,7 @@
   { "ar": "إضافة إلى السعر", "en": "Additional Payment" },
   { "ar": "خصم من السعر", "en": "Discount" },
   { "ar": "توضيح سبب الإضافة", "en": "Additional Payment Note" },
-  { "ar": "نوع الخصم", "en": "Discount Type" },
+  { "ar": "توضيح سبب الخصم", "en": "Discount Note" },
   { "ar": "لابد من توضيح سبب الإضافة!", "en": "Additional Payment Note is required!" },
   { "ar": "لابد من توضيح سبب الخصم!", "en": "Discount Note is required!" },
   { "ar": "المعلومات الأساسية", "en": "Basic info" },

@@ -6,7 +6,8 @@ import {
   Recorditem,
   BookingTypePrice,
   BookingSetting,
-  BookingServicePrice
+  BookingServicePrice,
+  BookingDiscountPrice
 } from "./settings.model";
 
 @Injectable({
@@ -122,15 +123,38 @@ export class SettingsService {
     bookingDiscountPrices: [
       {
         id: 1,
-        discount: "نقابة الأطباء",
-        title: "نقابة الأطباء",
-        price: 50
+        discount: "all",
+        title: "خصم كامل",
+        price: 100,
+        isPercent:true
       },
       {
         id: 2,
-        discount: "other",
-        title: "أخرى",
-        price: 70
+        discount: "half",
+        title: "خصم النصف",
+        price: 50,
+        isPercent:true
+      },
+      {
+        id: 3,
+        discount: "quarter",
+        title: "خصم الربع",
+        price: 25,
+        isPercent:true
+      },
+      {
+        id: 4,
+        discount: "الأطباء",
+        title: "نقابة الأطباء",
+        price: 30,
+        isPercent:false
+      },
+      {
+        id: 5,
+        discount: "المحامين",
+        title: "نقابة المحامين",
+        price: 15,
+        isPercent:false
       }
     ]
   };
@@ -284,10 +308,12 @@ export class SettingsService {
   }
   savePricesSetting(
     typePrices: BookingTypePrice[],
-    servicePrices: BookingServicePrice[]
+    servicePrices: BookingServicePrice[],
+    discountPrices:BookingDiscountPrice[]
   ): void {
     this.bookingSettings.bookingTypePrices = typePrices;
     this.bookingSettings.bookingServicePrices = servicePrices;
+    this.bookingSettings.bookingDiscountPrices = discountPrices
   }
 
   // =====> get/set diseaseName setting:

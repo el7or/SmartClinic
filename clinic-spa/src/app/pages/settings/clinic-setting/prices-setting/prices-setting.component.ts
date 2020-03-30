@@ -60,7 +60,7 @@ export class PricesSettingComponent implements OnInit {
   onSave(){
     this.formLoading = true;
     setTimeout(() => {
-      this.settingService.savePricesSetting(this.bookingTypePrices,this.bookingServicePrices);
+      this.settingService.savePricesSetting(this.bookingTypePrices,this.bookingServicePrices,this.bookingDiscountPrices);
       this.doneSwal.fire();
       this.formLoading = false;
     }, 1000);

@@ -22,7 +22,8 @@ export class AddDiscountComponent implements OnInit {
       id:50,
       title: discountTitle,
       discount:discountTitle.replace(/\s/g, "").toLowerCase(),
-      price:0
+      price:0,
+      isPercent:false
     });
     this.dialogRef.close();
   }

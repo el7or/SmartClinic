@@ -95,7 +95,7 @@
           </div>
           <nb-alert accent="warning" class="text-nowrap">
             <label><span langg>Total
-                Amount:</span><u>&nbsp;{{(bookingTypePrice + bookingServicesPrice-form.value.discount > 0 ? bookingTypePrice + bookingServicesPrice-form.value.discount : 0) | currency:'EGP':'symbol':'1.0'}}</u></label>
+                Amount:</span><u>&nbsp;{{(bookingTypePrice + bookingServicesPrice - form.value.discount > 0 ? bookingTypePrice + bookingServicesPrice-form.value.discount : 0) | currency:'EGP':'symbol':'1.0'}}</u></label>
           </nb-alert>
           <div class="form-control-group">
             <label for="input-payment" class="label"><span langg>Amount Paid</span>:</label>
@@ -112,7 +112,7 @@
           </div>
           <nb-alert accent="danger" class="text-nowrap">
             <label><span langg>Amount
-                Due</span>:<u>&nbsp;{{ (bookingTypePrice + bookingServicesPrice-form.value.discount-form.value.paid > 0 ? bookingTypePrice + bookingServicesPrice-form.value.discount-form.value.paid  : 0) | currency:'EGP':'symbol':'1.0'}}</u></label>
+                Due</span>:<u>&nbsp;{{ (bookingTypePrice + bookingServicesPrice - form.value.discount - form.value.paid > 0 ? bookingTypePrice + bookingServicesPrice - form.value.discount - form.value.paid  : 0) | currency:'EGP':'symbol':'1.0'}}</u></label>
           </nb-alert>
         </div>
         <div class="col-md-6" *ngIf="form.value.date">
@@ -145,7 +145,7 @@
     <nb-card-footer>
       <div class="text-center nbButton-group">
         <button nbButton type="submit" status="success"
-          [disabled]="!form.valid || form.value.paid > (bookingTypePrice + bookingServicesPrice-form.value.discount)">
+          [disabled]="!form.valid || form.value.paid > (bookingTypePrice + bookingServicesPrice - form.value.discount)">
           {{bookId?('Save'|langg):('Book'|langg)}}</button>
         <!-- <button nbButton type="button" (click)="onAddBookingPrint()" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button> -->
         <button nbButton type="button" status="danger" langg (click)="dialogRef.close()">Cancel</button></div>

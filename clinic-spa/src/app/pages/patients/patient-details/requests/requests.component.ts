@@ -1,3 +1,4 @@
+import { NbDialogService } from '@nebular/theme';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -5,6 +6,7 @@ import { Location } from "@angular/common";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 import { RequestsService } from "./requests.service";
+import { AnalysisDetailComponent } from '../analysis/analysis-detail/analysis-detail.component';
 
 @Component({
   selector: "requests",
@@ -33,7 +35,8 @@ export class RequestsComponent implements OnInit {
     public location: Location,
     private router: Router,
     private route: ActivatedRoute,
-    private requestService: RequestsService
+    private requestService: RequestsService,
+    private dialogService:NbDialogService
   ) {}
 
   ngOnInit() {
@@ -112,6 +115,18 @@ export class RequestsComponent implements OnInit {
         queryParams: { type: "request" }
       });
     }, 1000);
+  }
+
+  onOpenDetails(analysisId:number){
+    this.dialogService.open(AnalysisDetailComponent, {
+      context: {
+        analysisId: analysisId,
+      },
+      autoFocus: true,
+      hasBackdrop: true,
+      closeOnBackdropClick: false,
+      closeOnEsc: false
+    });
   }
 
   onDeleteRequest() {

@@ -98,7 +98,7 @@
           <td>DIABETES PROFILE</td>
           <td langg>Registered Result</td>
           <td class="text-center">
-            <button nbButton [routerLink]="['/pages/patients/details',1,'analysis']" type="button" status="info"
+            <button nbButton type="button" (click)="onOpenDetails(5)" status="info"
               size="small" langg>Show Results</button>
           </td>
         </tr>

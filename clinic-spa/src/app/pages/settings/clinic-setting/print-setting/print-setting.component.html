@@ -94,21 +94,21 @@
             <label for="input-mobile1" class="label"><span langg>Phone numbers which will appear in the left bottom of
                 Prescription during printing</span>:</label>
             <input nbInput [(ngModel)]="printInfoSetting.phone1" #phone1="ngModel" name="phone1" id="input-mobile1"
-              [placeholder]="'Mobile 1' | langg" fullWidth pattern="[0-9]*" minlength="10" required class="mb-1"
-              fieldSize="small" [status]="phone1.touched ? (phone1.invalid  ? 'danger' : 'success') : ''">
+              [placeholder]="'Mobile 1' | langg" fullWidth minlength="10" required class="mb-1"
+              fieldSize="small" [status]="phone1.dirty ? ((!phone1.value && !phone2.value && !phone3.value) || phone1?.errors?.minlength  ? 'danger' : 'success') : ''">
             <input nbInput [(ngModel)]="printInfoSetting.phone2" #phone2="ngModel" name="phone2"
-              [placeholder]="'Mobile 2' | langg" fullWidth pattern="[0-9]*" minlength="10" class="mb-1"
-              fieldSize="small" [status]="phone2.dirty ? (phone2.invalid  ? 'danger' : 'success') : ''">
+              [placeholder]="'Mobile 2' | langg" fullWidth minlength="10" class="mb-1"
+              fieldSize="small" [status]="phone2.dirty ? ((!phone1.value && !phone2.value && !phone3.value) || phone2?.errors?.minlength ? 'danger' : 'success') : ''">
             <input nbInput [(ngModel)]="printInfoSetting.phone3" #phone3="ngModel" name="phone3"
-              [placeholder]="'Mobile 3' | langg" fullWidth pattern="[0-9]*" minlength="10" fieldSize="small"
-              [status]="phone3.dirty ? (phone3.invalid  ? 'danger' : 'success') : ''">
+              [placeholder]="'Mobile 3' | langg" fullWidth minlength="10" fieldSize="small"
+              [status]="phone3.dirty ? ((!phone1.value && !phone2.value && !phone3.value) || phone3?.errors?.minlength  ? 'danger' : 'success') : ''">
             <ng-container
-              *ngIf="(phone1.invalid && phone1.touched) ||(phone2.invalid && phone2.touched) ||(phone3.invalid && phone3.touched)">
-              <p class="error-message" *ngIf="phone1?.errors?.required" langg>
+              *ngIf="(phone1.touched || phone2.touched || phone3.touched)">
+              <p class="error-message" *ngIf="!phone1.value && !phone2.value && !phone3.value" langg>
                 At least one phone is required!
               </p>
               <p class="error-message"
-                *ngIf="phone1?.errors?.pattern || phone1?.errors?.minlength ||phone2?.errors?.pattern || phone2?.errors?.minlength ||phone3?.errors?.pattern || phone3?.errors?.minlength"
+                *ngIf="phone1?.errors?.minlength || phone2?.errors?.minlength || phone3?.errors?.minlength"
                 langg>
                 Mobile must be real number!
               </p>

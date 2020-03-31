@@ -123,10 +123,12 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     const discount = this.bookingSetting.bookingDiscountPrices.find(
       t => t.id == this.form.value.discount
     );
+    if(this.bookId){
     this.bookingDiscountPrice = discount.isPercent
       ? ((this.bookingTypePrice + this.bookingServicesPrice) * discount.price) /
         100
       : discount.price;
+    }
   }
 
   // =====> on choose booking date will fill table with all bookings in same day:

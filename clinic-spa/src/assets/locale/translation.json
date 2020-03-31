@@ -557,7 +557,8 @@
   { "ar": "تاريخ الورود", "en": "Received Date" },
   { "ar": "تأكيد الحجز", "en": "Confirm Booking" },
   { "ar": "حذف الطلب", "en": "Delete Request" },
-
+  { "ar": "إضافة خدمات لآخر حجز للمريض", "en": "Add Services to Last Booking" },
+  { "ar": "حجز جديد للمريض", "en": "New Booking for Patient" },
 
 
   {

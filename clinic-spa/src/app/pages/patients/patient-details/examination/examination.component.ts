@@ -1,9 +1,15 @@
+import { NbDialogService } from '@nebular/theme';
 import { SettingsService } from "./../../../settings/settings.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Location } from "@angular/common";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { BookingServicePrice } from "../../../settings/settings.model";
 import { NgForm } from "@angular/forms";
+import { BookingDetailsComponent } from '../../../bookings/booking-details/booking-details.component';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { PatientsService } from '../../patients.service';
+import { PatientHeaderInfo } from '../../patients.model';
 
 @Component({
   selector: "examination",
@@ -25,16 +31,28 @@ export class ExaminationComponent implements OnInit {
   ];
   examinationsNames: string[] = ["تورم بالجسم", "طفح جلدي"];
   examinationsAreas: string[] = ["القدم اليسرى", "اليد اليمنى"];
+  patientInfo: PatientHeaderInfo;
+
+  routeSubs: Subscription;
 
   constructor(
     private settingService: SettingsService,
+    private dialogService:NbDialogService,
+    private patientsService: PatientsService,
+    private route: ActivatedRoute,
     public location: Location
   ) {}
 
   ngOnInit() {
     // =====> get list of services:
     this.bookingServiceValues = this.settingService.getBookingSetting().bookingServicePrices;
+
+    this.routeSubs = this.route.parent.params.subscribe(params => {
+      const patientId = params["id"];
+      this.patientInfo = this.patientsService.getPatientHeaderInfo(+patientId)
+    });
   }
+
 
   onAddNewItemToList(name, type) {
     if (type == "name") {
@@ -59,11 +77,19 @@ export class ExaminationComponent implements OnInit {
     this.examinations.splice(index, 1);
   }
 
-  // =====> add chosen services price to total price:
-  onChangeService(service) {
-    this.bookingServicePrice = this.bookingServiceValues.find(
-      t => t.service == service
-    ).price;
+  // =====> on add new booking or edit booking to patients:
+  onBook(bookingId:number) {
+    this.dialogService.open(BookingDetailsComponent, {
+      context: {
+        bookId:bookingId,
+        patientId:this.patientInfo.patientId,
+        patientName: this.patientInfo.name,
+      },
+      autoFocus: true,
+      hasBackdrop: true,
+      closeOnBackdropClick: false,
+      closeOnEsc: false
+    });
   }
 
   onSave(form: NgForm) {

@@ -1,4 +1,5 @@
-<form #form="ngForm" (ngSubmit)="onSave(form)" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
+<form #form="ngForm" (ngSubmit)="onSave(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
   <div class="row">
     <div class="col-md-6">
       <label for="input-diseasesInQuestions" class="label"><span langg>Associated Diseases Summary</span>:</label>
@@ -78,27 +79,16 @@
         </tbody>
       </table>
       <button nbButton size="small" type="button" (click)="onAddExamination()"
-      [disabled]="examinations.length &&(!examinations[examinations?.length-1]?.name||!examinations[examinations?.length-1]?.isNameValid)" class="mb-1">
+        [disabled]="examinations.length &&(!examinations[examinations?.length-1]?.name||!examinations[examinations?.length-1]?.isNameValid)"
+        class="mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Add Examination Type</span>
       </button>
     </div>
 
-    <!-- <div class="col-12 form-control-group">
-      <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'General notes on Examination' | langg"
-        fullWidth></textarea>
-    </div> -->
-    <div class="col-md-6 form-control-group">
-      <nb-select fullWidth ngModel #bookingService="ngModel" name="bookingService"
-        (selectedChange)="onChangeService($event)" [placeholder]="'Add Service' | langg">
-        <nb-option *ngFor="let item of bookingServiceValues" [value]="item.service" langg>
-          {{item.title | langg}}&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</nb-option>
-      </nb-select>
-
-    </div>
-    <div class="col-md-6 form-control-group">
-      <label class="label mt-2"><small class="text-muted font-weight-bold">&#9733;&nbsp;<span langg>When adding a
-            service, it will be added to the
-            patient’s last reservation and the reception will be informed about it.</span></small></label>
+    <div class="col-md-12 nbButton-group">
+      <button nbButton size="small" status="info" type="button" (click)="onBook(55)" class="mb-1" langg>Add Services to Last Booking</button>
+      <button nbButton size="small" status="info" type="button" (click)="onBook(0)" class="mb-1" langg>New
+        Booking for Patient</button>
     </div>
     <div class="col-12 text-center nbButton-group">
       <button nbButton type="submit" status="success"

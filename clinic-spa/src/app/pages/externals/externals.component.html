@@ -11,6 +11,9 @@
           <th langg>Mobile</th>
           <th langg>Request Type</th>
           <th langg>Received Date</th>
+          <th langg>Governorate</th>
+          <th langg>Booking Date</th>
+          <th langg>Booking Time</th>
           <th></th>
         </tr>
       </thead>
@@ -21,9 +24,12 @@
           <td>{{item.patientMobile}}</td>
           <td>{{item.requestType}}</td>
           <td>{{item.createdOn | localDateShort}}</td>
+          <td>{{item.patientGovernorate | langg}}</td>
+          <td>{{item.requestBookDate | localDateShort}}</td>
+          <td>{{item.requestBookTime | time12Hour}}</td>
           <td class="text-center">
-            <button nbButton (click)="onConfirmBook('drgsfdggdsgs')" size="small" status="success" langg>Confirm Booking</button>&nbsp;
-            <button nbButton (click)="onDeleteRequest('drgsfdggdsgs')" size="small" status="danger" langg>Delete Request</button>
+            <button nbButton (click)="onConfirmBook(item)" size="small" status="success" langg>Confirm Booking</button>&nbsp;
+            <button nbButton (click)="onDeleteRequest(item.patientId)" size="small" status="danger" langg>Delete Request</button>
           </td>
         </tr>
       </tbody>

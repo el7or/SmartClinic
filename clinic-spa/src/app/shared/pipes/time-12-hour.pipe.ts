@@ -5,13 +5,17 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class Time12HourPipe implements PipeTransform {
   transform(date: any, ...args: any[]): any {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = ('0'+minutes).slice(-2);
-    let strTime = hours + ":" + minutes + " " + ampm;
-    return strTime;
+    if (!date) {
+      return "";
+    } else {
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      let ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = ("0" + minutes).slice(-2);
+      let strTime = hours + ":" + minutes + " " + ampm;
+      return strTime;
+    }
   }
 }

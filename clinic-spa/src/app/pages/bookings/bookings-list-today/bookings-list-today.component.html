@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-4">
         <h6 class="d-inline" langg>Doctor Name</h6>:
         <div class="d-inline">
@@ -11,10 +11,10 @@
           </nb-select>
         </div>
       </div>
-      <div class="col-8">
-        <h5 class="font-naskh">{{today | localDateLong}}</h5>
+    </div> -->
+      <div class="text-center">
+        <h5 class="font-andalus">{{today | localDateLong}}</h5>
       </div>
-    </div>
   </nb-card-header>
   <nb-card-body>
     <button (click)="onBookToday()" nbButton size="small" status="success" [nbTooltip]="'New Booking' | langg">

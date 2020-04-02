@@ -16,9 +16,4 @@
     border-radius: 10px;
     background-color: white !important;
   }
-
-  .btns-acc {
-    @include nb-ltr(text-align, right);
-    @include nb-rtl(text-align, left);
-  }
 }

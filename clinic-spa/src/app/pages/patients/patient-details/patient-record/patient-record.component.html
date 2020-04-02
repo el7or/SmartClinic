@@ -1,4 +1,4 @@
-<!-- <div class="my-1 btns-acc">
+<!-- <div class="my-1 d-flex flex-row-reverse">
   <button nbButton (click)="acc.openAll()" size="tiny"><span langg>Open All</span>
     <nb-icon icon="expand"></nb-icon>
   </button>&nbsp;
@@ -6,6 +6,11 @@
     <nb-icon icon="collapse"></nb-icon>
   </button>
 </div> -->
+<div class="col-md-12 mt-1 d-flex flex-row-reverse">
+  <button nbButton size="small" status="info" type="button" (click)="onBook(0)" class="mb-1" langg>New
+    Booking for Patient</button>&nbsp;
+  <button nbButton size="small" status="info" type="button" (click)="onBook(55)" class="mb-1" langg>Add Services to Last Booking</button>
+</div>
 <nb-accordion #acc >
     <nb-accordion-item *ngFor="let item of recordItems">
       <nb-accordion-item-header *ngIf="item.recordName=='Patient Complaint' && item.isActive"><span langg>Patient Complaint</span>:</nb-accordion-item-header>

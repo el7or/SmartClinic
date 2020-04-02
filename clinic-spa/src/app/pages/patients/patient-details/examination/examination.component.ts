@@ -31,26 +31,15 @@ export class ExaminationComponent implements OnInit {
   ];
   examinationsNames: string[] = ["تورم بالجسم", "طفح جلدي"];
   examinationsAreas: string[] = ["القدم اليسرى", "اليد اليمنى"];
-  patientInfo: PatientHeaderInfo;
-
-  routeSubs: Subscription;
 
   constructor(
     private settingService: SettingsService,
-    private dialogService:NbDialogService,
-    private patientsService: PatientsService,
-    private route: ActivatedRoute,
     public location: Location
   ) {}
 
   ngOnInit() {
     // =====> get list of services:
     this.bookingServiceValues = this.settingService.getBookingSetting().bookingServicePrices;
-
-    this.routeSubs = this.route.parent.params.subscribe(params => {
-      const patientId = params["id"];
-      this.patientInfo = this.patientsService.getPatientHeaderInfo(+patientId)
-    });
   }
 
 
@@ -75,21 +64,6 @@ export class ExaminationComponent implements OnInit {
   // =====> on remove row from requests:
   onRemoveExamination(index) {
     this.examinations.splice(index, 1);
-  }
-
-  // =====> on add new booking or edit booking to patients:
-  onBook(bookingId:number) {
-    this.dialogService.open(BookingDetailsComponent, {
-      context: {
-        bookId:bookingId,
-        patientId:this.patientInfo.patientId,
-        patientName: this.patientInfo.name,
-      },
-      autoFocus: true,
-      hasBackdrop: true,
-      closeOnBackdropClick: false,
-      closeOnEsc: false
-    });
   }
 
   onSave(form: NgForm) {

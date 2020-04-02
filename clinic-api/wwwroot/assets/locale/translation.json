@@ -2,6 +2,7 @@
   { "ar": "English", "en": "عربي" },
   { "ar": "العيادة الذكية", "en": "Smart Clinic" },
   { "ar": "تغيير الإسم", "en": "Change Name" },
+  { "ar": "تغيير العيادة", "en": "Change Clinic" },
   { "ar": "تسجيل خروج", "en": "Log out" },
   { "ar": "تغيير اللغة", "en": "Change Language" },
   { "ar": "بحث سريع", "en": "Quick Search" },
@@ -143,6 +144,7 @@
   { "ar": "نوع الحجز", "en": "Booking Type" },
   { "ar": "أسعار الحجوزات", "en": "Bookings prices" },
   { "ar": "أسعار الخدمات", "en": "Services prices" },
+  { "ar": "أسعار الخصومات", "en": "Discounts prices" },
   { "ar": "ج.م.", "en": "EGP" },
   { "ar": "كشف", "en": "Diagnose" },
   { "ar": "إستشارة", "en": "Consult" },
@@ -154,8 +156,10 @@
   { "ar": "خدمة فقط", "en": "Just Service" },
   { "ar": "إضافة خدمة", "en": "Add Service" },
   { "ar": "إضافة نوع حجز", "en": "Add Booking Type" },
+  { "ar": "إضافة نوع خصم", "en": "Add Discount" },
   { "ar": "إسم نوع الحجز الجديد", "en": "New Booking Type Name" },
   { "ar": "إسم الخدمة الجديدة", "en": "New Service Name" },
+  { "ar": "إسم الخصم الجديد", "en": "New Discount Name" },
   { "ar": "أشعة", "en": "X-Ray" },
   { "ar": "تحليل", "en": "Analysis" },
   { "ar": "سونار", "en": "Sonar" },
@@ -553,7 +557,8 @@
   { "ar": "تاريخ الورود", "en": "Received Date" },
   { "ar": "تأكيد الحجز", "en": "Confirm Booking" },
   { "ar": "حذف الطلب", "en": "Delete Request" },
-
+  { "ar": "إضافة خدمات لآخر حجز للمريض", "en": "Add Services to Last Booking" },
+  { "ar": "حجز جديد للمريض", "en": "New Booking for Patient" },
 
 
   {

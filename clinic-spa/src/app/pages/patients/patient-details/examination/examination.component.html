@@ -85,11 +85,6 @@
       </button>
     </div>
 
-    <div class="col-md-12 nbButton-group">
-      <button nbButton size="small" status="info" type="button" (click)="onBook(55)" class="mb-1" langg>Add Services to Last Booking</button>
-      <button nbButton size="small" status="info" type="button" (click)="onBook(0)" class="mb-1" langg>New
-        Booking for Patient</button>
-    </div>
     <div class="col-12 text-center nbButton-group">
       <button nbButton type="submit" status="success"
         [disabled]="(!form.valid || !form.dirty) && !examinations[0]?.name" langg>Save</button>

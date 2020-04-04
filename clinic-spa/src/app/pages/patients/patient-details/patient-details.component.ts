@@ -1,13 +1,19 @@
 import { Subscription } from "rxjs";
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterContentChecked } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  AfterViewInit,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 
-import { PatientsService } from './../patients.service';
+import { PatientsService } from "./../patients.service";
 import { AuthService } from "./../../../auth/auth.service";
 import { LanggService } from "./../../../shared/services/langg.service";
 import { UserRole } from "../../../auth/auth.model";
-import { PatientHeaderInfo } from '../patients.model';
+import { PatientHeaderInfo } from "../patients.model";
 
 @Component({
   selector: "patient-details",
@@ -40,12 +46,14 @@ import { PatientHeaderInfo } from '../patients.model';
       </nb-card-body>
     </nb-card>
   `,
-  styleUrls: ["./patient-details.component.scss"]
+  styleUrls: ["./patient-details.component.scss"],
 })
-export class PatientDetailsComponent implements OnInit, AfterContentChecked, OnDestroy {
+export class PatientDetailsComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   pageHeader: string;
-  isNewPatient:boolean;
+  isNewPatient: boolean;
   patientHeaderInfo: PatientHeaderInfo;
+  patientId: string;
 
   routeSubs: Subscription;
 
@@ -53,25 +61,26 @@ export class PatientDetailsComponent implements OnInit, AfterContentChecked, OnD
 
   constructor(
     private route: ActivatedRoute,
-    private router:Router,
+    private router: Router,
     public location: Location,
     private patientsService: PatientsService,
     private authService: AuthService,
-    private langgService: LanggService,
-    private cd: ChangeDetectorRef
+    private langgService: LanggService
   ) {}
 
   ngOnInit() {
     // =====> check if new patient or details of old patient:
-    this.routeSubs= this.route.paramMap.subscribe(paramMap => {
-      const patientId = paramMap.get("id");
-      if (patientId == "new") {
+    this.routeSubs = this.route.paramMap.subscribe((paramMap) => {
+      this.patientId = paramMap.get("id");
+      if (this.patientId == "new") {
         this.isNewPatient = true;
         this.pageHeader = "Add New Patient";
       } else {
         this.isNewPatient = false;
         this.pageHeader = "Patient Profile";
-        this.patientHeaderInfo = this.patientsService.getPatientHeaderInfo(+patientId)
+        this.patientHeaderInfo = this.patientsService.getPatientHeaderInfo(
+          +this.patientId
+        );
       }
 
       // =====> create tabs based on user role:
@@ -79,63 +88,66 @@ export class PatientDetailsComponent implements OnInit, AfterContentChecked, OnD
         this.patientTabs = [
           {
             title: this.langgService.translateWord("Basic info"),
-            route: "./basic"
+            route: "./basic",
           },
           {
             title: this.langgService.translateWord("Associated Diseases"),
             route: "./diseases",
-            disabled: this.isNewPatient
+            disabled: this.isNewPatient,
           },
           {
             title: this.langgService.translateWord("All Visits"),
             route: "./visits",
-            disabled: this.isNewPatient
-          }
+            disabled: this.isNewPatient,
+          },
         ];
       } else {
         this.patientTabs = [
           {
             title: this.langgService.translateWord("Basic info"),
-            route: "./basic"
+            route: "./basic",
           },
           {
             title: this.langgService.translateWord("Associated Diseases"),
             route: "./diseases",
-            disabled: this.isNewPatient
+            disabled: this.isNewPatient,
           },
           {
             title: this.langgService.translateWord("Patient Record"),
             route: "./record",
-            disabled: this.isNewPatient
+            disabled: this.isNewPatient,
           },
           {
             title: this.langgService.translateWord("Prescription"),
             route: "./prescription",
-            disabled: this.isNewPatient
+            disabled: this.isNewPatient,
           },
           {
             title: this.langgService.translateWord("Request X-Ray & Analysis"),
             route: "./request",
-            disabled: this.isNewPatient
+            disabled: this.isNewPatient,
           },
           {
             title: this.langgService.translateWord("External Referrals"),
             route: "./referral",
-            disabled: this.isNewPatient
+            disabled: this.isNewPatient,
           },
           {
             title: this.langgService.translateWord("All Visits"),
             route: "./visits",
-            disabled: this.isNewPatient
-          }
+            disabled: this.isNewPatient,
+          },
         ];
-        this.router.navigateByUrl('/pages/patients/details/'+patientId+'/record');
       }
     });
   }
 
-  ngAfterContentChecked() {
-    this.cd.detectChanges();
+  ngAfterViewInit() {
+    if (this.authService.roleName != UserRole.Employee) {
+      this.router.navigate([
+        "/pages/patients/details/" + this.patientId + "/record",
+      ]);
+    }
   }
 
   ngOnDestroy() {

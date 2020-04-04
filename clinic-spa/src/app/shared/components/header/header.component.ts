@@ -15,6 +15,7 @@ import { LanggService } from "../../services/langg.service";
 import { MENU_ITEMS } from "../../../pages/pages-menu";
 import { ProfileComponent } from "../profile/profile.component";
 import { UserRole } from "../../../auth/auth.model";
+import { AdvsService } from '../../services/advs.service';
 
 @Component({
   selector: "ngx-header",
@@ -60,6 +61,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private searchService: NbSearchService,
     private dialogService: NbDialogService,
+    public advService:AdvsService,
     private router: Router
   ) {
     // =====> on search from icon:

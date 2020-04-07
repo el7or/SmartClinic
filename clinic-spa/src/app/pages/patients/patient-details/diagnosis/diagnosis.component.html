@@ -16,20 +16,21 @@
           </ng-container>
         </td>
         <td>
-          <nb-select fullWidth ngModel #mainQuest="ngModel" name="mainQuest" [placeholder]="'Disease Severity' | langg" size="small">
-            <nb-option value="0">Grade 0</nb-option>
-            <nb-option value="1">Grade 1</nb-option>
-            <nb-option value="2">Grade 2</nb-option>
-            <nb-option value="3">Grade 3</nb-option>
-            <nb-option value="4">Grade 4</nb-option>
+          <nb-select fullWidth [(ngModel)]="item.grade" [ngModelOptions]="{standalone: true}"
+            [placeholder]="'Disease Severity' | langg" size="small">
+            <nb-option [value]="0">Grade 0</nb-option>
+            <nb-option [value]="1">Grade 1</nb-option>
+            <nb-option [value]="2">Grade 2</nb-option>
+            <nb-option [value]="3">Grade 3</nb-option>
+            <nb-option [value]="4">Grade 4</nb-option>
           </nb-select>
         </td>
         <td>
-          <input nbInput ngModel #note="ngModel" name="note" [placeholder]="'Notes' | langg" fullWidth
-            fieldSize="small">
+          <input nbInput [(ngModel)]="item.note" [ngModelOptions]="{standalone: true}" [placeholder]="'Notes' | langg"
+            fullWidth fieldSize="small">
         </td>
         <td class="label pt-2">
-          <label><span langg>Added Date</span>:&nbsp;<b>{{today | localDateShort}}</b>
+          <label><span langg>Added Date</span>:&nbsp;<b>{{item.createdOn | localDateShort}}</b>
           </label>
         </td>
         <td>
@@ -42,13 +43,16 @@
     </tbody>
   </table>
 
-  <button nbButton [disabled]="patientDiagnoses.length &&(!patientDiagnoses[patientDiagnoses?.length-1]?.name || !patientDiagnoses[patientDiagnoses?.length-1]?.isNameValid)" size="small"
-    (click)="onAddDiagnose()" class="mx-1 mb-1">
+  <button nbButton
+    [disabled]="patientDiagnoses.length &&(!patientDiagnoses[patientDiagnoses?.length-1]?.name || !patientDiagnoses[patientDiagnoses?.length-1]?.isNameValid)"
+    size="small" (click)="onAddDiagnose()" class="mx-1 mb-1">
     <nb-icon icon="plus-outline"></nb-icon><span langg>Add Another Diagnose</span>
   </button>
 
   <div class="text-center nbButton-group">
-    <button nbButton type="submit" status="success" [disabled]=" !patientDiagnoses[0]?.name" langg>Save</button>
+    <button nbButton type="submit" (click)="onSave()" status="success"
+      [disabled]="patientDiagnoses.length &&(!patientDiagnoses[patientDiagnoses?.length-1]?.name || !patientDiagnoses[patientDiagnoses?.length-1]?.isNameValid)"
+      langg>Save</button>
     <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
   </div>
 </form>

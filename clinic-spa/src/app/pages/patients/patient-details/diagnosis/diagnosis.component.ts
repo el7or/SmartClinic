@@ -1,30 +1,31 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
-import { Location } from '@angular/common';
+import { DiagnosisService } from "./diagnosis.service";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
+import { Location } from "@angular/common";
+
+import { DiagnosisValue, PatientDiagnosis } from "./diagnosis.model";
 
 @Component({
-  selector: 'diagnosis',
-  templateUrl: './diagnosis.component.html',
-  styleUrls: ['./diagnosis.component.scss']
+  selector: "diagnosis",
+  templateUrl: "./diagnosis.component.html",
+  styleUrls: ["./diagnosis.component.scss"],
 })
 export class DiagnosisComponent implements OnInit {
-  formLoading:boolean = false;
-  today:Date=new Date();
+  formLoading: boolean = false;
+  today: Date = new Date();
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
-  diagnosesNames = ['التشخيص 1','التشخيص 2','التشخيص 3'];
-  patientDiagnoses:any[] = [
-    {
-      name:"",
-      isNameValid:true,
-      grade:"",
-      note:""
-    }
-  ]
+  diagnosesNames: string[];
+  patientDiagnoses: PatientDiagnosis[];
 
-  constructor(public location:Location) { }
+  constructor(
+    private diagnosiService: DiagnosisService,
+    public location: Location
+  ) {}
 
   ngOnInit() {
+    this.diagnosesNames = this.diagnosiService.getDiagnosisValues();
+    this.patientDiagnoses = this.diagnosiService.getPatientDiagnosis();
   }
 
   onAddNewItemToList(diagnoseName) {
@@ -34,10 +35,10 @@ export class DiagnosisComponent implements OnInit {
   // =====> on add new request to form from button:
   onAddDiagnose() {
     this.patientDiagnoses.push({
-      name:"",
-      isNameValid:true,
-      grade:"",
-      note:""
+      name: "",
+      isNameValid: true,
+      note: "",
+      createdOn: new Date()
     });
   }
 
@@ -46,11 +47,20 @@ export class DiagnosisComponent implements OnInit {
     this.patientDiagnoses.splice(index, 1);
   }
 
-  onDeleteDiagnosis(){
-    this.deleteSwal.fire().then(result => {
+  onDeleteDiagnosis() {
+    this.deleteSwal.fire().then((result) => {
       if (result.value) {
         this.doneSwal.fire();
       }
     });
+  }
+
+  onSave(){
+    this.formLoading=true;
+    this.diagnosiService.setPatientDiagnosis(this.patientDiagnoses);
+    setTimeout(() => {
+    this.doneSwal.fire();
+      this.formLoading = false;
+    }, 1000);
   }
 }

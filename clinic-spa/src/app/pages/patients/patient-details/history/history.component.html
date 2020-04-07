@@ -3,38 +3,38 @@
   <div class="row">
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-status" class="label"><span langg>Social Status</span>:</label>
-      <nb-select fullWidth ngModel #socialStatus="ngModel" name="socialStatus" id="input-status"
+      <nb-select fullWidth [(ngModel)]="patientHistory.socialStatus" #socialStatus="ngModel" name="socialStatus" id="input-status"
         [placeholder]="'Social Status' | langg">
-        <nb-option value="1" langg>Single</nb-option>
-        <nb-option value="2" langg>Married</nb-option>
-        <nb-option value="3" langg>Divorced</nb-option>
-        <nb-option value="4" langg>Widower</nb-option>
+        <nb-option [value]="1" langg>Single</nb-option>
+        <nb-option [value]="2" langg>Married</nb-option>
+        <nb-option [value]="3" langg>Divorced</nb-option>
+        <nb-option [value]="4" langg>Widower</nb-option>
       </nb-select>
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-children" class="label"><span langg>Children Number</span>:</label>
-      <input nbInput ngModel type="number" #children="ngModel" name="children" id="input-children"
+      <input nbInput [(ngModel)]="patientHistory.children" type="number" #children="ngModel" name="children" id="input-children"
         [placeholder]="'Children Number' | langg" fullWidth>
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-prevMarriage" class="label"><span langg>Previous Marriages</span>:</label>
-      <input nbInput ngModel type="number" #prevMarriage="ngModel" name="prevMarriage" id="input-prevMarriage"
+      <input nbInput [(ngModel)]="patientHistory.prevMarriage" type="number" #prevMarriage="ngModel" name="prevMarriage" id="input-prevMarriage"
         [placeholder]="'Previous Marriages' | langg" fullWidth>
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-prevMarriagePartner" class="label"><span langg>Previous Marriages for
           Partner</span>:</label>
-      <input nbInput ngModel type="number" #prevMarriagePartner="ngModel" name="prevMarriagePartner"
+      <input nbInput [(ngModel)]="patientHistory.prevMarriagePartner" type="number" #prevMarriagePartner="ngModel" name="prevMarriagePartner"
         id="input-prevMarriagePartner" [placeholder]="'Previous Marriages for Partner' | langg" fullWidth>
     </div>
     <div class="col-md-6 form-control-group">
-      <label for="input-history" class="label"><span langg>Previous Treatments</span>:</label>
-      <textarea nbInput ngModel #history="ngModel" name="history" id="input-history"
+      <label for="input-treatmentHistory" class="label"><span langg>Previous Treatments</span>:</label>
+      <textarea nbInput [(ngModel)]="patientHistory.treatmentHistory" #treatmentHistory="ngModel" name="treatmentHistory" id="input-treatmentHistory"
         [placeholder]="'Previous Treatments' | langg" fullWidth></textarea>
     </div>
     <div class="col-md-6 form-control-group">
-      <label for="input-family" class="label"><span langg>Family Medical History</span>:</label>
-      <textarea nbInput ngModel #family="ngModel" name="family" id="input-family"
+      <label for="input-familyHistory" class="label"><span langg>Family Medical History</span>:</label>
+      <textarea nbInput [(ngModel)]="patientHistory.familyHistory" #familyHistory="ngModel" name="familyHistory" id="input-familyHistory"
         [placeholder]="'Family Medical History' | langg" fullWidth></textarea>
     </div>
   </div>

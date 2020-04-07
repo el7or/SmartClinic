@@ -537,6 +537,7 @@
   { "ar": "أنواع الفحوصات:", "en": "Clinical Examination:" },
   { "ar": "نوع الفحص", "en": "Examination Type" },
   { "ar": "نوع فحص آخر", "en": "Add Examination Type" },
+  { "ar": "إزالة نوع الفحص", "en": "Remove Examination" },
   { "ar": "درجة الحرارة", "en": "Temperature" },
   { "ar": "الاختيارات", "en": "Choices" },
   { "ar": "تاريخ الإضافة", "en": "Added Date" },

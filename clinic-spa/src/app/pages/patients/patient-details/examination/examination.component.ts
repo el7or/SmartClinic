@@ -1,20 +1,15 @@
-import { NbDialogService } from '@nebular/theme';
-import { SettingsService } from "./../../../settings/settings.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Location } from "@angular/common";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
-import { BookingServicePrice } from "../../../settings/settings.model";
 import { NgForm } from "@angular/forms";
-import { BookingDetailsComponent } from '../../../bookings/booking-details/booking-details.component';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { PatientsService } from '../../patients.service';
-import { PatientHeaderInfo } from '../../patients.model';
+
+import { ExaminationService } from "./examination.service";
+import { PatientExaminationsDetails } from "./examination.model";
 
 @Component({
   selector: "examination",
   templateUrl: "./examination.component.html",
-  styleUrls: ["./examination.component.scss"]
+  styleUrls: ["./examination.component.scss"],
 })
 export class ExaminationComponent implements OnInit {
   formLoading: boolean = false;
@@ -23,29 +18,25 @@ export class ExaminationComponent implements OnInit {
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   diseaseSummary: string = "ضغط - سكر - حمل";
   complaintSummary: string = "صداع - آلام الركبة";
-  bookingServiceValues: BookingServicePrice[];
-  bookingServicePrice: number = 0;
 
-  examinations: any[] = [
-    { name: "", isNameValid: true, area: "", isAreaValid: true }
-  ];
-  examinationsNames: string[] = ["تورم بالجسم", "طفح جلدي"];
-  examinationsAreas: string[] = ["القدم اليسرى", "اليد اليمنى"];
+  patientExaminations: PatientExaminationsDetails;
+  examinationsTypes: string[];
+  examinationsAreas: string[];
 
   constructor(
-    private settingService: SettingsService,
+    private examinationService: ExaminationService,
     public location: Location
   ) {}
 
   ngOnInit() {
-    // =====> get list of services:
-    this.bookingServiceValues = this.settingService.getBookingSetting().bookingServicePrices;
+    this.examinationsTypes = this.examinationService.getExaminationTypes();
+    this.examinationsAreas = this.examinationService.getExaminationAreas();
+    this.patientExaminations = this.examinationService.getPatientExaminations();
   }
 
-
   onAddNewItemToList(name, type) {
-    if (type == "name") {
-      this.examinationsNames.push(name);
+    if (type == "type") {
+      this.examinationsTypes.push(name);
     } else {
       this.examinationsAreas.push(name);
     }
@@ -53,21 +44,24 @@ export class ExaminationComponent implements OnInit {
 
   // =====> on add new request to form from button:
   onAddExamination() {
-    this.examinations.push({
-      name: "",
-      isNameValid: true,
+    this.patientExaminations.examinations.push({
+      id: 0,
+      type: "",
+      isTypeValid: true,
       area: "",
-      isAreaValid:true
+      isAreaValid: true,
+      createdOn: new Date(),
     });
   }
 
   // =====> on remove row from requests:
   onRemoveExamination(index) {
-    this.examinations.splice(index, 1);
+    this.patientExaminations.examinations.splice(index, 1);
   }
 
   onSave(form: NgForm) {
     this.formLoading = true;
+    this.examinationService.setPatientExaminations(this.patientExaminations);
     setTimeout(() => {
       this.doneSwal.fire();
       this.formLoading = false;

@@ -1,12 +1,11 @@
 <h6 langg>Add New Operation:</h6>
-<form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
+<form #form="ngForm" (ngSubmit)="onSave(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
   <div class="row">
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-type" class="label"><span langg>Operation Type</span>:</label>
       <nb-select fullWidth ngModel #type="ngModel" name="type" [placeholder]="'' | langg">
-        <nb-option value="1" langg>جراحة</nb-option>
-        <nb-option value="2" langg>جبس</nb-option>
-        <nb-option value="2" langg>ولادة</nb-option>
+        <nb-option *ngFor="let item of operationsValues" [value]="item.id" langg>{{item.text}}</nb-option>
       </nb-select>
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
@@ -38,28 +37,19 @@
 <table class="table table-bordered">
   <thead class="thead-light">
     <tr>
+      <th langg>Operation Date</th>
       <th langg>Operation Type</th>
       <th langg>Operation Place</th>
-      <th langg>Operation Date</th>
       <th langg>Operation Cost</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>2020-5-2</td>
-      <td>تركيب مفصل</td>
-      <td></td>
-      <td></td>
-      <td class="text-center">
-        <button nbButton type="button" (click)="onDeleteOperation()" status="danger" size="small" langg>Delete</button>
-      </td>
-    </tr>
-    <tr>
-      <td>2020-3-2</td>
-      <td>ولادة قيصرية</td>
-      <td></td>
-      <td></td>
+    <tr *ngFor="let item of patientOperations">
+      <td>{{item.date | localDateShort}}</td>
+      <td>{{item.type}}</td>
+      <td>{{item.place}}</td>
+      <td>{{item.cost}} {{'EGP' | langg}}</td>
       <td class="text-center">
         <button nbButton type="button" (click)="onDeleteOperation()" status="danger" size="small" langg>Delete</button>
       </td>

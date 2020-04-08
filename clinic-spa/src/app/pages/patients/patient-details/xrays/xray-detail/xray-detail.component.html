@@ -1,10 +1,10 @@
 <nb-card class="dialog-center">
   <nb-card-header>
-    <span langg>X-Ray Name</span>:&nbsp;{{ xRayDetails }}
+    <span langg>X-Ray Name</span>:&nbsp;{{ xrayDetails.xrayName }}
     <br>
     <small class="font-weight-bold">
-      <span langg>Request Date</span>:&nbsp;<span>1/5/2020</span>&nbsp;|
-      <span langg>Result Date</span>:&nbsp;<span>15/5/2020</span>
+      <span langg>Request Date</span>:&nbsp;<span>{{ xrayDetails.requestDate | localDateShort }}</span>&nbsp;|
+      <span langg>Result Date</span>:&nbsp;<span>{{ xrayDetails.resultDate | localDateShort }}</span>
     </small>
   </nb-card-header>
   <nb-card-body>
@@ -14,14 +14,14 @@
         <div class="col-md-6">
           <div class="form-control-group">
             <label for="input-result" class="label"><span langg>Result</span>:</label>
-            <textarea nbInput ngModel #result="ngModel" id="input-result" name="result"
+            <textarea nbInput [(ngModel)]="xrayDetails.resultText" #result="ngModel" id="input-result" name="result"
               [placeholder]="'Register Result' | langg" fullWidth></textarea>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-control-group">
             <label for="input-resultGrade" class="label"><span langg>Disease Severity</span>:</label>
-            <nb-select fullWidth ngModel #resultGrade="ngModel" name="resultGrade"
+            <nb-select fullWidth [(ngModel)]="xrayDetails.resultGrade" #resultGrade="ngModel" name="resultGrade"
               [placeholder]="'Disease Severity' | langg">
               <nb-option value="0">Grade 0</nb-option>
               <nb-option value="1">Grade 1</nb-option>
@@ -34,7 +34,8 @@
         <div class="col-12 text-center nbButton-group border-bottom pb-1">
           <button nbButton type="submit" status="success" [disabled]="!form.valid || !form.dirty || attachedFile"
             langg>Save</button>
-          <button nbButton type="button" status="danger" [disabled]="attachedFile" langg (click)="dialogRef.close()">Cancel</button>
+          <button nbButton type="button" status="danger" [disabled]="attachedFile" langg
+            (click)="dialogRef.close()">Cancel</button>
         </div>
       </div>
     </form>
@@ -62,9 +63,10 @@
               [placeholder]="'Note' | langg" [nbTooltip]="'Note' | langg" fullWidth fieldSize="small">
           </div>
           <div class="col-3 form-control-group">
-            <input nbInput type="file" accept=".pdf, image/*" #attachment name="attachment" ng2FileSelect [uploader]="uploader"
-              [status]="!uploader.queue.length ? 'danger' : 'success'" [nbTooltip]="'Choose File' | langg"
-              [nbTooltipStatus]="!uploader.queue.length?'danger':'basic'" fieldSize="small" fullWidth />
+            <input nbInput type="file" accept=".pdf, image/*" #attachment name="attachment" ng2FileSelect
+              [uploader]="uploader" [status]="!uploader.queue.length ? 'danger' : 'success'"
+              [nbTooltip]="'Choose File' | langg" [nbTooltipStatus]="!uploader.queue.length?'danger':'basic'"
+              fieldSize="small" fullWidth />
           </div>
           <div class="col-3 form-control-group">
             <div class="row">
@@ -112,30 +114,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>5/6/2020</td>
-              <td langg>X-Ray Image</td>
-              <td>Left knee</td>
+            <tr *ngFor="let item of xrayDetails.xraysFiles">
+              <td>{{item.uploadDate | localDateShort}}</td>
+              <td>{{item.fileType | langg}}</td>
+              <td>{{item.fileNote}}</td>
               <td>
-                <a nbButton href="../../../../../../assets/images/team.png" target="_blank" [ngClass]="attachedFile?'disabled':''" status="info" size="small"
-                  langg>Preview</a>&nbsp;
-                <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image" [ngClass]="attachedFile?'disabled':''" size="small"
-                  langg>Download</a>&nbsp;
-                <button nbButton type="button" (click)="deleteSwal.fire()" status="danger" [disabled]="attachedFile" size="small"
-                  langg>Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>12/6/2020</td>
-              <td langg>Report File</td>
-              <td>Right knee</td>
-              <td>
-                <a nbButton href="../../../../../../assets/images/team.png" target="_blank" [ngClass]="attachedFile?'disabled':''" status="info" size="small"
-                  langg>Preview</a>&nbsp;
-                <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image" [ngClass]="attachedFile?'disabled':''" size="small"
-                  langg>Download</a>&nbsp;
-                <button nbButton type="button" (click)="deleteSwal.fire()" status="danger" [disabled]="attachedFile" size="small"
-                  langg>Delete</button>
+                <a nbButton href="../../../../../../assets/images/team.png" target="_blank"
+                  [ngClass]="attachedFile?'disabled':''" status="info" size="small" langg>Preview</a>&nbsp;
+                <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image"
+                  [ngClass]="attachedFile?'disabled':''" size="small" langg>Download</a>&nbsp;
+                <button nbButton type="button" (click)="deleteSwal.fire()" status="danger" [disabled]="attachedFile"
+                  size="small" langg>Delete</button>
               </td>
             </tr>
           </tbody>

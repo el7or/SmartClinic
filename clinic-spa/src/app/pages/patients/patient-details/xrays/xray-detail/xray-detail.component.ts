@@ -3,17 +3,20 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { FileUploader, FileItem, ParsedResponseHeaders } from "ng2-file-upload";
+import { XraysService } from "../xrays.service";
+import { XrayDetails } from "../xrays.model";
 
 // const URL = '/api/';
 const URL = "https://api.imgur.com/3/upload";
 
 @Component({
-  selector: "x-ray-detail",
-  templateUrl: "./x-ray-detail.component.html",
-  styleUrls: ["./x-ray-detail.component.scss"]
+  selector: "xray-detail",
+  templateUrl: "./xray-detail.component.html",
+  styleUrls: ["./xray-detail.component.scss"],
 })
 export class XRayDetailComponent implements OnInit {
-  @Input() xRayDetails: string;
+  @Input() xRayId: number;
+  xrayDetails: XrayDetails;
   formLoading: boolean = false;
   uploader: FileUploader;
   response: string;
@@ -24,24 +27,26 @@ export class XRayDetailComponent implements OnInit {
 
   attachedFile: any;
 
-  constructor(public dialogRef: NbDialogRef<XRayDetailComponent>) {
+  constructor(
+    public dialogRef: NbDialogRef<XRayDetailComponent>,
+    private xrayService: XraysService
+  ) {
     this.uploader = new FileUploader({
       url: URL,
-      maxFileSize: 10 * 1024 * 1024,  // max size: 10 MB
-      disableMultipart: true,   // 'DisableMultipart' must be 'true' for formatDataFunction to be called.
+      maxFileSize: 10 * 1024 * 1024, // max size: 10 MB
+      disableMultipart: true, // 'DisableMultipart' must be 'true' for formatDataFunction to be called.
       formatDataFunctionIsAsync: true,
-      formatDataFunction: async item => {
+      formatDataFunction: async (item) => {
         return new Promise((resolve, reject) => {
           resolve({
             name: item._file.name,
             length: item._file.size,
             contentType: item._file.type,
-            date: new Date()
+            date: new Date(),
           });
         });
-      }
+      },
     });
-
 
     // =====> if file size bigger than maximum size 10MB:
     this.uploader.onWhenAddingFileFailed = (item, filter, options) => {
@@ -54,7 +59,7 @@ export class XRayDetailComponent implements OnInit {
           //this.errorMessage = `Type "${item.type} is not allowed. Allowed types: "${allowedTypes}"`;
           break;
         default:
-          //this.errorMessage = `Unknown error (filter is ${filter.name})`;
+        //this.errorMessage = `Unknown error (filter is ${filter.name})`;
       }
     };
 
@@ -76,10 +81,12 @@ export class XRayDetailComponent implements OnInit {
       this.doneSwal.fire();
     };
 
-    this.uploader.response.subscribe(res => (this.response = res));
+    this.uploader.response.subscribe((res) => (this.response = res));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.xrayDetails = this.xrayService.getXrayDetails(this.xRayId);
+  }
 
   onSave(form: NgForm) {
     this.doneSwal.fire();
@@ -90,7 +97,7 @@ export class XRayDetailComponent implements OnInit {
     this.attachedFile = {
       fileType: "",
       fileNote: "",
-      file: ""
+      file: "",
     };
   }
 }

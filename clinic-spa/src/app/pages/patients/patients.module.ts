@@ -32,10 +32,10 @@ import { DiseasesComponent } from './patient-details/diseases/diseases.component
 import { MedicinesComponent } from './patient-details/medicines/medicines.component';
 import { MedicinesSummaryComponent } from './patient-details/medicines/medicines-summary/medicines-summary.component';
 import { HistoryComponent } from './patient-details/history/history.component';
-import { XRaysComponent } from './patient-details/x-rays/x-rays.component';
+import { XRaysComponent } from './patient-details/xrays/xrays.component';
 import { AnalysisComponent } from './patient-details/analysis/analysis.component';
 import { RequestsComponent } from './patient-details/requests/requests.component';
-import { XRayDetailComponent } from './patient-details/x-rays/x-ray-detail/x-ray-detail.component';
+import { XRayDetailComponent } from './patient-details/xrays/xray-detail/xray-detail.component';
 import { AnalysisDetailComponent } from './patient-details/analysis/analysis-detail/analysis-detail.component';
 import { PatientRecordComponent } from './patient-details/patient-record/patient-record.component';
 import { ReferralsComponent } from './patient-details/referrals/referrals.component';

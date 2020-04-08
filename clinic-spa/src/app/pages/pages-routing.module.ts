@@ -10,7 +10,7 @@ import { RequestsComponent } from "./patients/patient-details/requests/requests.
 import { MedicinesComponent } from "./patients/patient-details/medicines/medicines.component";
 import { DiseasesComponent } from "./patients/patient-details/diseases/diseases.component";
 import { AnalysisComponent } from "./patients/patient-details/analysis/analysis.component";
-import { XRaysComponent } from "./patients/patient-details/x-rays/x-rays.component";
+import { XRaysComponent } from "./patients/patient-details/xrays/xrays.component";
 import { PatientSettingComponent } from "./settings/patient-setting/patient-setting.component";
 import { ContactUsComponent } from "./contact/contact-us.component";
 import { UsersSettingComponent } from "./settings/users-setting/users-setting.component";

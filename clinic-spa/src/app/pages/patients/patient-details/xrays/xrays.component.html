@@ -1,0 +1,25 @@
+    <button [routerLink]="['/pages/patients/details',1,'request']" [queryParams]="{type:'xray'}" nbButton class="mb-1" langg>Request New X-Ray</button>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th langg>X-Rays</th>
+          <th langg>X-Ray Area</th>
+          <th langg>Request Date</th>
+          <th langg>Result Date</th>
+          <th langg>Disease Severity</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of xraysList">
+          <td>{{item.xrayName}}</td>
+          <td>{{item.xrayArea}}</td>
+          <td>{{item.requestDate | localDateShort}}</td>
+          <td>{{item.resultDate | localDateShort}}</td>
+          <td>Grade {{item.resultGrade}}</td>
+          <td class="text-center">
+            <button nbButton (click)="onOpenXrayDetails(item.id)" type="submit" [status]="item.isHasResult ? 'info' : 'success'" size="small">{{item.isHasResult ? ('Details' | langg) : ('Register Result' | langg)}}</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>

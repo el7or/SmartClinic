@@ -1,7 +1,7 @@
 <form #form="ngForm" (ngSubmit)="onSubmit()" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
   <div class="row">
-    <div class="col-md-3 col-sm-6 form-control-group">
+    <!-- <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-status" class="label"><span langg>Social Status</span>:</label>
       <nb-select fullWidth [(ngModel)]="patientHistory.socialStatus" #socialStatus="ngModel" name="socialStatus" id="input-status"
         [placeholder]="'Social Status' | langg">
@@ -26,7 +26,7 @@
           Partner</span>:</label>
       <input nbInput [(ngModel)]="patientHistory.prevMarriagePartner" type="number" #prevMarriagePartner="ngModel" name="prevMarriagePartner"
         id="input-prevMarriagePartner" [placeholder]="'Previous Marriages for Partner' | langg" fullWidth>
-    </div>
+    </div> -->
     <div class="col-md-6 form-control-group">
       <label for="input-treatmentHistory" class="label"><span langg>Previous Treatments</span>:</label>
       <textarea nbInput [(ngModel)]="patientHistory.treatmentHistory" #treatmentHistory="ngModel" name="treatmentHistory" id="input-treatmentHistory"

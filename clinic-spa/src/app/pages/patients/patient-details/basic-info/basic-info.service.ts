@@ -29,7 +29,7 @@ export class BasicInfoService {
 
   // =====> save new patient:
   saveNewPatient(newPatient:NewPatient){
-
+    // must create codeId for patient on clinic level not on doctor level
   }
 
   // =====> update basic info:

@@ -34,6 +34,16 @@ namespace clinic_api.Models
         public Guid UpdatedBy { get; set; }
         public string PatientRecordSections { get; set; }
         public string DiseasesQuestions { get; set; }
+        public string Phone1 { get; set; }
+        public string Phone2 { get; set; }
+        public string Phone3 { get; set; }
+        public string WhatsApp { get; set; }
+        public string Email1 { get; set; }
+        public string Email2 { get; set; }
+        public string Facebook { get; set; }
+        public string Twitter { get; set; }
+        public string LinkedIn { get; set; }
+        public string Instagram { get; set; }
 
         public virtual SysDoctorsSpecialty Specialty { get; set; }
         public virtual ICollection<DoctorAnalysisValue> DoctorAnalysisValues { get; set; }

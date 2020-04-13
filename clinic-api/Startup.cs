@@ -101,15 +101,16 @@ namespace clinic_api
             //});
             app.UseAuthentication();
             app.UseDefaultFiles();
-            //app.Use(async (context, next) => {
-            //    await next();
-            //    if (context.Response.StatusCode == 404)
-            //    {
-            //        context.Request.Path = "/index.html";
-            //        await next();
-            //    }
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
 
-            //});
+            });
             app.UseStaticFiles();
             app.UseMvc();
         }

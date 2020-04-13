@@ -68,6 +68,9 @@ namespace clinic_api
                 };
             });
 
+            services.AddControllers()
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddMvc(options =>
             {
                 // --> to apply authorization on all controller without [Authorize] attribute:

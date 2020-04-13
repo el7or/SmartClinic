@@ -27,7 +27,7 @@ namespace clinic_api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SysGovernoratesValue>>> GetSysGovernoratesValues()
         {
-            return await _context.SysGovernoratesValues.ToListAsync();
+            return await _context.SysGovernoratesValues.Include(g => g.SysCitiesValues).ToListAsync();
         }
 
         // GET: api/Governorates/5

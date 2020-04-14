@@ -61,6 +61,7 @@ namespace clinic_api.Data
             : base(options)
         {
         }
+
         public virtual DbSet<BookingPayment> BookingPayments { get; set; }
         public virtual DbSet<BookingService> BookingServices { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
@@ -95,6 +96,8 @@ namespace clinic_api.Data
         public virtual DbSet<PatientRay> PatientRays { get; set; }
         public virtual DbSet<PatientReferral> PatientReferrals { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
+        public virtual DbSet<Plan> Plans { get; set; }
+        public virtual DbSet<Subscription> Subscriptions { get; set; }
         public virtual DbSet<SysAnalysisFileTypesValue> SysAnalysisFileTypesValues { get; set; }
         public virtual DbSet<SysBloodPressureValue> SysBloodPressureValues { get; set; }
         public virtual DbSet<SysCitiesValue> SysCitiesValues { get; set; }
@@ -111,7 +114,10 @@ namespace clinic_api.Data
         public virtual DbSet<SysMedicinesValue> SysMedicinesValues { get; set; }
         public virtual DbSet<SysPatientRecordSectionsValue> SysPatientRecordSectionsValues { get; set; }
         public virtual DbSet<SysRayFileTypesValue> SysRayFileTypesValues { get; set; }
-        public virtual DbSet<SysSocialStatusValue> SysSocialStatusValues { get; set; }
+        public virtual DbSet<SysRenewalTypeValue> SysRenewalTypeValues { get; set; }
+        public virtual DbSet<SysSocialStatusValue> SysSocialStatusValues { get; set; }        
+        public virtual DbSet<SysSubscriberTypeValue> SysSubscriberTypeValues { get; set; }
+        public virtual DbSet<SysSubscriptionTypeValue> SysSubscriptionTypeValues { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -897,6 +903,72 @@ namespace clinic_api.Data
                     .HasConstraintName("FK_Patients_SysSocialStatusValues");
             });
 
+            modelBuilder.Entity<Plan>(entity =>
+            {
+                entity.Property(e => e.AnnualRenewalFee).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.MaxFilesMonthlyMb).HasColumnName("MaxFilesMonthlyMB");
+
+                entity.Property(e => e.MaxFileSizeMb).HasColumnName("MaxFileSizeMB");
+
+                entity.Property(e => e.MonthlyRenewalFee).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.SignUpFee).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Title).IsRequired();
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.RenewalType)
+                    .WithMany(p => p.Plans)
+                    .HasForeignKey(d => d.RenewalTypeId)
+                    .HasConstraintName("FK_Plans_SysRenewalTypeValues");
+            });
+
+            modelBuilder.Entity<Subscription>(entity =>
+            {
+                entity.Property(e => e.AnnualRenewalFee).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.Property(e => e.MaxFilesMonthlyMb).HasColumnName("MaxFilesMonthlyMB");
+
+                entity.Property(e => e.MaxFileSizeMb).HasColumnName("MaxFileSizeMB");
+
+                entity.Property(e => e.MonthlyRenewalFee).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Note)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.SignUpFee).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Plan)
+                    .WithMany(p => p.Subscriptions)
+                    .HasForeignKey(d => d.PlanId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Subscriptions_Plans");
+
+                entity.HasOne(d => d.SubscriberType)
+                    .WithMany(p => p.Subscriptions)
+                    .HasForeignKey(d => d.SubscriberTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Subscriptions_SysSubscriberTypeValues");
+
+                entity.HasOne(d => d.SubscriptionType)
+                    .WithMany(p => p.Subscriptions)
+                    .HasForeignKey(d => d.SubscriptionTypeId)
+                    .HasConstraintName("FK_Subscriptions_SysSubscriptionTypeValues");
+            });
+
             modelBuilder.Entity<SysAnalysisFileTypesValue>(entity =>
             {
                 entity.Property(e => e.Text).IsRequired();
@@ -1027,7 +1099,28 @@ namespace clinic_api.Data
                 entity.Property(e => e.Value).IsRequired();
             });
 
+            modelBuilder.Entity<SysRenewalTypeValue>(entity =>
+            {
+                entity.Property(e => e.Text).IsRequired();
+
+                entity.Property(e => e.Value).IsRequired();
+            });
+
             modelBuilder.Entity<SysSocialStatusValue>(entity =>
+            {
+                entity.Property(e => e.Text).IsRequired();
+
+                entity.Property(e => e.Value).IsRequired();
+            });
+
+            modelBuilder.Entity<SysSubscriberTypeValue>(entity =>
+            {
+                entity.Property(e => e.Text).IsRequired();
+
+                entity.Property(e => e.Value).IsRequired();
+            });
+
+            modelBuilder.Entity<SysSubscriptionTypeValue>(entity =>
             {
                 entity.Property(e => e.Text).IsRequired();
 

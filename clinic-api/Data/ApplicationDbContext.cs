@@ -98,6 +98,7 @@ namespace clinic_api.Data
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<Plan> Plans { get; set; }
         public virtual DbSet<Subscription> Subscriptions { get; set; }
+        public virtual DbSet<SubscriptionPayment> SubscriptionPayments { get; set; }
         public virtual DbSet<SysAnalysisFileTypesValue> SysAnalysisFileTypesValues { get; set; }
         public virtual DbSet<SysBloodPressureValue> SysBloodPressureValues { get; set; }
         public virtual DbSet<SysCitiesValue> SysCitiesValues { get; set; }
@@ -967,6 +968,23 @@ namespace clinic_api.Data
                     .WithMany(p => p.Subscriptions)
                     .HasForeignKey(d => d.SubscriptionTypeId)
                     .HasConstraintName("FK_Subscriptions_SysSubscriptionTypeValues");
+            });
+
+            modelBuilder.Entity<SubscriptionPayment>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.NextPaymentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Paid).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Subscription)
+                    .WithMany(p => p.SubscriptionPayments)
+                    .HasForeignKey(d => d.SubscriptionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SubscriptionPayments_Subscriptions");
             });
 
             modelBuilder.Entity<SysAnalysisFileTypesValue>(entity =>

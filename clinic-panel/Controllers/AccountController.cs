@@ -1,4 +1,4 @@
-﻿using clinic_panel.Models.ViewModels;
+﻿using clinic_panel.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace clinic_panel.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginDTO model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {

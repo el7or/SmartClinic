@@ -5,6 +5,10 @@ namespace clinic_api.Models
 {
     public partial class Subscription
     {
+        public Subscription()
+        {
+            SubscriptionPayments = new HashSet<SubscriptionPayment>();
+        }
         public int Id { get; set; }
         public Guid SubscriberId { get; set; }
         public int SubscriberTypeId { get; set; }
@@ -31,5 +35,6 @@ namespace clinic_api.Models
         public virtual Plan Plan { get; set; }
         public virtual SysSubscriberTypeValue SubscriberType { get; set; }
         public virtual SysSubscriptionTypeValue SubscriptionType { get; set; }
+        public virtual ICollection<SubscriptionPayment> SubscriptionPayments { get; set; }
     }
 }

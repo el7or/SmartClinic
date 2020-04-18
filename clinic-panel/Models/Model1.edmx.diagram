@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bfec69010bf64f9c9bca018d3c735719" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="Models.AspNetRole" Width="1.5" PointX="1.5" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.AspNetUser" Width="1.5" PointX="0.75" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.AspNetUserToken" Width="1.5" PointX="3" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.BookingPayment" Width="1.5" PointX="9.75" PointY="47.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.Booking" Width="1.5" PointX="7.5" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.ClinicBookingType" Width="1.5" PointX="5.25" PointY="45.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.ClinicDiscount" Width="1.5" PointX="5.25" PointY="50.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.Clinic" Width="1.5" PointX="3" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.ClinicService" Width="1.5" PointX="15.75" PointY="43.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorAnalysisValue" Width="1.5" PointX="8.25" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorComplaintChoicesValue" Width="1.5" PointX="8.25" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorDetailedComplaintsValue" Width="1.5" PointX="6" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorDiagnosisValue" Width="1.5" PointX="8.25" PointY="55.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorExaminationAreasValue" Width="1.5" PointX="5.25" PointY="55.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorExaminationsValue" Width="1.5" PointX="5.25" PointY="59.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorGeneralComplaintsValue" Width="1.5" PointX="11.25" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorMedicinesValue" Width="1.5" PointX="11.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorOperationTypesValue" Width="1.5" PointX="11.25" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorRayAreasValue" Width="1.5" PointX="14.25" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.DoctorRaysValue" Width="1.5" PointX="14.25" PointY="49.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.Doctor" Width="1.5" PointX="3" PointY="47" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientAnalysi" Width="1.5" PointX="10.5" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientAnalysisFile" Width="1.5" PointX="18.75" PointY="37.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientDetailedComplaint" Width="1.5" PointX="10.5" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientDiagnosi" Width="1.5" PointX="10.5" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientDiseas" Width="1.5" PointX="7.5" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientExamination" Width="1.5" PointX="7.5" PointY="43.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientGeneralComplaint" Width="1.5" PointX="13.5" PointY="37.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientOperation" Width="1.5" PointX="13.5" PointY="32" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientPrescription" Width="1.5" PointX="13.5" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientRayFile" Width="1.5" PointX="21.75" PointY="37.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientRay" Width="1.5" PointX="16.5" PointY="36.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.PatientReferral" Width="1.5" PointX="16.5" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.Patient" Width="1.5" PointX="5.25" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.Plan" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.Subscription" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysAnalysisFileTypesValue" Width="1.5" PointX="16.5" PointY="47.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysBloodPressureValue" Width="1.5" PointX="3" PointY="40.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysCitiesValue" Width="1.5" PointX="3" PointY="43.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.sysdiagram" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysDiseaseGradesValue" Width="1.5" PointX="8.25" PointY="51.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysDiseasesQuestionsValue" Width="1.5" PointX="5.25" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysDoctorsSpecialty" Width="1.5" PointX="0.75" PointY="50.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysEntryOrderValue" Width="1.5" PointX="0.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysGovernoratesValue" Width="1.5" PointX="0.75" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysMedicineConcentrationsValue" Width="1.5" PointX="11.25" PointY="51.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysMedicineDosesValue" Width="1.5" PointX="11.25" PointY="54.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysMedicineFormsValue" Width="1.5" PointX="11.25" PointY="57.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysMedicinePeriodsValue" Width="1.5" PointX="11.25" PointY="59.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysMedicinesValue" Width="1.5" PointX="9" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysMedicineTimingsValue" Width="1.5" PointX="11.25" PointY="62.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysPatientRecordSectionsValue" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysRayFileTypesValue" Width="1.5" PointX="19.5" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysRenewalTypeValue" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysSocialStatusValue" Width="1.5" PointX="3" PointY="57.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysSubscriberTypeValue" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.SysSubscriptionTypeValue" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
+        <AssociationConnector Association="Models.FK_AspNetUserTokens_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_BookingPayments_Bookings" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Bookings_ClinicBookingTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Bookings_ClinicDiscounts" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Bookings_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_ClinicBookingTypes_Clinics" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_ClinicDiscounts_Clinics" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Clinics_SysEntryOrderValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_ClinicServices_Clinics" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Patients_Clinics" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorAnalysisValues_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientAnalysis_DoctorAnalysisValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientDetailedComplaints_DoctorComplaintChoicesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorDetailedComplaintsValues_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorDiagnosisValues_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientDiagnosis_DoctorDiagnosisValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorExaminationAreasValues_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientExaminations_DoctorExaminationAreasValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorExaminationsValues_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientExaminations_DoctorExaminationsValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorGeneralComplaintsValues_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientGeneralComplaints_DoctorGeneralComplaintsValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorMedicinesValues_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorMedicinesValues_SysMedicinesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientPrescriptions_DoctorMedicinesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorOperationTypesValues_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientOperations_DoctorOperationTypesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorRayAreas_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientRays_DoctorRayAreas" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_DoctorRaysValues_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientRays_DoctorRaysValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Doctors_SysDoctorsSpecialties" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientReferrals_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Patients_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientAnalysis_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientAnalysis_SysDiseaseGradesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientAnalysisFiles_PatientAnalysis" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientAnalysisFiles_SysAnalysisFileTypesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientDetailedComplaints_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientDiagnosis_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientDiagnosis_SysDiseaseGradesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientDiseases_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientDiseases_SysDiseasesQuestionsValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientExaminations_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientGeneralComplaints_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientOperations_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientPrescriptions_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientPrescriptions_SysMedicineConcentrationsValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientPrescriptions_SysMedicineDosesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientPrescriptions_SysMedicineFormsValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientPrescriptions_SysMedicinePeriodsValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientPrescriptions_SysMedicineTimingsValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientRayFiles_PatientRays" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientRayFiles_SysRayFileTypesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientRays_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientRays_SysDiseaseGradesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_PatientReferrals_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Patients_SysBloodPressureValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Patients_SysCitiesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Patients_SysGovernoratesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Patients_SysSocialStatusValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Plans_SysRenewalTypeValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Subscriptions_Plans" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Subscriptions_SysSubscriberTypeValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_Subscriptions_SysSubscriptionTypeValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_SysCitiesValues_SysGovernoratesValues" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.BookingServices" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.ClinicUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.DoctorClinics" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

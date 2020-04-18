@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace clinic_api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -84,8 +85,12 @@ namespace clinic_api.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register(AccountRegisterDTO model)
+        public async Task<IActionResult> Register(string id, AccountRegisterDTO model)
         {
+            if (id != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
             Guid newId = Guid.NewGuid();
             var user = new ApplicationUser
             {
@@ -104,7 +109,7 @@ namespace clinic_api.Controllers
                 var roleResult = await _userManager.AddToRoleAsync(user, model.RoleName);
                 if (roleResult.Succeeded)
                 {
-                    return Ok();
+                    return Ok(user.Id);
                 }
                 else return BadRequest(result.Errors);
             }

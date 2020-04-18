@@ -7,6 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 20px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,4 +22,96 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-image: linear-gradient(#04519b, #044687 60%, #033769);
+    background-repeat: no-repeat;
+    color: #deb887;
+    padding-top: 1rem;
+}
+
+div.loginForm {
+    margin: 0 auto;
+    width: 300px;
+}
+
+    div.loginForm .form-control {
+        margin: 0 auto;
+    }
+
+.width100 {
+    width: 100px;
+}
+
+.btn {
+    min-width: 75px !important;
+}
+
+input.datepicker {
+    background-color: white !important;
+}
+
+dt {
+    text-decoration-line: unset;
+}
+
+
+/***** Tabs RTL *****/
+.ui-tabs {
+    direction: rtl;
+}
+
+    .ui-tabs .ui-tabs-nav li.ui-tabs-selected,
+    .ui-tabs .ui-tabs-nav li.ui-state-default {
+        float: right;
+    }
+
+    .ui-tabs .ui-tabs-nav li a {
+        float: right;
+    }
+
+.ui-tabs-nav.ui-corner-all {
+    border-bottom-right-radius: unset;
+    border-bottom-left-radius: unset;
+    background: none;
+    border: unset;
+    border-bottom: 1px solid #aed0ea;
+}
+
+
+/***** Fonts *****/
+h1, h2, h3, h4, h5, h6 {
+    font-family: DecoType Naskh !important;
+}
+
+h4 {
+    font-size: x-large !important;
+}
+h5 {
+    font-size: large !important;
+}
+
+label, th, dt {
+    font-family: Sakkal Majalla !important;
+    font-size: larger !important;
+}
+
+span.text-danger, div.text-danger li {
+    font-family: DecoType Naskh !important;
+    font-size: large !important;
+}
+
+.navbar-brand {
+    font-family: Aldhabi !important;
+    font-size: 2.75rem !important;
+    padding: 20px 15px !important;
+}
+
+.btn-primary, .btn-info, .btn-success, .btn-warning, .btn-danger {
+    color: white !important;
 }

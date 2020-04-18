@@ -18,17 +18,10 @@ namespace clinic_panel.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
         public async Task<ActionResult> Contact()
         {
             //Hosted web API REST Service base url 
-            string apiUrl = ConfigurationManager.AppSettings["baseurl"] + "/api/weatherforecast";
+            string apiUrl = ConfigurationManager.AppSettings["apiurl"] + "weatherforecast";
 
             using (var client = new HttpClient())
             {
@@ -55,6 +48,10 @@ namespace clinic_panel.Controllers
                 }
             }
             return View();
+        }
+        public ActionResult PageNotFound()
+        {
+            return View("Error");
         }
     }
 }

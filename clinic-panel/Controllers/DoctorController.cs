@@ -53,7 +53,8 @@ namespace clinic_panel.Controllers
         // GET: Doctor/Create
         public ActionResult Create()
         {
-            ViewBag.SpecialtyId = new SelectList(db.SysDoctorsSpecialties, "Id", "Value");
+            ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value");
+            ViewBag.Tab = 0;
             return View();
         }
 
@@ -67,10 +68,13 @@ namespace clinic_panel.Controllers
                 doctor.Id = Guid.NewGuid();
                 db.Doctors.Add(doctor);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.Tab = 1;
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return View();
             }
 
-            ViewBag.SpecialtyId = new SelectList(db.SysDoctorsSpecialties, "Id", "Value", doctor.SpecialtyId);
+            ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value", doctor.SpecialtyId);
+            ViewBag.Tab = 0;
             return View(doctor);
         }
 

@@ -1,7 +1,10 @@
 ﻿using clinic_panel.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -22,7 +25,7 @@ namespace clinic_panel.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginDTO model, string returnUrl)
+        public ActionResult Login(AccountLoginDTO model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -30,15 +33,39 @@ namespace clinic_panel.Controllers
             }
             else
             {
-                if (FormsAuthentication.Authenticate(model.Email, model.Password))
+                //Hosted web API REST Service base url 
+                string apiUrl = ConfigurationManager.AppSettings["apiurl"];
+
+                using (var client = new HttpClient())
                 {
-                    FormsAuthentication.SetAuthCookie(model.Email, false);
-                    return RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError("", "تسجيل دخول خاطيء !");
-                    return View(model);
+                    //Passing service base url  
+                    client.BaseAddress = new Uri(apiUrl);
+
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Accept.Clear();
+
+                    HttpResponseMessage result = client.PostAsJsonAsync("account/Login", model).Result;
+
+                    //If success received   
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var responseData = result.Content.ReadAsStringAsync().Result;
+                        if (FormsAuthentication.Authenticate(model.UserName, model.Password))
+                        {
+                            FormsAuthentication.SetAuthCookie(model.UserName, false);
+                            return RedirectToLocal(returnUrl);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "تسجيل دخول خاطيء !");
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "حدث خطأ ما !");
+                        return View(model);
+                    }
                 }
             }
         }

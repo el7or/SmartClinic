@@ -83,7 +83,6 @@ namespace clinic_api.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(string id, AccountRegisterDTO model)
         {

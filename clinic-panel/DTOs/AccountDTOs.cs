@@ -6,12 +6,12 @@ using System.Web;
 
 namespace clinic_panel.DTOs
 {
-    public class LoginDTO
+    public class AccountLoginDTO
     {
         [Required]
         [Display(Name = "البريد الإلكتروني")]
         [EmailAddress]
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

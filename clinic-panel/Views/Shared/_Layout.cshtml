@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - تحكم العيادات</title>
+    <title>تحكم العيادات - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
     @RenderSection("Styles", required: false)
@@ -24,10 +24,18 @@
                 @if (Request.IsAuthenticated)
                 {
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("المستخدمين", "Index", "Home")</li>
                     <li>@Html.ActionLink("الأطباء", "Index", "Home")</li>
-                    <li>@Html.ActionLink("العيادات", "About", "Home")</li>
-                    <li>@Html.ActionLink("باقات الاشتراك", "About", "Home")</li>
-                    <li>@Html.ActionLink("Test", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("العيادات", "Index", "Home")</li>
+                    @*<li>@Html.ActionLink("Test", "Contact", "Home")</li>*@
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown">
+                            قيم النظام
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="nav dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("باقات الاشتراك", "Index", "Home")</li>
+                        </ul>
                 </ul>
                     @Html.Partial("_LoginPartial")
                 }

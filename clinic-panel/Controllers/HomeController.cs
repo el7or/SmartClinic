@@ -49,9 +49,9 @@ namespace clinic_panel.Controllers
             }
             return View();
         }
-        public ActionResult PageNotFound()
+        public ActionResult Error()
         {
-            return View("Error");
+            return View();
         }
     }
 }

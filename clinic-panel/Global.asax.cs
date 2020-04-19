@@ -17,6 +17,7 @@ namespace clinic_panel
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalFilters.Filters.Add(new AuthorizeAttribute());
+            GlobalFilters.Filters.Add(new HandleErrorAttribute());
         }
     }
 }

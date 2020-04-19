@@ -1,0 +1,73 @@
+﻿@model IEnumerable<clinic_panel.DTOs.DoctorIndexDTO>
+
+@{
+    ViewBag.Title = "الأطباء";
+}
+
+<br />
+<p>
+    @Html.ActionLink("إضافة طبيب", "Create")
+</p>
+
+<table class="table">
+    <tr class="info">
+        <th>
+            اسم الطبيب
+        </th>
+        <th>
+            التخصص
+        </th>
+        <th>
+            باقة الاشتراك
+        </th>
+        <th>
+            بداية الاشتراك
+        </th>
+        <th>
+            نهاية الاشتراك
+        </th>
+        <th>
+            المستخدمين
+        </th>
+        <th>
+            العيادات
+        </th>
+        <th>
+            التفعيل
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.FullName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Specialty)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Plan)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.StartPlanDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EndPlanDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.UsersCount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ClinicsCount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsActive)
+    </td>
+    <td>
+        @Html.ActionLink("التفاصيل", "Details", new { id = item.Id })
+    </td>
+</tr>
+}
+
+</table>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<clinic_panel.Models.SysSocialStatusValue>
+
+@{
+    ViewBag.Title = "الحالة الاجتماعية";
+}
+
+<h2>أنواع الحالة الاجتماعية</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table class="table">
+    <tr class="info">
+        <th>
+            نوع الحالة الاجتماعية بالعربي
+        </th>
+        <th>
+            نوع الحالة الاجتماعية بالإنجليزي
+        </th>
+        @*<th></th>*@
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Text)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Value)
+    </td>
+    @*<td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>*@
+</tr>
+}
+
+</table>

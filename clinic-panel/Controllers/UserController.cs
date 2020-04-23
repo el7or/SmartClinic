@@ -18,7 +18,7 @@ namespace clinic_panel.Controllers
         // GET: User
         public ActionResult Index()
         {
-            var users = db.AspNetUsers.Include(r => r.AspNetRoles).Select(u => new UserIndexDTO
+            var users = db.AspNetUsers.Where(d => d.IsDeleted != true).Include(r => r.AspNetRoles).Select(u => new UserIndexDTO
             {
                 Id = u.Id,
                 UserName = u.UserName,

@@ -35,10 +35,14 @@
                         </a>
                         <ul class="nav dropdown-menu" role="menu">
                             <li>@Html.ActionLink("الأدوية", "Index", "Medicine")</li>
+                            <li>@Html.ActionLink("الأمراض المصاحبة", "Index", "Disease")</li>
                             <li>@Html.ActionLink("أنواع رفع الملفات", "Index", "FileType")</li>
                             <li>@Html.ActionLink("باقات الاشتراك", "Index", "Plan")</li>
                             <li>@Html.ActionLink("تخصصات الأطباء", "Index", "Specialty")</li>
                             <li>@Html.ActionLink("صلاحيات المستخدمين", "Roles", "User")</li>
+                            <li>@Html.ActionLink("المحافظات والمدن", "Index", "City")</li>
+                            <li>@Html.ActionLink("درجات الأمراض", "Index", "Grades")</li>
+                            <li>@Html.ActionLink("أنواع الحالة الاجتماعية", "Index", "SocialStatus")</li>
                         </ul>
                 </ul>
                     @Html.Partial("_LoginPartial")

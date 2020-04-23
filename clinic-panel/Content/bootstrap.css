@@ -1673,10 +1673,12 @@ mark,
 
 .text-left {
     text-align: left;
+    direction: ltr;
 }
 
 .text-right {
     text-align: right;
+    direction:rtl;
 }
 
 .text-center {

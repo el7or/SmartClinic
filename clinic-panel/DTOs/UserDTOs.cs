@@ -24,4 +24,11 @@ namespace clinic_panel.DTOs
         public string EditedBy { get; set; }
         public string RoleName { get; set; }
     }
+    public class UserRolesDTO
+    {
+        public Guid Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int UsersCount { get; set; }
+    }
 }

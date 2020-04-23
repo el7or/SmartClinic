@@ -134,9 +134,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PlanController.cs" />
+    <Compile Include="Controllers\SpecialtyController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTOs\AccountDTOs.cs" />
     <Compile Include="DTOs\DoctorDTOs.cs" />
+    <Compile Include="DTOs\PlanDTOs.cs" />
+    <Compile Include="DTOs\SpecialtyDTOs.cs" />
     <Compile Include="DTOs\UserDTOs.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -451,6 +455,17 @@
     <Content Include="Views\Doctor\Edit.cshtml" />
     <Content Include="Views\Doctor\Index.cshtml" />
     <Content Include="Views\Doctor\_CreateDoctor.cshtml" />
+    <Content Include="Views\Plan\Create.cshtml" />
+    <Content Include="Views\Plan\Delete.cshtml" />
+    <Content Include="Views\Plan\Details.cshtml" />
+    <Content Include="Views\Plan\Edit.cshtml" />
+    <Content Include="Views\Plan\Index.cshtml" />
+    <Content Include="Views\Specialty\Create.cshtml" />
+    <Content Include="Views\Specialty\Delete.cshtml" />
+    <Content Include="Views\Specialty\Details.cshtml" />
+    <Content Include="Views\Specialty\Edit.cshtml" />
+    <Content Include="Views\Specialty\Index.cshtml" />
+    <Content Include="Views\User\Roles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

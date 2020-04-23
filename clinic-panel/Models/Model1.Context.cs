@@ -82,5 +82,7 @@ namespace clinic_panel.Models
         public virtual DbSet<SysSocialStatusValue> SysSocialStatusValues { get; set; }
         public virtual DbSet<SysSubscriberTypeValue> SysSubscriberTypeValues { get; set; }
         public virtual DbSet<SysSubscriptionTypeValue> SysSubscriptionTypeValues { get; set; }
+
+        public System.Data.Entity.DbSet<clinic_panel.DTOs.UserRolesDTO> UserRolesDTOes { get; set; }
     }
 }

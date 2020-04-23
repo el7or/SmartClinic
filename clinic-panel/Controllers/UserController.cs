@@ -33,6 +33,19 @@ namespace clinic_panel.Controllers
             return View(users.ToList());
         }
 
+        // GET: User/Roles
+        public ActionResult Roles()
+        {
+            var roles = db.AspNetRoles.OrderBy(t => t.Title).Select(r => new UserRolesDTO
+            {
+                Id = r.Id,
+                Title = r.Title,
+                Description = r.Description,
+                UsersCount = r.AspNetUsers.Count()
+            });
+            return View(roles.ToList());
+        }
+
         //// GET: User/Details/5
         //public ActionResult Details(Guid? id)
         //{

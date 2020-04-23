@@ -34,8 +34,9 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="nav dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("باقات الاشتراك", "Index", "Home")</li>
-                            <li>@Html.ActionLink("تخصصات الأطباء", "Index", "Home")</li>
+                            <li>@Html.ActionLink("باقات الاشتراك", "Index", "Plan")</li>
+                            <li>@Html.ActionLink("تخصصات الأطباء", "Index", "Specialty")</li>
+                            <li>@Html.ActionLink("صلاحيات المستخدمين", "Roles", "User")</li>
                         </ul>
                 </ul>
                     @Html.Partial("_LoginPartial")

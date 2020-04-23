@@ -1,0 +1,152 @@
+﻿@model clinic_panel.DTOs.MedicineIndexDTO
+
+@{
+    ViewBag.Title = "الأدوية";
+}
+
+    <div class="row">
+        <div class="col-md-2">
+            <h2>أسماء الأدوية</h2>
+
+            <p>
+                @Html.ActionLink("إضافة دواء", "CreateMedicineName")
+            </p>
+
+            <table class="table">
+                <tr class="info">
+                    <th>
+                        اسم الدواء
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.MedicineNames)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Text)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-md-2">
+            <h2>تركيزات الأدوية</h2>
+
+            <p>
+                @Html.ActionLink("إضافة تركيز", "CreateMedicineConcentration")
+            </p>
+
+            <table class="table">
+                <tr class="info">
+                    <th>
+                        التركيز
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.MedicineConcentrations)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Text)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-md-2">
+            <h2>أشكال الأدوية</h2>
+
+            <p>
+                @Html.ActionLink("إضافة شكل", "CreateMedicineForm")
+            </p>
+
+            <table class="table">
+                <tr class="info">
+                    <th>
+                        الشكل
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.MedicineForms)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Text)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-md-2">
+            <h2>جرعات الأدوية</h2>
+
+            <p>
+                @Html.ActionLink("إضافة جرعة", "CreateMedicineDose")
+            </p>
+
+            <table class="table">
+                <tr class="info">
+                    <th>
+                        الجرعة
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.MedicineDoses)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Text)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-md-2">
+            <h2>توقيتات الدواء</h2>
+
+            <p>
+                @Html.ActionLink("إضافة توقيت", "CreateMedicineTiming")
+            </p>
+
+            <table class="table">
+                <tr class="info">
+                    <th>
+                        التوقيت
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.MedicineTimings)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Text)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-md-2">
+            <h2>فترة العلاج</h2>
+
+            <p>
+                @Html.ActionLink("إضافة فترة", "CreateMedicinePeriod")
+            </p>
+
+            <table class="table">
+                <tr class="info">
+                    <th>
+                        الفترة
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.MedicinePeriods)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Text)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>

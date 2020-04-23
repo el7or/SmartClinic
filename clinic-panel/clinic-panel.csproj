@@ -133,12 +133,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
+    <Compile Include="Controllers\FileTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MedicineController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
     <Compile Include="Controllers\SpecialtyController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTOs\AccountDTOs.cs" />
     <Compile Include="DTOs\DoctorDTOs.cs" />
+    <Compile Include="DTOs\FileTypeDTOs.cs" />
+    <Compile Include="DTOs\MedicineDTOs.cs" />
     <Compile Include="DTOs\PlanDTOs.cs" />
     <Compile Include="DTOs\SpecialtyDTOs.cs" />
     <Compile Include="DTOs\UserDTOs.cs" />
@@ -466,6 +470,16 @@
     <Content Include="Views\Specialty\Edit.cshtml" />
     <Content Include="Views\Specialty\Index.cshtml" />
     <Content Include="Views\User\Roles.cshtml" />
+    <Content Include="Views\FileType\Index.cshtml" />
+    <Content Include="Views\FileType\CreateRayFileType.cshtml" />
+    <Content Include="Views\FileType\CreateAnalysisFileType.cshtml" />
+    <Content Include="Views\Medicine\Index.cshtml" />
+    <Content Include="Views\Medicine\CreateMedicineName.cshtml" />
+    <Content Include="Views\Medicine\CreateMedicineConcentration.cshtml" />
+    <Content Include="Views\Medicine\CreateMedicineForm.cshtml" />
+    <Content Include="Views\Medicine\CreateMedicineDose.cshtml" />
+    <Content Include="Views\Medicine\CreateMedicineTiming.cshtml" />
+    <Content Include="Views\Medicine\CreateMedicinePeriod.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

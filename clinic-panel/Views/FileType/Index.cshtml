@@ -1,0 +1,68 @@
+﻿@model clinic_panel.DTOs.FileTypeIndexDTO
+
+@{
+    ViewBag.Title = "أنواع رفع الملفات";
+}
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>أنواع ملفات الأشعة</h2>
+
+            <p>
+                @Html.ActionLink("إضافة نوع ملف أشعة", "CreateRayFileType")
+            </p>
+
+            <table class="table">
+                <tr class="info">
+                    <th>
+                        نوع الملف
+                    </th>
+                    <th>
+                        عدد الملفات المرفوعة
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.RayFileTypes)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Text)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FilesCount)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h2>أنواع ملفات التحاليل</h2>
+
+            <p>
+                @Html.ActionLink("إضافة نوع ملف تحاليل", "CreateAnalysisFileType")
+            </p>
+
+            <table class="table">
+                <tr class="info">
+                    <th>
+                        نوع الملف
+                    </th>
+                    <th>
+                        عدد الملفات المرفوعة
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.AnalysisFileTypes)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Text)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FilesCount)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>

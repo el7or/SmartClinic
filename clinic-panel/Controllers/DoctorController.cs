@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using clinic_panel.DTOs;
 using clinic_panel.Models;
+using Newtonsoft.Json;
 
 namespace clinic_panel.Controllers
 {
@@ -35,6 +39,60 @@ namespace clinic_panel.Controllers
             return View(doctors.ToList());
         }
 
+        // GET: Doctor/Create
+        public ActionResult Create()
+        {
+            ViewBag.Tab = 0;
+            return View();
+        }
+
+        // POST: Doctor/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(DoctorCreateUserDTO model)
+        {
+            if (db.AspNetUsers.FirstOrDefault(u => u.UserName.ToLower().Trim() == model.UserName.ToLower().Trim()) != null)
+            {
+                ModelState.AddModelError("UserName", "اسم المستخدم هذا مسجل قبل ذلك !");
+            }
+            if (db.AspNetUsers.FirstOrDefault(u => u.FullName.ToLower().Trim() == model.FullName.ToLower().Trim()) != null)
+            {
+                ModelState.AddModelError("FullName", "اسم الطبيب هذا مسجل قبل ذلك !");
+            }
+            if (ModelState.IsValid)
+            {
+                model.RoleName = "doctor";
+                string currentUserId = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id.ToString();
+                string apiUrl = ConfigurationManager.AppSettings["apiurl"];
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(apiUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization =   new AuthenticationHeaderValue("Bearer", Session["token"].ToString());
+                    HttpResponseMessage result = client.PostAsJsonAsync("account/Register?id="+currentUserId, model).Result;
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var responseData = result.Content.ReadAsStringAsync().Result;
+                        var userId = JsonConvert.DeserializeObject<string>(responseData);
+                        TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                        ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value");
+                        ViewBag.Tab = 1;
+                        return View();
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "حدث خطأ ما !");
+                        ViewBag.Tab = 0;
+                        return View(model);
+                    }
+                }                
+            }
+            ViewBag.Tab = 0;
+            return View(model);
+        }
+
         // GET: Doctor/Details/5
         public ActionResult Details(Guid? id)
         {
@@ -47,34 +105,6 @@ namespace clinic_panel.Controllers
             {
                 return HttpNotFound();
             }
-            return View(doctor);
-        }
-
-        // GET: Doctor/Create
-        public ActionResult Create()
-        {
-            ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value");
-            ViewBag.Tab = 0;
-            return View();
-        }
-
-        // POST: Doctor/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,SpecialtyId,FullName,IsActive,IsDeleted,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,PatientRecordSections,DiseasesQuestions,Phone1,Phone2,Phone3,WhatsApp,Email1,Email2,Facebook,Twitter,LinkedIn,Instagram")] Doctor doctor)
-        {
-            if (ModelState.IsValid)
-            {
-                doctor.Id = Guid.NewGuid();
-                db.Doctors.Add(doctor);
-                db.SaveChanges();
-                ViewBag.Tab = 1;
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
-                return View();
-            }
-
-            ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value", doctor.SpecialtyId);
-            ViewBag.Tab = 0;
             return View(doctor);
         }
 

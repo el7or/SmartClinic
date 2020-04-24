@@ -25,4 +25,19 @@ namespace clinic_panel.DTOs
         public int PatientsCount { get; set; }
         public string IsActive { get; set; }
     }
+    public class DoctorCreateUserDTO
+    {
+        [Required(ErrorMessage ="لابد من إدخال قيمة !")]
+        [StringLength(100, ErrorMessage = "لابد على الأقل أن تحتوي على {2} حروف أو رموز !", MinimumLength = 6)]
+        public string UserName { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [StringLength(100, ErrorMessage = "لابد على الأقل أن تحتوي على {2} حروف أو رموز !", MinimumLength = 6)]
+        public string Password { get; set; }
+        public string RoleName { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [StringLength(100, ErrorMessage = "لابد على الأقل أن تحتوي على {2} حروف أو رموز !", MinimumLength = 6)]
+        public string FullName { get; set; }
+    }
 }

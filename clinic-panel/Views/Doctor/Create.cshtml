@@ -6,24 +6,32 @@
 
 <div id="tabs">
     <ul>
-        <li><a href="#tabs-0">(&#x06F1;) بيانات الدخول</a></li>
-        <li><a href="#tabs-1">(&#x06F2;) بيانات الطبيب</a></li>
-        <li><a href="#tabs-2">(&#x06F3;) بيانات العيادة</a></li>
+        <li><a href="#tabs-0">(&#x0661;) بيانات الدخول</a></li>
+        <li><a href="#tabs-1">(&#x0662;) بيانات الطبيب</a></li>
+        <li><a href="#tabs-2">(&#x0663;) بيانات الاشتراك</a></li>
+        <li><a href="#tabs-3">(&#x0664;) بيانات العيادة</a></li>
     </ul>
     <div id="tabs-0">
         @if (ViewBag.Tab == 0)
         {
-            Html.RenderPartial("_CreateDoctor");
+            Html.RenderPartial("_CreateUser");
         }
     </div>
     <div id="tabs-1">
         @if (ViewBag.Tab == 1)
         {
+            Html.RenderPartial("_CreateDoctor");
             //Html.RenderPartial("_FloorCabinsCount", ViewData["Tab1Model"]);
         }
     </div>
     <div id="tabs-2">
         @if (ViewBag.Tab == 2)
+        {
+            //Html.RenderPartial("_UserCabinsCount", ViewData["Tab2Model"]);
+        }
+    </div>
+    <div id="tabs-3">
+        @if (ViewBag.Tab == 3)
         {
             //Html.RenderPartial("_UserCabinsCount", ViewData["Tab2Model"]);
         }
@@ -37,8 +45,8 @@
         $(function () {
             // initial tabs
             $("#tabs").tabs()
-                .tabs("option", "disabled", [0, 1, 2])
-                .tabs("enable", @ViewBag.Tab)
+                @*.tabs("option", "disabled", [0, 1, 2])
+                .tabs("enable", @ViewBag.Tab)*@
                 .tabs( "option", "active", @ViewBag.Tab );
 
             //// initial Datepickers

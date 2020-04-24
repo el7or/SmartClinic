@@ -1,4 +1,5 @@
 ﻿using clinic_panel.DTOs;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -50,6 +51,8 @@ namespace clinic_panel.Controllers
                     if (result.IsSuccessStatusCode)
                     {
                         var responseData = result.Content.ReadAsStringAsync().Result;
+                        var jsonResponse = JsonConvert.DeserializeObject<ApiToken>(responseData);
+                        Session["token"] = jsonResponse.token;
                         if (FormsAuthentication.Authenticate(model.UserName, model.Password))
                         {
                             FormsAuthentication.SetAuthCookie(model.UserName, false);
@@ -75,6 +78,7 @@ namespace clinic_panel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            Session.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Account");
         }

@@ -18,4 +18,8 @@ namespace clinic_panel.DTOs
         [Display(Name = "كلمة المرور")]
         public string Password { get; set; }
     }
+    public class ApiToken
+    {
+        public string token { get; set; }
+    }
 }

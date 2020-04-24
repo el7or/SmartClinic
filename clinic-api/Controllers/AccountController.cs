@@ -90,16 +90,14 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            Guid newId = Guid.NewGuid();
             var user = new ApplicationUser
             {
-                Id = newId,
                 UserName = model.UserName,
                 Email = model.UserName,
                 FullName = model.FullName,
-                CreatedBy = newId,
+                CreatedBy = Guid.Parse(id),
                 CreatedOn = DateTime.Now,
-                EditedBy = newId,
+                EditedBy = Guid.Parse(id),
                 EditedOn = DateTime.Now
             };
             var result = await _userManager.CreateAsync(user, model.Password);

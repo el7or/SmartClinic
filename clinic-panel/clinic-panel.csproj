@@ -505,6 +505,7 @@
     <Content Include="Views\SocialStatus\Details.cshtml" />
     <Content Include="Views\SocialStatus\Edit.cshtml" />
     <Content Include="Views\SocialStatus\Index.cshtml" />
+    <Content Include="Views\Doctor\_CreateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

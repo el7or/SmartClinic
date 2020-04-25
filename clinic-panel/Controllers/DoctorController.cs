@@ -69,13 +69,18 @@ namespace clinic_panel.Controllers
                     client.BaseAddress = new Uri(apiUrl);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Authorization =   new AuthenticationHeaderValue("Bearer", Session["token"].ToString());
-                    HttpResponseMessage result = client.PostAsJsonAsync("account/Register?id="+currentUserId, model).Result;
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["token"].ToString());
+                    HttpResponseMessage result = client.PostAsJsonAsync("account/Register?id=" + currentUserId, model).Result;
 
                     if (result.IsSuccessStatusCode)
                     {
                         var responseData = result.Content.ReadAsStringAsync().Result;
                         var userId = JsonConvert.DeserializeObject<string>(responseData);
+                        ViewData["Tab1Model"] = new DoctorCreateDTO
+                        {
+                            UserId = Guid.Parse(userId),
+                            FullName = model.FullName
+                        };
                         TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                         ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value");
                         ViewBag.Tab = 1;
@@ -87,10 +92,219 @@ namespace clinic_panel.Controllers
                         ViewBag.Tab = 0;
                         return View(model);
                     }
-                }                
+                }
             }
             ViewBag.Tab = 0;
             return View(model);
+        }
+
+        // POST: Doctor/CreateDoctor
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateDoctor(DoctorCreateDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var doctor = new Doctor
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = model.UserId,
+                    FullName = model.FullName,
+                    SpecialtyId = model.SpecialtyId,
+                    Phone1 = model.Phone1,
+                    Phone2 = model.Phone2,
+                    Phone3 = model.Phone3,
+                    WhatsApp = model.WhatsApp,
+                    Email1 = model.Email1,
+                    Email2 = model.Email2,
+                    Facebook = model.Facebook,
+                    Twitter = model.Twitter,
+                    LinkedIn = model.LinkedIn,
+                    Instagram = model.Instagram,
+                    PatientRecordSections = "All",
+                    DiseasesQuestions = "All",
+                    IsActive = true,
+                    IsDeleted = false,
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    CreatedOn = DateTime.Now,
+                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    UpdatedOn = DateTime.Now
+                };
+                db.Doctors.Add(doctor);
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                ViewData["Tab2Model"] = new DoctorCreateSubsDTO
+                {
+                    UserId = model.UserId,
+                    DoctorId = doctor.Id,
+                    PlanId = 2,
+                    SignUpFee = 3000
+                };
+                ViewData["PlanId"] = new SelectList(db.Plans, "Id", "Title", 2);
+                ViewBag.Tab = 2;
+                return View("Create");
+            }
+            ViewData["Tab1Model"] = model;
+            ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value", model.SpecialtyId);
+            ViewBag.Tab = 1;
+            return View("Create");
+        }
+
+        // POST: Doctor/CreateSubs
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateSubs(DoctorCreateSubsDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var plan = db.Plans.Find(model.PlanId);
+                var subscription = new Subscription
+                {
+                    SubscriberId = model.DoctorId,
+                    SubscriberTypeId = 1, // Doctor
+                    Plan = plan,
+                    SubscriptionTypeId = 1, // First Time
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now.AddYears(1),
+                    Note = model.SubsNote,
+                    SignUpFee = plan.SignUpFee,
+                    AnnualRenewalFee = plan.AnnualRenewalFee,
+                    MonthlyRenewalFee = plan.MonthlyRenewalFee,
+                    GracePeriodDays = plan.GracePeriodDays,
+                    MaxUsers = plan.MaxUsers,
+                    MaxBookingsMonthly = plan.MaxBookingsMonthly,
+                    MaxFilesMonthlyMB = plan.MaxFilesMonthlyMB,
+                    MaxFileSizeMB = plan.MaxFileSizeMB,
+                    IsActive = true,
+                    IsDeleted = false,
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    CreatedOn = DateTime.Now,
+                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    UpdatedOn = DateTime.Now
+                };
+                db.Subscriptions.Add(subscription);
+                var payment = new SubscriptionPayment
+                {
+                    Subscription = subscription,
+                    Paid = model.Paid,
+                    NextPaymentDate = model.NextPaymentDate,
+                    Note = model.PayNote,
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    CreatedOn = DateTime.Now,
+                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    UpdatedOn = DateTime.Now
+                };
+                db.SubscriptionPayments.Add(payment);
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                ViewData["Tab3Model"] = new DoctorCreateClinicDTO
+                {
+                    UserId = model.UserId,
+                    DoctorId = model.DoctorId,
+                    BookingPeriod = 15,
+                    EntryOrderId = 3,
+                    ConsultExpiration = 15
+                };
+                ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", 3);
+                ViewBag.Tab = 3;
+                return View("Create");
+            }
+            ViewData["Tab2Model"] = model;
+            ViewData["PlanId"] = new SelectList(db.Plans, "Id", "Title", model.PlanId);
+            ViewBag.Tab = 2;
+            return View("Create");
+        }
+
+        // POST: Doctor/CreateClinic
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateClinic(DoctorCreateClinicDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var doctor = db.Doctors.Find(model.DoctorId);
+                var user = db.AspNetUsers.Find(model.UserId);
+                var clinic = new Clinic
+                {
+                    Id = Guid.NewGuid(),
+                    ClinicName = model.ClinicName,
+                    EntryOrderId = model.EntryOrderId,
+                    BookingPeriod = model.BookingPeriod,
+                    ConsultExpiration = model.ConsultExpiration,
+                    IsAllDaysOn = true,
+                    WorkDays = "6, 0, 1, 2, 3, 4, 5",
+                    IsAllDaysSameTime = true,
+                    AllDaysTimeFrom = new DateTime(2020,1,1,9,0,0),
+                    AllDaysTimeTo = new DateTime(2020, 1, 1, 22, 0, 0),
+                    PrintAddress1 = model.PrintAddress1,
+                    PrintAddress2 = model.PrintAddress2,
+                    PrintAddress3 = model.PrintAddress3,
+                    PrintClinicName = model.PrintClinicName,
+                    PrintDoctorDegree = model.PrintDoctorDegree,
+                    PrintDoctorName = model.PrintDoctorName,
+                    PrintPhone1 = model.PrintPhone1,
+                    PrintPhone2 = model.PrintPhone2,
+                    PrintPhone3 = model.PrintPhone3,
+                    IsActive = true,
+                    IsDeleted = false,
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    CreatedOn = DateTime.Now,
+                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    UpdatedOn = DateTime.Now
+                };
+                clinic.Doctors.Add(doctor);
+                clinic.AspNetUsers.Add(user);
+                db.Clinics.Add(clinic);
+                var newBookingTypes = new List<ClinicBookingType>() {
+                    new ClinicBookingType
+                    {
+                        Clinic = clinic,
+                        Type = "diagnose",
+                        Text = "كشف",
+                        Price = 0,
+                        IsActive = true,
+                        IsDeleted = false,
+                        CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                        UpdatedOn = DateTime.Now
+                    },
+                    new ClinicBookingType
+                    {
+                        Clinic = clinic,
+                        Type = "consult",
+                        Text = "استشارة",
+                        Price = 0,
+                        IsActive = true,
+                        IsDeleted = false,
+                        CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                        UpdatedOn = DateTime.Now
+                    },
+                    new ClinicBookingType
+                    {
+                        Clinic = clinic,
+                        Type = "justService",
+                        Text = "خدمة فقط",
+                        Price = 0,
+                        IsActive = true,
+                        IsDeleted = false,
+                        CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                        UpdatedOn = DateTime.Now
+                    }
+                };
+                db.ClinicBookingTypes.AddRange(newBookingTypes);
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            ViewData["Tab3Model"] = model;
+            ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", model.EntryOrderId);
+            ViewBag.Tab = 3;
+            return View("Create");
         }
 
         // GET: Doctor/Details/5

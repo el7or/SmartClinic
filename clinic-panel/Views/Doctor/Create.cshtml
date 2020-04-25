@@ -20,20 +20,19 @@
     <div id="tabs-1">
         @if (ViewBag.Tab == 1)
         {
-            Html.RenderPartial("_CreateDoctor");
-            //Html.RenderPartial("_FloorCabinsCount", ViewData["Tab1Model"]);
+            Html.RenderPartial("_CreateDoctor", ViewData["Tab1Model"]);
         }
     </div>
     <div id="tabs-2">
         @if (ViewBag.Tab == 2)
         {
-            //Html.RenderPartial("_UserCabinsCount", ViewData["Tab2Model"]);
+            Html.RenderPartial("_CreateSubs", ViewData["Tab2Model"]);
         }
     </div>
     <div id="tabs-3">
         @if (ViewBag.Tab == 3)
         {
-            //Html.RenderPartial("_UserCabinsCount", ViewData["Tab2Model"]);
+            Html.RenderPartial("_CreateClinic", ViewData["Tab3Model"]);
         }
     </div>
 </div>
@@ -45,28 +44,31 @@
         $(function () {
             // initial tabs
             $("#tabs").tabs()
-                @*.tabs("option", "disabled", [0, 1, 2])
-                .tabs("enable", @ViewBag.Tab)*@
+                .tabs("option", "disabled", [0, 1, 2,3])
+                .tabs("enable", @ViewBag.Tab)
                 .tabs( "option", "active", @ViewBag.Tab );
 
-            //// initial Datepickers
-            //$.datepicker.setDefaults($.datepicker.regional['ar']);
-            //$('#ToDate').datepicker({
-            //    dateFormat: "yy/mm/dd",
-            //    changeMonth: true,
-            //    changeYear: true,
-            //    minDate: new Date()
-            //});
-            //$("#FromDate").datepicker({
-            //    dateFormat: "yy/mm/dd",
-            //    changeMonth: true,
-            //    changeYear: true,
-            //    minDate: new Date(),
-            //    onSelect: function (dateStr) {
-            //        $("#ToDate").val(dateStr);
-            //        $("#ToDate").datepicker("option", { minDate: new Date(dateStr) })
-            //    }
-            //});
+            // initial Datepickers
+            $.datepicker.setDefaults($.datepicker.regional['ar']);
+            $('#NextPaymentDate').datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date()
+            });
+
+            // change sign up fee when select plan
+            $('#PlanId').change(function () {
+                if (+$(this).val() == 1) {
+                    $('#SignUpFee').val(500);
+                }
+                if (+$(this).val() == 2) {
+                    $('#SignUpFee').val(3000);
+                }
+                if (+$(this).val() == 3) {
+                    $('#SignUpFee').val(10000);
+                }
+            });
         });
     </script>
 }

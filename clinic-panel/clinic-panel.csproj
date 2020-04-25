@@ -277,6 +277,9 @@
     <Compile Include="Models\Subscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SubscriptionPayment.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SysAnalysisFileTypesValue.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -506,6 +509,8 @@
     <Content Include="Views\SocialStatus\Edit.cshtml" />
     <Content Include="Views\SocialStatus\Index.cshtml" />
     <Content Include="Views\Doctor\_CreateUser.cshtml" />
+    <Content Include="Views\Doctor\_CreateClinic.cshtml" />
+    <Content Include="Views\Doctor\_CreateSubs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,6 +14,12 @@ namespace clinic_panel.Models
     
     public partial class Subscription
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Subscription()
+        {
+            this.SubscriptionPayments = new HashSet<SubscriptionPayment>();
+        }
+    
         public int Id { get; set; }
         public System.Guid SubscriberId { get; set; }
         public int SubscriberTypeId { get; set; }
@@ -40,5 +46,7 @@ namespace clinic_panel.Models
         public virtual Plan Plan { get; set; }
         public virtual SysSubscriberTypeValue SysSubscriberTypeValue { get; set; }
         public virtual SysSubscriptionTypeValue SysSubscriptionTypeValue { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubscriptionPayment> SubscriptionPayments { get; set; }
     }
 }

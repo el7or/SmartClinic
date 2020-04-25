@@ -58,6 +58,13 @@ namespace clinic_panel.Models
         public Nullable<System.DateTime> WednesdayTimeFrom { get; set; }
         public Nullable<System.DateTime> ThursdayTimeFrom { get; set; }
         public Nullable<System.DateTime> FridayTimeFrom { get; set; }
+        public Nullable<System.DateTime> SaturdayTimeTo { get; set; }
+        public Nullable<System.DateTime> SundayTimeTo { get; set; }
+        public Nullable<System.DateTime> MondayTimeTo { get; set; }
+        public Nullable<System.DateTime> TuesdayTimeTo { get; set; }
+        public Nullable<System.DateTime> WednesdayTimeTo { get; set; }
+        public Nullable<System.DateTime> ThursdayTimeTo { get; set; }
+        public Nullable<System.DateTime> FridayTimeTo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClinicBookingType> ClinicBookingTypes { get; set; }

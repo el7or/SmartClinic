@@ -95,6 +95,8 @@ namespace clinic_api.Controllers
                 UserName = model.UserName,
                 Email = model.UserName,
                 FullName = model.FullName,
+                IsActive = true,
+                IsDeleted = false,
                 CreatedBy = Guid.Parse(id),
                 CreatedOn = DateTime.Now,
                 EditedBy = Guid.Parse(id),

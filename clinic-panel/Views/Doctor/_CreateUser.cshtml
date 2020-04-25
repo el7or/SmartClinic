@@ -5,6 +5,8 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        <h4>الرجاء قبل البدء في إضافة الطبيب التأكد من وجود تخصصه في تخصصات الأطباء في قيم النظام !</h4>
+        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             <label class="control-label col-md-2">اسم الطبيب</label>

@@ -48,6 +48,13 @@ namespace clinic_api.Models
         public DateTime? WednesdayTimeFrom { get; set; }
         public DateTime? ThursdayTimeFrom { get; set; }
         public DateTime? FridayTimeFrom { get; set; }
+        public DateTime? SaturdayTimeTo { get; set; }
+        public DateTime? SundayTimeTo { get; set; }
+        public DateTime? MondayTimeTo { get; set; }
+        public DateTime? TuesdayTimeTo { get; set; }
+        public DateTime? WednesdayTimeTo { get; set; }
+        public DateTime? ThursdayTimeTo { get; set; }
+        public DateTime? FridayTimeTo { get; set; }
 
         public virtual SysEntryOrderValue EntryOrder { get; set; }
         public virtual ICollection<ClinicBookingType> ClinicBookingTypes { get; set; }

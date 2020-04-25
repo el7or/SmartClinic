@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -123,6 +123,7 @@
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="ClinicDiscounts">
           <Key>
@@ -177,6 +178,13 @@
           <Property Name="WednesdayTimeFrom" Type="datetime" />
           <Property Name="ThursdayTimeFrom" Type="datetime" />
           <Property Name="FridayTimeFrom" Type="datetime" />
+          <Property Name="SaturdayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="SundayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="MondayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="TuesdayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="WednesdayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="ThursdayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="FridayTimeTo" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="ClinicServices">
           <Key>
@@ -633,6 +641,20 @@
           <Property Name="MaxBookingsMonthly" Type="int" />
           <Property Name="MaxFilesMonthlyMB" Type="int" />
           <Property Name="MaxFileSizeMB" Type="int" />
+        </EntityType>
+        <EntityType Name="SubscriptionPayments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubscriptionId" Type="int" Nullable="false" />
+          <Property Name="Paid" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="NextPaymentDate" Type="datetime" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Subscriptions">
           <Key>
@@ -1690,6 +1712,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SubscriptionPayments_Subscriptions">
+          <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="1" />
+          <End Role="SubscriptionPayments" Type="Self.SubscriptionPayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscriptions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubscriptionPayments">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Subscriptions_Plans">
           <End Role="Plans" Type="Self.Plans" Multiplicity="1" />
           <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="*" />
@@ -1778,6 +1812,7 @@
           <EntitySet Name="PatientReferrals" EntityType="Self.PatientReferrals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plans" EntityType="Self.Plans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubscriptionPayments" EntityType="Self.SubscriptionPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscriptions" EntityType="Self.Subscriptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysAnalysisFileTypesValues" EntityType="Self.SysAnalysisFileTypesValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysBloodPressureValues" EntityType="Self.SysBloodPressureValues" Schema="dbo" store:Type="Tables" />
@@ -2084,6 +2119,10 @@
             <End Role="SysRenewalTypeValues" EntitySet="SysRenewalTypeValues" />
             <End Role="Plans" EntitySet="Plans" />
           </AssociationSet>
+          <AssociationSet Name="FK_SubscriptionPayments_Subscriptions" Association="Self.FK_SubscriptionPayments_Subscriptions">
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+            <End Role="SubscriptionPayments" EntitySet="SubscriptionPayments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Subscriptions_Plans" Association="Self.FK_Subscriptions_Plans">
             <End Role="Plans" EntitySet="Plans" />
             <End Role="Subscriptions" EntitySet="Subscriptions" />
@@ -2101,8 +2140,7 @@
             <End Role="SysCitiesValues" EntitySet="SysCitiesValues" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2221,6 +2259,7 @@
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Bookings" Relationship="Self.FK_Bookings_ClinicBookingTypes" FromRole="ClinicBookingTypes" ToRole="Bookings" />
           <NavigationProperty Name="Clinic" Relationship="Self.FK_ClinicBookingTypes_Clinics" FromRole="ClinicBookingTypes" ToRole="Clinics" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ClinicDiscount">
           <Key>
@@ -2284,6 +2323,13 @@
           <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_Clinics" FromRole="Clinics" ToRole="Patients" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.ClinicUsers" FromRole="Clinics" ToRole="AspNetUsers" />
           <NavigationProperty Name="Doctors" Relationship="Self.DoctorClinics" FromRole="Clinics" ToRole="Doctors" />
+          <Property Name="SaturdayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="SundayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="MondayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="TuesdayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="WednesdayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="ThursdayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="FridayTimeTo" Type="DateTime" Precision="7" />
         </EntityType>
         <EntityType Name="ClinicService">
           <Key>
@@ -2848,6 +2894,7 @@
           <NavigationProperty Name="Plan" Relationship="Self.FK_Subscriptions_Plans" FromRole="Subscriptions" ToRole="Plans" />
           <NavigationProperty Name="SysSubscriberTypeValue" Relationship="Self.FK_Subscriptions_SysSubscriberTypeValues" FromRole="Subscriptions" ToRole="SysSubscriberTypeValues" />
           <NavigationProperty Name="SysSubscriptionTypeValue" Relationship="Self.FK_Subscriptions_SysSubscriptionTypeValues" FromRole="Subscriptions" ToRole="SysSubscriptionTypeValues" />
+          <NavigationProperty Name="SubscriptionPayments" Relationship="Models.FK_SubscriptionPayments_Subscriptions" FromRole="Subscription" ToRole="SubscriptionPayment" />
         </EntityType>
         <EntityType Name="SysAnalysisFileTypesValue">
           <Key>
@@ -4207,7 +4254,39 @@
             <End Role="Clinics" EntitySet="Clinics" />
             <End Role="Doctors" EntitySet="Doctors" />
           </AssociationSet>
+          <EntitySet Name="SubscriptionPayments" EntityType="Models.SubscriptionPayment" />
+          <AssociationSet Name="FK_SubscriptionPayments_Subscriptions" Association="Models.FK_SubscriptionPayments_Subscriptions">
+            <End Role="Subscription" EntitySet="Subscriptions" />
+            <End Role="SubscriptionPayment" EntitySet="SubscriptionPayments" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="SubscriptionPayment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubscriptionId" Type="Int32" Nullable="false" />
+          <Property Name="Paid" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="NextPaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Subscription" Relationship="Models.FK_SubscriptionPayments_Subscriptions" FromRole="SubscriptionPayment" ToRole="Subscription" />
+        </EntityType>
+        <Association Name="FK_SubscriptionPayments_Subscriptions">
+          <End Type="Models.Subscription" Role="Subscription" Multiplicity="1" />
+          <End Type="Models.SubscriptionPayment" Role="SubscriptionPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscription">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubscriptionPayment">
+              <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4308,6 +4387,7 @@
           <EntitySetMapping Name="ClinicBookingTypes">
             <EntityTypeMapping TypeName="Models.ClinicBookingType">
               <MappingFragment StoreEntitySet="ClinicBookingTypes">
+                <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ClinicId" ColumnName="ClinicId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -4341,6 +4421,13 @@
           <EntitySetMapping Name="Clinics">
             <EntityTypeMapping TypeName="Models.Clinic">
               <MappingFragment StoreEntitySet="Clinics">
+                <ScalarProperty Name="FridayTimeTo" ColumnName="FridayTimeTo" />
+                <ScalarProperty Name="ThursdayTimeTo" ColumnName="ThursdayTimeTo" />
+                <ScalarProperty Name="WednesdayTimeTo" ColumnName="WednesdayTimeTo" />
+                <ScalarProperty Name="TuesdayTimeTo" ColumnName="TuesdayTimeTo" />
+                <ScalarProperty Name="MondayTimeTo" ColumnName="MondayTimeTo" />
+                <ScalarProperty Name="SundayTimeTo" ColumnName="SundayTimeTo" />
+                <ScalarProperty Name="SaturdayTimeTo" ColumnName="SaturdayTimeTo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ClinicName" ColumnName="ClinicName" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -5096,6 +5183,21 @@
               <ScalarProperty Name="Id" ColumnName="DoctorId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="SubscriptionPayments">
+            <EntityTypeMapping TypeName="Models.SubscriptionPayment">
+              <MappingFragment StoreEntitySet="SubscriptionPayments">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="NextPaymentDate" ColumnName="NextPaymentDate" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+                <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

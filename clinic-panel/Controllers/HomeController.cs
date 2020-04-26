@@ -1,4 +1,5 @@
-﻿using System;
+﻿using clinic_panel.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -13,40 +14,12 @@ namespace clinic_panel.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        private SmartClinicDBContext db = new SmartClinicDBContext();
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public async Task<ActionResult> Contact()
-        {
-            //Hosted web API REST Service base url 
-            string apiUrl = ConfigurationManager.AppSettings["apiurl"] + "weatherforecast";
-
-            using (var client = new HttpClient())
-            {
-                //Passing service base url  
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Clear();
-
-                //Define request data format  
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                //Sending request to find web api REST service resource using HttpClient  
-                HttpResponseMessage result = await client.GetAsync(apiUrl);
-
-                //If success received   
-                if (result.IsSuccessStatusCode)
-                {
-                    var responseData = result.Content.ReadAsStringAsync().Result;
-                    ViewBag.Message = responseData;
-                }
-                else
-                {
-                    //Error response received
-                    ViewBag.Message = "Server error try after some time.";
-                }
-            }
+            ViewBag.DoctorsCount = db.Doctors.Where(d => d.IsActive == true && d.IsDeleted == false).Count();
+            ViewBag.ClinicsCount = db.Clinics.Where(c => c.IsActive == true && c.IsDeleted == false).Count();
+            ViewBag.VisitsCount = db.Bookings.Where(b => b.IsActive == true && b.IsDeleted == false).Count();
             return View();
         }
         public ActionResult Error()

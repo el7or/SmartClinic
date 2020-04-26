@@ -31,6 +31,7 @@ namespace clinic_panel.Controllers
                     Plan = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).Plan.Title,
                     StartPlanDate = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).StartDate,
                     EndPlanDate = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).EndDate,
+                    SubscriptionDue = ( (int) db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SignUpFee) - ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SubscriptionPayments.Sum(p => p.Paid)),
                     UsersCount = d.Clinics.Sum(c => c.AspNetUsers.Count()),
                     ClinicsCount = d.Clinics.Count(),
                     PatientsCount = d.Patients.Count(),
@@ -234,7 +235,7 @@ namespace clinic_panel.Controllers
                     IsAllDaysOn = true,
                     WorkDays = "6, 0, 1, 2, 3, 4, 5",
                     IsAllDaysSameTime = true,
-                    AllDaysTimeFrom = new DateTime(2020,1,1,9,0,0),
+                    AllDaysTimeFrom = new DateTime(2020, 1, 1, 9, 0, 0),
                     AllDaysTimeTo = new DateTime(2020, 1, 1, 22, 0, 0),
                     PrintAddress1 = model.PrintAddress1,
                     PrintAddress2 = model.PrintAddress2,
@@ -314,13 +315,157 @@ namespace clinic_panel.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            Doctor doctor = db.Doctors.Include(c => c.Clinics).FirstOrDefault(d => d.Id == id);
+            Subscription subscription = db.Subscriptions.Include(p => p.SubscriptionPayments).FirstOrDefault(s => s.SubscriberId == id);
+            Clinic clinic = doctor.Clinics.FirstOrDefault();
+            if (doctor == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new DoctorDetailsDTO
+            {
+                FullName = doctor.FullName,
+                Specialty = doctor.SysDoctorsSpecialty.Text,
+                Phone1 = doctor.Phone1,
+                Phone2 = doctor.Phone2,
+                Phone3 = doctor.Phone3,
+                WhatsApp = doctor.WhatsApp,
+                Email1 = doctor.Email1,
+                Email2 = doctor.Email2,
+                Facebook = doctor.Facebook,
+                Twitter = doctor.Twitter,
+                Instagram = doctor.Instagram,
+                LinkedIn = doctor.LinkedIn,
+                Plan = subscription.Plan.Title,
+                SubsNote = subscription.Note,
+                SignUpFee = (int)subscription.SignUpFee,
+                Paid = (int)subscription.SubscriptionPayments.Sum(p => p.Paid),
+                NextPaymentDate = subscription.SubscriptionPayments.FirstOrDefault().NextPaymentDate,
+                PayNote = subscription.SubscriptionPayments.FirstOrDefault().Note,
+                ClinicName = clinic.ClinicName,
+                BookingPeriod = clinic.BookingPeriod,
+                ConsultExpiration = clinic.ConsultExpiration,
+                EntryOrder = clinic.SysEntryOrderValue.Text,
+                PrintAddress1 = clinic.PrintAddress1,
+                PrintAddress2 = clinic.PrintAddress2,
+                PrintAddress3 = clinic.PrintAddress3,
+                PrintClinicName = clinic.PrintClinicName,
+                PrintDoctorDegree = clinic.PrintDoctorDegree,
+                PrintDoctorName = clinic.PrintDoctorName,
+                PrintPhone1 = clinic.PrintPhone1,
+                PrintPhone2 = clinic.PrintPhone2,
+                PrintPhone3 = clinic.PrintPhone3
+            };
+            return View(model);
+        }
+
+        // GET: Doctor/AddUser/5
+        public ActionResult AddUser(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Clinic clinic = db.Doctors.Include(c => c.Clinics).FirstOrDefault(d => d.Id == id).Clinics.FirstOrDefault();
+            if (clinic == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new DoctorAddUserDTO
+            {
+                ClinicId = clinic.Id
+            };
+            ViewBag.ClinicName = clinic.ClinicName;
+            return View(model);
+        }
+
+        // POST: Doctor/AddUser
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddUser(DoctorAddUserDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.RoleName = "employee";
+                string currentUserId = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id.ToString();
+                string apiUrl = ConfigurationManager.AppSettings["apiurl"];
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(apiUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["token"].ToString());
+                    HttpResponseMessage result = client.PostAsJsonAsync("account/Register?id=" + currentUserId, model).Result;
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var responseData = result.Content.ReadAsStringAsync().Result;
+                        var userId = Guid.Parse(JsonConvert.DeserializeObject<string>(responseData));
+                        var user = db.AspNetUsers.Find(userId);
+                        var clinic = db.Clinics.Find(model.ClinicId);
+                        clinic.AspNetUsers.Add(user);
+                        db.SaveChanges();
+                        TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "حدث خطأ ما !");
+                        return View(model);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        // GET: Doctor/AddPayment/5
+        public ActionResult AddPayment(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Doctor doctor = db.Doctors.Find(id);
             if (doctor == null)
             {
                 return HttpNotFound();
             }
-            return View(doctor);
+            Subscription subscription = db.Subscriptions.FirstOrDefault(s => s.SubscriberId == id);
+            var model = new DoctorAddPaymentDTO
+            {
+                SubscriptionId = subscription.Id,
+                Due = ((int)subscription.SignUpFee) - ((int)subscription.SubscriptionPayments.Sum(p => p.Paid)),
+            };
+            ViewBag.DoctorName = doctor.FullName;
+            return View(model);
         }
+
+        // POST: Doctor/AddPayment
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPayment(DoctorAddPaymentDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var payment = new SubscriptionPayment
+                {
+                    SubscriptionId = model.SubscriptionId,
+                    Paid = model.Paid,
+                    NextPaymentDate = model.NextPaymentDate,
+                    Note = model.Note,
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    CreatedOn = DateTime.Now,
+                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    UpdatedOn = DateTime.Now
+                };
+                db.SubscriptionPayments.Add(payment);
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
 
         //// GET: Doctor/Edit/5
         //public ActionResult Edit(Guid? id)

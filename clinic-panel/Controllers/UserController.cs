@@ -29,7 +29,7 @@ namespace clinic_panel.Controllers
                 CreatedOn = u.CreatedOn,
                 EditedBy = db.AspNetUsers.FirstOrDefault(n => n.Id == u.EditedBy).FullName,
                 EditedOn = u.EditedOn,
-            });
+            }).OrderBy(u => u.CreatedOn);
             return View(users.ToList());
         }
 

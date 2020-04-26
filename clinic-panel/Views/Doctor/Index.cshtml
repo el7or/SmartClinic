@@ -4,13 +4,13 @@
     ViewBag.Title = "الأطباء";
 }
 
-    <h2>الأطباء</h2>
+<h2>الأطباء</h2>
 
 <p>
     @Html.ActionLink("إضافة طبيب", "Create")
 </p>
 
-<table class="table">
+<table class="table table-bordered table-striped">
     <tr class="info">
         <th>
             اسم الطبيب
@@ -28,6 +28,9 @@
             نهاية الاشتراك
         </th>
         <th>
+            مبلغ مطلوب
+        </th>
+        <th>
             المستخدمين
         </th>
         <th>
@@ -39,7 +42,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
 <tr>
     <td>
         @Html.DisplayFor(modelItem => item.FullName)
@@ -57,6 +61,9 @@
         @Html.DisplayFor(modelItem => item.EndPlanDate)
     </td>
     <td>
+        @Html.DisplayFor(modelItem => item.SubscriptionDue) ج.م
+    </td>
+    <td>
         @Html.DisplayFor(modelItem => item.UsersCount)
     </td>
     <td>
@@ -66,9 +73,24 @@
         @Html.DisplayFor(modelItem => item.IsActive)
     </td>
     <td>
-        @Html.ActionLink("التفاصيل", "Details", new { id = item.Id })
+        @Html.ActionLink("التفاصيل", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                الإعدادات
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <li> @Html.ActionLink("الأدوية", "Index", "Medicine", new { @class = "dropdown-item" })</li>
+                <li>@Html.ActionLink("الأدوية", "Index", "Medicine", new { @class = "dropdown-item" })</li>
+            </ul>
+        </div>
+        @Html.ActionLink("إضافة موظف", "AddUser", new { id = item.Id }, new { @class = "btn btn-warning" })
+        @if (item.SubscriptionDue > 0)
+        {
+            @Html.ActionLink("دفع", "AddPayment", new { id = item.Id }, new { @class = "btn btn-danger" })
+        }
     </td>
 </tr>
-}
+    }
 
 </table>

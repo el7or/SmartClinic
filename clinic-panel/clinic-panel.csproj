@@ -452,7 +452,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -463,7 +462,6 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Doctor\Create.cshtml" />
     <Content Include="Views\Doctor\Delete.cshtml" />
-    <Content Include="Views\Doctor\Details.cshtml" />
     <Content Include="Views\Doctor\Edit.cshtml" />
     <Content Include="Views\Doctor\Index.cshtml" />
     <Content Include="Views\Doctor\_CreateDoctor.cshtml" />
@@ -511,6 +509,9 @@
     <Content Include="Views\Doctor\_CreateUser.cshtml" />
     <Content Include="Views\Doctor\_CreateClinic.cshtml" />
     <Content Include="Views\Doctor\_CreateSubs.cshtml" />
+    <Content Include="Views\Doctor\Details.cshtml" />
+    <Content Include="Views\Doctor\AddUser.cshtml" />
+    <Content Include="Views\Doctor\AddPayment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

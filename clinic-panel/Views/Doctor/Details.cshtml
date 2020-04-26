@@ -1,25 +1,16 @@
-﻿@model clinic_panel.Models.Doctor
+﻿@model clinic_panel.DTOs.DoctorDetailsDTO
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "تفاصيل الطبيب";
 }
 
-<h2>Details</h2>
+<h2>تفاصيل الطبيب</h2>
 
 <div>
-    <h4>Doctor</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FullName)
+            اسم الطبيب:
         </dt>
 
         <dd>
@@ -27,71 +18,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
+            التخصص:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsActive)
+            @Html.DisplayFor(model => model.Specialty)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PatientRecordSections)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PatientRecordSections)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DiseasesQuestions)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DiseasesQuestions)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone1)
+            هاتف 1:
         </dt>
 
         <dd>
@@ -99,7 +34,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Phone2)
+            هاتف 2:
         </dt>
 
         <dd>
@@ -107,7 +42,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Phone3)
+            هاتف 3:
         </dt>
 
         <dd>
@@ -115,7 +50,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.WhatsApp)
+            واتس آب:
         </dt>
 
         <dd>
@@ -123,7 +58,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email1)
+            الإيميل 1:
         </dt>
 
         <dd>
@@ -131,7 +66,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email2)
+            الإيميل2:
         </dt>
 
         <dd>
@@ -139,7 +74,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Facebook)
+            فيسبوك:
         </dt>
 
         <dd>
@@ -147,7 +82,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Twitter)
+            تويتر:
         </dt>
 
         <dd>
@@ -155,7 +90,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LinkedIn)
+            لينكد إن:
         </dt>
 
         <dd>
@@ -163,7 +98,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Instagram)
+            إنستجرام:
         </dt>
 
         <dd>
@@ -171,16 +106,160 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SysDoctorsSpecialty.Value)
+            باقة الاشتراك:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SysDoctorsSpecialty.Value)
+            @Html.DisplayFor(model => model.Plan)
+        </dd>
+
+        <dt>
+            ملاحظات على الاشتراك:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubsNote)
+        </dd>
+
+        <dt>
+            سعر الإشتراك:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SignUpFee) ج.م
+        </dd>
+
+        <dt>
+            المبلغ المدفوع:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paid) ج.م
+        </dd>
+
+        <dt>
+            تاريخ دفع المتبقي (إن وجد):
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NextPaymentDate)
+        </dd>
+
+        <dt>
+            ملاحظات على الدفع:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PayNote)
+        </dd>
+
+        <dt>
+            اسم العيادة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClinicName)
+        </dd>
+
+        <dt>
+            ترتيب دخول الحجوزات:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EntryOrder)
+        </dd>
+
+        <dt>
+            مدة الحجز:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingPeriod) دقيقة
+        </dd>
+
+        <dt>
+            مدة صلاحية الاستشارة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConsultExpiration) يوم
+        </dd>
+
+        <dt>
+            اسم الطبيب في الطباعة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrintDoctorName)
+        </dd>
+
+        <dt>
+            الدرجة العلمية للطبيب في الطباعة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrintDoctorDegree)
+        </dd>
+
+        <dt>
+            اسم العيادة في الطباعة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrintClinicName)
+        </dd>
+
+        <dt>
+            العنوان 1 في الطباعة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrintAddress1)
+        </dd>
+
+        <dt>
+            العنوان 2 في الطباعة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrintAddress2)
+        </dd>
+
+        <dt>
+            العنوان 3 في الطباعة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrintAddress3)
+        </dd>
+
+        <dt>
+            هاتف 1 في الطباعة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrintPhone1)
+        </dd>
+
+        <dt>
+            هاتف 2 في الطباعة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrintPhone2)
+        </dd>
+
+        <dt>
+            هاتف 3 في الطباعة:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrintPhone3)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+    @Html.ActionLink("رجوع", "Index")
 </p>

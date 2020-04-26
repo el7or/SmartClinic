@@ -27,6 +27,7 @@ namespace clinic_panel.Controllers
                 UserName = u.UserName,
                 FullName = u.FullName,
                 RoleName = u.AspNetRoles.FirstOrDefault().Title,
+                ClinicName = db.Clinics.FirstOrDefault(c => c.AspNetUsers.Any(i => i.Id == u.Id)).ClinicName,
                 IsActive = u.IsActive == false ? "معطل" : "مفعل",
                 CreatedBy = db.AspNetUsers.FirstOrDefault(n => n.Id == u.CreatedBy).FullName,
                 CreatedOn = u.CreatedOn,

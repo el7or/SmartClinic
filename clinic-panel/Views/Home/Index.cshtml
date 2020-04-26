@@ -6,16 +6,16 @@
     <div class="col-md-4">
         <h2>عدد الأطباء المشتركين</h2>
         <p>@ViewBag.DoctorsCount</p>
-        <p>@Html.ActionLink("بيانات الأطباء »", "Index", "Home",new { @class="btn btn-primary" })</p>
+        <p>@Html.ActionLink("بيانات الأطباء »", "Index", "Doctor", null, new { @class = "btn btn-primary" })</p>
     </div>
     <div class="col-md-4">
-        <h2>عدد عيادات الأطباء</h2>
-        <p>@ViewBag.ClinicsCount</p>
-        <p>@Html.ActionLink("بيانات العيادات »", "Index", "Home", new { @class = "btn btn-primary" })</p>
+        <h2>عدد مستخدمي النظام</h2>
+        <p>@ViewBag.UsersCount</p>
+        <p>@Html.ActionLink("بيانات المستخدمين »", "Index", "User", null, new { @class = "btn btn-primary" })</p>
     </div>
     <div class="col-md-4">
-        <h2>إجمالي الزيارات في آخر شهر</h2>
-        <p>@ViewBag.VisitsCount</p>
-        <p>@Html.ActionLink("بيانات الزيارات »", "Index", "Home", new { @class = "btn btn-primary" })</p>
+        <h2>إجمالي المبالغ المطلوبة</h2>
+        <p>@(((decimal)ViewBag.TotalDue).ToString("C0"))</p>
+        <p>@Html.ActionLink("بيانات المدفوعات »", "Index", "Doctor", null, new { @class = "btn btn-primary" })</p>
     </div>
 </div>

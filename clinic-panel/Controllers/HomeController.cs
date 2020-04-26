@@ -18,8 +18,8 @@ namespace clinic_panel.Controllers
         public ActionResult Index()
         {
             ViewBag.DoctorsCount = db.Doctors.Where(d => d.IsActive == true && d.IsDeleted == false).Count();
-            ViewBag.ClinicsCount = db.Clinics.Where(c => c.IsActive == true && c.IsDeleted == false).Count();
-            ViewBag.VisitsCount = db.Bookings.Where(b => b.IsActive == true && b.IsDeleted == false).Count();
+            ViewBag.UsersCount = db.AspNetUsers.Where(c => c.IsActive == true && c.IsDeleted == false).Count();
+            ViewBag.TotalDue = (int) (db.Subscriptions.Sum(s => s.SignUpFee) - db.SubscriptionPayments.Sum(p => p.Paid));
             return View();
         }
         public ActionResult Error()

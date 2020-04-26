@@ -23,6 +23,7 @@ namespace clinic_panel.DTOs
         public DateTime EditedOn { get; set; }
         public string EditedBy { get; set; }
         public string RoleName { get; set; }
+        public string ClinicName { get; set; }
     }
     public class UserRolesDTO
     {

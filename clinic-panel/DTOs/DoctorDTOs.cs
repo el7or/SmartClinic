@@ -20,6 +20,8 @@ namespace clinic_panel.DTOs
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [DataType(DataType.Date)]
         public DateTime EndPlanDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int SubscriptionDue { get; set; }
         public int UsersCount { get; set; }
         public int ClinicsCount { get; set; }
@@ -163,7 +165,11 @@ namespace clinic_panel.DTOs
         public string Instagram { get; set; }
         public string Plan { get; set; }
         public string SubsNote { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int SignUpFee { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int Paid { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]

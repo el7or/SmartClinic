@@ -81,7 +81,13 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <li> @Html.ActionLink("الأسعار", "Prices", new { id = item.Id }, new { @class = "dropdown-item" })</li>
-                <li>@Html.ActionLink("الأدوية", "Index", "Medicine", new { @class = "dropdown-item" })</li>
+                <li> @Html.ActionLink("الأدوية", "Prices", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                <li> @Html.ActionLink("الشكاوى", "Prices", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                <li> @Html.ActionLink("الفحوصات", "Prices", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                <li> @Html.ActionLink("التشخيصات", "Prices", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                <li> @Html.ActionLink("الأشعة", "Prices", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                <li> @Html.ActionLink("التحاليل", "Prices", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                <li> @Html.ActionLink("العمليات", "Prices", new { id = item.Id }, new { @class = "dropdown-item" })</li>
             </ul>
         </div>
         @Html.ActionLink("إضافة موظف", "AddUser", new { id = item.Id }, new { @class = "btn btn-warning" })

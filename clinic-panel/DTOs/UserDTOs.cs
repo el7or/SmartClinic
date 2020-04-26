@@ -31,4 +31,14 @@ namespace clinic_panel.DTOs
         public string Description { get; set; }
         public int UsersCount { get; set; }
     }
+    public class UserResetPasswordDTO
+    {
+        public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [StringLength(100, ErrorMessage = "لابد على الأقل أن تحتوي على {2} حروف أو رموز.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "كلمة السر الجديدة")]
+        public string Password { get; set; }
+    }
 }

@@ -34,7 +34,7 @@ namespace clinic_api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(AccountLoginDTO userDTO)
         {
             var user = await _userManager.FindByNameAsync(userDTO.UserName);
@@ -83,7 +83,7 @@ namespace clinic_api.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(string id, AccountRegisterDTO model)
         {
             if (id != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
@@ -111,6 +111,23 @@ namespace clinic_api.Controllers
                     return Ok(user.Id);
                 }
                 else return BadRequest(result.Errors);
+            }
+            else return BadRequest(result.Errors);
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(string id, AccountResetPasswordDTO model)
+        {
+            if (id != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
+            var remove = await _userManager.RemovePasswordAsync(user);
+            var result = await _userManager.AddPasswordAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                    return Ok();
             }
             else return BadRequest(result.Errors);
         }

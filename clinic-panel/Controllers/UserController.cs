@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using clinic_panel.DTOs;
@@ -44,6 +47,58 @@ namespace clinic_panel.Controllers
                 UsersCount = r.AspNetUsers.Count()
             });
             return View(roles.ToList());
+        }
+
+        // GET: User/ResetPassword
+        public ActionResult ResetPassword(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AspNetUser user = db.AspNetUsers.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new UserResetPasswordDTO
+            {
+                Id = user.Id
+            };
+            ViewBag.UserName = user.FullName;
+            return View(model);
+        }
+
+        // POST: User/ResetPassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(UserResetPasswordDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                string currentUserId = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id.ToString();
+                string apiUrl = ConfigurationManager.AppSettings["apiurl"];
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(apiUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["token"].ToString());
+                    HttpResponseMessage result = client.PostAsJsonAsync("account/ResetPassword?id=" + currentUserId, model).Result;
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "حدث خطأ ما !");
+                        return View(model);
+                    }
+                }
+            }
+            return View(model);
         }
 
         //// GET: User/Details/5

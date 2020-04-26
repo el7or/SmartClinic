@@ -28,4 +28,10 @@ namespace clinic_api.DTOs
         public string RoleName { get; set; }
         public string FullName { get; set; }
     }
+
+    public class AccountResetPasswordDTO
+    {
+        public Guid Id { get; set; }
+        public string Password { get; set; }
+    }
 }

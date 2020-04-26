@@ -80,7 +80,7 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <li> @Html.ActionLink("الأدوية", "Index", "Medicine", new { @class = "dropdown-item" })</li>
+                <li> @Html.ActionLink("الأسعار", "Prices", new { id = item.Id }, new { @class = "dropdown-item" })</li>
                 <li>@Html.ActionLink("الأدوية", "Index", "Medicine", new { @class = "dropdown-item" })</li>
             </ul>
         </div>

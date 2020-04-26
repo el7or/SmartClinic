@@ -49,7 +49,7 @@ div.loginForm {
 }
 
 .btn {
-    min-width: 75px !important;
+    min-width: 50px !important;
 }
 
 input.datepicker {

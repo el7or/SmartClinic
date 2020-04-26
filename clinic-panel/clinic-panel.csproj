@@ -133,6 +133,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CityController.cs" />
+    <Compile Include="Controllers\ClinicController.cs" />
     <Compile Include="Controllers\DiseaseController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\FileTypeController.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Controllers\SpecialtyController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTOs\AccountDTOs.cs" />
+    <Compile Include="DTOs\ClinicDTOs.cs" />
     <Compile Include="DTOs\DoctorDTOs.cs" />
     <Compile Include="DTOs\FileTypeDTOs.cs" />
     <Compile Include="DTOs\GradesDTOs.cs" />
@@ -513,9 +515,17 @@
     <Content Include="Views\Doctor\AddUser.cshtml" />
     <Content Include="Views\Doctor\AddPayment.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\Clinic\Create.cshtml" />
+    <Content Include="Views\Clinic\Delete.cshtml" />
+    <Content Include="Views\Clinic\Details.cshtml" />
+    <Content Include="Views\Clinic\Edit.cshtml" />
+    <Content Include="Views\Clinic\Index.cshtml" />
+    <Content Include="Views\Clinic\Prices.cshtml" />
+    <Content Include="Views\Clinic\CreateBookingType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Price\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

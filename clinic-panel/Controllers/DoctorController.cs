@@ -26,6 +26,7 @@ namespace clinic_panel.Controllers
                 .Select(d => new DoctorIndexDTO
                 {
                     Id = d.Id,
+                    ClinicId = d.Clinics.FirstOrDefault().Id,
                     FullName = d.FullName,
                     Specialty = d.SysDoctorsSpecialty.Text,
                     Plan = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).Plan.Title,

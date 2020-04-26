@@ -1,0 +1,123 @@
+﻿@model clinic_panel.DTOs.ClinicPriceDTO
+
+@{
+    ViewBag.Title = "أسعار العيادة";
+}
+
+<h1>جميع الأسعار الخاصة بعيادة:  @ViewBag.ClinicName</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>أسعار أنواع الحجز</h2>
+
+        <p>
+            @Html.ActionLink("إضافة نوع حجز", "CreateBookingType", new { id = Model.Id })
+        </p>
+
+        <table class="table table-striped table-bordered">
+            <tr class="info">
+                <th>
+                    نوع الحجز
+                </th>
+                <th>
+                    السعر
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.BookingTypePrices)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @if (item.Type != "خدمة فقط")
+                        {@Html.DisplayFor(modelItem => item.Price) <span>ج.م</span>}
+                    </td>
+                    <td>
+                        @if (item.Type != "خدمة فقط")
+                        {
+                            @Html.ActionLink("تعديل", "EditType", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })<span> </span>
+                            if (item.Type != "كشف" && item.Type != "استشارة")
+                            {
+                                @Html.ActionLink("حذف", "DeleteType", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h2>أسعار الخدمات</h2>
+
+        <p>
+            @Html.ActionLink("إضافة خدمة", "CreateService", new { id = Model.Id })
+        </p>
+
+        <table class="table table-striped table-bordered">
+            <tr class="info">
+                <th>
+                    الخدمة
+                </th>
+                <th>
+                    السعر
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.ServicePrices)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Service)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price) ج.م
+                    </td>
+                    <td>
+                        @Html.ActionLink("تعديل", "EditService", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("حذف", "DeleteService", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h2>أسعار الخصومات</h2>
+
+        <p>
+            @Html.ActionLink("إضافة خصم", "CreateDiscount", new { id = Model.Id })
+        </p>
+
+        <table class="table table-striped table-bordered">
+            <tr class="info">
+                <th>
+                    اسم الخصم
+                </th>
+                <th>
+                    مقدار الخصم
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.DiscountPrices)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Discount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsPercent == true ? ((decimal)item.Price).ToString("C0") + " %" : ((decimal)item.Price).ToString("C0") + " ج.م")
+                    </td>
+                    <td>
+                        @Html.ActionLink("تعديل", "EditDiscount", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("حذف", "DeleteDiscount", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

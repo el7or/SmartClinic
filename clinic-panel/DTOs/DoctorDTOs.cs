@@ -9,6 +9,7 @@ namespace clinic_panel.DTOs
     public class DoctorIndexDTO
     {
         public Guid Id { get; set; }
+        public Guid ClinicId { get; set; }
         public string FullName { get; set; }
         public string Specialty { get; set; }
         public string Plan { get; set; }

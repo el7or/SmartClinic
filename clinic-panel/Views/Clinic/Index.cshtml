@@ -1,0 +1,261 @@
+﻿@model IEnumerable<clinic_panel.Models.Clinic>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ClinicName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookingPeriod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConsultExpiration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintDoctorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintDoctorDegree)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintClinicName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintLogoUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintAddress1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintAddress2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintAddress3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintPhone1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintPhone2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrintPhone3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAllDaysOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAllDaysSameTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AllDaysTimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AllDaysTimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SaturdayTimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SundayTimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MondayTimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TuesdayTimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WednesdayTimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThursdayTimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FridayTimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SaturdayTimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SundayTimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MondayTimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TuesdayTimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WednesdayTimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThursdayTimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FridayTimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SysEntryOrderValue.Value)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClinicName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDeleted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookingPeriod)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConsultExpiration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintDoctorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintDoctorDegree)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintClinicName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintLogoUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintAddress1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintAddress2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintAddress3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintPhone1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintPhone2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrintPhone3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAllDaysOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAllDaysSameTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllDaysTimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllDaysTimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SaturdayTimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SundayTimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MondayTimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TuesdayTimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WednesdayTimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThursdayTimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FridayTimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SaturdayTimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SundayTimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MondayTimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TuesdayTimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WednesdayTimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThursdayTimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FridayTimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SysEntryOrderValue.Value)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

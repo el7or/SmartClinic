@@ -1,0 +1,49 @@
+﻿@model clinic_panel.DTOs.ClinicCreateBookingTypeDTO
+
+@{
+    ViewBag.Title = "CreateBookingType";
+}
+
+<h2>إضافة نوع حجز لعيادة: @ViewBag.ClinicName</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ClinicId)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">نوع الحجز</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">السعر</label>
+            <div class="col-md-10 form-inline">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } }) ج.م
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="حفظ" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("رجوع", "Prices")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

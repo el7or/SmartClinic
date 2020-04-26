@@ -23,7 +23,7 @@
                 <th>
                     السعر
                 </th>
-                <th></th>
+                @*<th></th>*@
             </tr>
 
             @foreach (var item in Model.BookingTypePrices)
@@ -33,19 +33,12 @@
                         @Html.DisplayFor(modelItem => item.Type)
                     </td>
                     <td>
-                        @if (item.Type != "خدمة فقط")
-                        {@Html.DisplayFor(modelItem => item.Price) <span>ج.م</span>}
+                        @Html.DisplayFor(modelItem => item.Price) ج.م
                     </td>
-                    <td>
-                        @if (item.Type != "خدمة فقط")
-                        {
-                            @Html.ActionLink("تعديل", "EditType", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })<span> </span>
-                            if (item.Type != "كشف" && item.Type != "استشارة")
-                            {
-                                @Html.ActionLink("حذف", "DeleteType", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
-                            }
-                        }
-                    </td>
+                    @*<td>
+                        @Html.ActionLink("تعديل", "EditType", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("حذف", "DeleteType", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                    </td>*@
                 </tr>
             }
         </table>
@@ -65,7 +58,7 @@
                 <th>
                     السعر
                 </th>
-                <th></th>
+                @*<th></th>*@
             </tr>
 
             @foreach (var item in Model.ServicePrices)
@@ -77,10 +70,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Price) ج.م
                     </td>
-                    <td>
+                    @*<td>
                         @Html.ActionLink("تعديل", "EditService", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
                         @Html.ActionLink("حذف", "DeleteService", new { id = item.Id }, new { @class = "btn btn-danger" })
-                    </td>
+                    </td>*@
                 </tr>
             }
         </table>
@@ -100,7 +93,7 @@
                 <th>
                     مقدار الخصم
                 </th>
-                <th></th>
+                @*<th></th>*@
             </tr>
 
             @foreach (var item in Model.DiscountPrices)
@@ -112,10 +105,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.IsPercent == true ? ((decimal)item.Price).ToString("C0") + " %" : ((decimal)item.Price).ToString("C0") + " ج.م")
                     </td>
-                    <td>
+                    @*<td>
                         @Html.ActionLink("تعديل", "EditDiscount", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
                         @Html.ActionLink("حذف", "DeleteDiscount", new { id = item.Id }, new { @class = "btn btn-danger" })
-                    </td>
+                    </td>*@
                 </tr>
             }
         </table>

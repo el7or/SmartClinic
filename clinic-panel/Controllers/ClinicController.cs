@@ -25,7 +25,7 @@ namespace clinic_panel.Controllers
             var prices = new ClinicPriceDTO
             {
                 Id = id,
-                BookingTypePrices = db.ClinicBookingTypes.Where(c => c.ClinicId == id && c.IsDeleted != true).OrderBy(c => c.CreatedOn).Select(t => new BookingTypePrice
+                BookingTypePrices = db.ClinicBookingTypes.Where(c => c.ClinicId == id && c.IsDeleted != true && c.Type != "justService").OrderBy(c => c.CreatedOn).Select(t => new BookingTypePrice
                 {
                     Id = t.Id,
                     Type = t.Text,

@@ -205,7 +205,9 @@ namespace clinic_panel.Controllers
                     DoctorId = model.DoctorId,
                     BookingPeriod = 15,
                     EntryOrderId = 3,
-                    ConsultExpiration = 15
+                    ConsultExpiration = 15,
+                    DiagnosePrice = 0,
+                    ConsultPrice = 0
                 };
                 ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", 3);
                 ViewBag.Tab = 3;
@@ -263,7 +265,7 @@ namespace clinic_panel.Controllers
                         Clinic = clinic,
                         Type = "diagnose",
                         Text = "كشف",
-                        Price = 0,
+                        Price = model.DiagnosePrice,
                         IsActive = true,
                         IsDeleted = false,
                         CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
@@ -276,7 +278,7 @@ namespace clinic_panel.Controllers
                         Clinic = clinic,
                         Type = "consult",
                         Text = "استشارة",
-                        Price = 0,
+                        Price = model.DiagnosePrice,
                         IsActive = true,
                         IsDeleted = false,
                         CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,

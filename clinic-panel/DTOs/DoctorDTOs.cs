@@ -149,6 +149,14 @@ namespace clinic_panel.DTOs
         [MinLength(11, ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
         [RegularExpression(@"^\+?\d*$", ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
         public string PrintPhone3 { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من إدخال صيغة رقمية صحيحة !")]
+        public decimal? DiagnosePrice { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من إدخال صيغة رقمية صحيحة !")]
+        public decimal? ConsultPrice { get; set; }
     }
     public class DoctorDetailsDTO
     {

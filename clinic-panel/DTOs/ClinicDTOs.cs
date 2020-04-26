@@ -17,18 +17,24 @@ namespace clinic_panel.DTOs
     {
         public int Id { get; set; }
         public string Type { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public decimal? Price { get; set; }
     }
     public class ServicePrice
     {
         public int Id { get; set; }
         public string Service { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public decimal? Price { get; set; }
     }
     public class DiscountPrice
     {
         public int Id { get; set; }
         public string Discount { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public decimal? Price { get; set; }
         public bool? IsPercent { get; set; }
     }

@@ -278,7 +278,7 @@ namespace clinic_panel.Controllers
                         Clinic = clinic,
                         Type = "consult",
                         Text = "استشارة",
-                        Price = model.DiagnosePrice,
+                        Price = model.ConsultPrice,
                         IsActive = true,
                         IsDeleted = false,
                         CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,

@@ -19,7 +19,9 @@ namespace clinic_panel.Controllers
         {
             ViewBag.DoctorsCount = db.Doctors.Where(d => d.IsActive == true && d.IsDeleted == false).Count();
             ViewBag.UsersCount = db.AspNetUsers.Where(c => c.IsActive == true && c.IsDeleted == false).Count();
-            ViewBag.TotalDue = (int) (db.Subscriptions.Sum(s => s.SignUpFee) - db.SubscriptionPayments.Sum(p => p.Paid));
+            var totalFees = db.Subscriptions.Sum(s => s.SignUpFee);
+            var totalPaid = db.SubscriptionPayments.Sum(p => (decimal?) p.Paid);
+            ViewBag.TotalDue = (totalFees==null?0:totalFees) - (totalPaid == null ? 0 : totalPaid);
             return View();
         }
         public ActionResult Error()

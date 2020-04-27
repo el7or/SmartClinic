@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "ChoiceDetails";
+}
+
+<h2>قائمة الخيارات للشكوى التفصيلية: @ViewBag.ComplaintName</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <tr class="info">
+                <th>
+                    الخيار
+                </th>
+            </tr>
+
+            @foreach (var item in ViewBag.Choices)
+            {
+                <tr>
+                    <td>
+                        @item
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("رجوع", "DoctorComplaints", new { id = ViewBag.DoctorId })
+</div>

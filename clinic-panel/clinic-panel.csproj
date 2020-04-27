@@ -134,6 +134,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\ClinicController.cs" />
+    <Compile Include="Controllers\ComplaintController.cs" />
     <Compile Include="Controllers\DiseaseController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\FileTypeController.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTOs\AccountDTOs.cs" />
     <Compile Include="DTOs\ClinicDTOs.cs" />
+    <Compile Include="DTOs\ComplaintDTOs.cs" />
     <Compile Include="DTOs\DoctorDTOs.cs" />
     <Compile Include="DTOs\FileTypeDTOs.cs" />
     <Compile Include="DTOs\GradesDTOs.cs" />
@@ -525,10 +527,14 @@
     <Content Include="Views\Clinic\CreateService.cshtml" />
     <Content Include="Views\Clinic\CreateDiscount.cshtml" />
     <Content Include="Views\Medicine\DoctorMedicines.cshtml" />
+    <Content Include="Views\Complaint\DoctorComplaints.cshtml" />
+    <Content Include="Views\Complaint\CreateGeneralComplaint.cshtml" />
+    <Content Include="Views\Complaint\CreateDetailedComplaint.cshtml" />
+    <Content Include="Views\Complaint\CreateChoice.cshtml" />
+    <Content Include="Views\Complaint\ChoiceDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Price\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

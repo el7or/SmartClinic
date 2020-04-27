@@ -1,0 +1,73 @@
+﻿@model clinic_panel.DTOs.ComplaintDoctorDTO
+
+@{
+    ViewBag.Title = "DoctorComplaints";
+}
+
+<h1>قائمة الشكاوى للطبيب: @ViewBag.DoctorName</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>الشكاوى العامة</h2>
+
+        <p>
+            @Html.ActionLink("إضافة شكوى عامة", "CreateGeneralComplaint", new { id= Model.DoctorId })
+        </p>
+
+        <table class="table">
+            <tr class="info">
+                <th>
+                   الشكوى
+                </th>
+            </tr>
+
+            @foreach (var item in Model.GeneralComplaints)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Complaint)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h2>الشكاوى التفصيلية</h2>
+
+        <p>
+            @Html.ActionLink("إضافة شكوى تفصيلية", "CreateDetailedComplaint", new { id= Model.DoctorId })
+        </p>
+
+        <table class="table">
+            <tr class="info">
+                <th>
+                    الشكوى
+                </th>
+                <th>
+                    عدد الاختيارات
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.DetailedComplaints)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Complaint)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChoicesCount)
+                    </td>
+                    <td>
+                        @Html.ActionLink("الاختيارات", "ChoiceDetails", new { id= item.Id }) |
+                        @Html.ActionLink("إضافة اختيار", "CreateChoice", new { id= item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("رجوع", "Index", "Doctor")
+</div>

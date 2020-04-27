@@ -22,7 +22,7 @@ namespace clinic_panel.Controllers
                     Id = r.Id,
                     Text = r.Text,
                 }).ToList(),
-                MedicineConcentrations= db.SysMedicineConcentrationsValues.OrderBy(t => t.Text).Select(r => new MedicineConcentration
+                MedicineConcentrations = db.SysMedicineConcentrationsValues.OrderBy(t => t.Text).Select(r => new MedicineConcentration
                 {
                     Id = r.Id,
                     Text = r.Text,
@@ -175,6 +175,52 @@ namespace clinic_panel.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+        // GET: Medicine/DoctorMedicines
+        public ActionResult DoctorMedicines(Guid id)
+        {
+            var model = new MedicinesDoctorDTO
+            {
+                DoctorId = id,
+                Medicines = db.SysMedicinesValues.OrderBy(t => t.Text).Select(m => new MedicineDoctor
+                {
+                    Id = m.Id,
+                    Text = m.Text,
+                    IsChecked = m.DoctorMedicinesValues.Any(d => d.DoctorId == id)
+                }).ToList()
+            };
+            ViewBag.DoctorName = db.Doctors.Find(id).FullName;
+            return View(model);
+        }
+
+        // POST: Medicine/CreateMedicinePeriod
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DoctorMedicines(MedicinesDoctorDTO model)
+        {
+            db.DoctorMedicinesValues.RemoveRange(db.DoctorMedicinesValues.Where(d => d.DoctorId == model.DoctorId));
+            foreach (var item in model.Medicines)
+            {
+                if (item.IsChecked)
+                {
+                    var doctorMedicine = new DoctorMedicinesValue
+                    {
+                        DoctorId = model.DoctorId,
+                        MedicineId = item.Id,
+                        IsActive = true,
+                        IsDeleted = false,
+                        CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                        UpdatedOn = DateTime.Now
+                    };
+                    db.DoctorMedicinesValues.Add(doctorMedicine);
+                }
+            }
+            db.SaveChanges();
+            TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+            return RedirectToAction("Index","Doctor");
         }
 
         protected override void Dispose(bool disposing)

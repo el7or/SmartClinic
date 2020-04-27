@@ -1,0 +1,43 @@
+﻿@model clinic_panel.DTOs.MedicinesDoctorDTO
+
+@{
+    ViewBag.Title = "DoctorMedicines";
+}
+
+<h2>أدوية الطبيب: @ViewBag.DoctorName</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.DoctorId)
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">اختيارات الأدوية:</label>
+            <div class="col-md-10">
+                @for (int i = 0; i < Model.Medicines.Count; i++)
+                {
+                    @Html.CheckBoxFor(m => Model.Medicines[i].IsChecked, new { @class = "m-0" })
+                    <span>&nbsp;</span>
+                    @Model.Medicines[i].Text
+                    @Html.HiddenFor(m => Model.Medicines[i].Id)
+                    @Html.HiddenFor(m => Model.Medicines[i].Text)
+                    <br />
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="حفظ" class="btn btn-success" />&nbsp;
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("رجوع", "Index","Doctor")
+</div>

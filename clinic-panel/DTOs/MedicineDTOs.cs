@@ -47,4 +47,16 @@ namespace clinic_panel.DTOs
         public int Id { get; set; }
         public string Text { get; set; }
     }
+
+    public class MedicinesDoctorDTO
+    {
+        public Guid DoctorId { get; set; }
+        public List<MedicineDoctor> Medicines { get; set; }
+    }
+    public class MedicineDoctor
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public bool IsChecked { get; set; }
+    }
 }

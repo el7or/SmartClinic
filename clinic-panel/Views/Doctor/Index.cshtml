@@ -81,7 +81,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <li> @Html.ActionLink("الأسعار", "Prices", "Clinic", new { id = item.ClinicId }, new { @class = "dropdown-item" })</li>
-                <li> @Html.ActionLink("الأدوية", "Index", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                <li> @Html.ActionLink("الأدوية", "DoctorMedicines", "Medicine", new { id = item.Id }, new { @class = "dropdown-item" })</li>
                 <li> @Html.ActionLink("الشكاوى", "Index", new { id = item.Id }, new { @class = "dropdown-item" })</li>
                 <li> @Html.ActionLink("الفحوصات", "Index", new { id = item.Id }, new { @class = "dropdown-item" })</li>
                 <li> @Html.ActionLink("التشخيصات", "Index", new { id = item.Id }, new { @class = "dropdown-item" })</li>

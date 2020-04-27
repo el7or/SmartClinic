@@ -524,6 +524,7 @@
     <Content Include="Views\Clinic\CreateBookingType.cshtml" />
     <Content Include="Views\Clinic\CreateService.cshtml" />
     <Content Include="Views\Clinic\CreateDiscount.cshtml" />
+    <Content Include="Views\Medicine\DoctorMedicines.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

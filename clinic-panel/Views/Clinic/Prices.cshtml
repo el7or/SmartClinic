@@ -98,18 +98,18 @@
 
             @foreach (var item in Model.DiscountPrices)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Discount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsPercent == true ? ((decimal)item.Price).ToString("C0") + " %" : ((decimal)item.Price).ToString("C0") + " ج.م")
-                    </td>
-                    @*<td>
-                        @Html.ActionLink("تعديل", "EditDiscount", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
-                        @Html.ActionLink("حذف", "DeleteDiscount", new { id = item.Id }, new { @class = "btn btn-danger" })
-                    </td>*@
-                </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price) @(item.IsPercent == true ? "%" : "ج.م")
+            </td>
+            @*<td>
+            @Html.ActionLink("تعديل", "EditDiscount", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+            @Html.ActionLink("حذف", "DeleteDiscount", new { id = item.Id }, new { @class = "btn btn-danger" })
+        </td>*@
+        </tr>
             }
         </table>
     </div>

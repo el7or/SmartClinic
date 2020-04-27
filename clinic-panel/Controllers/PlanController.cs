@@ -64,89 +64,89 @@ namespace clinic_panel.Controllers
             return View(model);
         }
 
-        // GET: Plan/Create
-        public ActionResult Create()
-        {
-            ViewBag.RenewalTypeId = new SelectList(db.SysRenewalTypeValues, "Id", "Value");
-            return View();
-        }
+        //// GET: Plan/Create
+        //public ActionResult Create()
+        //{
+        //    ViewBag.RenewalTypeId = new SelectList(db.SysRenewalTypeValues, "Id", "Value");
+        //    return View();
+        //}
 
-        // POST: Plan/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,IsActive,IsDeleted,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,SignUpFee,RenewalTypeId,AnnualRenewalFee,MonthlyRenewalFee,GracePeriodDays,MaxUsers,MaxBookingsMonthly,MaxFilesMonthlyMB,MaxFileSizeMB")] Plan plan)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Plans.Add(plan);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //// POST: Plan/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "Id,Title,Description,IsActive,IsDeleted,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,SignUpFee,RenewalTypeId,AnnualRenewalFee,MonthlyRenewalFee,GracePeriodDays,MaxUsers,MaxBookingsMonthly,MaxFilesMonthlyMB,MaxFileSizeMB")] Plan plan)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Plans.Add(plan);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            ViewBag.RenewalTypeId = new SelectList(db.SysRenewalTypeValues, "Id", "Value", plan.RenewalTypeId);
-            return View(plan);
-        }
+        //    ViewBag.RenewalTypeId = new SelectList(db.SysRenewalTypeValues, "Id", "Value", plan.RenewalTypeId);
+        //    return View(plan);
+        //}
 
-        // GET: Plan/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Plan plan = db.Plans.Find(id);
-            if (plan == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.RenewalTypeId = new SelectList(db.SysRenewalTypeValues, "Id", "Value", plan.RenewalTypeId);
-            return View(plan);
-        }
+        //// GET: Plan/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Plan plan = db.Plans.Find(id);
+        //    if (plan == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    ViewBag.RenewalTypeId = new SelectList(db.SysRenewalTypeValues, "Id", "Value", plan.RenewalTypeId);
+        //    return View(plan);
+        //}
 
-        // POST: Plan/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,IsActive,IsDeleted,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,SignUpFee,RenewalTypeId,AnnualRenewalFee,MonthlyRenewalFee,GracePeriodDays,MaxUsers,MaxBookingsMonthly,MaxFilesMonthlyMB,MaxFileSizeMB")] Plan plan)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(plan).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.RenewalTypeId = new SelectList(db.SysRenewalTypeValues, "Id", "Value", plan.RenewalTypeId);
-            return View(plan);
-        }
+        //// POST: Plan/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "Id,Title,Description,IsActive,IsDeleted,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,SignUpFee,RenewalTypeId,AnnualRenewalFee,MonthlyRenewalFee,GracePeriodDays,MaxUsers,MaxBookingsMonthly,MaxFilesMonthlyMB,MaxFileSizeMB")] Plan plan)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(plan).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    ViewBag.RenewalTypeId = new SelectList(db.SysRenewalTypeValues, "Id", "Value", plan.RenewalTypeId);
+        //    return View(plan);
+        //}
 
-        // GET: Plan/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Plan plan = db.Plans.Find(id);
-            if (plan == null)
-            {
-                return HttpNotFound();
-            }
-            return View(plan);
-        }
+        //// GET: Plan/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Plan plan = db.Plans.Find(id);
+        //    if (plan == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(plan);
+        //}
 
-        // POST: Plan/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Plan plan = db.Plans.Find(id);
-            db.Plans.Remove(plan);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Plan/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Plan plan = db.Plans.Find(id);
+        //    db.Plans.Remove(plan);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

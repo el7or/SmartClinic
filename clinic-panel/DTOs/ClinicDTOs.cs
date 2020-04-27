@@ -50,4 +50,30 @@ namespace clinic_panel.DTOs
         [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من إدخال صيغة رقمية صحيحة !")]
         public decimal? Price { get; set; }
     }
+
+    public class ClinicCreateServiceDTO
+    {
+        public Guid ClinicId { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        public string Service { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من إدخال صيغة رقمية صحيحة !")]
+        public decimal? Price { get; set; }
+    }
+
+    public class ClinicCreateDiscountDTO
+    {
+        public Guid ClinicId { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        public string Discount { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من إدخال صيغة رقمية صحيحة !")]
+        public decimal? Price { get; set; }
+
+        public bool? IsPercent { get; set; }
+    }
 }

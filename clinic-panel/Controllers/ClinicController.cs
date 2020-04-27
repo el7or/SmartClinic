@@ -49,7 +49,7 @@ namespace clinic_panel.Controllers
             return View(prices);
         }
 
-        // GET: Clinic/CreateBookingType
+        // GET: Clinic/CreateBookingType/5
         public ActionResult CreateBookingType(Guid id)
         {
             var model = new ClinicCreateBookingTypeDTO
@@ -69,10 +69,10 @@ namespace clinic_panel.Controllers
             {
                 var type = new ClinicBookingType
                 {
-                     ClinicId = model.ClinicId,
-                     Type = model.Type,
-                     Text = model.Type,
-                     Price = model.Price,                     
+                    ClinicId = model.ClinicId,
+                    Type = model.Type,
+                    Text = model.Type,
+                    Price = model.Price,
                     IsActive = true,
                     IsDeleted = false,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
@@ -81,6 +81,82 @@ namespace clinic_panel.Controllers
                     UpdatedOn = DateTime.Now
                 };
                 db.ClinicBookingTypes.Add(type);
+                db.SaveChanges();
+                return RedirectToAction("Prices", new { id = model.ClinicId });
+            }
+            return View(model);
+        }
+
+        // GET: Clinic/CreateService/5
+        public ActionResult CreateService(Guid id)
+        {
+            var model = new ClinicCreateServiceDTO
+            {
+                ClinicId = id
+            };
+            ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
+            return View(model);
+        }
+
+        // POST: Clinic/CreateService
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateService(ClinicCreateServiceDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var service = new ClinicService
+                {
+                    ClinicId = model.ClinicId,
+                    Service = model.Service,
+                    Price = model.Price,
+                    IsActive = true,
+                    IsDeleted = false,
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    CreatedOn = DateTime.Now,
+                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    UpdatedOn = DateTime.Now
+                };
+                db.ClinicServices.Add(service);
+                db.SaveChanges();
+                return RedirectToAction("Prices", new { id = model.ClinicId });
+            }
+            return View(model);
+        }
+
+        // GET: Clinic/CreateDiscount/5
+        public ActionResult CreateDiscount(Guid id)
+        {
+            var model = new ClinicCreateDiscountDTO
+            {
+                ClinicId = id,
+                IsPercent = false
+            };
+            ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
+            return View(model);
+        }
+
+        // POST: Clinic/CreateDiscount
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateDiscount(ClinicCreateDiscountDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var discount = new ClinicDiscount
+                {
+                    ClinicId = model.ClinicId,
+                    Discount = model.Discount,
+                    Price = model.Price,
+                    IsPercent = model.IsPercent,
+                    IsActive = true,
+                    IsDeleted = false,
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    CreatedOn = DateTime.Now,
+                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    UpdatedOn = DateTime.Now
+                };
+                db.ClinicDiscounts.Add(discount);
                 db.SaveChanges();
                 return RedirectToAction("Prices", new { id = model.ClinicId });
             }

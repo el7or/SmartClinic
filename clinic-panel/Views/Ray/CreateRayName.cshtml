@@ -1,0 +1,42 @@
+﻿@model clinic_panel.DTOs.RayCreateNameDTO
+
+@{
+    ViewBag.Title = "CreateRayName";
+}
+
+<h2>إضافة نوع أشعة للطبيب: @ViewBag.DoctorName</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.DoctorId)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">نوع الأشعة:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="حفظ" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("رجوع", "DoctorRays", new { id = Model.DoctorId })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

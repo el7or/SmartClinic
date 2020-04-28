@@ -1,0 +1,39 @@
+﻿@model clinic_panel.DTOs.OperationsDoctorDTO
+
+@{
+    ViewBag.Title = "DoctorOperations";
+}
+
+<h1>قائمة أنواع العمليات للطبيب: @ViewBag.DoctorName</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            @Html.ActionLink("إضافة نوع عملية", "CreateDoctorOperation", new { id = Model.DoctorId })
+        </p>
+
+        <table class="table">
+            <tr class="info">
+                <th>
+                    التشخيص
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Operations)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OperationType)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("رجوع", "Index", "Doctor")
+</div>
+
+
+

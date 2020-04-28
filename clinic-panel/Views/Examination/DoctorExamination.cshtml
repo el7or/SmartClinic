@@ -1,0 +1,63 @@
+﻿@model clinic_panel.DTOs.ExaminationDoctorDTO
+
+@{
+    ViewBag.Title = "DoctorExamination";
+}
+
+<h1>قائمة الفحوصات للطبيب: @ViewBag.DoctorName</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>أنواع الفحوصات</h2>
+
+        <p>
+            @Html.ActionLink("إضافة نوع فحص", "CreateExaminationType", new { id = Model.DoctorId })
+        </p>
+
+        <table class="table">
+            <tr class="info">
+                <th>
+                    نوع الفحص
+                </th>
+            </tr>
+
+            @foreach (var item in Model.ExaminationTypes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Examination)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h2>أماكن الفحص</h2>
+
+        <p>
+            @Html.ActionLink("إضافة مكان فحص", "CreateExaminationArea", new { id = Model.DoctorId })
+        </p>
+
+        <table class="table">
+            <tr class="info">
+                <th>
+                    مكان الفحص
+                </th>
+            </tr>
+
+            @foreach (var item in Model.ExaminationAreas)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("رجوع", "Index", "Doctor")
+</div>
+

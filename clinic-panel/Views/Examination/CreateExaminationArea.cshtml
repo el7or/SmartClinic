@@ -1,0 +1,42 @@
+﻿@model clinic_panel.DTOs.ExaminationCreateTypeDTO
+
+@{
+    ViewBag.Title = "CreateExaminationArea";
+}
+
+<h2>إضافة مكان فحص للطبيب: @ViewBag.DoctorName</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.DoctorId)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">مكان الفحص:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Examination, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Examination, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="حفظ" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("رجوع", "DoctorExamination", new { id = Model.DoctorId })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

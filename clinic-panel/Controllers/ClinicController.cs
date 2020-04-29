@@ -82,6 +82,7 @@ namespace clinic_panel.Controllers
                 };
                 db.ClinicBookingTypes.Add(type);
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Prices", new { id = model.ClinicId });
             }
             return View(model);
@@ -119,6 +120,7 @@ namespace clinic_panel.Controllers
                 };
                 db.ClinicServices.Add(service);
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Prices", new { id = model.ClinicId });
             }
             return View(model);
@@ -158,6 +160,7 @@ namespace clinic_panel.Controllers
                 };
                 db.ClinicDiscounts.Add(discount);
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Prices", new { id = model.ClinicId });
             }
             return View(model);

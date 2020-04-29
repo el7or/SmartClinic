@@ -52,6 +52,7 @@ namespace clinic_panel.Controllers
             {
                 db.SysRayFileTypesValues.Add(new SysRayFileTypesValue { Value = value, Text = value });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
 
@@ -74,6 +75,7 @@ namespace clinic_panel.Controllers
             {
                 db.SysAnalysisFileTypesValues.Add(new SysAnalysisFileTypesValue { Value = value, Text = value });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
 

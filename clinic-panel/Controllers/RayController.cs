@@ -64,6 +64,7 @@ namespace clinic_panel.Controllers
                     UpdatedOn = DateTime.Now
                 });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("DoctorRays", new { id = model.DoctorId });
             }
             return View();
@@ -100,6 +101,7 @@ namespace clinic_panel.Controllers
                     UpdatedOn = DateTime.Now
                 });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("DoctorRays", new { id = model.DoctorId });
             }
             return View();

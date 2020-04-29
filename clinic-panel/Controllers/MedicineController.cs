@@ -67,6 +67,7 @@ namespace clinic_panel.Controllers
             {
                 db.SysMedicinesValues.Add(new SysMedicinesValue { Value = value, Text = value });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
             return View();
@@ -88,6 +89,7 @@ namespace clinic_panel.Controllers
             {
                 db.SysMedicineConcentrationsValues.Add(new SysMedicineConcentrationsValue { Value = value, Text = value });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
             return View();
@@ -109,6 +111,7 @@ namespace clinic_panel.Controllers
             {
                 db.SysMedicineFormsValues.Add(new SysMedicineFormsValue { Value = value, Text = value });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
             return View();
@@ -130,6 +133,7 @@ namespace clinic_panel.Controllers
             {
                 db.SysMedicineDosesValues.Add(new SysMedicineDosesValue { Value = value, Text = value });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
             return View();
@@ -151,6 +155,7 @@ namespace clinic_panel.Controllers
             {
                 db.SysMedicineTimingsValues.Add(new SysMedicineTimingsValue { Value = value, Text = value });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
             return View();
@@ -172,6 +177,7 @@ namespace clinic_panel.Controllers
             {
                 db.SysMedicinePeriodsValues.Add(new SysMedicinePeriodsValue { Value = value, Text = value });
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
             return View();

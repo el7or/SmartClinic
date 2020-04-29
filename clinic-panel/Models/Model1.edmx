@@ -13,7 +13,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="256" />
           <Property Name="NormalizedName" Type="nvarchar" MaxLength="256" />
           <Property Name="ConcurrencyStamp" Type="nvarchar(max)" />
-          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar" MaxLength="256" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="AspNetUserRoles">
@@ -43,7 +43,7 @@
           <Property Name="LockoutEnd" Type="datetimeoffset" Precision="7" />
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
-          <Property Name="FullName" Type="nvarchar(max)" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="256" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime2" Precision="7" Nullable="false" />
@@ -115,7 +115,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClinicId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
@@ -123,7 +123,7 @@
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="ClinicDiscounts">
           <Key>
@@ -131,7 +131,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClinicId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Discount" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Discount" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
           <Property Name="IsPercent" Type="bit" />
           <Property Name="IsActive" Type="bit" />
@@ -163,11 +163,11 @@
           <Property Name="PrintAddress1" Type="nvarchar(max)" />
           <Property Name="PrintAddress2" Type="nvarchar(max)" />
           <Property Name="PrintAddress3" Type="nvarchar(max)" />
-          <Property Name="PrintPhone1" Type="nvarchar(max)" />
-          <Property Name="PrintPhone2" Type="nvarchar(max)" />
-          <Property Name="PrintPhone3" Type="nvarchar(max)" />
+          <Property Name="PrintPhone1" Type="nvarchar" MaxLength="256" />
+          <Property Name="PrintPhone2" Type="nvarchar" MaxLength="256" />
+          <Property Name="PrintPhone3" Type="nvarchar" MaxLength="256" />
           <Property Name="IsAllDaysOn" Type="bit" />
-          <Property Name="WorkDays" Type="nvarchar(max)" />
+          <Property Name="WorkDays" Type="nvarchar" MaxLength="50" />
           <Property Name="IsAllDaysSameTime" Type="bit" />
           <Property Name="AllDaysTimeFrom" Type="datetime" />
           <Property Name="AllDaysTimeTo" Type="datetime" />
@@ -192,7 +192,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClinicId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Service" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Service" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
@@ -215,7 +215,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="AnalysisName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AnalysisName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -237,7 +237,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DetailedComplaintId" Type="int" Nullable="false" />
-          <Property Name="Choice" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Choice" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -251,7 +251,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Complaint" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Complaint" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -265,7 +265,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Diagnosis" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Diagnosis" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -279,7 +279,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ExaminationArea" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ExaminationArea" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -293,7 +293,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Examination" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Examination" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -307,7 +307,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Complaint" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Complaint" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -335,7 +335,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OperationType" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="OperationType" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -349,7 +349,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="RayArea" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RayArea" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -363,7 +363,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="RayName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RayName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -385,18 +385,18 @@
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PatientRecordSections" Type="nvarchar(max)" />
-          <Property Name="DiseasesQuestions" Type="nvarchar(max)" />
-          <Property Name="Phone1" Type="nvarchar(max)" />
-          <Property Name="Phone2" Type="nvarchar(max)" />
-          <Property Name="Phone3" Type="nvarchar(max)" />
-          <Property Name="WhatsApp" Type="nvarchar(max)" />
-          <Property Name="Email1" Type="nvarchar(max)" />
-          <Property Name="Email2" Type="nvarchar(max)" />
-          <Property Name="Facebook" Type="nvarchar(max)" />
-          <Property Name="Twitter" Type="nvarchar(max)" />
-          <Property Name="LinkedIn" Type="nvarchar(max)" />
-          <Property Name="Instagram" Type="nvarchar(max)" />
+          <Property Name="PatientRecordSections" Type="nvarchar" MaxLength="50" />
+          <Property Name="DiseasesQuestions" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone1" Type="nvarchar" MaxLength="256" />
+          <Property Name="Phone2" Type="nvarchar" MaxLength="256" />
+          <Property Name="Phone3" Type="nvarchar" MaxLength="256" />
+          <Property Name="WhatsApp" Type="nvarchar" MaxLength="256" />
+          <Property Name="Email1" Type="nvarchar" MaxLength="256" />
+          <Property Name="Email2" Type="nvarchar" MaxLength="256" />
+          <Property Name="Facebook" Type="nvarchar" MaxLength="256" />
+          <Property Name="Twitter" Type="nvarchar" MaxLength="256" />
+          <Property Name="LinkedIn" Type="nvarchar" MaxLength="256" />
+          <Property Name="Instagram" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="PatientAnalysis">
           <Key>
@@ -437,7 +437,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PatientId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ComplaintChoiceId" Type="int" Nullable="false" />
-          <Property Name="Period" Type="nvarchar(max)" />
+          <Property Name="Period" Type="nvarchar" MaxLength="256" />
           <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
@@ -601,7 +601,7 @@
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Phone" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="256" />
           <Property Name="Age" Type="int" />
           <Property Name="Gender" Type="bit" />
           <Property Name="SocialStatusId" Type="int" />
@@ -624,7 +624,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
@@ -667,7 +667,7 @@
           <Property Name="SubscriptionTypeId" Type="int" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
-          <Property Name="Note" Type="nchar" MaxLength="10" />
+          <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDeleted" Type="bit" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -688,16 +688,16 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysBloodPressureValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysCitiesValues">
           <Key>
@@ -705,8 +705,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GovId" Type="int" Nullable="false" />
-          <Property Name="Text_ar" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="Text_en" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="TextAR" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="TextEN" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -723,8 +723,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysDiseasesQuestionsValues">
           <Key>
@@ -739,120 +739,120 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysEntryOrderValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysGovernoratesValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Text_ar" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="Text_en" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="TextAR" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="TextEN" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysMedicineConcentrationsValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysMedicineDosesValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysMedicineFormsValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysMedicinePeriodsValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysMedicinesValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysMedicineTimingsValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysPatientRecordSectionsValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysRayFileTypesValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysRenewalTypeValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysSocialStatusValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysSubscriberTypeValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysSubscriptionTypeValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <Association Name="FK_AspNetUserRoles_AspNetRoles_RoleId">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
@@ -2152,7 +2152,7 @@
           <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="NormalizedName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="ConcurrencyStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
         </EntityType>
@@ -2175,7 +2175,7 @@
           <Property Name="LockoutEnd" Type="DateTimeOffset" Precision="7" />
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="7" />
@@ -2249,7 +2249,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClinicId" Type="Guid" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
@@ -2259,7 +2259,7 @@
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Bookings" Relationship="Self.FK_Bookings_ClinicBookingTypes" FromRole="ClinicBookingTypes" ToRole="Bookings" />
           <NavigationProperty Name="Clinic" Relationship="Self.FK_ClinicBookingTypes_Clinics" FromRole="ClinicBookingTypes" ToRole="Clinics" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ClinicDiscount">
           <Key>
@@ -2267,7 +2267,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClinicId" Type="Guid" Nullable="false" />
-          <Property Name="Discount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Discount" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="IsPercent" Type="Boolean" />
           <Property Name="IsActive" Type="Boolean" />
@@ -2301,11 +2301,11 @@
           <Property Name="PrintAddress1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PrintAddress2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PrintAddress3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintPhone1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintPhone2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintPhone3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintPhone1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PrintPhone2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PrintPhone3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="IsAllDaysOn" Type="Boolean" />
-          <Property Name="WorkDays" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WorkDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsAllDaysSameTime" Type="Boolean" />
           <Property Name="AllDaysTimeFrom" Type="DateTime" Precision="3" />
           <Property Name="AllDaysTimeTo" Type="DateTime" Precision="3" />
@@ -2337,7 +2337,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClinicId" Type="Guid" Nullable="false" />
-          <Property Name="Service" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Service" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
@@ -2354,7 +2354,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="AnalysisName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AnalysisName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2370,7 +2370,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DetailedComplaintId" Type="Int32" Nullable="false" />
-          <Property Name="Choice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Choice" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2386,7 +2386,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="Complaint" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Complaint" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2402,7 +2402,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="Diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Diagnosis" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2418,7 +2418,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="ExaminationArea" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ExaminationArea" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2434,7 +2434,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="Examination" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Examination" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2450,7 +2450,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="Complaint" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Complaint" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2483,7 +2483,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="OperationType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OperationType" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2499,7 +2499,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="RayArea" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RayArea" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2515,7 +2515,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="RayName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RayName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2539,18 +2539,18 @@
           <Property Name="CreatedBy" Type="Guid" Nullable="false" />
           <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
-          <Property Name="PatientRecordSections" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DiseasesQuestions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Phone1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Phone2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Phone3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="WhatsApp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Email1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Email2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Facebook" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Twitter" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LinkedIn" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Instagram" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PatientRecordSections" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DiseasesQuestions" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Phone2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Phone3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="WhatsApp" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Email1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Email2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Facebook" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Twitter" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="LinkedIn" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Instagram" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DoctorAnalysisValues" Relationship="Self.FK_DoctorAnalysisValues_Doctors" FromRole="Doctors" ToRole="DoctorAnalysisValues" />
           <NavigationProperty Name="DoctorDetailedComplaintsValues" Relationship="Self.FK_DoctorDetailedComplaintsValues_Doctors" FromRole="Doctors" ToRole="DoctorDetailedComplaintsValues" />
           <NavigationProperty Name="DoctorDiagnosisValues" Relationship="Self.FK_DoctorDiagnosisValues_Doctors" FromRole="Doctors" ToRole="DoctorDiagnosisValues" />
@@ -2611,7 +2611,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PatientId" Type="Guid" Nullable="false" />
           <Property Name="ComplaintChoiceId" Type="Int32" Nullable="false" />
-          <Property Name="Period" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Period" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="Guid" Nullable="false" />
@@ -2805,7 +2805,7 @@
           <Property Name="CreatedBy" Type="Guid" Nullable="false" />
           <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Age" Type="Int32" />
           <Property Name="Gender" Type="Boolean" />
           <Property Name="SocialStatusId" Type="Int32" />
@@ -2836,16 +2836,16 @@
           <NavigationProperty Name="PatientRays" Relationship="Self.FK_PatientRays_Patients" FromRole="Patients" ToRole="PatientRays" />
           <NavigationProperty Name="PatientReferrals" Relationship="Self.FK_PatientReferrals_Patients" FromRole="Patients" ToRole="PatientReferrals" />
           <NavigationProperty Name="SysBloodPressureValue" Relationship="Self.FK_Patients_SysBloodPressureValues" FromRole="Patients" ToRole="SysBloodPressureValues" />
-          <NavigationProperty Name="SysCitiesValue" Relationship="Self.FK_Patients_SysCitiesValues" FromRole="Patients" ToRole="SysCitiesValues" />
-          <NavigationProperty Name="SysGovernoratesValue" Relationship="Self.FK_Patients_SysGovernoratesValues" FromRole="Patients" ToRole="SysGovernoratesValues" />
           <NavigationProperty Name="SysSocialStatusValue" Relationship="Self.FK_Patients_SysSocialStatusValues" FromRole="Patients" ToRole="SysSocialStatusValues" />
+          <NavigationProperty Name="SysCitiesValue" Relationship="Models.FK_Patients_SysCitiesValues" FromRole="Patient" ToRole="SysCitiesValue" />
+          <NavigationProperty Name="SysGovernoratesValue" Relationship="Models.FK_Patients_SysGovernoratesValues" FromRole="Patient" ToRole="SysGovernoratesValue" />
         </EntityType>
         <EntityType Name="Plan">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
@@ -2876,7 +2876,7 @@
           <Property Name="SubscriptionTypeId" Type="Int32" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Note" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -2901,8 +2901,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PatientAnalysisFiles" Relationship="Self.FK_PatientAnalysisFiles_SysAnalysisFileTypesValues" FromRole="SysAnalysisFileTypesValues" ToRole="PatientAnalysisFiles" />
         </EntityType>
         <EntityType Name="SysBloodPressureValue">
@@ -2910,20 +2910,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_SysBloodPressureValues" FromRole="SysBloodPressureValues" ToRole="Patients" />
-        </EntityType>
-        <EntityType Name="SysCitiesValue">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GovId" Type="Int32" Nullable="false" />
-          <Property Name="Text_ar" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text_en" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_SysCitiesValues" FromRole="SysCitiesValues" ToRole="Patients" />
-          <NavigationProperty Name="SysGovernoratesValue" Relationship="Self.FK_SysCitiesValues_SysGovernoratesValues" FromRole="SysCitiesValues" ToRole="SysGovernoratesValues" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -2940,8 +2929,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PatientAnalysis" Relationship="Self.FK_PatientAnalysis_SysDiseaseGradesValues" FromRole="SysDiseaseGradesValues" ToRole="PatientAnalysis" />
           <NavigationProperty Name="PatientDiagnosis" Relationship="Self.FK_PatientDiagnosis_SysDiseaseGradesValues" FromRole="SysDiseaseGradesValues" ToRole="PatientDiagnosis" />
           <NavigationProperty Name="PatientRays" Relationship="Self.FK_PatientRays_SysDiseaseGradesValues" FromRole="SysDiseaseGradesValues" ToRole="PatientRays" />
@@ -2960,8 +2949,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Doctors" Relationship="Self.FK_Doctors_SysDoctorsSpecialties" FromRole="SysDoctorsSpecialties" ToRole="Doctors" />
         </EntityType>
         <EntityType Name="SysEntryOrderValue">
@@ -2969,27 +2958,17 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Clinics" Relationship="Self.FK_Clinics_SysEntryOrderValues" FromRole="SysEntryOrderValues" ToRole="Clinics" />
-        </EntityType>
-        <EntityType Name="SysGovernoratesValue">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Text_ar" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text_en" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_SysGovernoratesValues" FromRole="SysGovernoratesValues" ToRole="Patients" />
-          <NavigationProperty Name="SysCitiesValues" Relationship="Self.FK_SysCitiesValues_SysGovernoratesValues" FromRole="SysGovernoratesValues" ToRole="SysCitiesValues" />
         </EntityType>
         <EntityType Name="SysMedicineConcentrationsValue">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicineConcentrationsValues" FromRole="SysMedicineConcentrationsValues" ToRole="PatientPrescriptions" />
         </EntityType>
         <EntityType Name="SysMedicineDosesValue">
@@ -2997,8 +2976,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicineDosesValues" FromRole="SysMedicineDosesValues" ToRole="PatientPrescriptions" />
         </EntityType>
         <EntityType Name="SysMedicineFormsValue">
@@ -3006,8 +2985,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicineFormsValues" FromRole="SysMedicineFormsValues" ToRole="PatientPrescriptions" />
         </EntityType>
         <EntityType Name="SysMedicinePeriodsValue">
@@ -3015,8 +2994,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicinePeriodsValues" FromRole="SysMedicinePeriodsValues" ToRole="PatientPrescriptions" />
         </EntityType>
         <EntityType Name="SysMedicinesValue">
@@ -3024,8 +3003,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="DoctorMedicinesValues" Relationship="Self.FK_DoctorMedicinesValues_SysMedicinesValues" FromRole="SysMedicinesValues" ToRole="DoctorMedicinesValues" />
         </EntityType>
         <EntityType Name="SysMedicineTimingsValue">
@@ -3033,8 +3012,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicineTimingsValues" FromRole="SysMedicineTimingsValues" ToRole="PatientPrescriptions" />
         </EntityType>
         <EntityType Name="SysPatientRecordSectionsValue">
@@ -3042,16 +3021,16 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="SysRayFileTypesValue">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PatientRayFiles" Relationship="Self.FK_PatientRayFiles_SysRayFileTypesValues" FromRole="SysRayFileTypesValues" ToRole="PatientRayFiles" />
         </EntityType>
         <EntityType Name="SysRenewalTypeValue">
@@ -3059,8 +3038,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Plans" Relationship="Self.FK_Plans_SysRenewalTypeValues" FromRole="SysRenewalTypeValues" ToRole="Plans" />
         </EntityType>
         <EntityType Name="SysSocialStatusValue">
@@ -3068,8 +3047,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_SysSocialStatusValues" FromRole="SysSocialStatusValues" ToRole="Patients" />
         </EntityType>
         <EntityType Name="SysSubscriberTypeValue">
@@ -3077,8 +3056,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Subscriptions" Relationship="Self.FK_Subscriptions_SysSubscriberTypeValues" FromRole="SysSubscriberTypeValues" ToRole="Subscriptions" />
         </EntityType>
         <EntityType Name="SysSubscriptionTypeValue">
@@ -3086,8 +3065,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Subscriptions" Relationship="Self.FK_Subscriptions_SysSubscriptionTypeValues" FromRole="SysSubscriptionTypeValues" ToRole="Subscriptions" />
         </EntityType>
         <Association Name="FK_AspNetUserTokens_AspNetUsers_UserId">
@@ -3800,30 +3779,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Patients_SysCitiesValues">
-          <End Role="SysCitiesValues" Type="Self.SysCitiesValue" Multiplicity="0..1" />
-          <End Role="Patients" Type="Self.Patient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysCitiesValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Patients">
-              <PropertyRef Name="CityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Patients_SysGovernoratesValues">
-          <End Role="SysGovernoratesValues" Type="Self.SysGovernoratesValue" Multiplicity="0..1" />
-          <End Role="Patients" Type="Self.Patient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysGovernoratesValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Patients">
-              <PropertyRef Name="GovernorateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Patients_SysSocialStatusValues">
           <End Role="SysSocialStatusValues" Type="Self.SysSocialStatusValue" Multiplicity="0..1" />
           <End Role="Patients" Type="Self.Patient" Multiplicity="*" />
@@ -3884,18 +3839,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SysCitiesValues_SysGovernoratesValues">
-          <End Role="SysGovernoratesValues" Type="Self.SysGovernoratesValue" Multiplicity="1" />
-          <End Role="SysCitiesValues" Type="Self.SysCitiesValue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysGovernoratesValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SysCitiesValues">
-              <PropertyRef Name="GovId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -3951,13 +3894,11 @@
           <EntitySet Name="Subscriptions" EntityType="Self.Subscription" />
           <EntitySet Name="SysAnalysisFileTypesValues" EntityType="Self.SysAnalysisFileTypesValue" />
           <EntitySet Name="SysBloodPressureValues" EntityType="Self.SysBloodPressureValue" />
-          <EntitySet Name="SysCitiesValues" EntityType="Self.SysCitiesValue" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="SysDiseaseGradesValues" EntityType="Self.SysDiseaseGradesValue" />
           <EntitySet Name="SysDiseasesQuestionsValues" EntityType="Self.SysDiseasesQuestionsValue" />
           <EntitySet Name="SysDoctorsSpecialties" EntityType="Self.SysDoctorsSpecialty" />
           <EntitySet Name="SysEntryOrderValues" EntityType="Self.SysEntryOrderValue" />
-          <EntitySet Name="SysGovernoratesValues" EntityType="Self.SysGovernoratesValue" />
           <EntitySet Name="SysMedicineConcentrationsValues" EntityType="Self.SysMedicineConcentrationsValue" />
           <EntitySet Name="SysMedicineDosesValues" EntityType="Self.SysMedicineDosesValue" />
           <EntitySet Name="SysMedicineFormsValues" EntityType="Self.SysMedicineFormsValue" />
@@ -4206,14 +4147,6 @@
             <End Role="SysBloodPressureValues" EntitySet="SysBloodPressureValues" />
             <End Role="Patients" EntitySet="Patients" />
           </AssociationSet>
-          <AssociationSet Name="FK_Patients_SysCitiesValues" Association="Self.FK_Patients_SysCitiesValues">
-            <End Role="SysCitiesValues" EntitySet="SysCitiesValues" />
-            <End Role="Patients" EntitySet="Patients" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Patients_SysGovernoratesValues" Association="Self.FK_Patients_SysGovernoratesValues">
-            <End Role="SysGovernoratesValues" EntitySet="SysGovernoratesValues" />
-            <End Role="Patients" EntitySet="Patients" />
-          </AssociationSet>
           <AssociationSet Name="FK_Patients_SysSocialStatusValues" Association="Self.FK_Patients_SysSocialStatusValues">
             <End Role="SysSocialStatusValues" EntitySet="SysSocialStatusValues" />
             <End Role="Patients" EntitySet="Patients" />
@@ -4233,10 +4166,6 @@
           <AssociationSet Name="FK_Subscriptions_SysSubscriptionTypeValues" Association="Self.FK_Subscriptions_SysSubscriptionTypeValues">
             <End Role="SysSubscriptionTypeValues" EntitySet="SysSubscriptionTypeValues" />
             <End Role="Subscriptions" EntitySet="Subscriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SysCitiesValues_SysGovernoratesValues" Association="Self.FK_SysCitiesValues_SysGovernoratesValues">
-            <End Role="SysGovernoratesValues" EntitySet="SysGovernoratesValues" />
-            <End Role="SysCitiesValues" EntitySet="SysCitiesValues" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -4258,6 +4187,20 @@
           <AssociationSet Name="FK_SubscriptionPayments_Subscriptions" Association="Models.FK_SubscriptionPayments_Subscriptions">
             <End Role="Subscription" EntitySet="Subscriptions" />
             <End Role="SubscriptionPayment" EntitySet="SubscriptionPayments" />
+          </AssociationSet>
+          <EntitySet Name="SysCitiesValues" EntityType="Models.SysCitiesValue" />
+          <EntitySet Name="SysGovernoratesValues" EntityType="Models.SysGovernoratesValue" />
+          <AssociationSet Name="FK_Patients_SysCitiesValues" Association="Models.FK_Patients_SysCitiesValues">
+            <End Role="SysCitiesValue" EntitySet="SysCitiesValues" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patients_SysGovernoratesValues" Association="Models.FK_Patients_SysGovernoratesValues">
+            <End Role="SysGovernoratesValue" EntitySet="SysGovernoratesValues" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SysCitiesValues_SysGovernoratesValues" Association="Models.FK_SysCitiesValues_SysGovernoratesValues">
+            <End Role="SysGovernoratesValue" EntitySet="SysGovernoratesValues" />
+            <End Role="SysCitiesValue" EntitySet="SysCitiesValues" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="SubscriptionPayment">
@@ -4284,6 +4227,63 @@
             </Principal>
             <Dependent Role="SubscriptionPayment">
               <PropertyRef Name="SubscriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SysCitiesValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GovId" Type="Int32" Nullable="false" />
+          <Property Name="TextAR" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TextEN" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Patients" Relationship="Models.FK_Patients_SysCitiesValues" FromRole="SysCitiesValue" ToRole="Patient" />
+          <NavigationProperty Name="SysGovernoratesValue" Relationship="Models.FK_SysCitiesValues_SysGovernoratesValues" FromRole="SysCitiesValue" ToRole="SysGovernoratesValue" />
+        </EntityType>
+        <EntityType Name="SysGovernoratesValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextAR" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TextEN" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Patients" Relationship="Models.FK_Patients_SysGovernoratesValues" FromRole="SysGovernoratesValue" ToRole="Patient" />
+          <NavigationProperty Name="SysCitiesValues" Relationship="Models.FK_SysCitiesValues_SysGovernoratesValues" FromRole="SysGovernoratesValue" ToRole="SysCitiesValue" />
+        </EntityType>
+        <Association Name="FK_Patients_SysCitiesValues">
+          <End Type="Models.SysCitiesValue" Role="SysCitiesValue" Multiplicity="0..1" />
+          <End Type="Models.Patient" Role="Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysCitiesValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patients_SysGovernoratesValues">
+          <End Type="Models.SysGovernoratesValue" Role="SysGovernoratesValue" Multiplicity="0..1" />
+          <End Type="Models.Patient" Role="Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysGovernoratesValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="GovernorateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SysCitiesValues_SysGovernoratesValues">
+          <End Type="Models.SysGovernoratesValue" Role="SysGovernoratesValue" Multiplicity="1" />
+          <End Type="Models.SysCitiesValue" Role="SysCitiesValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysGovernoratesValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SysCitiesValue">
+              <PropertyRef Name="GovId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4977,16 +4977,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SysCitiesValues">
-            <EntityTypeMapping TypeName="Models.SysCitiesValue">
-              <MappingFragment StoreEntitySet="SysCitiesValues">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="GovId" ColumnName="GovId" />
-                <ScalarProperty Name="Text_ar" ColumnName="Text_ar" />
-                <ScalarProperty Name="Text_en" ColumnName="Text_en" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="Models.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -5031,15 +5021,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SysGovernoratesValues">
-            <EntityTypeMapping TypeName="Models.SysGovernoratesValue">
-              <MappingFragment StoreEntitySet="SysGovernoratesValues">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Text_ar" ColumnName="Text_ar" />
-                <ScalarProperty Name="Text_en" ColumnName="Text_en" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5194,6 +5175,25 @@
                 <ScalarProperty Name="NextPaymentDate" ColumnName="NextPaymentDate" />
                 <ScalarProperty Name="Paid" ColumnName="Paid" />
                 <ScalarProperty Name="SubscriptionId" ColumnName="SubscriptionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysCitiesValues">
+            <EntityTypeMapping TypeName="Models.SysCitiesValue">
+              <MappingFragment StoreEntitySet="SysCitiesValues">
+                <ScalarProperty Name="TextEN" ColumnName="TextEN" />
+                <ScalarProperty Name="TextAR" ColumnName="TextAR" />
+                <ScalarProperty Name="GovId" ColumnName="GovId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysGovernoratesValues">
+            <EntityTypeMapping TypeName="Models.SysGovernoratesValue">
+              <MappingFragment StoreEntitySet="SysGovernoratesValues">
+                <ScalarProperty Name="TextEN" ColumnName="TextEN" />
+                <ScalarProperty Name="TextAR" ColumnName="TextAR" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

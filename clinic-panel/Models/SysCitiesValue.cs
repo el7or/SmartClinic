@@ -22,8 +22,8 @@ namespace clinic_panel.Models
     
         public int Id { get; set; }
         public int GovId { get; set; }
-        public string Text_ar { get; set; }
-        public string Text_en { get; set; }
+        public string TextAR { get; set; }
+        public string TextEN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Patient> Patients { get; set; }

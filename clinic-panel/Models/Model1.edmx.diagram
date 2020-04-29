@@ -43,13 +43,11 @@
         <EntityTypeShape EntityType="Models.Subscription" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.SysAnalysisFileTypesValue" Width="1.5" PointX="16.5" PointY="47.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.SysBloodPressureValue" Width="1.5" PointX="3" PointY="40.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Models.SysCitiesValue" Width="1.5" PointX="3" PointY="43.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.sysdiagram" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.SysDiseaseGradesValue" Width="1.5" PointX="8.25" PointY="51.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.SysDiseasesQuestionsValue" Width="1.5" PointX="5.25" PointY="30.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.SysDoctorsSpecialty" Width="1.5" PointX="0.75" PointY="50.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.SysEntryOrderValue" Width="1.5" PointX="0.75" PointY="29.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Models.SysGovernoratesValue" Width="1.5" PointX="0.75" PointY="32.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.SysMedicineConcentrationsValue" Width="1.5" PointX="11.25" PointY="51.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.SysMedicineDosesValue" Width="1.5" PointX="11.25" PointY="54.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Models.SysMedicineFormsValue" Width="1.5" PointX="11.25" PointY="57.125" IsExpanded="true" />
@@ -121,20 +119,22 @@
         <AssociationConnector Association="Models.FK_PatientRays_SysDiseaseGradesValues" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_PatientReferrals_Patients" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_Patients_SysBloodPressureValues" ManuallyRouted="false" />
-        <AssociationConnector Association="Models.FK_Patients_SysCitiesValues" ManuallyRouted="false" />
-        <AssociationConnector Association="Models.FK_Patients_SysGovernoratesValues" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_Patients_SysSocialStatusValues" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_Plans_SysRenewalTypeValues" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_Subscriptions_Plans" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_Subscriptions_SysSubscriberTypeValues" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_Subscriptions_SysSubscriptionTypeValues" ManuallyRouted="false" />
-        <AssociationConnector Association="Models.FK_SysCitiesValues_SysGovernoratesValues" ManuallyRouted="false" />
         <AssociationConnector Association="Models.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="Models.BookingServices" ManuallyRouted="false" />
         <AssociationConnector Association="Models.ClinicUsers" ManuallyRouted="false" />
         <AssociationConnector Association="Models.DoctorClinics" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Models.SubscriptionPayment" Width="1.5" PointX="7.5" PointY="6.75" />
         <AssociationConnector Association="Models.FK_SubscriptionPayments_Subscriptions" />
+        <EntityTypeShape EntityType="Models.SysCitiesValue" Width="1.5" PointX="3" PointY="36.75" />
+        <EntityTypeShape EntityType="Models.SysGovernoratesValue" Width="1.5" PointX="0.75" PointY="37.875" />
+        <AssociationConnector Association="Models.FK_Patients_SysCitiesValues" />
+        <AssociationConnector Association="Models.FK_Patients_SysGovernoratesValues" />
+        <AssociationConnector Association="Models.FK_SysCitiesValues_SysGovernoratesValues" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

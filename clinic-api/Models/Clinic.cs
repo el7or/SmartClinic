@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Models
 {
@@ -33,10 +34,18 @@ namespace clinic_api.Models
         public string PrintAddress1 { get; set; }
         public string PrintAddress2 { get; set; }
         public string PrintAddress3 { get; set; }
+
+        [StringLength(256)]
         public string PrintPhone1 { get; set; }
+
+        [StringLength(256)]
         public string PrintPhone2 { get; set; }
+
+        [StringLength(256)]
         public string PrintPhone3 { get; set; }
         public bool? IsAllDaysOn { get; set; }
+
+        [StringLength(50)]
         public string WorkDays { get; set; }
         public bool? IsAllDaysSameTime { get; set; }
         public DateTime? AllDaysTimeFrom { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Models
 {
@@ -32,17 +33,41 @@ namespace clinic_api.Models
         public Guid CreatedBy { get; set; }
         public DateTime UpdatedOn { get; set; }
         public Guid UpdatedBy { get; set; }
+
+        [StringLength(50)]
         public string PatientRecordSections { get; set; }
+
+        [StringLength(50)]
         public string DiseasesQuestions { get; set; }
+
+        [StringLength(256)]
         public string Phone1 { get; set; }
+
+        [StringLength(256)]
         public string Phone2 { get; set; }
+
+        [StringLength(256)]
         public string Phone3 { get; set; }
+
+        [StringLength(256)]
         public string WhatsApp { get; set; }
+
+        [StringLength(256)]
         public string Email1 { get; set; }
+
+        [StringLength(256)]
         public string Email2 { get; set; }
+
+        [StringLength(256)]
         public string Facebook { get; set; }
+
+        [StringLength(256)]
         public string Twitter { get; set; }
+
+        [StringLength(256)]
         public string LinkedIn { get; set; }
+
+        [StringLength(256)]
         public string Instagram { get; set; }
 
         public virtual SysDoctorsSpecialty Specialty { get; set; }

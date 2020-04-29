@@ -29,8 +29,8 @@ namespace clinic_api.Models
         public int? GracePeriodDays { get; set; }
         public int? MaxUsers { get; set; }
         public int? MaxBookingsMonthly { get; set; }
-        public int? MaxFilesMonthlyMb { get; set; }
-        public int? MaxFileSizeMb { get; set; }
+        public int? MaxFilesMonthlyMB { get; set; }
+        public int? MaxFileSizeMB { get; set; }
 
         public virtual Plan Plan { get; set; }
         public virtual SysSubscriberTypeValue SubscriberType { get; set; }

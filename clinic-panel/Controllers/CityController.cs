@@ -17,7 +17,7 @@ namespace clinic_panel.Controllers
         // GET: City
         public ActionResult Index()
         {
-            return View(db.SysGovernoratesValues.OrderBy(n => n.Text_ar).ToList());
+            return View(db.SysGovernoratesValues.OrderBy(n => n.TextAR).ToList());
         }
 
         // GET: City/Details/5
@@ -32,8 +32,8 @@ namespace clinic_panel.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Gov = sysGovernoratesValue.Text_ar;
-            return View(db.SysCitiesValues.Where(g => g.GovId==id).OrderBy(n => n.Text_ar).ToList());
+            ViewBag.Gov = sysGovernoratesValue.TextAR;
+            return View(db.SysCitiesValues.Where(g => g.GovId==id).OrderBy(n => n.TextAR).ToList());
         }
 
         //// GET: City/Create

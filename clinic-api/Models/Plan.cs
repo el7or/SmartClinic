@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Models
 {
@@ -11,6 +12,8 @@ namespace clinic_api.Models
         }
 
         public int Id { get; set; }
+
+        [StringLength(256)]
         public string Title { get; set; }
         public string Description { get; set; }
         public bool? IsActive { get; set; }
@@ -26,8 +29,8 @@ namespace clinic_api.Models
         public int? GracePeriodDays { get; set; }
         public int? MaxUsers { get; set; }
         public int? MaxBookingsMonthly { get; set; }
-        public int? MaxFilesMonthlyMb { get; set; }
-        public int? MaxFileSizeMb { get; set; }
+        public int? MaxFilesMonthlyMB { get; set; }
+        public int? MaxFileSizeMB { get; set; }
 
         public virtual SysRenewalTypeValue RenewalType { get; set; }
         public virtual ICollection<Subscription> Subscriptions { get; set; }

@@ -84,8 +84,8 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PatientReferral> PatientReferrals { get; set; }
         public virtual SysBloodPressureValue SysBloodPressureValue { get; set; }
+        public virtual SysSocialStatusValue SysSocialStatusValue { get; set; }
         public virtual SysCitiesValue SysCitiesValue { get; set; }
         public virtual SysGovernoratesValue SysGovernoratesValue { get; set; }
-        public virtual SysSocialStatusValue SysSocialStatusValue { get; set; }
     }
 }

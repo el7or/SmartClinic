@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Models
 {
@@ -31,6 +32,8 @@ namespace clinic_api.Models
         public Guid CreatedBy { get; set; }
         public DateTime UpdatedOn { get; set; }
         public Guid UpdatedBy { get; set; }
+
+        [StringLength(256)]
         public string Phone { get; set; }
         public int? Age { get; set; }
         public bool? Gender { get; set; }

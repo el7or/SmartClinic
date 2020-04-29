@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Models
 {
@@ -8,6 +9,8 @@ namespace clinic_api.Models
         public int Id { get; set; }
         public Guid PatientId { get; set; }
         public int ComplaintChoiceId { get; set; }
+
+        [StringLength(256)]
         public string Period { get; set; }
         public string Note { get; set; }
         public DateTime CreatedOn { get; set; }

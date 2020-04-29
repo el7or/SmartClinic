@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Models
 {
@@ -12,6 +13,8 @@ namespace clinic_api.Models
 
         public int Id { get; set; }
         public Guid DoctorId { get; set; }
+
+        [StringLength(256)]
         public string Examination { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }

@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using clinic_api.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Data
 {
     public class ApplicationUser : IdentityUser<Guid>
     {
+        [StringLength(256)]
         public string FullName { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
@@ -25,6 +27,7 @@ namespace clinic_api.Data
     }
     public class ApplicationRole : IdentityRole<Guid>
     {
+        [StringLength(256)]
         public string Title { get; set; }
         public string Description { get; set; }
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
@@ -910,10 +913,6 @@ namespace clinic_api.Data
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
-                entity.Property(e => e.MaxFilesMonthlyMb).HasColumnName("MaxFilesMonthlyMB");
-
-                entity.Property(e => e.MaxFileSizeMb).HasColumnName("MaxFileSizeMB");
-
                 entity.Property(e => e.MonthlyRenewalFee).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.SignUpFee).HasColumnType("decimal(18, 2)");
@@ -936,15 +935,7 @@ namespace clinic_api.Data
 
                 entity.Property(e => e.EndDate).HasColumnType("date");
 
-                entity.Property(e => e.MaxFilesMonthlyMb).HasColumnName("MaxFilesMonthlyMB");
-
-                entity.Property(e => e.MaxFileSizeMb).HasColumnName("MaxFileSizeMB");
-
                 entity.Property(e => e.MonthlyRenewalFee).HasColumnType("decimal(18, 2)");
-
-                entity.Property(e => e.Note)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
 
                 entity.Property(e => e.SignUpFee).HasColumnType("decimal(18, 2)");
 
@@ -1003,16 +994,6 @@ namespace clinic_api.Data
 
             modelBuilder.Entity<SysCitiesValue>(entity =>
             {
-                entity.Property(e => e.TextAr)
-                    .IsRequired()
-                    .HasColumnName("Text_ar")
-                    .HasMaxLength(256);
-
-                entity.Property(e => e.TextEn)
-                    .IsRequired()
-                    .HasColumnName("Text_en")
-                    .HasMaxLength(256);
-
                 entity.HasOne(d => d.Gov)
                     .WithMany(p => p.SysCitiesValues)
                     .HasForeignKey(d => d.GovId)
@@ -1050,15 +1031,6 @@ namespace clinic_api.Data
 
             modelBuilder.Entity<SysGovernoratesValue>(entity =>
             {
-                entity.Property(e => e.TextAr)
-                    .IsRequired()
-                    .HasColumnName("Text_ar")
-                    .HasMaxLength(256);
-
-                entity.Property(e => e.TextEn)
-                    .IsRequired()
-                    .HasColumnName("Text_en")
-                    .HasMaxLength(256);
             });
 
             modelBuilder.Entity<SysMedicineConcentrationsValue>(entity =>

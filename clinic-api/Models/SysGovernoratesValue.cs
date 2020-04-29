@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Models
 {
@@ -12,8 +13,14 @@ namespace clinic_api.Models
         }
 
         public int Id { get; set; }
-        public string TextAr { get; set; }
-        public string TextEn { get; set; }
+
+        [Required]
+        [StringLength(256)]
+        public string TextAR { get; set; }
+
+        [Required]
+        [StringLength(256)]
+        public string TextEN { get; set; }
 
         public virtual ICollection<Patient> Patients { get; set; }
         public virtual ICollection<SysCitiesValue> SysCitiesValues { get; set; }

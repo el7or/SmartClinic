@@ -20,7 +20,7 @@
     "clinic_api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/weatherforecast",//pages
+      "launchUrl": "api/weatherforecast", //pages
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

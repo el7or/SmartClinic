@@ -1,67 +1,69 @@
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { Injectable } from "@angular/core";
 
 import { LoginUser, UserRole } from "./auth.model";
+import { environment } from "../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class AuthService {
-  currentUser: LoginUser = { userName: "", password: "" };
-
+  baseUrl = environment.API_URL + "account/";
   jwtHelper = new JwtHelperService();
+  decodedToken;
+
   private _nickName = new BehaviorSubject<string>("");
 
   public get isAuthenticated(): boolean {
     try {
-      return true;
-      if (
-        (this.currentUser.userName == "el7or" || this.currentUser.userName == "el7or2") &&
-        this.currentUser.password == "123456"
-      ) {
-        return true;
-      }
-      return false;
-
-      /* const token = localStorage.getItem("token");
-      return !this.jwtHelper.isTokenExpired(token); */
+      const token = localStorage.getItem("token");
+      this.decodedToken = this.jwtHelper.decodeToken(token);
+      return !this.jwtHelper.isTokenExpired(token);
     } catch {
       return false;
     }
   }
-
   public get roleName(): UserRole {
-    if (this.currentUser.userName == "el7or") return UserRole.Doctor;
-    if (this.currentUser.userName == "el7or2") return UserRole.Employee;
-
-    /* const token = localStorage.getItem("token");
-    let decodedToken = this.jwtHelper.decodeToken(token);
-    if (decodedToken.jti == "Doctor") {
+    if (this.decodedToken.prn == "doctor") {
       return UserRole.Doctor;
     }
-    if (decodedToken.jti == "Employee") {
+    if (this.decodedToken.prn == "employee") {
       return UserRole.Employee;
-    } */
+    }
   }
-  public get userId():string{
-    return 'adsgdsfgfdsgdsfgfds';
+  public get userId(): string {
+    return this.decodedToken.jti;
   }
-  public get clinicId():string{
-    return 'adsgdsfgfdsgdsfgfds';
+  public get clinicId(): string {
+    return this.decodedToken.sid;
   }
-  public get doctorId():string{
-    return 'adsgdsfgfdsgdsfgfds';
+  public get doctorId(): string {
+    return this.decodedToken.nbf;
   }
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  login(loginUser: LoginUser): void {
-    // =====> (get user data from database):
-    this.currentUser = loginUser;
-
-    localStorage.setItem("token", "userId + roleName + clinicId + doctorId");
-    localStorage.setItem("nickName", this.roleName== UserRole.Doctor?"دكتور محمد":"سكرتير هيثم");
+  login(loginUser: LoginUser) {
+    return this.http.post(this.baseUrl + "login/", loginUser).pipe(
+      map((res: any) => {
+        if (res) {
+          // token has: "fullName + userId + roleName + clinicId + doctorId"
+          localStorage.setItem("token", res.token);
+          this.decodedToken = this.jwtHelper.decodeToken(res.token);
+          localStorage.setItem("nickName", this.decodedToken.sub)
+          /*
+          decodedToken.sub --> fullName
+          decodedToken.jti --> userId
+          decodedToken.prn --> roleName
+          decodedToken.sid --> clinicId
+          decodedToken.nbf --> doctorId
+          */
+        }
+      })
+    );
   }
 
   // =====> get & set user nickName:
@@ -76,8 +78,6 @@ export class AuthService {
 
   // =====> log out:
   logout() {
-    this.currentUser = { userName: "", password: "" };
-
     localStorage.clear();
   }
 }

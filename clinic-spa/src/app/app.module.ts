@@ -1,3 +1,4 @@
+import { TokenInterceptorProvidor } from './shared/interceptors/token-interceptor';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.
@@ -72,7 +73,7 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
       }
     })
   ],
-  providers: [
+  providers: [TokenInterceptorProvidor,
     {
       provide: NbRoleProvider,
       useClass: NbSimpleRoleProvider

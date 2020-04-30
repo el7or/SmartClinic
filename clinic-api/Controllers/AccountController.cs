@@ -25,12 +25,14 @@ namespace clinic_api.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _config;
+        private readonly ApplicationDbContext db;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration config)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration config, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _config = config;
+            db = context;
         }
 
         [AllowAnonymous]
@@ -63,13 +65,15 @@ namespace clinic_api.Controllers
             var roles = await _userManager.GetRolesAsync(user);
             foreach (var role in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Prn, role));
             }
 
             var clinic = user.ClinicUsers.FirstOrDefault();
+            var doctor = db.Doctors.FirstOrDefault(d => d.UserId == user.Id);
             if (clinic != null)
             {
-                claims.Add(new Claim(ClaimTypes.Sid, clinic.ClinicId.ToString()));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Sid, clinic.ClinicId.ToString()));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, doctor.Id.ToString()));
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));

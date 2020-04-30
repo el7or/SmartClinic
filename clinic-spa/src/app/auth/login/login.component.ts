@@ -2,7 +2,7 @@ import { Component, ViewChild, Inject, ChangeDetectorRef } from "@angular/core";
 import {
   NbLoginComponent,
   NbAuthService,
-  NB_AUTH_OPTIONS
+  NB_AUTH_OPTIONS,
 } from "@nebular/auth";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -13,7 +13,7 @@ import { AuthService } from "./../auth.service";
 @Component({
   selector: "ngx-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent extends NbLoginComponent {
   @ViewChild("form", { static: false }) form: NgForm;
@@ -32,14 +32,17 @@ export class LoginComponent extends NbLoginComponent {
 
   login() {
     this.loading = true;
-    setTimeout(() => {
-      const loginUser: LoginUser = {
-        userName: this.form.value.email,
-        password: this.form.value.password
-      };
-      this.authService.login(loginUser);
+    const loginUser: LoginUser = {
+      userName: this.form.value.email,
+      password: this.form.value.password,
+    };
+    this.authService.login(loginUser).subscribe(() => {
       this.loading = false;
       this.router.navigate(["/pages"]);
-    }, 1000);
+    },
+    err => {
+      console.error(err.message);
+
+    });
   }
 }

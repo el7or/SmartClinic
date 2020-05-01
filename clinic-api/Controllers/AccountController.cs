@@ -17,7 +17,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace clinic_api.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -25,14 +24,14 @@ namespace clinic_api.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _config;
-        private readonly ApplicationDbContext db;
+        private readonly ApplicationDbContext _context;
 
         public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration config, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _config = config;
-            db = context;
+            _context = context;
         }
 
         [AllowAnonymous]
@@ -48,7 +47,8 @@ namespace clinic_api.Controllers
                 var loginUser = await _userManager.Users.Include(c => c.ClinicUsers).FirstOrDefaultAsync(u => u.NormalizedUserName == userDTO.UserName.ToUpper());
                 return Ok(new
                 {
-                    token = GenerateJWToken(loginUser).Result
+                    token = GenerateJWToken(loginUser).Result,
+                    nickName = loginUser.FullName
                 });
             }
             else return Unauthorized();
@@ -69,7 +69,7 @@ namespace clinic_api.Controllers
             }
 
             var clinic = user.ClinicUsers.FirstOrDefault();
-            var doctor = db.Doctors.FirstOrDefault(d => d.UserId == user.Id);
+            var doctor = _context.Doctors.FirstOrDefault(d => d.UserId == user.Id);
             if (clinic != null)
             {
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sid, clinic.ClinicId.ToString()));

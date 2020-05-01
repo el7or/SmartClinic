@@ -52,28 +52,15 @@
     </ng-container>
   </div>
 
-  <!-- <div class="form-control-group accept-group">
-    <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe" *ngIf="rememberMe">Remember me</nb-checkbox>
-    <a class="forgot-password" routerLink="../request-password">Forgot Password?</a>
-  </div> -->
-
   <button nbButton fullWidth status="success" [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted" langg>
     Log In
   </button>
 </form>
 
-<!-- <section *ngIf="socialLinks && socialLinks.length > 0" class="links" aria-label="Social sign in">
-  or enter with:
-  <div class="socials">
-    <ng-container *ngFor="let socialLink of socialLinks">
-      <a *ngIf="socialLink.link" [routerLink]="socialLink.link" [attr.target]="socialLink.target"
-        [attr.class]="socialLink.icon" [class.with-icon]="socialLink.icon">{{ socialLink.title }}</a>
-      <a *ngIf="socialLink.url" [attr.href]="socialLink.url" [attr.target]="socialLink.target"
-        [attr.class]="socialLink.icon" [class.with-icon]="socialLink.icon">{{ socialLink.title }}</a>
-    </ng-container>
-  </div>
-</section>
+<swal #unAuthSwal [title]="'Unauthorized' | langg" [text]="'Wrong UserName or Password!' | langg"
+  icon="error" timer="3000" [showConfirmButton]="false">
+</swal>
 
-<section class="another-action" aria-label="Register">
-  Don't have an account? <a class="text-link" routerLink="../register">Register</a>
-</section> -->
+<swal #authSwal [title]="'Success' | langg" [text]="'Login successfully!' | langg"
+icon="success" timer="2000" [showConfirmButton]="false">
+</swal>

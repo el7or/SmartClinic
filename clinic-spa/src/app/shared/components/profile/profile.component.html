@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card [nbSpinner]="loading">
   <nb-card-header><span langg>Change Name</span>:</nb-card-header>
   <nb-card-body>
     <input nbInput #newName [value]="currentName">
@@ -7,3 +7,7 @@
     <button nbButton hero status="primary" (click)="saveNewName(newName)" langg status="success">Save</button>
   </nb-card-footer>
 </nb-card>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

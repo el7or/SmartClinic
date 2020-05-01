@@ -16,6 +16,7 @@ import { NgxAuthRoutingModule } from "./auth-routing.module";
 import { SharedModule } from "./../shared/shared.module";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { RegisterComponent } from "./register/register.component";
     NgxAuthRoutingModule,
     NbSpinnerModule,
     NbDialogModule.forRoot(),
+    SweetAlert2Module.forChild(),
     NbAuthModule.forRoot({
       strategies: [
         NbDummyAuthStrategy.setup({

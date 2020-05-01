@@ -8,11 +8,16 @@ export enum UserRole{
   Employee
 }
 
-export interface CurrentUser {
-  userId:string;
-  roleName:string;
-  userName:string;
+export interface LoginResponse {
+  token:string;
   nickName:string;
-  clinicId:string;
-  specialtyId:string;
+}
+
+export interface UpdateNickName{
+  userId:string;
+  fullName:string;
+}
+
+export interface UpdateNickNameResponse{
+  fullName:string;
 }

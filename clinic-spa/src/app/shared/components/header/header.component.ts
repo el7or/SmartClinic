@@ -30,11 +30,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menuSubscription: Subscription;
   searchSubscription: Subscription;
   nameSubscription: Subscription;
+  themeSubscription:Subscription;
   private destroy$: Subject<void> = new Subject<void>();
 
   userMenu = [
     { title: "Change Name", data: "profile" },
-    { title: "Change Clinic", data: "clinic2" },
+    /* { title: "Change Clinic", data: "clinic2" }, */
     { title: "Log out", data: "logout" }
   ];
 
@@ -87,7 +88,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ? "default"
         : localStorage.getItem("theme");
     this.onChangeTheme(this.currentTheme);
-    this.themeService
+    this.themeSubscription= this.themeService
       .onThemeChange()
       .pipe(
         map(({ name }) => name),
@@ -138,6 +139,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.menuSubscription.unsubscribe();
     this.searchSubscription.unsubscribe();
     this.nameSubscription.unsubscribe();
+    this.themeSubscription.unsubscribe();
   }
 
   // =====> toggle language from button in header:

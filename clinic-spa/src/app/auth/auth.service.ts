@@ -2,7 +2,13 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { BehaviorSubject } from "rxjs";
 import { Injectable } from "@angular/core";
 
-import { LoginUser, UserRole } from "./auth.model";
+import {
+  LoginUser,
+  UserRole,
+  LoginResponse,
+  UpdateNickName,
+  UpdateNickNameResponse,
+} from "./auth.model";
 import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
@@ -11,7 +17,7 @@ import { map } from "rxjs/operators";
   providedIn: "root",
 })
 export class AuthService {
-  baseUrl = environment.API_URL + "account/";
+  baseUrl = environment.API_URL;
   jwtHelper = new JwtHelperService();
   decodedToken;
 
@@ -47,23 +53,25 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(loginUser: LoginUser) {
-    return this.http.post(this.baseUrl + "login/", loginUser).pipe(
-      map((res: any) => {
-        if (res) {
-          // token has: "fullName + userId + roleName + clinicId + doctorId"
-          localStorage.setItem("token", res.token);
-          this.decodedToken = this.jwtHelper.decodeToken(res.token);
-          localStorage.setItem("nickName", this.decodedToken.sub)
-          /*
+    return this.http
+      .post<LoginResponse>(this.baseUrl + "account/login/", loginUser)
+      .pipe(
+        map((res: LoginResponse) => {
+          if (res) {
+            // token has: "fullName + userId + roleName + clinicId + doctorId"
+            localStorage.setItem("token", res.token);
+            this.decodedToken = this.jwtHelper.decodeToken(res.token);
+            localStorage.setItem("nickName", res.nickName);
+            /*
           decodedToken.sub --> fullName
           decodedToken.jti --> userId
           decodedToken.prn --> roleName
           decodedToken.sid --> clinicId
           decodedToken.nbf --> doctorId
           */
-        }
-      })
-    );
+          }
+        })
+      );
   }
 
   // =====> get & set user nickName:
@@ -72,8 +80,20 @@ export class AuthService {
     return this._nickName.asObservable();
   }
   setNickName(nickname: string) {
-    localStorage.setItem("nickName", nickname);
-    this._nickName.next(nickname);
+    const userDto: UpdateNickName = {
+      userId: this.userId,
+      fullName: nickname,
+    };
+    return this.http
+      .put<UpdateNickNameResponse>(this.baseUrl + "user/"+ this.userId, userDto)
+      .pipe(
+        map((res: UpdateNickNameResponse) => {
+          if (res) {
+            localStorage.setItem("nickName", res.fullName);
+            this._nickName.next(res.fullName);
+          }
+        })
+      );
   }
 
   // =====> log out:

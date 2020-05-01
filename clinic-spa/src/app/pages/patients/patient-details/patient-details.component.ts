@@ -143,11 +143,11 @@ export class PatientDetailsComponent
   }
 
   ngAfterViewInit() {
-    if (this.authService.roleName != UserRole.Employee && this.patientId != "new") {
+    /* if (this.authService.roleName != UserRole.Employee && this.patientId != "new") {
       this.router.navigate([
         "/pages/patients/details/" + this.patientId + "/record",
       ]);
-    }
+    } */
   }
 
   ngOnDestroy() {

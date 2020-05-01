@@ -63,7 +63,6 @@ export class AuthService {
             this.decodedToken = this.jwtHelper.decodeToken(res.token);
             localStorage.setItem("nickName", res.nickName);
             /*
-          decodedToken.sub --> fullName
           decodedToken.jti --> userId
           decodedToken.prn --> roleName
           decodedToken.sid --> clinicId

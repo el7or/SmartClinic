@@ -7,8 +7,8 @@
           <label for="input-name" class="label"><span langg>Patient Name</span>:</label>
           <input nbInput [(ngModel)]="patientInfo.name" #patientName="ngModel" name="patientName" id="input-name"
             [placeholder]="'Patient Name' | langg" fullWidth required minlength="5" maxlength="50"
-            (blur)="onBlurName(patientName)"
             [status]="patientName.touched ? (patientName.invalid  ? 'danger' : 'success') : ''">
+            <!-- (blur)="onBlurName(patientName)" -->
           <ng-container *ngIf="patientName.invalid && patientName.touched">
             <p class="error-message" *ngIf="patientName?.errors.required" langg>
               Patient Name is required!

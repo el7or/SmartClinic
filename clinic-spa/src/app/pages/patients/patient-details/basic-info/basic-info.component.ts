@@ -58,7 +58,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     this.routeSubs.unsubscribe();
   }
 
-  // =====> check if patient name is exist:
+ /*  // =====> check if patient name is exist:
   onBlurName(patientName: NgForm) {
     if (patientName.valid) {
       this.nameLoading = true;
@@ -84,7 +84,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
         this.nameLoading = false;
       }, 1000);
     }
-  }
+  } */
 
   onSave() {
     if (this.isNewPatient) {

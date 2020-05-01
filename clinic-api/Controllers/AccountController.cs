@@ -34,6 +34,7 @@ namespace clinic_api.Controllers
             _context = context;
         }
 
+        // POST: api/Account/Login
         [AllowAnonymous]
         [HttpPost("Login")]
         public async Task<IActionResult> Login(AccountLoginDTO userDTO)
@@ -87,6 +88,7 @@ namespace clinic_api.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        // POST: api/Account/Register
         [HttpPost("Register")]
         public async Task<IActionResult> Register(string id, AccountRegisterDTO model)
         {

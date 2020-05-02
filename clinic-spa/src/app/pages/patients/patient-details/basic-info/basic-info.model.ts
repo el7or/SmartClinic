@@ -4,31 +4,56 @@ export interface BasicInfo {
   mobile:string;
   age?:number;
   gender?:boolean;
-  status?:string;
+  status?:number;
   career?:string;
-  city?:string;
-  area?:string;
+  city?:number;
+  area?:number;
 }
 
 export interface NewPatient{
-  name:string;
-  mobile:string;
+  doctorId:string;
+  clinicId:string;
+  fullName:string;
+  phone:string;
   age?:number;
   gender?:boolean;
-  status?:string;
+  socialStatusId?:number;
   career?:string;
-  city?:string;
-  area?:string;
+  governorateId?:number;
+  cityId?:number;
+}
+export interface AddPatientResponse{
+  seqNo:number;
 }
 
 export interface EditPatient{
   id:number;
-  name:string;
-  mobile:string;
+  doctorId:string;
+  clinicId:string;
+  fullName:string;
+  phone:string;
   age?:number;
   gender?:boolean;
-  status?:string;
+  socialStatusId?:number;
   career?:string;
-  city?:string;
-  area?:string;
+  governorateId?:number;
+  cityId?:number;
+}
+
+export interface SocialStatus{
+  id:number;
+  textEN:string;
+  textAR:string;
+}
+
+export interface CityValue{
+  id:number;
+  textEN:string;
+  textAR:string;
+  cities: City[];
+}
+export interface City{
+  id:number;
+  textEN:string;
+  textAR:string;
 }

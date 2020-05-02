@@ -1,5 +1,4 @@
 import { Subscription } from "rxjs";
-import { NbToastrService } from "@nebular/theme";
 import {
   Component,
   ViewChild,
@@ -16,9 +15,9 @@ import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
-import { LanggService } from "./../../shared/services/langg.service";
 import { LoginUser } from "./../auth.model";
 import { AuthService } from "./../auth.service";
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
   selector: "ngx-login",
@@ -35,8 +34,7 @@ export class LoginComponent extends NbLoginComponent implements OnDestroy {
   constructor(
     private ser: NbAuthService,
     private authService: AuthService,
-    private toastrService: NbToastrService,
-    private langgService: LanggService,
+    private alertService:AlertService,
     service: NbAuthService,
     @Inject(NB_AUTH_OPTIONS) options: {},
     cd: ChangeDetectorRef,
@@ -67,17 +65,7 @@ export class LoginComponent extends NbLoginComponent implements OnDestroy {
         if (err.error.title == "Unauthorized") {
           this.unAuthSwal.fire();
         } else {
-          this.toastrService.danger(
-            this.langgService.translateWord(
-              "Please refresh page and try again or Contact Developer."
-            ),
-            this.langgService.translateWord("Something Wrong!"),
-            {
-              duration: 10000,
-              icon: "close-square-outline",
-              destroyByClick: true,
-            }
-          );
+          this.alertService.alertError();
         }
       }
     );

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using clinic_api.Data;
 using clinic_api.Models;
+using clinic_api.DTOs;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace clinic_api.Controllers
 {
@@ -29,30 +31,53 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Patient/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Patient>> GetPatient(Guid id)
+        [HttpGet("{id}/{clinicId}/{seqNo}")]
+        public async Task<ActionResult<PatientGetDTO>> GetPatient(Guid id, Guid clinicId, int seqNo)
         {
-            var patient = await _context.Patients.FindAsync(id);
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && p.SeqNo == seqNo);
 
             if (patient == null)
             {
                 return NotFound();
             }
 
-            return patient;
+            return new PatientGetDTO
+            {
+                PatientId = patient.Id,
+                Age = patient.Age,
+                Career = patient.Career,
+                Gender = patient.Gender,
+                Mobile = patient.Phone,
+                Name = patient.FullName,
+                Status = patient.SocialStatusId,
+                City = patient.GovernorateId,
+                Area = patient.CityId
+            };
         }
 
         // PUT: api/Patient/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPatient(Guid id, Patient patient)
+        public async Task<IActionResult> PutPatient(Guid id, PatientPutDTO model)
         {
-            if (id != patient.Id)
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
-                return BadRequest();
+                return Unauthorized();
             }
-
+            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == model.ClinicId && p.SeqNo == model.Id);
+            patient.FullName = model.FullName;
+            patient.Phone = model.Phone;
+            patient.Age = model.Age;
+            patient.Gender = model.Gender;
+            patient.SocialStatusId = model.SocialStatusId;
+            patient.Career = model.Career;
+            patient.GovernorateId = model.GovernorateId;
+            patient.CityId = model.CityId;
+            patient.UpdatedBy = id;
+            patient.UpdatedOn = DateTime.Now;
             _context.Entry(patient).State = EntityState.Modified;
 
             try
@@ -75,11 +100,35 @@ namespace clinic_api.Controllers
         }
 
         // POST: api/Patient
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Patient>> PostPatient(Patient patient)
+        [HttpPost("{id}")]
+        public async Task<IActionResult> PostPatient(Guid id, PatientPostDTO model)
         {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            int seqNo = _context.Patients.Where(p => p.ClinicId == model.ClinicId).Count() + 1;
+            var patient = new Patient
+            {
+                Id = Guid.NewGuid(),
+                DoctorId = model.DoctorId,
+                ClinicId = model.ClinicId,
+                SeqNo = seqNo,
+                FullName = model.FullName,
+                Phone = model.Phone,
+                Age = model.Age,
+                Gender = model.Gender,
+                SocialStatusId = model.SocialStatusId,
+                Career = model.Career,
+                GovernorateId = model.GovernorateId,
+                CityId = model.CityId,
+                IsActive = true,
+                IsDeleted = false,
+                CreatedBy = id,
+                CreatedOn = DateTime.Now,
+                UpdatedBy = id,
+                UpdatedOn = DateTime.Now
+            };
             _context.Patients.Add(patient);
             try
             {
@@ -97,7 +146,7 @@ namespace clinic_api.Controllers
                 }
             }
 
-            return CreatedAtAction("GetPatient", new { id = patient.Id }, patient);
+            return Ok(new { seqNo = patient.SeqNo });
         }
 
         // DELETE: api/Patient/5

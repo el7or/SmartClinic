@@ -1,9 +1,10 @@
 import { Subscription } from "rxjs";
-import { AuthService } from "./../../../auth/auth.service";
-import { Component, OnInit, Input, OnDestroy, ViewChild } from "@angular/core";
-import { NbDialogRef, NbToastrService } from "@nebular/theme";
-import { LanggService } from '../../services/langg.service';
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { NbDialogRef } from "@nebular/theme";
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+
+import { AuthService } from "./../../../auth/auth.service";
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: "profile",
@@ -20,8 +21,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private dialogRef: NbDialogRef<ProfileComponent>,
     private authService: AuthService,
-    private toastrService: NbToastrService,
-    private langgService: LanggService,
+    private alertService:AlertService,
   ) {}
 
   ngOnInit() {
@@ -44,17 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       (err) => {
         this.loading = false;
         console.error(err);
-          this.toastrService.danger(
-            this.langgService.translateWord(
-              "Please refresh page and try again or Contact Developer."
-            ),
-            this.langgService.translateWord("Something Wrong!"),
-            {
-              duration: 10000,
-              icon: "close-square-outline",
-              destroyByClick: true,
-            }
-          );
+        this.alertService.alertError();
       }
     );
   }

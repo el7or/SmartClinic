@@ -48,10 +48,7 @@
           <label for="input-status" class="label"><span langg>Social Status</span>:</label>
           <nb-select fullWidth [(ngModel)]="patientInfo.status" #socialStatus="ngModel" name="socialStatus" id="input-status"
             [placeholder]="'Social Status' | langg">
-            <nb-option value="single" langg>Single</nb-option>
-            <nb-option value="married" langg>Married</nb-option>
-            <nb-option value="divorced" langg>Divorced</nb-option>
-            <nb-option value="widower" langg>Widower</nb-option>
+            <nb-option *ngFor="let item of socialStatusValues" [value]="item.id">{{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
           </nb-select>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
@@ -62,14 +59,23 @@
         <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-city" class="label"><span langg>Governorate</span>:</label>
           <nb-select fullWidth [(ngModel)]="patientInfo.city" #city="ngModel" name="city" id="input-city"
-            [placeholder]="'Governorate' | langg">
-            <nb-option *ngFor="let item of citiesService.EgyptCities" [value]="item.en">{{item.en | langg}}</nb-option>
+            [placeholder]="'Governorate' | langg" (selectedChange)="onSelectCity($event)">
+            <nb-option *ngFor="let item of cityValues" [value]="item.id">{{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
           </nb-select>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-area" class="label"><span langg>Area</span>:</label>
-          <input nbInput [(ngModel)]="patientInfo.area" #area="ngModel" name="area" id="input-area" [placeholder]="'Area' | langg" fullWidth>
+          <nb-select fullWidth [(ngModel)]="patientInfo.area" #area="ngModel" name="area" id="input-area"
+            [placeholder]="'Area' | langg">
+            <nb-option *ngFor="let item of areaValues" [value]="item.id">{{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
+          </nb-select>
         </div>
+
+
+        <!-- <div class="col-md-3 col-sm-6 form-control-group">
+          <label for="input-area" class="label"><span langg>Area</span>:</label>
+          <input nbInput [(ngModel)]="patientInfo.area" #area="ngModel" name="area" id="input-area" [placeholder]="'Area' | langg" fullWidth>
+        </div> -->
       </div>
     </nb-card-body>
     <nb-card-footer>

@@ -1,3 +1,7 @@
+export interface PatientsPagedList {
+  patients: PatientList[];
+  pagination: Pagination;
+}
 export interface PatientList {
   id: string;
   codeId: number;
@@ -6,6 +10,12 @@ export interface PatientList {
   visitsCount: number;
   lastVisit: Date;
   lastVisitType: string;
+}
+export interface Pagination {
+  pageNumber: number;
+  pageCount: number;
+  pageSize: number;
+  totalItemCount: number;
 }
 
 export interface PatientHeaderInfo {

@@ -4,36 +4,28 @@
       <nb-icon icon="person-add-outline"></nb-icon><span langg>Add New Patient</span>
     </button>
   </nb-card-header>
-  <nb-card-body>
-    <form #form="ngForm" (ngSubmit)="onSearch(patientSearch.value)" aria-labelledby="title" [nbSpinner]="formLoading">
+  <nb-card-body [nbSpinner]="formLoading">
+    <form #form="ngForm" (ngSubmit)="onSearch(patientSearch.value)" aria-labelledby="title">
       <div class="row mb-2">
         <div class="col-md-6 col-sm-6">
-          <input nbInput ngModel #patientSearch="ngModel" name="patientSearch" [placeholder]="'Patient Name Search or Mobile number' | langg"
-            fullWidth minlength="7" maxlength="50"
-            [status]="patientSearch.dirty && patientSearch.value ? (patientSearch.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
+          <input nbInput ngModel #patientSearch="ngModel" name="patientSearch"
+            [placeholder]="'Patient Name Search or Mobile number' | langg" fullWidth minlength="7" maxlength="50"
+            required
+            [status]="patientSearch.dirty && patientSearch.value ? (patientSearch.invalid  ? 'danger' : 'success') : ''"
+            fieldSize="small">
           <ng-container *ngIf="patientSearch.invalid && patientSearch.touched">
             <small class="error-message" *ngIf="patientSearch?.errors.minlength || patientSearch?.errors.maxlength"
               langg>Patient Search should contains at least 7 characters!</small>
           </ng-container>
         </div>
-        <!-- <div class="col-md-3 col-sm-6">
-          <input nbInput ngModel #phone="ngModel" name="phone" [placeholder]="'Patient Mobile Search' | langg" pattern="[0-9]*"
-            minlength="10" [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : ''" fullWidth
-            fieldSize="small">
-          <ng-container *ngIf="phone.invalid && phone.touched">
-            <small class="error-message" *ngIf="phone?.errors.pattern || phone?.errors.minlength" langg>Mobile must be
-              real number!</small>
-          </ng-container>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <input nbInput ngModel #patientCode="ngModel" name="patientCode" [placeholder]="'Patient Code Search' | langg"
-              fullWidth type="number" min="1"
-              [status]="patientCode.dirty ? (patientCode.invalid  ? 'danger' : 'success') : ''" fieldSize="small">
-        </div> -->
-        <div class="col-md-3 col-sm-6">
-          <button nbButton type="submit" [disabled]="!form.dirty" status="primary" fullWidth size="small">
+        <div class="col-md-3 col-sm-3">
+          <button nbButton type="submit" [disabled]="!form.dirty || !form.valid" status="primary" fullWidth
+            size="small">
             <nb-icon icon="search-outline"></nb-icon><span langg>search</span>
           </button>
+        </div>
+        <div class="col-md-3 col-sm-3">
+          <button nbButton type="button" status="info" [disabled]="!searchSubs" (click)="onSearch(''); form.reset()" fullWidth size="small" langg>All</button>
         </div>
       </div>
     </form>
@@ -49,7 +41,14 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="!patientsList?.length">
+        <tr>
+          <td colspan="6" class="text-center">
+            <h5 langg>No Results !</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="patientsList?.length">
         <tr *ngFor="let item of patientsList">
           <td>{{item.name}}</td>
           <td>{{item.mobile}}</td>
@@ -57,11 +56,13 @@
           <td>{{item.lastVisit | localDateShort}}</td>
           <td>{{item.lastVisitType | langg}}</td>
           <td class="text-center">
-            <button nbButton [routerLink]="['/pages/patients/details',item.codeId,'basic']" size="tiny" status="info" langg>Patient
+            <button nbButton [routerLink]="['/pages/patients/details',item.codeId,'basic']" size="tiny" status="info"
+              langg>Patient
               Profile</button>&nbsp;
             <button nbButton (click)="onBook(0,item)" size="tiny" status="success" langg>New Book</button>&nbsp;
-            <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button> |
-            <button nbButton [routerLink]="['/pages/patients/details',item.codeId,'visits']"  size="tiny" status="warning" langg>All Visits</button>
+            <!-- <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button> | -->
+            <button nbButton [routerLink]="['/pages/patients/details',item.codeId,'visits']" size="tiny"
+              status="warning" langg>All Visits</button>
           </td>
         </tr>
         <!-- <tr>
@@ -82,12 +83,12 @@
         </tr> -->
       </tbody>
     </table>
-    <pagination [boundaryLinks]="true" [itemsPerPage]="10" [totalItems]="500" [ngModel]="1" [maxSize]="10"
-      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
-    <!-- <pagination [boundaryLinks]="true" [itemsPerPage]="pagination.pageSize" [totalItems]="pagination.totalItemCount"
-    [(ngModel)]="pagination.pageNumber" (pageChanged)="pageChanged($event);" previousText="&lsaquo;"
-    nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
-  </pagination> -->
+    <!-- <pagination [boundaryLinks]="true" [itemsPerPage]="10" [totalItems]="500" [ngModel]="1" [maxSize]="10"
+      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination> -->
+    <pagination [boundaryLinks]="true" [itemsPerPage]="pagination?.pageSize" [totalItems]="pagination?.totalItemCount"
+      [(ngModel)]="pagination.pageNumber" (pageChanged)="pageChanged($event);" previousText="&lsaquo;"
+      nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+    </pagination>
   </nb-card-body>
 </nb-card>
 

@@ -1,8 +1,13 @@
 import { Injectable } from "@angular/core";
-import { PatientList, PatientHeaderInfo } from "./patients.model";
+import { HttpClient } from "@angular/common/http";
+
+import { PatientHeaderInfo, PatientsPagedList } from "./patients.model";
+import { AuthService } from "../../auth/auth.service";
+import { environment } from "../../../environments/environment";
+import { BasicInfo } from "./patient-details/basic-info/basic-info.model";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class PatientsService {
   private _patientId: string;
@@ -14,57 +19,37 @@ export class PatientsService {
     this._patientId = id;
   }
 
-  constructor() {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+  baseUrl = environment.API_URL;
 
-  getPatientsList(): PatientList[] {
-    const patients: PatientList[] = [
-      {
-        id: "sdfdasfas",
-        codeId: 1,
-        name: "محمود السيد علي",
-        mobile: "0151513535",
-        visitsCount: 5,
-        lastVisit: new Date("2020/5/2"),
-        lastVisitType: "Diagnose"
-      },
-      {
-        id: "sdfdasfas",
-        codeId: 2,
-        name: " السيد عبد السلام",
-        mobile: "01245425152",
-        visitsCount: 15,
-        lastVisit: new Date("2020/2/2"),
-        lastVisitType: "Diagnose"
-      },
-      {
-        id: "sdfdasfas",
-        codeId: 3,
-        name: "هناء برعي محمود",
-        mobile: "0111111545",
-        visitsCount: 3,
-        lastVisit: new Date("2020/5/15"),
-        lastVisitType: "Consult"
-      },
-      {
-        id: "sdfdasfas",
-        codeId: 4,
-        name: "عبد العزيز عبد الفتاح عبد المتجلي",
-        mobile: "0151513535",
-        visitsCount: 2,
-        lastVisit: new Date("2020/2/16"),
-        lastVisitType: "Diagnose"
-      },
-      {
-        id: "sdfdasfas",
-        codeId: 5,
-        name: "منى عبد العال المنزلاوي",
-        mobile: "01021564554",
-        visitsCount: 1,
-        lastVisit: new Date("2020/1/27"),
-        lastVisitType: "Urgent Diagnose"
-      }
-    ];
-    return patients;
+  getPatientsList(pageNumber: number, pageSize: number) {
+    return this.http.get<PatientsPagedList>(
+      this.baseUrl +
+        "Patient/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId +
+        "/" +
+        pageNumber +
+        "/" +
+        pageSize
+    );
+  }
+
+  searchPatientsList(pageNumber: number, pageSize: number,searchText:string) {
+    return this.http.get<PatientsPagedList>(
+      this.baseUrl +
+        "Patient/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId +
+        "/" +
+        pageNumber +
+        "/" +
+        pageSize+
+        "/" +
+        searchText
+    );
   }
 
   getPatientHeaderInfo(patientCodeId: number) {
@@ -74,7 +59,7 @@ export class PatientsService {
       patientId: "dfgfdgsgd",
       name: "حاتم قطاوي",
       age: 33,
-      visitsCount: 3
+      visitsCount: 3,
     };
     return info;
   }

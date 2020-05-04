@@ -5,6 +5,30 @@ using System.Threading.Tasks;
 
 namespace clinic_api.DTOs
 {
+    public class PatientsGetPagedDTO
+    {
+        public IEnumerable<PatientsListDTO> Patients { get; set; }
+        public PagedList Pagination { get; set; }
+        
+    }
+    public class PatientsListDTO
+    {
+        public Guid Id { get; set; }
+        public int CodeId { get; set; }
+        public string Name { get; set; }
+        public string Mobile { get; set; }
+        public int VisitsCount { get; set; }
+        public DateTime? LastVisit { get; set; }
+        public string LastVisitType { get; set; }
+    }
+    public class PagedList
+    {
+        public int PageCount { get; set; }
+        public int TotalItemCount { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+    }
+
     public class PatientGetDTO
     {
         public Guid PatientId { get; set; }

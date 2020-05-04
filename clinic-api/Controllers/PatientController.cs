@@ -9,6 +9,8 @@ using clinic_api.Data;
 using clinic_api.Models;
 using clinic_api.DTOs;
 using System.IdentityModel.Tokens.Jwt;
+using X.PagedList;
+using clinic_api.Helper;
 
 namespace clinic_api.Controllers
 {
@@ -23,11 +25,71 @@ namespace clinic_api.Controllers
             _context = context;
         }
 
-        // GET: api/Patient
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
+        // GET: api/Patient/5
+        [HttpGet("{id}/{clinicId}/{pageNo}/{pageSize}")]
+        public async Task<ActionResult<PatientsGetPagedDTO>> GetPatients(Guid id, Guid clinicId, int pageNo, int pageSize)
         {
-            return await _context.Patients.ToListAsync();
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patients = await _context.Patients.Include(b => b.Bookings).Where(c => c.ClinicId == clinicId).OrderByDescending(d => d.CreatedOn)
+                .Select(p => new PatientsListDTO
+                {
+                    Id = p.Id,
+                    CodeId = p.SeqNo,
+                    Name = p.FullName,
+                    Mobile = p.Phone,
+                    VisitsCount = p.Bookings.Count(),
+                    LastVisit = p.Bookings.Count() == 0 ? (DateTime?)null : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().BookingDateTime,
+                    LastVisitType = p.Bookings.Count() == 0 ? "" : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Type.Text
+                }).ToPagedListAsync(pageNo, pageSize);
+            var patientPagination = new PagedList
+            {
+                PageCount = patients.PageCount,
+                PageNumber = patients.PageNumber,
+                PageSize = patients.PageSize,
+                TotalItemCount = patients.TotalItemCount
+            };
+            return new PatientsGetPagedDTO
+            {
+                Patients = patients,
+                Pagination = patientPagination
+            };
+        }
+
+        // GET: api/Patient/5
+        [HttpGet("{id}/{clinicId}/{pageNo}/{pageSize}/{searchText}")]
+        public async Task<ActionResult<PatientsGetPagedDTO>> SearchPatients(Guid id, Guid clinicId, int pageNo, int pageSize,string searchText)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            searchText = searchText.Trim().Normalize_AR();
+            var patients = await _context.Patients.Include(b => b.Bookings).Where(p => p.ClinicId == clinicId && (p.FullName.Contains(searchText) || p.Phone.Trim()==searchText)).OrderByDescending(d => d.CreatedOn)
+                .Select(p => new PatientsListDTO
+                {
+                    Id = p.Id,
+                    CodeId = p.SeqNo,
+                    Name = p.FullName,
+                    Mobile = p.Phone,
+                    VisitsCount = p.Bookings.Count(),
+                    LastVisit = p.Bookings.Count() == 0 ? (DateTime?)null : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().BookingDateTime,
+                    LastVisitType = p.Bookings.Count() == 0 ? "" : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Type.Text
+                }).ToPagedListAsync(pageNo, pageSize);
+            var patientPagination = new PagedList
+            {
+                PageCount = patients.PageCount,
+                PageNumber = patients.PageNumber,
+                PageSize = patients.PageSize,
+                TotalItemCount = patients.TotalItemCount
+            };
+            return new PatientsGetPagedDTO
+            {
+                Patients = patients,
+                Pagination = patientPagination
+            };
         }
 
         // GET: api/Patient/5
@@ -68,8 +130,8 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             var patient = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == model.ClinicId && p.SeqNo == model.Id);
-            patient.FullName = model.FullName;
-            patient.Phone = model.Phone;
+            patient.FullName = model.FullName.Trim().Normalize_AR();
+            patient.Phone = model.Phone.Trim();
             patient.Age = model.Age;
             patient.Gender = model.Gender;
             patient.SocialStatusId = model.SocialStatusId;
@@ -114,8 +176,8 @@ namespace clinic_api.Controllers
                 DoctorId = model.DoctorId,
                 ClinicId = model.ClinicId,
                 SeqNo = seqNo,
-                FullName = model.FullName,
-                Phone = model.Phone,
+                FullName = model.FullName.Trim().Normalize_AR(),
+                Phone = model.Phone.Trim(),
                 Age = model.Age,
                 Gender = model.Gender,
                 SocialStatusId = model.SocialStatusId,

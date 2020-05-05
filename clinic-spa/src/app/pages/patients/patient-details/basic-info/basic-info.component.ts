@@ -1,4 +1,4 @@
-import { AlertService } from './../../../../shared/services/alert.service';
+import { AlertService } from "./../../../../shared/services/alert.service";
 import { AuthService } from "./../../../../auth/auth.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
@@ -17,9 +17,11 @@ import {
   NewPatient,
   AddPatientResponse,
   EditPatient,
+  GetPatientResponse,
 } from "./basic-info.model";
 import { Subscription } from "rxjs";
 import { LanggService } from "../../../../shared/services/langg.service";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "basic-info",
@@ -29,8 +31,8 @@ import { LanggService } from "../../../../shared/services/langg.service";
 export class BasicInfoComponent implements OnInit, OnDestroy {
   formLoading = false;
   nameLoading = false;
-  patientCodeId:number;
-  patientInfo: BasicInfo={ patientId: "", name: "", mobile: "" };
+  patientCodeId: number;
+  patientInfo: BasicInfo = { patientId: "", name: "", mobile: "" };
   isNewPatient: boolean;
   socialStatusValues: SocialStatus[];
   cityValues: CityValue[];
@@ -55,52 +57,64 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     private basicInfoService: BasicInfoService,
     public langgService: LanggService,
     private authService: AuthService,
-    private alertService:AlertService,
+    private alertService: AlertService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.formLoading = true;
-    // get values for dropdownlists
-    this.socialSubs = this.basicInfoService.getSocialStatusValues().subscribe(
-      (res: SocialStatus[]) => (this.socialStatusValues = res),
-      (err) => {
-        console.error(err);
-        this.alertService.alertError();
-      }
-    );
-    this.citySubs = this.basicInfoService.getCityValues().subscribe(
-      (res: CityValue[]) => (this.cityValues = res),
-      (err) => {
-        console.error(err);
-        this.alertService.alertError();
-      }
-    );
 
-    // check if new patient or old patient
+    // =====> check if new patient or old patient:
     this.routeSubs = this.route.parent.params.subscribe((params) => {
       const patientId = params["id"];
       if (patientId == "new") {
+        // =====> if new patient:
         this.isNewPatient = true;
-        this.formLoading = false;
-      } else {
-        this.isNewPatient = false;
-        this.patientCodeId = +patientId;
-        this.infoSubs = this.basicInfoService.getPatientInfo(+patientId).subscribe(
-          (res:BasicInfo) => {
-            this.patientInfo = res;
-            if(this.patientInfo.city){
-              this.areaValues = this.cityValues.filter((c) => c.id == this.patientInfo.city)[0].cities;
-            }
+        this.infoSubs = this.basicInfoService.getPatientInfo(0).subscribe(
+          (res: GetPatientResponse) => {
+            // get values for dropdownlists
+            this.socialStatusValues = res.socialStatus;
+            this.cityValues = res.cityValue;
             this.formLoading = false;
           },
-          err =>{
+          (err) => {
             console.error(err);
             this.alertService.alertError();
             this.formLoading = false;
           }
         );
+        this.formLoading = false;
+      } else {
+        // =====> if old patient:
+        this.isNewPatient = false;
+        this.patientCodeId = +patientId;
+        this.infoSubs = this.basicInfoService
+          .getPatientInfo(+patientId)
+          .pipe(
+            map((res: GetPatientResponse) => {
+              // get values for dropdownlists
+              this.socialStatusValues = res.socialStatus;
+              this.cityValues = res.cityValue;
+              return res.basicInfo;
+            })
+          )
+          .subscribe(
+            (res: BasicInfo) => {
+              this.patientInfo = res;
+              if (this.patientInfo.city) {
+                this.areaValues = this.cityValues.filter(
+                  (c) => c.id == this.patientInfo.city
+                )[0].cities;
+              }
+              this.formLoading = false;
+            },
+            (err) => {
+              console.error(err);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          );
       }
     });
   }
@@ -108,11 +122,9 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.form.reset();
     this.routeSubs.unsubscribe();
-    this.socialSubs.unsubscribe();
-    this.citySubs.unsubscribe();
-    if(this.addSubs)this.addSubs.unsubscribe();
-    if(this.editSubs)this.editSubs.unsubscribe();
-    if(this.infoSubs)this.infoSubs.unsubscribe();
+    if (this.addSubs) this.addSubs.unsubscribe();
+    if (this.editSubs) this.editSubs.unsubscribe();
+    if (this.infoSubs) this.infoSubs.unsubscribe();
   }
 
   onSelectCity(id: number) {
@@ -169,7 +181,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
       governorateId: this.form.value.city,
       socialStatusId: this.form.value.socialStatus,
     };
-     this.addSubs = this.basicInfoService.saveNewPatient(patient).subscribe(
+    this.addSubs = this.basicInfoService.saveNewPatient(patient).subscribe(
       (res: AddPatientResponse) => {
         this.fireSwalBook();
         this.formLoading = false;
@@ -187,7 +199,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   updatePatient() {
     this.formLoading = true;
     const patient: EditPatient = {
-      id : this.patientCodeId,
+      id: this.patientCodeId,
       clinicId: this.authService.clinicId,
       doctorId: this.authService.doctorId,
       fullName: this.form.value.patientName,
@@ -199,18 +211,17 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
       governorateId: this.form.value.city,
       socialStatusId: this.form.value.socialStatus,
     };
-      this.editSubs = this.basicInfoService.updatePatientInfo(patient).subscribe(
-        () => {
-          this.fireSwalBook();
-          this.formLoading = false;
-        },
-        err => {
-          console.error(err);
-          this.alertService.alertError();
-          this.formLoading = false;
-        }
-      );
-
+    this.editSubs = this.basicInfoService.updatePatientInfo(patient).subscribe(
+      () => {
+        this.fireSwalBook();
+        this.formLoading = false;
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
   }
 
   fireSwalBook(): void {

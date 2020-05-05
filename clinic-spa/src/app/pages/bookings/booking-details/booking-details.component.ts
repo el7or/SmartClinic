@@ -15,8 +15,6 @@ import { BookingNew, BookingEdit, BookingBrief } from "./../bookings.model";
 import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
 import {
-  BookingServicePrice,
-  BookingTypePrice,
   BookingSetting
 } from "../../settings/settings.model";
 

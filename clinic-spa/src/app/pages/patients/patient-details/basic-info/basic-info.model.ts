@@ -1,3 +1,8 @@
+export interface GetPatientResponse{
+  socialStatus:SocialStatus[];
+  cityValue:CityValue[];
+  basicInfo?:BasicInfo;
+}
 export interface BasicInfo {
   patientId:string;
   name:string;
@@ -8,6 +13,22 @@ export interface BasicInfo {
   career?:string;
   city?:number;
   area?:number;
+}
+export interface SocialStatus{
+  id:number;
+  textEN:string;
+  textAR:string;
+}
+export interface CityValue{
+  id:number;
+  textEN:string;
+  textAR:string;
+  cities: City[];
+}
+export interface City{
+  id:number;
+  textEN:string;
+  textAR:string;
 }
 
 export interface NewPatient{
@@ -38,22 +59,4 @@ export interface EditPatient{
   career?:string;
   governorateId?:number;
   cityId?:number;
-}
-
-export interface SocialStatus{
-  id:number;
-  textEN:string;
-  textAR:string;
-}
-
-export interface CityValue{
-  id:number;
-  textEN:string;
-  textAR:string;
-  cities: City[];
-}
-export interface City{
-  id:number;
-  textEN:string;
-  textAR:string;
 }

@@ -306,6 +306,7 @@ export class SettingsService {
     this.bookingSettings.sortBookings = bookingSetting.sortBookings;
     this.bookingSettings.ConsultExpireDays = bookingSetting.ConsultExpireDays;
   }
+
   savePricesSetting(
     typePrices: BookingTypePrice[],
     servicePrices: BookingServicePrice[],

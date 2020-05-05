@@ -3,12 +3,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import {
-  BasicInfo,
   NewPatient,
   EditPatient,
-  SocialStatus,
-  CityValue,
   AddPatientResponse,
+  GetPatientResponse,
 } from "./basic-info.model";
 import { environment } from "../../../../../environments/environment";
 
@@ -19,18 +17,18 @@ export class BasicInfoService {
   constructor(private http: HttpClient, private authService: AuthService) {}
   baseUrl = environment.API_URL;
 
-  getSocialStatusValues() {
+  /* getSocialStatusValues() {
     return this.http.get<SocialStatus[]>(this.baseUrl + "SocialStatus");
   }
 
   getCityValues() {
     return this.http.get<CityValue[]>(this.baseUrl + "City");
-  }
+  } */
 
   // =====> get patient info by id:
   getPatientInfo(patientCodeId: number) {
     // =====> send to api pacientId(codeId) + clinicId to get all data for patient:
-    return this.http.get<BasicInfo>(
+    return this.http.get<GetPatientResponse>(
       this.baseUrl +
         "Patient/" +
         this.authService.userId +

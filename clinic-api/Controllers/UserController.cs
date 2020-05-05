@@ -88,7 +88,7 @@ namespace clinic_api.Controllers
             _context.Users.Add(applicationUser);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetApplicationUser", new { id = applicationUser.Id }, applicationUser);
+            return CreatedAtAction("GetUser", new { id = applicationUser.Id }, applicationUser);
         }
 
         // DELETE: api/User/5

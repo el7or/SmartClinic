@@ -60,14 +60,14 @@ namespace clinic_api.Controllers
 
         // GET: api/Patient/5
         [HttpGet("{id}/{clinicId}/{pageNo}/{pageSize}/{searchText}")]
-        public async Task<ActionResult<PatientsGetPagedDTO>> SearchPatients(Guid id, Guid clinicId, int pageNo, int pageSize,string searchText)
+        public async Task<ActionResult<PatientsGetPagedDTO>> SearchPatients(Guid id, Guid clinicId, int pageNo, int pageSize, string searchText)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
             searchText = searchText.Trim().Normalize_AR();
-            var patients = await _context.Patients.Include(b => b.Bookings).Where(p => p.ClinicId == clinicId && (p.FullName.Contains(searchText) || p.Phone.Trim()==searchText)).OrderByDescending(d => d.CreatedOn)
+            var patients = await _context.Patients.Include(b => b.Bookings).Where(p => p.ClinicId == clinicId && (p.FullName.Contains(searchText) || p.Phone.Trim() == searchText)).OrderByDescending(d => d.CreatedOn)
                 .Select(p => new PatientsListDTO
                 {
                     Id = p.Id,
@@ -94,31 +94,53 @@ namespace clinic_api.Controllers
 
         // GET: api/Patient/5
         [HttpGet("{id}/{clinicId}/{seqNo}")]
-        public async Task<ActionResult<PatientGetDTO>> GetPatient(Guid id, Guid clinicId, int seqNo)
+        public async Task<ActionResult<PatientValuesGetDTO>> GetPatient(Guid id, Guid clinicId, int seqNo)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && p.SeqNo == seqNo);
-
-            if (patient == null)
+            PatientGetDTO patientDetails = null;
+            if (seqNo != 0)
             {
-                return NotFound();
+                var patient = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && p.SeqNo == seqNo);
+                patientDetails = new PatientGetDTO
+                {
+                    PatientId = patient.Id,
+                    Age = patient.Age,
+                    Career = patient.Career,
+                    Gender = patient.Gender,
+                    Mobile = patient.Phone,
+                    Name = patient.FullName,
+                    Status = patient.SocialStatusId,
+                    City = patient.GovernorateId,
+                    Area = patient.CityId
+                };
             }
-
-            return new PatientGetDTO
+            var patientWithValues = new PatientValuesGetDTO
             {
-                PatientId = patient.Id,
-                Age = patient.Age,
-                Career = patient.Career,
-                Gender = patient.Gender,
-                Mobile = patient.Phone,
-                Name = patient.FullName,
-                Status = patient.SocialStatusId,
-                City = patient.GovernorateId,
-                Area = patient.CityId
+                SocialStatus = _context.SysSocialStatusValues.Select(s => new SocialStatusDTO
+                {
+                    Id = s.Id,
+                    TextEN = s.Value,
+                    TextAR = s.Text
+                }).ToList(),
+                CityValue = _context.SysGovernoratesValues.OrderBy(a => a.TextAR).Select(g => new CityDTO
+                {
+                    Id = g.Id,
+                    TextAR = g.TextAR,
+                    TextEN = g.TextEN,
+                    Cities = g.SysCitiesValues.OrderBy(a => a.TextAR).Select(c => new City
+                    {
+                        Id = c.Id,
+                        TextAR = c.TextAR,
+                        TextEN = c.TextEN
+                    }).ToList()
+                }).ToList(),
+                BasicInfo = patientDetails
             };
+
+            return patientWithValues;
         }
 
         // PUT: api/Patient/5

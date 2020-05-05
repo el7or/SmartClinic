@@ -26,9 +26,9 @@ export class PricesSettingComponent implements OnInit {
     public location:Location) { }
 
   ngOnInit() {
-    this.bookingTypePrices = this.settingService.getBookingSetting().bookingTypePrices;
+    /* this.bookingTypePrices = this.settingService.getBookingSetting().bookingTypePrices;
     this.bookingServicePrices = this.settingService.getBookingSetting().bookingServicePrices;
-    this.bookingDiscountPrices = this.settingService.getBookingSetting().bookingDiscountPrices;
+    this.bookingDiscountPrices = this.settingService.getBookingSetting().bookingDiscountPrices; */
   }
 
   onAddType(){

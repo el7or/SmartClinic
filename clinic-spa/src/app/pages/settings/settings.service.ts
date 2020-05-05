@@ -7,11 +7,17 @@ import {
   BookingTypePrice,
   BookingSetting,
   BookingServicePrice,
-  BookingDiscountPrice
+  BookingDiscountPrice,
+  BookingSettingResponse,
+  SetBookingSetting,
 } from "./settings.model";
+import { HttpClient } from "@angular/common/http";
+
+import { AuthService } from "../../auth/auth.service";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class SettingsService {
   bookingSettings: BookingSetting = {
@@ -19,57 +25,57 @@ export class SettingsService {
     weekEnds: [],
     bookingTimeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
     bookingTimeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
-    isSameTimeAllDays:true,
+    isSameTimeAllDays: true,
     workDaysTimes: [
       {
         day: 6,
         dayTitle: "Saturday",
         isDayActive: true,
         timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
       },
       {
         day: 0,
         dayTitle: "Sunday",
         isDayActive: true,
         timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
       },
       {
         day: 1,
         dayTitle: "Monday",
         isDayActive: true,
         timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
       },
       {
         day: 2,
         dayTitle: "Tuesday",
         isDayActive: true,
         timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
       },
       {
         day: 3,
         dayTitle: "Wednesday",
         isDayActive: true,
         timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
       },
       {
         day: 4,
         dayTitle: "Thursday",
         isDayActive: true,
         timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
       },
       {
         day: 5,
         dayTitle: "Friday",
         isDayActive: true,
         timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0)
-      }
+        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
+      },
     ],
     bookingPeriod: 15,
     sortBookings: "manual",
@@ -79,46 +85,46 @@ export class SettingsService {
         id: 1,
         type: "diagnose",
         title: "Diagnose",
-        price: 50
+        price: 50,
       },
       {
         id: 2,
         type: "consult",
         title: "Consult",
-        price: 20
+        price: 20,
       },
       {
         id: 3,
         type: "justService",
         title: "Just Service",
-        price: 0
+        price: 0,
       },
       {
         id: 4,
         type: "urgentDiagnos",
         title: "Urgent Diagnose",
-        price: 120
-      }
+        price: 120,
+      },
     ],
     bookingServicePrices: [
       {
         id: 1,
         service: "xray",
         title: "X-Ray",
-        price: 200
+        price: 200,
       },
       {
         id: 2,
         service: "sonar",
         title: "Sonar",
-        price: 150
+        price: 150,
       },
       {
         id: 3,
         service: "laser",
         title: "Laser Session",
-        price: 70
-      }
+        price: 70,
+      },
     ],
     bookingDiscountPrices: [
       {
@@ -126,195 +132,191 @@ export class SettingsService {
         discount: "all",
         title: "خصم كامل",
         price: 100,
-        isPercent:true
+        isPercent: true,
       },
       {
         id: 2,
         discount: "half",
         title: "خصم النصف",
         price: 50,
-        isPercent:true
+        isPercent: true,
       },
       {
         id: 3,
         discount: "quarter",
         title: "خصم الربع",
         price: 25,
-        isPercent:true
+        isPercent: true,
       },
       {
         id: 4,
         discount: "الأطباء",
         title: "نقابة الأطباء",
         price: 30,
-        isPercent:false
+        isPercent: false,
       },
       {
         id: 5,
         discount: "المحامين",
         title: "نقابة المحامين",
         price: 15,
-        isPercent:false
-      }
-    ]
+        isPercent: false,
+      },
+    ],
   };
 
   printInfo: PrintInfo = {
     doctorName: "دكتور بهاء علي قرنة",
     doctorDegree: "أستاذ جراحة العظام والمفاصل جامعة الأزهر",
     clinicTitle: "مركز العظام والمفاصل للأطفال والكبار",
-    logoUrl:"",
+    logoUrl: "",
     phone1: "01254215215",
     phone2: "02315251512",
     phone3: "",
     address1: "المهندسين شارع نجيب محفوظ عمارة 5 شقة 6",
     address2: "شارع القصر العيني بجوار حدائق الأهرام الدور الخامس",
-    address3: ""
+    address3: "",
   };
   diseasesList: Disease[] = [
     {
       id: 1,
       diseaseName: "Blood pressure",
       questionText: "Do you have blood pressure",
-      isActive: true
+      isActive: true,
     },
     {
       id: 2,
       diseaseName: "Blood thinners",
       questionText: "Do you have blood thinners",
-      isActive: true
+      isActive: true,
     },
     {
       id: 3,
       diseaseName: "Diabetes",
       questionText: "Do you have diabetes",
-      isActive: true
+      isActive: true,
     },
     {
       id: 4,
       diseaseName: "Heart disease",
       questionText: "Do you have heart disease",
-      isActive: true
+      isActive: true,
     },
     {
       id: 5,
       diseaseName: "Liver disease",
       questionText: "Do you have liver disease",
-      isActive: true
+      isActive: true,
     },
     {
       id: 6,
       diseaseName: "Kidney disease",
       questionText: "Do you have kidney disease",
-      isActive: true
+      isActive: true,
     },
     {
       id: 7,
       diseaseName: "Chest diseases",
       questionText: "Do you have chest diseases",
-      isActive: true
+      isActive: true,
     },
     {
       id: 8,
       diseaseName: "Psoriasis",
       questionText: "Do you have psoriasis",
-      isActive: true
+      isActive: true,
     },
     {
       id: 9,
       diseaseName: "Thyroid disorders",
       questionText: "Do you have thyroid disorders",
-      isActive: true
+      isActive: true,
     },
     {
       id: 10,
       diseaseName: "Pregnancy",
       questionText: "Do you have a pregnancy",
-      isActive: true
+      isActive: true,
     },
     {
       id: 11,
       diseaseName: "Breastfeeding",
       questionText: "Do you have breastfeeding",
-      isActive: true
+      isActive: true,
     },
     {
       id: 12,
       diseaseName: "Surgery",
       questionText: "Have you had any surgery in the last six months",
-      isActive: true
-    }
+      isActive: true,
+    },
   ];
   recordItems: Recorditem[] = [
     {
       id: 1,
       recordName: "Patient Complaint",
-      isActive: true
+      isActive: true,
     },
     {
       id: 2,
       recordName: "Patient History",
-      isActive: true
+      isActive: true,
     },
     {
       id: 3,
       recordName: "Examination",
-      isActive: true
+      isActive: true,
     },
     {
       id: 4,
       recordName: "Diagnosis",
-      isActive: true
+      isActive: true,
     },
     {
       id: 5,
       recordName: "X-Rays",
-      isActive: true
+      isActive: true,
     },
     {
       id: 6,
       recordName: "Analyses",
-      isActive: true
+      isActive: true,
     },
     {
       id: 7,
       recordName: "Operations",
-      isActive: true
-    }
+      isActive: true,
+    },
   ];
 
-  constructor() {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+  baseUrl = environment.API_URL;
 
   // =====> get/set booking setting:
-  getBookingSetting(): BookingSetting {
-    return this.bookingSettings;
+  getBookingSetting() {
+    return this.http.get<BookingSettingResponse>(
+      this.baseUrl +
+        "Clinic/GetBookingSetting/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId
+    );
   }
-  saveBookingSetting(bookingSetting: BookingSetting): void {
-    this.bookingSettings.workdays = bookingSetting.workDaysTimes
-      .filter(d => d.isDayActive)
-      .map(day => {
-        return day.day;
-      });
-    this.bookingSettings.weekEnds = bookingSetting.workDaysTimes
-      .filter(d => !d.isDayActive)
-      .map(day => {
-        return day.day;
-      });
-    this.bookingSettings.bookingTimeFrom = bookingSetting.bookingTimeFrom;
-    this.bookingSettings.bookingTimeTo = bookingSetting.bookingTimeTo;
-    this.bookingSettings.bookingPeriod = bookingSetting.bookingPeriod;
-    this.bookingSettings.sortBookings = bookingSetting.sortBookings;
-    this.bookingSettings.ConsultExpireDays = bookingSetting.ConsultExpireDays;
+  saveBookingSetting(bookingSetting: SetBookingSetting) {
+    return this.http.put(
+      this.baseUrl + "Clinic/PutBookingSetting/" + this.authService.userId,
+      bookingSetting
+    );
   }
 
   savePricesSetting(
     typePrices: BookingTypePrice[],
     servicePrices: BookingServicePrice[],
-    discountPrices:BookingDiscountPrice[]
+    discountPrices: BookingDiscountPrice[]
   ): void {
     this.bookingSettings.bookingTypePrices = typePrices;
     this.bookingSettings.bookingServicePrices = servicePrices;
-    this.bookingSettings.bookingDiscountPrices = discountPrices
+    this.bookingSettings.bookingDiscountPrices = discountPrices;
   }
 
   // =====> get/set diseaseName setting:

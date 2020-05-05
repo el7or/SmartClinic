@@ -64,7 +64,7 @@ export class BookingsListComponent implements OnInit {
     this.totalPaid = this.bookingsList.reduce((acc,booking) => acc + booking.paid, 0);
 
     // =====> get weekends to disable it:
-    this.weekendDays = this.settingService.getBookingSetting().weekEnds;
+    //this.weekendDays = this.settingService.getBookingSetting().weekEnds;
   }
 
   // =====> get bookings in previous day:

@@ -54,7 +54,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // =====> get bookings settings:
-    this.bookingSetting = this.settingService.getBookingSetting();
+    //this.bookingSetting = this.settingService.getBookingSetting();
 
     // =====> create reactive form:
     this.createForm();

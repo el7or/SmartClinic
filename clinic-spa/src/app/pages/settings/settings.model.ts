@@ -79,28 +79,6 @@ export interface BookingDiscountPrice {
   isPercent: boolean;
 }
 
-export interface BookingSetting {
-  workdays: number[];
-  weekEnds?: number[]; // to disable it in datepickers & calendar:
-  bookingTimeFrom: Date;
-  bookingTimeTo: Date;
-  isSameTimeAllDays: boolean;
-  workDaysTimes: WorkDayTime[];
-  bookingPeriod: number; // by minutes
-  sortBookings: string;
-  ConsultExpireDays: number;
-  bookingTypePrices: BookingTypePrice[];
-  bookingServicePrices: BookingServicePrice[];
-  bookingDiscountPrices: BookingDiscountPrice[];
-}
-export interface WorkDayTime {
-  day: number;
-  dayTitle: string;
-  isDayActive: boolean;
-  timeFrom: Date;
-  timeTo: Date;
-}
-
 export interface GetPrintSetting {
   doctorName?: string;
   doctorDegree?: string;
@@ -126,15 +104,16 @@ export interface SetPrintSetting {
   address3?: string;
 }
 
-export interface Disease {
+export interface DiseaseQuestion {
   id: number;
-  diseaseName: string;
-  questionText: string;
+  textEN: string;
+  textAR: string;
   isActive: boolean;
 }
 
 export interface Recorditem {
   id: number;
-  recordName: string;
+  textEN: string;
+  textAR: string;
   isActive: boolean;
 }

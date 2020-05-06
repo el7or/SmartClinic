@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { ReferralsService } from "./../../../../pages/patients/patient-details/referrals/referrals.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
@@ -19,6 +20,8 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
   requests: any[];
   referrals: any[];
 
+  printSubs:Subscription;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -29,8 +32,10 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.printInfoSetting = this.settingsService.printInfo;
-    // =====> check query param for type of print:
+    this.printSubs = this.settingsService.getPrintSetting().subscribe(
+      (res:GetPrintSetting) => {
+        this.printInfoSetting = res;
+        // =====> check query param for type of print:
     this.printType = this.route.snapshot.queryParamMap.get("type");
     if (this.printType == "medicine") {
       this.medicines = this.medicineService.medicinesForPrint;
@@ -41,6 +46,11 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
     if (this.printType == "referral") {
       this.referrals = this.referralService.referralForPrint;
     }
+      },
+      err => {
+        console.error(err);
+      }
+    );
   }
 
   onImageLoad(event) {
@@ -57,5 +67,6 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     window.print();
+    this.printSubs.unsubscribe();
   }
 }

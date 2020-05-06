@@ -119,7 +119,7 @@
     </nb-card-body>
     <nb-card-footer>
       <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!form.valid || (!form.touched && !uploader.queue.length)" langg>Save</button>
+        <button nbButton type="submit" status="success" [disabled]="!form.valid || (!form.dirty && !uploader.queue.length)" langg>Save</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </nb-card-footer>

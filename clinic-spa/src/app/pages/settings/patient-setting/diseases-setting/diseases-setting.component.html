@@ -1,18 +1,18 @@
 <nb-card>
   <nb-card-body>
-    <form #form="ngForm" (ngSubmit)="onSaveSetting(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+    <form #form="ngForm" (ngSubmit)="onSaveSetting()" aria-labelledby="title" [nbSpinner]="formLoading"
       nbSpinnerStatus="success">
       <label for="" class="label"><span langg>List of Associated Disease questions that appear in each patient's
           file</span>:</label>
       <div class="row m-0">
         <div *ngFor="let quest of diseasesList" class="form-control-group col-md-6">
-          <nb-checkbox ngModel [name]="quest.id" [checked]="quest.isActive" [(ngModel)]="quest.isActive">
-            {{quest.questionText | langg}}</nb-checkbox>
+          <nb-checkbox ngModel [name]="quest.id" [(ngModel)]="quest.isActive">
+            {{langgService.locale=="en"? quest.textEN : quest.textAR}}</nb-checkbox>
         </div>
       </div>
 
       <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="submit" status="success" [disabled]="!form.dirty" langg>Save</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </form>

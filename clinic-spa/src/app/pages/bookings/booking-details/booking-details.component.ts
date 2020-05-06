@@ -14,9 +14,7 @@ import { AuthService } from "./../../../auth/auth.service";
 import { BookingNew, BookingEdit, BookingBrief } from "./../bookings.model";
 import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
-import {
-  BookingSetting
-} from "../../settings/settings.model";
+import { GetBookingSetting } from './../../settings/settings.model';
 
 @Component({
   selector: "booking-details",
@@ -28,7 +26,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   formLoading: boolean = false;
   todayDate: Date = new Date();
   bookingDetails: BookingEdit;
-  bookingSetting: BookingSetting;
+  bookingSetting: GetBookingSetting;
   bookingTypePrice: number = 0;
   bookingServicesPrice = 0;
   bookingDiscountPrice = 0;
@@ -90,7 +88,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       })
     });
 
-    // =====> get booking details if edit existing booking:
+    /* // =====> get booking details if edit existing booking:
     if (this.bookId) {
       this.bookingDetails = this.bookingService.getBookingDetailsById(
         this.bookId
@@ -103,7 +101,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
         ? this.bookingService.getChosenbookingDate()
         : this.bookingDetails.date,
       time: !this.bookId
-        ? this.bookingSetting.bookingTimeFrom
+        ? this.bookingSetting.allDaysTimeFrom
         : this.bookingDetails.time,
       type: !this.bookId ? 1 : this.bookingDetails.typeId,
       services: !this.bookId ? [] : this.bookingDetails.servicesIds,
@@ -126,7 +124,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       ? ((this.bookingTypePrice + this.bookingServicesPrice) * discount.price) /
         100
       : discount.price;
-    }
+    } */
   }
 
   // =====> on choose booking date will fill table with all bookings in same day:
@@ -157,7 +155,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   }
 
   onChangeType(typeId) {
-    const type = this.bookingSetting.bookingTypePrices.find(t => t.id == typeId)
+    /* const type = this.bookingSetting.bookingTypePrices.find(t => t.id == typeId)
       .type;
     // =====> check expired date for consult:
     if (type == "consult") {
@@ -174,25 +172,25 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     // =====> add chosen type price to total price:
     this.bookingTypePrice = this.bookingSetting.bookingTypePrices.find(
       t => t.id == this.form.value.type
-    ).price;
+    ).price; */
   }
 
   onChangeService(services: number[]) {
-    // =====> add chosen services price to total price:
+    /* // =====> add chosen services price to total price:
     this.bookingServicesPrice = this.bookingSetting.bookingServicePrices
       .filter(s => services.some(i => i == s.id))
-      .reduce((acc, service) => acc + service.price, 0);
+      .reduce((acc, service) => acc + service.price, 0); */
   }
 
   // =====> add chosen discount price to total price:
   onChangeDiscount(discountId) {
-    const discount = this.bookingSetting.bookingDiscountPrices.find(
+    /* const discount = this.bookingSetting.bookingDiscountPrices.find(
       t => t.id == discountId
     );
     this.bookingDiscountPrice = discount.isPercent
       ? ((this.bookingTypePrice + this.bookingServicesPrice) * discount.price) /
         100
-      : discount.price;
+      : discount.price; */
   }
 
   // =====> on submit new booking:

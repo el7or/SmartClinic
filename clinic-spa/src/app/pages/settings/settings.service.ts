@@ -2,9 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 import {
-  Disease,
+  DiseaseQuestion,
   Recorditem,
-  BookingSetting,
   GetBookingSetting,
   SetBookingSetting,
   GetPricesSetting,
@@ -18,262 +17,6 @@ import { environment } from "../../../environments/environment";
   providedIn: "root",
 })
 export class SettingsService {
-  bookingSettings: BookingSetting = {
-    workdays: [6, 0, 1, 2, 3, 4, 5],
-    weekEnds: [],
-    bookingTimeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-    bookingTimeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
-    isSameTimeAllDays: true,
-    workDaysTimes: [
-      {
-        day: 6,
-        dayTitle: "Saturday",
-        isDayActive: true,
-        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
-      },
-      {
-        day: 0,
-        dayTitle: "Sunday",
-        isDayActive: true,
-        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
-      },
-      {
-        day: 1,
-        dayTitle: "Monday",
-        isDayActive: true,
-        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
-      },
-      {
-        day: 2,
-        dayTitle: "Tuesday",
-        isDayActive: true,
-        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
-      },
-      {
-        day: 3,
-        dayTitle: "Wednesday",
-        isDayActive: true,
-        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
-      },
-      {
-        day: 4,
-        dayTitle: "Thursday",
-        isDayActive: true,
-        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
-      },
-      {
-        day: 5,
-        dayTitle: "Friday",
-        isDayActive: true,
-        timeFrom: new Date(2020, 1, 1, 8, 0, 0, 0),
-        timeTo: new Date(2020, 1, 1, 22, 0, 0, 0),
-      },
-    ],
-    bookingPeriod: 15,
-    sortBookings: "manual",
-    ConsultExpireDays: 15,
-    bookingTypePrices: [
-      {
-        id: 1,
-        type: "diagnose",
-        price: 50,
-      },
-      {
-        id: 2,
-        type: "consult",
-        price: 20,
-      },
-      {
-        id: 3,
-        type: "justService",
-        price: 0,
-      },
-      {
-        id: 4,
-        type: "urgentDiagnos",
-        price: 120,
-      },
-    ],
-    bookingServicePrices: [
-      {
-        id: 1,
-        service: "xray",
-        price: 200,
-      },
-      {
-        id: 2,
-        service: "sonar",
-        price: 150,
-      },
-      {
-        id: 3,
-        service: "laser",
-        price: 70,
-      },
-    ],
-    bookingDiscountPrices: [
-      {
-        id: 1,
-        discount: "all",
-        price: 100,
-        isPercent: true,
-      },
-      {
-        id: 2,
-        discount: "half",
-        price: 50,
-        isPercent: true,
-      },
-      {
-        id: 3,
-        discount: "quarter",
-        price: 25,
-        isPercent: true,
-      },
-      {
-        id: 4,
-        discount: "الأطباء",
-        price: 30,
-        isPercent: false,
-      },
-      {
-        id: 5,
-        discount: "المحامين",
-        price: 15,
-        isPercent: false,
-      },
-    ],
-  };
-
-  printInfo: GetPrintSetting = {
-    doctorName: "دكتور بهاء علي قرنة",
-    doctorDegree: "أستاذ جراحة العظام والمفاصل جامعة الأزهر",
-    clinicTitle: "مركز العظام والمفاصل للأطفال والكبار",
-    logoUrl: "",
-    phone1: "01254215215",
-    phone2: "02315251512",
-    phone3: "",
-    address1: "المهندسين شارع نجيب محفوظ عمارة 5 شقة 6",
-    address2: "شارع القصر العيني بجوار حدائق الأهرام الدور الخامس",
-    address3: "",
-  };
-  diseasesList: Disease[] = [
-    {
-      id: 1,
-      diseaseName: "Blood pressure",
-      questionText: "Do you have blood pressure",
-      isActive: true,
-    },
-    {
-      id: 2,
-      diseaseName: "Blood thinners",
-      questionText: "Do you have blood thinners",
-      isActive: true,
-    },
-    {
-      id: 3,
-      diseaseName: "Diabetes",
-      questionText: "Do you have diabetes",
-      isActive: true,
-    },
-    {
-      id: 4,
-      diseaseName: "Heart disease",
-      questionText: "Do you have heart disease",
-      isActive: true,
-    },
-    {
-      id: 5,
-      diseaseName: "Liver disease",
-      questionText: "Do you have liver disease",
-      isActive: true,
-    },
-    {
-      id: 6,
-      diseaseName: "Kidney disease",
-      questionText: "Do you have kidney disease",
-      isActive: true,
-    },
-    {
-      id: 7,
-      diseaseName: "Chest diseases",
-      questionText: "Do you have chest diseases",
-      isActive: true,
-    },
-    {
-      id: 8,
-      diseaseName: "Psoriasis",
-      questionText: "Do you have psoriasis",
-      isActive: true,
-    },
-    {
-      id: 9,
-      diseaseName: "Thyroid disorders",
-      questionText: "Do you have thyroid disorders",
-      isActive: true,
-    },
-    {
-      id: 10,
-      diseaseName: "Pregnancy",
-      questionText: "Do you have a pregnancy",
-      isActive: true,
-    },
-    {
-      id: 11,
-      diseaseName: "Breastfeeding",
-      questionText: "Do you have breastfeeding",
-      isActive: true,
-    },
-    {
-      id: 12,
-      diseaseName: "Surgery",
-      questionText: "Have you had any surgery in the last six months",
-      isActive: true,
-    },
-  ];
-  recordItems: Recorditem[] = [
-    {
-      id: 1,
-      recordName: "Patient Complaint",
-      isActive: true,
-    },
-    {
-      id: 2,
-      recordName: "Patient History",
-      isActive: true,
-    },
-    {
-      id: 3,
-      recordName: "Examination",
-      isActive: true,
-    },
-    {
-      id: 4,
-      recordName: "Diagnosis",
-      isActive: true,
-    },
-    {
-      id: 5,
-      recordName: "X-Rays",
-      isActive: true,
-    },
-    {
-      id: 6,
-      recordName: "Analyses",
-      isActive: true,
-    },
-    {
-      id: 7,
-      recordName: "Operations",
-      isActive: true,
-    },
-  ];
 
   constructor(private http: HttpClient, private authService: AuthService) {}
   baseUrl = environment.API_URL;
@@ -316,36 +59,64 @@ export class SettingsService {
     );
   }
 
-// =====> get/set print setting:
-getPrintSetting() {
-  return this.http.get<GetPrintSetting>(
-    this.baseUrl +
-      "Clinic/GetPrintSetting/" +
-      this.authService.userId +
-      "/" +
-      this.authService.clinicId
-  );
-}
-savePrintSetting(printSetting: SetPrintSetting) {
-  return this.http.put(
-    this.baseUrl + "Clinic/PutPrintSetting/" + this.authService.userId,
-    printSetting
-  );
-}
+  // =====> get/set print setting:
+  getPrintSetting() {
+    return this.http.get<GetPrintSetting>(
+      this.baseUrl +
+        "Clinic/GetPrintSetting/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId
+    );
+  }
+  savePrintSetting(printSetting: SetPrintSetting) {
+    return this.http.put(
+      this.baseUrl + "Clinic/PutPrintSetting/" + this.authService.userId,
+      printSetting
+    );
+  }
 
   // =====> get/set diseaseName setting:
   getDiseasesSetting() {
-    return this.diseasesList;
+    return this.http.get<DiseaseQuestion[]>(
+      this.baseUrl +
+        "Doctor/GetDiseasesQuestions/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId
+    );
   }
-  saveDiseasesSetting(diseases: Disease[]) {
-    diseases = this.diseasesList;
+  saveDiseasesSetting(diseases: string) {
+    return this.http.put(
+      this.baseUrl +
+        "Doctor/PutDiseasesQuestions/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId+
+        "/" +diseases,
+      {}
+    );
   }
 
   // =====> get/set record items setting:
   getRecordItemsSetting() {
-    return this.recordItems.sort((a, b) => a.id - b.id);
+    return this.http.get<Recorditem[]>(
+      this.baseUrl +
+        "Doctor/GetRecordSections/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId
+    );
   }
-  saveRecordItemsSetting(recordItems: Recorditem[]) {
-    this.recordItems = recordItems;
+  saveRecordItemsSetting(recordItems: string) {
+    return this.http.put(
+      this.baseUrl +
+        "Doctor/PutRecordSections/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId+
+        "/" +recordItems,
+      {}
+    );
   }
 }

@@ -24,4 +24,19 @@ namespace clinic_api.DTOs
         public string TextEN { get; set; }
         public string TextAR { get; set; }
     }
+
+    public class DiseasesQuestionDTO
+    {
+        public int Id { get; set; }
+        public string TextEN { get; set; }
+        public string TextAR { get; set; }
+        public bool IsActive { get; set; }
+    }
+    public class RecordSectionDTO
+    {
+        public int Id { get; set; }
+        public string TextEN { get; set; }
+        public string TextAR { get; set; }
+        public bool IsActive { get; set; }
+    }
 }

@@ -25,11 +25,11 @@ export class PatientRecordComponent implements OnInit {
     private route: ActivatedRoute,) { }
 
   ngOnInit() {
-    this.recordItems = this.settingService.getRecordItemsSetting();
+    /* this.recordItems = this.settingService.getRecordItemsSetting();
     this.routeSubs = this.route.parent.params.subscribe(params => {
       const patientId = params["id"];
       this.patientInfo = this.patientsService.getPatientHeaderInfo(+patientId)
-    });
+    }); */
   }
 
   // =====> on add new booking or edit booking to patients:

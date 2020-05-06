@@ -171,6 +171,11 @@ const routes: Routes = [
             component: PatientSettingComponent,
             children:[
               {
+                path: "",
+                redirectTo: "diseases",
+                pathMatch: "full"
+              },
+              {
                 path:"diseases",
                 component:DiseasesSettingComponent
               },

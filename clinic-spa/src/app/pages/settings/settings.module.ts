@@ -31,6 +31,7 @@ import { PricesSettingComponent } from './clinic-setting/prices-setting/prices-s
 import { AddTypeComponent } from './clinic-setting/prices-setting/add-type/add-type.component';
 import { AddServiceComponent } from './clinic-setting/prices-setting/add-service/add-service.component';
 import { AddDiscountComponent } from './clinic-setting/prices-setting/add-discount/add-discount.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { AddDiscountComponent } from './clinic-setting/prices-setting/add-discou
     NbTabsetModule,
     NbIconModule,
     TimepickerModule,
+    FileUploadModule,
     TypeaheadModule.forRoot(),
     SweetAlert2Module.forChild()
   ],

@@ -3,15 +3,13 @@ import { HttpClient } from "@angular/common/http";
 
 import {
   Disease,
-  PrintInfo,
   Recorditem,
-  BookingTypePrice,
   BookingSetting,
-  BookingServicePrice,
-  BookingDiscountPrice,
   GetBookingSetting,
   SetBookingSetting,
   GetPricesSetting,
+  GetPrintSetting,
+  SetPrintSetting,
 } from "./settings.model";
 import { AuthService } from "../../auth/auth.service";
 import { environment } from "../../../environments/environment";
@@ -153,7 +151,7 @@ export class SettingsService {
     ],
   };
 
-  printInfo: PrintInfo = {
+  printInfo: GetPrintSetting = {
     doctorName: "دكتور بهاء علي قرنة",
     doctorDegree: "أستاذ جراحة العظام والمفاصل جامعة الأزهر",
     clinicTitle: "مركز العظام والمفاصل للأطفال والكبار",
@@ -297,6 +295,7 @@ export class SettingsService {
     );
   }
 
+  // =====> get/set prices setting:
   getPricesSetting() {
     return this.http.get<GetPricesSetting>(
       this.baseUrl +
@@ -316,6 +315,23 @@ export class SettingsService {
       allPrices
     );
   }
+
+// =====> get/set print setting:
+getPrintSetting() {
+  return this.http.get<GetPrintSetting>(
+    this.baseUrl +
+      "Clinic/GetPrintSetting/" +
+      this.authService.userId +
+      "/" +
+      this.authService.clinicId
+  );
+}
+savePrintSetting(printSetting: SetPrintSetting) {
+  return this.http.put(
+    this.baseUrl + "Clinic/PutPrintSetting/" + this.authService.userId,
+    printSetting
+  );
+}
 
   // =====> get/set diseaseName setting:
   getDiseasesSetting() {

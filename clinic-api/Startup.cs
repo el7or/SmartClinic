@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using clinic_api.Data;
+using clinic_api.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -70,6 +71,7 @@ namespace clinic_api
 
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
 
             services.AddMvc(options =>
             {

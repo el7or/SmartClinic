@@ -9,6 +9,10 @@ using clinic_api.Data;
 using clinic_api.Models;
 using clinic_api.DTOs;
 using System.IdentityModel.Tokens.Jwt;
+using CloudinaryDotNet;
+using Microsoft.Extensions.Options;
+using clinic_api.Helper;
+using CloudinaryDotNet.Actions;
 
 namespace clinic_api.Controllers
 {
@@ -17,10 +21,15 @@ namespace clinic_api.Controllers
     public class ClinicController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private Cloudinary _cloudinary;
 
-        public ClinicController(ApplicationDbContext context)
+        public ClinicController(ApplicationDbContext context, IOptions<CloudinarySettings> cloudinaryConfig)
         {
             _context = context;
+            _cloudinaryConfig = cloudinaryConfig;
+            Account account = new Account(_cloudinaryConfig.Value.CloudName, _cloudinaryConfig.Value.ApiKey, _cloudinaryConfig.Value.ApiSecret);
+            _cloudinary = new Cloudinary(account);
         }
 
         // GET: api/Clinic
@@ -129,6 +138,35 @@ namespace clinic_api.Controllers
                     Price = d.Price,
                     IsPercent = d.IsPercent
                 }).ToList(),
+            };
+            return model;
+        }
+
+        // GET: api/Clinic/GetPrintSetting/5/6
+        [HttpGet("GetPrintSetting/{id}/{clinicId}")]
+        public async Task<ActionResult<ClinicGetPrintSettingDTO>> GetPrintSetting(Guid id, Guid clinicId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var clinic = await _context.Clinics.FindAsync(clinicId);
+            if (clinic == null)
+            {
+                return NotFound();
+            }
+            var model = new ClinicGetPrintSettingDTO
+            {
+                Address1 = clinic.PrintAddress1,
+                Address2 = clinic.PrintAddress2,
+                Address3 = clinic.PrintAddress3,
+                ClinicTitle = clinic.PrintClinicName,
+                DoctorDegree = clinic.PrintDoctorDegree,
+                DoctorName = clinic.PrintDoctorName,
+                LogoUrl = clinic.PrintLogoUrl,
+                Phone1 = clinic.PrintPhone1,
+                Phone2 = clinic.PrintPhone2,
+                Phone3 = clinic.PrintPhone3
             };
             return model;
         }
@@ -285,6 +323,118 @@ namespace clinic_api.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!ClinicExists(clinicId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // PUT: api/Clinic/PutPrintSetting/5
+        [HttpPut("PutPrintSetting/{id}")]
+        public async Task<IActionResult> PutPrintSetting(Guid id, ClinicPutPrintSettingDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+
+            var clinic = _context.Clinics.Find(model.ClinicId);
+            clinic.PrintDoctorDegree = model.DoctorDegree;
+            clinic.PrintDoctorName = model.DoctorName;
+            clinic.PrintAddress1 = model.Address1;
+            clinic.PrintAddress2 = model.Address2;
+            clinic.PrintAddress3 = model.Address3;
+            clinic.PrintClinicName = model.ClinicTitle;
+            clinic.PrintPhone1 = model.Phone1;
+            clinic.PrintPhone2 = model.Phone2;
+            clinic.PrintPhone3 = model.Phone3;
+            clinic.UpdatedBy = id;
+            clinic.UpdatedOn = DateTime.Now;
+
+            _context.Entry(clinic).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ClinicExists(model.ClinicId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/Clinic/PostPrintSetting/5
+        [HttpPost("PostPrintSetting/{id}")]
+        public async Task<IActionResult> PostPrintSetting(Guid id, [FromForm] ClinicPostPrintSettingDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var clinic = _context.Clinics.Find(model.ClinicId);
+
+            // delete old logo from cloudinary
+            if (clinic.PrintLogoPublicId != null)
+            {
+                var deletionParams = new DeletionParams(clinic.PrintLogoPublicId);
+                var deletionResult = _cloudinary.Destroy(deletionParams);
+                if (deletionResult.Result != "ok") { return BadRequest(); }
+            }
+
+            // add new logo to cloudinary and get url
+            var file = model.File;
+            var uploadResult = new ImageUploadResult();
+            if (file != null && file.Length > 0)
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(file.Name, stream),
+                        Transformation = new Transformation().Width(180).Crop("fit")
+                    };
+                    uploadResult = _cloudinary.Upload(uploadParams);
+                }
+            }
+
+            clinic.PrintDoctorDegree = model.DoctorDegree;
+            clinic.PrintDoctorName = model.DoctorName;
+            clinic.PrintClinicName = model.ClinicTitle;
+            clinic.PrintAddress1 = model.Address1=="null"? null : model.Address1;
+            clinic.PrintAddress2 = model.Address2 == "null" ? null : model.Address2;
+            clinic.PrintAddress3 = model.Address3 == "null" ? null : model.Address3;
+            clinic.PrintPhone1 = model.Phone1 == "null" ? null : model.Phone1;
+            clinic.PrintPhone2 = model.Phone2 == "null" ? null : model.Phone2;
+            clinic.PrintPhone3 = model.Phone3 == "null" ? null : model.Phone3;
+            clinic.PrintLogoUrl = uploadResult.Uri.ToString();
+            clinic.PrintLogoPublicId = uploadResult.PublicId;
+            clinic.UpdatedBy = id;
+            clinic.UpdatedOn = DateTime.Now;
+
+            _context.Entry(clinic).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ClinicExists(model.ClinicId))
                 {
                     return NotFound();
                 }

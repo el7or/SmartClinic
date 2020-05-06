@@ -185,6 +185,7 @@
           <Property Name="WednesdayTimeTo" Type="datetime2" Precision="7" />
           <Property Name="ThursdayTimeTo" Type="datetime2" Precision="7" />
           <Property Name="FridayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="PrintLogoPublicId" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="ClinicServices">
           <Key>
@@ -2330,6 +2331,7 @@
           <Property Name="WednesdayTimeTo" Type="DateTime" Precision="7" />
           <Property Name="ThursdayTimeTo" Type="DateTime" Precision="7" />
           <Property Name="FridayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="PrintLogoPublicId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ClinicService">
           <Key>
@@ -4421,6 +4423,7 @@
           <EntitySetMapping Name="Clinics">
             <EntityTypeMapping TypeName="Models.Clinic">
               <MappingFragment StoreEntitySet="Clinics">
+                <ScalarProperty Name="PrintLogoPublicId" ColumnName="PrintLogoPublicId" />
                 <ScalarProperty Name="FridayTimeTo" ColumnName="FridayTimeTo" />
                 <ScalarProperty Name="ThursdayTimeTo" ColumnName="ThursdayTimeTo" />
                 <ScalarProperty Name="WednesdayTimeTo" ColumnName="WednesdayTimeTo" />

@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { RequestsService } from "./../../../../pages/patients/patient-details/requests/requests.service";
 import { SettingsService } from "./../../../../pages/settings/settings.service";
 import { MedicinesService } from "../../../../pages/patients/patient-details/medicines/medicines.service";
-import { PrintInfo } from "../../../../pages/settings/settings.model";
+import { GetPrintSetting } from "../../../../pages/settings/settings.model";
 
 @Component({
   selector: "print-medicines",
@@ -13,7 +13,7 @@ import { PrintInfo } from "../../../../pages/settings/settings.model";
   styleUrls: ["./print-medicines.component.scss"]
 })
 export class PrintMedicinesComponent implements OnInit, OnDestroy {
-  printInfoSetting: PrintInfo;
+  printInfoSetting: GetPrintSetting;
   printType: string;
   medicines: any[];
   requests: any[];

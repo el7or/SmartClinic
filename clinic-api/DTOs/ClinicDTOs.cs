@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,27 +46,67 @@ namespace clinic_api.DTOs
         public List<ServiceType> ServiceTypes { get; set; }
         public List<DiscountType> DiscountTypes { get; set; }
     }
-
     public class BookingType
     {
         public int Id { get; set; }
         public string Type { get; set; }
         public decimal? Price { get; set; }
     }
-
     public class ServiceType
     {
         public int Id { get; set; }
         public string Service { get; set; }
         public decimal? Price { get; set; }
     }
-
     public class DiscountType
     {
         public int Id { get; set; }
         public string Discount { get; set; }
         public decimal? Price { get; set; }
         public bool? IsPercent { get; set; }
+    }
+
+    public class ClinicGetPrintSettingDTO
+    {
+        public string DoctorName { get; set; }
+        public string DoctorDegree { get; set; }
+        public string ClinicTitle { get; set; }
+        public string LogoUrl { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string Address3 { get; set; }
+        public string Phone1 { get; set; }
+        public string Phone2 { get; set; }
+        public string Phone3 { get; set; }
+    }
+
+    public class ClinicPostPrintSettingDTO
+    {
+        public Guid ClinicId { get; set; }
+        public IFormFile File { get; set; }
+        public string DoctorName { get; set; }
+        public string DoctorDegree { get; set; }
+        public string ClinicTitle { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string Address3 { get; set; }
+        public string Phone1 { get; set; }
+        public string Phone2 { get; set; }
+        public string Phone3 { get; set; }
+    }
+
+    public class ClinicPutPrintSettingDTO
+    {
+        public Guid ClinicId { get; set; }
+        public string DoctorName { get; set; }
+        public string DoctorDegree { get; set; }
+        public string ClinicTitle { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string Address3 { get; set; }
+        public string Phone1 { get; set; }
+        public string Phone2 { get; set; }
+        public string Phone3 { get; set; }
     }
 
     public class ClinicPutBookingSettingDTO

@@ -60,7 +60,9 @@
         <div class="col-md-6">
           <label for="input-clinic" class="label"><span langg>Logo photo that will appear next to the clinic name in the
               top left of the prescription while printing</span>:</label>
-          <input nbInput type="file" accept="image/*" name="logoUrl" [(ngModel)]="printInfoSetting.logoUrl" fieldSize="small">
+          <input nbInput type="file" accept="image/*" #logoUrl name="logoUrl" ng2FileSelect [uploader]="uploader"
+            fieldSize="small" (click)="logoUrl.value='';" />&nbsp;
+          <img [src]="filePreviewPath || printInfoSetting.logoUrl" width="180" />
         </div>
         <div class="col-md-6">
           <div class="form-control-group">
@@ -94,22 +96,20 @@
             <label for="input-mobile1" class="label"><span langg>Phone numbers which will appear in the left bottom of
                 Prescription during printing</span>:</label>
             <input nbInput [(ngModel)]="printInfoSetting.phone1" #phone1="ngModel" name="phone1" id="input-mobile1"
-              [placeholder]="'Mobile 1' | langg" fullWidth minlength="10" required class="mb-1"
-              fieldSize="small" [status]="phone1.dirty ? ((!phone1.value && !phone2.value && !phone3.value) || phone1?.errors?.minlength  ? 'danger' : 'success') : ''">
+              [placeholder]="'Mobile 1' | langg" fullWidth minlength="10" required class="mb-1" fieldSize="small"
+              [status]="phone1.dirty ? ((!phone1.value && !phone2.value && !phone3.value) || phone1?.errors?.minlength  ? 'danger' : 'success') : ''">
             <input nbInput [(ngModel)]="printInfoSetting.phone2" #phone2="ngModel" name="phone2"
-              [placeholder]="'Mobile 2' | langg" fullWidth minlength="10" class="mb-1"
-              fieldSize="small" [status]="phone2.dirty ? ((!phone1.value && !phone2.value && !phone3.value) || phone2?.errors?.minlength ? 'danger' : 'success') : ''">
+              [placeholder]="'Mobile 2' | langg" fullWidth minlength="10" class="mb-1" fieldSize="small"
+              [status]="phone2.dirty ? ((!phone1.value && !phone2.value && !phone3.value) || phone2?.errors?.minlength ? 'danger' : 'success') : ''">
             <input nbInput [(ngModel)]="printInfoSetting.phone3" #phone3="ngModel" name="phone3"
               [placeholder]="'Mobile 3' | langg" fullWidth minlength="10" fieldSize="small"
               [status]="phone3.dirty ? ((!phone1.value && !phone2.value && !phone3.value) || phone3?.errors?.minlength  ? 'danger' : 'success') : ''">
-            <ng-container
-              *ngIf="(phone1.touched || phone2.touched || phone3.touched)">
+            <ng-container *ngIf="(phone1.touched || phone2.touched || phone3.touched)">
               <p class="error-message" *ngIf="!phone1.value && !phone2.value && !phone3.value" langg>
                 At least one phone is required!
               </p>
               <p class="error-message"
-                *ngIf="phone1?.errors?.minlength || phone2?.errors?.minlength || phone3?.errors?.minlength"
-                langg>
+                *ngIf="phone1?.errors?.minlength || phone2?.errors?.minlength || phone3?.errors?.minlength" langg>
                 Mobile must be real number!
               </p>
             </ng-container>
@@ -119,7 +119,7 @@
     </nb-card-body>
     <nb-card-footer>
       <div class="text-center nbButton-group">
-        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="submit" status="success" [disabled]="!form.valid || (!form.touched && !uploader.queue.length)" langg>Save</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </nb-card-footer>

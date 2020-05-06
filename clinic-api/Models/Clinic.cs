@@ -31,6 +31,7 @@ namespace clinic_api.Models
         public string PrintDoctorDegree { get; set; }
         public string PrintClinicName { get; set; }
         public string PrintLogoUrl { get; set; }
+        public string PrintLogoPublicId { get; set; }
         public string PrintAddress1 { get; set; }
         public string PrintAddress2 { get; set; }
         public string PrintAddress3 { get; set; }

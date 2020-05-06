@@ -5,7 +5,7 @@ import { Location } from "@angular/common";
 
 import { SettingsService } from "../../settings.service";
 import {
-  BookingSettingResponse,
+  GetBookingSetting,
   SetBookingSetting,
 } from "../../settings.model";
 import { AlertService } from "../../../../shared/services/alert.service";
@@ -18,7 +18,7 @@ import { AuthService } from "../../../../auth/auth.service";
 })
 export class BookingSettingComponent implements OnInit, OnDestroy {
   formLoading: boolean = false;
-  bookingSetting: BookingSettingResponse = {};
+  bookingSetting: GetBookingSetting = {};
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
   bookGetSubs: Subscription;
@@ -35,7 +35,7 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
     // =====> get current booking setting:
     this.formLoading = true;
     this.bookGetSubs = this.settingService.getBookingSetting().subscribe(
-      (res: BookingSettingResponse) => {
+      (res: GetBookingSetting) => {
         this.bookingSetting = res;
         this.formLoading = false;
       },
@@ -63,7 +63,7 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
       this.bookingSetting.isFridayOn
     ) {
       this.bookingSetting.isAllDaysOn = true;
-      this.bookingSetting.workDays = [6, 0, 1, 2, 3, 4, 5];
+      this.bookingSetting.workDays = [6,0,1,2,3,4,5];
     } else {
       this.bookingSetting.isAllDaysOn = false;
       this.bookingSetting.workDays = [];

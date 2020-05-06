@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 
-import { SettingsService } from './../../../settings.service';
-
 @Component({
   selector: 'add-type',
   templateUrl: './add-type.component.html',
@@ -10,20 +8,12 @@ import { SettingsService } from './../../../settings.service';
 })
 export class AddTypeComponent implements OnInit {
 
-  constructor(public dialogRef: NbDialogRef<AddTypeComponent>,
-    private settingService:SettingsService) { }
+  constructor(public dialogRef: NbDialogRef<AddTypeComponent>) { }
 
   ngOnInit() {
   }
 
   addType(typeTitle){
-    this.settingService.bookingSettings.bookingTypePrices.push({
-      id:50,
-      title: typeTitle,
-      type:typeTitle.replace(/\s/g, "").toLowerCase(),
-      price:0
-    });
-    this.dialogRef.close();
+    this.dialogRef.close(typeTitle);
   }
-
 }

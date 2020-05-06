@@ -39,7 +39,36 @@ namespace clinic_api.DTOs
         public DateTime? FridayTimeTo { get; set; }
     }
 
-    public class ClinicPutDTO
+    public class ClinicGetPricesSettingDTO
+    {
+        public List<BookingType> BookingTypes { get; set; }
+        public List<ServiceType> ServiceTypes { get; set; }
+        public List<DiscountType> DiscountTypes { get; set; }
+    }
+
+    public class BookingType
+    {
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public decimal? Price { get; set; }
+    }
+
+    public class ServiceType
+    {
+        public int Id { get; set; }
+        public string Service { get; set; }
+        public decimal? Price { get; set; }
+    }
+
+    public class DiscountType
+    {
+        public int Id { get; set; }
+        public string Discount { get; set; }
+        public decimal? Price { get; set; }
+        public bool? IsPercent { get; set; }
+    }
+
+    public class ClinicPutBookingSettingDTO
     {
         public Guid ClinicId { get; set; }
         public int? EntryOrderId { get; set; }
@@ -65,4 +94,5 @@ namespace clinic_api.DTOs
         public DateTime? FridayTimeFrom { get; set; }
         public DateTime? FridayTimeTo { get; set; }
     }
+
 }

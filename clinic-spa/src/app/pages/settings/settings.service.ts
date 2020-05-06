@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 import {
   Disease,
@@ -8,11 +9,10 @@ import {
   BookingSetting,
   BookingServicePrice,
   BookingDiscountPrice,
-  BookingSettingResponse,
+  GetBookingSetting,
   SetBookingSetting,
+  GetPricesSetting,
 } from "./settings.model";
-import { HttpClient } from "@angular/common/http";
-
 import { AuthService } from "../../auth/auth.service";
 import { environment } from "../../../environments/environment";
 
@@ -84,25 +84,21 @@ export class SettingsService {
       {
         id: 1,
         type: "diagnose",
-        title: "Diagnose",
         price: 50,
       },
       {
         id: 2,
         type: "consult",
-        title: "Consult",
         price: 20,
       },
       {
         id: 3,
         type: "justService",
-        title: "Just Service",
         price: 0,
       },
       {
         id: 4,
         type: "urgentDiagnos",
-        title: "Urgent Diagnose",
         price: 120,
       },
     ],
@@ -110,19 +106,16 @@ export class SettingsService {
       {
         id: 1,
         service: "xray",
-        title: "X-Ray",
         price: 200,
       },
       {
         id: 2,
         service: "sonar",
-        title: "Sonar",
         price: 150,
       },
       {
         id: 3,
         service: "laser",
-        title: "Laser Session",
         price: 70,
       },
     ],
@@ -130,35 +123,30 @@ export class SettingsService {
       {
         id: 1,
         discount: "all",
-        title: "خصم كامل",
         price: 100,
         isPercent: true,
       },
       {
         id: 2,
         discount: "half",
-        title: "خصم النصف",
         price: 50,
         isPercent: true,
       },
       {
         id: 3,
         discount: "quarter",
-        title: "خصم الربع",
         price: 25,
         isPercent: true,
       },
       {
         id: 4,
         discount: "الأطباء",
-        title: "نقابة الأطباء",
         price: 30,
         isPercent: false,
       },
       {
         id: 5,
         discount: "المحامين",
-        title: "نقابة المحامين",
         price: 15,
         isPercent: false,
       },
@@ -294,7 +282,7 @@ export class SettingsService {
 
   // =====> get/set booking setting:
   getBookingSetting() {
-    return this.http.get<BookingSettingResponse>(
+    return this.http.get<GetBookingSetting>(
       this.baseUrl +
         "Clinic/GetBookingSetting/" +
         this.authService.userId +
@@ -309,14 +297,24 @@ export class SettingsService {
     );
   }
 
-  savePricesSetting(
-    typePrices: BookingTypePrice[],
-    servicePrices: BookingServicePrice[],
-    discountPrices: BookingDiscountPrice[]
-  ): void {
-    this.bookingSettings.bookingTypePrices = typePrices;
-    this.bookingSettings.bookingServicePrices = servicePrices;
-    this.bookingSettings.bookingDiscountPrices = discountPrices;
+  getPricesSetting() {
+    return this.http.get<GetPricesSetting>(
+      this.baseUrl +
+        "Clinic/GetPricesSetting/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId
+    );
+  }
+  savePricesSetting(allPrices: GetPricesSetting) {
+    return this.http.put(
+      this.baseUrl +
+        "Clinic/PutPricesSetting/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId,
+      allPrices
+    );
   }
 
   // =====> get/set diseaseName setting:

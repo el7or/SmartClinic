@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 
 import { AddServiceComponent } from '../add-service/add-service.component';
-import { SettingsService } from '../../../settings.service';
 
 @Component({
   selector: 'add-discount',
@@ -11,21 +10,13 @@ import { SettingsService } from '../../../settings.service';
 })
 export class AddDiscountComponent implements OnInit {
 
-  constructor(public dialogRef: NbDialogRef<AddServiceComponent>,
-    private settingService:SettingsService) { }
+  constructor(public dialogRef: NbDialogRef<AddServiceComponent>) { }
 
   ngOnInit() {
   }
 
   addDiscount(discountTitle){
-    this.settingService.bookingSettings.bookingDiscountPrices.push({
-      id:50,
-      title: discountTitle,
-      discount:discountTitle.replace(/\s/g, "").toLowerCase(),
-      price:0,
-      isPercent:false
-    });
-    this.dialogRef.close();
+    this.dialogRef.close(discountTitle);
   }
 
 }

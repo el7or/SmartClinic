@@ -566,5 +566,6 @@
   {"ar":"خطأ في اسم المستخدم أو كلمة السر!","en":"Wrong UserName or Password!"},
   {"ar":"تم تسجيل الدخول بنجاح!","en":"Login successfully!"},
   { "ar": "لا توجد نتائج !", "en": "No Results !" },
-  { "ar": "الكل", "en": "All" }
+  { "ar": "الكل", "en": "All" },
+  { "ar": "نسبة الخصم لا يمكن أن تزيد عن 100%", "en": "Percentage cannot be more than 100%" }
 ]

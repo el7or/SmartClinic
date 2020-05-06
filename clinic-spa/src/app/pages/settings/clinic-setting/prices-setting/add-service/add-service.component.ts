@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 
-import { SettingsService } from '../../../settings.service';
-
 @Component({
   selector: 'add-service',
   templateUrl: './add-service.component.html',
@@ -10,20 +8,13 @@ import { SettingsService } from '../../../settings.service';
 })
 export class AddServiceComponent implements OnInit {
 
-  constructor(public dialogRef: NbDialogRef<AddServiceComponent>,
-    private settingService:SettingsService) { }
+  constructor(public dialogRef: NbDialogRef<AddServiceComponent>) { }
 
   ngOnInit() {
   }
 
   addService(serviceTitle){
-    this.settingService.bookingSettings.bookingServicePrices.push({
-      id:50,
-      title: serviceTitle,
-      service:serviceTitle.replace(/\s/g, "").toLowerCase(),
-      price:0
-    });
-    this.dialogRef.close();
+    this.dialogRef.close(serviceTitle);
   }
 
 }

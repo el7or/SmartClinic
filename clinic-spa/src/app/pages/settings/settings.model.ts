@@ -1,4 +1,4 @@
-export interface BookingSettingResponse{
+export interface GetBookingSetting{
   entryOrderId?:number;
   bookingPeriod?:number;
   consultExpiration?:number;
@@ -57,6 +57,28 @@ export interface SetBookingSetting{
   fridayTimeTo?:string;
 }
 
+export interface GetPricesSetting{
+  bookingTypes:BookingTypePrice[];
+  serviceTypes:BookingServicePrice[];
+  discountTypes:BookingDiscountPrice[];
+}
+export interface BookingTypePrice {
+  id: number;
+  type: string;
+  price: number;
+}
+export interface BookingServicePrice {
+  id: number;
+  service: string;
+  price: number;
+}
+export interface BookingDiscountPrice {
+  id: number;
+  discount: string;
+  price: number;
+  isPercent:boolean;
+}
+
 export interface BookingSetting {
   workdays: number[];
   weekEnds?: number[]; // to disable it in datepickers & calendar:
@@ -77,28 +99,6 @@ export interface WorkDayTime{
   isDayActive:boolean;
   timeFrom:Date;
   timeTo:Date;
-}
-
-export interface BookingTypePrice {
-  id: number;
-  type: string;
-  title: string;
-  price: number;
-}
-
-export interface BookingServicePrice {
-  id: number;
-  service: string;
-  title: string;
-  price: number;
-}
-
-export interface BookingDiscountPrice {
-  id: number;
-  discount: string;
-  title: string;
-  price: number;
-  isPercent:boolean;
 }
 
 export interface PrintInfo {

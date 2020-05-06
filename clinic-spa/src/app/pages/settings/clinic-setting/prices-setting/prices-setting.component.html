@@ -6,8 +6,9 @@
           <label class="label"><span langg>Bookings prices</span>:</label>
           <table class="table">
             <tr *ngFor="let item of bookingTypePrices">
-              <td><span langg>{{item.title}}</span>:</td>
-              <td><input nbInput type="number" [min]="0" ngModel [name]="item.type" [(ngModel)]="item.price"
+              <td><span langg>{{item.type}}</span>:</td>
+              <td>
+                <input nbInput type="number" [min]="0" [(ngModel)]="item.price" [name]="'type'+item.id"
                   fieldSize="small">
                 <label langg>EGP</label>
                 <ng-container *ngIf="item.price<0">
@@ -26,8 +27,8 @@
           <label class="label"><span langg>Services prices</span>:</label>
           <table class="table">
             <tr *ngFor="let item of bookingServicePrices">
-              <td><span langg>{{item.title}}</span>:</td>
-              <td><input nbInput type="number" [min]="0" ngModel [name]="item.service" [(ngModel)]="item.price"
+              <td><span langg>{{item.service}}</span>:</td>
+              <td><input nbInput type="number" [min]="0" [(ngModel)]="item.price" [name]="'service'+item.id"
                   fieldSize="small">
                 <label langg>EGP</label>
                 <ng-container *ngIf="item.price<0">
@@ -46,17 +47,20 @@
           <label class="label"><span langg>Discounts prices</span>:</label>
           <table class="table">
             <tr *ngFor="let item of bookingDiscountPrices">
-              <td><span langg>{{item.title}}</span>:</td>
-              <td><input nbInput type="number" [min]="0" ngModel [name]="item.discount" [(ngModel)]="item.price"
+              <td><span langg>{{item.discount}}</span>:</td>
+              <td><input nbInput type="number" [min]="0" [(ngModel)]="item.price" [name]="'discount'+item.id"
                   fieldSize="small">
-                <ng-container *ngIf="item.price<0">
-                  <p class="error-message text-danger" langg>
+                <ng-container>
+                  <p *ngIf="item.price<0" class="error-message text-danger" langg>
                     Price cannot be less than: 0
+                  </p>
+                  <p *ngIf="item.isPercent && item.price > 100" class="error-message text-danger" langg>
+                    Percentage cannot be more than 100%
                   </p>
                 </ng-container>
               </td>
               <td>
-                <nb-select [(ngModel)]="item.isPercent" [ngModelOptions]="{standalone: true}" size="small">
+                <nb-select [(ngModel)]="item.isPercent" [name]="'isPercent'+item.id" size="small">
                   <nb-option [value]="false" langg>EGP</nb-option>
                   <nb-option [value]="true">%</nb-option>
                 </nb-select>
@@ -71,7 +75,7 @@
     </nb-card-body>
     <nb-card-footer>
       <div class="text-center nbButton-group mt-1">
-        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="submit" status="success" [disabled]="!form.valid || !form.touched" langg>Save</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </nb-card-footer>

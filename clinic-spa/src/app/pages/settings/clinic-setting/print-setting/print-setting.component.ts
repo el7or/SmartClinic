@@ -114,9 +114,12 @@ export class PrintSettingComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
+    // =====> if choose logo with update:
     if (this.uploader.queue.length) {
       this.uploader.queue[0].upload();
-    } else {
+    }
+    // =====> if update without change logo:
+     else {
       this.formLoading = true;
       const setPrintObj: SetPrintSetting = {
         clinicId: this.authService.clinicId,

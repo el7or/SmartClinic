@@ -32,27 +32,6 @@ namespace clinic_api.Controllers
             _cloudinary = new Cloudinary(account);
         }
 
-        // GET: api/Clinic
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Clinic>>> GetClinics()
-        {
-            return await _context.Clinics.ToListAsync();
-        }
-
-        // GET: api/Clinic/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Clinic>> GetClinic(Guid id)
-        {
-            var clinic = await _context.Clinics.FindAsync(id);
-
-            if (clinic == null)
-            {
-                return NotFound();
-            }
-
-            return clinic;
-        }
-
         // GET: api/Clinic/GetBookingSetting/5/6
         [HttpGet("GetBookingSetting/{id}/{clinicId}")]
         public async Task<ActionResult<ClinicGetBookingSettingDTO>> GetBookingSetting(Guid id, Guid clinicId)
@@ -100,73 +79,6 @@ namespace clinic_api.Controllers
                 IsFridayOn = clinic.WorkDays.Contains('5'),
                 FridayTimeFrom = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeFrom : clinic.FridayTimeFrom,
                 FridayTimeTo = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeTo : clinic.FridayTimeTo
-            };
-            return model;
-        }
-
-        // GET: api/Clinic/GetPricesSetting/5/6
-        [HttpGet("GetPricesSetting/{id}/{clinicId}")]
-        public async Task<ActionResult<ClinicGetPricesSettingDTO>> GetPricesSetting(Guid id, Guid clinicId)
-        {
-            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
-            {
-                return Unauthorized();
-            }
-            var clinic = await _context.Clinics.Include(t => t.ClinicBookingTypes).Include(s => s.ClinicServices).Include(d => d.ClinicDiscounts).FirstOrDefaultAsync(c => c.Id == clinicId);
-            if (clinic == null)
-            {
-                return NotFound();
-            }
-            var model = new ClinicGetPricesSettingDTO
-            {
-                BookingTypes = clinic.ClinicBookingTypes.Where(s => s.Type != "justService").Select(t => new BookingType
-                {
-                    Id = t.Id,
-                    Type = t.Text,
-                    Price = t.Price
-                }).ToList(),
-                ServiceTypes = clinic.ClinicServices.Select(s => new ServiceType
-                {
-                    Id = s.Id,
-                    Service = s.Service,
-                    Price = s.Price
-                }).ToList(),
-                DiscountTypes = clinic.ClinicDiscounts.Select(d => new DiscountType
-                {
-                    Id = d.Id,
-                    Discount = d.Discount,
-                    Price = d.Price,
-                    IsPercent = d.IsPercent
-                }).ToList(),
-            };
-            return model;
-        }
-
-        // GET: api/Clinic/GetPrintSetting/5/6
-        [HttpGet("GetPrintSetting/{id}/{clinicId}")]
-        public async Task<ActionResult<ClinicGetPrintSettingDTO>> GetPrintSetting(Guid id, Guid clinicId)
-        {
-            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
-            {
-                return Unauthorized();
-            }
-            var clinic = await _context.Clinics.FindAsync(clinicId);
-            if (clinic == null)
-            {
-                return NotFound();
-            }
-            var model = new ClinicGetPrintSettingDTO
-            {
-                Address1 = clinic.PrintAddress1,
-                Address2 = clinic.PrintAddress2,
-                Address3 = clinic.PrintAddress3,
-                ClinicTitle = clinic.PrintClinicName,
-                DoctorDegree = clinic.PrintDoctorDegree,
-                DoctorName = clinic.PrintDoctorName,
-                LogoUrl = clinic.PrintLogoUrl,
-                Phone1 = clinic.PrintPhone1,
-                Phone2 = clinic.PrintPhone2,
-                Phone3 = clinic.PrintPhone3
             };
             return model;
         }
@@ -224,6 +136,44 @@ namespace clinic_api.Controllers
             }
 
             return NoContent();
+        }
+
+        // GET: api/Clinic/GetPricesSetting/5/6
+        [HttpGet("GetPricesSetting/{id}/{clinicId}")]
+        public async Task<ActionResult<ClinicGetPricesSettingDTO>> GetPricesSetting(Guid id, Guid clinicId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var clinic = await _context.Clinics.Include(t => t.ClinicBookingTypes).Include(s => s.ClinicServices).Include(d => d.ClinicDiscounts).FirstOrDefaultAsync(c => c.Id == clinicId);
+            if (clinic == null)
+            {
+                return NotFound();
+            }
+            var model = new ClinicGetPricesSettingDTO
+            {
+                BookingTypes = clinic.ClinicBookingTypes.Where(s => s.Type != "justService").Select(t => new BookingType
+                {
+                    Id = t.Id,
+                    Type = t.Text,
+                    Price = t.Price
+                }).ToList(),
+                ServiceTypes = clinic.ClinicServices.Select(s => new ServiceType
+                {
+                    Id = s.Id,
+                    Service = s.Service,
+                    Price = s.Price
+                }).ToList(),
+                DiscountTypes = clinic.ClinicDiscounts.Select(d => new DiscountType
+                {
+                    Id = d.Id,
+                    Discount = d.Discount,
+                    Price = d.Price,
+                    IsPercent = d.IsPercent
+                }).ToList(),
+            };
+            return model;
         }
 
         // PUT: api/Clinic/PutPricesSetting/5/6
@@ -335,7 +285,36 @@ namespace clinic_api.Controllers
             return NoContent();
         }
 
-        // PUT: api/Clinic/PutPrintSetting/5
+        // GET: api/Clinic/GetPrintSetting/5/6
+        [HttpGet("GetPrintSetting/{id}/{clinicId}")]
+        public async Task<ActionResult<ClinicGetPrintSettingDTO>> GetPrintSetting(Guid id, Guid clinicId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var clinic = await _context.Clinics.FindAsync(clinicId);
+            if (clinic == null)
+            {
+                return NotFound();
+            }
+            var model = new ClinicGetPrintSettingDTO
+            {
+                Address1 = clinic.PrintAddress1,
+                Address2 = clinic.PrintAddress2,
+                Address3 = clinic.PrintAddress3,
+                ClinicTitle = clinic.PrintClinicName,
+                DoctorDegree = clinic.PrintDoctorDegree,
+                DoctorName = clinic.PrintDoctorName,
+                LogoUrl = clinic.PrintLogoUrl,
+                Phone1 = clinic.PrintPhone1,
+                Phone2 = clinic.PrintPhone2,
+                Phone3 = clinic.PrintPhone3
+            };
+            return model;
+        }
+
+        // PUT: api/Clinic/PutPrintSetting/5 (if update print setting without update logo image)
         [HttpPut("PutPrintSetting/{id}")]
         public async Task<IActionResult> PutPrintSetting(Guid id, ClinicPutPrintSettingDTO model)
         {
@@ -378,7 +357,7 @@ namespace clinic_api.Controllers
             return NoContent();
         }
 
-        // POST: api/Clinic/PostPrintSetting/5
+        // POST: api/Clinic/PostPrintSetting/5 (if update print setting and update logo image)
         [HttpPost("PostPrintSetting/{id}")]
         public async Task<IActionResult> PostPrintSetting(Guid id, [FromForm] ClinicPostPrintSettingDTO model)
         {
@@ -447,45 +426,66 @@ namespace clinic_api.Controllers
             return NoContent();
         }
 
-        // POST: api/Clinic
-        [HttpPost]
-        public async Task<ActionResult<Clinic>> PostClinic(Clinic clinic)
-        {
-            _context.Clinics.Add(clinic);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ClinicExists(clinic.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //// GET: api/Clinic
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Clinic>>> GetClinics()
+        //{
+        //    return await _context.Clinics.ToListAsync();
+        //}
 
-            return CreatedAtAction("GetClinic", new { id = clinic.Id }, clinic);
-        }
+        //// GET: api/Clinic/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Clinic>> GetClinic(Guid id)
+        //{
+        //    var clinic = await _context.Clinics.FindAsync(id);
 
-        // DELETE: api/Clinic/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Clinic>> DeleteClinic(Guid id)
-        {
-            var clinic = await _context.Clinics.FindAsync(id);
-            if (clinic == null)
-            {
-                return NotFound();
-            }
+        //    if (clinic == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Clinics.Remove(clinic);
-            await _context.SaveChangesAsync();
+        //    return clinic;
+        //}
 
-            return clinic;
-        }
+        //// POST: api/Clinic
+        //[HttpPost]
+        //public async Task<ActionResult<Clinic>> PostClinic(Clinic clinic)
+        //{
+        //    _context.Clinics.Add(clinic);
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (ClinicExists(clinic.Id))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return CreatedAtAction("GetClinic", new { id = clinic.Id }, clinic);
+        //}
+
+        //// DELETE: api/Clinic/5
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<Clinic>> DeleteClinic(Guid id)
+        //{
+        //    var clinic = await _context.Clinics.FindAsync(id);
+        //    if (clinic == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    _context.Clinics.Remove(clinic);
+        //    await _context.SaveChangesAsync();
+
+        //    return clinic;
+        //}
 
         private bool ClinicExists(Guid id)
         {

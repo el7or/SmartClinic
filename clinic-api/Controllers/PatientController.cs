@@ -233,21 +233,21 @@ namespace clinic_api.Controllers
             return Ok(new { seqNo = patient.SeqNo });
         }
 
-        // DELETE: api/Patient/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Patient>> DeletePatient(Guid id)
-        {
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/Patient/5
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<Patient>> DeletePatient(Guid id)
+        //{
+        //    var patient = await _context.Patients.FindAsync(id);
+        //    if (patient == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Patients.Remove(patient);
-            await _context.SaveChangesAsync();
+        //    _context.Patients.Remove(patient);
+        //    await _context.SaveChangesAsync();
 
-            return patient;
-        }
+        //    return patient;
+        //}
 
         private bool PatientExists(Guid id)
         {

@@ -1,3 +1,8 @@
+import { RecordSettingComponent } from './settings/patient-setting/record-setting/record-setting.component';
+import { DiseasesSettingComponent } from './settings/patient-setting/diseases-setting/diseases-setting.component';
+import { PrintSettingComponent } from './settings/clinic-setting/print-setting/print-setting.component';
+import { PricesSettingComponent } from './settings/clinic-setting/prices-setting/prices-setting.component';
+import { BookingSettingComponent } from './settings/clinic-setting/booking-setting/booking-setting.component';
 import { ExternalsComponent } from './externals/externals.component';
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
@@ -140,11 +145,40 @@ const routes: Routes = [
           },
           {
             path: "clinic",
-            component: ClinicSettingComponent
+            component: ClinicSettingComponent,
+            children:[
+              {
+                path: "",
+                redirectTo: "bookings",
+                pathMatch: "full"
+              },
+              {
+                path:"bookings",
+                component:BookingSettingComponent
+              },
+              {
+                path:"prices",
+                component:PricesSettingComponent
+              },
+              {
+                path:"print",
+                component:PrintSettingComponent
+              },
+            ]
           },
           {
             path: "patient",
-            component: PatientSettingComponent
+            component: PatientSettingComponent,
+            children:[
+              {
+                path:"diseases",
+                component:DiseasesSettingComponent
+              },
+              {
+                path:"records",
+                component:RecordSettingComponent
+              }
+            ]
           },
           {
             path: "users",

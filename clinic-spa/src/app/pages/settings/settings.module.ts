@@ -12,8 +12,8 @@ import {
   NbCheckboxModule,
   NbInputModule,
   NbToggleModule,
-  NbTabsetModule,
-  NbIconModule
+  NbIconModule,
+  NbRouteTabsetModule
 } from "@nebular/theme";
 
 import { UsersSettingComponent } from "./users-setting/users-setting.component";
@@ -63,7 +63,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     NbCheckboxModule,
     NbInputModule,
     NbToggleModule,
-    NbTabsetModule,
+    NbRouteTabsetModule,
     NbIconModule,
     TimepickerModule,
     FileUploadModule,

@@ -62,7 +62,7 @@
               top left of the prescription while printing</span>:</label>
           <input nbInput type="file" accept="image/*" #logoUrl name="logoUrl" ng2FileSelect [uploader]="uploader"
             fieldSize="small" (click)="logoUrl.value='';" />&nbsp;
-          <img [src]="filePreviewPath || printInfoSetting.logoUrl" width="180" />
+          <img [src]="filePreviewPath || printInfoSetting.logoUrl" *ngIf="filePreviewPath || printInfoSetting.logoUrl" width="180" />
         </div>
         <div class="col-md-6">
           <div class="form-control-group">

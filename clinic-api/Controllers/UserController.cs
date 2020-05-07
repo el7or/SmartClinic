@@ -81,6 +81,37 @@ namespace clinic_api.Controllers
             return Ok(new { fullName = user.FullName });
         }
 
+        // PUT: api/User/PutUserActive/5
+        [HttpPut("PutUserActive/{id}/{userId}/{isActive}")]
+        public async Task<IActionResult> PutUserActive(Guid id, Guid userId, bool isActive)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var user = _context.Users.Find(userId);
+            user.IsActive = isActive;
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw ex.InnerException;
+                }
+            }
+
+            return Ok();
+        }
+
         // POST: api/User
         [HttpPost]
         public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUser applicationUser)

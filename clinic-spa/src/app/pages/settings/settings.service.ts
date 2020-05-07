@@ -9,6 +9,7 @@ import {
   GetPricesSetting,
   GetPrintSetting,
   SetPrintSetting,
+  GetUser,
 } from "./settings.model";
 import { AuthService } from "../../auth/auth.service";
 import { environment } from "../../../environments/environment";
@@ -17,7 +18,6 @@ import { environment } from "../../../environments/environment";
   providedIn: "root",
 })
 export class SettingsService {
-
   constructor(private http: HttpClient, private authService: AuthService) {}
   baseUrl = environment.API_URL;
 
@@ -92,8 +92,9 @@ export class SettingsService {
         "Doctor/PutDiseasesQuestions/" +
         this.authService.userId +
         "/" +
-        this.authService.doctorId+
-        "/" +diseases,
+        this.authService.doctorId +
+        "/" +
+        diseases,
       {}
     );
   }
@@ -114,8 +115,32 @@ export class SettingsService {
         "Doctor/PutRecordSections/" +
         this.authService.userId +
         "/" +
-        this.authService.doctorId+
-        "/" +recordItems,
+        this.authService.doctorId +
+        "/" +
+        recordItems,
+      {}
+    );
+  }
+
+  // =====> get/set users setting:
+  getUsersSetting() {
+    return this.http.get<GetUser[]>(
+      this.baseUrl +
+        "Clinic/GetClinicUsers/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId
+    );
+  }
+  saveUserActiveSetting(userId: string, isActive: boolean) {
+    return this.http.put(
+      this.baseUrl +
+        "User/PutUserActive/" +
+        this.authService.userId +
+        "/" +
+        userId +
+        "/" +
+        isActive,
       {}
     );
   }

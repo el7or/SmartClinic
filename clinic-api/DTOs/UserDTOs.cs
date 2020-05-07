@@ -10,4 +10,11 @@ namespace clinic_api.DTOs
         public Guid UserId { get; set; }
         public string FullName { get; set; }
     }
+    public class UserGetClinicUser
+    {
+        public Guid Id { get; set; }
+        public string FullName { get; set; }
+        public string RoleTitle { get; set; }
+        public bool? IsActive { get; set; }
+    }
 }

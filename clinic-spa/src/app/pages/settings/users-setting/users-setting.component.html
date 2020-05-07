@@ -3,7 +3,8 @@
     <span langg>Users List</span>:
   </nb-card-header>
   <nb-card-body>
-    <table class="table table-striped font-weight-bolder">
+    <table class="table table-striped font-weight-bolder" [nbSpinner]="formLoading"
+    nbSpinnerStatus="success">
       <thead class="thead-dark h6">
         <tr>
           <th langg>Name</th>
@@ -12,28 +13,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>دكتور محمد</td>
-          <td>طبيب</td>
+        <tr *ngFor="let item of usersList">
+          <td>{{item.fullName}}</td>
+          <td>{{item.roleTitle | langg}}</td>
           <td>
-            <nb-toggle [checked]="true" disabled status="success"></nb-toggle>
-          </td>
-        </tr>
-        <tr>
-          <td>شيماء محمود</td>
-          <td>استقبال</td>
-          <td>
-            <nb-toggle [checked]="true" status="success"></nb-toggle>
-          </td>
-        </tr>
-        <tr>
-          <td>حسين جلال</td>
-          <td>استقبال</td>
-          <td>
-            <nb-toggle [checked]="false" status="success"></nb-toggle>
+            <nb-toggle [checked]="item.isActive" (checkedChange)="onChangeActive(item.id, $event)" [disabled]="item.roleTitle=='طبيب'" status="success"></nb-toggle>
           </td>
         </tr>
       </tbody>
     </table>
   </nb-card-body>
 </nb-card>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

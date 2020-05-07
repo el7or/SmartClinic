@@ -40,7 +40,7 @@ namespace clinic_api.Controllers
         public async Task<IActionResult> Login(AccountLoginDTO userDTO)
         {
             var user = await _userManager.FindByNameAsync(userDTO.UserName);
-            if (user == null) return Unauthorized();
+            if (user == null || user.IsActive == false || user.IsDeleted == true) return Unauthorized();
             var result = await _signInManager.CheckPasswordSignInAsync(user, userDTO.Password, lockoutOnFailure: false);
             //var result = await _signInManager.PasswordSignInAsync(userDTO.UserName, userDTO.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)

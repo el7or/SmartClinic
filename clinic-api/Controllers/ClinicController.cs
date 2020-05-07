@@ -426,6 +426,24 @@ namespace clinic_api.Controllers
             return NoContent();
         }
 
+        // GET: api/Clinic/GetClinicUsers/5/6
+        [HttpGet("GetClinicUsers/{id}/{clinicId}")]
+        public async Task<ActionResult<IEnumerable<UserGetClinicUser>>> GetClinicUsers(Guid id, Guid clinicId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var users = _context.Users.Where(d => d.IsDeleted != true && d.ClinicUsers.FirstOrDefault().ClinicId == clinicId).Include(r => r.UserRoles).Select(u => new UserGetClinicUser
+            {
+                Id = u.Id,
+                FullName = u.FullName,
+                RoleTitle = u.UserRoles.FirstOrDefault().Role.Title,
+                IsActive = u.IsActive
+            });
+            return await users.ToListAsync();
+        }
+
         //// GET: api/Clinic
         //[HttpGet]
         //public async Task<ActionResult<IEnumerable<Clinic>>> GetClinics()

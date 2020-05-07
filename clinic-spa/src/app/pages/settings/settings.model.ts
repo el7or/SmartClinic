@@ -117,3 +117,10 @@ export interface Recorditem {
   textAR: string;
   isActive: boolean;
 }
+
+export interface GetUser {
+  id: string;
+  fullName: string;
+  roleTitle: string;
+  isActive: boolean;
+}

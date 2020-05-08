@@ -19,8 +19,8 @@ export class RecordSettingComponent implements OnInit,OnDestroy {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   recordItems: Recorditem[];
 
-  getQuestSubs: Subscription;
-  setQuestSubs: Subscription;
+  getRecordSubs: Subscription;
+  setRecordSubs: Subscription;
 
   constructor(
     public location: Location,
@@ -31,7 +31,7 @@ export class RecordSettingComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     this.formLoading = true;
-    this.getQuestSubs = this.settingService.getRecordItemsSetting().subscribe(
+    this.getRecordSubs = this.settingService.getRecordItemsSetting().subscribe(
       (res: Recorditem[]) => {
         this.recordItems = res;
         this.formLoading = false;
@@ -44,8 +44,8 @@ export class RecordSettingComponent implements OnInit,OnDestroy {
     );
   }
   ngOnDestroy() {
-    this.getQuestSubs.unsubscribe();
-    if (this.setQuestSubs) this.setQuestSubs.unsubscribe();
+    this.getRecordSubs.unsubscribe();
+    if (this.setRecordSubs) this.setRecordSubs.unsubscribe();
   }
 
   onSaveSetting() {
@@ -56,7 +56,7 @@ export class RecordSettingComponent implements OnInit,OnDestroy {
         return d.id;
       })
       .toString();
-    this.setQuestSubs = this.settingService
+    this.setRecordSubs = this.settingService
       .saveRecordItemsSetting(ids.toString())
       .subscribe(
         () => {

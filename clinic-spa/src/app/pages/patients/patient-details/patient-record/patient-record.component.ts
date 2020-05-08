@@ -1,35 +1,51 @@
 import { NbDialogService } from '@nebular/theme';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { SettingsService } from './../../../settings/settings.service';
 import { Recorditem } from '../../../settings/settings.model';
 import { BookingDetailsComponent } from '../../../bookings/booking-details/booking-details.component';
-import { PatientHeaderInfo } from '../../patients.model';
-import { PatientsService } from '../../patients.service';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from '../../../../shared/services/alert.service';
 
 @Component({
   selector: 'patient-record',
   templateUrl: './patient-record.component.html',
   styleUrls: ['./patient-record.component.scss']
 })
-export class PatientRecordComponent implements OnInit {
+export class PatientRecordComponent implements OnInit,OnDestroy {
+  formLoading = false;
   recordItems:Recorditem[];
-  patientInfo: PatientHeaderInfo;
+  patientCodeId:number;
+
+  getRecordSubs: Subscription;
   routeSubs: Subscription;
 
   constructor(private settingService:SettingsService,
     private dialogService:NbDialogService,
-    private patientsService: PatientsService,
+    private alertService: AlertService,
     private route: ActivatedRoute,) { }
 
   ngOnInit() {
-    /* this.recordItems = this.settingService.getRecordItemsSetting();
+    this.formLoading = true;
+    this.getRecordSubs = this.settingService.getRecordItemsSetting().subscribe(
+      (res: Recorditem[]) => {
+        this.recordItems = res;
+        this.formLoading = false;
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
     this.routeSubs = this.route.parent.params.subscribe(params => {
-      const patientId = params["id"];
-      this.patientInfo = this.patientsService.getPatientHeaderInfo(+patientId)
-    }); */
+      this.patientCodeId = params["id"];
+    });
+  }
+  ngOnDestroy(){
+    this.getRecordSubs.unsubscribe();
+    this.routeSubs.unsubscribe();
   }
 
   // =====> on add new booking or edit booking to patients:
@@ -37,8 +53,7 @@ export class PatientRecordComponent implements OnInit {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
         bookId:bookingId,
-        patientId:this.patientInfo.patientId,
-        patientName: this.patientInfo.name,
+        patientCodeId:this.patientCodeId,
       },
       autoFocus: true,
       hasBackdrop: true,

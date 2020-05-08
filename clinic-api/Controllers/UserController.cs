@@ -22,13 +22,6 @@ namespace clinic_api.Controllers
             _context = context;
         }
 
-        // GET: api/User
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetUsers()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
         // GET: api/User/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ApplicationUser>> GetUser(Guid id)
@@ -43,7 +36,7 @@ namespace clinic_api.Controllers
             return applicationUser;
         }
 
-        // PUT: api/User/5
+        // PUT: api/User/5 (change user FullName)
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(Guid id, UserPutDTO model)
         {
@@ -57,10 +50,13 @@ namespace clinic_api.Controllers
             //}
             var user = _context.Users.Find(model.UserId);
             user.FullName = model.FullName;
-            var doctor = _context.Doctors.FirstOrDefault(u => u.UserId == model.UserId);
-            doctor.FullName = model.FullName;
             _context.Entry(user).State = EntityState.Modified;
-            _context.Entry(doctor).State = EntityState.Modified;
+            if (user.UserRoles.FirstOrDefault().Role.Name == "doctor")
+            {
+                var doctor = _context.Doctors.FirstOrDefault(u => u.UserId == model.UserId);
+                doctor.FullName = model.FullName;
+                _context.Entry(doctor).State = EntityState.Modified;
+            }
 
             try
             {
@@ -112,31 +108,38 @@ namespace clinic_api.Controllers
             return Ok();
         }
 
-        // POST: api/User
-        [HttpPost]
-        public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUser applicationUser)
-        {
-            _context.Users.Add(applicationUser);
-            await _context.SaveChangesAsync();
+        //// GET: api/User
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetUsers()
+        //{
+        //    return await _context.Users.ToListAsync();
+        //}
 
-            return CreatedAtAction("GetUser", new { id = applicationUser.Id }, applicationUser);
-        }
+        //// POST: api/User
+        //[HttpPost]
+        //public async Task<ActionResult<ApplicationUser>> PostUser(ApplicationUser applicationUser)
+        //{
+        //    _context.Users.Add(applicationUser);
+        //    await _context.SaveChangesAsync();
 
-        // DELETE: api/User/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ApplicationUser>> DeleteUser(Guid id)
-        {
-            var applicationUser = await _context.Users.FindAsync(id);
-            if (applicationUser == null)
-            {
-                return NotFound();
-            }
+        //    return CreatedAtAction("GetUser", new { id = applicationUser.Id }, applicationUser);
+        //}
 
-            _context.Users.Remove(applicationUser);
-            await _context.SaveChangesAsync();
+        //// DELETE: api/User/5
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<ApplicationUser>> DeleteUser(Guid id)
+        //{
+        //    var applicationUser = await _context.Users.FindAsync(id);
+        //    if (applicationUser == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return applicationUser;
-        }
+        //    _context.Users.Remove(applicationUser);
+        //    await _context.SaveChangesAsync();
+
+        //    return applicationUser;
+        //}
 
         private bool UserExists(Guid id)
         {

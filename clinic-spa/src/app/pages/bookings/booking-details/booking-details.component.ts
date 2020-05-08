@@ -3,7 +3,7 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  AbstractControl
+  AbstractControl,
 } from "@angular/forms";
 import { Component, OnInit, Input, ViewChild, OnDestroy } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
@@ -14,12 +14,12 @@ import { AuthService } from "./../../../auth/auth.service";
 import { BookingNew, BookingEdit, BookingBrief } from "./../bookings.model";
 import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
-import { GetBookingSetting } from './../../settings/settings.model';
+import { GetBookingSetting } from "./../../settings/settings.model";
 
 @Component({
   selector: "booking-details",
   templateUrl: "./booking-details.component.html",
-  styleUrls: ["./booking-details.component.scss"]
+  styleUrls: ["./booking-details.component.scss"],
 })
 export class BookingDetailsComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -33,8 +33,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   bookingsBriefList: BookingBrief[];
 
   @Input() bookId: number;
-  @Input() patientId: string;
-  @Input() patientName: string;
+  @Input() patientCodeId: number;
 
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
@@ -63,16 +62,16 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   createForm() {
     this.form = new FormGroup({
       date: new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required],
       }),
       time: new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required],
       }),
       type: new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required],
       }),
       services: new FormControl(null, {
-        validators: []
+        validators: [],
       }),
       discount: new FormControl(),
       paid: new FormControl(null, {
@@ -83,9 +82,9 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
               this.bookingTypePrice +
                 this.bookingServicesPrice -
                 this.bookingDiscountPrice
-            )(control)
-        ]
-      })
+            )(control),
+        ],
+      }),
     });
 
     /* // =====> get booking details if edit existing booking:
@@ -140,7 +139,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
         lastTimeBooked.getMinutes() + this.bookingSetting.bookingPeriod
       );
       this.form.patchValue({
-        time: nextAvailableTime
+        time: nextAvailableTime,
       });
     }
   }
@@ -195,39 +194,37 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
   // =====> on submit new booking:
   onAddBooking() {
-    this.formLoading = true;
-    setTimeout(() => {
-      // =====> if new booking:
-      if (!this.bookId) {
-        const newBooking: BookingNew = {
-          patientId: this.patientId,
-          clinicId: this.authService.clinicId,
-          doctorId: this.authService.doctorId,
-          date: this.form.value.date,
-          time: this.form.value.time,
-          typeId: this.form.value.type,
-          servicesIds: this.form.value.services,
-          discountId: this.form.value.discount,
-          paid: this.form.value.paid
-        };
-        this.bookingService.addNewBooking(newBooking);
-      }
-      // =====> if update booking:
-      else {
-        const EditedBooking: BookingEdit = {
-          bookId: this.bookId,
-          date: this.form.value.date,
-          time: this.form.value.time,
-          typeId: this.form.value.type,
-          servicesIds: this.form.value.services,
-          discountId: this.form.value.discount,
-          paid: this.form.value.paid
-        };
-        this.bookingService.updateBooking(EditedBooking);
-      }
-      this.doneSwal.fire();
-      this.formLoading = false;
-      this.dialogRef.close();
-    }, 1000);
+    /* this.formLoading = true;
+    // =====> if new booking:
+    if (!this.bookId) {
+      const newBooking: BookingNew = {
+        patientId: this.patientCodeId,
+        clinicId: this.authService.clinicId,
+        doctorId: this.authService.doctorId,
+        date: this.form.value.date,
+        time: this.form.value.time,
+        typeId: this.form.value.type,
+        servicesIds: this.form.value.services,
+        discountId: this.form.value.discount,
+        paid: this.form.value.paid,
+      };
+      this.bookingService.addNewBooking(newBooking);
+    }
+    // =====> if update booking:
+    else {
+      const EditedBooking: BookingEdit = {
+        bookId: this.bookId,
+        date: this.form.value.date,
+        time: this.form.value.time,
+        typeId: this.form.value.type,
+        servicesIds: this.form.value.services,
+        discountId: this.form.value.discount,
+        paid: this.form.value.paid,
+      };
+      this.bookingService.updateBooking(EditedBooking);
+    }
+    this.doneSwal.fire();
+    this.formLoading = false;
+    this.dialogRef.close(); */
   }
 }

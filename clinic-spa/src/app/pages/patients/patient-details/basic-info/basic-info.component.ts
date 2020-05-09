@@ -1,6 +1,6 @@
 import { AlertService } from "./../../../../shared/services/alert.service";
 import { AuthService } from "./../../../../auth/auth.service";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
@@ -58,73 +58,49 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     public langgService: LanggService,
     private authService: AuthService,
     private alertService: AlertService,
-    private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.formLoading = true;
-
-    // =====> check if new patient or old patient:
-    this.routeSubs = this.route.parent.params.subscribe((params) => {
-      const patientId = params["id"];
-      if (patientId == "new") {
-        // =====> if new patient:
-        this.isNewPatient = true;
-        this.infoSubs = this.basicInfoService.getPatientInfo(0).subscribe(
-          (res: GetPatientResponse) => {
-            // get values for dropdownlists
-            this.socialStatusValues = res.socialStatus;
-            this.cityValues = res.cityValue;
-            this.formLoading = false;
-          },
-          (err) => {
-            console.error(err);
-            this.alertService.alertError();
-            this.formLoading = false;
+    this.infoSubs = this.basicInfoService
+      .getPatientInfo()
+      .pipe(
+        map((res: GetPatientResponse) => {
+          // get values for dropdownlists
+          this.socialStatusValues = res.socialStatus;
+          this.cityValues = res.cityValue;
+          return res.basicInfo;
+        })
+      )
+      .subscribe(
+        (res: BasicInfo) => {
+          if (res == null) {
+            this.isNewPatient = true;
+          } else {
+            this.isNewPatient = false;
+            this.patientInfo = res;
           }
-        );
-        this.formLoading = false;
-      } else {
-        // =====> if old patient:
-        this.isNewPatient = false;
-        this.patientCodeId = +patientId;
-        this.infoSubs = this.basicInfoService
-          .getPatientInfo(+patientId)
-          .pipe(
-            map((res: GetPatientResponse) => {
-              // get values for dropdownlists
-              this.socialStatusValues = res.socialStatus;
-              this.cityValues = res.cityValue;
-              return res.basicInfo;
-            })
-          )
-          .subscribe(
-            (res: BasicInfo) => {
-              this.patientInfo = res;
-              if (this.patientInfo.city) {
-                this.areaValues = this.cityValues.filter(
-                  (c) => c.id == this.patientInfo.city
-                )[0].cities;
-              }
-              this.formLoading = false;
-            },
-            (err) => {
-              console.error(err);
-              this.alertService.alertError();
-              this.formLoading = false;
-            }
-          );
-      }
-    });
+          if (this.patientInfo.city) {
+            this.areaValues = this.cityValues.filter(
+              (c) => c.id == this.patientInfo.city
+            )[0].cities;
+          }
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 
   ngOnDestroy() {
     this.form.reset();
-    this.routeSubs.unsubscribe();
+    this.infoSubs.unsubscribe();
     if (this.addSubs) this.addSubs.unsubscribe();
     if (this.editSubs) this.editSubs.unsubscribe();
-    if (this.infoSubs) this.infoSubs.unsubscribe();
   }
 
   onSelectCity(id: number) {
@@ -232,7 +208,6 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
           context: {
             bookId: 0,
             patientId: this.patientInfo.patientId,
-            patientName: this.patientInfo.name,
           },
           autoFocus: true,
           hasBackdrop: true,

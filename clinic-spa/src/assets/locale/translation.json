@@ -567,5 +567,6 @@
   {"ar":"تم تسجيل الدخول بنجاح!","en":"Login successfully!"},
   { "ar": "لا توجد نتائج !", "en": "No Results !" },
   { "ar": "الكل", "en": "All" },
-  { "ar": "نسبة الخصم لا يمكن أن تزيد عن 100%", "en": "Percentage cannot be more than 100%" }
+  { "ar": "نسبة الخصم لا يمكن أن تزيد عن 100%", "en": "Percentage cannot be more than 100%" },
+  { "ar": "اسم المريض يجب ألا يقل عن 7 أحرف !", "en": "Patient Name should contains from 5 to 50 characters!" }
 ]

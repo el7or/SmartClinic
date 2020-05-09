@@ -45,7 +45,7 @@ namespace clinic_api.Controllers
             //var result = await _signInManager.PasswordSignInAsync(userDTO.UserName, userDTO.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                var loginUser = await _userManager.Users.Include(c => c.ClinicUsers).Include("ClinicUsers.Clinic").Include("ClinicUsers.Clinic.DoctorClinics").FirstOrDefaultAsync(u => u.NormalizedUserName == userDTO.UserName.ToUpper());
+                var loginUser = await _userManager.Users.Where(u => u.NormalizedUserName == userDTO.UserName.ToUpper()).Include(c => c.ClinicUsers).Include("ClinicUsers.Clinic").Include("ClinicUsers.Clinic.DoctorClinics").FirstOrDefaultAsync();
                 return Ok(new
                 {
                     token = GenerateJWToken(loginUser).Result,

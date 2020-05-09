@@ -31,7 +31,6 @@ export class ExternalsComponent implements OnInit {
       context: {
         bookId: 0,
         patientId:patientId,
-        patientName: 'أحمد محمود السيد'
       },
       autoFocus: true,
       hasBackdrop: true,

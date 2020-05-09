@@ -16,9 +16,10 @@ namespace clinic_api.Helper
                 {"إ","ا"},
                 {"آ","ا"},
                 {"ة","ه"},
-                {"ي","ى"},
-                {"ئ","ى"},
-                {"ؤ","و"}
+                {"ى","ي"},
+                {"ئ","ي"},
+                {"ؤ","و"},
+                {"عبد ","عبد"}
             };
 
             return new Regex(String.Join("|", normalizeMap.Keys.Select(k => Regex.Escape(k))))
@@ -35,4 +36,4 @@ namespace clinic_api.Helper
             //return normalizedText;
         }
     }
-    }
+}

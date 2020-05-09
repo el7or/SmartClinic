@@ -16,7 +16,7 @@ import { AlertService } from '../../../../shared/services/alert.service';
 export class PatientRecordComponent implements OnInit,OnDestroy {
   formLoading = false;
   recordItems:Recorditem[];
-  patientCodeId:number;
+  patientId:string;
 
   getRecordSubs: Subscription;
   routeSubs: Subscription;
@@ -40,7 +40,7 @@ export class PatientRecordComponent implements OnInit,OnDestroy {
       }
     );
     this.routeSubs = this.route.parent.params.subscribe(params => {
-      this.patientCodeId = params["id"];
+      this.patientId = params["id"];
     });
   }
   ngOnDestroy(){
@@ -53,7 +53,7 @@ export class PatientRecordComponent implements OnInit,OnDestroy {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
         bookId:bookingId,
-        patientCodeId:this.patientCodeId,
+        patientId:this.patientId,
       },
       autoFocus: true,
       hasBackdrop: true,

@@ -4,13 +4,13 @@ import { HttpClient } from "@angular/common/http";
 import { PatientHeaderInfo, PatientsPagedList } from "./patients.model";
 import { AuthService } from "../../auth/auth.service";
 import { environment } from "../../../environments/environment";
-import { BasicInfo } from "./patient-details/basic-info/basic-info.model";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
 })
 export class PatientsService {
-  private _patientId: string;
+  private _patientId?: string;
 
   public get patientId(): string {
     return this._patientId;
@@ -36,17 +36,17 @@ export class PatientsService {
     );
   }
 
-  searchPatientsList(pageNumber: number, pageSize: number,searchText:string) {
+  searchPatientsList(pageNumber: number, pageSize: number, searchText: string) {
     return this.http.get<PatientsPagedList>(
       this.baseUrl +
-        "Patient/" +
+        "Patient/SearchPatients/" +
         this.authService.userId +
         "/" +
         this.authService.clinicId +
         "/" +
         pageNumber +
         "/" +
-        pageSize+
+        pageSize +
         "/" +
         searchText
     );
@@ -54,13 +54,21 @@ export class PatientsService {
 
   getPatientHeaderInfo(patientCodeId: number) {
     // =====> send to api pacientId(codeId) + clinicId to get  data for patient:
-    this.patientId = "dfgfdgsgd";
-    const info: PatientHeaderInfo = {
-      patientId: "dfgfdgsgd",
-      name: "حاتم قطاوي",
-      age: 33,
-      visitsCount: 3,
-    };
-    return info;
+    return this.http
+      .get<PatientHeaderInfo>(
+        this.baseUrl +
+          "Patient/" +
+          this.authService.userId +
+          "/" +
+          this.authService.clinicId +
+          "/" +
+          patientCodeId
+      )
+      .pipe(
+        map((p) => {
+          this._patientId = p.patientId;
+          return p;
+        })
+      );
   }
 }

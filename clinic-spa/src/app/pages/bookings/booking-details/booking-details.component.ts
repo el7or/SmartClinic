@@ -33,7 +33,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   bookingsBriefList: BookingBrief[];
 
   @Input() bookId: number;
-  @Input() patientCodeId: number;
+  @Input() patientId: string;
 
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;

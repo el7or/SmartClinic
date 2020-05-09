@@ -85,7 +85,6 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
       context: {
         bookId:bookingId,
         patientId:booking.patientId,
-        patientName: booking.name,
       },
       autoFocus: true,
       hasBackdrop: true,

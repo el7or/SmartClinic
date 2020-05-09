@@ -26,6 +26,25 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Patient/5
+        [HttpGet("{id}/{clinicId}/{seqNo}")]
+        public async Task<ActionResult<PatientGetDTO>> GetPatient(Guid id, Guid clinicId, int seqNo)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+                var patient = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && p.SeqNo == seqNo);
+                var patientHeaderInfo = new PatientGetDTO
+                {
+                    PatientId = patient.Id,
+                    Age = patient.Age,
+                    Name = patient.FullName,
+                    VisitsCount = patient.Bookings.Count()
+                };
+            return patientHeaderInfo;
+        }
+
+        // GET: api/Patient/5 (get patients list)
         [HttpGet("{id}/{clinicId}/{pageNo}/{pageSize}")]
         public async Task<ActionResult<PatientsGetPagedDTO>> GetPatients(Guid id, Guid clinicId, int pageNo, int pageSize)
         {
@@ -59,7 +78,7 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Patient/5
-        [HttpGet("{id}/{clinicId}/{pageNo}/{pageSize}/{searchText}")]
+        [HttpGet("SearchPatients/{id}/{clinicId}/{pageNo}/{pageSize}/{searchText}")]
         public async Task<ActionResult<PatientsGetPagedDTO>> SearchPatients(Guid id, Guid clinicId, int pageNo, int pageSize, string searchText)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
@@ -93,18 +112,18 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Patient/5
-        [HttpGet("{id}/{clinicId}/{seqNo}")]
-        public async Task<ActionResult<PatientValuesGetDTO>> GetPatient(Guid id, Guid clinicId, int seqNo)
+        [HttpGet("GetPatientBasic/{id}/{patientId}")]
+        public async Task<ActionResult<PatientValuesGetDTO>> GetPatientBasic(Guid id, string patientId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            PatientGetDTO patientDetails = null;
-            if (seqNo != 0)
+            PatientGetBasicDTO patientDetails = null;
+            if (patientId !="new")
             {
-                var patient = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && p.SeqNo == seqNo);
-                patientDetails = new PatientGetDTO
+                var patient = await _context.Patients.FindAsync(Guid.Parse(patientId));
+                patientDetails = new PatientGetBasicDTO
                 {
                     PatientId = patient.Id,
                     Age = patient.Age,

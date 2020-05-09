@@ -1,3 +1,4 @@
+import { PatientsService } from "./../../patients.service";
 import { AuthService } from "./../../../../auth/auth.service";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -14,28 +15,21 @@ import { environment } from "../../../../../environments/environment";
   providedIn: "root",
 })
 export class BasicInfoService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private patientService: PatientsService
+  ) {}
   baseUrl = environment.API_URL;
 
-  /* getSocialStatusValues() {
-    return this.http.get<SocialStatus[]>(this.baseUrl + "SocialStatus");
-  }
-
-  getCityValues() {
-    return this.http.get<CityValue[]>(this.baseUrl + "City");
-  } */
-
   // =====> get patient info by id:
-  getPatientInfo(patientCodeId: number) {
-    // =====> send to api pacientId(codeId) + clinicId to get all data for patient:
+  getPatientInfo() {
     return this.http.get<GetPatientResponse>(
       this.baseUrl +
-        "Patient/" +
+        "Patient/GetPatientBasic/" +
         this.authService.userId +
         "/" +
-        this.authService.clinicId +
-        "/" +
-        patientCodeId
+        this.patientService.patientId
     );
   }
 

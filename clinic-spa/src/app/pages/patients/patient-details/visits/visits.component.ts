@@ -43,7 +43,6 @@ export class VisitsComponent implements OnInit, OnDestroy {
       context: {
         bookId:bookingId,
         patientId:this.visitsList.patientId,
-        patientName: this.visitsList.patientName
       },
       autoFocus: true,
       hasBackdrop: true,

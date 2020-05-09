@@ -6,7 +6,7 @@
         <div class="col-md-3 col-sm-6 form-control-group" [nbSpinner]="nameLoading" nbSpinnerStatus="success">
           <label for="input-name" class="label"><span langg>Patient Name</span>:</label>
           <input nbInput [(ngModel)]="patientInfo.name" #patientName="ngModel" name="patientName" id="input-name"
-            [placeholder]="'Patient Name' | langg" fullWidth required minlength="5" maxlength="50"
+            [placeholder]="'Patient Name' | langg" fullWidth required minlength="7" maxlength="50"
             [status]="patientName.touched ? (patientName.invalid  ? 'danger' : 'success') : ''">
             <!-- (blur)="onBlurName(patientName)" -->
           <ng-container *ngIf="patientName.invalid && patientName.touched">
@@ -14,7 +14,7 @@
               Patient Name is required!
             </p>
             <p class="error-message" *ngIf="patientName?.errors.minlength || patientName?.errors.maxlength" langg>
-              Patient Name should contains from 5 to 50 characters!
+              Patient Name should contains from 7 to 50 characters!
             </p>
           </ng-container>
         </div>

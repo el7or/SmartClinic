@@ -29,13 +29,21 @@ namespace clinic_api.DTOs
         public int PageSize { get; set; }
     }
 
+    public class PatientGetDTO
+    {
+        public Guid PatientId { get; set; }
+        public string Name { get; set; }
+        public int? Age { get; set; }
+        public int VisitsCount { get; set; }
+    }
+
     public class PatientValuesGetDTO
     {
         public List<SocialStatusDTO> SocialStatus { get; set; }
         public List<CityDTO> CityValue { get; set; }
-        public PatientGetDTO BasicInfo { get; set; }
+        public PatientGetBasicDTO BasicInfo { get; set; }
     }
-    public class PatientGetDTO
+    public class PatientGetBasicDTO
     {
         public Guid PatientId { get; set; }
         public string Name { get; set; }

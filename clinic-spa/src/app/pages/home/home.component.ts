@@ -128,7 +128,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // =====> if clicked on future:
     else if (todayString < dateClicked) {
       // =====> save clicked date to next booking:
-      this.bookingService.setChosenbookingDate(info.date);
+      this.bookingService.chosenBookingDate =  info.date;
       this.toastrService.info(
         info.dateStr,
         this.langgService.translateWord(

@@ -1,4 +1,5 @@
 import { Subscription } from "rxjs";
+import { map } from "rxjs/operators";
 import {
   FormGroup,
   FormControl,
@@ -10,11 +11,16 @@ import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
-import { AuthService } from "./../../../auth/auth.service";
-import { BookingNew, BookingEdit, BookingBrief } from "./../bookings.model";
-import { SettingsService } from "./../../settings/settings.service";
+import {
+  BookingNew,
+  BookingEdit,
+  GetBookingDetails,
+  BookingSetting,
+  BookingDetails,
+  BookingChangeDate,
+} from "./../bookings.model";
 import { BookingsService } from "./../bookings.service";
-import { GetBookingSetting } from "./../../settings/settings.model";
+import { AlertService } from '../../../shared/services/alert.service';
 
 @Component({
   selector: "booking-details",
@@ -25,12 +31,11 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   form: FormGroup;
   formLoading: boolean = false;
   todayDate: Date = new Date();
-  bookingDetails: BookingEdit;
-  bookingSetting: GetBookingSetting;
-  bookingTypePrice: number = 0;
+  bookingSetting: BookingSetting;
+  bookingDetails: BookingDetails;
+  bookingTypePrice = 0;
   bookingServicesPrice = 0;
   bookingDiscountPrice = 0;
-  bookingsBriefList: BookingBrief[];
 
   @Input() bookId: number;
   @Input() patientId: string;
@@ -38,11 +43,13 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
 
+  getBookSubs: Subscription;
+  getChangeDateSubs: Subscription;
+
   constructor(
     public dialogRef: NbDialogRef<BookingDetailsComponent>,
     private bookingService: BookingsService,
-    private settingService: SettingsService,
-    private authService: AuthService,
+    private alertService: AlertService,
     private localeService: BsLocaleService
   ) {
     // =====> localize datepicker:
@@ -50,102 +57,131 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // =====> get bookings settings:
-    //this.bookingSetting = this.settingService.getBookingSetting();
+    this.formLoading = true;
+    // =====> get booking settings & data:
+    this.getBookSubs = this.bookingService
+      .getBookingDetails(
+        this.patientId,
+        this.bookId,
+        this.bookingService.chosenBookingDate
+      )
+      .pipe(
+        map((res: GetBookingDetails) => {
+          this.bookingSetting = res.bookingSetting;
+          return res.bookingDetails;
+        })
+      )
+      .subscribe((res: BookingDetails) => {
+        this.bookingDetails = res;
 
-    // =====> create reactive form:
-    this.createForm();
+        // =====> create reactive form:
+        this.form = new FormGroup({
+          date: new FormControl(null, {
+            validators: [Validators.required],
+          }),
+          time: new FormControl(null, {
+            validators: [Validators.required],
+          }),
+          type: new FormControl(null, {
+            validators: [Validators.required],
+          }),
+          services: new FormControl(null, {
+            validators: [],
+          }),
+          discount: new FormControl(),
+          paid: new FormControl(null, {
+            validators: [
+              Validators.min(0),
+              (control: AbstractControl) =>
+                Validators.max(
+                  this.bookingTypePrice +
+                    this.bookingServicesPrice -
+                    this.bookingDiscountPrice
+                )(control),
+            ],
+          }),
+        });
+
+        // =====> initial values for reactive form:
+        this.form.setValue({
+          date: !this.bookId
+            ? this.bookingService.chosenBookingDate
+            : this.bookingDetails.bookingDateTime,
+          time: !this.bookId
+            ? this.bookingSetting.clinicDayTimeFrom
+            : this.bookingDetails.bookingDateTime,
+          type: !this.bookId ? 1 : this.bookingDetails.bookingTypeId,
+          services: !this.bookId ? [] : this.bookingDetails.bookingServicesIds,
+          discount: !this.bookId ? 0 : this.bookingDetails.bookingDiscountId,
+          paid: !this.bookId ? 0 : this.bookingDetails.bookingPayments,
+        });
+
+        // =====> add chosen type & services prices & discount price to total price:
+        this.bookingTypePrice = this.bookingSetting.clinicBookingTypes.find(
+          (t) => t.id == this.form.value.type
+        ).price;
+        if (this.bookId) {
+          this.bookingServicesPrice = this.bookingSetting.clinicBookingServices
+            .filter((s) => this.form.value.services.some((i) => i == s.id))
+            .reduce((acc, service) => acc + service.price, 0);
+
+          const discount = this.bookingSetting.clinicBookingDiscounts.find(
+            (t) => t.id == this.form.value.discount
+          );
+          this.bookingDiscountPrice = discount.isPercent
+            ? ((this.bookingTypePrice + this.bookingServicesPrice) *
+                discount.price) /
+              100
+            : discount.price;
+        }
+        this.formLoading = false;
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      });
   }
-
-  ngOnDestroy() {}
-
-  createForm() {
-    this.form = new FormGroup({
-      date: new FormControl(null, {
-        validators: [Validators.required],
-      }),
-      time: new FormControl(null, {
-        validators: [Validators.required],
-      }),
-      type: new FormControl(null, {
-        validators: [Validators.required],
-      }),
-      services: new FormControl(null, {
-        validators: [],
-      }),
-      discount: new FormControl(),
-      paid: new FormControl(null, {
-        validators: [
-          Validators.min(0),
-          (control: AbstractControl) =>
-            Validators.max(
-              this.bookingTypePrice +
-                this.bookingServicesPrice -
-                this.bookingDiscountPrice
-            )(control),
-        ],
-      }),
-    });
-
-    /* // =====> get booking details if edit existing booking:
-    if (this.bookId) {
-      this.bookingDetails = this.bookingService.getBookingDetailsById(
-        this.bookId
-      );
-    }
-
-    // =====> initial values to form:
-    this.form.setValue({
-      date: !this.bookId
-        ? this.bookingService.getChosenbookingDate()
-        : this.bookingDetails.date,
-      time: !this.bookId
-        ? this.bookingSetting.allDaysTimeFrom
-        : this.bookingDetails.time,
-      type: !this.bookId ? 1 : this.bookingDetails.typeId,
-      services: !this.bookId ? [] : this.bookingDetails.servicesIds,
-      discount: !this.bookId ? 0 : this.bookingDetails.discountId,
-      paid: !this.bookId ? 0 : this.bookingDetails.paid
-    });
-
-    // =====> add chosen type & services prices & discount price to total price:
-    this.bookingTypePrice = this.bookingSetting.bookingTypePrices.find(
-      t => t.id == this.form.value.type
-    ).price;
-    this.bookingServicesPrice = this.bookingSetting.bookingServicePrices
-      .filter(s => this.form.value.services.some(i => i == s.id))
-      .reduce((acc, service) => acc + service.price, 0);
-    const discount = this.bookingSetting.bookingDiscountPrices.find(
-      t => t.id == this.form.value.discount
-    );
-    if(this.bookId){
-    this.bookingDiscountPrice = discount.isPercent
-      ? ((this.bookingTypePrice + this.bookingServicesPrice) * discount.price) /
-        100
-      : discount.price;
-    } */
+  ngOnDestroy() {
+    this.getBookSubs.unsubscribe();
+    if (this.getChangeDateSubs) this.getChangeDateSubs.unsubscribe();
   }
 
   // =====> on choose booking date will fill table with all bookings in same day:
-  onChooseBookingDate(date) {
-    this.bookingsBriefList = this.bookingService.getBookingsBriefByDate(date);
-    // =====> set next time if new booking:
-    if (!this.bookId) {
-      const lastTimeBooked = this.bookingsBriefList[
-        this.bookingsBriefList.length - 1
-      ].time;
-      let nextAvailableTime = new Date(lastTimeBooked);
-      nextAvailableTime.setMinutes(
-        lastTimeBooked.getMinutes() + this.bookingSetting.bookingPeriod
-      );
-      this.form.patchValue({
-        time: nextAvailableTime,
+  onChangeBookingDate(date) {
+    this.formLoading = true;
+    this.getChangeDateSubs = this.bookingService
+      .getBookingChangeDate(this.patientId, date)
+      .subscribe((res: BookingChangeDate) => {
+        this.bookingSetting.clinicDayTimeFrom = res.clinicDayTimeFrom;
+        this.bookingSetting.clinicDayTimeTo = res.clinicDayTimeTo;
+        this.bookingSetting.doctorAllBookingSameDay = res.doctorAllBookingSameDay;
+        this.form.patchValue({ time: res.clinicDayTimeFrom });
+
+        /* // =====> set next time if new booking:
+        if (!this.bookId) {
+          const lastTimeBooked = this.bookingSetting.doctorAllBookingSameDay[
+            this.bookingSetting.doctorAllBookingSameDay.length - 1
+          ].time;
+          let nextAvailableTime = new Date(lastTimeBooked);
+          nextAvailableTime.setMinutes(
+            lastTimeBooked.getMinutes() +
+              this.bookingSetting.clinicBookingPeriod
+          );
+          this.form.patchValue({
+            time: nextAvailableTime,
+          });
+        } */
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
       });
-    }
   }
 
   // =====> check if choosen booking time is already taken in same date:
-  onChooseBookingTime(event) {
+  onChangeBookingTime(event) {
     if (new Date(event).getHours() == 9 && new Date(event).getMinutes() == 0) {
       this.form.get("time").setErrors({ duplicateTime: true });
     } else {

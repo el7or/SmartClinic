@@ -64,7 +64,7 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
 
   // =====> on add new booking on current day tp patient out the table:
   onBookToday() {
-    this.bookingService.setChosenbookingDate(new Date());
+    this.bookingService.chosenBookingDate=new Date();
     this.toastrService.info(
       new DateWithoutTimePipe().transform(new Date()),
       this.langgService.translateWord(

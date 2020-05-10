@@ -1,11 +1,11 @@
 <form [formGroup]="form" (ngSubmit)="onAddBooking()" aria-labelledby="title" [nbSpinner]="formLoading"
   nbSpinnerStatus="success">
   <nb-card class="dialog-center">
-    <nb-card-header><b>{{bookId?('Booking Details for:'|langg):('New Booking for:'|langg)}}</b>&nbsp;{{ patientName }}
+    <nb-card-header><b>{{bookId?('Booking Details for:'|langg):('New Booking for:'|langg)}}</b>&nbsp;{{ bookingSetting.patientName }}
       <br>
       <small>
-        <b langg>Last Visit Type</b>: <span langg>Diagnose</span>&nbsp;|
-        <b langg>Last Visit Date</b>: 1/5/2020م
+        <b langg>Last Visit Type</b>: {{bookingSetting.patientLastBookingType}}&nbsp;|
+        <b langg>Last Visit Date</b>: {{bookingSetting.patientLastBookingDate | dateWithoutTime}}
       </small>
     </nb-card-header>
     <nb-card-body>
@@ -23,9 +23,9 @@
           <div class="form-control-group">
             <label for="input-bookingDate" class="label"><span langg>Booking Date</span>:</label>
             <input type="text" bsDatepicker nbInput formControlName="date" fullWidth [minDate]="todayDate"
-              [daysDisabled]="bookingSetting.weekEnds" autocomplete="off"
+              [daysDisabled]="bookingSetting.clinicWeekEnds" autocomplete="off"
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
-              (bsValueChange)="onChooseBookingDate($event)" [placeholder]="'Booking Date' | langg"
+              (bsValueChange)="onChangeBookingDate($event)" [placeholder]="'Booking Date' | langg"
               [status]="form.get('date').invalid  ? 'danger' : 'success'">
             <ng-container *ngIf="form.get('date').invalid && form.get('date').touched">
               <p class="error-message text-danger" *ngIf="form.get('date')?.errors.required" langg>
@@ -35,9 +35,9 @@
           </div>
           <div class="form-control-group">
             <label for="input-bookingTime" class="label"><span langg>Booking Time</span>:</label>
-            <timepicker (ngModelChange)="onChooseBookingTime($event)" formControlName="time" showMeridian="true"
-              labelMinutes="Minutes" [minuteStep]="bookingSetting.bookingPeriod" style="direction: ltr;"
-             [min]="bookingSetting.bookingTimeFrom" [max]="bookingSetting.bookingTimeTo"></timepicker>
+            <timepicker (ngModelChange)="onChangeBookingTime($event)" formControlName="time" showMeridian="true"
+              labelMinutes="Minutes" [minuteStep]="bookingSetting.clinicBookingPeriod" style="direction: ltr;"
+             [min]="bookingSetting.clinicDayTimeFrom" [max]="bookingSetting.clinicDayTimeTo"></timepicker>
             <ng-container *ngIf="form.get('time').invalid">
               <p class="error-message text-danger" *ngIf="form.get('time')?.errors.duplicateTime">
                 <span langg>This Time</span>&nbsp;{{form.value.time | time12Hour}}&nbsp;<span langg>is already Booked!</span>
@@ -48,57 +48,38 @@
             <label for="input-bookingType" class="label"><span langg>Booking Type</span>:</label>
             <nb-select fullWidth formControlName="type" [placeholder]="'Booking Type' | langg"
               (selectedChange)="onChangeType($event)" [status]="form.get('type').invalid ? 'danger' : 'success'">
-              <nb-option *ngFor="let item of bookingSetting.bookingTypePrices" [value]="item.id" langg>
-                {{item.title | langg}}<span
+              <nb-option *ngFor="let item of bookingSetting.clinicBookingTypes" [value]="item.id" langg>
+                {{item.type}}<span
                   *ngIf="item.type != 'justService'">&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</span>
               </nb-option>
             </nb-select>
           </div>
-          <div class="form-control-group">
+          <div class="form-control-group" *ngIf="bookingSetting.clinicBookingServices.length">
             <label for="input-bookingService" class="label"><span langg>Add Service</span>:</label>
             <nb-select multiple fullWidth formControlName="services" (selectedChange)="onChangeService($event)"
               [placeholder]="'Add Service' | langg"
               [status]="form.get('services').invalid ? 'danger' : ( form.value.services.length ? 'success':'')">
-              <nb-option *ngFor="let item of bookingSetting.bookingServicePrices" [value]="item.id" langg>
-                {{item.title | langg}}&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</nb-option>
+              <nb-option *ngFor="let item of bookingSetting.clinicBookingServices" [value]="item.id" langg>
+                {{item.service | langg}}&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</nb-option>
             </nb-select>
             <ng-container *ngIf="form.get('services').invalid && form.get('services').dirty">
               <p class="error-message text-danger" langg>Service is
                 required if Booking Type is Just Service!</p>
             </ng-container>
           </div>
-          <nb-alert accent="info" class="text-nowrap">
+          <nb-alert accent="info" class="text-nowrap"  *ngIf="bookingSetting.clinicBookingDiscounts.length">
             <label><span
                 langg>Price</span>:<u>&nbsp;{{bookingTypePrice + bookingServicesPrice | number:'0.0-0' | currency:'EGP':'symbol':'1.0'}}</u></label>
           </nb-alert>
-          <div class="form-control-group">
+          <div class="form-control-group" *ngIf="bookingSetting.clinicBookingDiscounts.length">
             <label for="input-discount" class="label"><span langg>Discount</span>:</label>
             <nb-select fullWidth formControlName="discount" [placeholder]="'Discount' | langg"
               (selectedChange)="onChangeDiscount($event)" [status]="form.value.discount ? 'success' : ''">
-              <nb-option *ngFor="let item of bookingSetting.bookingDiscountPrices" [value]="item.id">
-                {{item.title | langg}}<span>&nbsp;-&nbsp;{{item.price}}&nbsp;{{ item.isPercent ? '%' : ('EGP' | langg)}}</span>
+              <nb-option *ngFor="let item of bookingSetting.clinicBookingDiscounts" [value]="item.id">
+                {{item.discount | langg}}<span>&nbsp;-&nbsp;{{item.price}}&nbsp;{{ item.isPercent ? '%' : ('EGP' | langg)}}</span>
               </nb-option>
             </nb-select>
-            <!-- <input nbInput type="number" formControlName="discount" [placeholder]="'Discount' | langg" fullWidth
-              (ngModelChange)="onChangeDiscount($event)" [min]="0" [max]="bookingTypePrice + bookingServicesPrice"
-              [status]="form.get('discount').dirty && (form.get('discount').invalid  ? 'danger' : (form.value.discount?'success':''))">
-            <ng-container *ngIf="form.get('discount').invalid">
-              <p class="error-message text-danger" *ngIf="form.get('discount')?.errors.max" langg>Discount must not
-                exceed the Price!</p>
-              <p class="error-message text-danger" *ngIf="form.get('discount')?.errors.min" langg>Can't be less than
-                zero!</p>
-            </ng-container> -->
           </div>
-          <!-- <div class="form-control-group" *ngIf="form.value.discount">
-            <label for="input-discountNote" class="label"><span langg>Discount Note</span>:</label>
-            <input nbInput type="text" formControlName="discountNote" [placeholder]="'Discount Note' | langg" fullWidth
-              [status]="form.get('discountNote').invalid ? (!form.value.discountNote  ? 'danger' : 'success') : ''">
-            <ng-container *ngIf="form.get('discountNote').invalid && form.get('discountNote').touched">
-              <p class="error-message text-danger" *ngIf="form.get('discountNote')?.errors.required" langg>
-                Discount Note is required!
-              </p>
-            </ng-container>
-          </div> -->
           <nb-alert accent="warning" class="text-nowrap">
             <label><span langg>Total
                 Amount:</span><u>&nbsp;{{(bookingTypePrice + bookingServicesPrice - bookingDiscountPrice > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice : 0) | number:'0.0-0' | currency:'EGP':'symbol':'1.0'}}</u></label>
@@ -138,10 +119,10 @@
             </thead>
             <tbody>
               <!-- <tr *ngFor="let booking of bookingsBriefList" [class]="bookId==booking.bookId?'table-danger':''" > -->
-              <tr *ngFor="let booking of bookingsBriefList" [class]="bookId && booking.bookId==111?'table-danger':''" >
-                <td>{{booking.seq}}</td>
+              <tr *ngFor="let booking of bookingSetting.doctorAllBookingSameDay; index as i" [class]="bookId == booking.bookId?'table-danger':''" >
+                <td>{{i + 1}}</td>
                 <td>{{booking.time | time12Hour}}</td>
-                <td>{{booking.typeTitle | langg}}</td>
+                <td>{{booking.type}}</td>
               </tr>
             </tbody>
           </table>

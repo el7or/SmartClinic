@@ -29,10 +29,10 @@ export class BookingsService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getBookingDetails(patientId: string, bookingId: number, bookingDate: Date) {
+  getBookingDetails(patientId: string, bookingId: number, bookingDate: string) {
     return this.http.get<GetBookingDetails>(
       this.baseUrl +
-        "Booking/GetBookingDetails/" +
+        "Booking/" +
         this.authService.userId +
         "/" +
         patientId +

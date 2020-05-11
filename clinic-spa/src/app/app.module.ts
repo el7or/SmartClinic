@@ -19,7 +19,7 @@ import {
   NbWindowModule
 } from "@nebular/theme";
 import { NbSecurityModule, NbRoleProvider } from "@nebular/security";
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, DatePipe } from '@angular/common';
 import localeArabic from '@angular/common/locales/ar';
 import localeEnglish from '@angular/common/locales/en';
 import { arLocale } from 'ngx-bootstrap/locale';
@@ -73,7 +73,7 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
       }
     })
   ],
-  providers: [TokenInterceptorProvidor,
+  providers: [TokenInterceptorProvidor, DatePipe,
     {
       provide: NbRoleProvider,
       useClass: NbSimpleRoleProvider

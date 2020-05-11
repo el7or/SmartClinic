@@ -10,6 +10,7 @@ import { Component, OnInit, Input, ViewChild, OnDestroy } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
+import { DatePipe } from '@angular/common';
 
 import {
   BookingNew,
@@ -50,10 +51,38 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     public dialogRef: NbDialogRef<BookingDetailsComponent>,
     private bookingService: BookingsService,
     private alertService: AlertService,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,private datePipe: DatePipe
   ) {
     // =====> localize datepicker:
     this.localeService.use(localStorage.getItem("langg"));
+
+    // =====> create reactive form:
+    this.form = new FormGroup({
+      date: new FormControl(null, {
+        validators: [Validators.required],
+      }),
+      time: new FormControl(null, {
+        validators: [Validators.required],
+      }),
+      type: new FormControl(null, {
+        validators: [Validators.required],
+      }),
+      services: new FormControl(null, {
+        validators: [],
+      }),
+      discount: new FormControl(),
+      paid: new FormControl(null, {
+        validators: [
+          Validators.min(0),
+          (control: AbstractControl) =>
+            Validators.max(
+              this.bookingTypePrice +
+                this.bookingServicesPrice -
+                this.bookingDiscountPrice
+            )(control),
+        ],
+      }),
+    });
   }
 
   ngOnInit() {
@@ -63,44 +92,18 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       .getBookingDetails(
         this.patientId,
         this.bookId,
-        this.bookingService.chosenBookingDate
+         this.datePipe.transform(this.bookingService.chosenBookingDate, 'yyyy-MM-dd')
       )
       .pipe(
         map((res: GetBookingDetails) => {
           this.bookingSetting = res.bookingSetting;
+          this.bookingSetting.clinicDayTimeFrom = new Date(this.bookingSetting.clinicDayTimeFrom);
+          this.bookingSetting.clinicDayTimeTo = new Date(this.bookingSetting.clinicDayTimeTo);
           return res.bookingDetails;
         })
       )
       .subscribe((res: BookingDetails) => {
         this.bookingDetails = res;
-
-        // =====> create reactive form:
-        this.form = new FormGroup({
-          date: new FormControl(null, {
-            validators: [Validators.required],
-          }),
-          time: new FormControl(null, {
-            validators: [Validators.required],
-          }),
-          type: new FormControl(null, {
-            validators: [Validators.required],
-          }),
-          services: new FormControl(null, {
-            validators: [],
-          }),
-          discount: new FormControl(),
-          paid: new FormControl(null, {
-            validators: [
-              Validators.min(0),
-              (control: AbstractControl) =>
-                Validators.max(
-                  this.bookingTypePrice +
-                    this.bookingServicesPrice -
-                    this.bookingDiscountPrice
-                )(control),
-            ],
-          }),
-        });
 
         // =====> initial values for reactive form:
         this.form.setValue({
@@ -108,13 +111,19 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
             ? this.bookingService.chosenBookingDate
             : this.bookingDetails.bookingDateTime,
           time: !this.bookId
-            ? this.bookingSetting.clinicDayTimeFrom
-            : this.bookingDetails.bookingDateTime,
-          type: !this.bookId ? 1 : this.bookingDetails.bookingTypeId,
+            ? new Date(this.bookingSetting.clinicDayTimeFrom)
+            : new Date(this.bookingDetails.bookingDateTime),
+          type: !this.bookId ? this.bookingSetting.clinicBookingTypes[0].id : this.bookingDetails.bookingTypeId,
           services: !this.bookId ? [] : this.bookingDetails.bookingServicesIds,
           discount: !this.bookId ? 0 : this.bookingDetails.bookingDiscountId,
           paid: !this.bookId ? 0 : this.bookingDetails.bookingPayments,
         });
+
+        setTimeout(() => {
+          this.form.get('type').patchValue(!this.bookId ? this.bookingSetting.clinicBookingTypes[0].id : this.bookingDetails.bookingTypeId);
+          this.form.get('services').patchValue(!this.bookId ? [] : this.bookingDetails.bookingServicesIds)
+          this.form.get('discount').patchValue(!this.bookId ? 0 : this.bookingDetails.bookingDiscountId)
+        }, 0);
 
         // =====> add chosen type & services prices & discount price to total price:
         this.bookingTypePrice = this.bookingSetting.clinicBookingTypes.find(
@@ -149,7 +158,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
   // =====> on choose booking date will fill table with all bookings in same day:
   onChangeBookingDate(date) {
-    this.formLoading = true;
+    /* this.formLoading = true;
     this.getChangeDateSubs = this.bookingService
       .getBookingChangeDate(this.patientId, date)
       .subscribe((res: BookingChangeDate) => {
@@ -158,7 +167,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
         this.bookingSetting.doctorAllBookingSameDay = res.doctorAllBookingSameDay;
         this.form.patchValue({ time: res.clinicDayTimeFrom });
 
-        /* // =====> set next time if new booking:
+        // =====> set next time if new booking:
         if (!this.bookId) {
           const lastTimeBooked = this.bookingSetting.doctorAllBookingSameDay[
             this.bookingSetting.doctorAllBookingSameDay.length - 1
@@ -171,13 +180,13 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           this.form.patchValue({
             time: nextAvailableTime,
           });
-        } */
+        }
       },
       (err) => {
         console.error(err);
         this.alertService.alertError();
         this.formLoading = false;
-      });
+      }); */
   }
 
   // =====> check if choosen booking time is already taken in same date:

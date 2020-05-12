@@ -13,7 +13,14 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="!visitsList?.length">
+        <tr>
+          <td colspan="6" class="text-center">
+            <h5 langg>No Results !</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="visitsList?.length">
         <tr *ngFor="let visit of visitsList; let i = index;">
           <td>{{visit.date | localDateShort}}</td>
           <td>{{visit.type}}</td>

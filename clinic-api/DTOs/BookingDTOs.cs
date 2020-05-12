@@ -69,7 +69,7 @@ namespace clinic_api.DTOs
         public decimal Paid { get; set; }
     }
 
-    public class GetPatientBooking
+    public class GetPatientBookingDTO
     {
         public int BookId { get; set; }
         public DateTime Date { get; set; }
@@ -77,5 +77,10 @@ namespace clinic_api.DTOs
         public string[] Servcies { get; set; }
         public bool? IsEnter { get; set; }
         public bool? IsCanceled { get; set; }
+    }
+    
+    public class GetBookingsDTO
+    {
+
     }
 }

@@ -24,21 +24,25 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Booking
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetBookings()
-        {
-            return await _context.Bookings.ToListAsync();
-        }
-
-        // GET: api/Booking
-        [HttpGet("GetPatientBookings/{id}/{patientId}")]
-        public async Task<ActionResult<IEnumerable<GetPatientBooking>>> GetPatientBookings(Guid id,Guid patientId)
+        [HttpGet("{id}/{bookingDate}")]
+        public async Task<ActionResult<IEnumerable<Booking>>> GetBookings(Guid id, string bookingDate)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var model = _context.Bookings.Where(p => p.PatientId == patientId).Include(t => t.Type).Include(s => s.BookingServices).OrderByDescending(d => d.CreatedOn).Select(b => new GetPatientBooking
+            return await _context.Bookings.ToListAsync();
+        }
+
+        // GET: api/Booking
+        [HttpGet("GetPatientBookings/{id}/{patientId}")]
+        public async Task<ActionResult<IEnumerable<GetPatientBookingDTO>>> GetPatientBookings(Guid id, Guid patientId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var model = _context.Bookings.Where(p => p.PatientId == patientId).Include(t => t.Type).Include(s => s.BookingServices).OrderByDescending(d => d.CreatedOn).Select(b => new GetPatientBookingDTO
             {
                 BookId = b.Id,
                 Date = b.BookingDateTime,
@@ -149,6 +153,7 @@ namespace clinic_api.Controllers
             }
             var booking = await _context.Bookings.Where(b => b.Id == model.BookingId)
                 .Include(s => s.BookingServices).Include(p => p.BookingPayments).FirstOrDefaultAsync();
+
             booking.BookingDateTime = model.BookingDateTime;
             booking.TypeId = model.TypeId;
             booking.DiscountId = model.DiscountId == 0 ? (int?)null : model.DiscountId;
@@ -201,10 +206,12 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
+            //int seqNo = _context.Bookings.Where(p => p.BookingDateTime.Date == model.BookingDateTime.Date).Count() + 1;
             var booking = new Booking
             {
                 PatientId = model.PatientId,
                 DoctorId = model.DoctorId,
+                //DaySeqNo = seqNo,
                 BookingDateTime = model.BookingDateTime,
                 TypeId = model.TypeId,
                 DiscountId = model.DiscountId == 0 ? (int?)null : model.DiscountId,
@@ -251,7 +258,7 @@ namespace clinic_api.Controllers
 
         // DELETE: api/Booking/5
         [HttpDelete("{id}/{bookId}")]
-        public async Task<IActionResult> DeleteBooking(Guid id,int bookId)
+        public async Task<IActionResult> DeleteBooking(Guid id, int bookId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {

@@ -7,6 +7,7 @@ import {
   BookingNew,
   GetBookingDetails,
   BookingChangeDate,
+  PatientVisit,
 } from "./bookings.model";
 
 import { AuthService } from "../../auth/auth.service";
@@ -43,10 +44,10 @@ export class BookingsService {
     );
   }
 
-  getBookingChangeDate(patientId: string, bookingDate: Date){
+  getBookingChangeDate(patientId: string, bookingDate: string) {
     return this.http.get<BookingChangeDate>(
       this.baseUrl +
-        "Booking/GetBookingChangeDate/" +
+        "Booking/GetChangeDate/" +
         this.authService.userId +
         "/" +
         patientId +
@@ -151,6 +152,37 @@ export class BookingsService {
     return bookingsList;
   }
 
-  addNewBooking(booking: BookingNew) {}
-  updateBooking(booking: BookingEdit) {}
+  addNewBooking(booking: BookingNew) {
+    return this.http.post(
+      this.baseUrl + "Booking/" + this.authService.userId,
+      booking
+    );
+  }
+  updateBooking(booking: BookingEdit) {
+    return this.http.put(
+      this.baseUrl + "Booking/" + this.authService.userId,
+      booking
+    );
+  }
+
+  // =====> visits list in patient file tabs:
+  getVisitsList(patientId: string) {
+    return this.http.get<PatientVisit[]>(
+      this.baseUrl +
+        "Booking/GetPatientBookings/" +
+        this.authService.userId +
+        "/" +
+        patientId
+    );
+  }
+
+  cancelBooking(bookId:number){
+    return this.http.delete(
+      this.baseUrl +
+        "Booking/" +
+        this.authService.userId +
+        "/" +
+        bookId
+    );
+  }
 }

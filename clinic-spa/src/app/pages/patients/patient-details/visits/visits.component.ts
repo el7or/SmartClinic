@@ -1,61 +1,88 @@
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService } from "@nebular/theme";
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Subscription } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
 
-import { VisitsService } from "./visits.service";
-import { PatientVisit, PatientVisits } from "./visits.model";
-import { BookingDetailsComponent } from '../../../bookings/booking-details/booking-details.component';
+import { BookingsService } from "./../../../bookings/bookings.service";
+import { PatientsService } from "./../../patients.service";
+import { BookingDetailsComponent } from "../../../bookings/booking-details/booking-details.component";
+import { AlertService } from "../../../../shared/services/alert.service";
+import { PatientVisit } from "../../../bookings/bookings.model";
 
 @Component({
   selector: "visits",
   templateUrl: "./visits.component.html",
-  styleUrls: ["./visits.component.scss"]
+  styleUrls: ["./visits.component.scss"],
 })
 export class VisitsComponent implements OnInit, OnDestroy {
-  visitsList: PatientVisits;
+  formLoading = false;
+  visitsList: PatientVisit[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
-  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
+  @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
 
-  routeSubs: Subscription;
+  getVisitsSubs: Subscription;
+  cancelBookSubs: Subscription;
 
   constructor(
-    private visitService: VisitsService,
-    private dialogService:NbDialogService,
-    private route: ActivatedRoute
+    private bookingService: BookingsService,
+    private dialogService: NbDialogService,
+    private alertService: AlertService,
+    private patientService: PatientsService
   ) {}
 
   ngOnInit() {
-    this.routeSubs = this.route.parent.params.subscribe(params => {
-      const patientId = params["id"];
-      this.visitsList = this.visitService.getVisitsList(+patientId);
-    });
+    this.formLoading = true;
+    this.getVisitsSubs = this.bookingService
+      .getVisitsList(this.patientService.patientId)
+      .subscribe(
+        (res: PatientVisit[]) => {
+          this.visitsList = res;
+          this.formLoading = false;
+        },
+        (error) => {
+          console.error(error);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 
   ngOnDestroy() {
-    this.routeSubs.unsubscribe();
+    this.getVisitsSubs.unsubscribe();
   }
 
   // =====> on click on new booking or edit booking:
   onBook(bookingId) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
-        bookId:bookingId,
-        patientId:this.visitsList.patientId,
+        bookId: bookingId,
+        patientId: this.patientService.patientId,
       },
       autoFocus: true,
       hasBackdrop: true,
       closeOnBackdropClick: false,
-      closeOnEsc: false
+      closeOnEsc: false,
     });
   }
 
   // =====> on click on delete booking:
-  onDeleteBooking() {
-    this.deleteSwal.fire().then(result => {
+  onDeleteBooking(bookId:number) {
+    this.cancelSwal.fire().then((result) => {
       if (result.value) {
-        this.doneSwal.fire();
+        this.cancelBookSubs = this.bookingService
+          .cancelBooking(bookId)
+          .subscribe(
+            () => {
+              this.visitsList.find(v => v.bookId==bookId).isCanceled = true;
+              this.formLoading = false;
+              this.doneSwal.fire();
+            },
+            (error) => {
+              console.error(error);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          );
       }
     });
   }

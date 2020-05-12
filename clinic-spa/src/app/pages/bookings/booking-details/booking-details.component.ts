@@ -10,7 +10,6 @@ import { Component, OnInit, Input, ViewChild, OnDestroy } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
-import { DatePipe } from '@angular/common';
 
 import {
   BookingNew,
@@ -21,7 +20,9 @@ import {
   BookingChangeDate,
 } from "./../bookings.model";
 import { BookingsService } from "./../bookings.service";
-import { AlertService } from '../../../shared/services/alert.service';
+import { AlertService } from "../../../shared/services/alert.service";
+import { AuthService } from "../../../auth/auth.service";
+import { DateTimeService } from "./../../../shared/services/date-time.service";
 
 @Component({
   selector: "booking-details",
@@ -46,12 +47,16 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
   getBookSubs: Subscription;
   getChangeDateSubs: Subscription;
+  newBookSubs: Subscription;
+  editBookSubs: Subscription;
 
   constructor(
     public dialogRef: NbDialogRef<BookingDetailsComponent>,
     private bookingService: BookingsService,
     private alertService: AlertService,
-    private localeService: BsLocaleService,private datePipe: DatePipe
+    private localeService: BsLocaleService,
+    private authService: AuthService,
+    private dateTimeService: DateTimeService
   ) {
     // =====> localize datepicker:
     this.localeService.use(localStorage.getItem("langg"));
@@ -72,15 +77,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       }),
       discount: new FormControl(),
       paid: new FormControl(null, {
-        validators: [
-          Validators.min(0),
-          (control: AbstractControl) =>
-            Validators.max(
-              this.bookingTypePrice +
-                this.bookingServicesPrice -
-                this.bookingDiscountPrice
-            )(control),
-        ],
+        validators: [Validators.required],
       }),
     });
   }
@@ -92,121 +89,204 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       .getBookingDetails(
         this.patientId,
         this.bookId,
-         this.datePipe.transform(this.bookingService.chosenBookingDate, 'yyyy-MM-dd')
+        this.dateTimeService.clearTime(this.bookingService.chosenBookingDate)
       )
       .pipe(
         map((res: GetBookingDetails) => {
           this.bookingSetting = res.bookingSetting;
-          this.bookingSetting.clinicDayTimeFrom = new Date(this.bookingSetting.clinicDayTimeFrom);
-          this.bookingSetting.clinicDayTimeTo = new Date(this.bookingSetting.clinicDayTimeTo);
+          this.bookingSetting.clinicDayTimeFrom = new Date(
+            this.bookingSetting.clinicDayTimeFrom
+          );
+          this.bookingSetting.clinicDayTimeTo = new Date(
+            this.bookingSetting.clinicDayTimeTo
+          );
           return res.bookingDetails;
         })
       )
-      .subscribe((res: BookingDetails) => {
-        this.bookingDetails = res;
+      .subscribe(
+        (res: BookingDetails) => {
+          this.bookingDetails = res;
 
-        // =====> initial values for reactive form:
-        this.form.setValue({
-          date: !this.bookId
-            ? this.bookingService.chosenBookingDate
-            : this.bookingDetails.bookingDateTime,
-          time: !this.bookId
-            ? new Date(this.bookingSetting.clinicDayTimeFrom)
-            : new Date(this.bookingDetails.bookingDateTime),
-          type: !this.bookId ? this.bookingSetting.clinicBookingTypes[0].id : this.bookingDetails.bookingTypeId,
-          services: !this.bookId ? [] : this.bookingDetails.bookingServicesIds,
-          discount: !this.bookId ? 0 : this.bookingDetails.bookingDiscountId,
-          paid: !this.bookId ? 0 : this.bookingDetails.bookingPayments,
-        });
+          // =====> initial values for reactive form:
+          this.form.setValue({
+            date: !this.bookId
+              ? this.bookingService.chosenBookingDate
+              : new Date(this.bookingDetails.bookingDateTime),
+            time: !this.bookId
+              ? new Date(this.bookingSetting.clinicDayTimeFrom)
+              : new Date(this.bookingDetails.bookingDateTime),
+            type: !this.bookId
+              ? this.bookingSetting.clinicBookingTypes[0].id
+              : this.bookingDetails.bookingTypeId,
+            services: !this.bookId
+              ? []
+              : this.bookingDetails.bookingServicesIds,
+            discount: !this.bookId ? 0 : this.bookingDetails.bookingDiscountId,
+            paid: !this.bookId ? 0 : this.bookingDetails.bookingPayments,
+          });
 
-        setTimeout(() => {
-          this.form.get('type').patchValue(!this.bookId ? this.bookingSetting.clinicBookingTypes[0].id : this.bookingDetails.bookingTypeId);
-          this.form.get('services').patchValue(!this.bookId ? [] : this.bookingDetails.bookingServicesIds)
-          this.form.get('discount').patchValue(!this.bookId ? 0 : this.bookingDetails.bookingDiscountId)
-        }, 0);
+          setTimeout(() => {
+            this.form
+              .get("date")
+              .patchValue(
+                !this.bookId
+                  ? this.bookingService.chosenBookingDate
+                  : new Date(this.bookingDetails.bookingDateTime)
+              );
+            this.form
+              .get("type")
+              .patchValue(
+                !this.bookId
+                  ? this.bookingSetting.clinicBookingTypes[0].id
+                  : this.bookingDetails.bookingTypeId
+              );
+            this.form
+              .get("services")
+              .patchValue(
+                !this.bookId ? [] : this.bookingDetails.bookingServicesIds
+              );
+            this.form
+              .get("discount")
+              .patchValue(
+                !this.bookId ? 0 : this.bookingDetails.bookingDiscountId
+              );
+          }, 0);
 
-        // =====> add chosen type & services prices & discount price to total price:
-        this.bookingTypePrice = this.bookingSetting.clinicBookingTypes.find(
-          (t) => t.id == this.form.value.type
-        ).price;
-        if (this.bookId) {
-          this.bookingServicesPrice = this.bookingSetting.clinicBookingServices
-            .filter((s) => this.form.value.services.some((i) => i == s.id))
-            .reduce((acc, service) => acc + service.price, 0);
+          // =====> add chosen type & services prices & discount price to total price:
+          this.bookingTypePrice = this.bookingSetting.clinicBookingTypes.find(
+            (t) => t.id == this.form.value.type
+          ).price;
+          if (this.bookId) {
+            this.bookingServicesPrice = this.bookingSetting.clinicBookingServices
+              .filter((s) => this.form.value.services.some((i) => i == s.id))
+              .reduce((acc, service) => acc + service.price, 0);
 
-          const discount = this.bookingSetting.clinicBookingDiscounts.find(
-            (t) => t.id == this.form.value.discount
-          );
-          this.bookingDiscountPrice = discount.isPercent
-            ? ((this.bookingTypePrice + this.bookingServicesPrice) *
-                discount.price) /
-              100
-            : discount.price;
+            const discount = this.bookingSetting.clinicBookingDiscounts.find(
+              (t) => t.id == this.form.value.discount
+            );
+            if (discount) {
+              this.bookingDiscountPrice = discount.isPercent
+                ? ((this.bookingTypePrice + this.bookingServicesPrice) *
+                    discount.price) /
+                  100
+                : discount.price;
+            }
+            if(this.bookingDetails.isCanceled){
+              this.form.controls['date'].disable();
+              this.form.controls['time'].disable();
+              this.form.controls['type'].disable();
+              this.form.controls['services'].disable();
+              this.form.controls['discount'].disable();
+              this.form.controls['paid'].disable();
+            }
+          }
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
         }
-        this.formLoading = false;
-      },
-      (err) => {
-        console.error(err);
-        this.alertService.alertError();
-        this.formLoading = false;
-      });
+      );
   }
   ngOnDestroy() {
     this.getBookSubs.unsubscribe();
     if (this.getChangeDateSubs) this.getChangeDateSubs.unsubscribe();
+    if (this.newBookSubs) this.newBookSubs.unsubscribe();
+    if (this.editBookSubs) this.editBookSubs.unsubscribe();
   }
 
   // =====> on choose booking date will fill table with all bookings in same day:
   onChangeBookingDate(date) {
-    /* this.formLoading = true;
-    this.getChangeDateSubs = this.bookingService
-      .getBookingChangeDate(this.patientId, date)
-      .subscribe((res: BookingChangeDate) => {
-        this.bookingSetting.clinicDayTimeFrom = res.clinicDayTimeFrom;
-        this.bookingSetting.clinicDayTimeTo = res.clinicDayTimeTo;
-        this.bookingSetting.doctorAllBookingSameDay = res.doctorAllBookingSameDay;
-        this.form.patchValue({ time: res.clinicDayTimeFrom });
+    if (!this.formLoading) {
+      this.formLoading = true;
+      this.getChangeDateSubs = this.bookingService
+        .getBookingChangeDate(
+          this.patientId,
+          this.dateTimeService.dateWithoutTime(date)
+        )
+        .subscribe(
+          (res: BookingChangeDate) => {
+            this.bookingSetting.clinicDayTimeFrom = new Date(
+              res.clinicDayTimeFrom
+            );
+            this.bookingSetting.clinicDayTimeTo = new Date(res.clinicDayTimeTo);
+            this.bookingSetting.doctorAllBookingSameDay =
+              res.doctorAllBookingSameDay;
 
-        // =====> set next time if new booking:
-        if (!this.bookId) {
-          const lastTimeBooked = this.bookingSetting.doctorAllBookingSameDay[
-            this.bookingSetting.doctorAllBookingSameDay.length - 1
-          ].time;
-          let nextAvailableTime = new Date(lastTimeBooked);
-          nextAvailableTime.setMinutes(
-            lastTimeBooked.getMinutes() +
-              this.bookingSetting.clinicBookingPeriod
-          );
-          this.form.patchValue({
-            time: nextAvailableTime,
-          });
-        }
-      },
-      (err) => {
-        console.error(err);
-        this.alertService.alertError();
-        this.formLoading = false;
-      }); */
+            this.form.patchValue({ time: res.clinicDayTimeFrom });
+
+            // =====> set next availabel time:
+            this.bookingSetting.doctorAllBookingSameDay.forEach((booking) => {
+              if (
+                this.dateTimeService.isTimesEqual(
+                  new Date(res.clinicDayTimeFrom),
+                  new Date(booking.time)
+                ) &&
+                booking.bookId != this.bookId
+              ) {
+                const nextAvailTime = new Date(
+                  new Date(booking.time).getTime() +
+                    this.bookingSetting.clinicBookingPeriod * 60000
+                );
+                this.form.patchValue({ time: nextAvailTime });
+              }
+            });
+
+            this.formLoading = false;
+          },
+          (err) => {
+            console.error(err);
+            this.alertService.alertError();
+            this.formLoading = false;
+          }
+        );
+    }
   }
 
   // =====> check if choosen booking time is already taken in same date:
   onChangeBookingTime(event) {
-    if (new Date(event).getHours() == 9 && new Date(event).getMinutes() == 0) {
-      this.form.get("time").setErrors({ duplicateTime: true });
-    } else {
-      this.form.get("time").setErrors(null);
+    if (!this.formLoading) {
+      this.bookingSetting.doctorAllBookingSameDay.every((booking, i) => {
+        if (
+          this.dateTimeService.isTimesEqual(event, new Date(booking.time)) &&
+          booking.bookId != this.bookId
+        ) {
+          this.form.get("time").setErrors({ duplicateTime: true });
+          return false;
+        } else {
+          this.form.get("time").setErrors(null);
+          const currentBook = this.bookingSetting.doctorAllBookingSameDay.find(
+            (b) => b.bookId == this.bookId
+          );
+          if (currentBook) {
+            currentBook.time = event;
+          }
+          return true;
+        }
+      });
     }
   }
 
   onChangeType(typeId) {
-    /* const type = this.bookingSetting.bookingTypePrices.find(t => t.id == typeId)
-      .type;
+    const type = this.bookingSetting.clinicBookingTypes.find(
+      (t) => t.id == typeId
+    ).type;
+
     // =====> check expired date for consult:
-    if (type == "consult") {
-      this.expiredSwal.fire();
+    if (type == "استشارة" && this.bookingSetting.patientLastBookingDate) {
+      const daysFromLastDiagnose = this.dateTimeService.subtractDays(
+        this.bookingSetting.patientLastBookingDate,
+        this.form.value.date
+      );
+      if (daysFromLastDiagnose > this.bookingSetting.clinicConsultExpiration) {
+        this.expiredSwal.fire();
+        /* this.form.get("type").patchValue(this.bookingSetting.clinicBookingTypes[0].id); */
+      }
     }
+
     // =====> if type is "Just Service" make service control is required:
-    if (type == "justService") {
+    if (type == "خدمة فقط") {
       this.form.get("services").setValidators(Validators.required);
       this.form.get("services").updateValueAndValidity();
     } else {
@@ -214,62 +294,90 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       this.form.get("services").updateValueAndValidity();
     }
     // =====> add chosen type price to total price:
-    this.bookingTypePrice = this.bookingSetting.bookingTypePrices.find(
-      t => t.id == this.form.value.type
-    ).price; */
+    this.bookingTypePrice = this.bookingSetting.clinicBookingTypes.find(
+      (t) => t.id == this.form.value.type
+    ).price;
   }
 
   onChangeService(services: number[]) {
-    /* // =====> add chosen services price to total price:
-    this.bookingServicesPrice = this.bookingSetting.bookingServicePrices
-      .filter(s => services.some(i => i == s.id))
-      .reduce((acc, service) => acc + service.price, 0); */
+    // =====> add chosen services price to total price:
+    this.bookingServicesPrice = this.bookingSetting.clinicBookingServices
+      .filter((s) => services.some((i) => i == s.id))
+      .reduce((acc, service) => acc + service.price, 0);
   }
 
   // =====> add chosen discount price to total price:
   onChangeDiscount(discountId) {
-    /* const discount = this.bookingSetting.bookingDiscountPrices.find(
-      t => t.id == discountId
+    const discount = this.bookingSetting.clinicBookingDiscounts.find(
+      (t) => t.id == discountId
     );
     this.bookingDiscountPrice = discount.isPercent
       ? ((this.bookingTypePrice + this.bookingServicesPrice) * discount.price) /
         100
-      : discount.price; */
+      : discount.price;
   }
 
   // =====> on submit new booking:
   onAddBooking() {
-    /* this.formLoading = true;
+    this.formLoading = true;
     // =====> if new booking:
     if (!this.bookId) {
-      const newBooking: BookingNew = {
-        patientId: this.patientCodeId,
-        clinicId: this.authService.clinicId,
-        doctorId: this.authService.doctorId,
-        date: this.form.value.date,
-        time: this.form.value.time,
-        typeId: this.form.value.type,
-        servicesIds: this.form.value.services,
-        discountId: this.form.value.discount,
-        paid: this.form.value.paid,
-      };
-      this.bookingService.addNewBooking(newBooking);
+      this.addNewBooking();
     }
     // =====> if update booking:
     else {
-      const EditedBooking: BookingEdit = {
-        bookId: this.bookId,
-        date: this.form.value.date,
-        time: this.form.value.time,
-        typeId: this.form.value.type,
-        servicesIds: this.form.value.services,
-        discountId: this.form.value.discount,
-        paid: this.form.value.paid,
-      };
-      this.bookingService.updateBooking(EditedBooking);
+      this.updateBooking();
     }
-    this.doneSwal.fire();
-    this.formLoading = false;
-    this.dialogRef.close(); */
+  }
+  addNewBooking() {
+    const newBooking: BookingNew = {
+      patientId: this.patientId,
+      doctorId: this.authService.doctorId,
+      bookingDateTime: this.dateTimeService.mergDateTime(
+        new Date(this.form.value.date),
+        new Date(this.form.value.time)
+      ),
+      typeId: this.form.value.type,
+      servicesIds: this.form.value.services,
+      discountId: this.form.value.discount,
+      paid: this.form.value.paid,
+    };
+    this.newBookSubs = this.bookingService.addNewBooking(newBooking).subscribe(
+      () => {
+        this.doneSwal.fire();
+        this.formLoading = false;
+        this.dialogRef.close();
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
+  }
+  updateBooking() {
+    const EditedBooking: BookingEdit = {
+      bookingId: this.bookId,
+      bookingDateTime: this.dateTimeService.mergDateTime(
+        new Date(this.form.value.date),
+        new Date(this.form.value.time)
+      ),
+      typeId: this.form.value.type,
+      servicesIds: this.form.value.services,
+      discountId: this.form.value.discount,
+      paid: this.form.value.paid,
+    };
+    this.editBookSubs = this.bookingService.updateBooking(EditedBooking).subscribe(
+      () => {
+        this.doneSwal.fire();
+        this.formLoading = false;
+        this.dialogRef.close();
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
   }
 }

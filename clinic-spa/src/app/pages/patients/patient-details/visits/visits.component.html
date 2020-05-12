@@ -1,5 +1,5 @@
 <nb-card>
-  <nb-card-body>
+  <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
     <button nbButton type="button" (click)="onBook(0)" hero status="success" size="small" class="mb-2">
       <nb-icon icon="file-add-outline"></nb-icon><span langg>New Book</span>
     </button>
@@ -14,18 +14,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let visit of visitsList.patientVisits; let i = index;">
+        <tr *ngFor="let visit of visitsList; let i = index;">
           <td>{{visit.date | localDateShort}}</td>
-          <td langg>{{visit.type}}</td>
-          <td><span *ngFor="let service of visit.servcies; index as i">{{service | langg}}<b *ngIf="i < visit.servcies.length-1">&nbsp;-&nbsp;</b></span></td>
+          <td>{{visit.type}}</td>
+          <td><span *ngFor="let service of visit.servcies; index as i">{{service}}<b
+                *ngIf="i < visit.servcies.length-1">&nbsp;-&nbsp;</b></span></td>
           <td *ngIf="visit.isCanceled" langg>Canceled</td>
           <td *ngIf="visit.isEnter && !visit.isCanceled" langg>Done</td>
           <td *ngIf="!visit.isEnter && !visit.isCanceled" langg>Not Done</td>
           <td class="text-center">
-            <button (click)="onBook(visit.bookId)" nbButton size="small" status="info"
-              ><nb-icon icon="external-link-outline"></nb-icon><span langg>Details</span></button>&nbsp;
-            <button *ngIf="!visit.isEnter && !visit.isCanceled" (click)="onDeleteBooking()" nbButton size="small" status="danger"
-              ><nb-icon icon="slash-outline"></nb-icon><span langg>Cancel Booking</span></button>
+            <button (click)="onBook(visit.bookId)" nbButton size="small" status="info">
+              <nb-icon icon="external-link-outline"></nb-icon><span langg>Details</span>
+            </button>&nbsp;
+            <button *ngIf="!visit.isEnter && !visit.isCanceled" (click)="onDeleteBooking(visit.bookId)" nbButton
+              size="small" status="danger">
+              <nb-icon icon="slash-outline"></nb-icon><span langg>Cancel Booking</span>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -33,11 +37,11 @@
   </nb-card-body>
 </nb-card>
 
-<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
-      [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
-      [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
-    </swal>
+<swal #cancelSwal icon="warning" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
+  [text]="'Are you sure to cancel the Booking?' | langg"
+  [confirmButtonText]="'Cancel Booking' | langg" [cancelButtonText]="'No' | langg" confirmButtonColor="#ff3d71">
+</swal>
 
-    <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
-      [showConfirmButton]="false">
-    </swal>
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

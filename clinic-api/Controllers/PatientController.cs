@@ -33,7 +33,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-                var patient = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && p.SeqNo == seqNo);
+                var patient = await _context.Patients.Where(p => p.ClinicId == clinicId && p.SeqNo == seqNo).Include(b => b.Bookings).FirstOrDefaultAsync();
                 var patientHeaderInfo = new PatientGetDTO
                 {
                     PatientId = patient.Id,
@@ -61,7 +61,8 @@ namespace clinic_api.Controllers
                     Mobile = p.Phone,
                     VisitsCount = p.Bookings.Count(),
                     LastVisit = p.Bookings.Count() == 0 ? (DateTime?)null : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().BookingDateTime,
-                    LastVisitType = p.Bookings.Count() == 0 ? "" : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Type.Text
+                    LastVisitType = p.Bookings.Count() == 0 ? "" : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Type.Text,
+                    LastVisitBookId = p.Bookings.Count() == 0 ? 0 :  (p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsAttend == true || p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsCanceled == true? 0 : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Id)
                 }).ToPagedListAsync(pageNo, pageSize);
             var patientPagination = new PagedList
             {
@@ -95,7 +96,8 @@ namespace clinic_api.Controllers
                     Mobile = p.Phone,
                     VisitsCount = p.Bookings.Count(),
                     LastVisit = p.Bookings.Count() == 0 ? (DateTime?)null : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().BookingDateTime,
-                    LastVisitType = p.Bookings.Count() == 0 ? "" : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Type.Text
+                    LastVisitType = p.Bookings.Count() == 0 ? "" : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Type.Text,
+                    LastVisitBookId = p.Bookings.Count() == 0 ? 0 : (p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsAttend == true || p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsCanceled == true ? 0 : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Id)
                 }).ToPagedListAsync(pageNo, pageSize);
             var patientPagination = new PagedList
             {

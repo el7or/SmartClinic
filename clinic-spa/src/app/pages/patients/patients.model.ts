@@ -10,6 +10,7 @@ export interface PatientList {
   visitsCount: number;
   lastVisit: Date;
   lastVisitType: string;
+  lastVisitBookId:number;
 }
 export interface Pagination {
   pageNumber: number;

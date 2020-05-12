@@ -20,6 +20,7 @@ namespace clinic_api.DTOs
         public int VisitsCount { get; set; }
         public DateTime? LastVisit { get; set; }
         public string LastVisitType { get; set; }
+        public int LastVisitBookId { get; set; }
     }
     public class PagedList
     {

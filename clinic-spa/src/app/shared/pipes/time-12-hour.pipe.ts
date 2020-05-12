@@ -8,6 +8,7 @@ export class Time12HourPipe implements PipeTransform {
     if (!date) {
       return "";
     } else {
+      date = new Date(date);
       let hours = date.getHours();
       let minutes = date.getMinutes();
       let ampm = hours >= 12 ? "PM" : "AM";

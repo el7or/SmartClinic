@@ -1,3 +1,4 @@
+import { DateTimeService } from './../../../../shared/services/date-time.service';
 import { Subscription } from "rxjs";
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
@@ -28,7 +29,8 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
     public location: Location,
     private settingService: SettingsService,
     private alertService: AlertService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dateTimeService:DateTimeService,
   ) {}
 
   ngOnInit() {
@@ -86,22 +88,22 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
       workDays: this.bookingSetting.workDays.toString(),
       isAllDaysOn: this.bookingSetting.isAllDaysOn,
       isAllDaysSameTime: this.bookingSetting.isAllDaysSameTime,
-      allDaysTimeFrom: this.clearTime(this.bookingSetting.allDaysTimeFrom),
-      allDaysTimeTo: this.clearTime(this.bookingSetting.allDaysTimeTo),
-      saturdayTimeFrom: this.clearTime(this.bookingSetting.saturdayTimeFrom),
-      saturdayTimeTo: this.clearTime(this.bookingSetting.saturdayTimeTo),
-      sundayTimeFrom: this.clearTime(this.bookingSetting.sundayTimeFrom),
-      sundayTimeTo: this.clearTime(this.bookingSetting.sundayTimeTo),
-      mondayTimeFrom: this.clearTime(this.bookingSetting.mondayTimeFrom),
-      mondayTimeTo: this.clearTime(this.bookingSetting.mondayTimeTo),
-      tuesdayTimeFrom: this.clearTime(this.bookingSetting.tuesdayTimeFrom),
-      tuesdayTimeTo: this.clearTime(this.bookingSetting.tuesdayTimeTo),
-      wednesdayTimeFrom: this.clearTime(this.bookingSetting.wednesdayTimeFrom),
-      wednesdayTimeTo: this.clearTime(this.bookingSetting.wednesdayTimeTo),
-      thursdayTimeFrom: this.clearTime(this.bookingSetting.thursdayTimeFrom),
-      thursdayTimeTo: this.clearTime(this.bookingSetting.thursdayTimeTo),
-      fridayTimeFrom: this.clearTime(this.bookingSetting.fridayTimeFrom),
-      fridayTimeTo: this.clearTime(this.bookingSetting.fridayTimeTo),
+      allDaysTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.allDaysTimeFrom),
+      allDaysTimeTo: this.dateTimeService.clearTime(this.bookingSetting.allDaysTimeTo),
+      saturdayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.saturdayTimeFrom),
+      saturdayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.saturdayTimeTo),
+      sundayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.sundayTimeFrom),
+      sundayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.sundayTimeTo),
+      mondayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.mondayTimeFrom),
+      mondayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.mondayTimeTo),
+      tuesdayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.tuesdayTimeFrom),
+      tuesdayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.tuesdayTimeTo),
+      wednesdayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.wednesdayTimeFrom),
+      wednesdayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.wednesdayTimeTo),
+      thursdayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.thursdayTimeFrom),
+      thursdayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.thursdayTimeTo),
+      fridayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.fridayTimeFrom),
+      fridayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.fridayTimeTo),
     };
     this.bookSetSubs = this.settingService
       .saveBookingSetting(bookingSettingSetObj)
@@ -116,13 +118,5 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
           this.formLoading = false;
         }
       );
-  }
-
-  // =====> to send time without timezone:
-  clearTime(d: Date) {
-    d = new Date(d);
-    const timeZoneDifference = (d.getTimezoneOffset() / 60) * -1;
-    d.setTime(d.getTime() + timeZoneDifference * 60 * 60 * 1000);
-    return d.toISOString();
   }
 }

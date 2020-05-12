@@ -32,11 +32,50 @@ namespace clinic_api.DTOs
         public int[] BookingServicesIds { get; set; }
         public int? BookingDiscountId { get; set; }
         public decimal BookingPayments { get; set; }
+        public bool? IsCanceled { get; set; }
     }
     public class BookingBrief
     {
         public int BookId { get; set; }
         public DateTime Time { get; set; }
         public string Type { get; set; }
+    }
+
+    public class BookingGetChangeDateDTO
+    {
+        public DateTime? ClinicDayTimeFrom { get; set; }
+        public DateTime? ClinicDayTimeTo { get; set; }
+        public List<BookingBrief> DoctorAllBookingSameDay { get; set; }
+    }
+
+    public class BookingPostDTO
+    {
+        public Guid PatientId { get; set; }
+        public Guid DoctorId { get; set; }
+        public DateTime BookingDateTime { get; set; }
+        public int TypeId { get; set; }
+        public int[] ServicesIds { get; set; }
+        public int DiscountId { get; set; }
+        public decimal Paid { get; set; }
+    }
+
+    public class BookingPutDTO
+    {
+        public int BookingId { get; set; }
+        public DateTime BookingDateTime { get; set; }
+        public int TypeId { get; set; }
+        public int[] ServicesIds { get; set; }
+        public int DiscountId { get; set; }
+        public decimal Paid { get; set; }
+    }
+
+    public class GetPatientBooking
+    {
+        public int BookId { get; set; }
+        public DateTime Date { get; set; }
+        public string Type { get; set; }
+        public string[] Servcies { get; set; }
+        public bool? IsEnter { get; set; }
+        public bool? IsCanceled { get; set; }
     }
 }

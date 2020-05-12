@@ -31,13 +31,13 @@ import { AlertService } from "../../../shared/services/alert.service";
           >: <span>{{ patientHeaderInfo?.name }}</span>
         </h5>
         <label *ngIf="patientHeaderInfo"
-          ><span langg>Age</span>: <span>{{ patientHeaderInfo?.age }}</span> |
+          ><span langg>Age</span>: <span>{{ patientHeaderInfo?.age ? patientHeaderInfo?.age : '00' }}</span> |
           <span langg>Visits Count</span>:
           <span>{{ patientHeaderInfo?.visitsCount }}</span></label
         >
       </nb-card-header>
       <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
-        <nb-route-tabset [tabs]="patientTabs"></nb-route-tabset>
+        <nb-route-tabset *ngIf="!formLoading" [tabs]="patientTabs"></nb-route-tabset>
       </nb-card-body>
     </nb-card>
   `,
@@ -95,7 +95,7 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  createTabs(){
+  createTabs() {
     // =====> create tabs based on user role:
     if (this.authService.roleName == UserRole.Employee) {
       this.patientTabs = [
@@ -104,9 +104,7 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
           route: "./basic",
         },
         {
-          title: this.langgService.translateWord(
-            "Associated Diseases"
-          ),
+          title: this.langgService.translateWord("Associated Diseases"),
           route: "./diseases",
           disabled: this.isNewPatient,
         },
@@ -123,9 +121,7 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
           route: "./basic",
         },
         {
-          title: this.langgService.translateWord(
-            "Associated Diseases"
-          ),
+          title: this.langgService.translateWord("Associated Diseases"),
           route: "./diseases",
           disabled: this.isNewPatient,
         },
@@ -140,16 +136,12 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
           disabled: this.isNewPatient,
         },
         {
-          title: this.langgService.translateWord(
-            "Request X-Ray & Analysis"
-          ),
+          title: this.langgService.translateWord("Request X-Ray & Analysis"),
           route: "./request",
           disabled: this.isNewPatient,
         },
         {
-          title: this.langgService.translateWord(
-            "External Referrals"
-          ),
+          title: this.langgService.translateWord("External Referrals"),
           route: "./referral",
           disabled: this.isNewPatient,
         },

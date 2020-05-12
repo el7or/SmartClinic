@@ -22,6 +22,7 @@ export interface BookingDetails{
   bookingServicesIds?:number[];
   bookingDiscountId?:number;
   bookingPayments:number;
+  isCanceled?: boolean;
 }
 export interface BookingType{
   id: number;
@@ -51,6 +52,25 @@ export interface BookingChangeDate{
   doctorAllBookingSameDay?:BookingBrief[];
 }
 
+export interface BookingNew{
+  patientId: string;
+  doctorId: string;
+  bookingDateTime: string;
+  typeId: number;
+  servicesIds?: number[];
+  discountId?: number;
+  paid: number;
+}
+
+export interface BookingEdit {
+  bookingId:number;
+  bookingDateTime: string;
+  typeId: number;
+  servicesIds?: number[];
+  discountId?: number;
+  paid: number;
+}
+
 export interface BookingList {
   bookId: number;
   patientCodeId:number;
@@ -70,24 +90,11 @@ export interface BookingList {
   isCanceled: boolean;
 }
 
-export interface BookingNew{
-  patientId: string;
-  clinicId: string;
-  doctorId: string;
-  date: Date;
-  time: Date;
-  typeId: number;
-  servicesIds: number[];
-  discountId: number;
-  paid: number;
-}
-
-export interface BookingEdit {
+export interface PatientVisit {
   bookId:number;
-  date: Date;
-  time: Date;
-  typeId: number;
-  servicesIds: number[];
-  discountId: number;
-  paid: number;
+  date:Date;
+  type:string;
+  servcies:string[];
+  isEnter:boolean;
+  isCanceled:boolean;
 }

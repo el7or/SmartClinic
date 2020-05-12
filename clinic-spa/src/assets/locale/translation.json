@@ -568,5 +568,8 @@
   { "ar": "لا توجد نتائج !", "en": "No Results !" },
   { "ar": "الكل", "en": "All" },
   { "ar": "نسبة الخصم لا يمكن أن تزيد عن 100%", "en": "Percentage cannot be more than 100%" },
-  { "ar": "اسم المريض يجب ألا يقل عن 7 أحرف !", "en": "Patient Name should contains from 5 to 50 characters!" }
+  { "ar": "اسم المريض يجب ألا يقل عن 7 أحرف !", "en": "Patient Name should contains from 5 to 50 characters!" },
+  { "ar": "لابد من  إدخال رقم المبلغ المدفوع !", "en": "Paid is required!" },
+  { "ar": "آخر حجز", "en": "Last Book" },
+  { "ar": "هل أنت متأكد من إلغاء الحجز؟", "en": "Are you sure to cancel the Booking?" }
 ]

@@ -90,12 +90,15 @@
             <label for="input-payment" class="label"><span langg>Amount Paid</span>:</label>
             <input nbInput type="number" formControlName="paid" [placeholder]="'Amount Paid' | langg" fullWidth
               [min]="0" [max]="bookingTypePrice + bookingServicesPrice - bookingDiscountPrice"
-              [status]="form?.get('paid').dirty && form?.get('paid').invalid ? 'danger' : (form?.value.paid ? 'success' : '')">
-            <ng-container *ngIf="form?.get('paid').invalid">
-              <p class="error-message text-danger" *ngIf="form?.get('paid')?.errors.max" langg>
+              [status]="form?.get('paid').dirty && (form?.get('paid').invalid|| form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice)) ? 'danger' : (form?.value.paid ? 'success' : '')">
+            <ng-container *ngIf="form?.get('paid').invalid|| form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice)">
+              <p class="error-message text-danger" *ngIf="form?.get('paid')?.errors?.required" langg>
+                Paid is required!
+              </p>
+              <p class="error-message text-danger" *ngIf="form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice)" langg>
                 Paid must not exceed the Total Amount!
               </p>
-              <p class="error-message text-danger" *ngIf="form?.get('paid')?.errors.min" langg>Can't be less than
+              <p class="error-message text-danger" *ngIf="form?.get('paid')?.errors?.min" langg>Can't be less than
                 zero!</p>
             </ng-container>
           </div>
@@ -104,13 +107,13 @@
                 Due</span>:<u>&nbsp;{{ (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid  : 0) | number:'0.0-0' | currency:'EGP':'symbol':'1.0'}}</u></label>
           </nb-alert>
         </div>
-        <div class="col-md-6" *ngIf="form?.value.date && bookingSetting?.doctorAllBookingSameDay.length">
+        <div class="col-md-6" *ngIf="bookingSetting?.doctorAllBookingSameDay.length">
           <h6 langg>Same Date Bookings:</h6>
-          <small>
+          <!-- <small>
             <b langg>Urgent Diagnoses</b>: 2&nbsp;|
             <b langg>Diagnoses</b>: 15&nbsp;|
             <b langg>Consults</b>: 5|
-          </small>
+          </small> -->
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>

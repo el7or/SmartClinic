@@ -36,9 +36,9 @@ export class PatientsListComponent implements OnInit, OnDestroy {
 
   constructor(
     private patientService: PatientsService,
-    private authService: AuthService,
     private dialogService: NbDialogService,
     private alertService: AlertService,
+    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
   ) {}

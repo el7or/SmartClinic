@@ -1,70 +1,90 @@
-import { DateWithoutTimePipe } from "./../../../shared/pipes/date-without-time.pipe";
+import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import {
   Component,
   OnInit,
   ViewChild,
   AfterViewInit,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnDestroy,
 } from "@angular/core";
 import { NbDialogService, NbToastrService } from "@nebular/theme";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
+import { DateWithoutTimePipe } from "./../../../shared/pipes/date-without-time.pipe";
 import { LanggService } from "./../../../shared/services/langg.service";
-import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
 import { BookingDetailsComponent } from "../booking-details/booking-details.component";
-import { PaymentSummaryComponent } from "../../finance/payment-summary/payment-summary.component";
-import { BookingList } from '../bookings.model';
+import { BookingList, GetBookingList, PutBookingList } from "../bookings.model";
+import { DateTimeService } from "../../../shared/services/date-time.service";
+import { AlertService } from "../../../shared/services/alert.service";
 
 @Component({
   selector: "bookings-list-today",
   templateUrl: "./bookings-list-today.component.html",
-  styleUrls: ["./bookings-list-today.component.scss"]
+  styleUrls: ["./bookings-list-today.component.scss"],
 })
-export class BookingsListTodayComponent implements OnInit, AfterViewInit {
+export class BookingsListTodayComponent
+  implements OnInit, AfterViewInit, OnDestroy {
+  formLoading = false;
   bookingsList: BookingList[];
   today: Date = new Date();
   nextBooking: number;
-  sortBookingsBy: string;
   sortBookingsByText: string;
   totalPaid: number;
-  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
+  @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+
+  getListSubs: Subscription;
+  editListSubs: Subscription;
+  cancelBookSubs: Subscription;
 
   constructor(
     private bookingService: BookingsService,
     private dialogService: NbDialogService,
-    private settingService: SettingsService,
     private toastrService: NbToastrService,
     private langgService: LanggService,
+    private dateTimeService: DateTimeService,
+    private alertService: AlertService,
     private router: Router,
     private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    this.formLoading = true;
     // =====> get list bookings in today (come from DB with sorting depends on setting):
-    this.bookingsList = this.bookingService.getBookingsListByDate(new Date());
-    this.totalPaid = this.bookingsList.reduce(
-      (acc, booking) => acc + booking.paid,
-      0
-    );
-
-    // =====> (will reomve after create DB):
-    //this.sortBookingsBy = this.settingService.getBookingSetting().sortBookings;
-
-    // =====> reorder list of bookings depends on value of 'sortBookingsBy':
-    this.sortBookings(this.sortBookingsBy);
+    this.getListSubs = this.bookingService
+      .getBookingsListByDate(this.dateTimeService.dateWithoutTime(this.today))
+      .subscribe(
+        (res: GetBookingList) => {
+          this.bookingsList = res.bookingsList;
+          this.sortBookingsByText = res.sortBookingsByText;
+          this.totalPaid = res.bookingsList.reduce(
+            (acc, booking) => acc + booking.paid,
+            0
+          );
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
-
   ngAfterViewInit() {
     this.cd.detectChanges();
+  }
+  ngOnDestroy() {
+    this.getListSubs.unsubscribe();
+    if (this.editListSubs) this.editListSubs.unsubscribe();
+    if (this.cancelBookSubs) this.cancelBookSubs.unsubscribe();
   }
 
   // =====> on add new booking on current day tp patient out the table:
   onBookToday() {
-    this.bookingService.chosenBookingDate=new Date();
+    this.bookingService.chosenBookingDate = new Date();
     this.toastrService.info(
       new DateWithoutTimePipe().transform(new Date()),
       this.langgService.translateWord(
@@ -73,31 +93,46 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
       {
         icon: "info-outline",
         duration: 5000,
-        destroyByClick: true
+        destroyByClick: true,
       }
     );
     this.router.navigateByUrl("/pages/patients");
   }
 
   // =====> on add new booking or edit booking to patients in the table:
-  onBook(bookingId,booking:BookingList) {
+  onBook(bookingId: number, patientId: string) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
-        bookId:bookingId,
-        patientId:booking.patientId,
+        bookId: bookingId,
+        patientId: patientId,
       },
       autoFocus: true,
       hasBackdrop: true,
       closeOnBackdropClick: false,
-      closeOnEsc: false
+      closeOnEsc: false,
     });
   }
 
   // =====> on delete booking:
-  onDeleteBooking() {
-    this.deleteSwal.fire().then(result => {
+  onDeleteBooking(bookId: number) {
+    this.cancelSwal.fire().then((result) => {
       if (result.value) {
-        this.doneSwal.fire();
+        this.cancelBookSubs = this.bookingService
+          .cancelBooking(bookId)
+          .subscribe(
+            () => {
+              this.bookingsList.find(
+                (v) => v.bookId == bookId
+              ).isCanceled = true;
+              this.formLoading = false;
+              this.doneSwal.fire();
+            },
+            (error) => {
+              console.error(error);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          );
       }
     });
   }
@@ -106,10 +141,92 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.bookingsList, event.previousIndex, event.currentIndex);
     // =====> reorder array after deag drop:
-    this.sortBookings(this.sortBookingsBy);
+    this.sortBookings(this.sortBookingsByText);
   }
 
-  // =====> on click on info for payment:
+  // =====> on change attend checkbox:
+  onChangeAttend(booking: BookingList) {
+    this.bookingsList
+      .filter((b) => b.bookId == booking.bookId)
+      .map((b) => {
+        b.attendTime = new Date();
+      });
+    this.sortBookings(this.sortBookingsByText);
+  }
+
+  // =====> on change enter checkbox:
+  onChangeEnter(booking) {
+    this.bookingsList
+      .filter((b) => b.bookId == booking.bookId)
+      .map((b) => {
+        b.entryTime = new Date();
+        if (!b.attendTime) {
+          b.attendTime = b.entryTime;
+          b.isAttend = b.isEnter;
+        }
+        else{
+          b.attendTime = new Date(b.attendTime);
+        }
+      });
+    this.sortBookings(this.sortBookingsByText);
+  }
+
+  // =====> reorder list of bookings:
+  sortBookings(by: string) {
+    switch (by) {
+      case "According to the Attendance":
+        this.bookingsList
+          .sort(
+            (a, b) =>
+              +b.isEnter - +a.isEnter ||
+              +b.isAttend - +a.isAttend ||
+              +a.attendTime - +b.attendTime
+          )
+          .map((item, index) => (item.daySeqNo = index + 1));
+          this.updateBookingListDB(this.bookingsList);
+        break;
+      case "According to the Booking Time":
+        this.bookingsList
+          .sort((a, b) => +b.isEnter - +a.isEnter || +a.time - +b.time)
+          .map((item, index) => (item.daySeqNo = index + 1));
+          this.updateBookingListDB(this.bookingsList);
+        break;
+      case "Manual":
+        this.bookingsList
+          .sort((a, b) => +b.isEnter - +a.isEnter || +b.isEnter - +a.isEnter)
+          .map((item, index) => (item.daySeqNo = index + 1));
+          this.updateBookingListDB(this.bookingsList);
+        break;
+    }
+    // =====> set label to first attend booking:
+    this.nextBooking = this.bookingsList.findIndex(
+      (booking) => booking.isAttend && !booking.isEnter
+    );
+  }
+
+  updateBookingListDB(bookingList: BookingList[]){
+    this.formLoading = true;
+    bookingList.forEach(book => {
+      book.entryTimeString = book.isEnter? this.dateTimeService.clearTime(book.entryTime) : null;
+      book.attendTimeString = book.isAttend? this.dateTimeService.clearTime(book.attendTime) : null;
+    });
+    const listObj:PutBookingList = {
+      bookingsList : bookingList
+    }
+    this.editListSubs = this.bookingService.putBookingsList(listObj).subscribe(
+      () => {
+        this.doneSwal.fire();
+        this.formLoading = false;
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
+  }
+
+  /* // =====> on click on info for payment:
   onOpenPaymentSummary(patientId: number) {
     this.dialogService.open(PaymentSummaryComponent, {
       context: {
@@ -120,65 +237,5 @@ export class BookingsListTodayComponent implements OnInit, AfterViewInit {
       closeOnBackdropClick: false,
       closeOnEsc: false
     });
-  }
-
-  // =====> on change attend checkbox:
-  onChangeAttend(booking:BookingList) {
-    this.bookingsList
-      .filter(b => b.bookId == booking.bookId)
-      .map(b => {
-        b.attendTime = new Date();
-      });
-    this.sortBookings(this.sortBookingsBy);
-  }
-
-  // =====> on change enter checkbox:
-  onChangeEnter(booking) {
-    this.bookingsList
-      .filter(b => b.bookId == booking.bookId)
-      .map(b => {
-        b.entryTime = new Date();
-        if (!b.attendTime) {
-          b.attendTime = b.entryTime;
-        }
-      });
-    this.sortBookings(this.sortBookingsBy);
-  }
-
-  // =====> reorder list of bookings:
-  sortBookings(by: string) {
-    switch (by) {
-      case "byAttend":
-        this.bookingsList
-          .sort(
-            (a, b) =>
-              +b.isEnter - +a.isEnter ||
-              +b.isAttend - +a.isAttend ||
-              +a.attendTime - +b.attendTime
-          )
-          .map((item, index) => (item.seq = index + 1));
-        this.sortBookingsByText = "According to the Attendance";
-        break;
-      case "byTime":
-        this.bookingsList
-          .sort((a, b) => +b.isEnter - +a.isEnter || +a.time - +b.time)
-          .map((item, index) => (item.seq = index + 1));
-        this.sortBookingsByText = "According to the Booking Time";
-        break;
-      case "manual":
-        this.bookingsList
-          .sort((a, b) => +b.isEnter - +a.isEnter || +b.isEnter - +a.isEnter)
-          .map((item, index) => (item.seq = index + 1));
-        this.sortBookingsByText = "Manual";
-        break;
-    }
-    this.setNextBooking();
-  }
-
-  // =====> set label to first attend booking:
-  setNextBooking() {
-    this.nextBooking = this.bookingsList.findIndex(
-      booking => booking.isAttend && !booking.isEnter
-    );
-  }
+  } */
 }

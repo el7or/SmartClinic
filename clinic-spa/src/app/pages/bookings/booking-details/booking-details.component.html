@@ -24,7 +24,7 @@
           <div class="form-control-group">
             <label for="input-bookingDate" class="label"><span langg>Booking Date</span>:</label>
             <input type="text" bsDatepicker nbInput formControlName="date" fullWidth [minDate]="todayDate"
-              [daysDisabled]="bookingSetting?.clinicWeekEnds" autocomplete="off"
+              [daysDisabled]="bookingSetting?.clinicWeekEnds" autocomplete="off" readonly
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
               (bsValueChange)="onChangeBookingDate($event)" [placeholder]="'Booking Date' | langg"
               [status]="form?.get('date').invalid  ? 'danger' : 'success'">

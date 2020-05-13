@@ -33,6 +33,7 @@ namespace clinic_api.DTOs
         public int? BookingDiscountId { get; set; }
         public decimal BookingPayments { get; set; }
         public bool? IsCanceled { get; set; }
+        public bool? IsEnter { get; set; }
     }
     public class BookingBrief
     {
@@ -78,9 +79,37 @@ namespace clinic_api.DTOs
         public bool? IsEnter { get; set; }
         public bool? IsCanceled { get; set; }
     }
-    
+
     public class GetBookingsDTO
     {
+        public List<BookingList> BookingsList { get; set; }
+        public int[] WeekEnds { get; set; }
+        public string SortBookingsByText { get; set; }
+    }
 
+    public class BookingList
+    {
+        public int BookId { get; set; }
+        public int PatientCodeId { get; set; }
+        public Guid PatientId { get; set; }
+        public int? DaySeqNo { get; set; }
+        public DateTime Time { get; set; }
+        public string Type { get; set; }
+        public string[] Services { get; set; }
+        public string Name { get; set; }
+        public string Mobile { get; set; }
+        public bool? IsEnter { get; set; }
+        public DateTime? EntryTime { get; set; }
+        public DateTime? EntryTimeString { get; set; }
+        public bool? IsAttend { get; set; }
+        public DateTime? AttendTime { get; set; }
+        public DateTime? AttendTimeString { get; set; }
+        public decimal Paid { get; set; }
+        public decimal? Due { get; set; }
+        public bool? IsCanceled { get; set; }
+    }
+    public class BookingPutListDTO
+    {
+        public List<BookingList> BookingsList { get; set; }
     }
 }

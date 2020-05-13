@@ -171,14 +171,31 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
                   100
                 : discount.price;
             }
-            if(this.bookingDetails.isCanceled){
-              this.form.controls['date'].disable();
-              this.form.controls['time'].disable();
-              this.form.controls['type'].disable();
-              this.form.controls['services'].disable();
-              this.form.controls['discount'].disable();
-              this.form.controls['paid'].disable();
+            if (this.bookingDetails.isCanceled || this.bookingDetails.isEnter) {
+              this.form.controls["date"].disable();
+              this.form.controls["time"].disable();
+              this.form.controls["type"].disable();
+              this.form.controls["services"].disable();
+              this.form.controls["discount"].disable();
+              this.form.controls["paid"].disable();
             }
+          }else{
+            // =====> set next availabel time:
+            this.bookingSetting.doctorAllBookingSameDay.forEach((booking) => {
+              if (
+                this.dateTimeService.isTimesEqual(
+                  new Date(this.form.value.time),
+                  new Date(booking.time)
+                ) &&
+                booking.bookId != this.bookId
+              ) {
+                const nextAvailTime = new Date(
+                  new Date(booking.time).getTime() +
+                    this.bookingSetting.clinicBookingPeriod * 60000
+                );
+                this.form.patchValue({ time: nextAvailTime });
+              }
+            });
           }
           this.formLoading = false;
         },
@@ -367,17 +384,19 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       discountId: this.form.value.discount,
       paid: this.form.value.paid,
     };
-    this.editBookSubs = this.bookingService.updateBooking(EditedBooking).subscribe(
-      () => {
-        this.doneSwal.fire();
-        this.formLoading = false;
-        this.dialogRef.close();
-      },
-      (err) => {
-        console.error(err);
-        this.alertService.alertError();
-        this.formLoading = false;
-      }
-    );
+    this.editBookSubs = this.bookingService
+      .updateBooking(EditedBooking)
+      .subscribe(
+        () => {
+          this.doneSwal.fire();
+          this.formLoading = false;
+          this.dialogRef.close();
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 }

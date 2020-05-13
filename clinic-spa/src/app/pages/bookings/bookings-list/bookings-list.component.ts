@@ -1,39 +1,47 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { DateTimeService } from "./../../../shared/services/date-time.service";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { BsLocaleService } from "ngx-bootstrap";
 import { NbDialogService } from "@nebular/theme";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { SettingsService } from "./../../settings/settings.service";
 import { BookingsService } from "./../bookings.service";
 import { LanggService } from "./../../../shared/services/langg.service";
 import { BookingDetailsComponent } from "../booking-details/booking-details.component";
-import { PaymentSummaryComponent } from "../../finance/payment-summary/payment-summary.component";
-import { BookingList } from '../bookings.model';
+import { BookingList, GetBookingList } from "../bookings.model";
+import { AlertService } from "../../../shared/services/alert.service";
+import { AuthService } from "../../../auth/auth.service";
+import { UserRole } from "../../../auth/auth.model";
 
 @Component({
   selector: "bookings-list",
   templateUrl: "./bookings-list.component.html",
-  styleUrls: ["./bookings-list.component.scss"]
+  styleUrls: ["./bookings-list.component.scss"],
 })
-export class BookingsListComponent implements OnInit {
-  formLoading: boolean = false;
+export class BookingsListComponent implements OnInit, OnDestroy {
+  formLoading = false;
   currentDay?: Date = new Date();
   bookingsList: BookingList[];
   autoCompleteList: any[] = [];
-  tableLoading = false;
   weekendDays: number[];
-  totalPaid:number;
+  totalPaid: number;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
-  @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
+  @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
+
+  routeSubs: Subscription;
+  getListSubs: Subscription;
+  cancelBookSubs: Subscription;
 
   constructor(
     private bookingService: BookingsService,
     public langgService: LanggService,
-    private settingService: SettingsService,
     private localeService: BsLocaleService,
     private dialogService: NbDialogService,
+    private dateTimeService: DateTimeService,
+    private alertService: AlertService,
+    private authService: AuthService,
+    private router: Router,
     private route: ActivatedRoute
   ) {
     // =====> localize datepicker:
@@ -41,12 +49,14 @@ export class BookingsListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.formLoading = true;
     // =====> check  param:date:
-    this.route.paramMap.subscribe(paramMap => {
+    this.routeSubs = this.route.paramMap.subscribe((paramMap) => {
       const paramDate = new Date(paramMap.get("date"));
       // =====> if param has date to set it in datepicker value:
       if (paramMap.has("date") && !isNaN(paramDate.getTime())) {
         this.currentDay = paramDate;
+        this.getBookingListByDate(this.currentDay);
       }
       // =====> if no param set datepicker to first day in current month:
       else {
@@ -56,76 +66,120 @@ export class BookingsListComponent implements OnInit {
           1
         );
         this.currentDay = firstDay;
+        this.getBookingListByDate(this.currentDay);
       }
     });
-
-    // =====> get bookings list for chosen date:
-    this.bookingsList = this.bookingService.getBookingsListByDate(this.currentDay);
-    this.totalPaid = this.bookingsList.reduce((acc,booking) => acc + booking.paid, 0);
-
-    // =====> get weekends to disable it:
-    //this.weekendDays = this.settingService.getBookingSetting().weekEnds;
+  }
+  ngOnDestroy() {
+    this.getListSubs.unsubscribe();
+    this.routeSubs.unsubscribe();
+    if (this.cancelBookSubs) this.cancelBookSubs.unsubscribe();
   }
 
   // =====> get bookings in previous day:
   onPrevDay(day: Date) {
-    this.tableLoading = true;
-    setTimeout(() => {
-      if (this.currentDay == null) {
-        this.currentDay == new Date(new Date().setDate(day.getDate() - 1));
-      } else {
-        this.currentDay = new Date(this.currentDay.setDate(day.getDate() - 1));
-      }
-      this.tableLoading = false;
-    }, 500);
+    this.formLoading = true;
+    if (this.currentDay == null) {
+      this.currentDay == new Date(new Date().setDate(day.getDate() - 1));
+      this.getBookingListByDate(this.currentDay);
+    } else {
+      this.currentDay = new Date(this.currentDay.setDate(day.getDate() - 1));
+      this.getBookingListByDate(this.currentDay);
+    }
   }
 
   // =====> get bookings in next day:
   onNextDay(day) {
-    this.tableLoading = true;
-    setTimeout(() => {
-      if (this.currentDay == null) {
-        this.currentDay == new Date(new Date().setDate(day.getDate() + 1));
-      } else {
-        this.currentDay = new Date(this.currentDay.setDate(day.getDate() + 1));
-      }
-      this.tableLoading = false;
-    }, 500);
+    this.formLoading = true;
+    if (this.currentDay == null) {
+      this.currentDay == new Date(new Date().setDate(day.getDate() + 1));
+      this.getBookingListByDate(this.currentDay);
+    } else {
+      this.currentDay = new Date(this.currentDay.setDate(day.getDate() + 1));
+      this.getBookingListByDate(this.currentDay);
+    }
   }
 
   // =====> on choose from datepicker:
-  onChooseBookingsDate(form: NgForm) {
-    this.tableLoading = true;
-    setTimeout(() => {
-      // =====> load new data:
-      this.tableLoading = false;
-    }, 500);
+  onChooseBookingsDate(date) {
+    if (!this.formLoading) {
+      this.formLoading = true;
+      this.currentDay = date;
+      this.getBookingListByDate(date);
+    }
+  }
+
+  // =====> get bookings list for chosen date:
+  getBookingListByDate(date: Date) {
+    if (this.getListSubs) {
+      this.getListSubs.unsubscribe();
+    }
+    this.getListSubs = this.bookingService
+      .getBookingsListByDate(this.dateTimeService.dateWithoutTime(date))
+      .subscribe(
+        (res: GetBookingList) => {
+          this.bookingsList = res.bookingsList;
+          this.totalPaid = res.bookingsList.reduce((acc, booking) => acc + booking.paid, 0);
+          // =====> get weekends to disable it:
+          this.weekendDays = res.weekEnds;
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 
   // =====> on click on new booking or edit booking:
-  onBook(bookingId,booking:BookingList) {
+  onBook(bookingId, patientId: string) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
         bookId: bookingId,
-        patientId:booking.patientId,
+        patientId: patientId,
       },
       autoFocus: true,
       hasBackdrop: true,
       closeOnBackdropClick: false,
-      closeOnEsc: false
+      closeOnEsc: false,
     });
   }
 
   // =====> on click on delete booking:
-  onDeleteBooking() {
-    this.deleteSwal.fire().then(result => {
+  onDeleteBooking(bookId: number) {
+    this.cancelSwal.fire().then((result) => {
       if (result.value) {
-        this.doneSwal.fire();
+        this.cancelBookSubs = this.bookingService
+          .cancelBooking(bookId)
+          .subscribe(
+            () => {
+              this.bookingsList.find(
+                (v) => v.bookId == bookId
+              ).isCanceled = true;
+              this.formLoading = false;
+              this.doneSwal.fire();
+            },
+            (error) => {
+              console.error(error);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          );
       }
     });
   }
 
-  onOpenPaymentSummary(patientId: number) {
+  // =====> on click file patient in table:
+  onOpenFilePatient(codeId: number) {
+    if (this.authService.roleName != UserRole.Employee) {
+      this.router.navigate(["/pages/patients/details/" + codeId + "/record"]);
+    } else {
+      this.router.navigate(["/pages/patients/details/" + codeId + "/basic"]);
+    }
+  }
+
+  /* onOpenPaymentSummary(patientId: number) {
     this.dialogService.open(PaymentSummaryComponent, {
       context: {
         patientDetails: "ملخص حالة الدفع:"
@@ -135,5 +189,5 @@ export class BookingsListComponent implements OnInit {
       closeOnBackdropClick: true,
       closeOnEsc: true
     });
-  }
+  } */
 }

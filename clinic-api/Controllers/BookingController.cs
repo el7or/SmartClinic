@@ -24,14 +24,97 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Booking
-        [HttpGet("{id}/{bookingDate}")]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetBookings(Guid id, string bookingDate)
+        [HttpGet("{id}/{doctorId}/{bookingDate}")]
+        public async Task<ActionResult<GetBookingsDTO>> GetBookings(Guid id, Guid doctorId, string bookingDate)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            return await _context.Bookings.ToListAsync();
+            var clinic = await _context.Clinics.Where(c => c.DoctorClinics.Any(d => d.DoctorId == doctorId))
+                .Include(c => c.DoctorClinics).Include(e => e.EntryOrder).FirstOrDefaultAsync();
+            int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };            
+            int[] weekEnds = weekDays.Except(clinic.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray();
+
+            var bookingList = await _context.Bookings.Where(b => b.Patient.DoctorId == doctorId && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date)
+                .Include(p => p.Patient).Include(t => t.Type).Include(s => s.BookingServices).Include(d => d.Discount).Include(p => p.BookingPayments)
+                .Select(b => new BookingList
+                {
+                    BookId = b.Id,
+                    PatientCodeId = b.Patient.SeqNo,
+                    PatientId = b.PatientId,
+                    DaySeqNo = b.DaySeqNo,
+                    Time = b.BookingDateTime,
+                    Type = b.Type.Text,
+                    Services = b.BookingServices.Select(s => s.Service.Service).ToArray(),
+                    Name = b.Patient.FullName,
+                    Mobile = b.Patient.Phone,
+                    IsEnter = b.IsEnter,
+                    EntryTime = b.EntryTime,
+                    IsAttend = b.IsAttend,
+                    AttendTime = b.AttendanceTime,
+                    IsCanceled = b.IsCanceled,
+                    Paid = b.BookingPayments.Sum(p => p.Paid),
+                    Due = b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.Discount != null ? ((bool)b.Discount.IsPercent ? ((b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) * b.Discount.Price) / 100) : b.Discount.Price) : 0) - b.BookingPayments.Sum(p => p.Paid),
+                }).ToListAsync() ;
+            switch (clinic.EntryOrderId)
+            {
+                // According to the Attendance
+                case 1:
+                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenByDescending(b => b.IsAttend).ThenBy(b => b.AttendTime).ToList();
+                    break;
+                // According to the Booking Time
+                case 2:
+                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenBy(b => b.Time).ToList();
+                    break;
+                // Manual
+                case 3:
+                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenBy(b => b.DaySeqNo).ToList();
+                    break;
+                default:
+                    break;                    
+            }
+            for (int i = 0; i < bookingList.Count(); i++)
+            {
+                bookingList[i].DaySeqNo = i + 1;
+                var book = _context.Bookings.Find(bookingList[i].BookId);
+                book.DaySeqNo = i + 1;
+                _context.Entry(book).State = EntityState.Modified;
+            }
+            await _context.SaveChangesAsync();
+
+            var model = new GetBookingsDTO
+            {
+                BookingsList = bookingList,
+                WeekEnds = weekEnds,
+                SortBookingsByText = clinic.EntryOrder.Value
+            };
+
+            return model;
+        }
+
+        // PUT: api/Booking/5
+        [HttpPut("PutBookingList/{id}")]
+        public async Task<IActionResult> PutBookingList(Guid id, BookingPutListDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            for (int i = 0; i < model.BookingsList.Count(); i++)
+            {
+                model.BookingsList[i].DaySeqNo = i + 1;
+                var book = _context.Bookings.Find(model.BookingsList[i].BookId);
+                book.DaySeqNo = i + 1;
+                book.IsEnter = model.BookingsList[i].IsEnter;
+                book.EntryTime = model.BookingsList[i].IsEnter != true?  null : model.BookingsList[i].EntryTimeString;
+                book.IsAttend = model.BookingsList[i].IsAttend;
+                book.AttendanceTime = model.BookingsList[i].IsAttend != true ? null : model.BookingsList[i].AttendTimeString;
+                _context.Entry(book).State = EntityState.Modified;
+            }
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
         // GET: api/Booking
@@ -107,7 +190,8 @@ namespace clinic_api.Controllers
                     BookingServicesIds = booking.BookingServices.Select(s => s.ServiceId).ToArray(),
                     BookingDiscountId = booking.DiscountId,
                     BookingPayments = booking.BookingPayments.Sum(p => p.Paid),
-                    IsCanceled = booking.IsCanceled
+                    IsCanceled = booking.IsCanceled,
+                    IsEnter = booking.IsEnter
                 };
             }
 
@@ -206,12 +290,12 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            //int seqNo = _context.Bookings.Where(p => p.BookingDateTime.Date == model.BookingDateTime.Date).Count() + 1;
+            int? lastDaySeqNo = _context.Bookings.Where(p => p.BookingDateTime.Date == model.BookingDateTime.Date && p.DoctorId==model.DoctorId).OrderByDescending(s => s.DaySeqNo).FirstOrDefault().DaySeqNo;
             var booking = new Booking
             {
                 PatientId = model.PatientId,
                 DoctorId = model.DoctorId,
-                //DaySeqNo = seqNo,
+                DaySeqNo = lastDaySeqNo == null ? 1 : lastDaySeqNo + 1,
                 BookingDateTime = model.BookingDateTime,
                 TypeId = model.TypeId,
                 DiscountId = model.DiscountId == 0 ? (int?)null : model.DiscountId,

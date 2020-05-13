@@ -1,111 +1,36 @@
+import { PatientsService } from './../../patients.service';
 import { Injectable } from "@angular/core";
-import { Disease } from "./diseases.model";
+import { HttpClient } from '@angular/common/http';
+
+import { Disease, PutDiseaseList } from "./diseases.model";
+import { environment } from '../../../../../environments/environment';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Injectable({
   providedIn: "root"
 })
 export class DiseasesService {
-  diseasesList: Disease[] = [
-    {
-      id: 1,
-      diseaseName: "Blood pressure",
-      questionText: "Do you have blood pressure",
-      isActive: true,
-      isYes: true,
-      note: ""
-    },
-    {
-      id: 2,
-      diseaseName: "Blood thinners",
-      questionText: "Do you have blood thinners",
-      isActive: true,
-      isYes: true,
-      note: ""
-    },
-    {
-      id: 3,
-      diseaseName: "Diabetes",
-      questionText: "Do you have diabetes",
-      isActive: true,
-      isYes: false,
-      note: ""
-    },
-    {
-      id: 4,
-      diseaseName: "Heart disease",
-      questionText: "Do you have heart disease",
-      isActive: true,
-      isYes: false,
-      note: ""
-    },
-    {
-      id: 5,
-      diseaseName: "Liver disease",
-      questionText: "Do you have liver disease",
-      isActive: true,
-      isYes: false,
-      note: ""
-    },
-    {
-      id: 6,
-      diseaseName: "Kidney disease",
-      questionText: "Do you have kidney disease",
-      isActive: true,
-      isYes: false,
-      note: ""
-    },
-    {
-      id: 7,
-      diseaseName: "Chest diseases",
-      questionText: "Do you have chest diseases",
-      isActive: true,
-      isYes: false,
-      note: ""
-    },
-    {
-      id: 8,
-      diseaseName: "Psoriasis",
-      questionText: "Do you have psoriasis",
-      isActive: true,
-      isYes: false,
-      note: ""
-    },
-    {
-      id: 9,
-      diseaseName: "Thyroid disorders",
-      questionText: "Do you have thyroid disorders",
-      isActive: true,
-      isYes: false,
-      note: ""
-    },
-    {
-      id: 10,
-      diseaseName: "Pregnancy",
-      questionText: "Do you have a pregnancy",
-      isActive: true,
-      isYes: false,
-      note: ""
-    },
-    {
-      id: 11,
-      diseaseName: "Breastfeeding",
-      questionText: "Do you have breastfeeding",
-      isActive: true,
-      isYes: false,
-      note: ""
-    },
-    {
-      id: 12,
-      diseaseName: "Surgery",
-      questionText: "Have you had any surgery in the last six months",
-      isActive: true,
-      isYes: false,
-      note: ""
-    }
-  ];
+  baseUrl = environment.API_URL;
 
-  constructor() {}
+  constructor(private http: HttpClient, private authService: AuthService,private patientService:PatientsService) {}
 
-  getDiseasesList(patientId: string) {}
-  setDiseasesList(patientId: string, patientDiseases: Disease[]) {}
+  getDiseasesList() {
+    return this.http.get<Disease[]>(
+      this.baseUrl +
+        "PatientDetails/GetPatientDiseases/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId
+    );
+  }
+  saveDiseasesList(patientDiseases: PutDiseaseList) {
+    return this.http.put(
+      this.baseUrl +
+        "PatientDetails/PutPatientDiseases/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId ,
+        patientDiseases
+    );
+  }
 }

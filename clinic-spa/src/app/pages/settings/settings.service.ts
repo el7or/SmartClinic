@@ -18,8 +18,9 @@ import { environment } from "../../../environments/environment";
   providedIn: "root",
 })
 export class SettingsService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
   baseUrl = environment.API_URL;
+
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   // =====> get/set booking setting:
   getBookingSetting() {

@@ -3,17 +3,15 @@
   <nb-card>
     <nb-card-body>
       <div class="row">
-        <ng-container *ngFor="let disease of patientDiseases">
-          <div *ngIf="disease.isActive" class="form-control-group  form-inline text-center col-md-6">
-            <label class="label" [for]="'input-'+disease.diseaseName"><span langg>{{disease.questionText}}</span><span langg>?</span></label>
-            <nb-radio-group [(ngModel)]="disease.isYes" [id]="'input-'+disease.diseaseName" [name]="disease.diseaseName" class="form-inline mx-1">
+          <div *ngFor="let disease of patientDiseases" class="form-control-group  form-inline text-center col-md-6">
+            <label class="label" [for]="'input-disease'+disease.id" langg>{{langgService.locale=="en"? disease.questionTextEN : disease.questionTextAR}}</label>
+            <nb-radio-group [(ngModel)]="disease.isYes" [name]="'disease-'+disease.id" [id]="'input-disease'+disease.id" class="form-inline mx-1">
               <nb-radio [value]="true"><span langg>Yes</span>&nbsp;</nb-radio>
               <nb-radio [value]="false"><span langg>No</span>&nbsp;</nb-radio>
             </nb-radio-group>
-            <input *ngIf="form.controls[disease.diseaseName]?.value" nbInput type="text" [(ngModel)]="disease.note" [name]="'note-'+disease.diseaseName" [placeholder]="'Caption' | langg"
+            <input *ngIf="disease.isYes" nbInput type="text" [(ngModel)]="disease.note" [name]="'note-'+disease.id" [placeholder]="'Caption' | langg"
               fieldSize="small" fullWidth>
           </div>
-        </ng-container>
       </div>
       <div class="text-center nbButton-group">
         <button nbButton type="submit" status="success" [disabled]="!form.valid || !form.dirty" langg>Save</button>

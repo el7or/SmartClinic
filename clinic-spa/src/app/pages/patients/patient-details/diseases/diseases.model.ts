@@ -1,8 +1,11 @@
 export interface Disease {
   id: number;
-  diseaseName:string;
-  questionText: string;
-  isActive: boolean;
-  isYes:boolean;
-  note:string;
+  questionTextEN: string;
+  questionTextAR: string;
+  isYes?:boolean;
+  note?:string;
+}
+
+export interface PutDiseaseList{
+  patientDiseaseList:Disease[];
 }

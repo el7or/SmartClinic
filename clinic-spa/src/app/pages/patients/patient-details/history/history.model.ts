@@ -1,8 +1,8 @@
 export interface PatientHistory {
-  socialStatus:number;
+  /* socialStatus:number;
   children:number;
   prevMarriage:number;
-  prevMarriagePartner:number;
-  treatmentHistory:string;
-  familyHistory:string;
+  prevMarriagePartner:number; */
+  treatmentHistory?:string;
+  familyHistory?:string;
 }

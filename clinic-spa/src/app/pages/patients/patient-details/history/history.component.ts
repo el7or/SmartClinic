@@ -1,33 +1,66 @@
-import { PatientHistory } from './history.model';
-import { HistoryService } from './history.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
-import { Location } from '@angular/common';
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
+import { Location } from "@angular/common";
+import { Subscription } from "rxjs";
+
+import { PatientHistory } from "./history.model";
+import { HistoryService } from "./history.service";
+import { AlertService } from "../../../../shared/services/alert.service";
 
 @Component({
-  selector: 'history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss']
+  selector: "history",
+  templateUrl: "./history.component.html",
+  styleUrls: ["./history.component.scss"],
 })
-export class HistoryComponent implements OnInit {
-  formLoading:boolean = false;
+export class HistoryComponent implements OnInit, OnDestroy {
+  formLoading: boolean = false;
   @ViewChild("form", { static: false }) form: NgForm;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
-  patientHistory:PatientHistory;
+  patientHistory: PatientHistory={};
 
-  constructor(private historyService:HistoryService ,public location:Location) { }
+  getSubs: Subscription;
+  setSubs: Subscription;
+
+  constructor(
+    private historyService: HistoryService,
+    public location: Location,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit() {
-    this.patientHistory = this.historyService.getPatientHistory();
+    this.formLoading = true;
+    this.getSubs = this.historyService.getPatientHistory().subscribe(
+      (res: PatientHistory) => {
+        this.patientHistory = res;
+        this.formLoading = false;
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
+  }
+  ngOnDestroy() {
+    this.getSubs.unsubscribe();
+    if (this.setSubs) this.setSubs.unsubscribe();
   }
 
-  onSubmit(){
+  onSubmit() {
     this.formLoading = true;
-    this.historyService.setPatientHistory(this.patientHistory);
-    setTimeout(() => {
-      this.doneSwal.fire();
-      this.formLoading = false;
-    }, 1000);
+    this.setSubs = this.historyService
+      .savePatientHistory(this.patientHistory)
+      .subscribe(
+        () => {
+          this.formLoading = false;
+          this.doneSwal.fire();
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 }

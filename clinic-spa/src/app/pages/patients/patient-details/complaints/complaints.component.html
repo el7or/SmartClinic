@@ -30,11 +30,11 @@
             fieldSize="small">
         </td>
         <td class="label pt-2">
-          <label *ngIf="item.compId"><span langg>Added Date</span>:&nbsp;<b>{{item.createdOn | localDateShort}}</b>
+          <label *ngIf="item.compId"><span>{{'Added Date' | langg}}</span>:&nbsp;<span>{{item.createdOn | localDateShort}}</span>
           </label>
         </td>
         <td>
-          <button (click)="onRemoveComplaint(i,'general')" nbButton [nbTooltip]="'Remove Complaint' | langg" size="tiny"
+          <button *ngIf="!item.id" (click)="onRemoveComplaint(i,'general')" nbButton [nbTooltip]="'Remove Complaint' | langg" size="tiny"
             status="danger">
             <nb-icon icon="close-square"></nb-icon>
           </button>
@@ -51,7 +51,7 @@
   <h6><span langg>Complaint Details</span>:</h6>
   <table class="table">
     <tbody>
-      <tr *ngFor="let item of patientComplaintsDetails; index as i;">
+      <tr *ngFor="let item of patientDetailsComplaints; index as i;">
         <td>
           <nb-select fullWidth [(ngModel)]="item.compId" [ngModelOptions]="{standalone: true}"
             [placeholder]="'Complaint' | langg" size="small" (selectedChange)="onChangeComplaintDetails($event,item)">
@@ -61,26 +61,26 @@
           </nb-select>
         </td>
         <td>
-          <nb-select *ngIf="item.allChoises?.length" fullWidth [(ngModel)]="item.choiceId"
+          <nb-select *ngIf="item.allChoices?.length" fullWidth [(ngModel)]="item.choiceId"
             [ngModelOptions]="{standalone: true}" [placeholder]="'Choices' | langg" size="small">
-            <nb-option *ngFor="let choise of item.allChoises" [value]="choise.choiceId">
+            <nb-option *ngFor="let choise of item.allChoices" [value]="choise.choiceId">
               {{choise.choiceName}}</nb-option>
           </nb-select>
         </td>
         <td>
-          <input *ngIf="item.allChoises?.length" nbInput [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}"
+          <input *ngIf="item.allChoices?.length" nbInput [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}"
             [placeholder]="'Period' | langg" fullWidth fieldSize="small">
         </td>
         <td>
-          <input *ngIf="item.allChoises?.length" nbInput ngModel #note="ngModel" name="note"
+          <input *ngIf="item.allChoices?.length" nbInput ngModel #note="ngModel" name="note"
             [placeholder]="'Notes' | langg" fullWidth fieldSize="small">
         </td>
         <td class="label pt-2">
-          <label *ngIf="item.allChoises?.length"><span langg>Added Date</span>:&nbsp;<b>{{today | localDateShort}}</b>
+          <label *ngIf="item.allChoices?.length"><span>{{'Added Date' | langg}}</span>:&nbsp;<b>{{today | localDateShort}}</b>
           </label>
         </td>
         <td>
-          <button (click)="onRemoveComplaint(i,'')" nbButton [nbTooltip]="'Remove Complaint' | langg" size="tiny"
+          <button *ngIf="!item.id" (click)="onRemoveComplaint(i,'')" nbButton [nbTooltip]="'Remove Complaint' | langg" size="tiny"
             status="danger">
             <nb-icon icon="close-square"></nb-icon>
           </button>
@@ -90,13 +90,13 @@
   </table>
 
   <button nbButton size="small" (click)="onAddComplaint('')"
-    [disabled]="patientComplaintsDetails.length &&!patientComplaintsDetails[patientComplaintsDetails?.length-1]?.choiceId"
+    [disabled]="patientDetailsComplaints.length &&!patientDetailsComplaints[patientDetailsComplaints?.length-1]?.choiceId"
     class="mx-1 mb-1">
     <nb-icon icon="plus-outline"></nb-icon><span langg>Add Complaint Details</span>
   </button>
 
   <div class="text-center nbButton-group mb-1">
-    <button nbButton type="submit" status="success" (click)="onSave(form)"
+    <button nbButton type="submit" status="success" (click)="onSave()"
       [disabled]="!patientGeneralComplaints.length || !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId" langg>Save</button>
     <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
   </div>

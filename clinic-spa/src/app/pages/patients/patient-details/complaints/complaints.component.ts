@@ -1,43 +1,48 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { AlertService } from './../../../../shared/services/alert.service';
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
 
 import { ComplaintsService } from "./complaints.service";
-import { LanggService } from "./../../../../shared/services/langg.service";
-import { DiseasesService } from "./../diseases/diseases.service";
 import {
   ComplaintDetailsValue,
-  PatientComplaintDetails,
+  PatientDetailsComplaint,
   PatientGeneralComplaint,
-  ComplaintGeneralValue
+  ComplaintGeneralValue,
+  GetPatientComplaints,
+  PutPatientComplaints,
 } from "./complaints.model";
-import { TypeaheadMatch } from 'ngx-bootstrap';
+import { Subscription } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "complaints",
   templateUrl: "./complaints.component.html",
-  styleUrls: ["./complaints.component.scss"]
+  styleUrls: ["./complaints.component.scss"],
 })
-export class ComplaintsComponent implements OnInit {
+export class ComplaintsComponent implements OnInit, OnDestroy {
   formLoading: boolean = false;
   today: Date = new Date();
   diseaseSummary: string;
   complaintsGeneralValues: ComplaintGeneralValue[];
   complaintsDetailsValues: ComplaintDetailsValue[];
   patientGeneralComplaints: PatientGeneralComplaint[] = [];
-  patientComplaintsDetails: PatientComplaintDetails[] = [];
+  patientDetailsComplaints: PatientDetailsComplaint[] = [];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
 
+  getCompSubs: Subscription;
+  setCompSubs: Subscription;
+
   constructor(
-    private diseasesService: DiseasesService,
-    private langgService: LanggService,
     private complantService: ComplaintsService,
+    private alertService:AlertService,
     public location: Location
   ) {}
 
   ngOnInit() {
+    this.formLoading = true;
     /* // =====> get summary of disease:
     this.diseaseSummary = this.diseasesService.diseasesList
       .filter(d => d.isYes)
@@ -47,9 +52,35 @@ export class ComplaintsComponent implements OnInit {
       .join(" - ");
     this.diseaseSummary == "" ? (this.diseaseSummary = "--") : false; */
 
-    // =====> get complaints values to dropdownlist:
-    this.complaintsGeneralValues = this.complantService.getComplaintsGeneralValues();
-    this.complaintsDetailsValues = this.complantService.getComplaintsDetailsValues();
+    // =====> get complaints values & patient complaints:
+    this.getCompSubs = this.complantService
+      .getPatientComplaints()
+      .pipe(
+        map((res: GetPatientComplaints) => {
+          this.complaintsGeneralValues = res.complaintGeneralValues;
+          this.complaintsDetailsValues = res.complaintDetailsValues;
+          return {
+            patientGeneralComplaints : res.patientGeneralComplaints,
+            patientDetailsComplaints : res.patientDetailsComplaints
+          }
+        })
+      )
+      .subscribe(
+        (res: PutPatientComplaints) => {
+          this.patientGeneralComplaints = res.patientGeneralComplaints;
+          this.patientDetailsComplaints = res.patientDetailsComplaints;
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
+  }
+  ngOnDestroy() {
+    this.getCompSubs.unsubscribe();
+    if (this.setCompSubs) this.setCompSubs.unsubscribe();
   }
 
   /* // =====> add chosen general complaint to patient general compliants:
@@ -69,9 +100,9 @@ export class ComplaintsComponent implements OnInit {
   }*/
 
   // =====> on select Complaint details from dropDownList:
-  onChangeComplaintDetails(event, item: PatientComplaintDetails) {
-    item.allChoises = this.complaintsDetailsValues.find(
-      c => c.compId == event
+  onChangeComplaintDetails(event, item: PatientDetailsComplaint) {
+    item.allChoices = this.complaintsDetailsValues.find(
+      (c) => c.compId == event
     ).compChoises;
   }
 
@@ -79,36 +110,52 @@ export class ComplaintsComponent implements OnInit {
   onAddComplaint(type: string) {
     if (type == "general") {
       this.patientGeneralComplaints.push({
+        id: 0,
         compId: 0,
         note: "",
-        createdOn:new Date()
+        createdOn: new Date(),
       });
     } else {
-      this.patientComplaintsDetails.push({
+      this.patientDetailsComplaints.push({
+        id: 0,
         compId: 0,
         choiceId: 0,
         period: "",
         note: "",
-        createdOn:new Date(),
-        allChoises: []
+        createdOn: new Date(),
+        allChoices: [],
       });
     }
   }
 
   // =====> on remove row from requests:
-  onRemoveComplaint(index,type) {
-    if (type == "general") {this.patientGeneralComplaints.splice(index, 1);}
-    else{this.patientComplaintsDetails.splice(index, 1);}
+  onRemoveComplaint(index, type) {
+    if (type == "general") {
+      this.patientGeneralComplaints.splice(index, 1);
+    } else {
+      this.patientDetailsComplaints.splice(index, 1);
+    }
   }
 
   // =====> on save requests without print:
-  onSave(form: NgForm) {
-    console.log(this.patientGeneralComplaints);
-    this.formLoading=true;
-    setTimeout(() => {
-    //this.complantService.setPatientGeneralComplaints();
-    this.doneSwal.fire();
-      this.formLoading = false;
-    }, 1000);
+  onSave() {
+    this.formLoading = true;
+    const putObj:PutPatientComplaints = {
+      patientGeneralComplaints : this.patientGeneralComplaints,
+      patientDetailsComplaints : this.patientDetailsComplaints
+    }
+    this.setCompSubs = this.complantService
+      .savePatientComplaints(putObj)
+      .subscribe(
+        () => {
+          this.formLoading = false;
+          this.doneSwal.fire();
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 }

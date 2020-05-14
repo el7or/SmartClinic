@@ -1,15 +1,20 @@
 export interface GetPatientComplaints{
-generalComplaintValues:ComplaintGeneralValue[];
-detailsComplaintValues:ComplaintDetailsValue[];
-patientGeneralComplaints:PatientGeneralComplaint[];
-patientDetailsComplaints:PatientComplaintDetails[];
+  complaintGeneralValues:ComplaintGeneralValue[];
+  complaintDetailsValues:ComplaintDetailsValue[];
+  patientGeneralComplaints:PatientGeneralComplaint[];
+  patientDetailsComplaints:PatientDetailsComplaint[];
 }
+export interface PutPatientComplaints{
+  patientGeneralComplaints:PatientGeneralComplaint[];
+  patientDetailsComplaints:PatientDetailsComplaint[];
+  }
 
 export interface ComplaintGeneralValue {
   compId:number;
   compName: string;
 }
 export interface PatientGeneralComplaint {
+  id:number;
   compId:number;
   note: string;
   createdOn:Date;
@@ -18,17 +23,18 @@ export interface PatientGeneralComplaint {
 export interface ComplaintDetailsValue {
   compId:number;
   compName: string;
-  compChoises:ComplaintChoiseValue[];
+  compChoises:ComplaintChoiceValue[];
 }
-export interface ComplaintChoiseValue {
+export interface ComplaintChoiceValue {
   choiceId:number;
   choiceName: string;
 }
-export interface PatientComplaintDetails {
+export interface PatientDetailsComplaint {
+  id:number;
   compId:number;
   choiceId:number;
   period: string;
   note: string;
   createdOn:Date;
-  allChoises?:ComplaintChoiseValue[]
+  allChoices?:ComplaintChoiceValue[]
 }

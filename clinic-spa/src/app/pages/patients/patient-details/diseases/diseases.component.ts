@@ -48,7 +48,7 @@ export class DiseasesComponent implements OnInit, OnDestroy {
     if (this.setQuestSubs) this.setQuestSubs.unsubscribe();
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit() {
     this.formLoading = true;
     const putObj:PutDiseaseList = {
       patientDiseaseList :this.patientDiseases

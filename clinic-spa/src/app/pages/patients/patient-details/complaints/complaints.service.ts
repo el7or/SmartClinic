@@ -1,96 +1,47 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+
 import {
   ComplaintDetailsValue,
-  PatientComplaintDetails,
-  PatientGeneralComplaint,
   ComplaintGeneralValue,
+  GetPatientComplaints,
+  PutPatientComplaints,
 } from "./complaints.model";
+import { environment } from "../../../../../environments/environment";
+import { AuthService } from "../../../../auth/auth.service";
+import { PatientsService } from "../../patients.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class ComplaintsService {
-  constructor() {}
+  baseUrl = environment.API_URL;
 
-  getComplaintsGeneralValues(): ComplaintGeneralValue[] {
-    return [
-      {
-        compId: 1,
-        compName: "تورم بالقدمين",
-      },
-      {
-        compId: 2,
-        compName: "آلام الركبة",
-      },
-    ];
-  }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private patientService: PatientsService
+  ) {}
 
-  getComplaintsDetailsValues(): ComplaintDetailsValue[] {
-    return [
-      {
-        compId: 1,
-        compName: "Pain",
-        compChoises: [
-          {
-            choiceId: 1,
-            choiceName: "EXERTIONAL",
-          },
-          {
-            choiceId: 2,
-            choiceName: "NOCTURNAL",
-          },
-          {
-            choiceId: 3,
-            choiceName: "WAKES FROM SLEEP",
-          },
-        ],
-      },
-      {
-        compId: 2,
-        compName: "Onest",
-        compChoises: [
-          {
-            choiceId: 4,
-            choiceName: "SUDDEN",
-          },
-          {
-            choiceId: 5,
-            choiceName: "GRADUAL",
-          },
-          {
-            choiceId: 6,
-            choiceName: "POST - PARTUM",
-          },
-        ],
-      },
-      {
-        compId: 3,
-        compName: "Course",
-        compChoises: [
-          {
-            choiceId: 7,
-            choiceName: "PROGRESSIVE",
-          },
-          {
-            choiceId: 8,
-            choiceName: "REGRESSIVE",
-          },
-          {
-            choiceId: 9,
-            choiceName: "PALINDROMIC",
-          },
-        ],
-      },
-    ];
+  getPatientComplaints() {
+    return this.http.get<GetPatientComplaints>(
+      this.baseUrl +
+        "PatientDetails/GetPatientComplaints/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId +
+        "/" +
+        this.authService.doctorId
+    );
   }
-
-  getPatientGeneralComplaints(patientId: string): PatientGeneralComplaint[] {
-    return [];
+  savePatientComplaints(patientComplaints: PutPatientComplaints) {
+    return this.http.put(
+      this.baseUrl +
+        "PatientDetails/PutPatientComplaints/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId,
+      patientComplaints
+    );
   }
-  setPatientGeneralComplaints(patientComplaints: PatientGeneralComplaint[]) {}
-
-  getPatientDetailsComplaints(patientId: string): PatientComplaintDetails[] {
-    return [];
-  }
-  setPatientDetailsComplaints(patientComplaints: PatientComplaintDetails[]) {}
 }

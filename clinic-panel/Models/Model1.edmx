@@ -82,6 +82,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PatientId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="BookingDateTime" Type="datetime" Nullable="false" />
           <Property Name="TypeId" Type="int" Nullable="false" />
           <Property Name="DiscountId" Type="int" />
@@ -306,7 +307,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Complaint" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
@@ -437,7 +438,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PatientId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ComplaintChoiceId" Type="int" Nullable="false" />
+          <Property Name="DetailedComplaintId" Type="int" Nullable="false" />
+          <Property Name="ComplaintChoiceId" Type="int" />
           <Property Name="Period" Type="nvarchar" MaxLength="256" />
           <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -933,6 +935,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Bookings_Doctors">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Bookings_Patients">
           <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
           <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
@@ -1282,7 +1296,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PatientDetailedComplaints_DoctorComplaintChoicesValues">
-          <End Role="DoctorComplaintChoicesValues" Type="Self.DoctorComplaintChoicesValues" Multiplicity="1" />
+          <End Role="DoctorComplaintChoicesValues" Type="Self.DoctorComplaintChoicesValues" Multiplicity="0..1" />
           <End Role="PatientDetailedComplaints" Type="Self.PatientDetailedComplaints" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DoctorComplaintChoicesValues">
@@ -1290,6 +1304,18 @@
             </Principal>
             <Dependent Role="PatientDetailedComplaints">
               <PropertyRef Name="ComplaintChoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues">
+          <End Role="DoctorDetailedComplaintsValues" Type="Self.DoctorDetailedComplaintsValues" Multiplicity="1" />
+          <End Role="PatientDetailedComplaints" Type="Self.PatientDetailedComplaints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorDetailedComplaintsValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientDetailedComplaints">
+              <PropertyRef Name="DetailedComplaintId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1860,6 +1886,10 @@
             <End Role="ClinicDiscounts" EntitySet="ClinicDiscounts" />
             <End Role="Bookings" EntitySet="Bookings" />
           </AssociationSet>
+          <AssociationSet Name="FK_Bookings_Doctors" Association="Self.FK_Bookings_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
           <AssociationSet Name="FK_Bookings_Patients" Association="Self.FK_Bookings_Patients">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="Bookings" EntitySet="Bookings" />
@@ -1978,6 +2008,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_PatientDetailedComplaints_DoctorComplaintChoicesValues" Association="Self.FK_PatientDetailedComplaints_DoctorComplaintChoicesValues">
             <End Role="DoctorComplaintChoicesValues" EntitySet="DoctorComplaintChoicesValues" />
+            <End Role="PatientDetailedComplaints" EntitySet="PatientDetailedComplaints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues" Association="Self.FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues">
+            <End Role="DoctorDetailedComplaintsValues" EntitySet="DoctorDetailedComplaintsValues" />
             <End Role="PatientDetailedComplaints" EntitySet="PatientDetailedComplaints" />
           </AssociationSet>
           <AssociationSet Name="FK_PatientDetailedComplaints_Patients" Association="Self.FK_PatientDetailedComplaints_Patients">
@@ -2243,6 +2277,8 @@
           <NavigationProperty Name="ClinicDiscount" Relationship="Self.FK_Bookings_ClinicDiscounts" FromRole="Bookings" ToRole="ClinicDiscounts" />
           <NavigationProperty Name="Patient" Relationship="Self.FK_Bookings_Patients" FromRole="Bookings" ToRole="Patients" />
           <NavigationProperty Name="ClinicServices" Relationship="Self.BookingServices" FromRole="Bookings" ToRole="ClinicServices" />
+          <Property Name="DoctorId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Doctor" Relationship="Models.FK_Bookings_Doctors" FromRole="Booking" ToRole="Doctor" />
         </EntityType>
         <EntityType Name="ClinicBookingType">
           <Key>
@@ -2365,38 +2401,6 @@
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK_DoctorAnalysisValues_Doctors" FromRole="DoctorAnalysisValues" ToRole="Doctors" />
           <NavigationProperty Name="PatientAnalysis" Relationship="Self.FK_PatientAnalysis_DoctorAnalysisValues" FromRole="DoctorAnalysisValues" ToRole="PatientAnalysis" />
-        </EntityType>
-        <EntityType Name="DoctorComplaintChoicesValue">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DetailedComplaintId" Type="Int32" Nullable="false" />
-          <Property Name="Choice" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="IsDeleted" Type="Boolean" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
-          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="DoctorDetailedComplaintsValue" Relationship="Self.FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues" FromRole="DoctorComplaintChoicesValues" ToRole="DoctorDetailedComplaintsValues" />
-          <NavigationProperty Name="PatientDetailedComplaints" Relationship="Self.FK_PatientDetailedComplaints_DoctorComplaintChoicesValues" FromRole="DoctorComplaintChoicesValues" ToRole="PatientDetailedComplaints" />
-        </EntityType>
-        <EntityType Name="DoctorDetailedComplaintsValue">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="Complaint" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="IsDeleted" Type="Boolean" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
-          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="DoctorComplaintChoicesValues" Relationship="Self.FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues" FromRole="DoctorDetailedComplaintsValues" ToRole="DoctorComplaintChoicesValues" />
-          <NavigationProperty Name="Doctor" Relationship="Self.FK_DoctorDetailedComplaintsValues_Doctors" FromRole="DoctorDetailedComplaintsValues" ToRole="Doctors" />
         </EntityType>
         <EntityType Name="DoctorDiagnosisValue">
           <Key>
@@ -2554,7 +2558,6 @@
           <Property Name="LinkedIn" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Instagram" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DoctorAnalysisValues" Relationship="Self.FK_DoctorAnalysisValues_Doctors" FromRole="Doctors" ToRole="DoctorAnalysisValues" />
-          <NavigationProperty Name="DoctorDetailedComplaintsValues" Relationship="Self.FK_DoctorDetailedComplaintsValues_Doctors" FromRole="Doctors" ToRole="DoctorDetailedComplaintsValues" />
           <NavigationProperty Name="DoctorDiagnosisValues" Relationship="Self.FK_DoctorDiagnosisValues_Doctors" FromRole="Doctors" ToRole="DoctorDiagnosisValues" />
           <NavigationProperty Name="DoctorExaminationAreasValues" Relationship="Self.FK_DoctorExaminationAreasValues_Doctors" FromRole="Doctors" ToRole="DoctorExaminationAreasValues" />
           <NavigationProperty Name="DoctorExaminationsValues" Relationship="Self.FK_DoctorExaminationsValues_Doctors" FromRole="Doctors" ToRole="DoctorExaminationsValues" />
@@ -2567,6 +2570,8 @@
           <NavigationProperty Name="PatientReferrals" Relationship="Self.FK_PatientReferrals_Doctors" FromRole="Doctors" ToRole="PatientReferrals" />
           <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_Doctors" FromRole="Doctors" ToRole="Patients" />
           <NavigationProperty Name="Clinics" Relationship="Self.DoctorClinics" FromRole="Doctors" ToRole="Clinics" />
+          <NavigationProperty Name="Bookings" Relationship="Models.FK_Bookings_Doctors" FromRole="Doctor" ToRole="Booking" />
+          <NavigationProperty Name="DoctorDetailedComplaintsValues" Relationship="Models.FK_DoctorDetailedComplaintsValues_Doctors" FromRole="Doctor" ToRole="DoctorDetailedComplaintsValue" />
         </EntityType>
         <EntityType Name="PatientAnalysi">
           <Key>
@@ -2605,22 +2610,6 @@
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="PatientAnalysi" Relationship="Self.FK_PatientAnalysisFiles_PatientAnalysis" FromRole="PatientAnalysisFiles" ToRole="PatientAnalysis" />
           <NavigationProperty Name="SysAnalysisFileTypesValue" Relationship="Self.FK_PatientAnalysisFiles_SysAnalysisFileTypesValues" FromRole="PatientAnalysisFiles" ToRole="SysAnalysisFileTypesValues" />
-        </EntityType>
-        <EntityType Name="PatientDetailedComplaint">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PatientId" Type="Guid" Nullable="false" />
-          <Property Name="ComplaintChoiceId" Type="Int32" Nullable="false" />
-          <Property Name="Period" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
-          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="DoctorComplaintChoicesValue" Relationship="Self.FK_PatientDetailedComplaints_DoctorComplaintChoicesValues" FromRole="PatientDetailedComplaints" ToRole="DoctorComplaintChoicesValues" />
-          <NavigationProperty Name="Patient" Relationship="Self.FK_PatientDetailedComplaints_Patients" FromRole="PatientDetailedComplaints" ToRole="Patients" />
         </EntityType>
         <EntityType Name="PatientDiagnosi">
           <Key>
@@ -2828,7 +2817,6 @@
           <NavigationProperty Name="Clinic" Relationship="Self.FK_Patients_Clinics" FromRole="Patients" ToRole="Clinics" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK_Patients_Doctors" FromRole="Patients" ToRole="Doctors" />
           <NavigationProperty Name="PatientAnalysis" Relationship="Self.FK_PatientAnalysis_Patients" FromRole="Patients" ToRole="PatientAnalysis" />
-          <NavigationProperty Name="PatientDetailedComplaints" Relationship="Self.FK_PatientDetailedComplaints_Patients" FromRole="Patients" ToRole="PatientDetailedComplaints" />
           <NavigationProperty Name="PatientDiagnosis" Relationship="Self.FK_PatientDiagnosis_Patients" FromRole="Patients" ToRole="PatientDiagnosis" />
           <NavigationProperty Name="PatientDiseases" Relationship="Self.FK_PatientDiseases_Patients" FromRole="Patients" ToRole="PatientDiseases" />
           <NavigationProperty Name="PatientExaminations" Relationship="Self.FK_PatientExaminations_Patients" FromRole="Patients" ToRole="PatientExaminations" />
@@ -2841,6 +2829,7 @@
           <NavigationProperty Name="SysSocialStatusValue" Relationship="Self.FK_Patients_SysSocialStatusValues" FromRole="Patients" ToRole="SysSocialStatusValues" />
           <NavigationProperty Name="SysCitiesValue" Relationship="Models.FK_Patients_SysCitiesValues" FromRole="Patient" ToRole="SysCitiesValue" />
           <NavigationProperty Name="SysGovernoratesValue" Relationship="Models.FK_Patients_SysGovernoratesValues" FromRole="Patient" ToRole="SysGovernoratesValue" />
+          <NavigationProperty Name="PatientDetailedComplaints" Relationship="Models.FK_PatientDetailedComplaints_Patients" FromRole="Patient" ToRole="PatientDetailedComplaint" />
         </EntityType>
         <EntityType Name="Plan">
           <Key>
@@ -3217,42 +3206,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues">
-          <End Role="DoctorDetailedComplaintsValues" Type="Self.DoctorDetailedComplaintsValue" Multiplicity="1" />
-          <End Role="DoctorComplaintChoicesValues" Type="Self.DoctorComplaintChoicesValue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DoctorDetailedComplaintsValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DoctorComplaintChoicesValues">
-              <PropertyRef Name="DetailedComplaintId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientDetailedComplaints_DoctorComplaintChoicesValues">
-          <End Role="DoctorComplaintChoicesValues" Type="Self.DoctorComplaintChoicesValue" Multiplicity="1" />
-          <End Role="PatientDetailedComplaints" Type="Self.PatientDetailedComplaint" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DoctorComplaintChoicesValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientDetailedComplaints">
-              <PropertyRef Name="ComplaintChoiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DoctorDetailedComplaintsValues_Doctors">
-          <End Role="Doctors" Type="Self.Doctor" Multiplicity="1" />
-          <End Role="DoctorDetailedComplaintsValues" Type="Self.DoctorDetailedComplaintsValue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctors">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DoctorDetailedComplaintsValues">
-              <PropertyRef Name="DoctorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DoctorDiagnosisValues_Doctors">
           <End Role="Doctors" Type="Self.Doctor" Multiplicity="1" />
           <End Role="DoctorDiagnosisValues" Type="Self.DoctorDiagnosisValue" Multiplicity="*" />
@@ -3538,18 +3491,6 @@
             </Principal>
             <Dependent Role="PatientAnalysisFiles">
               <PropertyRef Name="FileTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientDetailedComplaints_Patients">
-          <End Role="Patients" Type="Self.Patient" Multiplicity="1" />
-          <End Role="PatientDetailedComplaints" Type="Self.PatientDetailedComplaint" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Patients">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientDetailedComplaints">
-              <PropertyRef Name="PatientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3868,8 +3809,6 @@
           <EntitySet Name="Clinics" EntityType="Self.Clinic" />
           <EntitySet Name="ClinicServices" EntityType="Self.ClinicService" />
           <EntitySet Name="DoctorAnalysisValues" EntityType="Self.DoctorAnalysisValue" />
-          <EntitySet Name="DoctorComplaintChoicesValues" EntityType="Self.DoctorComplaintChoicesValue" />
-          <EntitySet Name="DoctorDetailedComplaintsValues" EntityType="Self.DoctorDetailedComplaintsValue" />
           <EntitySet Name="DoctorDiagnosisValues" EntityType="Self.DoctorDiagnosisValue" />
           <EntitySet Name="DoctorExaminationAreasValues" EntityType="Self.DoctorExaminationAreasValue" />
           <EntitySet Name="DoctorExaminationsValues" EntityType="Self.DoctorExaminationsValue" />
@@ -3881,7 +3820,6 @@
           <EntitySet Name="Doctors" EntityType="Self.Doctor" />
           <EntitySet Name="PatientAnalysis" EntityType="Self.PatientAnalysi" />
           <EntitySet Name="PatientAnalysisFiles" EntityType="Self.PatientAnalysisFile" />
-          <EntitySet Name="PatientDetailedComplaints" EntityType="Self.PatientDetailedComplaint" />
           <EntitySet Name="PatientDiagnosis" EntityType="Self.PatientDiagnosi" />
           <EntitySet Name="PatientDiseases" EntityType="Self.PatientDiseas" />
           <EntitySet Name="PatientExaminations" EntityType="Self.PatientExamination" />
@@ -3960,18 +3898,6 @@
           <AssociationSet Name="FK_PatientAnalysis_DoctorAnalysisValues" Association="Self.FK_PatientAnalysis_DoctorAnalysisValues">
             <End Role="DoctorAnalysisValues" EntitySet="DoctorAnalysisValues" />
             <End Role="PatientAnalysis" EntitySet="PatientAnalysis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues" Association="Self.FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues">
-            <End Role="DoctorDetailedComplaintsValues" EntitySet="DoctorDetailedComplaintsValues" />
-            <End Role="DoctorComplaintChoicesValues" EntitySet="DoctorComplaintChoicesValues" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientDetailedComplaints_DoctorComplaintChoicesValues" Association="Self.FK_PatientDetailedComplaints_DoctorComplaintChoicesValues">
-            <End Role="DoctorComplaintChoicesValues" EntitySet="DoctorComplaintChoicesValues" />
-            <End Role="PatientDetailedComplaints" EntitySet="PatientDetailedComplaints" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DoctorDetailedComplaintsValues_Doctors" Association="Self.FK_DoctorDetailedComplaintsValues_Doctors">
-            <End Role="Doctors" EntitySet="Doctors" />
-            <End Role="DoctorDetailedComplaintsValues" EntitySet="DoctorDetailedComplaintsValues" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorDiagnosisValues_Doctors" Association="Self.FK_DoctorDiagnosisValues_Doctors">
             <End Role="Doctors" EntitySet="Doctors" />
@@ -4068,10 +3994,6 @@
           <AssociationSet Name="FK_PatientAnalysisFiles_SysAnalysisFileTypesValues" Association="Self.FK_PatientAnalysisFiles_SysAnalysisFileTypesValues">
             <End Role="SysAnalysisFileTypesValues" EntitySet="SysAnalysisFileTypesValues" />
             <End Role="PatientAnalysisFiles" EntitySet="PatientAnalysisFiles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientDetailedComplaints_Patients" Association="Self.FK_PatientDetailedComplaints_Patients">
-            <End Role="Patients" EntitySet="Patients" />
-            <End Role="PatientDetailedComplaints" EntitySet="PatientDetailedComplaints" />
           </AssociationSet>
           <AssociationSet Name="FK_PatientDiagnosis_Patients" Association="Self.FK_PatientDiagnosis_Patients">
             <End Role="Patients" EntitySet="Patients" />
@@ -4204,6 +4126,33 @@
             <End Role="SysGovernoratesValue" EntitySet="SysGovernoratesValues" />
             <End Role="SysCitiesValue" EntitySet="SysCitiesValues" />
           </AssociationSet>
+          <EntitySet Name="DoctorComplaintChoicesValues" EntityType="Models.DoctorComplaintChoicesValue" />
+          <EntitySet Name="PatientDetailedComplaints" EntityType="Models.PatientDetailedComplaint" />
+          <AssociationSet Name="FK_Bookings_Doctors" Association="Models.FK_Bookings_Doctors">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientDetailedComplaints_DoctorComplaintChoicesValues" Association="Models.FK_PatientDetailedComplaints_DoctorComplaintChoicesValues">
+            <End Role="DoctorComplaintChoicesValue" EntitySet="DoctorComplaintChoicesValues" />
+            <End Role="PatientDetailedComplaint" EntitySet="PatientDetailedComplaints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientDetailedComplaints_Patients" Association="Models.FK_PatientDetailedComplaints_Patients">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="PatientDetailedComplaint" EntitySet="PatientDetailedComplaints" />
+          </AssociationSet>
+          <EntitySet Name="DoctorDetailedComplaintsValues" EntityType="Models.DoctorDetailedComplaintsValue" />
+          <AssociationSet Name="FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues" Association="Models.FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues">
+            <End Role="DoctorDetailedComplaintsValue" EntitySet="DoctorDetailedComplaintsValues" />
+            <End Role="DoctorComplaintChoicesValue" EntitySet="DoctorComplaintChoicesValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorDetailedComplaintsValues_Doctors" Association="Models.FK_DoctorDetailedComplaintsValues_Doctors">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="DoctorDetailedComplaintsValue" EntitySet="DoctorDetailedComplaintsValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues" Association="Models.FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues">
+            <End Role="DoctorDetailedComplaintsValue" EntitySet="DoctorDetailedComplaintsValues" />
+            <End Role="PatientDetailedComplaint" EntitySet="PatientDetailedComplaints" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="SubscriptionPayment">
           <Key>
@@ -4289,6 +4238,129 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DoctorComplaintChoicesValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DetailedComplaintId" Type="Int32" Nullable="false" />
+          <Property Name="Choice" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="PatientDetailedComplaints" Relationship="Models.FK_PatientDetailedComplaints_DoctorComplaintChoicesValues" FromRole="DoctorComplaintChoicesValue" ToRole="PatientDetailedComplaint" />
+          <NavigationProperty Name="DoctorDetailedComplaintsValue" Relationship="Models.FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues" FromRole="DoctorComplaintChoicesValue" ToRole="DoctorDetailedComplaintsValue" />
+        </EntityType>
+        <EntityType Name="PatientDetailedComplaint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Guid" Nullable="false" />
+          <Property Name="DetailedComplaintId" Type="Int32" Nullable="false" />
+          <Property Name="ComplaintChoiceId" Type="Int32" />
+          <Property Name="Period" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="DoctorComplaintChoicesValue" Relationship="Models.FK_PatientDetailedComplaints_DoctorComplaintChoicesValues" FromRole="PatientDetailedComplaint" ToRole="DoctorComplaintChoicesValue" />
+          <NavigationProperty Name="Patient" Relationship="Models.FK_PatientDetailedComplaints_Patients" FromRole="PatientDetailedComplaint" ToRole="Patient" />
+          <NavigationProperty Name="DoctorDetailedComplaintsValue" Relationship="Models.FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues" FromRole="PatientDetailedComplaint" ToRole="DoctorDetailedComplaintsValue" />
+        </EntityType>
+        <Association Name="FK_Bookings_Doctors">
+          <End Type="Models.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="Models.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientDetailedComplaints_DoctorComplaintChoicesValues">
+          <End Type="Models.DoctorComplaintChoicesValue" Role="DoctorComplaintChoicesValue" Multiplicity="0..1" />
+          <End Type="Models.PatientDetailedComplaint" Role="PatientDetailedComplaint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorComplaintChoicesValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientDetailedComplaint">
+              <PropertyRef Name="ComplaintChoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientDetailedComplaints_Patients">
+          <End Type="Models.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="Models.PatientDetailedComplaint" Role="PatientDetailedComplaint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientDetailedComplaint">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DoctorDetailedComplaintsValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorId" Type="Guid" Nullable="false" />
+          <Property Name="Complaint" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="DoctorComplaintChoicesValues" Relationship="Models.FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues" FromRole="DoctorDetailedComplaintsValue" ToRole="DoctorComplaintChoicesValue" />
+          <NavigationProperty Name="Doctor" Relationship="Models.FK_DoctorDetailedComplaintsValues_Doctors" FromRole="DoctorDetailedComplaintsValue" ToRole="Doctor" />
+          <NavigationProperty Name="PatientDetailedComplaints" Relationship="Models.FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues" FromRole="DoctorDetailedComplaintsValue" ToRole="PatientDetailedComplaint" />
+        </EntityType>
+        <Association Name="FK_DoctorComplaintChoicesValues_DoctorDetailedComplaintsValues">
+          <End Type="Models.DoctorDetailedComplaintsValue" Role="DoctorDetailedComplaintsValue" Multiplicity="1" />
+          <End Type="Models.DoctorComplaintChoicesValue" Role="DoctorComplaintChoicesValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorDetailedComplaintsValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorComplaintChoicesValue">
+              <PropertyRef Name="DetailedComplaintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorDetailedComplaintsValues_Doctors">
+          <End Type="Models.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="Models.DoctorDetailedComplaintsValue" Role="DoctorDetailedComplaintsValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorDetailedComplaintsValue">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues">
+          <End Type="Models.DoctorDetailedComplaintsValue" Role="DoctorDetailedComplaintsValue" Multiplicity="1" />
+          <End Type="Models.PatientDetailedComplaint" Role="PatientDetailedComplaint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorDetailedComplaintsValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientDetailedComplaint">
+              <PropertyRef Name="DetailedComplaintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4363,6 +4435,7 @@
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="Models.Booking">
               <MappingFragment StoreEntitySet="Bookings">
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PatientId" ColumnName="PatientId" />
                 <ScalarProperty Name="BookingDateTime" ColumnName="BookingDateTime" />
@@ -4489,36 +4562,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
                 <ScalarProperty Name="AnalysisName" ColumnName="AnalysisName" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DoctorComplaintChoicesValues">
-            <EntityTypeMapping TypeName="Models.DoctorComplaintChoicesValue">
-              <MappingFragment StoreEntitySet="DoctorComplaintChoicesValues">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DetailedComplaintId" ColumnName="DetailedComplaintId" />
-                <ScalarProperty Name="Choice" ColumnName="Choice" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DoctorDetailedComplaintsValues">
-            <EntityTypeMapping TypeName="Models.DoctorDetailedComplaintsValue">
-              <MappingFragment StoreEntitySet="DoctorDetailedComplaintsValues">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
-                <ScalarProperty Name="Complaint" ColumnName="Complaint" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -4703,21 +4746,6 @@
                 <ScalarProperty Name="FileTypeId" ColumnName="FileTypeId" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PatientDetailedComplaints">
-            <EntityTypeMapping TypeName="Models.PatientDetailedComplaint">
-              <MappingFragment StoreEntitySet="PatientDetailedComplaints">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
-                <ScalarProperty Name="ComplaintChoiceId" ColumnName="ComplaintChoiceId" />
-                <ScalarProperty Name="Period" ColumnName="Period" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
@@ -5197,6 +5225,52 @@
               <MappingFragment StoreEntitySet="SysGovernoratesValues">
                 <ScalarProperty Name="TextEN" ColumnName="TextEN" />
                 <ScalarProperty Name="TextAR" ColumnName="TextAR" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorComplaintChoicesValues">
+            <EntityTypeMapping TypeName="Models.DoctorComplaintChoicesValue">
+              <MappingFragment StoreEntitySet="DoctorComplaintChoicesValues">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Choice" ColumnName="Choice" />
+                <ScalarProperty Name="DetailedComplaintId" ColumnName="DetailedComplaintId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientDetailedComplaints">
+            <EntityTypeMapping TypeName="Models.PatientDetailedComplaint">
+              <MappingFragment StoreEntitySet="PatientDetailedComplaints">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="ComplaintChoiceId" ColumnName="ComplaintChoiceId" />
+                <ScalarProperty Name="DetailedComplaintId" ColumnName="DetailedComplaintId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorDetailedComplaintsValues">
+            <EntityTypeMapping TypeName="Models.DoctorDetailedComplaintsValue">
+              <MappingFragment StoreEntitySet="DoctorDetailedComplaintsValues">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Complaint" ColumnName="Complaint" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

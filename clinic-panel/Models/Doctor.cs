@@ -18,7 +18,6 @@ namespace clinic_panel.Models
         public Doctor()
         {
             this.DoctorAnalysisValues = new HashSet<DoctorAnalysisValue>();
-            this.DoctorDetailedComplaintsValues = new HashSet<DoctorDetailedComplaintsValue>();
             this.DoctorDiagnosisValues = new HashSet<DoctorDiagnosisValue>();
             this.DoctorExaminationAreasValues = new HashSet<DoctorExaminationAreasValue>();
             this.DoctorExaminationsValues = new HashSet<DoctorExaminationsValue>();
@@ -30,6 +29,8 @@ namespace clinic_panel.Models
             this.PatientReferrals = new HashSet<PatientReferral>();
             this.Patients = new HashSet<Patient>();
             this.Clinics = new HashSet<Clinic>();
+            this.Bookings = new HashSet<Booking>();
+            this.DoctorDetailedComplaintsValues = new HashSet<DoctorDetailedComplaintsValue>();
         }
     
         public System.Guid Id { get; set; }
@@ -58,8 +59,6 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorAnalysisValue> DoctorAnalysisValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DoctorDetailedComplaintsValue> DoctorDetailedComplaintsValues { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorDiagnosisValue> DoctorDiagnosisValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorExaminationAreasValue> DoctorExaminationAreasValues { get; set; }
@@ -82,5 +81,9 @@ namespace clinic_panel.Models
         public virtual ICollection<Patient> Patients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Clinic> Clinics { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Bookings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorDetailedComplaintsValue> DoctorDetailedComplaintsValues { get; set; }
     }
 }

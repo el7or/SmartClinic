@@ -30,8 +30,8 @@ namespace clinic_panel.Models
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
     
-        public virtual DoctorDetailedComplaintsValue DoctorDetailedComplaintsValue { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
+        public virtual DoctorDetailedComplaintsValue DoctorDetailedComplaintsValue { get; set; }
     }
 }

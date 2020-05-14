@@ -147,7 +147,7 @@ namespace clinic_api.Controllers
             if (ids.Length == _context.SysPatientRecordSectionsValues.Count()) recordSections = "All";
 
             var doctor = await _context.Doctors.FindAsync(doctorId);
-            doctor.DiseasesQuestions = recordSections;
+            doctor.PatientRecordSections = recordSections;
             _context.Entry(doctor).State = EntityState.Modified;
 
             try

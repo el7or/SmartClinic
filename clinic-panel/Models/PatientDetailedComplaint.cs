@@ -16,7 +16,8 @@ namespace clinic_panel.Models
     {
         public int Id { get; set; }
         public System.Guid PatientId { get; set; }
-        public int ComplaintChoiceId { get; set; }
+        public int DetailedComplaintId { get; set; }
+        public Nullable<int> ComplaintChoiceId { get; set; }
         public string Period { get; set; }
         public string Note { get; set; }
         public System.DateTime CreatedOn { get; set; }
@@ -26,5 +27,6 @@ namespace clinic_panel.Models
     
         public virtual DoctorComplaintChoicesValue DoctorComplaintChoicesValue { get; set; }
         public virtual Patient Patient { get; set; }
+        public virtual DoctorDetailedComplaintsValue DoctorDetailedComplaintsValue { get; set; }
     }
 }

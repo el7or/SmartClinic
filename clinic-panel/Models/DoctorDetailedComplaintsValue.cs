@@ -18,6 +18,7 @@ namespace clinic_panel.Models
         public DoctorDetailedComplaintsValue()
         {
             this.DoctorComplaintChoicesValues = new HashSet<DoctorComplaintChoicesValue>();
+            this.PatientDetailedComplaints = new HashSet<PatientDetailedComplaint>();
         }
     
         public int Id { get; set; }
@@ -33,5 +34,7 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorComplaintChoicesValue> DoctorComplaintChoicesValues { get; set; }
         public virtual Doctor Doctor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
     }
 }

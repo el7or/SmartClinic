@@ -1,30 +1,36 @@
 <form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
-  <label for="input-diseasesInComplaints" class="label"><span langg>Associated Diseases Summary</span>:</label>
+  <!-- <label for="input-diseasesInComplaints" class="label"><span langg>Associated Diseases Summary</span>:</label>
   <textarea nbInput [ngModel]="diseaseSummary" #diseases name="diseases" id="input-diseasesInComplaints" disabled
     fullWidth rows="1"></textarea>
-  <hr>
+  <hr> -->
   <h6><span langg>General Complaint</span>:</h6>
   <table class="table">
     <tbody>
       <tr *ngFor="let item of patientGeneralComplaints; index as i;">
         <td>
-          <input nbInput [(ngModel)]="item.compName" [typeahead]="complaintsGeneralValues" fullWidth
-                (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Complaint' | langg"
-                [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
-                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
-              <ng-container *ngIf="!item.isNameValid">
-                <label class="error-message" langg>This Name does not exist! Do you add it to the
-                  list?</label>&nbsp;
-                <button nbButton type="button" (click)="onAddNewItemToList(item.compName);item.isNameValid=true"
-                  status="info" size="small" class="mt-2" langg>Add</button>
-              </ng-container>
+          <nb-select fullWidth [(ngModel)]="item.compId" [ngModelOptions]="{standalone: true}"
+            [placeholder]="'Complaint' | langg" size="small">
+            <nb-option *ngFor="let complaintValue of complaintsGeneralValues" [value]="complaintValue.compId">
+              {{complaintValue.compName}}
+            </nb-option>
+          </nb-select>
+          <!-- <input nbInput [(ngModel)]="item.compName" [typeahead]="complaintsGeneralValues" typeaheadOptionField="compName"
+          (typeaheadOnSelect)="onSelectGeneralComplaint($event)"  (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Complaint' | langg"
+            [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
+            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15" fullWidth>
+          <ng-container *ngIf="!item.isNameValid">
+            <label class="error-message" langg>This Name does not exist! Do you add it to the
+              list?</label>&nbsp;
+            <button nbButton type="button" (click)="onAddNewItemToList(item.compName);item.isNameValid=true"
+              status="info" size="small" class="mt-2" langg>Add</button>
+          </ng-container> -->
         </td>
         <td>
-          <input nbInput ngModel #note="ngModel" name="note"
-            [placeholder]="'Period or Notes' | langg" fullWidth fieldSize="small">
+          <input nbInput [(ngModel)]="item.note" [ngModelOptions]="{standalone: true}" [placeholder]="'Period or Notes' | langg" fullWidth
+            fieldSize="small">
         </td>
         <td class="label pt-2">
-          <label *ngIf="item.compName"><span langg>Added Date</span>:&nbsp;<b>{{today | localDateShort}}</b>
+          <label *ngIf="item.compId"><span langg>Added Date</span>:&nbsp;<b>{{item.createdOn | localDateShort}}</b>
           </label>
         </td>
         <td>
@@ -37,27 +43,28 @@
     </tbody>
   </table>
   <button nbButton size="small" (click)="onAddComplaint('general')"
-  [disabled]="patientGeneralComplaints.length &&(!patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compName || !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.isNameValid)" class="mx-1 mb-1">
+    [disabled]="patientGeneralComplaints.length && !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId"
+    class="mx-1 mb-1">
     <nb-icon icon="plus-outline"></nb-icon><span langg>Add General Complaint</span>
   </button>
-<hr>
+  <hr>
   <h6><span langg>Complaint Details</span>:</h6>
   <table class="table">
     <tbody>
       <tr *ngFor="let item of patientComplaintsDetails; index as i;">
         <td>
           <nb-select fullWidth [(ngModel)]="item.compId" [ngModelOptions]="{standalone: true}"
-            [placeholder]="'Complaint' | langg" size="small" (selectedChange)="onChangeComplaintValue($event,item)">
+            [placeholder]="'Complaint' | langg" size="small" (selectedChange)="onChangeComplaintDetails($event,item)">
             <nb-option *ngFor="let complaintValue of complaintsDetailsValues" [value]="complaintValue.compId">
               {{complaintValue.compName}}
             </nb-option>
           </nb-select>
         </td>
         <td>
-          <nb-select *ngIf="item.allChoises?.length" fullWidth [(ngModel)]="item.choiseName"
+          <nb-select *ngIf="item.allChoises?.length" fullWidth [(ngModel)]="item.choiceId"
             [ngModelOptions]="{standalone: true}" [placeholder]="'Choices' | langg" size="small">
-            <nb-option *ngFor="let choise of item.allChoises" [value]="choise">
-              {{choise}}</nb-option>
+            <nb-option *ngFor="let choise of item.allChoises" [value]="choise.choiceId">
+              {{choise.choiceName}}</nb-option>
           </nb-select>
         </td>
         <td>
@@ -83,13 +90,14 @@
   </table>
 
   <button nbButton size="small" (click)="onAddComplaint('')"
-  [disabled]="patientComplaintsDetails.length &&!patientComplaintsDetails[patientComplaintsDetails?.length-1]?.choiseName" class="mx-1 mb-1">
+    [disabled]="patientComplaintsDetails.length &&!patientComplaintsDetails[patientComplaintsDetails?.length-1]?.choiceId"
+    class="mx-1 mb-1">
     <nb-icon icon="plus-outline"></nb-icon><span langg>Add Complaint Details</span>
   </button>
 
   <div class="text-center nbButton-group mb-1">
-    <button nbButton type="submit" status="success" (click)="onSave(form)" [disabled]="!patientComplaintsDetails?.length && !patientGeneralComplaints[0]?.compName"
-      langg>Save</button>
+    <button nbButton type="submit" status="success" (click)="onSave(form)"
+      [disabled]="!patientGeneralComplaints.length || !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId" langg>Save</button>
     <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
   </div>
 </form>

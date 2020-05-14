@@ -9,6 +9,7 @@ namespace clinic_api.Models
         public DoctorDetailedComplaintsValue()
         {
             DoctorComplaintChoicesValues = new HashSet<DoctorComplaintChoicesValue>();
+            PatientDetailedComplaints = new HashSet<PatientDetailedComplaint>();
         }
 
         public int Id { get; set; }
@@ -25,5 +26,6 @@ namespace clinic_api.Models
 
         public virtual Doctor Doctor { get; set; }
         public virtual ICollection<DoctorComplaintChoicesValue> DoctorComplaintChoicesValues { get; set; }
+        public virtual ICollection<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
     }
 }

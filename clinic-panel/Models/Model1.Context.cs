@@ -35,8 +35,6 @@ namespace clinic_panel.Models
         public virtual DbSet<Clinic> Clinics { get; set; }
         public virtual DbSet<ClinicService> ClinicServices { get; set; }
         public virtual DbSet<DoctorAnalysisValue> DoctorAnalysisValues { get; set; }
-        public virtual DbSet<DoctorComplaintChoicesValue> DoctorComplaintChoicesValues { get; set; }
-        public virtual DbSet<DoctorDetailedComplaintsValue> DoctorDetailedComplaintsValues { get; set; }
         public virtual DbSet<DoctorDiagnosisValue> DoctorDiagnosisValues { get; set; }
         public virtual DbSet<DoctorExaminationAreasValue> DoctorExaminationAreasValues { get; set; }
         public virtual DbSet<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
@@ -48,7 +46,6 @@ namespace clinic_panel.Models
         public virtual DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<PatientAnalysi> PatientAnalysis { get; set; }
         public virtual DbSet<PatientAnalysisFile> PatientAnalysisFiles { get; set; }
-        public virtual DbSet<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
         public virtual DbSet<PatientDiagnosi> PatientDiagnosis { get; set; }
         public virtual DbSet<PatientDiseas> PatientDiseases { get; set; }
         public virtual DbSet<PatientExamination> PatientExaminations { get; set; }
@@ -83,5 +80,8 @@ namespace clinic_panel.Models
         public virtual DbSet<SubscriptionPayment> SubscriptionPayments { get; set; }
         public virtual DbSet<SysCitiesValue> SysCitiesValues { get; set; }
         public virtual DbSet<SysGovernoratesValue> SysGovernoratesValues { get; set; }
+        public virtual DbSet<DoctorComplaintChoicesValue> DoctorComplaintChoicesValues { get; set; }
+        public virtual DbSet<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
+        public virtual DbSet<DoctorDetailedComplaintsValue> DoctorDetailedComplaintsValues { get; set; }
     }
 }

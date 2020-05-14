@@ -171,7 +171,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
                   100
                 : discount.price;
             }
-            if (this.bookingDetails.isCanceled || this.bookingDetails.isEnter) {
+            if (this.bookingDetails.isCanceled) {
               this.form.controls["date"].disable();
               this.form.controls["time"].disable();
               this.form.controls["type"].disable();

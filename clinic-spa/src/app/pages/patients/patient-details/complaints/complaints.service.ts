@@ -2,17 +2,27 @@ import { Injectable } from "@angular/core";
 import {
   ComplaintDetailsValue,
   PatientComplaintDetails,
-  PatientGeneralComplaint
+  PatientGeneralComplaint,
+  ComplaintGeneralValue,
 } from "./complaints.model";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class ComplaintsService {
   constructor() {}
 
-  getComplaintsGeneralValues(): string[] {
-    return ["تورم بالقدمين", "آلام الركبة"];
+  getComplaintsGeneralValues(): ComplaintGeneralValue[] {
+    return [
+      {
+        compId: 1,
+        compName: "تورم بالقدمين",
+      },
+      {
+        compId: 2,
+        compName: "آلام الركبة",
+      },
+    ];
   }
 
   getComplaintsDetailsValues(): ComplaintDetailsValue[] {
@@ -21,29 +31,56 @@ export class ComplaintsService {
         compId: 1,
         compName: "Pain",
         compChoises: [
-          "EXERTIONAL",
-          "WEIGHT  BEARING",
-          "NOCTURNAL",
-          "WAKES FROM SLEEP"
-        ]
+          {
+            choiceId: 1,
+            choiceName: "EXERTIONAL",
+          },
+          {
+            choiceId: 2,
+            choiceName: "NOCTURNAL",
+          },
+          {
+            choiceId: 3,
+            choiceName: "WAKES FROM SLEEP",
+          },
+        ],
       },
       {
         compId: 2,
         compName: "Onest",
-        compChoises: ["GRADUAL", "SUDDEN", "POST - PARTUM"]
+        compChoises: [
+          {
+            choiceId: 4,
+            choiceName: "SUDDEN",
+          },
+          {
+            choiceId: 5,
+            choiceName: "GRADUAL",
+          },
+          {
+            choiceId: 6,
+            choiceName: "POST - PARTUM",
+          },
+        ],
       },
       {
         compId: 3,
         compName: "Course",
         compChoises: [
-          "PROGRESSIVE",
-          "REGRESSIVE",
-          "INTERMITTENT",
-          "PALINDROMIC",
-          "MIGRATORY",
-          "REMITTIVE"
-        ]
-      }
+          {
+            choiceId: 7,
+            choiceName: "PROGRESSIVE",
+          },
+          {
+            choiceId: 8,
+            choiceName: "REGRESSIVE",
+          },
+          {
+            choiceId: 9,
+            choiceName: "PALINDROMIC",
+          },
+        ],
+      },
     ];
   }
 

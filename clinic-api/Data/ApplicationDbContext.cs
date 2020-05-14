@@ -466,8 +466,6 @@ namespace clinic_api.Data
 
             modelBuilder.Entity<DoctorGeneralComplaintsValue>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Complaint).IsRequired();
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
@@ -626,6 +624,12 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.PatientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PatientDetailedComplaints_Patients");
+
+                entity.HasOne(d => d.DetailedComplaint)
+                    .WithMany(p => p.PatientDetailedComplaints)
+                    .HasForeignKey(d => d.DetailedComplaintId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues");
             });
 
             modelBuilder.Entity<PatientDiagnosis>(entity =>

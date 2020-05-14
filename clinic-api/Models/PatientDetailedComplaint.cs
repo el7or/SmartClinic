@@ -8,7 +8,8 @@ namespace clinic_api.Models
     {
         public int Id { get; set; }
         public Guid PatientId { get; set; }
-        public int ComplaintChoiceId { get; set; }
+        public int DetailedComplaintId { get; set; }
+        public int? ComplaintChoiceId { get; set; }
 
         [StringLength(256)]
         public string Period { get; set; }
@@ -18,6 +19,7 @@ namespace clinic_api.Models
         public DateTime UpdatedOn { get; set; }
         public Guid UpdatedBy { get; set; }
 
+        public virtual DoctorDetailedComplaintsValue DetailedComplaint { get; set; }
         public virtual DoctorComplaintChoicesValue ComplaintChoice { get; set; }
         public virtual Patient Patient { get; set; }
     }

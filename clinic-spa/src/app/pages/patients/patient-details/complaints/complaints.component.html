@@ -3,7 +3,7 @@
   <textarea nbInput [ngModel]="diseaseSummary" #diseases name="diseases" id="input-diseasesInComplaints" disabled
     fullWidth rows="1"></textarea>
   <hr> -->
-  <h6><span langg>General Complaint</span>:</h6>
+  <h6><span>{{'General Complaint'| langg}}</span>:</h6>
   <table class="table">
     <tbody>
       <tr *ngFor="let item of patientGeneralComplaints; index as i;">
@@ -45,10 +45,10 @@
   <button nbButton size="small" (click)="onAddComplaint('general')"
     [disabled]="patientGeneralComplaints.length && !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId"
     class="mx-1 mb-1">
-    <nb-icon icon="plus-outline"></nb-icon><span langg>Add General Complaint</span>
+    <nb-icon icon="plus-outline"></nb-icon><span>{{'Add General Complaint'| langg}}</span>
   </button>
   <hr>
-  <h6><span langg>Complaint Details</span>:</h6>
+  <h6><span>{{'Complaint Details'| langg}}</span>:</h6>
   <table class="table">
     <tbody>
       <tr *ngFor="let item of patientDetailsComplaints; index as i;">
@@ -92,13 +92,13 @@
   <button nbButton size="small" (click)="onAddComplaint('')"
     [disabled]="patientDetailsComplaints.length &&!patientDetailsComplaints[patientDetailsComplaints?.length-1]?.choiceId"
     class="mx-1 mb-1">
-    <nb-icon icon="plus-outline"></nb-icon><span langg>Add Complaint Details</span>
+    <nb-icon icon="plus-outline"></nb-icon><span>{{'Add Complaint Details'| langg}}</span>
   </button>
 
   <div class="text-center nbButton-group mb-1">
     <button nbButton type="submit" status="success" (click)="onSave()"
-      [disabled]="!patientGeneralComplaints.length || !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId" langg>Save</button>
-    <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+      [disabled]="!patientGeneralComplaints.length || !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId">{{'Save'| langg}}</button>
+    <button nbButton type="button" status="danger" (click)="location.back()">{{'Cancel'| langg}}</button>
   </div>
 </form>
 

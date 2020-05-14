@@ -28,19 +28,19 @@
         id="input-prevMarriagePartner" [placeholder]="'Previous Marriages for Partner' | langg" fullWidth>
     </div> -->
     <div class="col-md-6 form-control-group">
-      <label for="input-treatmentHistory" class="label"><span langg>Previous Treatments</span>:</label>
+      <label for="input-treatmentHistory" class="label"><span>{{'Previous Treatments'| langg}}</span>:</label>
       <textarea nbInput [(ngModel)]="patientHistory.treatmentHistory" #treatmentHistory="ngModel" name="treatmentHistory" id="input-treatmentHistory"
         [placeholder]="'Previous Treatments' | langg" fullWidth></textarea>
     </div>
     <div class="col-md-6 form-control-group">
-      <label for="input-familyHistory" class="label"><span langg>Family Medical History</span>:</label>
+      <label for="input-familyHistory" class="label"><span >{{'Family Medical History'| langg}}</span>:</label>
       <textarea nbInput [(ngModel)]="patientHistory.familyHistory" #familyHistory="ngModel" name="familyHistory" id="input-familyHistory"
         [placeholder]="'Family Medical History' | langg" fullWidth></textarea>
     </div>
   </div>
   <div class="text-center nbButton-group">
-    <button nbButton type="submit" status="success" [disabled]="!form.dirty" langg>Save</button>
-    <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+    <button nbButton type="submit" status="success" [disabled]="!form.dirty">{{'Save'| langg}}</button>
+    <button nbButton type="button" status="danger" (click)="location.back()">{{'Cancel'| langg}}</button>
   </div>
 </form>
 

@@ -16,6 +16,7 @@ import { AlertService } from '../../../../shared/services/alert.service';
 export class PatientRecordComponent implements OnInit,OnDestroy {
   formLoading = false;
   recordItems:Recorditem[];
+  isExpanded = false;
   patientId:string;
 
   getRecordSubs: Subscription;

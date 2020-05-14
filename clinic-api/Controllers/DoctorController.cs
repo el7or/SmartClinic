@@ -117,7 +117,8 @@ namespace clinic_api.Controllers
                     Id = d.Id,
                     TextAR = d.Text,
                     TextEN = d.Value,
-                    IsActive = true
+                    IsActive = true,
+                    IsExpanded =  false
                 }).ToListAsync();
                 return model;
             }
@@ -129,7 +130,8 @@ namespace clinic_api.Controllers
                     Id = d.Id,
                     TextAR = d.Text,
                     TextEN = d.Value,
-                    IsActive = ids.Contains(d.Id)
+                    IsActive = ids.Contains(d.Id),
+                    IsExpanded = false
                 }).ToListAsync();
                 return model;
             }

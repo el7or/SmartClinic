@@ -116,6 +116,7 @@ export interface Recorditem {
   textEN: string;
   textAR: string;
   isActive: boolean;
+  isExpanded:boolean;
 }
 
 export interface GetUser {

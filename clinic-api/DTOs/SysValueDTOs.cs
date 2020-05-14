@@ -38,5 +38,6 @@ namespace clinic_api.DTOs
         public string TextEN { get; set; }
         public string TextAR { get; set; }
         public bool IsActive { get; set; }
+        public bool IsExpanded { get; set; }
     }
 }

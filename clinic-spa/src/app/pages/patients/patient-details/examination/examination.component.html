@@ -1,5 +1,4 @@
-<form #form="ngForm" (ngSubmit)="onSave(form)" aria-labelledby="title" [nbSpinner]="formLoading"
-  nbSpinnerStatus="success">
+<form #form="ngForm" (ngSubmit)="onSave()" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
   <div class="row">
     <!-- <div class="col-md-6">
       <label for="input-diseasesInQuestions" class="label"><span langg>Associated Diseases Summary</span>:</label>
@@ -12,37 +11,46 @@
         fullWidth rows="1"></textarea>
     </div> -->
     <div class="col-md-2 col-sm-6 form-control-group">
-      <label for="input-weight" class="label"><span langg>Weight</span>:</label>
-      <input nbInput [(ngModel)]="patientExaminations.weight" type="number" #weight="ngModel" name="weight" id="input-weight" fullWidth>
+      <label for="input-weight" class="label"><span>{{'Weight' | langg}}</span>:</label>
+      <input nbInput [(ngModel)]="patientExaminations.weight" type="number" #weight="ngModel" name="weight"
+        id="input-weight" fullWidth>
     </div>
     <div class="col-md-2 col-sm-6 form-control-group">
-      <label for="input-length" class="label"><span langg>Length</span>:</label>
-      <input nbInput [(ngModel)]="patientExaminations.length" type="number" #length="ngModel" name="length" id="input-length" fullWidth>
+      <label for="input-length" class="label"><span>{{'Length' | langg}}</span>:</label>
+      <input nbInput [(ngModel)]="patientExaminations.length" type="number" #length="ngModel" name="length"
+        id="input-length" fullWidth>
     </div>
     <div class="col-md-2 col-sm-6 form-control-group">
-      <label for="input-mass" class="label"><span langg>Body Mass</span>:</label>
-      <input nbInput [(ngModel)]="patientExaminations.mass" type="number" #mass="ngModel" name="mass" id="input-mass" fullWidth>
+      <label for="input-mass" class="label"><span>{{'Body Mass' | langg}}</span>:</label>
+      <input nbInput [(ngModel)]="patientExaminations.mass" type="number" #mass="ngModel" name="mass" id="input-mass"
+        fullWidth>
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
-      <label for="input-pressure" class="label"><span langg>Blood pressure</span>:</label>
-      <nb-select fullWidth [(ngModel)]="patientExaminations.pressure" #pressure="ngModel" name="pressure" id="input-pressure">
-        <nb-option [value]="1" langg>Hypotension</nb-option>
-        <nb-option [value]="2" langg>Normal</nb-option>
-        <nb-option [value]="3" langg>Hypertension</nb-option>
+      <label for="input-pressure" class="label"><span>{{'Blood pressure' | langg}}</span>:</label>
+      <nb-select fullWidth [(ngModel)]="patientExaminations.pressureId" #pressure="ngModel" name="pressure"
+        id="input-pressure">
+        <nb-option *ngFor="let item of pressureValues" [value]="item.id">{{item.pressure}}</nb-option>
       </nb-select>
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
-      <label for="input-temperature" class="label"><span langg>Temperature</span>:</label>
-      <input nbInput [(ngModel)]="patientExaminations.temperature" type="number" #temperature="ngModel" name="temperature" id="input-temperature" fullWidth>
+      <label for="input-temperature" class="label"><span>{{'Temperature' | langg}}</span>:</label>
+      <input nbInput [(ngModel)]="patientExaminations.temperature" type="number" #temperature="ngModel"
+        name="temperature" id="input-temperature" fullWidth>
     </div>
 
     <div class="col-12">
-      <h6 langg>Clinical Examination:</h6>
+      <h6>{{'Clinical Examination:' | langg}}</h6>
       <table class="table mb-1">
         <tbody>
           <tr *ngFor="let item of patientExaminations.examinations; index as i;">
             <td>
-              <input nbInput [(ngModel)]="item.type" [typeahead]="examinationsTypes" fullWidth
+              <nb-select [(ngModel)]="item.typeId" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Examination Type' | langg" size="small" fullWidth>
+                <nb-option *ngFor="let typeValue of examinationsTypes" [value]="typeValue.typeId">
+                  {{typeValue.typeText}}
+                </nb-option>
+              </nb-select>
+              <!-- <input nbInput [(ngModel)]="item.type" [typeahead]="examinationsTypes" fullWidth
                 (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Examination Type' | langg"
                 [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
                 [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
@@ -51,10 +59,16 @@
                   list?</label>&nbsp;
                 <button nbButton type="button" (click)="onAddNewItemToList(item.type,'type');item.isNameValid=true"
                   status="info" size="small" class="mt-2" langg>Add</button>
-              </ng-container>
+              </ng-container> -->
             </td>
             <td>
-              <input nbInput [(ngModel)]="item.area" [typeahead]="examinationsAreas" fullWidth
+              <nb-select [(ngModel)]="item.areaId" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Examination Area' | langg" size="small" fullWidth>
+                <nb-option *ngFor="let areaValue of examinationsAreas" [value]="areaValue.areaId">
+                  {{areaValue.areaText}}
+                </nb-option>
+              </nb-select>
+              <!-- <input nbInput [(ngModel)]="item.area" [typeahead]="examinationsAreas" fullWidth
                 (typeaheadNoResults)="item.isAreaValid = !$event" [placeholder]="'Examination Area' | langg"
                 [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
                 [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
@@ -63,15 +77,17 @@
                   list?</label>&nbsp;
                 <button nbButton type="button" (click)="onAddNewItemToList(item.area,'area');item.isAreaValid=true"
                   status="info" size="small" class="mt-2" langg>Add</button>
-              </ng-container>
+              </ng-container> -->
             </td>
             <td class="label pt-2">
-              <label *ngIf="item.type"><span langg>Added Date</span>:&nbsp;<b>{{item.createdOn | localDateShort}}</b>
+              <label
+                *ngIf="item.typeId"><span>{{'Added Date' | langg}}</span>:&nbsp;<b>{{item.createdOn | localDateShort}}</b>
               </label>
             </td>
             <td>
-              <button (click)="onRemoveExamination(i)" type="button" nbButton [hidden]="item== patientExaminations.examinations[0]"
-                [nbTooltip]="'Remove Examination' | langg" size="tiny" status="danger">
+              <button *ngIf="!item.id" (click)="onRemoveExamination(i)" type="button" nbButton
+                [nbTooltip]="'Remove Examination' | langg"
+                size="tiny" status="danger">
                 <nb-icon icon="close-square"></nb-icon>
               </button>
             </td>
@@ -79,16 +95,16 @@
         </tbody>
       </table>
       <button nbButton size="small" type="button" (click)="onAddExamination()"
-        [disabled]="patientExaminations.examinations.length &&(!patientExaminations.examinations[patientExaminations.examinations?.length-1]?.type||!patientExaminations.examinations[patientExaminations.examinations?.length-1]?.isTypeValid)"
+        [disabled]="patientExaminations?.examinations?.length && !patientExaminations?.examinations[patientExaminations?.examinations?.length-1]?.typeId"
         class="mb-1">
-        <nb-icon icon="plus-outline"></nb-icon><span langg>Add Examination Type</span>
+        <nb-icon icon="plus-outline"></nb-icon><span>{{'Add Examination Type' | langg}}</span>
       </button>
     </div>
 
     <div class="col-12 text-center nbButton-group">
       <button nbButton type="submit" status="success"
-        [disabled]="!form.valid || (!patientExaminations.examinations[patientExaminations.examinations?.length-1]?.type||!patientExaminations.examinations[patientExaminations.examinations?.length-1]?.isTypeValid)" langg>Save</button>
-      <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+        [disabled]="!form.valid || !patientExaminations?.examinations[patientExaminations?.examinations?.length-1]?.typeId">{{'Save' | langg}}</button>
+      <button nbButton type="button" status="danger" (click)="location.back()">{{'Cancel' | langg}}</button>
     </div>
   </div>
 </form>

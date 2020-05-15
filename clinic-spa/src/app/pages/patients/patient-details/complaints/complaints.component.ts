@@ -1,5 +1,5 @@
 import { AlertService } from './../../../../shared/services/alert.service';
-import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
@@ -31,9 +31,10 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
   patientDetailsComplaints: PatientDetailsComplaint[] = [];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
+  @Output() onFinish: EventEmitter<any> = new EventEmitter<any>();
 
-  getCompSubs: Subscription;
-  setCompSubs: Subscription;
+  getSubs: Subscription;
+  setSubs: Subscription;
 
   constructor(
     private complantService: ComplaintsService,
@@ -53,7 +54,7 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
     this.diseaseSummary == "" ? (this.diseaseSummary = "--") : false; */
 
     // =====> get complaints values & patient complaints:
-    this.getCompSubs = this.complantService
+    this.getSubs = this.complantService
       .getPatientComplaints()
       .pipe(
         map((res: GetPatientComplaints) => {
@@ -79,8 +80,8 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
       );
   }
   ngOnDestroy() {
-    this.getCompSubs.unsubscribe();
-    if (this.setCompSubs) this.setCompSubs.unsubscribe();
+    this.getSubs.unsubscribe();
+    if (this.setSubs) this.setSubs.unsubscribe();
   }
 
   /* // =====> add chosen general complaint to patient general compliants:
@@ -144,12 +145,13 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
       patientGeneralComplaints : this.patientGeneralComplaints,
       patientDetailsComplaints : this.patientDetailsComplaints
     }
-    this.setCompSubs = this.complantService
+    this.setSubs = this.complantService
       .savePatientComplaints(putObj)
       .subscribe(
         () => {
           this.formLoading = false;
           this.doneSwal.fire();
+          this.onFinish.emit();
         },
         (err) => {
           console.error(err);

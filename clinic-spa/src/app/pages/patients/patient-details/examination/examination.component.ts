@@ -1,56 +1,86 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { Location } from "@angular/common";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { NgForm } from "@angular/forms";
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ExaminationService } from "./examination.service";
-import { PatientExaminationsDetails } from "./examination.model";
+import { PatientExaminationsDetails, ExaminationTypeValue, ExaminationAreaValue, GetPatientExaminations, BloodPressureValue } from "./examination.model";
+import { AlertService } from '../../../../shared/services/alert.service';
 
 @Component({
   selector: "examination",
   templateUrl: "./examination.component.html",
   styleUrls: ["./examination.component.scss"],
 })
-export class ExaminationComponent implements OnInit {
+export class ExaminationComponent implements OnInit,OnDestroy {
   formLoading: boolean = false;
   today: Date = new Date();
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
-  diseaseSummary: string = "ضغط - سكر - حمل";
-  complaintSummary: string = "صداع - آلام الركبة";
+  @Output() onFinish: EventEmitter<any> = new EventEmitter<any>();
 
-  patientExaminations: PatientExaminationsDetails;
-  examinationsTypes: string[];
-  examinationsAreas: string[];
+  examinationsTypes: ExaminationTypeValue[];
+  examinationsAreas: ExaminationAreaValue[];
+  pressureValues:BloodPressureValue[];
+  patientExaminations: PatientExaminationsDetails={
+    examinations:[]
+  };
+
+  getSubs: Subscription;
+  setSubs: Subscription;
 
   constructor(
     private examinationService: ExaminationService,
+    private alertService:AlertService,
     public location: Location
   ) {}
 
   ngOnInit() {
-    this.examinationsTypes = this.examinationService.getExaminationTypes();
-    this.examinationsAreas = this.examinationService.getExaminationAreas();
-    this.patientExaminations = this.examinationService.getPatientExaminations();
-  }
+    this.formLoading = true;
+    this.getSubs = this.examinationService
+    .getPatientExaminations()
+    .pipe(
+      map((res: GetPatientExaminations) => {
+        this.examinationsTypes = res.examinationTypeValues;
+        this.examinationsAreas = res.examinationAreaValues;
+        this.pressureValues = res.pressureValues;
+        return res.patientExaminations;
+      })
+    )
+    .subscribe(
+      (res: PatientExaminationsDetails) => {
+        this.patientExaminations = res;
+        this.formLoading = false;
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
+}
+ngOnDestroy() {
+  this.getSubs.unsubscribe();
+  if (this.setSubs) this.setSubs.unsubscribe();
+}
 
-  onAddNewItemToList(name, type) {
+  /* onAddNewItemToList(name, type) {
     if (type == "type") {
       this.examinationsTypes.push(name);
     } else {
       this.examinationsAreas.push(name);
     }
-  }
+  } */
 
   // =====> on add new request to form from button:
   onAddExamination() {
     this.patientExaminations.examinations.push({
       id: 0,
-      type: "",
-      isTypeValid: true,
-      area: "",
-      isAreaValid: true,
-      createdOn: new Date(),
+      typeId: 0,
+      areaId: 0,
+      createdOn: new Date()
     });
   }
 
@@ -59,12 +89,21 @@ export class ExaminationComponent implements OnInit {
     this.patientExaminations.examinations.splice(index, 1);
   }
 
-  onSave(form: NgForm) {
+  onSave() {
     this.formLoading = true;
-    this.examinationService.setPatientExaminations(this.patientExaminations);
-    setTimeout(() => {
-      this.doneSwal.fire();
-      this.formLoading = false;
-    }, 1000);
+    this.setSubs = this.examinationService
+      .savePatientExaminations(this.patientExaminations)
+      .subscribe(
+        () => {
+          this.formLoading = false;
+          this.doneSwal.fire();
+          this.onFinish.emit();
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 }

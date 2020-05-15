@@ -1,36 +1,43 @@
 import { Injectable } from "@angular/core";
-import { PatientDiagnosis, DiagnosisValue } from "./diagnosis.model";
+import { HttpClient } from '@angular/common/http';
+
+import {  GetPatientDiagnosis, PutPatientDiagnosis } from "./diagnosis.model";
+import { environment } from '../../../../../environments/environment';
+import { AuthService } from '../../../../auth/auth.service';
+import { PatientsService } from '../../patients.service';
 
 @Injectable({
   providedIn: "root",
 })
 export class DiagnosisService {
-  constructor() {}
+  baseUrl = environment.API_URL;
 
-  getDiagnosisValues(): string[] {
-    return ["التشخيص 1", "التشخيص 2", "التشخيص 3"];
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private patientService: PatientsService
+  ) {}
+
+  getPatientDiagnosis() {
+    return this.http.get<GetPatientDiagnosis>(
+      this.baseUrl +
+        "PatientDetails/GetPatientDiagnosis/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId +
+        "/" +
+        this.authService.doctorId
+    );
   }
 
-  getPatientDiagnosis(): PatientDiagnosis[] {
-    return [
-      {
-        id: 1,
-        name: "التشخيص 1",
-        isNameValid: true,
-        grade: 1,
-        note: "",
-        createdOn: new Date()
-      },
-      {
-        id: 2,
-        name: "التشخيص 2",
-        isNameValid: true,
-        grade: 3,
-        note: "",
-        createdOn: new Date()
-      },
-    ];
+  savePatientDiagnosis(patientDiagnosis: PutPatientDiagnosis) {
+    return this.http.put(
+      this.baseUrl +
+        "PatientDetails/PutPatientDiagnosis/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId,
+        patientDiagnosis
+    );
   }
-
-  setPatientDiagnosis(patientDiagnosis: PatientDiagnosis[]) {}
 }

@@ -1,10 +1,14 @@
 <form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
-  <h6><span langg>Patient Diagnoses</span>:</h6>
+  <h6><span>{{'Patient Diagnoses' | langg}}</span>:</h6>
   <table class="table">
     <tbody>
       <tr *ngFor="let item of patientDiagnoses; index as i;">
         <td>
-          <input nbInput [(ngModel)]="item.name" [typeahead]="diagnosesNames" fullWidth
+          <nb-select fullWidth [(ngModel)]="item.diagnosisId" [ngModelOptions]="{standalone: true}"
+            [placeholder]="'Diagnosis' | langg" size="small">
+            <nb-option *ngFor="let diagnose of diagnosisValues" [value]="diagnose.id">{{diagnose.text}}</nb-option>
+          </nb-select>
+          <!-- <input nbInput [(ngModel)]="item.name" [typeahead]="diagnosesNames" fullWidth
             (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Diagnosis' | langg" [isAnimated]="true"
             fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
             [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
@@ -13,16 +17,12 @@
               list?</label>&nbsp;
             <button nbButton type="button" (click)="onAddNewItemToList(item.name);item.isNameValid=true" status="info"
               size="small" class="mt-2" langg>Add</button>
-          </ng-container>
+          </ng-container> -->
         </td>
         <td>
-          <nb-select fullWidth [(ngModel)]="item.grade" [ngModelOptions]="{standalone: true}"
+          <nb-select fullWidth [(ngModel)]="item.gradeId" [ngModelOptions]="{standalone: true}"
             [placeholder]="'Disease Severity' | langg" size="small">
-            <nb-option [value]="0">Grade 0</nb-option>
-            <nb-option [value]="1">Grade 1</nb-option>
-            <nb-option [value]="2">Grade 2</nb-option>
-            <nb-option [value]="3">Grade 3</nb-option>
-            <nb-option [value]="4">Grade 4</nb-option>
+            <nb-option *ngFor="let grade of diseaseValues" [value]="grade.id">{{grade.text}}</nb-option>
           </nb-select>
         </td>
         <td>
@@ -30,12 +30,12 @@
             fullWidth fieldSize="small">
         </td>
         <td class="label pt-2">
-          <label><span langg>Added Date</span>:&nbsp;<b>{{item.createdOn | localDateShort}}</b>
+          <label><span>{{'Added Date' | langg}}</span>:&nbsp;<b>{{item.createdOn | localDateShort}}</b>
           </label>
         </td>
         <td>
-          <button (click)="onRemoveDiagnose(i)" nbButton [nbTooltip]="'Remove Diagnose' | langg" size="tiny"
-            status="danger" [hidden]="item== patientDiagnoses[0]">
+          <button *ngIf="!item.id" (click)="onRemoveDiagnose(i)" nbButton [nbTooltip]="'Remove Diagnose' | langg" size="tiny"
+            status="danger">
             <nb-icon icon="close-square"></nb-icon>
           </button>
         </td>
@@ -44,16 +44,16 @@
   </table>
 
   <button nbButton
-    [disabled]="patientDiagnoses.length &&(!patientDiagnoses[patientDiagnoses?.length-1]?.name || !patientDiagnoses[patientDiagnoses?.length-1]?.isNameValid)"
+    [disabled]="patientDiagnoses?.length &&!patientDiagnoses[patientDiagnoses?.length-1]?.diagnosisId"
     size="small" (click)="onAddDiagnose()" class="mx-1 mb-1">
-    <nb-icon icon="plus-outline"></nb-icon><span langg>Add Another Diagnose</span>
+    <nb-icon icon="plus-outline"></nb-icon><span>{{'Add Diagnose' | langg}}</span>
   </button>
 
   <div class="text-center nbButton-group">
     <button nbButton type="submit" (click)="onSave()" status="success"
-      [disabled]="patientDiagnoses.length &&(!patientDiagnoses[patientDiagnoses?.length-1]?.name || !patientDiagnoses[patientDiagnoses?.length-1]?.isNameValid)"
-      langg>Save</button>
-    <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
+      [disabled]="!patientDiagnoses?.length || (patientDiagnoses?.length &&!patientDiagnoses[patientDiagnoses?.length-1]?.diagnosisId)"
+      >{{'Save' | langg}}</button>
+    <button nbButton type="button" status="danger" (click)="location.back()">{{'Cancel' | langg}}</button>
   </div>
 </form>
 

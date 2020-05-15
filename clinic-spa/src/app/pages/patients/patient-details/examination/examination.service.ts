@@ -1,50 +1,46 @@
 import { Injectable } from "@angular/core";
+
+import { HttpClient } from '@angular/common/http';
 import {
-  PatientExamination,
   PatientExaminationsDetails,
+  GetPatientExaminations,
 } from "./examination.model";
+import { environment } from '../../../../../environments/environment';
+import { AuthService } from '../../../../auth/auth.service';
+import { PatientsService } from '../../patients.service';
 
 @Injectable({
   providedIn: "root",
 })
 export class ExaminationService {
-  constructor() {}
+  baseUrl = environment.API_URL;
 
-  getExaminationTypes(): string[] {
-    return ["تورم بالجسم", "طفح جلدي"];
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private patientService: PatientsService
+  ) {}
+
+  getPatientExaminations() {
+    return this.http.get<GetPatientExaminations>(
+      this.baseUrl +
+        "PatientDetails/GetPatientExams/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId +
+        "/" +
+        this.authService.doctorId
+    );
   }
 
-  getExaminationAreas(): string[] {
-    return ["القدم اليسرى", "اليد اليمنى"];
+  savePatientExaminations(patientExaminations: PatientExaminationsDetails) {
+    return this.http.put(
+      this.baseUrl +
+        "PatientDetails/PutPatientExaminations/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId,
+        patientExaminations
+    );
   }
-
-  getPatientExaminations(): PatientExaminationsDetails {
-    return {
-      weight: 75,
-      length: 175,
-      mass: 354,
-      pressure: 2,
-      temperature: 36.5,
-      examinations: [
-        {
-          id: 1,
-          type: "طفح جلدي",
-          isTypeValid: true,
-          area: "اليد اليمنى",
-          isAreaValid: true,
-          createdOn: new Date(),
-        },
-        {
-          id: 2,
-          type: "تورم بالجسم",
-          isTypeValid: true,
-          area: "القدم اليسرى",
-          isAreaValid: true,
-          createdOn: new Date(),
-        },
-      ],
-    };
-  }
-
-  setPatientExaminations(patientExaminations: PatientExaminationsDetails) {}
 }

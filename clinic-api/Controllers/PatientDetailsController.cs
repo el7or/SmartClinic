@@ -243,5 +243,182 @@ namespace clinic_api.Controllers
 
             return NoContent();
         }
+
+        // GET: api/PatientDetails/GetPatientExaminations/5
+        [HttpGet("GetPatientExams/{id}/{patientId}/{doctorId}")]
+        public async Task<ActionResult<GetPatientExaminationsDTO>> GetPatientExams(Guid id, Guid patientId, Guid doctorId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patient = _context.Patients.Where(p => p.Id == patientId).Include(e => e.PatientExaminations).FirstOrDefault();
+            if (patient == null)
+            {
+                return NotFound();
+            }
+            GetPatientExaminationsDTO model = new GetPatientExaminationsDTO
+            {
+                ExaminationTypeValues = await _context.DoctorExaminationsValues.Where(d => d.DoctorId == doctorId).Select(c => new ExaminationTypeValue
+                {
+                    TypeId = c.Id,
+                    TypeText = c.Examination
+                }).ToListAsync(),
+                ExaminationAreaValues = await _context.DoctorExaminationAreasValues.Where(d => d.DoctorId == doctorId).Select(c => new ExaminationAreaValue
+                {
+                    AreaId = c.Id,
+                    AreaText = c.ExaminationArea
+                }).ToListAsync(),
+                PressureValues = await _context.SysBloodPressureValues.Select(c => new BloodPressureValue
+                {
+                    Id = c.Id,
+                    Pressure = c.Value
+                }).ToListAsync(),
+                PatientExaminations = new PatientExaminationsDetails
+                {
+                    Length = patient.Length,
+                    Weight = patient.Weight,
+                    Mass = patient.BodyMass,
+                    Temperature = patient.Temperature,
+                    PressureId = patient.BloodPressureId,
+                    Examinations = patient.PatientExaminations.Select(e => new PatientExaminationList
+                    {
+                        Id = e.Id,
+                        TypeId = e.ExaminationId,
+                        AreaId = e.ExaminationAreaId,
+                        CreatedOn = e.CreatedOn
+                    }).ToList()
+                }
+            };
+
+            return model;
+        }
+
+        // PUT: api/PatientDetails/PutPatientExaminations/5
+        [HttpPut("PutPatientExaminations/{id}/{patientId}")]
+        public async Task<IActionResult> PutPatientExaminations(Guid id, Guid patientId, PatientExaminationsDetails model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patient = _context.Patients.Where(p => p.Id == patientId).Include(e => e.PatientExaminations).FirstOrDefault();
+            patient.Length = model.Length;
+            patient.Weight = model.Weight;
+            patient.BodyMass = model.Mass;
+            patient.Temperature = model.Temperature;
+            patient.BloodPressureId = model.PressureId;
+
+            foreach (var exam in model.Examinations)
+            {
+                if (exam.Id == 0)
+                {
+                    _context.PatientExaminations.Add(new PatientExamination
+                    {
+                        PatientId = patientId,
+                        ExaminationId = exam.TypeId,
+                        ExaminationAreaId = exam.AreaId,
+                        CreatedBy = id,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = id,
+                        UpdatedOn = DateTime.Now
+                    });
+                }
+                else
+                {
+                    var oldPatientExams = patient.PatientExaminations.FirstOrDefault(i => i.Id == exam.Id);
+                    oldPatientExams.ExaminationId = exam.TypeId;
+                    oldPatientExams.ExaminationAreaId = exam.AreaId;
+                    oldPatientExams.UpdatedBy = id;
+                    oldPatientExams.UpdatedOn = DateTime.Now;
+                }
+            }
+            _context.Entry(patient).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // GET: api/PatientDetails/GetPatientDiagnosis/5
+        [HttpGet("GetPatientDiagnosis/{id}/{patientId}/{doctorId}")]
+        public async Task<ActionResult<GetPatientDiagnosis>> GetPatientDiagnosis(Guid id, Guid patientId, Guid doctorId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patient = _context.Patients.Where(p => p.Id == patientId).Include(e => e.PatientDiagnosis).FirstOrDefault();
+            if (patient == null)
+            {
+                return NotFound();
+            }
+            GetPatientDiagnosis model = new GetPatientDiagnosis
+            {
+                DiagnosisValues = await _context.DoctorDiagnosisValues.Where(d => d.DoctorId == doctorId).Select(c => new DiagnosisValue
+                {
+                    Id = c.Id,
+                    Text = c.Diagnosis
+                }).ToListAsync(),
+                DiseaseValues = await _context.SysDiseaseGradesValues.Select(c => new DiseaseValue
+                {
+                    Id = c.Id,
+                    Text = c.Value
+                }).ToListAsync(),
+                PatientDiagnosis = patient.PatientDiagnosis.Select(e => new PatientDiagnosisList
+                {
+                    Id = e.Id,
+                    DiagnosisId = e.DiagnosisId,
+                    GradeId = e.GradeId,
+                    Note = e.Note,
+                    CreatedOn = e.CreatedOn
+                }).ToList()
+            };
+
+            return model;
+        }
+
+        // PUT: api/PatientDetails/PutPatientDiagnosis/5
+        [HttpPut("PutPatientDiagnosis/{id}/{patientId}")]
+        public async Task<IActionResult> PutPatientDiagnosis(Guid id, Guid patientId, PutPatientDiagnosis model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patient = _context.Patients.Where(p => p.Id == patientId).Include(e => e.PatientDiagnosis).FirstOrDefault();
+
+            foreach (var diagnose in model.PatientDiagnosis)
+            {
+                if (diagnose.Id == 0)
+                {
+                    _context.PatientDiagnosis.Add(new PatientDiagnosis
+                    {
+                        PatientId = patientId,
+                        DiagnosisId = diagnose.DiagnosisId,
+                        GradeId = diagnose.GradeId,
+                        Note = diagnose.Note,
+                        CreatedBy = id,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = id,
+                        UpdatedOn = DateTime.Now
+                    });
+                }
+                else
+                {
+                    var oldPatientDiagnose= patient.PatientDiagnosis.FirstOrDefault(i => i.Id == diagnose.Id);
+                    oldPatientDiagnose.DiagnosisId = diagnose.DiagnosisId;
+                    oldPatientDiagnose.GradeId = diagnose.GradeId;
+                    oldPatientDiagnose.Note = diagnose.Note;
+                    oldPatientDiagnose.UpdatedBy = id;
+                    oldPatientDiagnose.UpdatedOn = DateTime.Now;
+                }
+            }
+            _context.Entry(patient).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

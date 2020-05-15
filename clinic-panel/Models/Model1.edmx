@@ -319,9 +319,9 @@
         </EntityType>
         <EntityType Name="DoctorMedicinesValues">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="DoctorId" />
+            <PropertyRef Name="MedicineId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="MedicineId" Type="int" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
@@ -523,12 +523,6 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PatientId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="MedicineId" Type="int" Nullable="false" />
-          <Property Name="ConcentrationId" Type="int" />
-          <Property Name="FormId" Type="int" />
-          <Property Name="DoseId" Type="int" />
-          <Property Name="TimingId" Type="int" />
-          <Property Name="PeriodId" Type="int" />
           <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
@@ -644,6 +638,19 @@
           <Property Name="MaxBookingsMonthly" Type="int" />
           <Property Name="MaxFilesMonthlyMB" Type="int" />
           <Property Name="MaxFileSizeMB" Type="int" />
+        </EntityType>
+        <EntityType Name="PrescriptionMedicines">
+          <Key>
+            <PropertyRef Name="PrescriptionId" />
+            <PropertyRef Name="MedicineId" />
+          </Key>
+          <Property Name="PrescriptionId" Type="int" Nullable="false" />
+          <Property Name="MedicineId" Type="int" Nullable="false" />
+          <Property Name="ConcentrationId" Type="int" />
+          <Property Name="FormId" Type="int" />
+          <Property Name="DoseId" Type="int" />
+          <Property Name="TimingId" Type="int" />
+          <Property Name="PeriodId" Type="int" />
         </EntityType>
         <EntityType Name="SubscriptionPayments">
           <Key>
@@ -1475,18 +1482,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PatientPrescriptions_DoctorMedicinesValues">
-          <End Role="DoctorMedicinesValues" Type="Self.DoctorMedicinesValues" Multiplicity="1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescriptions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DoctorMedicinesValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="MedicineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PatientPrescriptions_Patients">
           <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
           <End Role="PatientPrescriptions" Type="Self.PatientPrescriptions" Multiplicity="*" />
@@ -1496,66 +1491,6 @@
             </Principal>
             <Dependent Role="PatientPrescriptions">
               <PropertyRef Name="PatientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicineConcentrationsValues">
-          <End Role="SysMedicineConcentrationsValues" Type="Self.SysMedicineConcentrationsValues" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescriptions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicineConcentrationsValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="ConcentrationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicineDosesValues">
-          <End Role="SysMedicineDosesValues" Type="Self.SysMedicineDosesValues" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescriptions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicineDosesValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="DoseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicineFormsValues">
-          <End Role="SysMedicineFormsValues" Type="Self.SysMedicineFormsValues" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescriptions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicineFormsValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="FormId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicinePeriodsValues">
-          <End Role="SysMedicinePeriodsValues" Type="Self.SysMedicinePeriodsValues" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescriptions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicinePeriodsValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="PeriodId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicineTimingsValues">
-          <End Role="SysMedicineTimingsValues" Type="Self.SysMedicineTimingsValues" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescriptions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicineTimingsValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="TimingId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1739,6 +1674,92 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId">
+          <End Role="PatientPrescriptions" Type="Self.PatientPrescriptions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PrescriptionMedicines" Type="Self.PrescriptionMedicines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientPrescriptions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicines">
+              <PropertyRef Name="PrescriptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicineConcentrationsValues">
+          <End Role="SysMedicineConcentrationsValues" Type="Self.SysMedicineConcentrationsValues" Multiplicity="0..1" />
+          <End Role="PrescriptionMedicines" Type="Self.PrescriptionMedicines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineConcentrationsValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicines">
+              <PropertyRef Name="ConcentrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicineDosesValues">
+          <End Role="SysMedicineDosesValues" Type="Self.SysMedicineDosesValues" Multiplicity="0..1" />
+          <End Role="PrescriptionMedicines" Type="Self.PrescriptionMedicines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineDosesValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicines">
+              <PropertyRef Name="DoseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicineFormsValues">
+          <End Role="SysMedicineFormsValues" Type="Self.SysMedicineFormsValues" Multiplicity="0..1" />
+          <End Role="PrescriptionMedicines" Type="Self.PrescriptionMedicines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineFormsValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicines">
+              <PropertyRef Name="FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicinePeriodsValues">
+          <End Role="SysMedicinePeriodsValues" Type="Self.SysMedicinePeriodsValues" Multiplicity="0..1" />
+          <End Role="PrescriptionMedicines" Type="Self.PrescriptionMedicines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicinePeriodsValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicines">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicinesValue">
+          <End Role="SysMedicinesValues" Type="Self.SysMedicinesValues" Multiplicity="1" />
+          <End Role="PrescriptionMedicines" Type="Self.PrescriptionMedicines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicinesValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicines">
+              <PropertyRef Name="MedicineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicineTimingsValues">
+          <End Role="SysMedicineTimingsValues" Type="Self.SysMedicineTimingsValues" Multiplicity="0..1" />
+          <End Role="PrescriptionMedicines" Type="Self.PrescriptionMedicines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineTimingsValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicines">
+              <PropertyRef Name="TimingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SubscriptionPayments_Subscriptions">
           <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="1" />
           <End Role="SubscriptionPayments" Type="Self.SubscriptionPayments" Multiplicity="*" />
@@ -1839,6 +1860,7 @@
           <EntitySet Name="PatientReferrals" EntityType="Self.PatientReferrals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plans" EntityType="Self.Plans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrescriptionMedicines" EntityType="Self.PrescriptionMedicines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubscriptionPayments" EntityType="Self.SubscriptionPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscriptions" EntityType="Self.Subscriptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysAnalysisFileTypesValues" EntityType="Self.SysAnalysisFileTypesValues" Schema="dbo" store:Type="Tables" />
@@ -2066,32 +2088,8 @@
             <End Role="Patients" EntitySet="Patients" />
             <End Role="PatientOperations" EntitySet="PatientOperations" />
           </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_DoctorMedicinesValues" Association="Self.FK_PatientPrescriptions_DoctorMedicinesValues">
-            <End Role="DoctorMedicinesValues" EntitySet="DoctorMedicinesValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
           <AssociationSet Name="FK_PatientPrescriptions_Patients" Association="Self.FK_PatientPrescriptions_Patients">
             <End Role="Patients" EntitySet="Patients" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicineConcentrationsValues" Association="Self.FK_PatientPrescriptions_SysMedicineConcentrationsValues">
-            <End Role="SysMedicineConcentrationsValues" EntitySet="SysMedicineConcentrationsValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicineDosesValues" Association="Self.FK_PatientPrescriptions_SysMedicineDosesValues">
-            <End Role="SysMedicineDosesValues" EntitySet="SysMedicineDosesValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicineFormsValues" Association="Self.FK_PatientPrescriptions_SysMedicineFormsValues">
-            <End Role="SysMedicineFormsValues" EntitySet="SysMedicineFormsValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicinePeriodsValues" Association="Self.FK_PatientPrescriptions_SysMedicinePeriodsValues">
-            <End Role="SysMedicinePeriodsValues" EntitySet="SysMedicinePeriodsValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicineTimingsValues" Association="Self.FK_PatientPrescriptions_SysMedicineTimingsValues">
-            <End Role="SysMedicineTimingsValues" EntitySet="SysMedicineTimingsValues" />
             <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
           </AssociationSet>
           <AssociationSet Name="FK_PatientRayFiles_PatientRays" Association="Self.FK_PatientRayFiles_PatientRays">
@@ -2153,6 +2151,34 @@
           <AssociationSet Name="FK_Plans_SysRenewalTypeValues" Association="Self.FK_Plans_SysRenewalTypeValues">
             <End Role="SysRenewalTypeValues" EntitySet="SysRenewalTypeValues" />
             <End Role="Plans" EntitySet="Plans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId" Association="Self.FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId">
+            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
+            <End Role="PrescriptionMedicines" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicineConcentrationsValues" Association="Self.FK_PrescriptionMedicines_SysMedicineConcentrationsValues">
+            <End Role="SysMedicineConcentrationsValues" EntitySet="SysMedicineConcentrationsValues" />
+            <End Role="PrescriptionMedicines" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicineDosesValues" Association="Self.FK_PrescriptionMedicines_SysMedicineDosesValues">
+            <End Role="SysMedicineDosesValues" EntitySet="SysMedicineDosesValues" />
+            <End Role="PrescriptionMedicines" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicineFormsValues" Association="Self.FK_PrescriptionMedicines_SysMedicineFormsValues">
+            <End Role="SysMedicineFormsValues" EntitySet="SysMedicineFormsValues" />
+            <End Role="PrescriptionMedicines" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicinePeriodsValues" Association="Self.FK_PrescriptionMedicines_SysMedicinePeriodsValues">
+            <End Role="SysMedicinePeriodsValues" EntitySet="SysMedicinePeriodsValues" />
+            <End Role="PrescriptionMedicines" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicinesValue" Association="Self.FK_PrescriptionMedicines_SysMedicinesValue">
+            <End Role="SysMedicinesValues" EntitySet="SysMedicinesValues" />
+            <End Role="PrescriptionMedicines" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicineTimingsValues" Association="Self.FK_PrescriptionMedicines_SysMedicineTimingsValues">
+            <End Role="SysMedicineTimingsValues" EntitySet="SysMedicineTimingsValues" />
+            <End Role="PrescriptionMedicines" EntitySet="PrescriptionMedicines" />
           </AssociationSet>
           <AssociationSet Name="FK_SubscriptionPayments_Subscriptions" Association="Self.FK_SubscriptionPayments_Subscriptions">
             <End Role="Subscriptions" EntitySet="Subscriptions" />
@@ -2466,23 +2492,6 @@
           <NavigationProperty Name="Doctor" Relationship="Self.FK_DoctorGeneralComplaintsValues_Doctors" FromRole="DoctorGeneralComplaintsValues" ToRole="Doctors" />
           <NavigationProperty Name="PatientGeneralComplaints" Relationship="Self.FK_PatientGeneralComplaints_DoctorGeneralComplaintsValues" FromRole="DoctorGeneralComplaintsValues" ToRole="PatientGeneralComplaints" />
         </EntityType>
-        <EntityType Name="DoctorMedicinesValue">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DoctorId" Type="Guid" Nullable="false" />
-          <Property Name="MedicineId" Type="Int32" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="IsDeleted" Type="Boolean" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
-          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Doctor" Relationship="Self.FK_DoctorMedicinesValues_Doctors" FromRole="DoctorMedicinesValues" ToRole="Doctors" />
-          <NavigationProperty Name="SysMedicinesValue" Relationship="Self.FK_DoctorMedicinesValues_SysMedicinesValues" FromRole="DoctorMedicinesValues" ToRole="SysMedicinesValues" />
-          <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_DoctorMedicinesValues" FromRole="DoctorMedicinesValues" ToRole="PatientPrescriptions" />
-        </EntityType>
         <EntityType Name="DoctorOperationTypesValue">
           <Key>
             <PropertyRef Name="Id" />
@@ -2562,7 +2571,6 @@
           <NavigationProperty Name="DoctorExaminationAreasValues" Relationship="Self.FK_DoctorExaminationAreasValues_Doctors" FromRole="Doctors" ToRole="DoctorExaminationAreasValues" />
           <NavigationProperty Name="DoctorExaminationsValues" Relationship="Self.FK_DoctorExaminationsValues_Doctors" FromRole="Doctors" ToRole="DoctorExaminationsValues" />
           <NavigationProperty Name="DoctorGeneralComplaintsValues" Relationship="Self.FK_DoctorGeneralComplaintsValues_Doctors" FromRole="Doctors" ToRole="DoctorGeneralComplaintsValues" />
-          <NavigationProperty Name="DoctorMedicinesValues" Relationship="Self.FK_DoctorMedicinesValues_Doctors" FromRole="Doctors" ToRole="DoctorMedicinesValues" />
           <NavigationProperty Name="DoctorOperationTypesValues" Relationship="Self.FK_DoctorOperationTypesValues_Doctors" FromRole="Doctors" ToRole="DoctorOperationTypesValues" />
           <NavigationProperty Name="DoctorRayAreasValues" Relationship="Self.FK_DoctorRayAreas_Doctors" FromRole="Doctors" ToRole="DoctorRayAreasValues" />
           <NavigationProperty Name="DoctorRaysValues" Relationship="Self.FK_DoctorRaysValues_Doctors" FromRole="Doctors" ToRole="DoctorRaysValues" />
@@ -2572,6 +2580,7 @@
           <NavigationProperty Name="Clinics" Relationship="Self.DoctorClinics" FromRole="Doctors" ToRole="Clinics" />
           <NavigationProperty Name="Bookings" Relationship="Models.FK_Bookings_Doctors" FromRole="Doctor" ToRole="Booking" />
           <NavigationProperty Name="DoctorDetailedComplaintsValues" Relationship="Models.FK_DoctorDetailedComplaintsValues_Doctors" FromRole="Doctor" ToRole="DoctorDetailedComplaintsValue" />
+          <NavigationProperty Name="DoctorMedicinesValues" Relationship="Models.FK_DoctorMedicinesValues_Doctors" FromRole="Doctor" ToRole="DoctorMedicinesValue" />
         </EntityType>
         <EntityType Name="PatientAnalysi">
           <Key>
@@ -2693,32 +2702,6 @@
           <NavigationProperty Name="DoctorOperationTypesValue" Relationship="Self.FK_PatientOperations_DoctorOperationTypesValues" FromRole="PatientOperations" ToRole="DoctorOperationTypesValues" />
           <NavigationProperty Name="Patient" Relationship="Self.FK_PatientOperations_Patients" FromRole="PatientOperations" ToRole="Patients" />
         </EntityType>
-        <EntityType Name="PatientPrescription">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PatientId" Type="Guid" Nullable="false" />
-          <Property Name="MedicineId" Type="Int32" Nullable="false" />
-          <Property Name="ConcentrationId" Type="Int32" />
-          <Property Name="FormId" Type="Int32" />
-          <Property Name="DoseId" Type="Int32" />
-          <Property Name="TimingId" Type="Int32" />
-          <Property Name="PeriodId" Type="Int32" />
-          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
-          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
-          <Property Name="IsPrint" Type="Boolean" />
-          <NavigationProperty Name="DoctorMedicinesValue" Relationship="Self.FK_PatientPrescriptions_DoctorMedicinesValues" FromRole="PatientPrescriptions" ToRole="DoctorMedicinesValues" />
-          <NavigationProperty Name="Patient" Relationship="Self.FK_PatientPrescriptions_Patients" FromRole="PatientPrescriptions" ToRole="Patients" />
-          <NavigationProperty Name="SysMedicineConcentrationsValue" Relationship="Self.FK_PatientPrescriptions_SysMedicineConcentrationsValues" FromRole="PatientPrescriptions" ToRole="SysMedicineConcentrationsValues" />
-          <NavigationProperty Name="SysMedicineDosesValue" Relationship="Self.FK_PatientPrescriptions_SysMedicineDosesValues" FromRole="PatientPrescriptions" ToRole="SysMedicineDosesValues" />
-          <NavigationProperty Name="SysMedicineFormsValue" Relationship="Self.FK_PatientPrescriptions_SysMedicineFormsValues" FromRole="PatientPrescriptions" ToRole="SysMedicineFormsValues" />
-          <NavigationProperty Name="SysMedicinePeriodsValue" Relationship="Self.FK_PatientPrescriptions_SysMedicinePeriodsValues" FromRole="PatientPrescriptions" ToRole="SysMedicinePeriodsValues" />
-          <NavigationProperty Name="SysMedicineTimingsValue" Relationship="Self.FK_PatientPrescriptions_SysMedicineTimingsValues" FromRole="PatientPrescriptions" ToRole="SysMedicineTimingsValues" />
-        </EntityType>
         <EntityType Name="PatientRayFile">
           <Key>
             <PropertyRef Name="Id" />
@@ -2822,7 +2805,6 @@
           <NavigationProperty Name="PatientExaminations" Relationship="Self.FK_PatientExaminations_Patients" FromRole="Patients" ToRole="PatientExaminations" />
           <NavigationProperty Name="PatientGeneralComplaints" Relationship="Self.FK_PatientGeneralComplaints_Patients" FromRole="Patients" ToRole="PatientGeneralComplaints" />
           <NavigationProperty Name="PatientOperations" Relationship="Self.FK_PatientOperations_Patients" FromRole="Patients" ToRole="PatientOperations" />
-          <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_Patients" FromRole="Patients" ToRole="PatientPrescriptions" />
           <NavigationProperty Name="PatientRays" Relationship="Self.FK_PatientRays_Patients" FromRole="Patients" ToRole="PatientRays" />
           <NavigationProperty Name="PatientReferrals" Relationship="Self.FK_PatientReferrals_Patients" FromRole="Patients" ToRole="PatientReferrals" />
           <NavigationProperty Name="SysBloodPressureValue" Relationship="Self.FK_Patients_SysBloodPressureValues" FromRole="Patients" ToRole="SysBloodPressureValues" />
@@ -2830,6 +2812,7 @@
           <NavigationProperty Name="SysCitiesValue" Relationship="Models.FK_Patients_SysCitiesValues" FromRole="Patient" ToRole="SysCitiesValue" />
           <NavigationProperty Name="SysGovernoratesValue" Relationship="Models.FK_Patients_SysGovernoratesValues" FromRole="Patient" ToRole="SysGovernoratesValue" />
           <NavigationProperty Name="PatientDetailedComplaints" Relationship="Models.FK_PatientDetailedComplaints_Patients" FromRole="Patient" ToRole="PatientDetailedComplaint" />
+          <NavigationProperty Name="PatientPrescriptions" Relationship="Models.FK_PatientPrescriptions_Patients" FromRole="Patient" ToRole="PatientPrescription" />
         </EntityType>
         <EntityType Name="Plan">
           <Key>
@@ -2960,7 +2943,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicineConcentrationsValues" FromRole="SysMedicineConcentrationsValues" ToRole="PatientPrescriptions" />
+          <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicineConcentrationsValues" FromRole="SysMedicineConcentrationsValue" ToRole="PrescriptionMedicine" />
         </EntityType>
         <EntityType Name="SysMedicineDosesValue">
           <Key>
@@ -2969,7 +2952,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicineDosesValues" FromRole="SysMedicineDosesValues" ToRole="PatientPrescriptions" />
+          <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicineDosesValues" FromRole="SysMedicineDosesValue" ToRole="PrescriptionMedicine" />
         </EntityType>
         <EntityType Name="SysMedicineFormsValue">
           <Key>
@@ -2978,7 +2961,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicineFormsValues" FromRole="SysMedicineFormsValues" ToRole="PatientPrescriptions" />
+          <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicineFormsValues" FromRole="SysMedicineFormsValue" ToRole="PrescriptionMedicine" />
         </EntityType>
         <EntityType Name="SysMedicinePeriodsValue">
           <Key>
@@ -2987,7 +2970,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicinePeriodsValues" FromRole="SysMedicinePeriodsValues" ToRole="PatientPrescriptions" />
+          <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicinePeriodsValues" FromRole="SysMedicinePeriodsValue" ToRole="PrescriptionMedicine" />
         </EntityType>
         <EntityType Name="SysMedicinesValue">
           <Key>
@@ -2996,7 +2979,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="DoctorMedicinesValues" Relationship="Self.FK_DoctorMedicinesValues_SysMedicinesValues" FromRole="SysMedicinesValues" ToRole="DoctorMedicinesValues" />
+          <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicinesValue" FromRole="SysMedicinesValue" ToRole="PrescriptionMedicine" />
+          <NavigationProperty Name="DoctorMedicinesValues" Relationship="Models.FK_DoctorMedicinesValues_SysMedicinesValues" FromRole="SysMedicinesValue" ToRole="DoctorMedicinesValue" />
         </EntityType>
         <EntityType Name="SysMedicineTimingsValue">
           <Key>
@@ -3005,7 +2989,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Value" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="PatientPrescriptions" Relationship="Self.FK_PatientPrescriptions_SysMedicineTimingsValues" FromRole="SysMedicineTimingsValues" ToRole="PatientPrescriptions" />
+          <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicineTimingsValues" FromRole="SysMedicineTimingsValue" ToRole="PrescriptionMedicine" />
         </EntityType>
         <EntityType Name="SysPatientRecordSectionsValue">
           <Key>
@@ -3302,42 +3286,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DoctorMedicinesValues_Doctors">
-          <End Role="Doctors" Type="Self.Doctor" Multiplicity="1" />
-          <End Role="DoctorMedicinesValues" Type="Self.DoctorMedicinesValue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Doctors">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DoctorMedicinesValues">
-              <PropertyRef Name="DoctorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DoctorMedicinesValues_SysMedicinesValues">
-          <End Role="SysMedicinesValues" Type="Self.SysMedicinesValue" Multiplicity="1" />
-          <End Role="DoctorMedicinesValues" Type="Self.DoctorMedicinesValue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicinesValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DoctorMedicinesValues">
-              <PropertyRef Name="MedicineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_DoctorMedicinesValues">
-          <End Role="DoctorMedicinesValues" Type="Self.DoctorMedicinesValue" Multiplicity="1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DoctorMedicinesValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="MedicineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DoctorOperationTypesValues_Doctors">
           <End Role="Doctors" Type="Self.Doctor" Multiplicity="1" />
           <End Role="DoctorOperationTypesValues" Type="Self.DoctorOperationTypesValue" Multiplicity="*" />
@@ -3578,78 +3526,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PatientPrescriptions_Patients">
-          <End Role="Patients" Type="Self.Patient" Multiplicity="1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Patients">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="PatientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicineConcentrationsValues">
-          <End Role="SysMedicineConcentrationsValues" Type="Self.SysMedicineConcentrationsValue" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicineConcentrationsValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="ConcentrationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicineDosesValues">
-          <End Role="SysMedicineDosesValues" Type="Self.SysMedicineDosesValue" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicineDosesValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="DoseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicineFormsValues">
-          <End Role="SysMedicineFormsValues" Type="Self.SysMedicineFormsValue" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicineFormsValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="FormId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicinePeriodsValues">
-          <End Role="SysMedicinePeriodsValues" Type="Self.SysMedicinePeriodsValue" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicinePeriodsValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="PeriodId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PatientPrescriptions_SysMedicineTimingsValues">
-          <End Role="SysMedicineTimingsValues" Type="Self.SysMedicineTimingsValue" Multiplicity="0..1" />
-          <End Role="PatientPrescriptions" Type="Self.PatientPrescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysMedicineTimingsValues">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PatientPrescriptions">
-              <PropertyRef Name="TimingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PatientRayFiles_PatientRays">
           <End Role="PatientRays" Type="Self.PatientRay" Multiplicity="1" />
           <End Role="PatientRayFiles" Type="Self.PatientRayFile" Multiplicity="*" />
@@ -3813,7 +3689,6 @@
           <EntitySet Name="DoctorExaminationAreasValues" EntityType="Self.DoctorExaminationAreasValue" />
           <EntitySet Name="DoctorExaminationsValues" EntityType="Self.DoctorExaminationsValue" />
           <EntitySet Name="DoctorGeneralComplaintsValues" EntityType="Self.DoctorGeneralComplaintsValue" />
-          <EntitySet Name="DoctorMedicinesValues" EntityType="Self.DoctorMedicinesValue" />
           <EntitySet Name="DoctorOperationTypesValues" EntityType="Self.DoctorOperationTypesValue" />
           <EntitySet Name="DoctorRayAreasValues" EntityType="Self.DoctorRayAreasValue" />
           <EntitySet Name="DoctorRaysValues" EntityType="Self.DoctorRaysValue" />
@@ -3825,7 +3700,6 @@
           <EntitySet Name="PatientExaminations" EntityType="Self.PatientExamination" />
           <EntitySet Name="PatientGeneralComplaints" EntityType="Self.PatientGeneralComplaint" />
           <EntitySet Name="PatientOperations" EntityType="Self.PatientOperation" />
-          <EntitySet Name="PatientPrescriptions" EntityType="Self.PatientPrescription" />
           <EntitySet Name="PatientRayFiles" EntityType="Self.PatientRayFile" />
           <EntitySet Name="PatientRays" EntityType="Self.PatientRay" />
           <EntitySet Name="PatientReferrals" EntityType="Self.PatientReferral" />
@@ -3931,18 +3805,6 @@
             <End Role="DoctorGeneralComplaintsValues" EntitySet="DoctorGeneralComplaintsValues" />
             <End Role="PatientGeneralComplaints" EntitySet="PatientGeneralComplaints" />
           </AssociationSet>
-          <AssociationSet Name="FK_DoctorMedicinesValues_Doctors" Association="Self.FK_DoctorMedicinesValues_Doctors">
-            <End Role="Doctors" EntitySet="Doctors" />
-            <End Role="DoctorMedicinesValues" EntitySet="DoctorMedicinesValues" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicinesValues" Association="Self.FK_DoctorMedicinesValues_SysMedicinesValues">
-            <End Role="SysMedicinesValues" EntitySet="SysMedicinesValues" />
-            <End Role="DoctorMedicinesValues" EntitySet="DoctorMedicinesValues" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_DoctorMedicinesValues" Association="Self.FK_PatientPrescriptions_DoctorMedicinesValues">
-            <End Role="DoctorMedicinesValues" EntitySet="DoctorMedicinesValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
           <AssociationSet Name="FK_DoctorOperationTypesValues_Doctors" Association="Self.FK_DoctorOperationTypesValues_Doctors">
             <End Role="Doctors" EntitySet="Doctors" />
             <End Role="DoctorOperationTypesValues" EntitySet="DoctorOperationTypesValues" />
@@ -4022,30 +3884,6 @@
           <AssociationSet Name="FK_PatientOperations_Patients" Association="Self.FK_PatientOperations_Patients">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="PatientOperations" EntitySet="PatientOperations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_Patients" Association="Self.FK_PatientPrescriptions_Patients">
-            <End Role="Patients" EntitySet="Patients" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicineConcentrationsValues" Association="Self.FK_PatientPrescriptions_SysMedicineConcentrationsValues">
-            <End Role="SysMedicineConcentrationsValues" EntitySet="SysMedicineConcentrationsValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicineDosesValues" Association="Self.FK_PatientPrescriptions_SysMedicineDosesValues">
-            <End Role="SysMedicineDosesValues" EntitySet="SysMedicineDosesValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicineFormsValues" Association="Self.FK_PatientPrescriptions_SysMedicineFormsValues">
-            <End Role="SysMedicineFormsValues" EntitySet="SysMedicineFormsValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicinePeriodsValues" Association="Self.FK_PatientPrescriptions_SysMedicinePeriodsValues">
-            <End Role="SysMedicinePeriodsValues" EntitySet="SysMedicinePeriodsValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PatientPrescriptions_SysMedicineTimingsValues" Association="Self.FK_PatientPrescriptions_SysMedicineTimingsValues">
-            <End Role="SysMedicineTimingsValues" EntitySet="SysMedicineTimingsValues" />
-            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
           </AssociationSet>
           <AssociationSet Name="FK_PatientRayFiles_PatientRays" Association="Self.FK_PatientRayFiles_PatientRays">
             <End Role="PatientRays" EntitySet="PatientRays" />
@@ -4152,6 +3990,49 @@
           <AssociationSet Name="FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues" Association="Models.FK_PatientDetailedComplaints_DoctorDetailedComplaintsValues">
             <End Role="DoctorDetailedComplaintsValue" EntitySet="DoctorDetailedComplaintsValues" />
             <End Role="PatientDetailedComplaint" EntitySet="PatientDetailedComplaints" />
+          </AssociationSet>
+          <EntitySet Name="PrescriptionMedicines" EntityType="Models.PrescriptionMedicine" />
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicineConcentrationsValues" Association="Models.FK_PrescriptionMedicines_SysMedicineConcentrationsValues">
+            <End Role="SysMedicineConcentrationsValue" EntitySet="SysMedicineConcentrationsValues" />
+            <End Role="PrescriptionMedicine" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicineDosesValues" Association="Models.FK_PrescriptionMedicines_SysMedicineDosesValues">
+            <End Role="SysMedicineDosesValue" EntitySet="SysMedicineDosesValues" />
+            <End Role="PrescriptionMedicine" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicineFormsValues" Association="Models.FK_PrescriptionMedicines_SysMedicineFormsValues">
+            <End Role="SysMedicineFormsValue" EntitySet="SysMedicineFormsValues" />
+            <End Role="PrescriptionMedicine" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicinePeriodsValues" Association="Models.FK_PrescriptionMedicines_SysMedicinePeriodsValues">
+            <End Role="SysMedicinePeriodsValue" EntitySet="SysMedicinePeriodsValues" />
+            <End Role="PrescriptionMedicine" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicinesValue" Association="Models.FK_PrescriptionMedicines_SysMedicinesValue">
+            <End Role="SysMedicinesValue" EntitySet="SysMedicinesValues" />
+            <End Role="PrescriptionMedicine" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_SysMedicineTimingsValues" Association="Models.FK_PrescriptionMedicines_SysMedicineTimingsValues">
+            <End Role="SysMedicineTimingsValue" EntitySet="SysMedicineTimingsValues" />
+            <End Role="PrescriptionMedicine" EntitySet="PrescriptionMedicines" />
+          </AssociationSet>
+          <EntitySet Name="DoctorMedicinesValues" EntityType="Models.DoctorMedicinesValue" />
+          <AssociationSet Name="FK_DoctorMedicinesValues_Doctors" Association="Models.FK_DoctorMedicinesValues_Doctors">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="DoctorMedicinesValue" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicinesValues" Association="Models.FK_DoctorMedicinesValues_SysMedicinesValues">
+            <End Role="SysMedicinesValue" EntitySet="SysMedicinesValues" />
+            <End Role="DoctorMedicinesValue" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
+          <EntitySet Name="PatientPrescriptions" EntityType="Models.PatientPrescription" />
+          <AssociationSet Name="FK_PatientPrescriptions_Patients" Association="Models.FK_PatientPrescriptions_Patients">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="PatientPrescription" EntitySet="PatientPrescriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId" Association="Models.FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId">
+            <End Role="PatientPrescription" EntitySet="PatientPrescriptions" />
+            <End Role="PrescriptionMedicine" EntitySet="PrescriptionMedicines" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="SubscriptionPayment">
@@ -4358,6 +4239,179 @@
             </Principal>
             <Dependent Role="PatientDetailedComplaint">
               <PropertyRef Name="DetailedComplaintId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PrescriptionMedicine">
+          <Key>
+            <PropertyRef Name="PrescriptionId" />
+            <PropertyRef Name="MedicineId" />
+          </Key>
+          <Property Name="PrescriptionId" Type="Int32" Nullable="false" />
+          <Property Name="MedicineId" Type="Int32" Nullable="false" />
+          <Property Name="ConcentrationId" Type="Int32" />
+          <Property Name="FormId" Type="Int32" />
+          <Property Name="DoseId" Type="Int32" />
+          <Property Name="TimingId" Type="Int32" />
+          <Property Name="PeriodId" Type="Int32" />
+          <NavigationProperty Name="SysMedicineConcentrationsValue" Relationship="Models.FK_PrescriptionMedicines_SysMedicineConcentrationsValues" FromRole="PrescriptionMedicine" ToRole="SysMedicineConcentrationsValue" />
+          <NavigationProperty Name="SysMedicineDosesValue" Relationship="Models.FK_PrescriptionMedicines_SysMedicineDosesValues" FromRole="PrescriptionMedicine" ToRole="SysMedicineDosesValue" />
+          <NavigationProperty Name="SysMedicineFormsValue" Relationship="Models.FK_PrescriptionMedicines_SysMedicineFormsValues" FromRole="PrescriptionMedicine" ToRole="SysMedicineFormsValue" />
+          <NavigationProperty Name="SysMedicinePeriodsValue" Relationship="Models.FK_PrescriptionMedicines_SysMedicinePeriodsValues" FromRole="PrescriptionMedicine" ToRole="SysMedicinePeriodsValue" />
+          <NavigationProperty Name="SysMedicinesValue" Relationship="Models.FK_PrescriptionMedicines_SysMedicinesValue" FromRole="PrescriptionMedicine" ToRole="SysMedicinesValue" />
+          <NavigationProperty Name="SysMedicineTimingsValue" Relationship="Models.FK_PrescriptionMedicines_SysMedicineTimingsValues" FromRole="PrescriptionMedicine" ToRole="SysMedicineTimingsValue" />
+          <NavigationProperty Name="PatientPrescription" Relationship="Models.FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId" FromRole="PrescriptionMedicine" ToRole="PatientPrescription" />
+        </EntityType>
+        <Association Name="FK_PrescriptionMedicines_SysMedicineConcentrationsValues">
+          <End Type="Models.SysMedicineConcentrationsValue" Role="SysMedicineConcentrationsValue" Multiplicity="0..1" />
+          <End Type="Models.PrescriptionMedicine" Role="PrescriptionMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineConcentrationsValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicine">
+              <PropertyRef Name="ConcentrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicineDosesValues">
+          <End Type="Models.SysMedicineDosesValue" Role="SysMedicineDosesValue" Multiplicity="0..1" />
+          <End Type="Models.PrescriptionMedicine" Role="PrescriptionMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineDosesValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicine">
+              <PropertyRef Name="DoseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicineFormsValues">
+          <End Type="Models.SysMedicineFormsValue" Role="SysMedicineFormsValue" Multiplicity="0..1" />
+          <End Type="Models.PrescriptionMedicine" Role="PrescriptionMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineFormsValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicine">
+              <PropertyRef Name="FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicinePeriodsValues">
+          <End Type="Models.SysMedicinePeriodsValue" Role="SysMedicinePeriodsValue" Multiplicity="0..1" />
+          <End Type="Models.PrescriptionMedicine" Role="PrescriptionMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicinePeriodsValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicine">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicinesValue">
+          <End Type="Models.SysMedicinesValue" Role="SysMedicinesValue" Multiplicity="1" />
+          <End Type="Models.PrescriptionMedicine" Role="PrescriptionMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicinesValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicine">
+              <PropertyRef Name="MedicineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_SysMedicineTimingsValues">
+          <End Type="Models.SysMedicineTimingsValue" Role="SysMedicineTimingsValue" Multiplicity="0..1" />
+          <End Type="Models.PrescriptionMedicine" Role="PrescriptionMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineTimingsValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicine">
+              <PropertyRef Name="TimingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DoctorMedicinesValue">
+          <Key>
+            <PropertyRef Name="DoctorId" />
+            <PropertyRef Name="MedicineId" />
+          </Key>
+          <Property Name="DoctorId" Type="Guid" Nullable="false" />
+          <Property Name="MedicineId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Doctor" Relationship="Models.FK_DoctorMedicinesValues_Doctors" FromRole="DoctorMedicinesValue" ToRole="Doctor" />
+          <NavigationProperty Name="SysMedicinesValue" Relationship="Models.FK_DoctorMedicinesValues_SysMedicinesValues" FromRole="DoctorMedicinesValue" ToRole="SysMedicinesValue" />
+        </EntityType>
+        <Association Name="FK_DoctorMedicinesValues_Doctors">
+          <End Type="Models.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="Models.DoctorMedicinesValue" Role="DoctorMedicinesValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValue">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorMedicinesValues_SysMedicinesValues">
+          <End Type="Models.SysMedicinesValue" Role="SysMedicinesValue" Multiplicity="1" />
+          <End Type="Models.DoctorMedicinesValue" Role="DoctorMedicinesValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicinesValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValue">
+              <PropertyRef Name="MedicineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PatientPrescription">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Guid" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <Property Name="IsPrint" Type="Boolean" />
+          <NavigationProperty Name="Patient" Relationship="Models.FK_PatientPrescriptions_Patients" FromRole="PatientPrescription" ToRole="Patient" />
+          <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId" FromRole="PatientPrescription" ToRole="PrescriptionMedicine" />
+        </EntityType>
+        <Association Name="FK_PatientPrescriptions_Patients">
+          <End Type="Models.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="Models.PatientPrescription" Role="PatientPrescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientPrescription">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId">
+          <End Type="Models.PatientPrescription" Role="PatientPrescription" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Models.PrescriptionMedicine" Role="PrescriptionMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientPrescription">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PrescriptionMedicine">
+              <PropertyRef Name="PrescriptionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4631,21 +4685,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DoctorMedicinesValues">
-            <EntityTypeMapping TypeName="Models.DoctorMedicinesValue">
-              <MappingFragment StoreEntitySet="DoctorMedicinesValues">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
-                <ScalarProperty Name="MedicineId" ColumnName="MedicineId" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="DoctorOperationTypesValues">
             <EntityTypeMapping TypeName="Models.DoctorOperationTypesValue">
               <MappingFragment StoreEntitySet="DoctorOperationTypesValues">
@@ -4825,26 +4864,6 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PatientPrescriptions">
-            <EntityTypeMapping TypeName="Models.PatientPrescription">
-              <MappingFragment StoreEntitySet="PatientPrescriptions">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
-                <ScalarProperty Name="MedicineId" ColumnName="MedicineId" />
-                <ScalarProperty Name="ConcentrationId" ColumnName="ConcentrationId" />
-                <ScalarProperty Name="FormId" ColumnName="FormId" />
-                <ScalarProperty Name="DoseId" ColumnName="DoseId" />
-                <ScalarProperty Name="TimingId" ColumnName="TimingId" />
-                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="IsPrint" ColumnName="IsPrint" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5271,6 +5290,47 @@
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Complaint" ColumnName="Complaint" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrescriptionMedicines">
+            <EntityTypeMapping TypeName="Models.PrescriptionMedicine">
+              <MappingFragment StoreEntitySet="PrescriptionMedicines">
+                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
+                <ScalarProperty Name="TimingId" ColumnName="TimingId" />
+                <ScalarProperty Name="DoseId" ColumnName="DoseId" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="ConcentrationId" ColumnName="ConcentrationId" />
+                <ScalarProperty Name="MedicineId" ColumnName="MedicineId" />
+                <ScalarProperty Name="PrescriptionId" ColumnName="PrescriptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorMedicinesValues">
+            <EntityTypeMapping TypeName="Models.DoctorMedicinesValue">
+              <MappingFragment StoreEntitySet="DoctorMedicinesValues">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="MedicineId" ColumnName="MedicineId" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientPrescriptions">
+            <EntityTypeMapping TypeName="Models.PatientPrescription">
+              <MappingFragment StoreEntitySet="PatientPrescriptions">
+                <ScalarProperty Name="IsPrint" ColumnName="IsPrint" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

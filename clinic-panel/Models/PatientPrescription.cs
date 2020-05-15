@@ -14,14 +14,14 @@ namespace clinic_panel.Models
     
     public partial class PatientPrescription
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PatientPrescription()
+        {
+            this.PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
+        }
+    
         public int Id { get; set; }
         public System.Guid PatientId { get; set; }
-        public int MedicineId { get; set; }
-        public Nullable<int> ConcentrationId { get; set; }
-        public Nullable<int> FormId { get; set; }
-        public Nullable<int> DoseId { get; set; }
-        public Nullable<int> TimingId { get; set; }
-        public Nullable<int> PeriodId { get; set; }
         public string Note { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public System.Guid CreatedBy { get; set; }
@@ -29,12 +29,8 @@ namespace clinic_panel.Models
         public System.Guid UpdatedBy { get; set; }
         public Nullable<bool> IsPrint { get; set; }
     
-        public virtual DoctorMedicinesValue DoctorMedicinesValue { get; set; }
         public virtual Patient Patient { get; set; }
-        public virtual SysMedicineConcentrationsValue SysMedicineConcentrationsValue { get; set; }
-        public virtual SysMedicineDosesValue SysMedicineDosesValue { get; set; }
-        public virtual SysMedicineFormsValue SysMedicineFormsValue { get; set; }
-        public virtual SysMedicinePeriodsValue SysMedicinePeriodsValue { get; set; }
-        public virtual SysMedicineTimingsValue SysMedicineTimingsValue { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
     }
 }

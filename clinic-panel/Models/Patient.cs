@@ -24,10 +24,10 @@ namespace clinic_panel.Models
             this.PatientExaminations = new HashSet<PatientExamination>();
             this.PatientGeneralComplaints = new HashSet<PatientGeneralComplaint>();
             this.PatientOperations = new HashSet<PatientOperation>();
-            this.PatientPrescriptions = new HashSet<PatientPrescription>();
             this.PatientRays = new HashSet<PatientRay>();
             this.PatientReferrals = new HashSet<PatientReferral>();
             this.PatientDetailedComplaints = new HashSet<PatientDetailedComplaint>();
+            this.PatientPrescriptions = new HashSet<PatientPrescription>();
         }
     
         public System.Guid Id { get; set; }
@@ -76,8 +76,6 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PatientOperation> PatientOperations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PatientPrescription> PatientPrescriptions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PatientRay> PatientRays { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PatientReferral> PatientReferrals { get; set; }
@@ -87,5 +85,7 @@ namespace clinic_panel.Models
         public virtual SysGovernoratesValue SysGovernoratesValue { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PatientPrescription> PatientPrescriptions { get; set; }
     }
 }

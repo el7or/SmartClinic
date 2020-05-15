@@ -39,7 +39,6 @@ namespace clinic_panel.Models
         public virtual DbSet<DoctorExaminationAreasValue> DoctorExaminationAreasValues { get; set; }
         public virtual DbSet<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
         public virtual DbSet<DoctorGeneralComplaintsValue> DoctorGeneralComplaintsValues { get; set; }
-        public virtual DbSet<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
         public virtual DbSet<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }
@@ -51,7 +50,6 @@ namespace clinic_panel.Models
         public virtual DbSet<PatientExamination> PatientExaminations { get; set; }
         public virtual DbSet<PatientGeneralComplaint> PatientGeneralComplaints { get; set; }
         public virtual DbSet<PatientOperation> PatientOperations { get; set; }
-        public virtual DbSet<PatientPrescription> PatientPrescriptions { get; set; }
         public virtual DbSet<PatientRayFile> PatientRayFiles { get; set; }
         public virtual DbSet<PatientRay> PatientRays { get; set; }
         public virtual DbSet<PatientReferral> PatientReferrals { get; set; }
@@ -83,5 +81,8 @@ namespace clinic_panel.Models
         public virtual DbSet<DoctorComplaintChoicesValue> DoctorComplaintChoicesValues { get; set; }
         public virtual DbSet<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
         public virtual DbSet<DoctorDetailedComplaintsValue> DoctorDetailedComplaintsValues { get; set; }
+        public virtual DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; }
+        public virtual DbSet<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
+        public virtual DbSet<PatientPrescription> PatientPrescriptions { get; set; }
     }
 }

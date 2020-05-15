@@ -38,7 +38,7 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
         // =====> check query param for type of print:
     this.printType = this.route.snapshot.queryParamMap.get("type");
     if (this.printType == "medicine") {
-      this.medicines = this.medicineService.medicinesForPrint;
+      //this.medicines = this.medicineService.medicinesForPrint;
     }
     if (this.printType == "request") {
       this.requests = this.requestService.requestsForPrint;

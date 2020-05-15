@@ -4,57 +4,52 @@
       <h6 langg>Add Prescription:</h6>
       <table class="table mb-1">
         <tbody>
-          <tr *ngFor="let item of medicines; index as i;">
+          <tr *ngFor="let item of newPatientPrescription.medicines; index as i;">
             <td>
-              <input nbInput [(ngModel)]="item.name" [placeholder]="'Type Medicine Name ..' | langg"
-                [typeahead]="medicinesValues.names" fullWidth (typeaheadNoResults)="item.isNameValid = !$event"
-                [placeholder]="'Medication Name' | langg" [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0"
+              <input nbInput [(ngModel)]="item.medicineName" [placeholder]="'Type Medicine Name ..' | langg"
+                [typeahead]="medicineValues" typeaheadOptionField="text" (typeaheadOnSelect)="onSelectMedicine($event,i)"
+                 (typeaheadNoResults)="form.controls['note'].setErrors({'incorrect': !$event}) "
+                [placeholder]="'Medication Name' | langg" [isAnimated]="true" [typeaheadMinLength]="0"
                 [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
-                [typeaheadOptionsInScrollableView]="15">
-              <ng-container *ngIf="!item.isNameValid">
-                <label class="error-message" langg>This Medication Name does not exist! Do you add it to the
-                  list?</label>&nbsp;
-                <button nbButton type="button" (click)="onAddNewMedicineToList(item.name);item.isNameValid=true"
-                  status="info" size="small" class="mt-2" langg>Add</button>
-              </ng-container>
+                [typeaheadOptionsInScrollableView]="15" fieldSize="small" fullWidth>
               <!-- <nb-select fullWidth [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Medication Name' | langg" size="small">
                 <nb-option *ngFor="let item of medicinesValues.names" value="item">{{item}}</nb-option>
               </nb-select> -->
             </td>
             <td>
-              <nb-select fullWidth [(ngModel)]="item.concentration" [ngModelOptions]="{standalone: true}"
+              <nb-select fullWidth [(ngModel)]="item.concentrationId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Concentration' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.concentrations" [value]="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of concentrationValues" [value]="item.id">{{item.text}}</nb-option>
               </nb-select>
             </td>
             <td>
-              <nb-select fullWidth [(ngModel)]="item.form" [ngModelOptions]="{standalone: true}"
+              <nb-select fullWidth [(ngModel)]="item.formId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Form' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.forms" [value]="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of formValues" [value]="item.id">{{item.text}}</nb-option>
               </nb-select>
             </td>
             <td>
-              <nb-select fullWidth [(ngModel)]="item.dose" [ngModelOptions]="{standalone: true}"
+              <nb-select fullWidth [(ngModel)]="item.doseId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Dose' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.doses" [value]="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of doseValues" [value]="item.id">{{item.text}}</nb-option>
               </nb-select>
             </td>
             <td>
-              <nb-select fullWidth [(ngModel)]="item.timing" [ngModelOptions]="{standalone: true}"
+              <nb-select fullWidth [(ngModel)]="item.timingId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Timing' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.timings" [value]="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of timingValues" [value]="item.id">{{item.text}}</nb-option>
               </nb-select>
             </td>
             <td>
-              <nb-select fullWidth [(ngModel)]="item.period" [ngModelOptions]="{standalone: true}"
+              <nb-select fullWidth [(ngModel)]="item.periodId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Period' | langg" size="small">
-                <nb-option *ngFor="let item of medicinesValues.periods" [value]="item">{{item}}</nb-option>
+                <nb-option *ngFor="let item of periodValues" [value]="item.id">{{item.text}}</nb-option>
               </nb-select>
             </td>
             <td>
               <button (click)="onRemoveMedicine(i)" nbButton [nbTooltip]="'Remove Medicine' | langg" size="tiny"
-                status="danger" [hidden]="item== medicines[0]">
+                status="danger" [hidden]="item== newPatientPrescription.medicines[0]">
                 <nb-icon icon="close-square"></nb-icon>
               </button>
             </td>
@@ -62,7 +57,7 @@
         </tbody>
       </table>
       <button (click)="onAddMedicine()" nbButton [nbTooltip]="'Add Medicine' | langg" size="small" class="mb-1"
-        [disabled]="!medicines[0].name || !medicines[0].isNameValid">
+        [disabled]="!newPatientPrescription.medicines[0].medicineId">
         <nb-icon icon="plus"></nb-icon>
       </button>
       <div class="form-control-group">
@@ -80,10 +75,10 @@
       </div> -->
 
       <div class="text-center nbButton-group mb-1">
-        <button nbButton type="submit" status="success" (click)="onSave(form)"
-          [disabled]="!medicines[0].name || !medicines[0].isNameValid" langg>Save</button>
-        <button nbButton type="submit" status="success" (click)="onSavePrint(form)"
-          [disabled]="!medicines[0].name || !medicines[0].isNameValid" langg>Save
+        <button nbButton type="submit" status="success" (click)="onSave()"
+          [disabled]="!newPatientPrescription.medicines[0].medicineId || form.invalid" langg>Save</button>
+        <button nbButton type="submit" status="success" (click)="onSavePrint()"
+          [disabled]="!newPatientPrescription.medicines[0].medicineId || form.invalid" langg>Save
           &
           Print</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
@@ -101,46 +96,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1/1/2020</td>
-          <td>Antox, Cornivita, Multirelax, Plaquanile, Tolmet
-            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="small" status="warning"
-              [nbTooltip]="'Prescription Details' | langg">
-              <nb-icon icon="info"></nb-icon>
-            </button>
-          </td>
+        <tr *ngFor="let item of prevPatientPrescriptions">
+          <td>{{item.createdOn | localDateShort}}</td>
+          <td>{{item.medicinesNames}}</td>
           <td class="text-center">
-            <button nbButton type="button" status="success" size="small" (click)="onCopy()" langg>Edit</button>&nbsp;
-            <button nbButton type="button" status="info" size="small" (click)="onCopy()" langg>Copy</button>&nbsp;
-            <button nbButton type="button" status="basic" size="small" (click)="onSavePrint(form)" langg>Print</button>
-          </td>
-        </tr>
-        <tr>
-          <td>5/2/2020</td>
-          <td>Antox, Cornivita
-            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="small" status="warning"
-              [nbTooltip]="'Prescription Details' | langg">
-              <nb-icon icon="info"></nb-icon>
-            </button>
-          </td>
-          <td class="text-center">
-            <button nbButton type="button" status="success" size="small" (click)="onCopy()" langg>Edit</button>&nbsp;
-            <button nbButton type="button" status="info" size="small" (click)="onCopy()" langg>Copy</button>&nbsp;
-            <button nbButton type="button" status="basic" size="small" (click)="onSavePrint(form)" langg>Print</button>
-          </td>
-        </tr>
-        <tr>
-          <td>3/3/2020</td>
-          <td>Plaquanile, Tolmet
-            <button nbButton (click)="onOpenMedicinesSummary()" ghost size="small" status="warning"
-              [nbTooltip]="'Prescription Details' | langg">
-              <nb-icon icon="info"></nb-icon>
-            </button>
-          </td>
-          <td class="text-center">
-            <button nbButton type="button" status="success" size="small" (click)="onCopy()" langg>Edit</button>&nbsp;
-            <button nbButton type="button" status="info" size="small" (click)="onCopy()" langg>Copy</button>&nbsp;
-            <button nbButton type="button" status="basic" size="small" (click)="onSavePrint(form)" langg>Print</button>
+            <!-- <button nbButton type="button" status="success" size="small" (click)="onCopy()" langg>Edit</button>&nbsp; -->
+            <button nbButton type="button" status="info" size="small" (click)="newPatientPrescription = item" langg>Copy</button>&nbsp;
+            <button nbButton type="button" status="basic" size="small" (click)="onSavePrint(item)" langg>Print</button>
           </td>
         </tr>
       </tbody>

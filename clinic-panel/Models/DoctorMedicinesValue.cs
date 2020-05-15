@@ -14,13 +14,6 @@ namespace clinic_panel.Models
     
     public partial class DoctorMedicinesValue
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DoctorMedicinesValue()
-        {
-            this.PatientPrescriptions = new HashSet<PatientPrescription>();
-        }
-    
-        public int Id { get; set; }
         public System.Guid DoctorId { get; set; }
         public int MedicineId { get; set; }
         public Nullable<bool> IsActive { get; set; }
@@ -32,7 +25,5 @@ namespace clinic_panel.Models
     
         public virtual Doctor Doctor { get; set; }
         public virtual SysMedicinesValue SysMedicinesValue { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PatientPrescription> PatientPrescriptions { get; set; }
     }
 }

@@ -99,6 +99,7 @@ namespace clinic_api.Data
         public virtual DbSet<PatientRay> PatientRays { get; set; }
         public virtual DbSet<PatientReferral> PatientReferrals { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
+        public virtual DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; }
         public virtual DbSet<Plan> Plans { get; set; }
         public virtual DbSet<Subscription> Subscriptions { get; set; }
         public virtual DbSet<SubscriptionPayment> SubscriptionPayments { get; set; }
@@ -481,6 +482,8 @@ namespace clinic_api.Data
 
             modelBuilder.Entity<DoctorMedicinesValue>(entity =>
             {
+                entity.HasKey(e => new { e.DoctorId, e.MedicineId });
+
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
@@ -747,47 +750,52 @@ namespace clinic_api.Data
             {
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Concentration)
-                    .WithMany(p => p.PatientPrescriptions)
-                    .HasForeignKey(d => d.ConcentrationId)
-                    .HasConstraintName("FK_PatientPrescriptions_SysMedicineConcentrationsValues");
-
-                entity.HasOne(d => d.Dose)
-                    .WithMany(p => p.PatientPrescriptions)
-                    .HasForeignKey(d => d.DoseId)
-                    .HasConstraintName("FK_PatientPrescriptions_SysMedicineDosesValues");
-
-                entity.HasOne(d => d.Form)
-                    .WithMany(p => p.PatientPrescriptions)
-                    .HasForeignKey(d => d.FormId)
-                    .HasConstraintName("FK_PatientPrescriptions_SysMedicineFormsValues");
-
-                entity.HasOne(d => d.Medicine)
-                    .WithMany(p => p.PatientPrescriptions)
-                    .HasForeignKey(d => d.MedicineId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PatientPrescriptions_DoctorMedicinesValues");
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");                
 
                 entity.HasOne(d => d.Patient)
                     .WithMany(p => p.PatientPrescriptions)
                     .HasForeignKey(d => d.PatientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PatientPrescriptions_Patients");
-
-                entity.HasOne(d => d.Period)
-                    .WithMany(p => p.PatientPrescriptions)
-                    .HasForeignKey(d => d.PeriodId)
-                    .HasConstraintName("FK_PatientPrescriptions_SysMedicinePeriodsValues");
-
-                entity.HasOne(d => d.Timing)
-                    .WithMany(p => p.PatientPrescriptions)
-                    .HasForeignKey(d => d.TimingId)
-                    .HasConstraintName("FK_PatientPrescriptions_SysMedicineTimingsValues");
             });
 
-            modelBuilder.Entity<PatientRayFile>(entity =>
+            modelBuilder.Entity<PrescriptionMedicine>(entity =>
+            {
+                entity.HasKey(e => new { e.PrescriptionId, e.MedicineId });
+
+                entity.HasOne(d => d.Concentration)
+                    .WithMany(p => p.PrescriptionMedicines)
+                    .HasForeignKey(d => d.ConcentrationId)
+                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicineConcentrationsValues");
+
+                entity.HasOne(d => d.Dose)
+                    .WithMany(p => p.PrescriptionMedicines)
+                    .HasForeignKey(d => d.DoseId)
+                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicineDosesValues");
+
+                entity.HasOne(d => d.Form)
+                    .WithMany(p => p.PrescriptionMedicines)
+                    .HasForeignKey(d => d.FormId)
+                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicineFormsValues");
+
+                entity.HasOne(d => d.Medicine)
+                    .WithMany(p => p.PrescriptionMedicines)
+                    .HasForeignKey(d => d.MedicineId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicinesValue");
+
+                entity.HasOne(d => d.Period)
+                    .WithMany(p => p.PrescriptionMedicines)
+                    .HasForeignKey(d => d.PeriodId)
+                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicinePeriodsValues");
+
+                entity.HasOne(d => d.Timing)
+                    .WithMany(p => p.PrescriptionMedicines)
+                    .HasForeignKey(d => d.TimingId)
+                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicineTimingsValues");
+            });
+
+                modelBuilder.Entity<PatientRayFile>(entity =>
             {
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 

@@ -288,6 +288,9 @@
     <Compile Include="Models\Plan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PrescriptionMedicine.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Subscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

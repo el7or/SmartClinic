@@ -17,7 +17,7 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SysMedicinePeriodsValue()
         {
-            this.PatientPrescriptions = new HashSet<PatientPrescription>();
+            this.PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
         }
     
         public int Id { get; set; }
@@ -25,6 +25,6 @@ namespace clinic_panel.Models
         public string Text { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PatientPrescription> PatientPrescriptions { get; set; }
+        public virtual ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
     }
 }

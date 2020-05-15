@@ -5,12 +5,6 @@ namespace clinic_api.Models
 {
     public partial class DoctorMedicinesValue
     {
-        public DoctorMedicinesValue()
-        {
-            PatientPrescriptions = new HashSet<PatientPrescription>();
-        }
-
-        public int Id { get; set; }
         public Guid DoctorId { get; set; }
         public int MedicineId { get; set; }
         public bool? IsActive { get; set; }
@@ -22,6 +16,5 @@ namespace clinic_api.Models
 
         public virtual Doctor Doctor { get; set; }
         public virtual SysMedicinesValue Medicine { get; set; }
-        public virtual ICollection<PatientPrescription> PatientPrescriptions { get; set; }
     }
 }

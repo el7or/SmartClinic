@@ -8,7 +8,7 @@ namespace clinic_api.Models
     {
         public SysMedicineTimingsValue()
         {
-            PatientPrescriptions = new HashSet<PatientPrescription>();
+            PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
         }
 
         public int Id { get; set; }
@@ -19,6 +19,6 @@ namespace clinic_api.Models
         [StringLength(256)]
         public string Text { get; set; }
 
-        public virtual ICollection<PatientPrescription> PatientPrescriptions { get; set; }
+        public virtual ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
     }
 }

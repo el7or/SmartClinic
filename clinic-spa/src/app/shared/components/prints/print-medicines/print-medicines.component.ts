@@ -1,12 +1,15 @@
+import { AlertService } from './../../../services/alert.service';
+import { PatientsService } from './../../../../pages/patients/patients.service';
 import { Subscription } from 'rxjs';
-import { ReferralsService } from "./../../../../pages/patients/patient-details/referrals/referrals.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 
+import { ReferralsService } from "./../../../../pages/patients/patient-details/referrals/referrals.service";
 import { RequestsService } from "./../../../../pages/patients/patient-details/requests/requests.service";
 import { SettingsService } from "./../../../../pages/settings/settings.service";
 import { MedicinesService } from "../../../../pages/patients/patient-details/medicines/medicines.service";
 import { GetPrintSetting } from "../../../../pages/settings/settings.model";
+import { PrescriptionForPrint } from '../../../../pages/patients/patient-details/medicines/medicines.model';
 
 @Component({
   selector: "print-medicines",
@@ -16,7 +19,7 @@ import { GetPrintSetting } from "../../../../pages/settings/settings.model";
 export class PrintMedicinesComponent implements OnInit, OnDestroy {
   printInfoSetting: GetPrintSetting;
   printType: string;
-  medicines: any[];
+  prescription: PrescriptionForPrint;
   requests: any[];
   referrals: any[];
 
@@ -28,40 +31,41 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
     private medicineService: MedicinesService,
     private requestService: RequestsService,
     private referralService: ReferralsService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private alertService:AlertService
   ) {}
 
   ngOnInit() {
     this.printSubs = this.settingsService.getPrintSetting().subscribe(
-      (res:GetPrintSetting) => {
+      (res: GetPrintSetting) => {
         this.printInfoSetting = res;
-        // =====> check query param for type of print:
-    this.printType = this.route.snapshot.queryParamMap.get("type");
-    if (this.printType == "medicine") {
-      //this.medicines = this.medicineService.medicinesForPrint;
-    }
-    if (this.printType == "request") {
-      this.requests = this.requestService.requestsForPrint;
-    }
-    if (this.printType == "referral") {
-      this.referrals = this.referralService.referralForPrint;
-    }
+        this.printType = this.route.snapshot.queryParamMap.get("type");
+        if (this.printType == "medicine") {
+          this.prescription = this.medicineService.prescriptionForPrint;
+        }
+        if (this.printType == "request") {
+          this.requests = this.requestService.requestsForPrint;
+        }
+        if (this.printType == "referral") {
+          this.referrals = this.referralService.referralForPrint;
+        }
       },
-      err => {
+      (err) => {
         console.error(err);
+        this.alertService.alertError();
       }
     );
   }
 
   onImageLoad(event) {
     if (this.printType == "medicine") {
-      this.router.navigate(["/pages/patients/details", 1, "prescription"]);
+      this.router.navigate(["/pages/patients/details", this.prescription.patientCodeId, "prescription"]);
     }
     if (this.printType == "request") {
-      this.router.navigate(["/pages/patients/details", 1, "request"]);
+      this.router.navigate(["/pages/patients/details", this.prescription.patientCodeId, "request"]);
     }
     if (this.printType == "referral") {
-      this.router.navigate(["/pages/patients/details", 1, "referral"]);
+      this.router.navigate(["/pages/patients/details", this.prescription.patientCodeId, "referral"]);
     }
   }
 

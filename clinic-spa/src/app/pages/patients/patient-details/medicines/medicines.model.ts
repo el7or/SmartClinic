@@ -35,15 +35,33 @@ export interface PatientPrescription {
   id:number;
   medicines:PrescriptionMedicine[];
   note:string;
-  medicinesNames?:string[];
+  medicinesNames?:string;
   createdOn?:Date;
+  isPrint?:boolean;
 }
 export interface PrescriptionMedicine {
   medicineId:number;
   medicineName:string;
+  isNameValid?:boolean;
   concentrationId?:number;
   formId?:number;
   doseId?:number;
   timingId?:number;
   periodId?:number;
+}
+
+export interface PrescriptionForPrint {
+  patientCodeId:number;
+  patientName:string;
+  medicinesForPrint:MedicinesForPrint[];
+  note:string;
+  createdOn?:Date;
+}
+export interface MedicinesForPrint {
+  medicine:string;
+  concentration?:string;
+  form?:string;
+  dose?:string;
+  timing?:string;
+  period?:string;
 }

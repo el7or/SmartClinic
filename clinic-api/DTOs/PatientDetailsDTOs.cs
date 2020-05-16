@@ -142,4 +142,65 @@ namespace clinic_api.DTOs
     {
         public List<PatientDiagnosisList> PatientDiagnosis { get; set; }
     }
+
+    // Precriptions
+    public class GetPatientPrescriptions
+    {
+        public List<MedicineValue> MedicineValues { get; set; }
+        public List<ConcentrationValue> ConcentrationValues { get; set; }
+        public List<FormValue> FormValues { get; set; }
+        public List<DoseValue> DoseValues { get; set; }
+        public List<TimingValue> TimingValues { get; set; }
+        public List<PeriodValue> PeriodValues { get; set; }
+        public List<PatientPrescriptionList> PrevPatientPrescriptions { get; set; }
+    }
+    public class MedicineValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class ConcentrationValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class FormValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class DoseValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class TimingValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class PeriodValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class PatientPrescriptionList
+    {
+        public int Id { get; set; }
+        public List<PrescriptionMedicineList> Medicines { get; set; }
+        public string Note { get; set; }
+        public string[] MedicinesNames { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public bool? IsPrint { get; set; }
+    }
+    public class PrescriptionMedicineList
+    {
+        public int MedicineId { get; set; }
+        public string MedicineName { get; set; }
+        public int? ConcentrationId { get; set; }
+        public int? FormId { get; set; }
+        public int? DoseId { get; set; }
+        public int? TimingId { get; set; }
+        public int? PeriodId { get; set; }
+    }
 }

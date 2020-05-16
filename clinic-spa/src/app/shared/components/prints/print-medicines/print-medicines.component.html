@@ -5,14 +5,14 @@
   <header>
     <div class="row">
       <div class="col-4 left">
-        <h2 style="white-space: pre-line">{{printInfoSetting.clinicTitle}}</h2>
-        <img src="../../../../../assets/images/logo1.png" (load)="onImageLoad($event)">
+        <h2 style="white-space: pre-line">{{printInfoSetting?.clinicTitle}}</h2>
+        <img [src]="printInfoSetting?.logoUrl" (load)="onImageLoad($event)">
       </div>
       <div class="col-4">
       </div>
       <div class="col-4 right">
-        <h4>{{printInfoSetting.doctorName}}</h4>
-        <h5 style="white-space: pre-line">{{printInfoSetting.doctorDegree}}</h5>
+        <h4>{{printInfoSetting?.doctorName}}</h4>
+        <h5 style="white-space: pre-line">{{printInfoSetting?.doctorDegree}}</h5>
       </div>
     </div>
   </header>
@@ -23,27 +23,27 @@
           <th>
             <div class="right">
               <label>كود المريض:</label>&nbsp;
-              <label class="dotted">156546</label>
+              <label class="dotted">{{prescription?.patientCodeId}}</label>
               <br>
-              <ngx-barcode bc-value="156546" [bc-display-value]="true"></ngx-barcode>
+              <ngx-barcode [bc-value]="prescription?.patientCodeId" [bc-display-value]="true"></ngx-barcode>
             </div>
           </th>
           <th>
             <div class="right">
               <label>الإسم:</label>&nbsp;
-              <label class="dotted">محمد أحمد السيد</label>
+              <label class="dotted">{{prescription?.patientName}}</label>
               <br>
               <label>التاريخ:</label>&nbsp;
-              <label class="dotted">{{'2020-3-5' | localDateShort}}</label>
+              <label class="dotted">{{prescription?.createdOn | localDateShort}}</label>
             </div>
           </th>
         </tr>
       </thead>
       <tbody *ngIf="printType=='medicine'">
-        <tr *ngFor="let item of medicines">
+        <tr *ngFor="let item of prescription.medicinesForPrint">
           <td class="left">
             <span class="r">R/</span>&nbsp;
-            <span class="medicine">{{item.name}}</span>&nbsp;
+            <span class="medicine">{{item.medicine}}</span>&nbsp;
             <span class="concentration">{{item.concentration}}</span>&nbsp;
             <span class="form">{{item.form}}</span>
           </td>
@@ -51,6 +51,11 @@
             <span class="Dose">{{item.dose}}</span>&nbsp;
             <span class="timing">{{item.timing}}</span>&nbsp;
             <span class="period">{{item.period}}</span>
+          </td>
+        </tr>
+        <tr *ngIf="prescription.note">
+          <td class="right" colspan="2">
+            <span class="period">{{prescription?.note}}</span>&nbsp;
           </td>
         </tr>
       </tbody>
@@ -86,22 +91,22 @@
   <footer>
     <div class="row">
       <div class="col-6 left">
-        <h6>{{printInfoSetting.phone1}}</h6>
+        <h6>{{printInfoSetting?.phone1}}</h6>
       </div>
       <div class="col-6 right text-right">
-        <h6>{{printInfoSetting.address1}}</h6>
+        <h6>{{printInfoSetting?.address1}}</h6>
       </div>
       <div class="col-6 left">
-        <h6>{{printInfoSetting.phone2}}</h6>
+        <h6>{{printInfoSetting?.phone2}}</h6>
       </div>
       <div class="col-6 right text-right">
-        <h6>{{printInfoSetting.address2}}</h6>
+        <h6>{{printInfoSetting?.address2}}</h6>
       </div>
       <div class="col-6 left">
-        <h6>{{printInfoSetting.phone3}}</h6>
+        <h6>{{printInfoSetting?.phone3}}</h6>
       </div>
       <div class="col-6 right text-right">
-        <h6>{{printInfoSetting.address3}}</h6>
+        <h6>{{printInfoSetting?.address3}}</h6>
       </div>
     </div>
   </footer>

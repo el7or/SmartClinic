@@ -406,7 +406,7 @@ namespace clinic_api.Controllers
                 }
                 else
                 {
-                    var oldPatientDiagnose= patient.PatientDiagnosis.FirstOrDefault(i => i.Id == diagnose.Id);
+                    var oldPatientDiagnose = patient.PatientDiagnosis.FirstOrDefault(i => i.Id == diagnose.Id);
                     oldPatientDiagnose.DiagnosisId = diagnose.DiagnosisId;
                     oldPatientDiagnose.GradeId = diagnose.GradeId;
                     oldPatientDiagnose.Note = diagnose.Note;
@@ -417,6 +417,118 @@ namespace clinic_api.Controllers
             _context.Entry(patient).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // GET: api/PatientDetails/GetPatientPresc/5
+        [HttpGet("GetPatientPresc/{id}/{patientId}/{doctorId}")]
+        public async Task<ActionResult<GetPatientPrescriptions>> GetPatientPresc(Guid id, Guid patientId, Guid doctorId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var prevPatientPrescriptions = await _context.PatientPrescriptions.Where(p => p.PatientId == patientId).Include(e => e.PrescriptionMedicines).Include("PrescriptionMedicines.Medicine").ToListAsync();
+            GetPatientPrescriptions model = new GetPatientPrescriptions
+            {
+                MedicineValues = _context.DoctorMedicinesValues.Where(d => d.DoctorId == doctorId).Include(m => m.Medicine).Select(v => new MedicineValue
+                {
+                    Id = v.MedicineId,
+                    Text = v.Medicine.Text
+                }).ToList(),
+                FormValues = _context.SysMedicineFormsValues.Select(v => new FormValue
+                {
+                    Id = v.Id,
+                    Text = v.Text
+                }).ToList(),
+                ConcentrationValues = _context.SysMedicineConcentrationsValues.Select(v => new ConcentrationValue
+                {
+                    Id = v.Id,
+                    Text = v.Text
+                }).ToList(),
+                DoseValues = _context.SysMedicineDosesValues.Select(v => new DoseValue
+                {
+                    Id = v.Id,
+                    Text = v.Text
+                }).ToList(),
+                TimingValues = _context.SysMedicineTimingsValues.Select(v => new TimingValue
+                {
+                    Id = v.Id,
+                    Text = v.Text
+                }).ToList(),
+                PeriodValues = _context.SysMedicinePeriodsValues.Select(v => new PeriodValue
+                {
+                    Id = v.Id,
+                    Text = v.Text
+                }).ToList(),
+                PrevPatientPrescriptions = prevPatientPrescriptions.Select(p => new PatientPrescriptionList
+                {
+                    Id = p.Id,
+                    MedicinesNames = p.PrescriptionMedicines.Select(m => m.Medicine.Text).ToArray(),
+                    Note = p.Note,
+                    CreatedOn = p.CreatedOn,
+                    Medicines = p.PrescriptionMedicines.Select(m => new PrescriptionMedicineList
+                    {
+                        MedicineId = m.MedicineId,
+                        MedicineName = m.Medicine.Text,
+                        ConcentrationId = m.ConcentrationId,
+                        DoseId = m.DoseId,
+                        FormId = m.FormId,
+                        PeriodId = m.PeriodId,
+                        TimingId = m.TimingId
+                    }).ToList()
+                }).ToList()
+            };
+
+            return model;
+        }
+
+        // POSt: api/PatientDetails/PutPatientPresc/5
+        [HttpPost("PostPatientPresc/{id}/{patientId}")]
+        public async Task<IActionResult> PostPatientPresc(Guid id, Guid patientId, PatientPrescriptionList model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patientPrescription = new PatientPrescription
+            {
+                PatientId = patientId,
+                Note = model.Note,
+                IsPrint = model.IsPrint,
+                CreatedBy = id,
+                CreatedOn = DateTime.Now,
+                UpdatedBy = id,
+                UpdatedOn = DateTime.Now,
+                PrescriptionMedicines = model.Medicines.Select(m => new PrescriptionMedicine
+                {
+                    MedicineId = m.MedicineId,
+                    ConcentrationId = m.ConcentrationId,
+                    DoseId = m.DoseId,
+                    FormId = m.FormId,
+                    PeriodId = m.PeriodId,
+                    TimingId = m.TimingId
+                }).ToList()
+            };
+
+
+            _context.PatientPrescriptions.Add(patientPrescription);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (_context.PatientPrescriptions.Any(p => p.Id == patientPrescription.Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }

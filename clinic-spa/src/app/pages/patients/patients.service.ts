@@ -11,12 +11,27 @@ import { map } from "rxjs/operators";
 })
 export class PatientsService {
   private _patientId?: string;
-
   public get patientId(): string {
     return this._patientId;
   }
   public set patientId(id: string) {
     this._patientId = id;
+  }
+
+  private _patientCodeId : number;
+  public get patientCodeId() : number {
+    return this._patientCodeId;
+  }
+  public set patientCodeId(v : number) {
+    this._patientCodeId = v;
+  }
+
+  private _patientName : string;
+  public get patientName() : string {
+    return this._patientName;
+  }
+  public set patientName(v : string) {
+    this._patientName = v;
   }
 
   constructor(private http: HttpClient, private authService: AuthService) {}
@@ -53,6 +68,7 @@ export class PatientsService {
   }
 
   getPatientHeaderInfo(patientCodeId: number) {
+    this._patientCodeId = patientCodeId;
     // =====> send to api pacientId(codeId) + clinicId to get  data for patient:
     return this.http
       .get<PatientHeaderInfo>(
@@ -67,6 +83,7 @@ export class PatientsService {
       .pipe(
         map((p) => {
           this._patientId = p.patientId;
+          this._patientName = p.name
           return p;
         })
       );

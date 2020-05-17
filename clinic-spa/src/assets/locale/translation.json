@@ -355,8 +355,8 @@
   { "ar": "إزالة دواء", "en": "Remove Medicine" },
   { "ar": "اسم الدواء الجديد", "en": "New Medication Name" },
   {
-    "ar": "يجب اختيار الدواء من القائمة !",
-    "en": "Must choose a Medication from the list !"
+    "ar": "يجب الاختيار من القائمة !",
+    "en": "Must choose from the list !"
   },
   { "ar": "ملاحظات أخرى ...", "en": "Other Notes ..." },
   { "ar": "اكتب اسم الدواء ..", "en": "Type Medicine Name .." },

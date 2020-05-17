@@ -34,7 +34,7 @@ export interface PeriodValue {
 export interface PatientPrescription {
   id:number;
   medicines:PrescriptionMedicine[];
-  note:string;
+  note?:string;
   medicinesNames?:string;
   createdOn?:Date;
   isPrint?:boolean;

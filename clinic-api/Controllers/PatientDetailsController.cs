@@ -532,5 +532,106 @@ namespace clinic_api.Controllers
 
             return NoContent();
         }
+
+        // GET: api/PatientDetails/GetPatientRequest/5
+        [HttpGet("GetPatientRequest/{id}/{patientId}/{doctorId}")]
+        public async Task<ActionResult<GetPatientRequests>> GetPatientRequest(Guid id, Guid patientId, Guid doctorId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var prevPatientRays = _context.PatientRays.Where(p => p.PatientId == patientId).Include(e => e.Ray).Include(e => e.RayArea).Select(r => new PatientRequestList
+            {
+                Id = r.Id,
+                RequestId = r.RayId,
+                RayAreaId = r.RayAreaId,
+                RequestType = "ray",
+                RequestName = r.Ray.RayName,
+                RayAreaName = r.RayArea.RayArea,
+                Note = r.RequestNote,
+                RequestDate = r.CreatedOn,
+                isHasResult = r.IsHasResult
+            }).ToList();
+            var prevPatientAnalsis = _context.PatientAnalysis.Where(p => p.PatientId == patientId).Include(e => e.Analysis).Select(a => new PatientRequestList
+            {
+                Id = a.Id,
+                RequestId = a.AnalysisId,
+                RayAreaId = null,
+                RequestType = "analysis",
+                RequestName = a.Analysis.AnalysisName,
+                RayAreaName = null,
+                Note = a.RequestNote,
+                RequestDate = a.CreatedOn,
+                isHasResult = a.IsHasResult
+            }).ToList();
+            GetPatientRequests model = new GetPatientRequests
+            {
+                RayValues = await _context.DoctorRaysValues.Where(d => d.DoctorId == doctorId).Select(v => new RayValue
+                {
+                    Id = v.Id,
+                    Text = v.RayName
+                }).ToListAsync(),
+                RayAreaValues = await _context.DoctorRayAreasValues.Select(v => new RayAreaValue
+                {
+                    Id = v.Id,
+                    Text = v.RayArea
+                }).ToListAsync(),
+                AnalysisValues = await _context.DoctorAnalysisValues.Select(v => new AnalysisValue
+                {
+                    Id = v.Id,
+                    Text = v.AnalysisName
+                }).ToListAsync(),
+                PrevPatientRequests = prevPatientAnalsis != null ? prevPatientRays.Union(prevPatientAnalsis).OrderBy(p => p.RequestDate).ToList() : prevPatientRays
+            };
+
+            return model;
+        }
+
+        // POSt: api/PatientDetails/PostPatientRequest/5
+        [HttpPost("PostPatientRequest/{id}/{patientId}")]
+        public async Task<IActionResult> PostPatientRequest(Guid id, Guid patientId, PutPatientRequests model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            foreach (var item in model.NewPatientRequests)
+            {
+                if (item.RequestType == "ray")
+                {
+                    _context.PatientRays.Add(new PatientRay
+                    {
+                        PatientId = patientId,
+                        RayId = item.RequestId,
+                        RayAreaId = item.RayAreaId,
+                        RequestNote = item.Note,
+                        IsHasResult = false,
+                        CreatedBy = id,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = id,
+                        UpdatedOn = DateTime.Now
+                    });
+                }
+                else
+                {
+                    _context.PatientAnalysis.Add(new PatientAnalysis
+                    {
+                        PatientId = patientId,
+                        AnalysisId = item.RequestId,
+                        RequestNote = item.Note,
+                        IsHasResult = false,
+                        CreatedBy = id,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = id,
+                        UpdatedOn = DateTime.Now
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

@@ -1,7 +1,4 @@
 <div class="print-container">
-  <!-- <div class="logo">
-    <img src="../../../../../assets/images/print-medicine-logo.png">
-  </div> -->
   <header>
     <div class="row">
       <div class="col-4 left">
@@ -23,7 +20,7 @@
           <th>
             <div class="right">
               <label>كود المريض:</label>&nbsp;
-              <label class="dotted">{{prescription?.patientCodeId}}</label>
+              <label class="dotted">{{printType=='medicine' ? prescription?.patientCodeId : printType=='request' ? requests?.patientCodeId : printType=='referral'? referrals?.patientCodeId : ''}}</label>
               <br>
               <ngx-barcode [bc-value]="prescription?.patientCodeId" [bc-display-value]="true"></ngx-barcode>
             </div>
@@ -31,10 +28,11 @@
           <th>
             <div class="right">
               <label>الإسم:</label>&nbsp;
-              <label class="dotted">{{prescription?.patientName}}</label>
+              <label class="dotted">{{printType=='medicine' ? prescription?.patientName : printType=='request' ? requests?.patientName : printType=='referral'? referrals?.patientName : ''}}</label>
               <br>
               <label>التاريخ:</label>&nbsp;
               <label class="dotted">{{prescription?.createdOn | localDateShort}}</label>
+              <label class="dotted">{{printType=='medicine' ? (prescription?.createdOn | localDateShort) : printType=='request' ? (requests?.createdOn | localDateShort) : printType=='referral'? (referrals?.createdOn | localDateShort) : ''}}</label>
             </div>
           </th>
         </tr>
@@ -60,14 +58,15 @@
         </tr>
       </tbody>
       <tbody *ngIf="printType=='request'">
-        <tr *ngFor="let item of requests">
+        <tr *ngFor="let item of requests.requests">
           <td class="left">
             <span class="r">R/</span>&nbsp;
-            <span class="medicine">{{item.name}}</span>
+            <span class="medicine">{{item.requestName}}</span>&nbsp;
+            <span class="concentration">{{item.rayArea}}</span>&nbsp;
+            <span class="form">{{item.note}}</span>
           </td>
           <td class="right">
-            <span class="Dose">{{item.note}}</span>&nbsp;
-            <span class="period">{{item.type=='xRay'?('Request X-Ray' | langg):('Request Analysis' | langg)}}</span>
+            <span class="period">{{item.requestType=='ray'?'طلب أشعة':'طلب تحاليل'}}</span>
           </td>
         </tr>
       </tbody>

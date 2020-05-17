@@ -203,4 +203,44 @@ namespace clinic_api.DTOs
         public int? TimingId { get; set; }
         public int? PeriodId { get; set; }
     }
+
+    // Requests
+    public class GetPatientRequests
+    {
+        public List<RayValue> RayValues { get; set; }
+        public List<RayAreaValue> RayAreaValues { get; set; }
+        public List<AnalysisValue> AnalysisValues { get; set; }
+        public List<PatientRequestList> PrevPatientRequests { get; set; }
+    }
+    public class RayValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class RayAreaValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class AnalysisValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class PatientRequestList
+    {
+        public int Id { get; set; }
+        public DateTime? RequestDate { get; set; }
+        public string RequestType { get; set; }
+        public int RequestId { get; set; }
+        public string RequestName { get; set; }
+        public int? RayAreaId { get; set; }
+        public string RayAreaName { get; set; }
+        public string Note { get; set; }
+        public bool? isHasResult { get; set; }
+    }
+    public class PutPatientRequests
+    {
+        public List<PatientRequestList> NewPatientRequests { get; set; }
+    }
 }

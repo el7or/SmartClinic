@@ -1,15 +1,15 @@
-import { AlertService } from './../../../services/alert.service';
-import { PatientsService } from './../../../../pages/patients/patients.service';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 
+import { AlertService } from './../../../services/alert.service';
 import { ReferralsService } from "./../../../../pages/patients/patient-details/referrals/referrals.service";
 import { RequestsService } from "./../../../../pages/patients/patient-details/requests/requests.service";
 import { SettingsService } from "./../../../../pages/settings/settings.service";
 import { MedicinesService } from "../../../../pages/patients/patient-details/medicines/medicines.service";
 import { GetPrintSetting } from "../../../../pages/settings/settings.model";
 import { PrescriptionForPrint } from '../../../../pages/patients/patient-details/medicines/medicines.model';
+import { RequestsForPrint } from '../../../../pages/patients/patient-details/requests/requests.model';
 
 @Component({
   selector: "print-medicines",
@@ -20,8 +20,8 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
   printInfoSetting: GetPrintSetting;
   printType: string;
   prescription: PrescriptionForPrint;
-  requests: any[];
-  referrals: any[];
+  requests: RequestsForPrint;
+  referrals: any;
 
   printSubs:Subscription;
 
@@ -62,10 +62,10 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
       this.router.navigate(["/pages/patients/details", this.prescription.patientCodeId, "prescription"]);
     }
     if (this.printType == "request") {
-      this.router.navigate(["/pages/patients/details", this.prescription.patientCodeId, "request"]);
+      this.router.navigate(["/pages/patients/details", this.requests.patientCodeId, "request"]);
     }
     if (this.printType == "referral") {
-      this.router.navigate(["/pages/patients/details", this.prescription.patientCodeId, "referral"]);
+      this.router.navigate(["/pages/patients/details", this.referrals.patientCodeId, "referral"]);
     }
   }
 

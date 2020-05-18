@@ -20,7 +20,6 @@ baseUrl = environment.API_URL;
     this._requestsForPrint = v;
   }
 
-
   constructor(
     private http: HttpClient,
     private authService: AuthService,

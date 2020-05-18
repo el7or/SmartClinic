@@ -23,5 +23,6 @@ namespace clinic_api.Models
 
         public virtual Patient Patient { get; set; }
         public virtual Doctor ReferralToDoctor { get; set; }
+        public virtual PatientDiagnosis PatientDiagnosis { get; set; }
     }
 }

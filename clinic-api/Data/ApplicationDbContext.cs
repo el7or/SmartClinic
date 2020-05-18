@@ -872,6 +872,11 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.ReferralToDoctorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PatientReferrals_Doctors");
+
+                entity.HasOne(d => d.PatientDiagnosis)
+                    .WithMany(p => p.PatientReferrals)
+                    .HasForeignKey(d => d.PatientDiagnosisId)
+                    .HasConstraintName("FK_PatientReferrals_PatientDiagnosis");
             });
 
             modelBuilder.Entity<Patient>(entity =>

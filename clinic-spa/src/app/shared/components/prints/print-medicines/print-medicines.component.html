@@ -20,7 +20,7 @@
           <th>
             <div class="right">
               <label>كود المريض:</label>&nbsp;
-              <label class="dotted">{{printType=='medicine' ? prescription?.patientCodeId : printType=='request' ? requests?.patientCodeId : printType=='referral'? referrals?.patientCodeId : ''}}</label>
+              <label class="dotted">{{printType=='medicine' ? prescription?.patientCodeId : printType=='request' ? requests?.patientCodeId : printType=='referral'? referral?.patientCodeId : ''}}</label>
               <br>
               <ngx-barcode [bc-value]="prescription?.patientCodeId" [bc-display-value]="true"></ngx-barcode>
             </div>
@@ -28,11 +28,11 @@
           <th>
             <div class="right">
               <label>الإسم:</label>&nbsp;
-              <label class="dotted">{{printType=='medicine' ? prescription?.patientName : printType=='request' ? requests?.patientName : printType=='referral'? referrals?.patientName : ''}}</label>
+              <label class="dotted">{{printType=='medicine' ? prescription?.patientName : printType=='request' ? requests?.patientName : printType=='referral'? referral?.patientName : ''}}</label>
               <br>
               <label>التاريخ:</label>&nbsp;
               <label class="dotted">{{prescription?.createdOn | localDateShort}}</label>
-              <label class="dotted">{{printType=='medicine' ? (prescription?.createdOn | localDateShort) : printType=='request' ? (requests?.createdOn | localDateShort) : printType=='referral'? (referrals?.createdOn | localDateShort) : ''}}</label>
+              <label class="dotted">{{printType=='medicine' ? (prescription?.createdOn | localDateShort) : printType=='request' ? (requests?.createdOn | localDateShort) : printType=='referral'? (referral?.createdOn | localDateShort) : ''}}</label>
             </div>
           </th>
         </tr>
@@ -71,17 +71,17 @@
         </tr>
       </tbody>
       <tbody *ngIf="printType=='referral'">
-        <tr *ngFor="let item of referrals">
+        <tr>
           <td class="left">
             <span class="r">R/</span>&nbsp;
-            <span class="medicine">{{item.diagnose}}</span>
+            <span class="medicine">{{referral.diagnosisName}}</span>
           </td>
           <td class="right">
-            <span class="Dose"><span langg>Specialty</span>: {{item.specialtyName}}</span>&nbsp;
+            <span class="Dose"><span langg>Specialty</span>: {{referral.specialtyName}}</span>&nbsp;
             <br>
-            <span class="Dose"><span langg>Doctor Name</span>: {{item.doctorName}}</span>&nbsp;
+            <span class="Dose"><span langg>Doctor Name</span>: {{referral.doctorName}}</span>&nbsp;
             <br>
-            <span class="Dose" *ngIf="item.note"><span langg>Notes</span>: {{item.note}}</span>
+            <span class="Dose" *ngIf="referral.note"><span langg>Notes</span>: {{referral.note}}</span>
           </td>
         </tr>
       </tbody>

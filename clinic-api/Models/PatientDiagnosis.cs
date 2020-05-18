@@ -5,6 +5,9 @@ namespace clinic_api.Models
 {
     public partial class PatientDiagnosis
     {
+        public PatientDiagnosis(){
+            PatientReferrals = new HashSet<PatientReferral>();
+}
         public int Id { get; set; }
         public Guid PatientId { get; set; }
         public int DiagnosisId { get; set; }
@@ -18,5 +21,6 @@ namespace clinic_api.Models
         public virtual DoctorDiagnosisValue Diagnosis { get; set; }
         public virtual SysDiseaseGradesValue Grade { get; set; }
         public virtual Patient Patient { get; set; }
+        public virtual ICollection<PatientReferral> PatientReferrals { get; set; }
     }
 }

@@ -1,37 +1,51 @@
-import {ReferralValue } from "./referrals.model";
 import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+
+import { PutPatientReferral, GetPatientReferrals, ReferralForPrint } from './referrals.model';
+import { environment } from '../../../../../environments/environment';
+import { AuthService } from '../../../../auth/auth.service';
+import { PatientsService } from '../../patients.service';
 
 @Injectable({
   providedIn: "root"
 })
 export class ReferralsService {
-  referralForPrint:any[];
+  baseUrl = environment.API_URL;
 
-  constructor() {}
+  private _referralForPrint : ReferralForPrint;
+  public get referralForPrint() : ReferralForPrint {
+    return this._referralForPrint;
+  }
+  public set referralForPrint(v : ReferralForPrint) {
+    this._referralForPrint = v;
+  }
 
-  getReferralValues(): ReferralValue[] {
-    const values= [
-      {
-        specialtyId: "ssss",
-        specialtyName: "عظام",
-        doctors: [
-          {
-            doctorId: "aaaa",
-            doctorName: "بهاء علي"
-          }
-        ]
-      },
-      {
-        specialtyId: "zzzz",
-        specialtyName: "روماتيزم",
-        doctors: [
-          {
-            doctorId: "bbbb",
-            doctorName: "هشام محمد"
-          }
-        ]
-      }
-    ];
-    return values;
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private patientService: PatientsService
+  ) {}
+
+  getPatientReferral() {
+    return this.http.get<GetPatientReferrals>(
+      this.baseUrl +
+        "PatientDetails/GetPatientReferral/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId +
+        "/" +
+        this.authService.doctorId
+    );
+  }
+
+  savePatientReferral(patientReferral: PutPatientReferral) {
+    return this.http.post(
+      this.baseUrl +
+        "PatientDetails/PostPatientReferral/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId,
+        patientReferral
+    );
   }
 }

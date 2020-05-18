@@ -633,5 +633,69 @@ namespace clinic_api.Controllers
 
             return NoContent();
         }
+
+        // GET: api/PatientDetails/GetPatientReferral/5
+        [HttpGet("GetPatientReferral/{id}/{patientId}/{doctorId}")]
+        public async Task<ActionResult<GetPatientReferrals>> GetPatientReferral(Guid id, Guid patientId, Guid doctorId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            GetPatientReferrals model = new GetPatientReferrals
+            {
+                SpecialtyValues = await _context.SysDoctorsSpecialties.Include(d => d.Doctors).Select(s => new SpecialtyValue
+                {
+                    SpecialtyId = s.Id,
+                    SpecialtyName = s.Text,
+                    Doctors = s.Doctors.Where(d => d.Id != doctorId).Select(d => new DoctorValue
+                    {
+                        DoctorId = d.Id,
+                        DoctorName = d.FullName
+                    }).ToList()
+                }).ToListAsync(),
+                PatientDiagnosis =await _context.PatientDiagnosis.Include(d => d.Diagnosis).Where(p => p.PatientId==patientId).Select(d => new PatientDiagnosisRef
+                {
+                    Id = d.Id,
+                    Text = d.Diagnosis.Diagnosis
+                }).ToListAsync(),
+                PrevPatientReferrals = await _context.PatientReferrals.Where(p => p.PatientId==patientId)
+                .Include(d => d.ReferralToDoctor).ThenInclude(s => s.Specialty).Include(d => d.PatientDiagnosis).ThenInclude(d => d.Diagnosis).Select(r => new PatientReferralList { 
+                    Id = r.Id,
+                    DoctorName = r.ReferralToDoctor.FullName,
+                    SpecialtyName = r.ReferralToDoctor.Specialty.Text,
+                    DiagnosisName = r.PatientDiagnosis.Diagnosis.Diagnosis,
+                    Note = r.Note,
+                    CreatedOn = r.CreatedOn
+                }).ToListAsync()
+            };
+            model.SpecialtyValues = model.SpecialtyValues.Where(s => s.Doctors.Count() > 0).ToList();
+            return model;
+        }
+
+        // POSt: api/PatientDetails/PostPatientReferral/5
+        [HttpPost("PostPatientReferral/{id}/{patientId}")]
+        public async Task<IActionResult> PostPatientReferral(Guid id, Guid patientId, PutPatientReferral model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            _context.PatientReferrals.Add(new PatientReferral
+            {
+                PatientId = patientId,
+                ReferralToDoctorId = model.DoctorId,
+                PatientDiagnosisId = model.DiagnosisId,
+                Note = model.Note,
+                CreatedBy = id,
+                CreatedOn = DateTime.Now,
+                UpdatedBy = id,
+                UpdatedOn = DateTime.Now
+            });
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

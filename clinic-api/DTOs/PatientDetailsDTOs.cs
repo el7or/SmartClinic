@@ -243,4 +243,45 @@ namespace clinic_api.DTOs
     {
         public List<PatientRequestList> NewPatientRequests { get; set; }
     }
+
+    // Referral
+    public class GetPatientReferrals
+    {
+        public List<SpecialtyValue> SpecialtyValues { get; set; }
+        public List<PatientDiagnosisRef> PatientDiagnosis { get; set; }
+        public List<PatientReferralList> PrevPatientReferrals { get; set; }
+    }
+    public class SpecialtyValue
+    {
+        public int SpecialtyId { get; set; }
+        public string SpecialtyName { get; set; }
+        public List<DoctorValue> Doctors { get; set; }
+    }
+    public class DoctorValue
+    {
+        public Guid DoctorId { get; set; }
+        public string DoctorName { get; set; }
+    }
+    public class PatientDiagnosisRef
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class PatientReferralList
+    {
+        public int Id { get; set; }
+        public string SpecialtyName { get; set; }
+        public string DoctorName { get; set; }
+        public string DiagnosisName { get; set; }
+        public string Note { get; set; }
+        public DateTime CreatedOn { get; set; }
+    }
+
+    public class PutPatientReferral
+    {
+        public int SpecialtyId { get; set; }
+        public Guid DoctorId { get; set; }
+        public int? DiagnosisId { get; set; }
+        public string Note { get; set; }
+    }
 }

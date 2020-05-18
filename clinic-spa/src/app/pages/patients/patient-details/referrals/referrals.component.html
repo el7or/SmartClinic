@@ -4,52 +4,50 @@
     <form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
       <table class="table requests">
         <tbody>
-          <tr *ngFor="let item of referrals; index as i;">
+          <tr>
             <td>
-              <nb-select fullWidth [(ngModel)]="item.specialtyName" [ngModelOptions]="{standalone: true}"
-                [placeholder]="'Specialty' | langg" size="small" (selectedChange)="onChangeReferralValue($event,item)">
-                <nb-option *ngFor="let referralValue of referralsValues" [value]="referralValue.specialtyName">
-                  {{referralValue.specialtyName}}
+              <nb-select ngModel #specialty="ngModel" name="specialty" required
+                [placeholder]="'Specialty' | langg" size="small" (selectedChange)="onChangeReferralValue($event)" fullWidth>
+                <nb-option *ngFor="let specialty of specialtyValues" [value]="specialty.specialtyId">
+                  {{specialty.specialtyName}}
                 </nb-option>
               </nb-select>
             </td>
             <td>
-              <nb-select *ngIf="item.doctors?.length" fullWidth [(ngModel)]="item.doctorName"
-                [ngModelOptions]="{standalone: true}" [placeholder]="'Doctor Name' | langg" size="small">
-                <nb-option *ngFor="let doctor of item.doctors" [value]="doctor.doctorName">
+              <nb-select *ngIf="doctorValues?.length" ngModel #doctor="ngModel" name="doctor" required [placeholder]="'Doctor Name' | langg" size="small" fullWidth>
+                <nb-option *ngFor="let doctor of doctorValues" [value]="doctor.doctorId" >
                   {{doctor.doctorName}}</nb-option>
               </nb-select>
             </td>
             <td>
-              <nb-select *ngIf="item.doctors?.length" fullWidth [(ngModel)]="item.diagnose"
-                [ngModelOptions]="{standalone: true}" [placeholder]="'Diagnosis' | langg" size="small">
-                <nb-option *ngFor="let diagnose of diagnosesNames" [value]="diagnose">
-                  {{diagnose}}</nb-option>
+              <nb-select *ngIf="doctorValues?.length"  ngModel #diagnose="ngModel" name="diagnose"
+                [placeholder]="'Diagnosis' | langg" size="small" fullWidth>
+                <nb-option *ngFor="let diagnose of patientDiagnosis" [value]="diagnose.id">
+                  {{diagnose.text}}</nb-option>
               </nb-select>
+              <ng-container *ngIf="!patientDiagnosis.length">
+                <label class="error-message" langg>No Patient Diagnosis was recorded in the Patient Record.</label>
+              </ng-container>
             </td>
             <td>
-              <input *ngIf="item.doctors?.length" nbInput [(ngModel)]="item.note" #note="ngModel" name="note"
-                [ngModelOptions]="{standalone: true}" [placeholder]="'Notes' | langg" fullWidth fieldSize="small">
+              <input *ngIf="doctorValues?.length" nbInput ngModel #note="ngModel" name="note"
+                [placeholder]="'Notes' | langg" fullWidth fieldSize="small">
             </td>
             <td class="label pt-2">
-              <label *ngIf="item.doctors?.length"><span langg>Referral
+              <label *ngIf="doctorValues?.length"><span langg>Referral
                   Date</span>:&nbsp;<b>{{today | localDateShort}}</b>
               </label>
             </td>
-            <td>
+            <!-- <td>
               <button (click)="onRemoveReferral(i)" nbButton [nbTooltip]="'Remove Referral' | langg" size="tiny"
                 status="danger">
                 <nb-icon icon="close-square"></nb-icon>
               </button>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
 
-      <button nbButton size="small" (click)="onAddReferral('doctor')"
-        [disabled]="referrals.length &&!referrals[referrals?.length-1]?.doctorName" class="mx-1 mb-1">
-        <nb-icon icon="plus-outline"></nb-icon><span langg>Doctor Referral</span>
-      </button>
       <!-- <button nbButton size="small" (click)="onAddReferral('pt')"
         [disabled]="referrals[0]?.type && (!referrals[0]?.name || !referrals[0]?.isNameValid)" class="mx-1 mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Physical Therapy</span>
@@ -60,13 +58,42 @@
       </button> -->
 
       <div class="text-center nbButton-group mb-1">
-        <button nbButton type="submit" status="success" (click)="onSave(form)"
-          [disabled]="!referrals[referrals?.length-1]?.doctorName" langg>Save</button>
-        <button nbButton type="submit" status="success" (click)="onSavePrint(form)"
-          [disabled]="!referrals[referrals?.length-1]?.doctorName" langg>Save & Print Referral</button>
+        <button nbButton type="submit" status="success" (click)="onSave(form,false)"
+          [disabled]="form.invalid || !form.touched" langg>Save</button>
+        <button nbButton type="submit" status="success" (click)="onSave(form,true)"
+          [disabled]="form.invalid || !form.touched" langg>Save & Print Referral</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
       </div>
     </form>
+
+    <h6 langg>Past Referrals:</h6>
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th langg>Referral Date</th>
+          <th langg>Referral to Specialty</th>
+          <th langg>Referral to Doctor</th>
+          <th langg>Patient Diagnosis</th>
+          <th langg>Note</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!prevPatientReferrals?.length">
+        <tr>
+          <td colspan="6" class="text-center">
+            <h5 langg>No Results !</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="prevPatientReferrals?.length">
+        <tr *ngFor="let ref of prevPatientReferrals">
+          <td>{{ref.createdOn | localDateShort}}</td>
+          <td>{{ref.specialtyName}}</td>
+          <td>{{ref.doctorName}}</td>
+          <td>{{ref.diagnosisName}}</td>
+          <td>{{ref.note}}</td>
+        </tr>
+      </tbody>
+    </table>
   </nb-card-body>
 </nb-card>
 

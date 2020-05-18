@@ -571,5 +571,9 @@
   { "ar": "اسم المريض يجب ألا يقل عن 7 أحرف !", "en": "Patient Name should contains from 5 to 50 characters!" },
   { "ar": "لابد من  إدخال رقم المبلغ المدفوع !", "en": "Paid is required!" },
   { "ar": "آخر حجز", "en": "Last Book" },
-  { "ar": "هل أنت متأكد من إلغاء الحجز؟", "en": "Are you sure to cancel the Booking?" }
+  { "ar": "هل أنت متأكد من إلغاء الحجز؟", "en": "Are you sure to cancel the Booking?" },
+  { "ar": "لم يتم تسجيل أي تشخيص للمريض في سجل المريض.", "en": "No Patient Diagnosis was recorded in the Patient Record." },
+  { "ar": "إلى تخصص", "en": "Referral to Specialty" },
+  { "ar": "إلى الطبيب", "en": "Referral to Doctor" },
+  { "ar": "تشخيص المريض", "en": "Patient Diagnosis" }
 ]

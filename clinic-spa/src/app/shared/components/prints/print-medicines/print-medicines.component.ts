@@ -10,6 +10,7 @@ import { MedicinesService } from "../../../../pages/patients/patient-details/med
 import { GetPrintSetting } from "../../../../pages/settings/settings.model";
 import { PrescriptionForPrint } from '../../../../pages/patients/patient-details/medicines/medicines.model';
 import { RequestsForPrint } from '../../../../pages/patients/patient-details/requests/requests.model';
+import { ReferralForPrint } from '../../../../pages/patients/patient-details/referrals/referrals.model';
 
 @Component({
   selector: "print-medicines",
@@ -21,7 +22,7 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
   printType: string;
   prescription: PrescriptionForPrint;
   requests: RequestsForPrint;
-  referrals: any;
+  referral: ReferralForPrint;
 
   printSubs:Subscription;
 
@@ -47,7 +48,7 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
           this.requests = this.requestService.requestsForPrint;
         }
         if (this.printType == "referral") {
-          this.referrals = this.referralService.referralForPrint;
+          this.referral = this.referralService.referralForPrint;
         }
       },
       (err) => {
@@ -65,7 +66,7 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
       this.router.navigate(["/pages/patients/details", this.requests.patientCodeId, "request"]);
     }
     if (this.printType == "referral") {
-      this.router.navigate(["/pages/patients/details", this.referrals.patientCodeId, "referral"]);
+      this.router.navigate(["/pages/patients/details", this.referral.patientCodeId, "referral"]);
     }
   }
 

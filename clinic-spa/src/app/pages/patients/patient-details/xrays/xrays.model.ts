@@ -16,7 +16,7 @@ export interface XrayDetails {
   isHasResult: boolean;
   resultDate?: Date;
   resultText?: string;
-  resultGrade?: number;
+  resultGrade?: string;
   xraysFiles: XrayFileList[];
 }
 export interface XrayFileList {

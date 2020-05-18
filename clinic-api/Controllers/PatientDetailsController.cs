@@ -281,7 +281,7 @@ namespace clinic_api.Controllers
                     Mass = patient.BodyMass,
                     Temperature = patient.Temperature,
                     PressureId = patient.BloodPressureId,
-                    Examinations = patient.PatientExaminations.Select(e => new PatientExaminationList
+                    Examinations = patient.PatientExaminations.Select(e => new PatientExaminationListDTO
                     {
                         Id = e.Id,
                         TypeId = e.ExaminationId,
@@ -342,7 +342,7 @@ namespace clinic_api.Controllers
 
         // GET: api/PatientDetails/GetPatientDiagnosis/5
         [HttpGet("GetPatientDiagnosis/{id}/{patientId}/{doctorId}")]
-        public async Task<ActionResult<GetPatientDiagnosis>> GetPatientDiagnosis(Guid id, Guid patientId, Guid doctorId)
+        public async Task<ActionResult<GetPatientDiagnosisDTO>> GetPatientDiagnosis(Guid id, Guid patientId, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -353,7 +353,7 @@ namespace clinic_api.Controllers
             {
                 return NotFound();
             }
-            GetPatientDiagnosis model = new GetPatientDiagnosis
+            GetPatientDiagnosisDTO model = new GetPatientDiagnosisDTO
             {
                 DiagnosisValues = await _context.DoctorDiagnosisValues.Where(d => d.DoctorId == doctorId).Select(c => new DiagnosisValue
                 {
@@ -365,7 +365,7 @@ namespace clinic_api.Controllers
                     Id = c.Id,
                     Text = c.Value
                 }).ToListAsync(),
-                PatientDiagnosis = patient.PatientDiagnosis.Select(e => new PatientDiagnosisList
+                PatientDiagnosis = patient.PatientDiagnosis.Select(e => new PatientDiagnosisListDTO
                 {
                     Id = e.Id,
                     DiagnosisId = e.DiagnosisId,
@@ -380,7 +380,7 @@ namespace clinic_api.Controllers
 
         // PUT: api/PatientDetails/PutPatientDiagnosis/5
         [HttpPut("PutPatientDiagnosis/{id}/{patientId}")]
-        public async Task<IActionResult> PutPatientDiagnosis(Guid id, Guid patientId, PutPatientDiagnosis model)
+        public async Task<IActionResult> PutPatientDiagnosis(Guid id, Guid patientId, PutPatientDiagnosisDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -423,14 +423,14 @@ namespace clinic_api.Controllers
 
         // GET: api/PatientDetails/GetPatientPresc/5
         [HttpGet("GetPatientPresc/{id}/{patientId}/{doctorId}")]
-        public async Task<ActionResult<GetPatientPrescriptions>> GetPatientPresc(Guid id, Guid patientId, Guid doctorId)
+        public async Task<ActionResult<GetPatientPrescriptionsDTO>> GetPatientPresc(Guid id, Guid patientId, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
             var prevPatientPrescriptions = await _context.PatientPrescriptions.Where(p => p.PatientId == patientId).Include(e => e.PrescriptionMedicines).Include("PrescriptionMedicines.Medicine").ToListAsync();
-            GetPatientPrescriptions model = new GetPatientPrescriptions
+            GetPatientPrescriptionsDTO model = new GetPatientPrescriptionsDTO
             {
                 MedicineValues = _context.DoctorMedicinesValues.Where(d => d.DoctorId == doctorId).Include(m => m.Medicine).Select(v => new MedicineValue
                 {
@@ -462,13 +462,13 @@ namespace clinic_api.Controllers
                     Id = v.Id,
                     Text = v.Text
                 }).ToList(),
-                PrevPatientPrescriptions = prevPatientPrescriptions.Select(p => new PatientPrescriptionList
+                PrevPatientPrescriptions = prevPatientPrescriptions.Select(p => new PatientPrescriptionListDTO
                 {
                     Id = p.Id,
                     MedicinesNames = p.PrescriptionMedicines.Select(m => m.Medicine.Text).ToArray(),
                     Note = p.Note,
                     CreatedOn = p.CreatedOn,
-                    Medicines = p.PrescriptionMedicines.Select(m => new PrescriptionMedicineList
+                    Medicines = p.PrescriptionMedicines.Select(m => new PrescriptionMedicineListDTO
                     {
                         MedicineId = m.MedicineId,
                         MedicineName = m.Medicine.Text,
@@ -486,7 +486,7 @@ namespace clinic_api.Controllers
 
         // POSt: api/PatientDetails/PutPatientPresc/5
         [HttpPost("PostPatientPresc/{id}/{patientId}")]
-        public async Task<IActionResult> PostPatientPresc(Guid id, Guid patientId, PatientPrescriptionList model)
+        public async Task<IActionResult> PostPatientPresc(Guid id, Guid patientId, PatientPrescriptionListDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -535,13 +535,13 @@ namespace clinic_api.Controllers
 
         // GET: api/PatientDetails/GetPatientRequest/5
         [HttpGet("GetPatientRequest/{id}/{patientId}/{doctorId}")]
-        public async Task<ActionResult<GetPatientRequests>> GetPatientRequest(Guid id, Guid patientId, Guid doctorId)
+        public async Task<ActionResult<GetPatientRequestsDTO>> GetPatientRequest(Guid id, Guid patientId, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var prevPatientRays = _context.PatientRays.Where(p => p.PatientId == patientId).Include(e => e.Ray).Include(e => e.RayArea).Select(r => new PatientRequestList
+            var prevPatientRays = _context.PatientRays.Where(p => p.PatientId == patientId).Include(e => e.Ray).Include(e => e.RayArea).Select(r => new PatientRequestListDTO
             {
                 Id = r.Id,
                 RequestId = r.RayId,
@@ -553,7 +553,7 @@ namespace clinic_api.Controllers
                 RequestDate = r.CreatedOn,
                 isHasResult = r.IsHasResult
             }).ToList();
-            var prevPatientAnalsis = _context.PatientAnalysis.Where(p => p.PatientId == patientId).Include(e => e.Analysis).Select(a => new PatientRequestList
+            var prevPatientAnalsis = _context.PatientAnalysis.Where(p => p.PatientId == patientId).Include(e => e.Analysis).Select(a => new PatientRequestListDTO
             {
                 Id = a.Id,
                 RequestId = a.AnalysisId,
@@ -565,7 +565,7 @@ namespace clinic_api.Controllers
                 RequestDate = a.CreatedOn,
                 isHasResult = a.IsHasResult
             }).ToList();
-            GetPatientRequests model = new GetPatientRequests
+            GetPatientRequestsDTO model = new GetPatientRequestsDTO
             {
                 RayValues = await _context.DoctorRaysValues.Where(d => d.DoctorId == doctorId).Select(v => new RayValue
                 {
@@ -590,7 +590,7 @@ namespace clinic_api.Controllers
 
         // POSt: api/PatientDetails/PostPatientRequest/5
         [HttpPost("PostPatientRequest/{id}/{patientId}")]
-        public async Task<IActionResult> PostPatientRequest(Guid id, Guid patientId, PutPatientRequests model)
+        public async Task<IActionResult> PostPatientRequest(Guid id, Guid patientId, PostPatientRequestsDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -636,13 +636,13 @@ namespace clinic_api.Controllers
 
         // GET: api/PatientDetails/GetPatientReferral/5
         [HttpGet("GetPatientReferral/{id}/{patientId}/{doctorId}")]
-        public async Task<ActionResult<GetPatientReferrals>> GetPatientReferral(Guid id, Guid patientId, Guid doctorId)
+        public async Task<ActionResult<GetPatientReferralsDTO>> GetPatientReferral(Guid id, Guid patientId, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            GetPatientReferrals model = new GetPatientReferrals
+            GetPatientReferralsDTO model = new GetPatientReferralsDTO
             {
                 SpecialtyValues = await _context.SysDoctorsSpecialties.Include(d => d.Doctors).Select(s => new SpecialtyValue
                 {
@@ -660,7 +660,7 @@ namespace clinic_api.Controllers
                     Text = d.Diagnosis.Diagnosis
                 }).ToListAsync(),
                 PrevPatientReferrals = await _context.PatientReferrals.Where(p => p.PatientId==patientId)
-                .Include(d => d.ReferralToDoctor).ThenInclude(s => s.Specialty).Include(d => d.PatientDiagnosis).ThenInclude(d => d.Diagnosis).Select(r => new PatientReferralList { 
+                .Include(d => d.ReferralToDoctor).ThenInclude(s => s.Specialty).Include(d => d.PatientDiagnosis).ThenInclude(d => d.Diagnosis).Select(r => new PatientReferralListDTO { 
                     Id = r.Id,
                     DoctorName = r.ReferralToDoctor.FullName,
                     SpecialtyName = r.ReferralToDoctor.Specialty.Text,
@@ -675,7 +675,7 @@ namespace clinic_api.Controllers
 
         // POSt: api/PatientDetails/PostPatientReferral/5
         [HttpPost("PostPatientReferral/{id}/{patientId}")]
-        public async Task<IActionResult> PostPatientReferral(Guid id, Guid patientId, PutPatientReferral model)
+        public async Task<IActionResult> PostPatientReferral(Guid id, Guid patientId, PostPatientReferralDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -696,6 +696,102 @@ namespace clinic_api.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // GET: api/PatientDetails/GetOper/5
+        [HttpGet("GetOper/{id}/{patientId}/{doctorId}")]
+        public async Task<ActionResult<GetPatientOperationsDTO>> GetOper(Guid id, Guid patientId, Guid doctorId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            GetPatientOperationsDTO model = new GetPatientOperationsDTO
+            {
+                OperationTypeValues = await _context.DoctorOperationTypesValues.Where(d => d.DoctorId==doctorId).Select(s => new OperationTypeValue
+                {
+                    Id = s.Id,
+                    Text = s.OperationType
+                }).ToListAsync(),
+                PrevPatientOperations = await _context.PatientOperations.Where(p => p.PatientId == patientId)
+                .Include(d => d.OperationType).Select(r => new PatientOperationListDTO
+                {
+                    Id = r.Id,
+                    Type = r.OperationType.OperationType,
+                    Date = r.OperationDate,
+                    Place = r.Place,
+                    Cost = r.Cost
+                }).ToListAsync()
+            };
+            return model;
+        }
+
+        // POSt: api/PatientDetails/PostPatientOper/5
+        [HttpPost("PostPatientOper/{id}/{patientId}")]
+        public async Task<IActionResult> PostPatientOper(Guid id, Guid patientId, PostPatientOperationDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            _context.PatientOperations.Add(new PatientOperation
+            {
+                PatientId = patientId,
+                OperationTypeId = model.TypeId,
+                OperationDate = model.Date,
+                Place = model.Place,
+                Cost = model.Cost,
+                Note = model.Note,
+                CreatedBy = id,
+                CreatedOn = DateTime.Now,
+                UpdatedBy = id,
+                UpdatedOn = DateTime.Now
+            });
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // GET: api/PatientDetails/GetPatientRays/5
+        [HttpGet("GetPatientRays/{id}/{patientId}")]
+        public async Task<ActionResult<IEnumerable<RaysListDTO>>> GetPatientRays(Guid id, Guid patientId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var model = await _context.PatientRays.Include(d => d.Ray).Include(d => d. RayArea).Include(g => g.ResultGrade).Where(p => p.PatientId == patientId).Select(r => new RaysListDTO
+            {
+                Id = r.Id,
+                XrayName  = r.Ray.RayName,
+                XrayArea = r.RayArea.RayArea,
+                RequestDate = r.CreatedOn,
+                IsHasResult = r.IsHasResult,
+                ResultDate = r.ResultDate,
+                ResultGrade = r.ResultGrade.Text
+            }).ToListAsync();
+            return model;
+        }
+
+        // GET: api/PatientDetails/GetPatientAnalysis/5
+        [HttpGet("GetPatientAnalysis/{id}/{patientId}")]
+        public async Task<ActionResult<IEnumerable<AnalysisListDTO>>> GetPatientAnalysis(Guid id, Guid patientId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var model = await _context.PatientAnalysis.Include(d => d.Analysis).Include(g => g.ResultGrade).Where(p => p.PatientId == patientId).Select(r => new AnalysisListDTO
+            {
+                Id = r.Id,
+                AnalysisName = r.Analysis.AnalysisName,
+                RequestDate = r.CreatedOn,
+                IsHasResult = r.IsHasResult,
+                ResultDate = r.ResultDate,
+                ResultGrade = r.ResultGrade.Text
+            }).ToListAsync();
+            return model;
         }
     }
 }

@@ -532,7 +532,7 @@
   { "ar": "تاريخ العملية", "en": "Operation Date" },
   { "ar": "مكان العملية", "en": "Operation Place" },
   { "ar": "تكلفة العلمية", "en": "Operation Cost" },
-  { "ar": "ملخص العمليات:", "en": "Operations Summary:" },
+  { "ar": "العمليات السابقة:", "en": "Past Operations:" },
   { "ar": "ملاحظات عامة على العملية", "en": "General notes on Operation" },
   { "ar": "أنواع الفحوصات:", "en": "Clinical Examination:" },
   { "ar": "نوع الفحص", "en": "Examination Type" },

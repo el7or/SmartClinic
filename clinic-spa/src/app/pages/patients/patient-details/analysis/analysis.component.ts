@@ -1,6 +1,8 @@
 import { NbDialogService } from '@nebular/theme';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
+import { AlertService } from './../../../../shared/services/alert.service';
 import { AnalysisService } from './analysis.service';
 import { AnalysisDetailComponent } from './analysis-detail/analysis-detail.component';
 import { AnalysisList } from './analysis.model';
@@ -12,14 +14,30 @@ import { PatientsService } from '../../patients.service';
   styleUrls: ['./analysis.component.scss']
 })
 export class AnalysisComponent implements OnInit {
+  formLoading = false;
   analysisList: AnalysisList[];
+  @Output() onFinish: EventEmitter<any> = new EventEmitter<any>();
+
+  getSubs: Subscription;
 
   constructor(private analysisService:AnalysisService,
-    private patientService:PatientsService,
+    public patientService:PatientsService,
+    private alertService:AlertService,
     private dialogService:NbDialogService) { }
 
   ngOnInit() {
-    this.analysisList = this.analysisService.getAnalysisList(this.patientService.patientId);
+    this.formLoading = true;
+    this.getSubs = this.analysisService.getAnalysisList().subscribe(
+      (res: AnalysisList[]) => {
+        this.analysisList = res
+        this.formLoading = false;
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
   }
 
   onOpenDetails(analysisId:number){

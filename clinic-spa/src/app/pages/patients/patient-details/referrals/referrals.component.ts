@@ -2,7 +2,7 @@ import { PatientsService } from "./../../patients.service";
 import { AlertService } from "./../../../../shared/services/alert.service";
 import { Router } from "@angular/router";
 import { ReferralsService } from "./referrals.service";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
 import { NgForm } from "@angular/forms";
@@ -21,7 +21,7 @@ import { Subscription } from "rxjs";
   templateUrl: "./referrals.component.html",
   styleUrls: ["./referrals.component.scss"],
 })
-export class ReferralsComponent implements OnInit {
+export class ReferralsComponent implements OnInit,OnDestroy {
   formLoading: boolean = false;
   specialtyValues: SpecialtyValue[];
   doctorValues: DoctorValue[] = [];
@@ -57,6 +57,10 @@ export class ReferralsComponent implements OnInit {
         this.formLoading = false;
       }
     );
+  }
+  ngOnDestroy() {
+    this.getSubs.unsubscribe();
+    if (this.setSubs) this.setSubs.unsubscribe();
   }
 
   // =====> on choose specialty from drop down list:

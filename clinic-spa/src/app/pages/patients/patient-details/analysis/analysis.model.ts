@@ -4,7 +4,7 @@ export interface AnalysisList {
   requestDate: Date;
   isHasResult: boolean;
   resultDate?: Date;
-  resultGrade?: number;
+  resultGrade?: string;
 }
 
 export interface AnalysisDetails {

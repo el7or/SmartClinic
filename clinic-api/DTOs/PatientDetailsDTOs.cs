@@ -103,9 +103,9 @@ namespace clinic_api.DTOs
         public decimal? Mass { get; set; }
         public int? PressureId { get; set; }
         public decimal? Temperature { get; set; }
-        public List<PatientExaminationList> Examinations { get; set; }
+        public List<PatientExaminationListDTO> Examinations { get; set; }
     }
-    public class PatientExaminationList
+    public class PatientExaminationListDTO
     {
         public int Id { get; set; }
         public int TypeId { get; set; }
@@ -114,11 +114,11 @@ namespace clinic_api.DTOs
     }
 
     // Diagnosis
-    public class GetPatientDiagnosis
+    public class GetPatientDiagnosisDTO
     {
         public List<DiagnosisValue> DiagnosisValues { get; set; }
         public List<DiseaseValue> DiseaseValues { get; set; }
-        public List<PatientDiagnosisList> PatientDiagnosis { get; set; }
+        public List<PatientDiagnosisListDTO> PatientDiagnosis { get; set; }
     }
     public class DiagnosisValue
     {
@@ -130,7 +130,7 @@ namespace clinic_api.DTOs
         public int Id { get; set; }
         public string Text { get; set; }
     }
-    public class PatientDiagnosisList
+    public class PatientDiagnosisListDTO
     {
         public int Id { get; set; }
         public int DiagnosisId { get; set; }
@@ -138,13 +138,13 @@ namespace clinic_api.DTOs
         public string Note { get; set; }
         public DateTime CreatedOn { get; set; }
     }
-    public class PutPatientDiagnosis
+    public class PutPatientDiagnosisDTO
     {
-        public List<PatientDiagnosisList> PatientDiagnosis { get; set; }
+        public List<PatientDiagnosisListDTO> PatientDiagnosis { get; set; }
     }
 
     // Precriptions
-    public class GetPatientPrescriptions
+    public class GetPatientPrescriptionsDTO
     {
         public List<MedicineValue> MedicineValues { get; set; }
         public List<ConcentrationValue> ConcentrationValues { get; set; }
@@ -152,7 +152,7 @@ namespace clinic_api.DTOs
         public List<DoseValue> DoseValues { get; set; }
         public List<TimingValue> TimingValues { get; set; }
         public List<PeriodValue> PeriodValues { get; set; }
-        public List<PatientPrescriptionList> PrevPatientPrescriptions { get; set; }
+        public List<PatientPrescriptionListDTO> PrevPatientPrescriptions { get; set; }
     }
     public class MedicineValue
     {
@@ -184,16 +184,16 @@ namespace clinic_api.DTOs
         public int Id { get; set; }
         public string Text { get; set; }
     }
-    public class PatientPrescriptionList
+    public class PatientPrescriptionListDTO
     {
         public int Id { get; set; }
-        public List<PrescriptionMedicineList> Medicines { get; set; }
+        public List<PrescriptionMedicineListDTO> Medicines { get; set; }
         public string Note { get; set; }
         public string[] MedicinesNames { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool? IsPrint { get; set; }
     }
-    public class PrescriptionMedicineList
+    public class PrescriptionMedicineListDTO
     {
         public int MedicineId { get; set; }
         public string MedicineName { get; set; }
@@ -205,12 +205,12 @@ namespace clinic_api.DTOs
     }
 
     // Requests
-    public class GetPatientRequests
+    public class GetPatientRequestsDTO
     {
         public List<RayValue> RayValues { get; set; }
         public List<RayAreaValue> RayAreaValues { get; set; }
         public List<AnalysisValue> AnalysisValues { get; set; }
-        public List<PatientRequestList> PrevPatientRequests { get; set; }
+        public List<PatientRequestListDTO> PrevPatientRequests { get; set; }
     }
     public class RayValue
     {
@@ -227,7 +227,7 @@ namespace clinic_api.DTOs
         public int Id { get; set; }
         public string Text { get; set; }
     }
-    public class PatientRequestList
+    public class PatientRequestListDTO
     {
         public int Id { get; set; }
         public DateTime? RequestDate { get; set; }
@@ -239,17 +239,17 @@ namespace clinic_api.DTOs
         public string Note { get; set; }
         public bool? isHasResult { get; set; }
     }
-    public class PutPatientRequests
+    public class PostPatientRequestsDTO
     {
-        public List<PatientRequestList> NewPatientRequests { get; set; }
+        public List<PatientRequestListDTO> NewPatientRequests { get; set; }
     }
 
-    // Referral
-    public class GetPatientReferrals
+    // Referrals
+    public class GetPatientReferralsDTO
     {
         public List<SpecialtyValue> SpecialtyValues { get; set; }
         public List<PatientDiagnosisRef> PatientDiagnosis { get; set; }
-        public List<PatientReferralList> PrevPatientReferrals { get; set; }
+        public List<PatientReferralListDTO> PrevPatientReferrals { get; set; }
     }
     public class SpecialtyValue
     {
@@ -267,7 +267,7 @@ namespace clinic_api.DTOs
         public int Id { get; set; }
         public string Text { get; set; }
     }
-    public class PatientReferralList
+    public class PatientReferralListDTO
     {
         public int Id { get; set; }
         public string SpecialtyName { get; set; }
@@ -276,12 +276,62 @@ namespace clinic_api.DTOs
         public string Note { get; set; }
         public DateTime CreatedOn { get; set; }
     }
-
-    public class PutPatientReferral
+    public class PostPatientReferralDTO
     {
         public int SpecialtyId { get; set; }
         public Guid DoctorId { get; set; }
         public int? DiagnosisId { get; set; }
         public string Note { get; set; }
+    }
+
+    // Operations
+    public class GetPatientOperationsDTO
+    {
+        public List<OperationTypeValue> OperationTypeValues { get; set; }
+        public List<PatientOperationListDTO> PrevPatientOperations { get; set; }
+    }
+    public class OperationTypeValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class PatientOperationListDTO
+    {
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public DateTime? Date { get; set; }
+        public string Place { get; set; }
+        public decimal? Cost { get; set; }
+    }
+    public class PostPatientOperationDTO
+    {
+        public int TypeId { get; set; }
+        public DateTime? Date { get; set; }
+        public string Place { get; set; }
+        public decimal? Cost { get; set; }
+        public string Note { get; set; }
+    }
+
+    // Rays
+    public class RaysListDTO
+    {
+        public int Id { get; set; }
+        public string XrayName { get; set; }
+        public string XrayArea { get; set; }
+        public DateTime RequestDate { get; set; }
+        public bool? IsHasResult { get; set; }
+        public DateTime? ResultDate { get; set; }
+        public string ResultGrade { get; set; }
+    }
+
+    // Analysis
+    public class AnalysisListDTO
+    {
+        public int Id { get; set; }
+        public string AnalysisName { get; set; }
+        public DateTime RequestDate { get; set; }
+        public bool? IsHasResult { get; set; }
+        public DateTime? ResultDate { get; set; }
+        public string ResultGrade { get; set; }
     }
 }

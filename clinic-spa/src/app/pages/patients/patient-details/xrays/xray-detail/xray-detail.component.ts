@@ -85,7 +85,7 @@ export class XRayDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.xrayDetails = this.xrayService.getXrayDetails(this.xRayId);
+    //this.xrayDetails = this.xrayService.getXrayDetails(this.xRayId);
   }
 
   onSave(form: NgForm) {

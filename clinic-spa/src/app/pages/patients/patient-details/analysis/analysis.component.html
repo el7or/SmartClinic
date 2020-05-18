@@ -1,18 +1,23 @@
-    <button [routerLink]="['/pages/patients/details',1,'request']" [queryParams]="{type:'analysis'}" nbButton class="mb-1" langg>Request New Analysis</button>
-    <table class="table table-striped">
+    <button [routerLink]="['/pages/patients/details',patientService.patientCodeId,'request']" [queryParams]="{type:'analysis'}" nbButton class="mb-1">{{'Request New Analysis' | langg}}</button>
+    <table class="table table-striped" [nbSpinner]="formLoading" nbSpinnerStatus="success">
       <thead class="thead-dark">
         <tr>
-          <th hidden>Id</th>
-          <th langg>Analysis</th>
-          <th langg>Request Date</th>
-          <th langg>Result Date</th>
-          <th langg>Disease Severity</th>
+          <th>{{'Analysis' | langg}}</th>
+          <th>{{'Request Date' | langg}}</th>
+          <th>{{'Result Date' | langg}}</th>
+          <th>{{'Disease Severity' | langg}}</th>
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="!analysisList?.length">
+        <tr>
+          <td colspan="6" class="text-center">
+            <h5>{{'No Results !' | langg}}</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="analysisList?.length">
         <tr *ngFor="let item of analysisList">
-          <th hidden>{{item.id}}</th>
           <td>{{item.analysisName}}</td>
           <td>{{item.requestDate | localDateShort}}</td>
           <td>{{item.isHasResult ? (item.resultDate | localDateShort) : ('No Result' | langg)}}</td>

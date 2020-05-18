@@ -1,39 +1,31 @@
 import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
 
 import { AnalysisList, AnalysisDetails } from './analysis.model';
+import { environment } from '../../../../../environments/environment';
+import { AuthService } from '../../../../auth/auth.service';
+import { PatientsService } from '../../patients.service';
 
 @Injectable({
   providedIn: "root"
 })
 export class AnalysisService {
-  constructor() {}
+  baseUrl = environment.API_URL;
 
-  getAnalysisList(patientId:string) {
-    const analysisList: AnalysisList[] = [
-      {
-        id: 1,
-        analysisName: "AUTOIMMUNE DISEASES",
-        requestDate: new Date("2020-5-2"),
-        isHasResult: true,
-        resultDate: new Date("2020-5-7"),
-        resultGrade: 1
-      },
-      {
-        id: 2,
-        analysisName: "LIPID PROFILE",
-        requestDate: new Date("2020-4-1"),
-        isHasResult: true,
-        resultDate: new Date("2020-5-2"),
-        resultGrade: 3
-      },
-      {
-        id: 3,
-        analysisName: "RHEUMATOLOGY PROFILE",
-        requestDate: new Date("2020-5-2"),
-        isHasResult: false
-      }
-    ];
-    return analysisList;
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private patientService: PatientsService
+  ) {}
+
+  getAnalysisList() {
+    return this.http.get<AnalysisList[]>(
+      this.baseUrl +
+        "PatientDetails/GetPatientAnalysis/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId
+    );
   }
 
   getAnalysisDetails(analysisId:number){

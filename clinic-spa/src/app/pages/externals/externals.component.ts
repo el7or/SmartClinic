@@ -21,12 +21,10 @@ export class ExternalsComponent implements OnInit {
    private authService:AuthService, private dialogService:NbDialogService) { }
 
   ngOnInit() {
-    this.externalsList = this.externalService.getExternalsList(this.authService.clinicId);
+
   }
 
-  onConfirmBook(patient:ExternalsList){
-    // =====> check if this patient exist in current clinic:
-    const patientId = this.externalService.checkPatientIsExist(patient.patientName,patient.patientMobile)
+  onConfirmBook(patientId:string){
     this.dialogService.open(BookingDetailsComponent, {
       context: {
         bookId: 0,

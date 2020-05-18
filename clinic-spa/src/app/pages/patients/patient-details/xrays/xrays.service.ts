@@ -1,45 +1,35 @@
 import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+
 import { XraysList, XrayDetails } from "./xrays.model";
+import { environment } from '../../../../../environments/environment';
+import { AuthService } from '../../../../auth/auth.service';
+import { PatientsService } from '../../patients.service';
 
 @Injectable({
   providedIn: "root",
 })
 export class XraysService {
-  constructor() {}
+  baseUrl = environment.API_URL;
 
-  getXraysList(patientId: string): XraysList[] {
-    return [
-      {
-        id: 1,
-        xrayName: "PLAIN X RAY FILM",
-        xrayArea: "القدم اليمنى",
-        requestDate: new Date("2020-5-2"),
-        isHasResult: true,
-        resultDate: new Date("2020-5-7"),
-        resultGrade: 1,
-      },
-      {
-        id: 2,
-        xrayName: "ISOTOPIC SCAN",
-        xrayArea: "اليد اليسرى",
-        requestDate: new Date("2020-4-1"),
-        isHasResult: true,
-        resultDate: new Date("2020-5-2"),
-        resultGrade: 3,
-      },
-      {
-        id: 3,
-        xrayName: "ULTRASONOGRAPHY",
-        xrayArea: "الظهر",
-        requestDate: new Date("2020-5-2"),
-        isHasResult: false,
-        resultGrade: 0,
-      },
-    ];
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private patientService: PatientsService
+  ) {}
+
+  getXraysList() {
+    return this.http.get<XraysList[]>(
+      this.baseUrl +
+        "PatientDetails/GetPatientRays/" +
+        this.authService.userId +
+        "/" +
+        this.patientService.patientId
+    );
   }
 
-  getXrayDetails(xrayId: number): XrayDetails {
-    return {
+  getXrayDetails(xrayId: number) {
+    /* return {
       id: 2,
       xrayName: "PLAIN X RAY FILM",
       xrayArea: "القدم اليمنى",
@@ -62,6 +52,6 @@ export class XraysService {
           fileNote: "مطلوب الإعادة",
         },
       ],
-    };
+    }; */
   }
 }

@@ -58,6 +58,15 @@ export class RequestsComponent implements OnInit {
         this.rayAreas = res.rayAreaValues;
         this.analysisNames = res.analysisValues;
         this.prevPatientRequests = res.prevPatientRequests;
+        // =====> add empty request based on type in query param:
+        const typeParam = this.route.snapshot.queryParamMap.get("type");
+        this.newRequests.push({
+          id: 0,
+          requestId: 0,
+          requestName: "",
+          requestType: typeParam,
+          isAreaValid: true,
+        });
         this.formLoading = false;
       },
       (err) => {

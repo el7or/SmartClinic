@@ -17,18 +17,25 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="!externalsList?.length">
+        <tr>
+          <td colspan="7" class="text-center">
+            <h5 langg>No Results !</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="!externalsList?.length">
         <tr *ngFor="let item of externalsList">
           <th hidden>{{item.patientId}}</th>
           <td>{{item.patientName}}</td>
           <td>{{item.patientMobile}}</td>
           <td>{{item.requestType}}</td>
           <td>{{item.createdOn | localDateShort}}</td>
-          <td>{{item.patientGovernorate | langg}}</td>
+          <td>{{item.patientGovernorateEN}}</td>
           <td>{{item.requestBookDate | localDateShort}}</td>
           <td>{{item.requestBookTime | time12Hour}}</td>
           <td class="text-center">
-            <button nbButton (click)="onConfirmBook(item)" size="small" status="success" langg>Confirm Booking</button>&nbsp;
+            <button nbButton (click)="onConfirmBook(item.patientId)" size="small" status="success" langg>Confirm Booking</button>&nbsp;
             <button nbButton (click)="onDeleteRequest(item.patientId)" size="small" status="danger" langg>Delete Request</button>
           </td>
         </tr>

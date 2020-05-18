@@ -1,16 +1,23 @@
-    <button [routerLink]="['/pages/patients/details',1,'request']" [queryParams]="{type:'xray'}" nbButton class="mb-1" langg>Request New X-Ray</button>
-    <table class="table table-striped">
+    <button [routerLink]="['/pages/patients/details',patientService.patientCodeId,'request']" [queryParams]="{type:'ray'}" nbButton class="mb-1" langg>{{'Request New X-Ray' | langg}}</button>
+    <table class="table table-striped" [nbSpinner]="formLoading" nbSpinnerStatus="success">
       <thead class="thead-dark">
         <tr>
-          <th langg>X-Rays</th>
-          <th langg>X-Ray Area</th>
-          <th langg>Request Date</th>
-          <th langg>Result Date</th>
-          <th langg>Disease Severity</th>
+          <th>{{'X-Rays' | langg}}</th>
+          <th>{{'X-Ray Area' | langg}}</th>
+          <th>{{'Request Date' | langg}}</th>
+          <th>{{'Result Date' | langg}}</th>
+          <th>{{'Disease Severity' | langg}}</th>
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="!xraysList?.length">
+        <tr>
+          <td colspan="6" class="text-center">
+            <h5>{{'No Results !' | langg}}</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="xraysList?.length">
         <tr *ngFor="let item of xraysList">
           <td>{{item.xrayName}}</td>
           <td>{{item.xrayArea}}</td>

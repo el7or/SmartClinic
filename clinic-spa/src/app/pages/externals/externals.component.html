@@ -3,40 +3,40 @@
     <span langg>Bookings Requests from abroad</span>:
   </nb-card-header>
   <nb-card-body>
-    <table class="table table-striped table-light">
+    <table class="table table-striped table-light table-bordered" [nbSpinner]="formLoading" nbSpinnerStatus="success">
       <thead class="thead-dark">
         <tr>
-          <th hidden>PatientId</th>
           <th langg>Patient Name</th>
           <th langg>Mobile</th>
           <th langg>Request Type</th>
           <th langg>Received Date</th>
           <th langg>Governorate</th>
-          <th langg>Booking Date</th>
-          <th langg>Booking Time</th>
+          <th langg>Note</th>
+          <!-- <th langg>Booking Date</th>
+          <th langg>Booking Time</th> -->
           <th></th>
         </tr>
       </thead>
       <tbody *ngIf="!externalsList?.length">
         <tr>
-          <td colspan="7" class="text-center">
+          <td colspan="8" class="text-center">
             <h5 langg>No Results !</h5>
           </td>
         </tr>
       </tbody>
-      <tbody *ngIf="!externalsList?.length">
-        <tr *ngFor="let item of externalsList">
-          <th hidden>{{item.patientId}}</th>
+      <tbody *ngIf="externalsList?.length">
+        <tr *ngFor="let item of externalsList; index as i">
           <td>{{item.patientName}}</td>
           <td>{{item.patientMobile}}</td>
-          <td>{{item.requestType}}</td>
+          <td>{{item.requestType=='referral'? ('Referral from Dr. ' | langg) + item.referralFromDoctor : ''}}</td>
           <td>{{item.createdOn | localDateShort}}</td>
-          <td>{{item.patientGovernorateEN}}</td>
-          <td>{{item.requestBookDate | localDateShort}}</td>
-          <td>{{item.requestBookTime | time12Hour}}</td>
+          <td>{{langgService.locale=='en' ? item.patientGovernorateEN : item.patientGovernorateAR}}</td>
+          <td>{{item.requestType=='referral'? ('Patient Diagnosis' | langg)+ ': ' +item.note : ''}}</td>
+          <!-- <td>{{item.requestBookDate | localDateShort}}</td>
+          <td>{{item.requestBookTime | time12Hour}}</td> -->
           <td class="text-center">
-            <button nbButton (click)="onConfirmBook(item.patientId)" size="small" status="success" langg>Confirm Booking</button>&nbsp;
-            <button nbButton (click)="onDeleteRequest(item.patientId)" size="small" status="danger" langg>Delete Request</button>
+            <button nbButton (click)="onConfirmBook(item.id,i)" size="small" status="success" langg>Confirm Booking</button>&nbsp;
+            <button nbButton (click)="onDeleteRequest(item.id,i)" size="small" status="danger" langg>Delete Request</button>
           </td>
         </tr>
       </tbody>

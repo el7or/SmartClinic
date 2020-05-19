@@ -1,46 +1,98 @@
-import { AuthService } from './../../auth/auth.service';
-import { ExternalsService } from './externals.service';
-import { NbDialogService } from '@nebular/theme';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { LanggService } from './../../shared/services/langg.service';
+import { NbDialogService } from "@nebular/theme";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
+import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
+import { Subscription } from "rxjs";
 
-import { BookingDetailsComponent } from '../bookings/booking-details/booking-details.component';
-import { ExternalsList } from './externals.model';
+import { AlertService } from "./../../shared/services/alert.service";
+import { ExternalsService } from "./externals.service";
+import { BookingDetailsComponent } from "../bookings/booking-details/booking-details.component";
+import { ExternalsList, ConfirmExternalResponse } from "./externals.model";
 
 @Component({
-  selector: 'externals',
-  templateUrl: './externals.component.html',
-  styleUrls: ['./externals.component.scss']
+  selector: "externals",
+  templateUrl: "./externals.component.html",
+  styleUrls: ["./externals.component.scss"],
 })
-export class ExternalsComponent implements OnInit {
-  externalsList:ExternalsList[];
+export class ExternalsComponent implements OnInit, OnDestroy {
+  formLoading: boolean = false;
+  externalsList: ExternalsList[];
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
-  constructor(private externalService:ExternalsService,
-   private authService:AuthService, private dialogService:NbDialogService) { }
+  getSubs: Subscription;
+  setSubs: Subscription;
+  deleteSubs: Subscription;
+
+  constructor(
+    private externalService: ExternalsService,
+    private alertService: AlertService,
+    public langgService:LanggService,
+    private dialogService: NbDialogService
+  ) {}
 
   ngOnInit() {
-
-  }
-
-  onConfirmBook(patientId:string){
-    this.dialogService.open(BookingDetailsComponent, {
-      context: {
-        bookId: 0,
-        patientId:patientId,
+    this.formLoading = true;
+    this.getSubs = this.externalService.getExternalsList().subscribe(
+      (res: ExternalsList[]) => {
+        this.externalsList = res;
+        this.formLoading = false;
       },
-      autoFocus: true,
-      hasBackdrop: true,
-      closeOnBackdropClick: false,
-      closeOnEsc: false
-    });
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
+  }
+  ngOnDestroy() {
+    this.getSubs.unsubscribe();
+    if (this.setSubs) this.setSubs.unsubscribe();
+    if (this.deleteSubs) this.deleteSubs.unsubscribe();
   }
 
-  onDeleteRequest(patientId:string){
-    this.deleteSwal.fire().then(result => {
+  onConfirmBook(id: number,index:number) {
+    this.formLoading = true;
+    // =====> check if this patient not exist in current doctor create new patient before confirm booking:
+    this.setSubs = this.externalService.confirmExternal(id).subscribe(
+      (res: ConfirmExternalResponse) => {
+        this.formLoading = false;
+        this.externalsList.splice(index, 1);
+        this.dialogService.open(BookingDetailsComponent, {
+          context: {
+            bookId: 0,
+            patientId: res.patientId,
+          },
+          autoFocus: true,
+          hasBackdrop: true,
+          closeOnBackdropClick: false,
+          closeOnEsc: false,
+        });
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
+  }
+
+  onDeleteRequest(id: number, index: number) {
+    this.deleteSwal.fire().then((result) => {
       if (result.value) {
-        this.doneSwal.fire();
+        this.formLoading = true;
+        this.externalService.deleteExternal(id).subscribe(
+          () => {
+            this.externalsList.splice(index, 1);
+            this.formLoading = false;
+            this.doneSwal.fire();
+          },
+          (err) => {
+            console.error(err);
+            this.alertService.alertError();
+            this.formLoading = false;
+          }
+        );
       }
     });
   }

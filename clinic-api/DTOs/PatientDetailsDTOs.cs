@@ -244,46 +244,6 @@ namespace clinic_api.DTOs
         public List<PatientRequestListDTO> NewPatientRequests { get; set; }
     }
 
-    // Referrals
-    public class GetPatientReferralsDTO
-    {
-        public List<SpecialtyValue> SpecialtyValues { get; set; }
-        public List<PatientDiagnosisRef> PatientDiagnosis { get; set; }
-        public List<PatientReferralListDTO> PrevPatientReferrals { get; set; }
-    }
-    public class SpecialtyValue
-    {
-        public int SpecialtyId { get; set; }
-        public string SpecialtyName { get; set; }
-        public List<DoctorValue> Doctors { get; set; }
-    }
-    public class DoctorValue
-    {
-        public Guid DoctorId { get; set; }
-        public string DoctorName { get; set; }
-    }
-    public class PatientDiagnosisRef
-    {
-        public int Id { get; set; }
-        public string Text { get; set; }
-    }
-    public class PatientReferralListDTO
-    {
-        public int Id { get; set; }
-        public string SpecialtyName { get; set; }
-        public string DoctorName { get; set; }
-        public string DiagnosisName { get; set; }
-        public string Note { get; set; }
-        public DateTime CreatedOn { get; set; }
-    }
-    public class PostPatientReferralDTO
-    {
-        public int SpecialtyId { get; set; }
-        public Guid DoctorId { get; set; }
-        public int? DiagnosisId { get; set; }
-        public string Note { get; set; }
-    }
-
     // Operations
     public class GetPatientOperationsDTO
     {
@@ -333,5 +293,61 @@ namespace clinic_api.DTOs
         public bool? IsHasResult { get; set; }
         public DateTime? ResultDate { get; set; }
         public string ResultGrade { get; set; }
+    }
+
+    // Referrals
+    public class GetPatientReferralsDTO
+    {
+        public List<SpecialtyValue> SpecialtyValues { get; set; }
+        public List<PatientDiagnosisRef> PatientDiagnosis { get; set; }
+        public List<PatientReferralListDTO> PrevPatientReferrals { get; set; }
+    }
+    public class SpecialtyValue
+    {
+        public int SpecialtyId { get; set; }
+        public string SpecialtyName { get; set; }
+        public List<DoctorValue> Doctors { get; set; }
+    }
+    public class DoctorValue
+    {
+        public Guid DoctorId { get; set; }
+        public string DoctorName { get; set; }
+    }
+    public class PatientDiagnosisRef
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class PatientReferralListDTO
+    {
+        public int Id { get; set; }
+        public string SpecialtyName { get; set; }
+        public string DoctorName { get; set; }
+        public string DiagnosisName { get; set; }
+        public string Note { get; set; }
+        public DateTime CreatedOn { get; set; }
+    }
+    public class PostPatientReferralDTO
+    {
+        public int SpecialtyId { get; set; }
+        public Guid DoctorId { get; set; }
+        public int? DiagnosisId { get; set; }
+        public string Note { get; set; }
+    }
+
+    // Externals
+    public class DoctorExternalListDTO
+    {
+        public int Id { get; set; }
+        public Guid PatientId { get; set; }
+        public string PatientName { get; set; }
+        public string PatientMobile { get; set; }
+        public string PatientGovernorateEN { get; set; }
+        public string PatientGovernorateAR { get; set; }
+        public string RequestType { get; set; }
+        public string ReferralFromDoctor { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string Note { get; set; }
+        public DateTime? RequestBookDateTime { get; set; }
     }
 }

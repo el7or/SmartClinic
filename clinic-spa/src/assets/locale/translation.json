@@ -575,5 +575,6 @@
   { "ar": "لم يتم تسجيل أي تشخيص للمريض في سجل المريض.", "en": "No Patient Diagnosis was recorded in the Patient Record." },
   { "ar": "إلى تخصص", "en": "Referral to Specialty" },
   { "ar": "إلى الطبيب", "en": "Referral to Doctor" },
-  { "ar": "تشخيص المريض", "en": "Patient Diagnosis" }
+  { "ar": "تشخيص المريض", "en": "Patient Diagnosis" },
+  { "ar": "تحويل من د. ", "en": "Referral from Dr. " }
 ]

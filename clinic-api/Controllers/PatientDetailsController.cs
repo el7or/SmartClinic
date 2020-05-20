@@ -853,6 +853,114 @@ namespace clinic_api.Controllers
             return model;
         }
 
+        // GET: api/PatientDetails/GetAnalysis/5
+        [HttpGet("GetAnalysis/{id}/{analysisId}")]
+        public async Task<ActionResult<AnalysisDetailsDTO>> GetAnalysis(Guid id, int analysisId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var model = await _context.PatientAnalysis.Where(i => i.Id == analysisId).Include(r => r.Analysis)
+                .Include(r => r.PatientAnalysisFiles).Include("PatientAnalysisFiles.FileType").Select(a => new AnalysisDetailsDTO
+                {
+                    Id = a.Id,
+                    AnalysisName = a.Analysis.AnalysisName,
+                    RequestDate = a.CreatedOn,
+                    IsHasResult = a.IsHasResult,
+                    ResultDate = a.ResultDate,
+                    ResultText = a.ResultText,
+                    ResultNote = a.ResultNote,
+                    AnalysisFileTypes = _context.SysAnalysisFileTypesValues.Select(t => new AnalysisFileTypeValue
+                    {
+                        Id = t.Id,
+                        Text = t.Text
+                    }).ToList(),
+                    AnalysisFiles = a.PatientAnalysisFiles.Select(f => new AnalysisFileList
+                    {
+                        Id = f.Id,
+                        FileType = f.FileType.Text,
+                        UploadDate = f.CreatedOn,
+                        FileNote = f.Note,
+                        FileUrl = f.Url
+                    }).ToList()
+                }).FirstOrDefaultAsync();
+            return model;
+        }
+
+        // PUT: api/PatientDetails/PutAnalysis/5
+        [HttpPut("PutAnalysis/{id}")]
+        public async Task<IActionResult> PutAnalysis(Guid id, PutAnalysisDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patientAnalysis = _context.PatientAnalysis.Find(model.Id);
+            patientAnalysis.ResultText = model.ResultText;
+            patientAnalysis.ResultNote = model.resultNote;
+            patientAnalysis.ResultDate = DateTime.Now;
+            patientAnalysis.IsHasResult = true;
+            patientAnalysis.UpdatedBy = id;
+            patientAnalysis.UpdatedOn = DateTime.Now;
+            _context.Entry(patientAnalysis).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // POST: api/PatientDetails/PostAnalysisFile/5 
+        [HttpPost("PostAnalysisFile/{id}")]
+        public async Task<IActionResult> PostAnalysisFile(Guid id, [FromForm] PostAnalysisFileDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+
+            // add new logo to cloudinary and get url
+            var file = model.File;
+            var uploadResult = new ImageUploadResult();
+            if (file != null && file.Length > 0)
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(file.Name, stream),
+                        Transformation = new Transformation()
+                    };
+                    uploadResult = _cloudinary.Upload(uploadParams);
+                }
+            }
+            var analysisFile = new PatientAnalysisFile
+            {
+                PatientAnalysisId = model.AnalysisId,
+                FileTypeId = model.FileTypeId,
+                Note = model.Note,
+                Url = uploadResult.Uri.ToString(),
+                UrlPublicId = uploadResult.PublicId,
+                CreatedBy = id,
+                CreatedOn = DateTime.Now,
+                UpdatedBy = id,
+                UpdatedOn = DateTime.Now
+            };
+            _context.PatientAnalysisFiles.Add(analysisFile);
+
+            await _context.SaveChangesAsync();
+            AnalysisFileList newFile = new AnalysisFileList
+            {
+                Id = analysisFile.Id,
+                FileType = _context.SysRayFileTypesValues.Find(analysisFile.FileTypeId).Text,
+                FileNote = analysisFile.Note,
+                UploadDate = analysisFile.CreatedOn,
+                FileUrl = analysisFile.Url
+            };
+
+            return Ok(newFile);
+        }
+
         // GET: api/PatientDetails/GetPatientReferral/5
         [HttpGet("GetPatientReferral/{id}/{patientId}/{doctorId}")]
         public async Task<ActionResult<GetPatientReferralsDTO>> GetPatientReferral(Guid id, Guid patientId, Guid doctorId)

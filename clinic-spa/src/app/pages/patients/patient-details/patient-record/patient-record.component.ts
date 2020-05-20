@@ -1,3 +1,4 @@
+import { PatientsService } from './../../patients.service';
 import { NbDialogService } from '@nebular/theme';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -25,6 +26,7 @@ export class PatientRecordComponent implements OnInit,OnDestroy {
   constructor(private settingService:SettingsService,
     private dialogService:NbDialogService,
     private alertService: AlertService,
+    private patientsService:PatientsService,
     private route: ActivatedRoute,) { }
 
   ngOnInit() {
@@ -54,7 +56,7 @@ export class PatientRecordComponent implements OnInit,OnDestroy {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
         bookId:bookingId,
-        patientId:this.patientId,
+        patientId:this.patientsService.patientId,
       },
       autoFocus: true,
       hasBackdrop: true,

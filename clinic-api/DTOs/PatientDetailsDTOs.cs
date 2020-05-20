@@ -335,6 +335,44 @@ namespace clinic_api.DTOs
         public DateTime? ResultDate { get; set; }
         public string ResultGrade { get; set; }
     }
+    public class AnalysisDetailsDTO
+    {
+        public int Id { get; set; }
+        public string AnalysisName { get; set; }
+        public DateTime RequestDate { get; set; }
+        public bool? IsHasResult { get; set; }
+        public DateTime? ResultDate { get; set; }
+        public string ResultText { get; set; }
+        public string ResultNote{ get; set; }
+        public List<AnalysisFileTypeValue> AnalysisFileTypes { get; set; }
+        public List<AnalysisFileList> AnalysisFiles { get; set; }
+    }
+    public class AnalysisFileTypeValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class AnalysisFileList
+    {
+        public int Id { get; set; }
+        public DateTime UploadDate { get; set; }
+        public string FileType { get; set; }
+        public string FileNote { get; set; }
+        public string FileUrl { get; set; }
+    }
+    public class PutAnalysisDTO
+    {
+        public int Id { get; set; }
+        public string ResultText { get; set; }
+        public string resultNote { get; set; }
+    }
+    public class PostAnalysisFileDTO
+    {
+        public int AnalysisId { get; set; }
+        public IFormFile File { get; set; }
+        public int FileTypeId { get; set; }
+        public string Note { get; set; }
+    }
 
     // Referrals
     public class GetPatientReferralsDTO

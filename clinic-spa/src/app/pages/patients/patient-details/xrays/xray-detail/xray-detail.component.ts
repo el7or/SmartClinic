@@ -4,7 +4,6 @@ import { Subscription } from "rxjs";
 import { NbDialogRef } from "@nebular/theme";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { FileUploader, FileItem } from "ng2-file-upload";
-import { DomSanitizer } from "@angular/platform-browser";
 
 import { XraysService } from "../xrays.service";
 import {
@@ -39,9 +38,7 @@ export class XRayDetailComponent implements OnInit, OnDestroy {
     public dialogRef: NbDialogRef<XRayDetailComponent>,
     private xrayService: XraysService,
     private authService: AuthService,
-    private alertService: AlertService,
-    private sanitizer: DomSanitizer
-  ) {
+    private alertService: AlertService  ) {
     this.uploader = new FileUploader({
       url:
         this.baseUrl + "PatientDetails/PostRayFile/" + this.authService.userId,
@@ -58,14 +55,15 @@ export class XRayDetailComponent implements OnInit, OnDestroy {
       switch (filter.name) {
         case "fileType":
           console.error(`File Type: ${item.type}`);
-          alertService.alertFileType();
+          this.alertService.alertFileType();
           break;
         case "fileSize":
           console.error(`File Size: (${item.size})`);
-          alertService.alertFileSize();
+          this.alertService.alertFileSize();
           break;
         default:
           console.error(`Unknown error (filter is ${filter.name})`);
+          this.alertService.alertError();
       }
     };
 
@@ -79,8 +77,8 @@ export class XRayDetailComponent implements OnInit, OnDestroy {
     // Add in the other upload form parameters.
     this.uploader.onBuildItemForm = (item, form) => {
       form.append("rayId", this.xRayId);
-      form.append("FileTypeId", this.attachedFile.fileTypeId);
-      form.append("Note", this.attachedFile.fileNote);
+      form.append("fileTypeId", this.attachedFile.fileTypeId);
+      form.append("note", this.attachedFile.fileNote);
     };
 
     this.uploader.onSuccessItem = (item, response) => {

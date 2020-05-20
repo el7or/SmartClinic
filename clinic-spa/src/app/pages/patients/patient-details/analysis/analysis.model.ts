@@ -15,6 +15,7 @@ export interface AnalysisDetails {
   resultDate?: Date;
   resultText?: string;
   resultNote?: string;
+  analysisFileTypes: AnalysisFileTypeValue[];
   analysisFiles: AnalysisFileList[];
 }
 export interface AnalysisFileList {
@@ -23,10 +24,18 @@ export interface AnalysisFileList {
   fileType: string;
   fileNote?: string;
   fileUrl: string;
+  fileDownloadUrl?: string;
 }
-
+export interface AnalysisFileTypeValue{
+  id:number;
+  text:string;
+}
+export interface PutAnalysis{
+  id:number;
+  resultText?: string;
+  resultNote?: string;
+}
 export interface UploadNewFile{
-  id: number;
-  fileType: string;
+  fileTypeId: number;
   fileNote?: string;
 }

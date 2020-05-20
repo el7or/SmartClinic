@@ -5,7 +5,7 @@
           <th>{{'Analysis' | langg}}</th>
           <th>{{'Request Date' | langg}}</th>
           <th>{{'Result Date' | langg}}</th>
-          <th>{{'Disease Severity' | langg}}</th>
+          <!-- <th>{{'Disease Severity' | langg}}</th> -->
           <th></th>
         </tr>
       </thead>
@@ -21,7 +21,7 @@
           <td>{{item.analysisName}}</td>
           <td>{{item.requestDate | localDateShort}}</td>
           <td>{{item.isHasResult ? (item.resultDate | localDateShort) : ('No Result Recorded' | langg)}}</td>
-          <td>{{item.isHasResult ? 'Grade '+item.resultGrade : ''}}</td>
+          <!-- <td>{{item.isHasResult ? 'Grade '+item.resultGrade : ''}}</td> -->
           <td class="text-center">
             <button nbButton (click)="onOpenDetails(item.id)" type="submit" [status]="item.isHasResult ? 'info' : 'success'" size="small">{{item.isHasResult ? ('Details' | langg) : ('Register Result' | langg)}}</button>
           </td>

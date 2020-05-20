@@ -81,16 +81,6 @@
                   <span langg>Cancel</span>
                 </button>
               </div>
-              <!-- <div class="col-12 text-center">
-                  <div *ngIf="uploader.queue[0]?.isSuccess" class="alert alert-success" role="alert">
-                    <span langg>Upload successful</span>&nbsp;
-                    <nb-icon icon="done-all-outline"></nb-icon>
-                  </div>
-                  <div *ngIf="uploader.queue[0]?.isError" class="alert alert-danger" role="alert">
-                    <span langg>Upload failed</span>&nbsp;
-                    <nb-icon icon="alert-triangle-outline"></nb-icon>
-                  </div>
-                </div> -->
             </div>
           </div>
         </div>
@@ -108,7 +98,7 @@
           </thead>
           <tbody *ngIf="!xrayDetails?.xraysFiles?.length">
             <tr>
-              <td colspan="6" class="text-center">
+              <td colspan="4" class="text-center">
                 <h5>{{'No Results !' | langg}}</h5>
               </td>
             </tr>

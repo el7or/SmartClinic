@@ -7,9 +7,12 @@ using clinic_api.Data;
 using clinic_api.DTOs;
 using clinic_api.Helper;
 using clinic_api.Models;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace clinic_api.Controllers
 {
@@ -18,10 +21,15 @@ namespace clinic_api.Controllers
     public class PatientDetailsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private Cloudinary _cloudinary;
 
-        public PatientDetailsController(ApplicationDbContext context)
+        public PatientDetailsController(ApplicationDbContext context, IOptions<CloudinarySettings> cloudinaryConfig)
         {
             _context = context;
+            _cloudinaryConfig = cloudinaryConfig;
+            Account account = new Account(_cloudinaryConfig.Value.CloudName, _cloudinaryConfig.Value.ApiKey, _cloudinaryConfig.Value.ApiSecret);
+            _cloudinary = new Cloudinary(account);
         }
 
         // GET: api/PatientDetails/GetPatientDiseases/5
@@ -361,7 +369,7 @@ namespace clinic_api.Controllers
                     Id = c.Id,
                     Text = c.Diagnosis
                 }).ToListAsync(),
-                DiseaseValues = await _context.SysDiseaseGradesValues.Select(c => new DiseaseValue
+                DiseaseValues = await _context.SysDiseaseGradesValues.Select(c => new GradeValue
                 {
                     Id = c.Id,
                     Text = c.Value
@@ -711,6 +719,120 @@ namespace clinic_api.Controllers
             return model;
         }
 
+        // GET: api/PatientDetails/GetRay/5
+        [HttpGet("GetRay/{id}/{rayId}")]
+        public async Task<ActionResult<RayDetailsDTO>> GetRay(Guid id, int rayId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var model = await _context.PatientRays.Where(i => i.Id == rayId).Include(r => r.Ray).Include(r => r.RayArea)
+                .Include(r => r.PatientRayFiles).Include("PatientRayFiles.FileType").Select(r => new RayDetailsDTO
+                {
+                    Id = r.Id,
+                    XrayName = r.Ray.RayName,
+                    XrayArea = r.RayArea.RayArea,
+                    RequestDate = r.CreatedOn,
+                    IsHasResult = r.IsHasResult,
+                    ResultDate = r.ResultDate,
+                    ResultText = r.ResultText,
+                    ResultGradeId = r.ResultGradeId,
+                    GradeValues = _context.SysDiseaseGradesValues.Select(g => new GradeValue
+                    {
+                        Id = g.Id,
+                        Text = g.Text
+                    }).ToList(),
+                    XrayFileTypes = _context.SysRayFileTypesValues.Select(t => new RayFileTypeValue
+                    {
+                        Id = t.Id,
+                        Text = t.Text
+                    }).ToList(),
+                    XraysFiles = r.PatientRayFiles.Select(f => new RayFileList
+                    {
+                        Id = f.Id,
+                        FileType = f.FileType.Text,
+                        UploadDate = f.CreatedOn,
+                        FileNote = f.Note,
+                        FileUrl = f.Url
+                    }).ToList()
+                }).FirstOrDefaultAsync();
+            return model;
+        }
+
+        // PUT: api/PatientDetails/PutRay/5
+        [HttpPut("PutRay/{id}")]
+        public async Task<IActionResult> PutRay(Guid id, PutRayDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patientRay = _context.PatientRays.Find(model.Id);
+            patientRay.ResultText = model.ResultText;
+            patientRay.ResultGradeId = model.ResultGradeId;
+            patientRay.ResultDate = DateTime.Now;
+            patientRay.IsHasResult = true;
+            patientRay.UpdatedBy = id;
+            patientRay.UpdatedOn = DateTime.Now;
+            _context.Entry(patientRay).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // POST: api/PatientDetails/PostRayFile/5 
+        [HttpPost("PostRayFile/{id}")]
+        public async Task<IActionResult> PostRayFile(Guid id, [FromForm] PostRayFileDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+
+            // add new logo to cloudinary and get url
+            var file = model.File;
+            var uploadResult = new ImageUploadResult();
+            if (file != null && file.Length > 0)
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(file.Name, stream),
+                        Transformation = new Transformation()
+                    };
+                    uploadResult = _cloudinary.Upload(uploadParams);
+                }
+            }
+            var rayFile = new PatientRayFile
+            {
+                PatientRayId = model.RayId,
+                FileTypeId = model.FileTypeId,
+                Note = model.Note,
+                Url = uploadResult.Uri.ToString(),
+                UrlPublicId = uploadResult.PublicId,
+                CreatedBy = id,
+                CreatedOn = DateTime.Now,
+                UpdatedBy = id,
+                UpdatedOn = DateTime.Now
+            };
+            _context.PatientRayFiles.Add(rayFile);
+
+            await _context.SaveChangesAsync();
+            RayFileList newFile = new RayFileList
+            {
+                Id = rayFile.Id,
+                FileType = _context.SysRayFileTypesValues.Find(rayFile.FileTypeId).Text,
+                FileNote = rayFile.Note,
+                UploadDate = rayFile.CreatedOn,
+                FileUrl = rayFile.Url
+            };
+
+            return Ok(newFile);
+        }
+
         // GET: api/PatientDetails/GetPatientAnalysis/5
         [HttpGet("GetPatientAnalysis/{id}/{patientId}")]
         public async Task<ActionResult<IEnumerable<AnalysisListDTO>>> GetPatientAnalysis(Guid id, Guid patientId)
@@ -831,7 +953,7 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             // check if this patient not exist in current doctor create new patient and return patientId:
-            var referral = _context.PatientReferrals.Find( referralId);
+            var referral = _context.PatientReferrals.Find(referralId);
             var oldPatient = _context.Patients.Find(referral.PatientId);
             var checkPatient = await _context.Patients.FirstOrDefaultAsync(p => p.DoctorId == referral.ReferralToDoctorId && p.FullName.Trim().Contains(oldPatient.FullName.Trim().Normalize_AR()) && p.Phone.Trim() == oldPatient.Phone.Trim());
             if (checkPatient == null)

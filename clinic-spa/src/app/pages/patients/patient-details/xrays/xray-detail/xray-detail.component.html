@@ -1,10 +1,10 @@
 <nb-card class="dialog-center">
   <nb-card-header>
-    <span langg>X-Ray Name</span>:&nbsp;{{ xrayDetails.xrayName }}
+    <span langg>X-Ray Name</span>:&nbsp;{{ xrayDetails?.xrayName }}
     <br>
     <small class="font-weight-bold">
-      <span langg>Request Date</span>:&nbsp;<span>{{ xrayDetails.requestDate | localDateShort }}</span>&nbsp;|
-      <span langg>Result Date</span>:&nbsp;<span>{{ xrayDetails.resultDate | localDateShort }}</span>
+      <span langg>Request Date</span>:&nbsp;<span>{{ xrayDetails?.requestDate | localDateShort }}</span>
+      <span *ngIf="xrayDetails?.resultDate">{{ ' |'+  ('Result Date' | langg) + ': ' + (xrayDetails?.resultDate | localDateShort) }}</span>
     </small>
   </nb-card-header>
   <nb-card-body>
@@ -14,20 +14,16 @@
         <div class="col-md-6">
           <div class="form-control-group">
             <label for="input-result" class="label"><span langg>Result</span>:</label>
-            <textarea nbInput [(ngModel)]="xrayDetails.resultText" #result="ngModel" id="input-result" name="result"
+            <textarea nbInput [ngModel]="xrayDetails?.resultText" #result="ngModel" id="input-result" name="result"
               [placeholder]="'Register Result' | langg" fullWidth></textarea>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-control-group">
             <label for="input-resultGrade" class="label"><span langg>Disease Severity</span>:</label>
-            <nb-select fullWidth [(ngModel)]="xrayDetails.resultGrade" #resultGrade="ngModel" name="resultGrade"
+            <nb-select fullWidth [ngModel]="xrayDetails?.resultGradeId" #resultGrade="ngModel" name="resultGrade"
               [placeholder]="'Disease Severity' | langg">
-              <nb-option value="0">Grade 0</nb-option>
-              <nb-option value="1">Grade 1</nb-option>
-              <nb-option value="2">Grade 2</nb-option>
-              <nb-option value="3">Grade 3</nb-option>
-              <nb-option value="4">Grade 4</nb-option>
+              <nb-option *ngFor="let item of xrayDetails?.gradeValues" [value]="item.id">{{item.text}}</nb-option>
             </nb-select>
           </div>
         </div>
@@ -47,19 +43,16 @@
         </button>
         <div *ngIf="attachedFile" class="row">
           <div class="col-3">
-            <nb-select #fileType="ngModel" name="fileType" [(ngModel)]="attachedFile.type"
+            <nb-select #fileType="ngModel" name="fileType" [(ngModel)]="attachedFile.fileTypeId" required
               [ngModelOptions]="{standalone: true}" required [placeholder]="'File Type' | langg" size="small"
-              [nbTooltip]="fileType.invalid? ('File Type is required!' | langg):('File Type' | langg)"
-              [nbTooltipStatus]="fileType.invalid?'danger':'basic'"
-              [status]="fileType.touched ? (fileType.invalid  ? 'danger' : 'success') : ''" fullWidth>
-              <nb-option value="item" langg>X-Ray Image</nb-option>
-              <nb-option value="item" langg>Report File</nb-option>
-              <nb-option value="item" langg>Before Treatment</nb-option>
-              <nb-option value="item" langg>After Treatment</nb-option>
+              [nbTooltip]="!fileType.value? ('File Type is required!' | langg):('File Type' | langg)"
+              [nbTooltipStatus]="!fileType.value?'danger':'basic'"
+              [status]="fileType.touched ? (!fileType.value  ? 'danger' : 'success') : ''" fullWidth>
+              <nb-option *ngFor="let item of xrayDetails.xrayFileTypes" [value]="item.id">{{item.text}}</nb-option>
             </nb-select>
           </div>
           <div class="col-3 form-control-group">
-            <input nbInput [(ngModel)]="attachedFile.note" [ngModelOptions]="{standalone: true}"
+            <input nbInput [(ngModel)]="attachedFile.fileNote" [ngModelOptions]="{standalone: true}"
               [placeholder]="'Note' | langg" [nbTooltip]="'Note' | langg" fullWidth fieldSize="small">
           </div>
           <div class="col-3 form-control-group">
@@ -79,7 +72,7 @@
               </div>
               <div class="col-6 p-0">
                 <button nbButton type="button"
-                  [disabled]="!uploader.queue.length || fileType.invalid || uploader.queue[0]?.isReady || uploader.queue[0]?.isUploading || uploader.queue[0]?.isSuccess"
+                  [disabled]="!uploader.queue.length || !fileType.value || uploader.queue[0]?.isReady || uploader.queue[0]?.isUploading || uploader.queue[0]?.isSuccess"
                   (click)="uploader.queue[0]?.upload()" status="success" size="small">
                   <span langg>Upload</span>
                 </button>&nbsp;
@@ -113,18 +106,26 @@
               <th></th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let item of xrayDetails.xraysFiles">
+          <tbody *ngIf="!xrayDetails?.xraysFiles?.length">
+            <tr>
+              <td colspan="6" class="text-center">
+                <h5>{{'No Results !' | langg}}</h5>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="xrayDetails?.xraysFiles?.length">
+            <tr *ngFor="let item of xrayDetails?.xraysFiles">
               <td>{{item.uploadDate | localDateShort}}</td>
               <td>{{item.fileType | langg}}</td>
               <td>{{item.fileNote}}</td>
               <td>
-                <a nbButton href="../../../../../../assets/images/team.png" target="_blank"
+                <a nbButton [href]="item.fileUrl" target="_blank"
                   [ngClass]="attachedFile?'disabled':''" status="info" size="small" langg>Preview</a>&nbsp;
-                <a nbButton href="../../../../../../assets/images/team.png" download="x-ray_image"
-                  [ngClass]="attachedFile?'disabled':''" size="small" langg>Download</a>&nbsp;
+                <a nbButton [href]="item.fileDownloadUrl" download="ray_file"
+                  [ngClass]="attachedFile?'disabled':''" size="small" langg>Download</a>
+                  <!-- &nbsp;
                 <button nbButton type="button" (click)="deleteSwal.fire()" status="danger" [disabled]="attachedFile"
-                  size="small" langg>Delete</button>
+                  size="small" langg>Delete</button> -->
               </td>
             </tr>
           </tbody>

@@ -10,6 +10,7 @@ namespace clinic_api.Models
         public int FileTypeId { get; set; }
         public string Note { get; set; }
         public string Url { get; set; }
+        public string UrlPublicId { get; set; }
         public DateTime CreatedOn { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime UpdatedOn { get; set; }

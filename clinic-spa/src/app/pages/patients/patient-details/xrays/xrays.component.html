@@ -22,8 +22,8 @@
           <td>{{item.xrayName}}</td>
           <td>{{item.xrayArea}}</td>
           <td>{{item.requestDate | localDateShort}}</td>
-          <td>{{item.resultDate | localDateShort}}</td>
-          <td>Grade {{item.resultGrade}}</td>
+          <td>{{item.isHasResult ? (item.resultDate | localDateShort) : ('No Result Recorded' | langg)}}</td>
+          <td>{{item.resultGrade}}</td>
           <td class="text-center">
             <button nbButton (click)="onOpenXrayDetails(item.id)" type="submit" [status]="item.isHasResult ? 'info' : 'success'" size="small">{{item.isHasResult ? ('Details' | langg) : ('Register Result' | langg)}}</button>
           </td>

@@ -463,10 +463,10 @@
   { "ar": "الطلب", "en": "Request" },
   { "ar": "حذف الطلب", "en": "Remove Request" },
   { "ar": "حالة الطلب", "en": "Request Status" },
-  { "ar": "لم تُسجل النتيجة", "en": "No Result" },
+  { "ar": "لم تُسجل النتيجة", "en": "No Result Recorded" },
   { "ar": "تم تسجيل النتيجة", "en": "Registered Result" },
   { "ar": "تسجيل النتيجة", "en": "Register Result" },
-  { "ar": "مشاهدة النتائج", "en": "Show Results" },
+  { "ar": "مشاهدة النتيجة", "en": "Show Result" },
   { "ar": "طلب أشعة جديدة", "en": "Request New X-Ray" },
   { "ar": "طلب تحاليل جديدة", "en": "Request New Analysis" },
   { "ar": "التفاصيل", "en": "Details" },
@@ -576,5 +576,10 @@
   { "ar": "إلى تخصص", "en": "Referral to Specialty" },
   { "ar": "إلى الطبيب", "en": "Referral to Doctor" },
   { "ar": "تشخيص المريض", "en": "Patient Diagnosis" },
-  { "ar": "تحويل من د. ", "en": "Referral from Dr. " }
+  { "ar": "تحويل من د. ", "en": "Referral from Dr. " },
+  { "ar": "اختيار الملف", "en": "Choose File" },
+  { "ar": "حجم الملف كبير!", "en": "Large file size!" },
+  { "ar": "لا يمكن أن يتجاوز حجم الملف مساحة ١٠MB", "en": "File size cannot exceed 10MB" },
+  { "ar": "نوع ملف خاطئ!", "en": "Wrong file type!" },
+  { "ar": "يسمح فقط بالصور ومستندات pdf", "en": "Only image and pdf documents are allowed" }
 ]

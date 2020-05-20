@@ -16,8 +16,18 @@ export interface XrayDetails {
   isHasResult: boolean;
   resultDate?: Date;
   resultText?: string;
-  resultGrade?: string;
+  resultGradeId?: number;
+  gradeValues:GradeValue[]
+  xrayFileTypes: XrayFileTypeValue[];
   xraysFiles: XrayFileList[];
+}
+export interface GradeValue{
+  id:number;
+  text:string;
+}
+export interface XrayFileTypeValue{
+  id:number;
+  text:string;
 }
 export interface XrayFileList {
   id: number;
@@ -25,11 +35,17 @@ export interface XrayFileList {
   fileType: string;
   fileNote?: string;
   fileUrl: string;
+  fileDownloadUrl?: string;
+}
+
+export interface PutXray{
+  id:number;
+  resultText?: string;
+  resultGradeId?: number;
 }
 
 export interface UploadNewFile{
-  id: number;
-  fileType: string;
+  fileTypeId: number;
   fileNote?: string;
 }
 

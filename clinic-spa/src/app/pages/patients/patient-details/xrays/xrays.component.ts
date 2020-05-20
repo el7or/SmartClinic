@@ -2,7 +2,7 @@ import { AlertService } from './../../../../shared/services/alert.service';
 import { XraysService } from "./xrays.service";
 import { XRayDetailComponent } from "./xray-detail/xray-detail.component";
 import { NbDialogService } from "@nebular/theme";
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from "@angular/core";
 import { PatientsService } from "../../patients.service";
 import { XraysList } from "./xrays.model";
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: "./xrays.component.html",
   styleUrls: ["./xrays.component.scss"],
 })
-export class XRaysComponent implements OnInit {
+export class XRaysComponent implements OnInit,OnDestroy {
   formLoading: boolean = false;
   xraysList: XraysList[];
   @Output() onFinish: EventEmitter<any> = new EventEmitter<any>();
@@ -40,6 +40,9 @@ export class XRaysComponent implements OnInit {
       }
     );
   }
+  ngOnDestroy() {
+    this.getSubs.unsubscribe();
+  }
 
   onOpenXrayDetails(xrayId:number) {
     this.dialogService.open(XRayDetailComponent, {
@@ -51,5 +54,6 @@ export class XRaysComponent implements OnInit {
       closeOnBackdropClick: false,
       closeOnEsc: false,
     });
+    this.onFinish.emit();
   }
 }

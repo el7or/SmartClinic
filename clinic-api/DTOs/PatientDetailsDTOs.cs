@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -117,7 +118,7 @@ namespace clinic_api.DTOs
     public class GetPatientDiagnosisDTO
     {
         public List<DiagnosisValue> DiagnosisValues { get; set; }
-        public List<DiseaseValue> DiseaseValues { get; set; }
+        public List<GradeValue> DiseaseValues { get; set; }
         public List<PatientDiagnosisListDTO> PatientDiagnosis { get; set; }
     }
     public class DiagnosisValue
@@ -125,7 +126,7 @@ namespace clinic_api.DTOs
         public int Id { get; set; }
         public string Text { get; set; }
     }
-    public class DiseaseValue
+    public class GradeValue
     {
         public int Id { get; set; }
         public string Text { get; set; }
@@ -282,6 +283,46 @@ namespace clinic_api.DTOs
         public bool? IsHasResult { get; set; }
         public DateTime? ResultDate { get; set; }
         public string ResultGrade { get; set; }
+    }
+    public class RayDetailsDTO
+    {
+        public int Id { get; set; }
+        public string XrayName { get; set; }
+        public string XrayArea { get; set; }
+        public DateTime RequestDate { get; set; }
+        public bool? IsHasResult { get; set; }
+        public DateTime? ResultDate { get; set; }
+        public string ResultText { get; set; }
+        public int? ResultGradeId { get; set; }
+        public List<GradeValue> GradeValues { get; set; }
+        public List<RayFileTypeValue> XrayFileTypes { get; set; }
+        public List<RayFileList> XraysFiles { get; set; }
+    }
+    public class RayFileTypeValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class RayFileList
+    {
+        public int Id { get; set; }
+        public DateTime UploadDate { get; set; }
+        public string FileType { get; set; }
+        public string FileNote { get; set; }
+        public string FileUrl { get; set; }
+    }
+    public class PutRayDTO
+    {
+        public int Id { get; set; }
+        public string ResultText { get; set; }
+        public int? ResultGradeId { get; set; }
+    }
+    public class PostRayFileDTO
+    {
+        public int RayId { get; set; }
+        public IFormFile File { get; set; }
+        public int FileTypeId { get; set; }
+        public string Note { get; set; }
     }
 
     // Analysis

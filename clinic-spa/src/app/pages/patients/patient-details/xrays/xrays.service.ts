@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 
-import { XraysList, XrayDetails } from "./xrays.model";
+import { XraysList, XrayDetails, PutXray } from "./xrays.model";
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../auth/auth.service';
 import { PatientsService } from '../../patients.service';
@@ -29,29 +29,21 @@ export class XraysService {
   }
 
   getXrayDetails(xrayId: number) {
-    /* return {
-      id: 2,
-      xrayName: "PLAIN X RAY FILM",
-      xrayArea: "القدم اليمنى",
-      requestDate: new Date("2020-5-2"),
-      isHasResult: true,
-      resultGrade: 1,
-      resultDate: new Date("2020-5-7"),
-      xraysFiles: [
-        {
-          id: 1,
-          uploadDate: new Date("5/6/2020"),
-          fileType: "X-Ray Image",
-          fileUrl: "../../../../../../assets/images/team.png",
-        },
-        {
-          id: 2,
-          uploadDate: new Date("12/6/2020"),
-          fileType: "Report File",
-          fileUrl: "../../../../../../assets/images/team.png",
-          fileNote: "مطلوب الإعادة",
-        },
-      ],
-    }; */
+    return this.http.get<XrayDetails>(
+      this.baseUrl +
+        "PatientDetails/GetRay/" +
+        this.authService.userId +
+        "/" +
+        xrayId
+    );
+  }
+
+  savePatientRay(patientRay: PutXray) {
+    return this.http.put(
+      this.baseUrl +
+        "PatientDetails/PutRay/" +
+        this.authService.userId,
+        patientRay
+    );
   }
 }

@@ -23,4 +23,32 @@ export class AlertService {
       }
     );
   }
+
+  alertFileSize(){
+    this.toastrService.danger(
+      this.langgService.translateWord(
+        "File size cannot exceed 10MB"
+      ),
+      this.langgService.translateWord("Large file size!"),
+      {
+        duration: 10000,
+        icon: "close-square-outline",
+        destroyByClick: true,
+      }
+    );
+  }
+
+  alertFileType(){
+    this.toastrService.danger(
+      this.langgService.translateWord(
+        "Only image and pdf documents are allowed"
+      ),
+      this.langgService.translateWord("Wrong file type!"),
+      {
+        duration: 10000,
+        icon: "close-square-outline",
+        destroyByClick: true,
+      }
+    );
+  }
 }

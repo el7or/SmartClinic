@@ -1,3 +1,5 @@
+import { AlertService } from "./../../shared/services/alert.service";
+import { HomeService } from "./home.service";
 import { Router } from "@angular/router";
 import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -14,63 +16,43 @@ import { BookingsService } from "./../bookings/bookings.service";
 import { SettingsService } from "./../settings/settings.service";
 import { LanggService } from "../../shared/services/langg.service";
 import { DateWithoutTimePipe } from "./../../shared/pipes/date-without-time.pipe";
+import { HomeEvents } from "./home.model";
 
 @Component({
   selector: "home",
   templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"]
+  styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  formLoading = false;
   locle: any;
   langSubscription: Subscription;
 
-  calendarDefaultView = 'dayGridMonth';
+  calendarDefaultView = "dayGridMonth";
   calendarHiddenDays: number[];
   calendarPlugins = [
     dayGridPlugin,
     timeGridPlugin,
     listPlugin,
     interactionPlugin,
-    momentPlugin
+    momentPlugin,
   ];
   calendarHeader = { center: "listWeek,dayGridMonth,dayGridWeek,timeGridDay" };
-  calendarEvents = [
-    {
-      title: "الكشوفات: 12",
-      start: "2020-05-01",
-      description: "د/محمد أحمد"
-    },
-    {
-      title: "الاستشارات: 7",
-      start: "2020-05-01",
-      description: "د/أحمد مصطفى"
-    },
-    {
-      title: "كل الحجوزات: 19",
-      start: "2020-05-01",
-      description: "د/أحمد مصطفى"
-    },
-    {
-      title: "الكشوفات: 10",
-      start: "2020-05-03",
-      description: "د/سناء عزت"
-    },
-    {
-      title: "كل الحجوزات: 10",
-      start: "2020-05-03",
-      description: "د/سناء عزت"
-    }
-  ];
+  calendarEvents;
+
+  getSubs: Subscription;
 
   constructor(
     private router: Router,
     private langgService: LanggService,
     private toastrService: NbToastrService,
-    private settingService: SettingsService,
-    private bookingService: BookingsService
+    private homeService: HomeService,
+    private bookingService:BookingsService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {
+    this.formLoading = true;
     /* // =====> Detect Responsive Screen Size to some changes on calendar:
     if (window.innerWidth < 835) {
       this.calendarHeader = { center: "" };
@@ -80,7 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     } */
 
     // =====> localize fullcalendar:
-    this.langSubscription = this.langgService.lang.subscribe(lang => {
+    this.langSubscription = this.langgService.lang.subscribe((lang) => {
       if (lang == "en") {
         this.locle = enLocale;
       } else {
@@ -88,12 +70,25 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
 
-    // =====> set weekends days to hide them:
-    //this.calendarHiddenDays = this.settingService.getBookingSetting().weekEnds;
+    // =====> get calendar events:
+    this.getSubs = this.homeService.getCalendarEvents().subscribe(
+      (res: HomeEvents) => {
+        this.calendarEvents = res.calendarEvents;
+        // =====> set weekends days to hide them:
+        this.calendarHiddenDays = res.weekEnds;
+        this.formLoading = false;
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
   }
 
   ngOnDestroy() {
     this.langSubscription.unsubscribe();
+    this.getSubs.unsubscribe();
   }
 
   addEvent() {
@@ -128,7 +123,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // =====> if clicked on future:
     else if (todayString < dateClicked) {
       // =====> save clicked date to next booking:
-      this.bookingService.chosenBookingDate =  info.date;
+      this.bookingService.chosenBookingDate = info.date;
       this.toastrService.info(
         info.dateStr,
         this.langgService.translateWord(
@@ -137,7 +132,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         {
           icon: "info-outline",
           duration: 5000,
-          destroyByClick: true
+          destroyByClick: true,
         }
       );
       this.router.navigateByUrl("/pages/patients");

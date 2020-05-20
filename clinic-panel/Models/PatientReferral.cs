@@ -32,5 +32,6 @@ namespace clinic_panel.Models
     
         public virtual Doctor Doctor { get; set; }
         public virtual Patient Patient { get; set; }
+        public virtual PatientDiagnosi PatientDiagnosi { get; set; }
     }
 }

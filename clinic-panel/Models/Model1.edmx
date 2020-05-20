@@ -427,6 +427,7 @@
           <Property Name="FileTypeId" Type="int" Nullable="false" />
           <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UrlPublicId" Type="nvarchar(max)" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
@@ -539,6 +540,7 @@
           <Property Name="FileTypeId" Type="int" Nullable="false" />
           <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UrlPublicId" Type="nvarchar(max)" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
@@ -1578,6 +1580,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PatientReferrals_PatientDiagnosis">
+          <End Role="PatientDiagnosis" Type="Self.PatientDiagnosis" Multiplicity="0..1" />
+          <End Role="PatientReferrals" Type="Self.PatientReferrals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientDiagnosis">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientReferrals">
+              <PropertyRef Name="PatientDiagnosisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PatientReferrals_Patients">
           <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
           <End Role="PatientReferrals" Type="Self.PatientReferrals" Multiplicity="*" />
@@ -2120,6 +2134,10 @@
             <End Role="Doctors" EntitySet="Doctors" />
             <End Role="PatientReferrals" EntitySet="PatientReferrals" />
           </AssociationSet>
+          <AssociationSet Name="FK_PatientReferrals_PatientDiagnosis" Association="Self.FK_PatientReferrals_PatientDiagnosis">
+            <End Role="PatientDiagnosis" EntitySet="PatientDiagnosis" />
+            <End Role="PatientReferrals" EntitySet="PatientReferrals" />
+          </AssociationSet>
           <AssociationSet Name="FK_PatientReferrals_Patients" Association="Self.FK_PatientReferrals_Patients">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="PatientReferrals" EntitySet="PatientReferrals" />
@@ -2619,6 +2637,7 @@
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="PatientAnalysi" Relationship="Self.FK_PatientAnalysisFiles_PatientAnalysis" FromRole="PatientAnalysisFiles" ToRole="PatientAnalysis" />
           <NavigationProperty Name="SysAnalysisFileTypesValue" Relationship="Self.FK_PatientAnalysisFiles_SysAnalysisFileTypesValues" FromRole="PatientAnalysisFiles" ToRole="SysAnalysisFileTypesValues" />
+          <Property Name="UrlPublicId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PatientDiagnosi">
           <Key>
@@ -2636,6 +2655,7 @@
           <NavigationProperty Name="DoctorDiagnosisValue" Relationship="Self.FK_PatientDiagnosis_DoctorDiagnosisValues" FromRole="PatientDiagnosis" ToRole="DoctorDiagnosisValues" />
           <NavigationProperty Name="Patient" Relationship="Self.FK_PatientDiagnosis_Patients" FromRole="PatientDiagnosis" ToRole="Patients" />
           <NavigationProperty Name="SysDiseaseGradesValue" Relationship="Self.FK_PatientDiagnosis_SysDiseaseGradesValues" FromRole="PatientDiagnosis" ToRole="SysDiseaseGradesValues" />
+          <NavigationProperty Name="PatientReferrals" Relationship="Models.FK_PatientReferrals_PatientDiagnosis" FromRole="PatientDiagnosi" ToRole="PatientReferral" />
         </EntityType>
         <EntityType Name="PatientDiseas">
           <Key>
@@ -2717,6 +2737,7 @@
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="PatientRay" Relationship="Self.FK_PatientRayFiles_PatientRays" FromRole="PatientRayFiles" ToRole="PatientRays" />
           <NavigationProperty Name="SysRayFileTypesValue" Relationship="Self.FK_PatientRayFiles_SysRayFileTypesValues" FromRole="PatientRayFiles" ToRole="SysRayFileTypesValues" />
+          <Property Name="UrlPublicId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PatientRay">
           <Key>
@@ -2763,6 +2784,7 @@
           <Property Name="CanceledOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK_PatientReferrals_Doctors" FromRole="PatientReferrals" ToRole="Doctors" />
           <NavigationProperty Name="Patient" Relationship="Self.FK_PatientReferrals_Patients" FromRole="PatientReferrals" ToRole="Patients" />
+          <NavigationProperty Name="PatientDiagnosi" Relationship="Models.FK_PatientReferrals_PatientDiagnosis" FromRole="PatientReferral" ToRole="PatientDiagnosi" />
         </EntityType>
         <EntityType Name="Patient">
           <Key>
@@ -4034,6 +4056,10 @@
             <End Role="PatientPrescription" EntitySet="PatientPrescriptions" />
             <End Role="PrescriptionMedicine" EntitySet="PrescriptionMedicines" />
           </AssociationSet>
+          <AssociationSet Name="FK_PatientReferrals_PatientDiagnosis" Association="Models.FK_PatientReferrals_PatientDiagnosis">
+            <End Role="PatientDiagnosi" EntitySet="PatientDiagnosis" />
+            <End Role="PatientReferral" EntitySet="PatientReferrals" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="SubscriptionPayment">
           <Key>
@@ -4415,6 +4441,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PatientReferrals_PatientDiagnosis">
+          <End Type="Models.PatientDiagnosi" Role="PatientDiagnosi" Multiplicity="0..1" />
+          <End Type="Models.PatientReferral" Role="PatientReferral" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientDiagnosi">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientReferral">
+              <PropertyRef Name="PatientDiagnosisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4780,6 +4818,7 @@
           <EntitySetMapping Name="PatientAnalysisFiles">
             <EntityTypeMapping TypeName="Models.PatientAnalysisFile">
               <MappingFragment StoreEntitySet="PatientAnalysisFiles">
+                <ScalarProperty Name="UrlPublicId" ColumnName="UrlPublicId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PatientAnalysisId" ColumnName="PatientAnalysisId" />
                 <ScalarProperty Name="FileTypeId" ColumnName="FileTypeId" />
@@ -4870,6 +4909,7 @@
           <EntitySetMapping Name="PatientRayFiles">
             <EntityTypeMapping TypeName="Models.PatientRayFile">
               <MappingFragment StoreEntitySet="PatientRayFiles">
+                <ScalarProperty Name="UrlPublicId" ColumnName="UrlPublicId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PatientRayId" ColumnName="PatientRayId" />
                 <ScalarProperty Name="FileTypeId" ColumnName="FileTypeId" />

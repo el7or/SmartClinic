@@ -14,6 +14,12 @@ namespace clinic_panel.Models
     
     public partial class PatientDiagnosi
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PatientDiagnosi()
+        {
+            this.PatientReferrals = new HashSet<PatientReferral>();
+        }
+    
         public int Id { get; set; }
         public System.Guid PatientId { get; set; }
         public int DiagnosisId { get; set; }
@@ -27,5 +33,7 @@ namespace clinic_panel.Models
         public virtual DoctorDiagnosisValue DoctorDiagnosisValue { get; set; }
         public virtual Patient Patient { get; set; }
         public virtual SysDiseaseGradesValue SysDiseaseGradesValue { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PatientReferral> PatientReferrals { get; set; }
     }
 }

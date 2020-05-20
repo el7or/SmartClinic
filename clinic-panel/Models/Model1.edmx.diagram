@@ -139,6 +139,7 @@
         <EntityTypeShape EntityType="Models.PatientPrescription" Width="1.5" PointX="7.5" PointY="36.75" />
         <AssociationConnector Association="Models.FK_PatientPrescriptions_Patients" />
         <AssociationConnector Association="Models.FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId" />
+        <AssociationConnector Association="Models.FK_PatientReferrals_PatientDiagnosis" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

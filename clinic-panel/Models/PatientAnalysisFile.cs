@@ -23,6 +23,7 @@ namespace clinic_panel.Models
         public System.Guid CreatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
+        public string UrlPublicId { get; set; }
     
         public virtual PatientAnalysi PatientAnalysi { get; set; }
         public virtual SysAnalysisFileTypesValue SysAnalysisFileTypesValue { get; set; }

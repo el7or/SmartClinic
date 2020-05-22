@@ -111,6 +111,7 @@ namespace clinic_api
                 hubOptions.EnableDetailedErrors = true;
                 hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(15);
             });
+            services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

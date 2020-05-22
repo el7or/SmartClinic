@@ -1,57 +1,62 @@
 import { Router } from "@angular/router";
-import { takeUntil, map, window } from "rxjs/operators";
+import { takeUntil, map } from "rxjs/operators";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   NbMenuService,
   NbSidebarService,
   NbThemeService,
   NbSearchService,
-  NbDialogService
+  NbDialogService,
 } from "@nebular/theme";
 import { Subject, Subscription } from "rxjs";
 
+import { AlertService } from "./../../services/alert.service";
+import { ChatService } from "./../../../pages/chat/chat.service";
 import { AuthService } from "./../../../auth/auth.service";
 import { LanggService } from "../../services/langg.service";
 import { MENU_ITEMS } from "../../../pages/pages-menu";
 import { ProfileComponent } from "../profile/profile.component";
 import { UserRole } from "../../../auth/auth.model";
-import { AdvsService } from '../../services/advs.service';
+import { AdvsService } from "../../services/advs.service";
 
 @Component({
   selector: "ngx-header",
   styleUrls: ["./header.component.scss"],
-  templateUrl: "./header.component.html"
+  templateUrl: "./header.component.html",
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   user: any;
   menu = MENU_ITEMS;
+  externalCount: number;
   currentTheme = "default";
   selectedTheme = "Light";
+
   menuSubscription: Subscription;
   searchSubscription: Subscription;
   nameSubscription: Subscription;
-  themeSubscription:Subscription;
+  themeSubscription: Subscription;
+  getExternalsSubscription: Subscription;
   private destroy$: Subject<void> = new Subject<void>();
 
   userMenu = [
     { title: "Change Name", data: "profile" },
     /* { title: "Change Clinic", data: "clinic2" }, */
-    { title: "Log out", data: "logout" }
+    { title: "Log out", data: "logout" },
   ];
 
   themes = [
     {
       value: "default",
-      name: "Light"
+      name: "Light",
     },
     {
       value: "dark",
-      name: "Dark"
+      name: "Dark",
     },
     {
       value: "cosmic",
-      name: "Cosmic"
-    }
+      name: "Cosmic",
+    },
   ];
 
   constructor(
@@ -62,7 +67,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private searchService: NbSearchService,
     private dialogService: NbDialogService,
-    public advService:AdvsService,
+    private chatService: ChatService,
+    public advService: AdvsService,
+    private alertService: AlertService,
     private router: Router
   ) {
     // =====> on search from icon:
@@ -75,8 +82,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // =====> hide change clinic from user menu if not a doctor:
-    if (this.authService.roleName == UserRole.Employee){
-      this.userMenu = this.userMenu.filter(item => item.data != 'clinic2');
+    if (this.authService.roleName == UserRole.Employee) {
+      this.userMenu = this.userMenu.filter((item) => item.data != "clinic2");
     }
 
     // =====> translate main menu & user menu on first initial:
@@ -88,49 +95,67 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ? "default"
         : localStorage.getItem("theme");
     this.onChangeTheme(this.currentTheme);
-    this.themeSubscription= this.themeService
+    this.themeSubscription = this.themeService
       .onThemeChange()
       .pipe(
         map(({ name }) => name),
         takeUntil(this.destroy$)
       )
-      .subscribe(themeName => (this.currentTheme = themeName));
+      .subscribe((themeName) => (this.currentTheme = themeName));
 
     // =====> add user name and photo to header icon:
     this.nameSubscription = this.authService
       .getNickName()
-      .subscribe(username => {
+      .subscribe((username) => {
         this.user = {
           name: username,
           picture:
             this.authService.roleName == UserRole.Doctor
               ? "assets/images/doctor.png"
-              : "assets/images/employee.png"
+              : "assets/images/employee.png",
         };
       });
 
     // =====> on click on user menu:
-    this.menuSubscription = this.menuService.onItemClick().subscribe(event => {
-      switch (event.item.data) {
-        case "profile":
-          this.dialogService.open(ProfileComponent, {
-            autoFocus: true,
-            hasBackdrop: true,
-            closeOnBackdropClick: false,
-            closeOnEsc: false
-          });
-          break;
-        case "clinic2":
-          location.reload();
-          break;
-        case "logout":
-          this.authService.logout();
-          this.router.navigateByUrl("/auth/login");
-          break;
-        default:
-          break;
-      }
-    });
+    this.menuSubscription = this.menuService
+      .onItemClick()
+      .subscribe((event) => {
+        switch (event.item.data) {
+          case "profile":
+            this.dialogService.open(ProfileComponent, {
+              autoFocus: true,
+              hasBackdrop: true,
+              closeOnBackdropClick: false,
+              closeOnEsc: false,
+            });
+            break;
+          case "clinic2":
+            location.reload();
+            break;
+          case "logout":
+            this.authService.logout();
+            this.router.navigateByUrl("/auth/login");
+            break;
+          default:
+            break;
+        }
+      });
+
+    // =====> get externals count:
+    this.getExternalsSubscription = this.chatService
+      .getExternalCount()
+      .subscribe(
+        (res: number) => {
+          this.externalCount = res;
+          this.chatService.unReadExternalCount.subscribe(
+            (count) => (this.externalCount = count)
+          );
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+        }
+      );
   }
 
   ngOnDestroy() {
@@ -139,6 +164,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.menuSubscription.unsubscribe();
     this.searchSubscription.unsubscribe();
     this.nameSubscription.unsubscribe();
+    this.getExternalsSubscription.unsubscribe();
     this.themeSubscription.unsubscribe();
   }
 
@@ -159,10 +185,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // =====> translate main menu & user menu on first initial:
   translateMenus() {
-    this.menu.concat(this.userMenu).forEach(element => {
+    this.menu.concat(this.userMenu).forEach((element) => {
       element.title = this.langgService.translateWord(element.title);
       if (element.children != null) {
-        element.children.forEach(el => {
+        element.children.forEach((el) => {
           el.title = this.langgService.translateWord(el.title);
         });
       }
@@ -182,7 +208,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onChangeTheme(themeName: string) {
     localStorage.setItem("theme", themeName);
     this.selectedTheme = this.themes.find(
-      theme => theme.value == themeName
+      (theme) => theme.value == themeName
     ).name;
     this.themeService.changeTheme(themeName);
   }

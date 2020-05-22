@@ -1,3 +1,4 @@
+import { ChatService } from './../../../chat/chat.service';
 import { PatientsService } from "./../../patients.service";
 import { AlertService } from "./../../../../shared/services/alert.service";
 import { Router } from "@angular/router";
@@ -39,6 +40,7 @@ export class ReferralsComponent implements OnInit,OnDestroy {
     private router: Router,
     private alertService: AlertService,
     private patientsService: PatientsService,
+    private chatService:ChatService,
     public location: Location
   ) {}
 
@@ -127,6 +129,7 @@ export class ReferralsComponent implements OnInit,OnDestroy {
           form.reset();
           this.formLoading = false;
           this.doneSwal.fire();
+          this.chatService.updateUnreadExternalCount(putObj.doctorId);
         }
       },
       (err) => {

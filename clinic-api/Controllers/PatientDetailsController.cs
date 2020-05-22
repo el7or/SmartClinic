@@ -1089,6 +1089,8 @@ namespace clinic_api.Controllers
                     UpdatedOn = DateTime.Now
                 };
                 _context.Patients.Add(newPatient);
+                referral.IsRead = true;
+                referral.ReadOn = DateTime.Now;
                 referral.IsApproved = true;
                 referral.ApprovedOn = DateTime.Now;
                 referral.IsCanceled = false;
@@ -1116,6 +1118,8 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             var referral = _context.PatientReferrals.Find(referralId);
+            referral.IsRead = true;
+            referral.ReadOn = DateTime.Now;
             referral.IsApproved = false;
             referral.IsCanceled = true;
             referral.CanceledOn = DateTime.Now;

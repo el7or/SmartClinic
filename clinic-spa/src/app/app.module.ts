@@ -1,3 +1,4 @@
+import { ChatService } from './pages/chat/chat.service';
 import { TokenInterceptorProvidor } from './shared/interceptors/token-interceptor';
 /**
  * @license
@@ -73,7 +74,7 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
       }
     })
   ],
-  providers: [TokenInterceptorProvidor, DatePipe,
+  providers: [TokenInterceptorProvidor, DatePipe,ChatService,
     {
       provide: NbRoleProvider,
       useClass: NbSimpleRoleProvider

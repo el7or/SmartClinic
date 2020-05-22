@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200514112721_GeneralComplaintKey.cs" />
     <Compile Remove="Migrations\20200514112721_GeneralComplaintKey.Designer.cs" />
+    <Compile Remove="Migrations\20200522113115_MessageModel.cs" />
+    <Compile Remove="Migrations\20200522113115_MessageModel.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

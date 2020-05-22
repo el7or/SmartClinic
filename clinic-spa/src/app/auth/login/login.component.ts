@@ -55,18 +55,18 @@ export class LoginComponent extends NbLoginComponent implements OnDestroy {
     };
     this.authSubs = this.authService.login(loginUser).subscribe(
       () => {
-        this.loading = false;
         //this.authSwal.fire();
         this.router.navigate(["/pages"]);
+        this.loading = false;
       },
       (err) => {
-        this.loading = false;
         console.error(err);
         if (err.error.title == "Unauthorized") {
           this.unAuthSwal.fire();
         } else {
           this.alertService.alertError();
         }
+        this.loading = false;
       }
     );
   }

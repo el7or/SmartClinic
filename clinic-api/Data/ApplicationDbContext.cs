@@ -19,11 +19,14 @@ namespace clinic_api.Data
         public Guid CreatedBy { get; set; }
         public DateTime EditedOn { get; set; }
         public Guid EditedBy { get; set; }
+        public DateTime LastActive { get; set; }
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
         public virtual ICollection<ApplicationUserClaim> Claims { get; set; }
         public virtual ICollection<ApplicationUserLogin> Logins { get; set; }
         public virtual ICollection<ApplicationUserToken> Tokens { get; set; }
         public virtual ICollection<ClinicUser> ClinicUsers { get; set; }
+        public virtual ICollection<Message> MessagesSent { get; set; }
+        public virtual ICollection<Message> MessagesReceived { get; set; }
     }
     public class ApplicationRole : IdentityRole<Guid>
     {
@@ -86,6 +89,7 @@ namespace clinic_api.Data
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<PatientAnalysis> PatientAnalysis { get; set; }
         public virtual DbSet<PatientAnalysisFile> PatientAnalysisFiles { get; set; }
         public virtual DbSet<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
@@ -561,6 +565,25 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.SpecialtyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Doctors_SysDoctorsSpecialties");
+            });
+
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.Property(e => e.MessageText).IsRequired();
+
+                entity.Property(e => e.SentOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Sender)
+                    .WithMany(p => p.MessagesSent)
+                    .HasForeignKey(d => d.SenderId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_MessagesSent_AspNetUsers");
+
+                entity.HasOne(d => d.Receiver)
+                    .WithMany(p => p.MessagesReceived)
+                    .HasForeignKey(d => d.ReceiverId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_MessagesReceived_AspNetUsers");
             });
 
             modelBuilder.Entity<PatientAnalysis>(entity =>

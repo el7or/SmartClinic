@@ -97,12 +97,14 @@ namespace clinic_api
 
             services.AddMvc(options =>
             {
+                options.EnableEndpointRouting = false;
                 // --> to apply authorization on all controller without [Authorize] attribute:
                 var policy = new AuthorizationPolicyBuilder()
                             .RequireAuthenticatedUser()
                             .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
-                options.EnableEndpointRouting = false;
+                // -->  to add LastActive DateTime to every authorized user 
+                options.Filters.Add<UserActiveActionFilter>();
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddCors();
@@ -112,6 +114,7 @@ namespace clinic_api
                 hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(15);
             });
             services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
+            services.AddScoped<UserActiveActionFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

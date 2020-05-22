@@ -6,8 +6,7 @@ import {
   HttpTransportType,
 } from "@aspnet/signalr";
 
-import { messages } from "./messages";
-import { botReplies, gifsLinks, imageLinks } from "./bot-replies";
+import { messages, UserChat } from "./chat.model";
 import { environment } from "../../../environments/environment";
 import { AuthService } from "../../auth/auth.service";
 
@@ -22,45 +21,18 @@ export class ChatService {
     this.startConnection();
   }
 
+  loadChatUsers(){
+    return this.http.get<UserChat[]>(
+      this.baseUrl +
+        "Chat/GetChatUsers/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId
+    );
+  }
+
   loadMessages() {
     return messages;
-  }
-
-  loadBotReplies() {
-    return botReplies;
-  }
-
-  reply(message: string) {
-    const botReply: any = this.loadBotReplies().find(
-      (reply: any) => message.search(reply.regExp) !== -1
-    );
-
-    if (botReply.reply.type === "quote") {
-      botReply.reply.quote = message;
-    }
-
-    if (botReply.type === "gif") {
-      botReply.reply.files[0].url =
-        gifsLinks[Math.floor(Math.random() * gifsLinks.length)];
-    }
-
-    if (botReply.type === "pic") {
-      botReply.reply.files[0].url =
-        imageLinks[Math.floor(Math.random() * imageLinks.length)];
-    }
-
-    if (botReply.type === "group") {
-      botReply.reply.files[1].url =
-        gifsLinks[Math.floor(Math.random() * gifsLinks.length)];
-      botReply.reply.files[2].url =
-        imageLinks[Math.floor(Math.random() * imageLinks.length)];
-    }
-
-    botReply.reply.text =
-      botReply.answerArray[
-        Math.floor(Math.random() * botReply.answerArray.length)
-      ];
-    return { ...botReply.reply };
   }
 
   getExternalCount() {
@@ -96,11 +68,12 @@ export class ChatService {
       .start()
       .then(() => {
         this.connectionIsEstablished = true;
-        console.log("Hub connection started");
+        //console.log("Hub connection started");
         this.connectionEstablished.emit(true);
       })
       .catch((err) => {
-        console.log("Error while establishing connection, retrying...");
+        //console.log("Error while establishing connection, retrying...");
+        console.error(err);
         setTimeout(function () {
           this.startConnection();
         }, 5000);
@@ -120,7 +93,7 @@ export class ChatService {
   stopConnection(): void {
     this._hubConnection.stop().then(() => {
       this.connectionIsEstablished = false;
-      console.log("Hub connection stoped");
+      //console.log("Hub connection stoped");
       this.connectionEstablished.emit(false);
     });
   }

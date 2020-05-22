@@ -1,48 +1,50 @@
-import { Component } from '@angular/core';
+import { AlertService } from "./../../shared/services/alert.service";
+import { Subscription } from "rxjs";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import { ChatService } from './chat.service';
+import { ChatService } from "./chat.service";
+import { UserChat } from "./chat.model";
 
 @Component({
-  selector: 'ngx-chat',
-  templateUrl: 'chat.component.html',
-  styleUrls: ['chat.component.scss'],
-  providers: [ ChatService ],
+  selector: "ngx-chat",
+  templateUrl: "chat.component.html",
+  styleUrls: ["chat.component.scss"],
+  providers: [ChatService],
 })
-export class ChatComponent {
-  users: {
-    id: string;
-    name: string;
-    title: string;
-    picture: string;
-    unread: number;
-  }[];
+export class ChatComponent implements OnInit, OnDestroy {
+  loading = false;
+  users: UserChat[];
   userChatName: string;
   userChatId: string;
   messages: any[];
-  loading = false;
 
-  constructor(public chatService: ChatService) {
+  getUsersSubs: Subscription;
+  getMessagesSubs: Subscription;
+
+  constructor(
+    public chatService: ChatService,
+    private alertService: AlertService
+  ) {
     this.messages = this.chatService.loadMessages();
-    this.users=[{
-      id: '1',
-      name: 'د محمد مصطفى',
-      title: '2020-1-1',
-      picture:  "assets/images/alan.png",
-      unread : 5
-    },{
-      id: '2',
-      name: 'حسن أحمد',
-      title: '2019-6-1',
-      picture:  "assets/images/jack.png",
-      unread : 3
-    },{
-      id: '3',
-      name: 'منى محمد',
-      title: '2019-12-1',
-      picture:  "assets/images/lee.png",
-      unread : 0
-    },
-  ]
+  }
+
+  ngOnInit() {
+    this.loading = true;
+    this.getUsersSubs = this.chatService.loadChatUsers().subscribe(
+      (res: UserChat[]) => {
+        this.users = res;
+        this.loading = false;
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.loading = false;
+      }
+    );
+  }
+  ngOnDestroy() {
+    this.getUsersSubs.unsubscribe();
+    if (this.getMessagesSubs) this.getMessagesSubs.unsubscribe();
   }
 
   openChat(user) {
@@ -86,28 +88,26 @@ export class ChatComponent {
   }
 
   sendMessage(event: any) {
-    const files = !event.files ? [] : event.files.map((file) => {
-      return {
-        url: file.src,
-        type: file.type,
-        icon: 'nb-compose',
-      };
-    });
+    const files = !event.files
+      ? []
+      : event.files.map((file) => {
+          return {
+            url: file.src,
+            type: file.type,
+            icon: "nb-compose",
+          };
+        });
 
     this.messages.push({
       text: event.message,
       date: new Date(),
       reply: true,
-      type: files.length ? 'file' : 'text',
+      type: files.length ? "file" : "text",
       files: files,
       user: {
-        name: 'Jonh Doe',
-        avatar: 'https://i.gifer.com/no.gif',
+        name: "Jonh Doe",
+        avatar: "https://i.gifer.com/no.gif",
       },
     });
-    const botReply = this.chatService.reply(event.message);
-    if (botReply) {
-      setTimeout(() => { this.messages.push(botReply); }, 500);
-    }
   }
 }

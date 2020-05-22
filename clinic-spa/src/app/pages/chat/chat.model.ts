@@ -1,3 +1,21 @@
+export interface UserChat{
+  id: string;
+  name: string;
+  title: string;
+  picture: string;
+  unread: number;
+}
+export interface Message{
+  text: string;
+  reply: boolean;
+  date: Date;
+  user: MessageUser;
+}
+export interface MessageUser{
+  name:string;
+  avatar:string;
+}
+
 export const messages = [
   {
     text: 'Hello, how are you? This should be a very long message so that we can test how it fit into the screen.',

@@ -6,7 +6,7 @@ import {
   HttpTransportType,
 } from "@aspnet/signalr";
 
-import { messages, UserChat } from "./chat.model";
+import { UserChat, Message, UnreadCount, NewMessageSent, MessageReceived } from "./chat.model";
 import { environment } from "../../../environments/environment";
 import { AuthService } from "../../auth/auth.service";
 
@@ -21,7 +21,7 @@ export class ChatService {
     this.startConnection();
   }
 
-  loadChatUsers(){
+  loadChatUsers() {
     return this.http.get<UserChat[]>(
       this.baseUrl +
         "Chat/GetChatUsers/" +
@@ -31,14 +31,27 @@ export class ChatService {
     );
   }
 
-  loadMessages() {
-    return messages;
+  loadMessages(userId: string) {
+    return this.http.get<Message[]>(
+      this.baseUrl +
+        "Chat/GetChatMessages/" +
+        this.authService.userId +
+        "/" +
+        userId
+    );
   }
 
-  getExternalCount() {
-    return this.http.get(
+  postNewMessage(newMsg: NewMessageSent) {
+    return this.http.post(
+      this.baseUrl + "Chat/PostChatMessage/" + this.authService.userId,
+      newMsg
+    );
+  }
+
+  getUnreadCount() {
+    return this.http.get<UnreadCount>(
       this.baseUrl +
-        "Chat/GetExternalCount/" +
+        "Chat/GetUnreadCount/" +
         this.authService.userId +
         "/" +
         this.authService.doctorId
@@ -49,7 +62,8 @@ export class ChatService {
 
   private _hubConnection: HubConnection;
   unReadExternalCount = new EventEmitter<number>();
-  /* chatUsersList = new EventEmitter<ChatUser[]>(); */
+  unReadChatCount = new EventEmitter<number>();
+  messageReceived = new EventEmitter<MessageReceived>();
   connectionEstablished = new EventEmitter<Boolean>();
   connectionIsEstablished = false;
 
@@ -80,13 +94,19 @@ export class ChatService {
       });
   }
 
-  updateUnreadExternalCount(id: string) {
+  /* updateUnreadExternalCount(id: string) {
     this._hubConnection.invoke("UpdateExternalCount", id);
-  }
+  } */
 
   private registerOnServerEvents(): void {
     this._hubConnection.on("UpdateExternalCount", (data: number) => {
       this.unReadExternalCount.emit(data);
+    });
+    this._hubConnection.on("UpdateUnreadChatCount", (data: number) => {
+      this.unReadChatCount.emit(data);
+    });
+    this._hubConnection.on("NewMessageReceived", (data: MessageReceived) => {
+      this.messageReceived.emit(data);
     });
   }
 

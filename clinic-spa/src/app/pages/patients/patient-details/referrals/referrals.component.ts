@@ -129,7 +129,6 @@ export class ReferralsComponent implements OnInit,OnDestroy {
           form.reset();
           this.formLoading = false;
           this.doneSwal.fire();
-          this.chatService.updateUnreadExternalCount(putObj.doctorId);
         }
       },
       (err) => {

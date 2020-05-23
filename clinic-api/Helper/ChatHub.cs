@@ -19,6 +19,13 @@ namespace clinic_api.Helper
             _context = context;
         }
 
+        // update unread chat messages count
+        public async Task UpdateUnreadChatCount(string userId)
+        {
+            var count = _context.ChatMessages.Where(m => m.ReceiverId == Guid.Parse(userId) && m.IsRead != true).Count();
+            await Clients.User(userId).SendAsync("UpdateUnreadChatCount", count);
+        }
+
         // update externals count
         public async Task UpdateExternalCount(string doctorId)
         {
@@ -28,7 +35,7 @@ namespace clinic_api.Helper
             {
                 var count = _context.PatientReferrals.Where(r => r.ReferralToDoctorId == Guid.Parse(doctorId) && r.IsRead != true).Count();
                 await Clients.User(userId.ToString()).SendAsync("UpdateExternalCount", count);
-            }            
+            }
         }
         protected override void Dispose(bool disposing)
         {

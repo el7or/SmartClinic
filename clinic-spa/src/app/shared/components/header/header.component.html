@@ -28,7 +28,7 @@
       badgePosition="top left" badgeStatus="warning" [nbTooltip]="'External Requests' | langg"
       nbTooltipPlacement="bottom">
     </nb-action>
-    <nb-action class="control-item" icon="email-outline" badgeText="9" badgePosition="top left" badgeStatus="danger"
+    <nb-action class="control-item" icon="email-outline" [badgeText]="messagesCount" badgePosition="top left" badgeStatus="danger"
       [routerLink]="['/pages/chat']" [nbTooltip]="'Messages' | langg" nbTooltipPlacement="bottom"></nb-action>
     <!-- <nb-action class="control-item" icon="bell-outline" [routerLink]="['/']">
     </nb-action> -->

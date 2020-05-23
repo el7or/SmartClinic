@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace clinic_api.Models
 {
-    public class Message
+    public class ChatMessage
     {
         public int Id { get; set; }
         public Guid SenderId { get; set; }

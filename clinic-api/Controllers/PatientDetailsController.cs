@@ -11,6 +11,7 @@ using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -23,13 +24,15 @@ namespace clinic_api.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
         private Cloudinary _cloudinary;
+        private readonly IHubContext<ChatHub> _hub;
 
-        public PatientDetailsController(ApplicationDbContext context, IOptions<CloudinarySettings> cloudinaryConfig)
+        public PatientDetailsController(ApplicationDbContext context, IOptions<CloudinarySettings> cloudinaryConfig, IHubContext<ChatHub> hub)
         {
             _context = context;
             _cloudinaryConfig = cloudinaryConfig;
             Account account = new Account(_cloudinaryConfig.Value.CloudName, _cloudinaryConfig.Value.ApiKey, _cloudinaryConfig.Value.ApiSecret);
             _cloudinary = new Cloudinary(account);
+            _hub = hub;
         }
 
         // GET: api/PatientDetails/GetPatientDiseases/5
@@ -1020,8 +1023,15 @@ namespace clinic_api.Controllers
                 UpdatedBy = id,
                 UpdatedOn = DateTime.Now
             });
-
             await _context.SaveChangesAsync();
+
+            var clinicOfDoctor = _context.DoctorClinics.FirstOrDefault(d => d.DoctorId == model.DoctorId);
+            var usersInClinic = _context.Clinics.Where(i => i.Id == clinicOfDoctor.ClinicId).Include(u => u.ClinicUsers).FirstOrDefault().ClinicUsers.Select(u => u.UserId).ToArray();
+            foreach (var userId in usersInClinic)
+            {
+                var count = _context.PatientReferrals.Where(r => r.ReferralToDoctorId == model.DoctorId && r.IsRead != true).Count();
+                await _hub.Clients.User(userId.ToString()).SendAsync("UpdateExternalCount", count);
+            }
 
             return NoContent();
         }

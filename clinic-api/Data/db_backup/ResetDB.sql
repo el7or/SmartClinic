@@ -4,6 +4,7 @@ Delete From ClinicBookingTypes
 Delete From ClinicServices
 Delete From ClinicDiscounts
 Delete From Clinics
+Delete From ChatMessages
 Delete From AspNetUsers Where UserName <> 'zizooo.elhor@gmail.com' and UserName <> 'hatems325@gmail.com';
 Delete From SubscriptionPayments
 Delete From Subscriptions
@@ -17,6 +18,7 @@ Delete From PatientRays
 Delete From PatientAnalysisFiles
 Delete From PatientAnalysis
 Delete From PatientOperations
+Delete From PrescriptionMedicines
 Delete From PatientPrescriptions
 Delete From PatientReferrals
 Delete From Patients

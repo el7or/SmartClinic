@@ -18,6 +18,7 @@ import { MENU_ITEMS } from "../../../pages/pages-menu";
 import { ProfileComponent } from "../profile/profile.component";
 import { UserRole } from "../../../auth/auth.model";
 import { AdvsService } from "../../services/advs.service";
+import { UnreadCount } from "../../../pages/chat/chat.model";
 
 @Component({
   selector: "ngx-header",
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: any;
   menu = MENU_ITEMS;
   externalCount: number;
+  messagesCount: number;
   currentTheme = "default";
   selectedTheme = "Light";
 
@@ -35,7 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   searchSubscription: Subscription;
   nameSubscription: Subscription;
   themeSubscription: Subscription;
-  getExternalsSubscription: Subscription;
+  getUnreadSubscription: Subscription;
   private destroy$: Subject<void> = new Subject<void>();
 
   userMenu = [
@@ -141,21 +143,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       });
 
-    // =====> get externals count:
-    this.getExternalsSubscription = this.chatService
-      .getExternalCount()
-      .subscribe(
-        (res: number) => {
-          this.externalCount = res;
-          this.chatService.unReadExternalCount.subscribe(
-            (count) => (this.externalCount = count)
-          );
-        },
-        (err) => {
-          console.error(err);
-          this.alertService.alertError();
-        }
-      );
+    // =====> get unread count:
+    this.getUnreadSubscription = this.chatService.getUnreadCount().subscribe(
+      (res: UnreadCount) => {
+        this.externalCount = res.unreadExternals;
+        this.messagesCount = res.unreadMessages;
+        this.chatService.unReadExternalCount.subscribe(
+          (count) => (this.externalCount = count)
+        );
+        this.chatService.unReadChatCount.subscribe(
+          (count) => (this.messagesCount = count)
+        );
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -164,7 +168,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.menuSubscription.unsubscribe();
     this.searchSubscription.unsubscribe();
     this.nameSubscription.unsubscribe();
-    this.getExternalsSubscription.unsubscribe();
+    this.getUnreadSubscription.unsubscribe();
     this.themeSubscription.unsubscribe();
   }
 

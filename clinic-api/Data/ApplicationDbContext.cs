@@ -25,8 +25,8 @@ namespace clinic_api.Data
         public virtual ICollection<ApplicationUserLogin> Logins { get; set; }
         public virtual ICollection<ApplicationUserToken> Tokens { get; set; }
         public virtual ICollection<ClinicUser> ClinicUsers { get; set; }
-        public virtual ICollection<Message> MessagesSent { get; set; }
-        public virtual ICollection<Message> MessagesReceived { get; set; }
+        public virtual ICollection<ChatMessage> MessagesSent { get; set; }
+        public virtual ICollection<ChatMessage> MessagesReceived { get; set; }
     }
     public class ApplicationRole : IdentityRole<Guid>
     {
@@ -71,6 +71,7 @@ namespace clinic_api.Data
         public virtual DbSet<BookingPayment> BookingPayments { get; set; }
         public virtual DbSet<BookingService> BookingServices { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<ChatMessage> ChatMessages { get; set; }
         public virtual DbSet<ClinicBookingType> ClinicBookingTypes { get; set; }
         public virtual DbSet<ClinicDiscount> ClinicDiscounts { get; set; }
         public virtual DbSet<ClinicService> ClinicServices { get; set; }
@@ -89,7 +90,6 @@ namespace clinic_api.Data
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
-        public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<PatientAnalysis> PatientAnalysis { get; set; }
         public virtual DbSet<PatientAnalysisFile> PatientAnalysisFiles { get; set; }
         public virtual DbSet<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
@@ -567,7 +567,7 @@ namespace clinic_api.Data
                     .HasConstraintName("FK_Doctors_SysDoctorsSpecialties");
             });
 
-            modelBuilder.Entity<Message>(entity =>
+            modelBuilder.Entity<ChatMessage>(entity =>
             {
                 entity.Property(e => e.MessageText).IsRequired();
 

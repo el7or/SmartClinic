@@ -1,9 +1,15 @@
-import { AlertService } from "./../../shared/services/alert.service";
 import { Subscription } from "rxjs";
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 
+import { AlertService } from "./../../shared/services/alert.service";
+import { LanggService } from "./../../shared/services/langg.service";
 import { ChatService } from "./chat.service";
-import { UserChat } from "./chat.model";
+import {
+  UserChat,
+  Message,
+  NewMessageSent,
+  MessageReceived,
+} from "./chat.model";
 
 @Component({
   selector: "ngx-chat",
@@ -11,8 +17,9 @@ import { UserChat } from "./chat.model";
   styleUrls: ["chat.component.scss"],
   providers: [ChatService],
 })
-export class ChatComponent implements OnInit, OnDestroy {
-  loading = false;
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
+  usersLoading = false;
+  msgLoading = false;
   users: UserChat[];
   userChatName: string;
   userChatId: string;
@@ -20,94 +27,117 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   getUsersSubs: Subscription;
   getMessagesSubs: Subscription;
+  postMessageSubs: Subscription;
 
   constructor(
     public chatService: ChatService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private langgService: LanggService
   ) {
-    this.messages = this.chatService.loadMessages();
+    this.chatService.messageReceived.subscribe((message: MessageReceived) => {
+      if (message.senderId == this.userChatId) {
+        const sender = this.users.filter((u) => u.id == message.senderId);
+        this.messages.push({
+          text: message.messageText,
+          date: new Date(),
+          reply: false,
+          user: {
+            name: sender[0].name,
+            avatar: sender[0].picture,
+          },
+        });
+      }
+      else{
+       if(this.users) this.users.find((u) => u.id == message.senderId).unread ++;
+        // =====> need idea to prevent increase number of unread messages in header if open same chat user:
+      }
+    });
   }
 
   ngOnInit() {
-    this.loading = true;
+    this.usersLoading = true;
     this.getUsersSubs = this.chatService.loadChatUsers().subscribe(
       (res: UserChat[]) => {
         this.users = res;
-        this.loading = false;
+        this.usersLoading = false;
       },
       (err) => {
         console.error(err);
         this.alertService.alertError();
-        this.loading = false;
+        this.usersLoading = false;
       }
+    );
+  }
+  ngAfterViewInit() {
+    const noMessageText = document.querySelector("p.no-messages");
+    noMessageText.innerHTML = this.langgService.translateWord(
+      "No user selected."
     );
   }
   ngOnDestroy() {
     this.getUsersSubs.unsubscribe();
     if (this.getMessagesSubs) this.getMessagesSubs.unsubscribe();
+    if (this.postMessageSubs) this.postMessageSubs.unsubscribe();
   }
 
   openChat(user) {
-    /* this.loading = true;
-    this.messages = [];
+    this.msgLoading = true;
     this.userChatName = user.name;
     this.userChatId = user.id;
-    this.chatService.getChatList(user.id).subscribe(
-      (response: any) => {
-        const chatUser = this.users.filter(u => u.id == user.id);
+    this.getMessagesSubs = this.chatService.loadMessages(user.id).subscribe(
+      (res: Message[]) => {
+        const chatUser = this.users.filter((u) => u.id == user.id);
         chatUser[0].unread = null;
-        response.forEach(res => {
-          this.messages.push({
-            text: res.content,
-            date: new Date(res.sentOn),
-            reply: res.isReplay,
-            user: {
-              name: res.isReplay
-                ? this.authService.currentUserNickName
-                : user.name,
-              avatar: res.isReplay
-                ? this.authService.currentUserPhoto
-                : user.picture
-            }
-          });
-        });
-        this.loading = false;
-      },
-      error => {
-        console.error(error);
-        this.toastrService.warning(
-          new LanggPipe(this.langgService).transform(
-            "Please refresh page and try again."
-          ),
-          new LanggPipe(this.langgService).transform("Something Wrong!"),
-          { duration: 3000 }
+        this.messages = res;
+        const noMessageText = document.querySelector("p.no-messages");
+        if (noMessageText != null) {
+          noMessageText.innerHTML = this.langgService.translateWord(
+            "No messages yet."
+          );
+        }
+        const typeMessagePlacholder = <HTMLInputElement>(
+          document.querySelector("div.message-row input.with-button")
         );
+        if (typeMessagePlacholder != null) {
+          typeMessagePlacholder.placeholder = this.langgService.translateWord(
+            "Type a message"
+          );
+        }
+        this.msgLoading = false;
       },
-      () => this.chatService.updateUnreadCount(this.authService.currentUserId)
-    ); */
+      (error) => {
+        console.error(error);
+        this.alertService.alertError();
+        this.msgLoading = false;
+      }
+    );
   }
 
   sendMessage(event: any) {
-    const files = !event.files
-      ? []
-      : event.files.map((file) => {
-          return {
-            url: file.src,
-            type: file.type,
-            icon: "nb-compose",
-          };
+    this.msgLoading = true;
+    const postObj: NewMessageSent = {
+      receiverId: this.userChatId,
+      messageText: event.message,
+    };
+    this.postMessageSubs = this.chatService.postNewMessage(postObj).subscribe(
+      () => {
+        //this.chatService.updateUnreadCount(this.userChatId);
+        this.messages.push({
+          text: event.message,
+          date: new Date(),
+          reply: true,
+          user: {
+            name: localStorage.getItem("nickName"),
+            //avatar: this.authService.currentUserPhoto
+          },
         });
-
-    this.messages.push({
-      text: event.message,
-      date: new Date(),
-      reply: true,
-      type: files.length ? "file" : "text",
-      files: files,
-      user: {
-        name: "Jonh Doe",
-        avatar: "https://i.gifer.com/no.gif",
+        this.msgLoading = false;
       },
-    });
+      (error) => {
+        console.error(error);
+        this.alertService.alertError();
+        this.msgLoading = false;
+      }
+    );
   }
 }

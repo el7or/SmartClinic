@@ -61,10 +61,14 @@ namespace clinic_panel.Controllers
             {
                 ModelState.AddModelError("FullName", "اسم الطبيب هذا مسجل قبل ذلك !");
             }
+            if (Session["token"] == null || Session["token"].ToString() == "")
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (ModelState.IsValid)
             {
                 model.RoleName = "doctor";
-                string currentUserId = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id.ToString();
+                string currentUserId = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id.ToString();                
                 string apiUrl = ConfigurationManager.AppSettings["apiurl"];
                 using (var client = new HttpClient())
                 {
@@ -188,7 +192,7 @@ namespace clinic_panel.Controllers
                 var payment = new SubscriptionPayment
                 {
                     Subscription = subscription,
-                    Paid = model.Paid,
+                    Paid = (decimal) model.SignUpFee,
                     NextPaymentDate = model.NextPaymentDate,
                     Note = model.PayNote,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
@@ -462,6 +466,10 @@ namespace clinic_panel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddPayment(DoctorAddPaymentDTO model)
         {
+            if (model.Paid == 0)
+            {
+                ModelState.AddModelError("Paid","لابد من إدخال قيمة !");
+            }
             if (ModelState.IsValid)
             {
                 var payment = new SubscriptionPayment

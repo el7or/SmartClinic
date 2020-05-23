@@ -34,3 +34,4 @@ Delete From DoctorRayAreasValues
 Delete From DoctorRaysValues
 Delete From DoctorOperationTypesValues
 Delete From Doctors
+Delete From Expenses

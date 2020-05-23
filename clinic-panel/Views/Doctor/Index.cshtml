@@ -27,9 +27,9 @@
         <th>
             نهاية الاشتراك
         </th>
-        <th>
+        @*<th>
             مبلغ مطلوب
-        </th>
+        </th>*@
         <th>
             المستخدمين
         </th>
@@ -60,9 +60,9 @@
     <td>
         @Html.DisplayFor(modelItem => item.EndPlanDate)
     </td>
-    <td>
+    @*<td>
         @Html.DisplayFor(modelItem => item.SubscriptionDue) ج.م
-    </td>
+    </td>*@
     <td>
         @Html.DisplayFor(modelItem => item.UsersCount)
     </td>
@@ -91,10 +91,10 @@
             </ul>
         </div>
         @Html.ActionLink("إضافة موظف", "AddUser", new { id = item.Id }, new { @class = "btn btn-warning" })
-        @if (item.SubscriptionDue > 0)
+        @*@if (item.SubscriptionDue > 0)
         {
             @Html.ActionLink("دفع", "AddPayment", new { id = item.Id }, new { @class = "btn btn-danger" })
-        }
+        }*@
     </td>
 </tr>
     }

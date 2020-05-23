@@ -22,12 +22,12 @@ namespace clinic_panel.Models
         public Nullable<int> TimingId { get; set; }
         public Nullable<int> PeriodId { get; set; }
     
+        public virtual PatientPrescription PatientPrescription { get; set; }
         public virtual SysMedicineConcentrationsValue SysMedicineConcentrationsValue { get; set; }
         public virtual SysMedicineDosesValue SysMedicineDosesValue { get; set; }
         public virtual SysMedicineFormsValue SysMedicineFormsValue { get; set; }
         public virtual SysMedicinePeriodsValue SysMedicinePeriodsValue { get; set; }
         public virtual SysMedicinesValue SysMedicinesValue { get; set; }
         public virtual SysMedicineTimingsValue SysMedicineTimingsValue { get; set; }
-        public virtual PatientPrescription PatientPrescription { get; set; }
     }
 }

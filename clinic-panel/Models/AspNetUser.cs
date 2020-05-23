@@ -18,6 +18,8 @@ namespace clinic_panel.Models
         public AspNetUser()
         {
             this.AspNetUserTokens = new HashSet<AspNetUserToken>();
+            this.ChatMessages = new HashSet<ChatMessage>();
+            this.ChatMessages1 = new HashSet<ChatMessage>();
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.Clinics = new HashSet<Clinic>();
         }
@@ -44,9 +46,14 @@ namespace clinic_panel.Models
         public System.Guid CreatedBy { get; set; }
         public System.DateTime EditedOn { get; set; }
         public System.Guid EditedBy { get; set; }
+        public System.DateTime LastActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChatMessage> ChatMessages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChatMessage> ChatMessages1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

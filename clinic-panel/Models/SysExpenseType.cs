@@ -12,26 +12,19 @@ namespace clinic_panel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DoctorComplaintChoicesValue
+    public partial class SysExpenseType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DoctorComplaintChoicesValue()
+        public SysExpenseType()
         {
-            this.PatientDetailedComplaints = new HashSet<PatientDetailedComplaint>();
+            this.Expenses = new HashSet<Expens>();
         }
     
         public int Id { get; set; }
-        public int DetailedComplaintId { get; set; }
-        public string Choice { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
-        public System.DateTime CreatedOn { get; set; }
-        public System.Guid CreatedBy { get; set; }
-        public System.DateTime UpdatedOn { get; set; }
-        public System.Guid UpdatedBy { get; set; }
+        public string Value { get; set; }
+        public string Text { get; set; }
     
-        public virtual DoctorDetailedComplaintsValue DoctorDetailedComplaintsValue { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
+        public virtual ICollection<Expens> Expenses { get; set; }
     }
 }

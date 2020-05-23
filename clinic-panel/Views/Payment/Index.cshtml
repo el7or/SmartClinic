@@ -1,0 +1,104 @@
+﻿@model clinic_panel.DTOs.PaymentDTOs
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>ملخص الحسابات</h1>
+
+<table class="table">
+    <tr>
+        <th>
+            <h3>إجمالي الإيرادات:</h3>
+        </th>
+        <td>
+            <h3>@Model.AllPayments.ToString("C0")</h3>
+        </td>
+        <td colspan="5">
+            @Html.ActionLink("بيانات الاشتراكات", "Index", "Doctor", null, new { @class = "btn btn-primary" })
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <h3>رصيد المصروفات الكلي:</h3>
+        </th>
+        <td>
+            <h3>@Model.ExpensesBalance.ToString("C0")</h3>
+        </td>
+        <th>
+            <h3>ماتم صرفه:</h3>
+        </th>
+        <td>
+            <h3>@Model.SpentExpenses.ToString("C0")</h3>
+        </td>
+        <th>
+            <h3>رصيد المصروفات المتبقي:</h3>
+        </th>
+        <td>
+            <h3>@Model.RemainingExpenses.ToString("C0")</h3>
+        </td>
+        <td>
+            @Html.ActionLink("بيانات المصروفات", "Expenses", "Payment", null, new { @class = "btn btn-primary" })
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <h3>أرباح حاتم:</h3>
+        </th>
+        <td>
+            <h3>@Model.HatemProfits.ToString("C0")</h3>
+        </td>
+        <th>
+            <h3>ماتم سحبه:</h3>
+        </th>
+        <td>
+            <h3>@Model.HatemWithdrawnProfits.ToString("C0")</h3>
+        </td>
+        <th>
+            <h3>المتبقي:</h3>
+        </th>
+        <td>
+            <h3>@Model.HatemRemainingProfits.ToString("C0")</h3>
+        </td>
+        <td>
+            @Html.ActionLink("إضافة سحب", "CreateWithdrawal", "Payment",new { typeId = 3 }, new { @class = "btn btn-primary" })
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <h3>أرباح أحمد:</h3>
+        </th>
+        <td>
+            <h3>@Model.AhmedProfits.ToString("C0")</h3>
+        </td>
+        <th>
+            <h3>ماتم سحبه:</h3>
+        </th>
+        <td>
+            <h3>@Model.AhmedWithdrawnProfits.ToString("C0")</h3>
+        </td>
+        <th>
+            <h3>المتبقي:</h3>
+        </th>
+        <td>
+            <h3>@Model.AhmedRemainingProfits.ToString("C0")</h3>
+        </td>
+        <td>
+            @Html.ActionLink("إضافة سحب", "CreateWithdrawal", "Payment", new { typeId = 2 }, new { @class = "btn btn-primary" })
+        </td>
+    </tr>
+</table>
+
+@section Styles
+{
+    <style type="text/css">
+        .table > tbody > tr > td {
+            vertical-align: middle;
+        }
+
+        td h3 {
+            color: black;
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+    </style>
+}

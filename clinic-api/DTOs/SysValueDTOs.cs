@@ -40,4 +40,12 @@ namespace clinic_api.DTOs
         public bool IsActive { get; set; }
         public bool IsExpanded { get; set; }
     }
+
+    public class ContactMessageDTO
+    {
+        public Guid UserId { get; set; }
+        public Guid ClinicId { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
+    }
 }

@@ -90,6 +90,7 @@ namespace clinic_api.Data
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<PatientAnalysis> PatientAnalysis { get; set; }
         public virtual DbSet<PatientAnalysisFile> PatientAnalysisFiles { get; set; }
         public virtual DbSet<PatientDetailedComplaint> PatientDetailedComplaints { get; set; }
@@ -114,6 +115,7 @@ namespace clinic_api.Data
         public virtual DbSet<SysDiseasesQuestionsValue> SysDiseasesQuestionsValues { get; set; }
         public virtual DbSet<SysDoctorsSpecialty> SysDoctorsSpecialties { get; set; }
         public virtual DbSet<SysEntryOrderValue> SysEntryOrderValues { get; set; }
+        public virtual DbSet<SysExpenseType> SysExpenseTypes { get; set; }
         public virtual DbSet<SysGovernoratesValue> SysGovernoratesValues { get; set; }
         public virtual DbSet<SysMedicineConcentrationsValue> SysMedicineConcentrationsValues { get; set; }
         public virtual DbSet<SysMedicineDosesValue> SysMedicineDosesValues { get; set; }
@@ -252,6 +254,25 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.TypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Bookings_ClinicBookingTypes");
+            });
+
+            modelBuilder.Entity<ChatMessage>(entity =>
+            {
+                entity.Property(e => e.MessageText).IsRequired();
+
+                entity.Property(e => e.SentOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Sender)
+                    .WithMany(p => p.MessagesSent)
+                    .HasForeignKey(d => d.SenderId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_MessagesSent_AspNetUsers");
+
+                entity.HasOne(d => d.Receiver)
+                    .WithMany(p => p.MessagesReceived)
+                    .HasForeignKey(d => d.ReceiverId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_MessagesReceived_AspNetUsers");
             });
 
             modelBuilder.Entity<ClinicBookingType>(entity =>
@@ -567,23 +588,21 @@ namespace clinic_api.Data
                     .HasConstraintName("FK_Doctors_SysDoctorsSpecialties");
             });
 
-            modelBuilder.Entity<ChatMessage>(entity =>
+            modelBuilder.Entity<Expense>(entity =>
             {
-                entity.Property(e => e.MessageText).IsRequired();
+                entity.Property(e => e.ExpenseCost).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.SentOn).HasColumnType("datetime");
+                entity.Property(e => e.ExpenseDate).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Sender)
-                    .WithMany(p => p.MessagesSent)
-                    .HasForeignKey(d => d.SenderId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_MessagesSent_AspNetUsers");
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Receiver)
-                    .WithMany(p => p.MessagesReceived)
-                    .HasForeignKey(d => d.ReceiverId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_MessagesReceived_AspNetUsers");
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.ExpenseType)
+                    .WithMany(p => p.Expenses)
+                    .HasForeignKey(d => d.ExpenseTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Expenses_SysExpenseTypes");
             });
 
             modelBuilder.Entity<PatientAnalysis>(entity =>
@@ -1069,6 +1088,13 @@ namespace clinic_api.Data
             });
 
             modelBuilder.Entity<SysEntryOrderValue>(entity =>
+            {
+                entity.Property(e => e.Text).IsRequired();
+
+                entity.Property(e => e.Value).IsRequired();
+            });
+
+            modelBuilder.Entity<SysExpenseType>(entity =>
             {
                 entity.Property(e => e.Text).IsRequired();
 

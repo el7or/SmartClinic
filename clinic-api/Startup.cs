@@ -111,7 +111,7 @@ namespace clinic_api
             services.AddSignalR(hubOptions =>
             {
                 hubOptions.EnableDetailedErrors = true;
-                hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(15);
+                //hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(15);
             });
             services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
             services.AddScoped<UserActiveActionFilter>();

@@ -7,10 +7,10 @@
     <nb-card-body>
       <div class="form-control-group">
         <label for="input-subject"><span langg>Subject</span>:</label>
-        <nb-radio-group id="input-subject" ngModel #sendSubject="ngModel" name="sendSubject" class="form-inline">
-          <nb-radio value="byAttend"><span langg>Problem in program</span>&nbsp;</nb-radio>
-          <nb-radio value="byTime"><span langg>Development request</span>&nbsp;</nb-radio>
-          <nb-radio value="manual"><span langg>Other</span>&nbsp;</nb-radio>
+        <nb-radio-group id="input-subject" [ngModel]="'أخرى'" #sendSubject="ngModel" name="sendSubject" class="form-inline">
+          <nb-radio value="مشكلة"><span langg>Problem in program</span>&nbsp;</nb-radio>
+          <nb-radio value="تطوير"><span langg>Development request</span>&nbsp;</nb-radio>
+          <nb-radio value="أخرى"><span langg>Other</span>&nbsp;</nb-radio>
         </nb-radio-group>
       </div>
       <div class="form-control-group">

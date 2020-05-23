@@ -6,7 +6,13 @@ import {
   HttpTransportType,
 } from "@aspnet/signalr";
 
-import { UserChat, Message, UnreadCount, NewMessageSent, MessageReceived } from "./chat.model";
+import {
+  UserChat,
+  Message,
+  UnreadCount,
+  NewMessageSent,
+  MessageReceived,
+} from "./chat.model";
 import { environment } from "../../../environments/environment";
 import { AuthService } from "../../auth/auth.service";
 
@@ -108,6 +114,8 @@ export class ChatService {
     this._hubConnection.on("NewMessageReceived", (data: MessageReceived) => {
       this.messageReceived.emit(data);
     });
+
+    this._hubConnection.onclose((err) => console.error(err));
   }
 
   stopConnection(): void {

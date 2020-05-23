@@ -12,20 +12,19 @@ namespace clinic_panel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PatientRayFile
+    public partial class Expens
     {
         public int Id { get; set; }
-        public int PatientRayId { get; set; }
-        public int FileTypeId { get; set; }
+        public int ExpenseTypeId { get; set; }
+        public decimal ExpenseCost { get; set; }
+        public System.DateTime ExpenseDate { get; set; }
         public string Note { get; set; }
-        public string Url { get; set; }
-        public string UrlPublicId { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public System.Guid CreatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
     
-        public virtual PatientRay PatientRay { get; set; }
-        public virtual SysRayFileTypesValue SysRayFileTypesValue { get; set; }
+        public virtual SysExpenseType SysExpenseType { get; set; }
     }
 }

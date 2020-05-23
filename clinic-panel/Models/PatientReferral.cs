@@ -31,7 +31,7 @@ namespace clinic_panel.Models
         public Nullable<System.DateTime> CanceledOn { get; set; }
     
         public virtual Doctor Doctor { get; set; }
-        public virtual Patient Patient { get; set; }
         public virtual PatientDiagnosi PatientDiagnosi { get; set; }
+        public virtual Patient Patient { get; set; }
     }
 }

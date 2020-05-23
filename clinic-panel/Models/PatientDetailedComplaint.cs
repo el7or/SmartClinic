@@ -26,7 +26,7 @@ namespace clinic_panel.Models
         public System.Guid UpdatedBy { get; set; }
     
         public virtual DoctorComplaintChoicesValue DoctorComplaintChoicesValue { get; set; }
-        public virtual Patient Patient { get; set; }
         public virtual DoctorDetailedComplaintsValue DoctorDetailedComplaintsValue { get; set; }
+        public virtual Patient Patient { get; set; }
     }
 }

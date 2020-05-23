@@ -17,20 +17,20 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Doctor()
         {
+            this.Bookings = new HashSet<Booking>();
             this.DoctorAnalysisValues = new HashSet<DoctorAnalysisValue>();
+            this.DoctorDetailedComplaintsValues = new HashSet<DoctorDetailedComplaintsValue>();
             this.DoctorDiagnosisValues = new HashSet<DoctorDiagnosisValue>();
             this.DoctorExaminationAreasValues = new HashSet<DoctorExaminationAreasValue>();
             this.DoctorExaminationsValues = new HashSet<DoctorExaminationsValue>();
             this.DoctorGeneralComplaintsValues = new HashSet<DoctorGeneralComplaintsValue>();
+            this.DoctorMedicinesValues = new HashSet<DoctorMedicinesValue>();
             this.DoctorOperationTypesValues = new HashSet<DoctorOperationTypesValue>();
             this.DoctorRayAreasValues = new HashSet<DoctorRayAreasValue>();
             this.DoctorRaysValues = new HashSet<DoctorRaysValue>();
             this.PatientReferrals = new HashSet<PatientReferral>();
             this.Patients = new HashSet<Patient>();
             this.Clinics = new HashSet<Clinic>();
-            this.Bookings = new HashSet<Booking>();
-            this.DoctorDetailedComplaintsValues = new HashSet<DoctorDetailedComplaintsValue>();
-            this.DoctorMedicinesValues = new HashSet<DoctorMedicinesValue>();
         }
     
         public System.Guid Id { get; set; }
@@ -57,7 +57,11 @@ namespace clinic_panel.Models
         public string Instagram { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Bookings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorAnalysisValue> DoctorAnalysisValues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorDetailedComplaintsValue> DoctorDetailedComplaintsValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorDiagnosisValue> DoctorDiagnosisValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -66,6 +70,8 @@ namespace clinic_panel.Models
         public virtual ICollection<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorGeneralComplaintsValue> DoctorGeneralComplaintsValues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -79,11 +85,5 @@ namespace clinic_panel.Models
         public virtual ICollection<Patient> Patients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Clinic> Clinics { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Booking> Bookings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DoctorDetailedComplaintsValue> DoctorDetailedComplaintsValues { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
     }
 }

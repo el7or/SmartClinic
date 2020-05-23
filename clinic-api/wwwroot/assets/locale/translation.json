@@ -355,8 +355,8 @@
   { "ar": "إزالة دواء", "en": "Remove Medicine" },
   { "ar": "اسم الدواء الجديد", "en": "New Medication Name" },
   {
-    "ar": "أضف اسم دواء جديد غير موجود إلى القائمة أعلاه",
-    "en": "Add a new non-existing Medication Name to the list above"
+    "ar": "يجب الاختيار من القائمة !",
+    "en": "Must choose from the list !"
   },
   { "ar": "ملاحظات أخرى ...", "en": "Other Notes ..." },
   { "ar": "اكتب اسم الدواء ..", "en": "Type Medicine Name .." },
@@ -463,10 +463,10 @@
   { "ar": "الطلب", "en": "Request" },
   { "ar": "حذف الطلب", "en": "Remove Request" },
   { "ar": "حالة الطلب", "en": "Request Status" },
-  { "ar": "لم تُسجل النتيجة", "en": "No Result" },
+  { "ar": "لم تُسجل النتيجة", "en": "No Result Recorded" },
   { "ar": "تم تسجيل النتيجة", "en": "Registered Result" },
   { "ar": "تسجيل النتيجة", "en": "Register Result" },
-  { "ar": "مشاهدة النتائج", "en": "Show Results" },
+  { "ar": "مشاهدة النتيجة", "en": "Show Result" },
   { "ar": "طلب أشعة جديدة", "en": "Request New X-Ray" },
   { "ar": "طلب تحاليل جديدة", "en": "Request New Analysis" },
   { "ar": "التفاصيل", "en": "Details" },
@@ -532,18 +532,18 @@
   { "ar": "تاريخ العملية", "en": "Operation Date" },
   { "ar": "مكان العملية", "en": "Operation Place" },
   { "ar": "تكلفة العلمية", "en": "Operation Cost" },
-  { "ar": "ملخص العمليات:", "en": "Operations Summary:" },
+  { "ar": "العمليات السابقة:", "en": "Past Operations:" },
   { "ar": "ملاحظات عامة على العملية", "en": "General notes on Operation" },
   { "ar": "أنواع الفحوصات:", "en": "Clinical Examination:" },
   { "ar": "نوع الفحص", "en": "Examination Type" },
-  { "ar": "نوع فحص آخر", "en": "Add Examination Type" },
+  { "ar": "إضافة نوع فحص", "en": "Add Examination Type" },
   { "ar": "إزالة نوع الفحص", "en": "Remove Examination" },
   { "ar": "درجة الحرارة", "en": "Temperature" },
   { "ar": "الاختيارات", "en": "Choices" },
   { "ar": "تاريخ الإضافة", "en": "Added Date" },
   { "ar": "عند إضافة خدمة ، ستتم إضافتها إلى آخر حجز للمريض وسيتم إبلاغ مكتب الاستقبال بذلك.", "en": "When adding a service, it will be added to the patient’s last reservation and the reception will be informed about it." },
   { "ar": "تشخيصات المريض", "en": "Patient Diagnoses" },
-  { "ar": "إضافة تشخيص آخر", "en": "Add Another Diagnose" },
+  { "ar": "إضافة تشخيص", "en": "Add Diagnose" },
   { "ar": "إزالة التشخيص", "en": "Remove Diagnose" },
   { "ar": "المبلغ المدفوع", "en": "Amount Paid" },
   { "ar": "الفترة أو ملاحظات", "en": "Period or Notes" },
@@ -560,114 +560,29 @@
   { "ar": "حذف الطلب", "en": "Delete Request" },
   { "ar": "إضافة خدمات لآخر حجز للمريض", "en": "Add Services to Last Booking" },
   { "ar": "حجز جديد للمريض", "en": "New Booking for Patient" },
-
-
-  {
-    "ar": "الإسكندرية",
-    "en": "Alexandria"
-  },
-  {
-    "ar": "الإسماعيلية",
-    "en": "Ismailia"
-  },
-  {
-    "ar": "أسوان",
-    "en": "Aswan"
-  },
-  {
-    "ar": "أسيوط",
-    "en": "Asyut"
-  },
-  {
-    "ar": "الأقصر",
-    "en": "Luxor"
-  },
-  {
-    "ar": "البحر الأحمر",
-    "en": "Red Sea"
-  },
-  {
-    "ar": "البحيرة",
-    "en": "Beheira"
-  },
-  {
-    "ar": "بني سويف ",
-    "en": "Beni Suef"
-  },
-  {
-    "ar": "بورسعيد",
-    "en": "Port Said"
-  },
-  {
-    "ar": "جنوب سيناء",
-    "en": "South Sinai"
-  },
-  {
-    "ar": "الجيزة",
-    "en": "Giza"
-  },
-  {
-    "ar": "الدقهلية",
-    "en": "Dakahlia"
-  },
-  {
-    "ar": "دمياط",
-    "en": "Damietta"
-  },
-  {
-    "ar": "سوهاج",
-    "en": "Sohag"
-  },
-  {
-    "ar": "السويس",
-    "en": "Suez"
-  },
-  {
-    "ar": "الشرقية",
-    "en": "Sharqia"
-  },
-  {
-    "ar": "شمال سيناء",
-    "en": "North Sinai"
-  },
-  {
-    "ar": "الغربية",
-    "en": "Gharbia"
-  },
-  {
-    "ar": "الفيوم",
-    "en": "Faiyum"
-  },
-  {
-    "ar": "القاهرة",
-    "en": "Cairo"
-  },
-  {
-    "ar": "القليوبية",
-    "en": "Qalyubia"
-  },
-  {
-    "ar": "قنا",
-    "en": "Qena"
-  },
-  {
-    "ar": "كفر الشيخ",
-    "en": "Kafr El Sheikh"
-  },
-  {
-    "ar": "مطروح",
-    "en": "Matruh"
-  },
-  {
-    "ar": "المنوفية",
-    "en": "Monufia"
-  },
-  {
-    "ar": "المنيا",
-    "en": "Minya"
-  },
-  {
-    "ar": "الوادي الجديد",
-    "en": "New Valley"
-  }
+  {"ar":"حدث خطأ ما!","en":"Something Wrong!"},
+  {"ar":"الرجاءإعادة تحميل الصفحة والمحاولة مرة أخرى أو التواصل مع المطور.","en":"Please refresh page and try again or Contact Developer."},
+  {"ar":"دخول خاطئ","en":"Unauthorized"},
+  {"ar":"خطأ في اسم المستخدم أو كلمة السر!","en":"Wrong UserName or Password!"},
+  {"ar":"تم تسجيل الدخول بنجاح!","en":"Login successfully!"},
+  { "ar": "لا توجد نتائج !", "en": "No Results !" },
+  { "ar": "الكل", "en": "All" },
+  { "ar": "نسبة الخصم لا يمكن أن تزيد عن 100%", "en": "Percentage cannot be more than 100%" },
+  { "ar": "اسم المريض يجب ألا يقل عن 7 أحرف !", "en": "Patient Name should contains from 5 to 50 characters!" },
+  { "ar": "لابد من  إدخال رقم المبلغ المدفوع !", "en": "Paid is required!" },
+  { "ar": "آخر حجز", "en": "Last Book" },
+  { "ar": "هل أنت متأكد من إلغاء الحجز؟", "en": "Are you sure to cancel the Booking?" },
+  { "ar": "لم يتم تسجيل أي تشخيص للمريض في سجل المريض.", "en": "No Patient Diagnosis was recorded in the Patient Record." },
+  { "ar": "إلى تخصص", "en": "Referral to Specialty" },
+  { "ar": "إلى الطبيب", "en": "Referral to Doctor" },
+  { "ar": "تشخيص المريض", "en": "Patient Diagnosis" },
+  { "ar": "تحويل من د. ", "en": "Referral from Dr. " },
+  { "ar": "اختيار الملف", "en": "Choose File" },
+  { "ar": "حجم الملف كبير!", "en": "Large file size!" },
+  { "ar": "لا يمكن أن يتجاوز حجم الملف مساحة ١٠MB", "en": "File size cannot exceed 10MB" },
+  { "ar": "نوع ملف خاطئ!", "en": "Wrong file type!" },
+  { "ar": "يسمح فقط بالصور ومستندات pdf", "en": "Only image and pdf documents are allowed" },
+  { "ar": "لا توجد رسائل بعد.", "en": "No messages yet." },
+  { "ar": "لم يتم اختيار مستخدم.", "en": "No user selected." },
+  { "ar": "اكتب رسالتك هنا", "en": "Type a message" }
 ]

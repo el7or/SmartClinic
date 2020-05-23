@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/weatherforecast",//pages
+      "launchUrl": "pages", //pages
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "clinic_api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/weatherforecast", //pages
+      "launchUrl": "pages", //pages
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

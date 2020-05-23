@@ -1,0 +1,67 @@
+﻿@model clinic_panel.DTOs.CreateExpenseDTO
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>إضافة مصروف</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-2">المبلغ المصروف</label>
+            <div class="col-md-10 form-inline">
+                @Html.EditorFor(model => model.ExpenseCost, new { htmlAttributes = new { @class = "form-control" } }) ج.م
+                @Html.ValidationMessageFor(model => model.ExpenseCost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">تاريخ الصرف</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ExpenseDate, new { htmlAttributes = new { @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.ExpenseDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">سبب الصرف</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="حفظ" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("رجوع", "Expenses")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            // initial Datepickers
+            $.datepicker.setDefaults($.datepicker.regional['ar']);
+            $('#ExpenseDate').datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+    </script>
+}

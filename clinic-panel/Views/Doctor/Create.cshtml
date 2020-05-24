@@ -58,15 +58,19 @@
             });
 
             // change sign up fee when select plan
+            //$('#Paid').val($('#SignUpFee').val());
             $('#PlanId').change(function () {
                 if (+$(this).val() == 1) {
                     $('#SignUpFee').val(500);
+                    $('#Paid').val(500);
                 }
                 if (+$(this).val() == 2) {
                     $('#SignUpFee').val(3000);
+                    $('#Paid').val(3000);
                 }
                 if (+$(this).val() == 3) {
                     $('#SignUpFee').val(10000);
+                    $('#Paid').val(10000);
                 }
             });
         });

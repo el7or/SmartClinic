@@ -1,8 +1,11 @@
 Delete From BookingPayments
+Delete From BookingServices
 Delete From Bookings
 Delete From ClinicBookingTypes
 Delete From ClinicServices
 Delete From ClinicDiscounts
+Delete From ClinicUsers
+Delete From DoctorClinics
 Delete From Clinics
 Delete From ChatMessages
 Delete From AspNetUsers Where UserName <> 'zizooo.elhor@gmail.com' and UserName <> 'hatems325@gmail.com';
@@ -34,4 +37,3 @@ Delete From DoctorRayAreasValues
 Delete From DoctorRaysValues
 Delete From DoctorOperationTypesValues
 Delete From Doctors
-Delete From Expenses

@@ -18,7 +18,7 @@ namespace clinic_panel.Controllers
         // GET: Payment
         public ActionResult Index()
         {
-            var allPayments = db.SubscriptionPayments.Sum(p => p.Paid);
+            var allPayments = db.SubscriptionPayments.Select(p => p.Paid).DefaultIfEmpty(0).Sum();
             var spentExpenses = db.Expenses.Where(t => t.ExpenseTypeId == 1).Select(e => e.ExpenseCost).DefaultIfEmpty(0).Sum();
             var ahmedWithdrawnProfits = db.Expenses.Where(t => t.ExpenseTypeId == 2).Select(e => e.ExpenseCost).DefaultIfEmpty(0).Sum();
             var hatemWithdrawnProfits = db.Expenses.Where(t => t.ExpenseTypeId == 3).Select(e => e.ExpenseCost).DefaultIfEmpty(0).Sum();

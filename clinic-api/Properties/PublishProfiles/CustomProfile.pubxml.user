@@ -10,7 +10,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <DestinationConnectionStrings Include="DefaultConnection">
-      <Value>Server=SQL5056.site4now.net%3bDatabase=DB_A2B218_smartclinic%3bUser Id=DB_A2B218_smartclinic_admin%3bPassword=D%40ct0rrr%3bMultipleActiveResultSets=true</Value>
+      <Value>Server=SQL5056.site4now.net%3bDatabase=DB_A61DAE_smartclinic%3bUser Id=DB_A61DAE_smartclinic_admin%3bPassword=Ssm%40rt#C1ini0%3bMultipleActiveResultSets=true</Value>
     </DestinationConnectionStrings>
   </ItemGroup>
 </Project>

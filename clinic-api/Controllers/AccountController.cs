@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using clinic_api.Data;
 using clinic_api.DTOs;
+using clinic_api.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -83,7 +84,7 @@ namespace clinic_api.Controllers
             var token = new JwtSecurityToken(_config["Tokens:Issuer"],
             _config["Tokens:Issuer"],
             claims,
-            expires: DateTime.Now.AddDays(1),
+            expires: DateTime.Now.ToEgyptTime().AddDays(1),
             signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
@@ -104,9 +105,9 @@ namespace clinic_api.Controllers
                 IsActive = true,
                 IsDeleted = false,
                 CreatedBy = Guid.Parse(id),
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 EditedBy = Guid.Parse(id),
-                EditedOn = DateTime.Now
+                EditedOn = DateTime.Now.ToEgyptTime()
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)

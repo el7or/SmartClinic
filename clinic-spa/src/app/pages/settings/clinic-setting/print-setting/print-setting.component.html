@@ -9,13 +9,13 @@
                 right of Prescription during printing</span>:</label>
             <input nbInput [(ngModel)]="printInfoSetting.doctorName" #doctorName="ngModel" name="doctorName"
               id="input-name" fullWidth [placeholder]="'Doctor Name' | langg" fieldSize="small" required minlength="5"
-              maxlength="50" [status]="doctorName.touched ? (doctorName.invalid  ? 'danger' : 'success') : ''">
+              maxlength="100" [status]="doctorName.touched ? (doctorName.invalid  ? 'danger' : 'success') : ''">
             <ng-container *ngIf="doctorName.invalid && doctorName.touched">
               <p class="error-message" *ngIf="doctorName?.errors.required" langg>
                 Doctor Name is required!
               </p>
               <p class="error-message" *ngIf="doctorName?.errors.minlength || doctorName?.errors.maxlength" langg>
-                Doctor Name should contains from 5 to 50 characters!
+                Doctor Name should contains from 5 to 100 characters!
               </p>
             </ng-container>
           </div>
@@ -25,15 +25,12 @@
             <label for="input-clinic" class="label"><span langg>Clinic Title which will appear by same text in the top
                 left of Prescription during printing</span>:</label>
             <textarea nbInput [(ngModel)]="printInfoSetting.clinicTitle" #clinicTitle="ngModel" name="clinicTitle"
-              id="input-clinic" fullWidth [placeholder]="'Clinic Title' | langg" fieldSize="small" required
-              minlength="5" maxlength="150" rows="3"
+              id="input-clinic" fullWidth [placeholder]="'Clinic Title' | langg" fieldSize="small"
+              minlength="5" maxlength="100" rows="3"
               [status]="clinicTitle.touched ? (clinicTitle.invalid  ? 'danger' : 'success') : ''"></textarea>
             <ng-container *ngIf="clinicTitle.invalid && clinicTitle.touched">
-              <p class="error-message" *ngIf="clinicTitle?.errors.required" langg>
-                Clinic Title is required!
-              </p>
               <p class="error-message" *ngIf="clinicTitle?.errors.minlength || clinicTitle?.errors.maxlength" langg>
-                Clinic Title should contains from 5 to 50 characters!
+                Clinic Title should contains from 5 to 100 characters!
               </p>
             </ng-container>
           </div>
@@ -45,14 +42,14 @@
                 under Doctor Name during printing</span>:</label>
             <textarea nbInput [(ngModel)]="printInfoSetting.doctorDegree" #doctorDegree="ngModel" name="doctorDegree"
               id="input-degree" fullWidth [placeholder]="'Degree and Career' | langg" fieldSize="small" required
-              minlength="5" maxlength="150" rows="3"
+              minlength="5" maxlength="100" rows="3"
               [status]="doctorDegree.touched ? (doctorDegree.invalid  ? 'danger' : 'success') : ''"></textarea>
             <ng-container *ngIf="doctorDegree.invalid && doctorDegree.touched">
               <p class="error-message" *ngIf="doctorDegree?.errors.required" langg>
                 Doctor Degree is required!
               </p>
               <p class="error-message" *ngIf="doctorDegree?.errors.minlength || doctorDegree?.errors.maxlength" langg>
-                Doctor Degree should contains from 5 to 50 characters!
+                Doctor Degree should contains from 5 to 100 characters!
               </p>
             </ng-container>
           </div>
@@ -70,13 +67,13 @@
                 Prescription during printing</span>:</label>
             <input nbInput [(ngModel)]="printInfoSetting.address1" #address1="ngModel" name="address1"
               id="input-address" fullWidth class="mb-1" [placeholder]="'Address 1' | langg" fieldSize="small" required
-              minlength="5" maxlength="50"
+              minlength="5" maxlength="100"
               [status]="address1.touched ? (address1.invalid  ? 'danger' : 'success') : ''">
             <input nbInput ngModel [(ngModel)]="printInfoSetting.address2" #address2 name="address2" fullWidth
-              [placeholder]="'Address 2' | langg" fieldSize="small" minlength="5" maxlength="50"
+              [placeholder]="'Address 2' | langg" fieldSize="small" minlength="5" maxlength="100"
               [status]="address2.dirty ? (address2.invalid  ? 'danger' : 'success') : ''">
             <input nbInput ngModel [(ngModel)]="printInfoSetting.address3" #address3 name="address3" fullWidth
-              [placeholder]="'Address 3' | langg" fieldSize="small" minlength="5" maxlength="50"
+              [placeholder]="'Address 3' | langg" fieldSize="small" minlength="5" maxlength="100"
               [status]="address3.dirty ? (address3.invalid  ? 'danger' : 'success') : ''">
             <ng-container
               *ngIf="(address1.invalid && address1.touched) ||(address2.invalid && address2.touched) ||(address3.invalid && address3.touched)">
@@ -86,7 +83,7 @@
               <p class="error-message"
                 *ngIf="address1?.errors?.minlength || address1?.errors?.maxlength || address2?.errors?.minlength || address2?.errors?.maxlength || address3?.errors?.minlength || address3?.errors?.maxlength"
                 langg>
-                Address should contains from 5 to 50 characters!
+                Address should contains from 5 to 100 characters!
               </p>
             </ng-container>
           </div>

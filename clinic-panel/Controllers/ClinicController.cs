@@ -76,9 +76,9 @@ namespace clinic_panel.Controllers
                     IsActive = true,
                     IsDeleted = false,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.ClinicBookingTypes.Add(type);
                 db.SaveChanges();
@@ -114,9 +114,9 @@ namespace clinic_panel.Controllers
                     IsActive = true,
                     IsDeleted = false,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.ClinicServices.Add(service);
                 db.SaveChanges();
@@ -154,9 +154,9 @@ namespace clinic_panel.Controllers
                     IsActive = true,
                     IsDeleted = false,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.ClinicDiscounts.Add(discount);
                 db.SaveChanges();

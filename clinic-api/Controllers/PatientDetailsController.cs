@@ -86,9 +86,9 @@ namespace clinic_api.Controllers
                     PatientId = patientId,
                     Note = disease.Note,
                     CreatedBy = id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = DateTime.Now.ToEgyptTime(),
                     UpdatedBy = id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = DateTime.Now.ToEgyptTime()
                 });
             }
             await _context.SaveChangesAsync();
@@ -169,9 +169,9 @@ namespace clinic_api.Controllers
                         GeneralComplaintId = complaint.CompId,
                         Note = complaint.Note,
                         CreatedBy = id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
                 else
@@ -180,7 +180,7 @@ namespace clinic_api.Controllers
                     oldPatientGeneralComplaint.GeneralComplaintId = complaint.CompId;
                     oldPatientGeneralComplaint.Note = complaint.Note;
                     oldPatientGeneralComplaint.UpdatedBy = id;
-                    oldPatientGeneralComplaint.UpdatedOn = DateTime.Now;
+                    oldPatientGeneralComplaint.UpdatedOn = DateTime.Now.ToEgyptTime();
                     _context.Entry(oldPatientGeneralComplaint).State = EntityState.Modified;
                 }
             }
@@ -197,9 +197,9 @@ namespace clinic_api.Controllers
                         Period = complaint.Period,
                         Note = complaint.Note,
                         CreatedBy = id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
                 else
@@ -210,7 +210,7 @@ namespace clinic_api.Controllers
                     oldPatientDetailsComplaint.Period = complaint.Period;
                     oldPatientDetailsComplaint.Note = complaint.Note;
                     oldPatientDetailsComplaint.UpdatedBy = id;
-                    oldPatientDetailsComplaint.UpdatedOn = DateTime.Now;
+                    oldPatientDetailsComplaint.UpdatedOn = DateTime.Now.ToEgyptTime();
                     _context.Entry(oldPatientDetailsComplaint).State = EntityState.Modified;
                 }
             }
@@ -248,7 +248,7 @@ namespace clinic_api.Controllers
             patient.FamilyHistory = model.FamilyHistory;
             patient.TreatmentHistory = model.TreatmentHistory;
             patient.UpdatedBy = id;
-            patient.UpdatedOn = DateTime.Now;
+            patient.UpdatedOn = DateTime.Now.ToEgyptTime();
             _context.Entry(patient).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
@@ -331,9 +331,9 @@ namespace clinic_api.Controllers
                         ExaminationId = exam.TypeId,
                         ExaminationAreaId = exam.AreaId,
                         CreatedBy = id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
                 else
@@ -342,7 +342,7 @@ namespace clinic_api.Controllers
                     oldPatientExams.ExaminationId = exam.TypeId;
                     oldPatientExams.ExaminationAreaId = exam.AreaId;
                     oldPatientExams.UpdatedBy = id;
-                    oldPatientExams.UpdatedOn = DateTime.Now;
+                    oldPatientExams.UpdatedOn = DateTime.Now.ToEgyptTime();
                 }
             }
             _context.Entry(patient).State = EntityState.Modified;
@@ -411,9 +411,9 @@ namespace clinic_api.Controllers
                         GradeId = diagnose.GradeId,
                         Note = diagnose.Note,
                         CreatedBy = id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
                 else
@@ -423,7 +423,7 @@ namespace clinic_api.Controllers
                     oldPatientDiagnose.GradeId = diagnose.GradeId;
                     oldPatientDiagnose.Note = diagnose.Note;
                     oldPatientDiagnose.UpdatedBy = id;
-                    oldPatientDiagnose.UpdatedOn = DateTime.Now;
+                    oldPatientDiagnose.UpdatedOn = DateTime.Now.ToEgyptTime();
                 }
             }
             _context.Entry(patient).State = EntityState.Modified;
@@ -510,9 +510,9 @@ namespace clinic_api.Controllers
                 Note = model.Note,
                 IsPrint = model.IsPrint,
                 CreatedBy = id,
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 UpdatedBy = id,
-                UpdatedOn = DateTime.Now,
+                UpdatedOn = DateTime.Now.ToEgyptTime(),
                 PrescriptionMedicines = model.Medicines.Select(m => new PrescriptionMedicine
                 {
                     MedicineId = m.MedicineId,
@@ -620,9 +620,9 @@ namespace clinic_api.Controllers
                         RequestNote = item.Note,
                         IsHasResult = false,
                         CreatedBy = id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
                 else
@@ -634,9 +634,9 @@ namespace clinic_api.Controllers
                         RequestNote = item.Note,
                         IsHasResult = false,
                         CreatedBy = id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
             }
@@ -691,9 +691,9 @@ namespace clinic_api.Controllers
                 Cost = model.Cost,
                 Note = model.Note,
                 CreatedBy = id,
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 UpdatedBy = id,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now.ToEgyptTime()
             });
 
             await _context.SaveChangesAsync();
@@ -774,10 +774,10 @@ namespace clinic_api.Controllers
             var patientRay = _context.PatientRays.Find(model.Id);
             patientRay.ResultText = model.ResultText;
             patientRay.ResultGradeId = model.ResultGradeId;
-            patientRay.ResultDate = DateTime.Now;
+            patientRay.ResultDate = DateTime.Now.ToEgyptTime();
             patientRay.IsHasResult = true;
             patientRay.UpdatedBy = id;
-            patientRay.UpdatedOn = DateTime.Now;
+            patientRay.UpdatedOn = DateTime.Now.ToEgyptTime();
             _context.Entry(patientRay).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
@@ -817,9 +817,9 @@ namespace clinic_api.Controllers
                 Url = uploadResult.Uri.ToString(),
                 UrlPublicId = uploadResult.PublicId,
                 CreatedBy = id,
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 UpdatedBy = id,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now.ToEgyptTime()
             };
             _context.PatientRayFiles.Add(rayFile);
 
@@ -902,10 +902,10 @@ namespace clinic_api.Controllers
             var patientAnalysis = _context.PatientAnalysis.Find(model.Id);
             patientAnalysis.ResultText = model.ResultText;
             patientAnalysis.ResultNote = model.resultNote;
-            patientAnalysis.ResultDate = DateTime.Now;
+            patientAnalysis.ResultDate = DateTime.Now.ToEgyptTime();
             patientAnalysis.IsHasResult = true;
             patientAnalysis.UpdatedBy = id;
-            patientAnalysis.UpdatedOn = DateTime.Now;
+            patientAnalysis.UpdatedOn = DateTime.Now.ToEgyptTime();
             _context.Entry(patientAnalysis).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
@@ -945,9 +945,9 @@ namespace clinic_api.Controllers
                 Url = uploadResult.Uri.ToString(),
                 UrlPublicId = uploadResult.PublicId,
                 CreatedBy = id,
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 UpdatedBy = id,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now.ToEgyptTime()
             };
             _context.PatientAnalysisFiles.Add(analysisFile);
 
@@ -1019,9 +1019,9 @@ namespace clinic_api.Controllers
                 PatientDiagnosisId = model.DiagnosisId,
                 Note = model.Note,
                 CreatedBy = id,
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 UpdatedBy = id,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now.ToEgyptTime()
             });
             await _context.SaveChangesAsync();
 
@@ -1094,15 +1094,15 @@ namespace clinic_api.Controllers
                     IsActive = true,
                     IsDeleted = false,
                     CreatedBy = id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = DateTime.Now.ToEgyptTime(),
                     UpdatedBy = id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = DateTime.Now.ToEgyptTime()
                 };
                 _context.Patients.Add(newPatient);
                 referral.IsRead = true;
-                referral.ReadOn = DateTime.Now;
+                referral.ReadOn = DateTime.Now.ToEgyptTime();
                 referral.IsApproved = true;
-                referral.ApprovedOn = DateTime.Now;
+                referral.ApprovedOn = DateTime.Now.ToEgyptTime();
                 referral.IsCanceled = false;
                 _context.Entry(referral).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
@@ -1111,7 +1111,7 @@ namespace clinic_api.Controllers
             else
             {
                 referral.IsApproved = true;
-                referral.ApprovedOn = DateTime.Now;
+                referral.ApprovedOn = DateTime.Now.ToEgyptTime();
                 referral.IsCanceled = false;
                 _context.Entry(referral).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
@@ -1129,10 +1129,10 @@ namespace clinic_api.Controllers
             }
             var referral = _context.PatientReferrals.Find(referralId);
             referral.IsRead = true;
-            referral.ReadOn = DateTime.Now;
+            referral.ReadOn = DateTime.Now.ToEgyptTime();
             referral.IsApproved = false;
             referral.IsCanceled = true;
-            referral.CanceledOn = DateTime.Now;
+            referral.CanceledOn = DateTime.Now.ToEgyptTime();
             _context.Entry(referral).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

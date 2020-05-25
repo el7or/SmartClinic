@@ -73,9 +73,9 @@ namespace clinic_panel.Controllers
                     ExpenseTypeId = 1,
                     IsDeleted = false,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.Expenses.Add(expens);
                 db.SaveChanges();
@@ -106,9 +106,9 @@ namespace clinic_panel.Controllers
                     ExpenseTypeId = model.ExpenseTypeId,
                     IsDeleted = false,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.Expenses.Add(expens);
                 db.SaveChanges();

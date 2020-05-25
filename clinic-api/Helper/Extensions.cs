@@ -35,5 +35,10 @@ namespace clinic_api.Helper
             //}
             //return normalizedText;
         }
+
+        public static DateTime ToEgyptTime(this DateTime dateTime)
+        {
+            return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time");
+        }
     }
 }

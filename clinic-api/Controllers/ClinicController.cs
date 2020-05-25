@@ -115,7 +115,7 @@ namespace clinic_api.Controllers
             clinic.FridayTimeFrom = model.FridayTimeFrom;
             clinic.FridayTimeTo = model.FridayTimeTo;
             clinic.UpdatedBy = id;
-            clinic.UpdatedOn = DateTime.Now;
+            clinic.UpdatedOn = DateTime.Now.ToEgyptTime();
 
             _context.Entry(clinic).State = EntityState.Modified;
 
@@ -197,9 +197,9 @@ namespace clinic_api.Controllers
                         IsActive = true,
                         IsDeleted = false,
                         CreatedBy = id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
                 else
@@ -207,7 +207,7 @@ namespace clinic_api.Controllers
                     var clinicType = _context.ClinicBookingTypes.Find(type.Id);
                     clinicType.Price = type.Price;
                     clinicType.UpdatedBy = id;
-                    clinicType.UpdatedOn = DateTime.Now;
+                    clinicType.UpdatedOn = DateTime.Now.ToEgyptTime();
                     _context.Entry(clinicType).State = EntityState.Modified;
                 }
             }
@@ -223,9 +223,9 @@ namespace clinic_api.Controllers
                         IsActive = true,
                         IsDeleted = false,
                         CreatedBy = id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
                 else
@@ -233,7 +233,7 @@ namespace clinic_api.Controllers
                     var clinicService = _context.ClinicServices.Find(service.Id);
                     clinicService.Price = service.Price;
                     clinicService.UpdatedBy = id;
-                    clinicService.UpdatedOn = DateTime.Now;
+                    clinicService.UpdatedOn = DateTime.Now.ToEgyptTime();
                     _context.Entry(clinicService).State = EntityState.Modified;
                 }
             }
@@ -250,9 +250,9 @@ namespace clinic_api.Controllers
                         IsActive = true,
                         IsDeleted = false,
                         CreatedBy = id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
                 else
@@ -261,7 +261,7 @@ namespace clinic_api.Controllers
                     clinicDiscount.Price = discount.Price;
                     clinicDiscount.IsPercent = discount.IsPercent;
                     clinicDiscount.UpdatedBy = id;
-                    clinicDiscount.UpdatedOn = DateTime.Now;
+                    clinicDiscount.UpdatedOn = DateTime.Now.ToEgyptTime();
                     _context.Entry(clinicDiscount).State = EntityState.Modified;
                 }
             }
@@ -334,7 +334,7 @@ namespace clinic_api.Controllers
             clinic.PrintPhone2 = model.Phone2;
             clinic.PrintPhone3 = model.Phone3;
             clinic.UpdatedBy = id;
-            clinic.UpdatedOn = DateTime.Now;
+            clinic.UpdatedOn = DateTime.Now.ToEgyptTime();
 
             _context.Entry(clinic).State = EntityState.Modified;
 
@@ -403,7 +403,7 @@ namespace clinic_api.Controllers
             clinic.PrintLogoUrl = uploadResult.Uri.ToString();
             clinic.PrintLogoPublicId = uploadResult.PublicId;
             clinic.UpdatedBy = id;
-            clinic.UpdatedOn = DateTime.Now;
+            clinic.UpdatedOn = DateTime.Now.ToEgyptTime();
 
             _context.Entry(clinic).State = EntityState.Modified;
 

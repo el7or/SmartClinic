@@ -79,7 +79,7 @@ namespace clinic_api.Controllers
             var messagesForCurrentUser = messages.Where(m => m.ReceiverId == id && m.IsRead != true);
             messagesForCurrentUser.ToList().ForEach(m =>
             {
-                m.ReadOn = DateTime.Now;
+                m.ReadOn = DateTime.Now.ToEgyptTime();
                 m.IsRead = true;
                 _context.Entry(m).State = EntityState.Modified;
             });
@@ -96,13 +96,13 @@ namespace clinic_api.Controllers
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
-            }
+            }            
             _context.ChatMessages.Add(new Models.ChatMessage
             {
                 SenderId = id,
                 ReceiverId = model.ReceiverId,
                 MessageText = model.MessageText,
-                SentOn = DateTime.Now
+                SentOn = DateTime.Now.ToEgyptTime()
             });
             await _context.SaveChangesAsync();
 

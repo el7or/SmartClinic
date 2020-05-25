@@ -182,7 +182,7 @@ namespace clinic_api.Controllers
             patient.GovernorateId = model.GovernorateId;
             patient.CityId = model.CityId;
             patient.UpdatedBy = id;
-            patient.UpdatedOn = DateTime.Now;
+            patient.UpdatedOn = DateTime.Now.ToEgyptTime();
             _context.Entry(patient).State = EntityState.Modified;
 
             try
@@ -230,9 +230,9 @@ namespace clinic_api.Controllers
                 IsActive = true,
                 IsDeleted = false,
                 CreatedBy = id,
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 UpdatedBy = id,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now.ToEgyptTime()
             };
             _context.Patients.Add(patient);
             try

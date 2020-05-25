@@ -9,6 +9,7 @@ using clinic_api.Data;
 using clinic_api.Models;
 using System.IdentityModel.Tokens.Jwt;
 using clinic_api.DTOs;
+using clinic_api.Helper;
 
 namespace clinic_api.Controllers
 {
@@ -269,7 +270,7 @@ namespace clinic_api.Controllers
             booking.TypeId = model.TypeId;
             booking.DiscountId = model.DiscountId == 0 ? (int?)null : model.DiscountId;
             booking.UpdatedBy = id;
-            booking.UpdatedOn = DateTime.Now;
+            booking.UpdatedOn = DateTime.Now.ToEgyptTime();
 
             _context.BookingServices.RemoveRange(booking.BookingServices);
             foreach (var serviceId in model.ServicesIds)
@@ -283,9 +284,9 @@ namespace clinic_api.Controllers
                 Booking = booking,
                 Paid = model.Paid,
                 CreatedBy = id,
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 UpdatedBy = id,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now.ToEgyptTime()
             });
 
             _context.Entry(booking).State = EntityState.Modified;
@@ -317,21 +318,21 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            int? lastDaySeqNo = _context.Bookings.Where(p => p.BookingDateTime.Date == model.BookingDateTime.Date && p.DoctorId == model.DoctorId).OrderByDescending(s => s.DaySeqNo).FirstOrDefault().DaySeqNo;
+            var lastBookingInDay = _context.Bookings.Where(p => p.BookingDateTime.Date == model.BookingDateTime.Date && p.DoctorId == model.DoctorId).OrderByDescending(s => s.DaySeqNo).FirstOrDefault();
             var booking = new Booking
             {
                 PatientId = model.PatientId,
                 DoctorId = model.DoctorId,
-                DaySeqNo = lastDaySeqNo == null ? 1 : lastDaySeqNo + 1,
+                DaySeqNo = lastBookingInDay == null ? 1 : lastBookingInDay.DaySeqNo + 1,
                 BookingDateTime = model.BookingDateTime,
                 TypeId = model.TypeId,
                 DiscountId = model.DiscountId == 0 ? (int?)null : model.DiscountId,
                 IsActive = true,
                 IsDeleted = false,
                 CreatedBy = id,
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 UpdatedBy = id,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now.ToEgyptTime()
             };
             foreach (var serviceId in model.ServicesIds)
             {
@@ -342,9 +343,9 @@ namespace clinic_api.Controllers
                 Booking = booking,
                 Paid = model.Paid,
                 CreatedBy = id,
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
                 UpdatedBy = id,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now.ToEgyptTime()
             });
 
             _context.Bookings.Add(booking);
@@ -381,9 +382,9 @@ namespace clinic_api.Controllers
                 return NotFound();
             }
             booking.IsCanceled = true;
-            booking.CanceledOn = DateTime.Now;
+            booking.CanceledOn = DateTime.Now.ToEgyptTime();
             booking.UpdatedBy = id;
-            booking.UpdatedOn = DateTime.Now;
+            booking.UpdatedOn = DateTime.Now.ToEgyptTime();
 
             _context.Entry(booking).State = EntityState.Modified;
 

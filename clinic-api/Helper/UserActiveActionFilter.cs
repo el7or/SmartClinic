@@ -25,7 +25,7 @@ namespace clinic_api.Helper
             {
                 string userId = resultContext.HttpContext.User.FindFirst(JwtRegisteredClaimNames.Jti).Value;
                 var user = await _userManager.FindByIdAsync(userId);
-                user.LastActive = DateTime.Now;
+                user.LastActive = DateTime.Now.ToEgyptTime();
                 await _userManager.UpdateAsync(user);
             }
         }

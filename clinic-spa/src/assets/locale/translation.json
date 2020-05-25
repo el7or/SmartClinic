@@ -371,8 +371,8 @@
   },
   { "ar": "لابد من إدخال إسم الطبيب!", "en": "Doctor Name is required!" },
   {
-    "ar": "لابد أن يكون اسم الطبيب ما بين 5 إلى 50 حرف!",
-    "en": "Doctor Name should contains from 5 to 50 characters!"
+    "ar": "لابد أن يكون اسم الطبيب ما بين 5 إلى 100 حرف!",
+    "en": "Doctor Name should contains from 5 to 100 characters!"
   },
   {
     "ar": "الدرجة العلمية للطبيب والتوصيف الوظيفي الذي سيظهر بنفس النص تحت اسم الطبيب أثناء الطباعة",
@@ -384,8 +384,8 @@
     "en": "Doctor Degree is required!"
   },
   {
-    "ar": "لابد أن تكون الدرجة العلمية ما بين 5 إلى 50 حرف!",
-    "en": "Doctor Degree should contains from 5 to 50 characters!"
+    "ar": "لابد أن تكون الدرجة العلمية ما بين 5 إلى 100 حرف!",
+    "en": "Doctor Degree should contains from 5 to 100 characters!"
   },
   {
     "ar": "اسم العيادة الذي سيظهر بنفس النص في أعلى يسار الروشتة أثناء الطباعة",
@@ -397,8 +397,8 @@
   },
   { "ar": "لابد من إدخال إسم العيادة!", "en": "Clinic Title is required!" },
   {
-    "ar": "لابد أن يكون اسم العيادة ما بين 5 إلى 50 حرف!",
-    "en": "Clinic Title should contains from 5 to 50 characters!"
+    "ar": "لابد أن يكون اسم العيادة ما بين 5 إلى 100 حرف!",
+    "en": "Clinic Title should contains from 5 to 100 characters!"
   },
   { "ar": "إسم العيادة", "en": "Clinic Title" },
   {
@@ -424,8 +424,8 @@
     "en": "At least one Address is required!"
   },
   {
-    "ar": "لابد أن يكون العنوان ما بين 5 إلى 50 حرف!",
-    "en": "Address should contains from 5 to 50 characters!"
+    "ar": "لابد أن يكون العنوان ما بين 5 إلى 100 حرف!",
+    "en": "Address should contains from 5 to 100 characters!"
   },
   { "ar": "السجل المرضي", "en": "Patient Record" },
   { "ar": "شكوى المريض", "en": "Patient Complaint" },
@@ -568,7 +568,7 @@
   { "ar": "لا توجد نتائج !", "en": "No Results !" },
   { "ar": "الكل", "en": "All" },
   { "ar": "نسبة الخصم لا يمكن أن تزيد عن 100%", "en": "Percentage cannot be more than 100%" },
-  { "ar": "اسم المريض يجب ألا يقل عن 7 أحرف !", "en": "Patient Name should contains from 5 to 50 characters!" },
+  { "ar": "اسم المريض يجب أن يكون مابين 5 إلى 50 حرف !", "en": "Patient Name should contains from 5 to 50 characters!" },
   { "ar": "لابد من  إدخال رقم المبلغ المدفوع !", "en": "Paid is required!" },
   { "ar": "آخر حجز", "en": "Last Book" },
   { "ar": "هل أنت متأكد من إلغاء الحجز؟", "en": "Are you sure to cancel the Booking?" },

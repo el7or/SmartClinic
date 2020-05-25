@@ -132,9 +132,9 @@ namespace clinic_panel.Controllers
                     IsActive = true,
                     IsDeleted = false,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.Doctors.Add(doctor);
                 db.SaveChanges();
@@ -170,8 +170,8 @@ namespace clinic_panel.Controllers
                     SubscriberTypeId = 1, // Doctor
                     Plan = plan,
                     SubscriptionTypeId = 1, // First Time
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddYears(1),
+                    StartDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+                    EndDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time").AddYears(1),
                     Note = model.SubsNote,
                     SignUpFee = plan.SignUpFee,
                     AnnualRenewalFee = plan.AnnualRenewalFee,
@@ -184,9 +184,9 @@ namespace clinic_panel.Controllers
                     IsActive = true,
                     IsDeleted = false,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.Subscriptions.Add(subscription);
                 var payment = new SubscriptionPayment
@@ -196,9 +196,9 @@ namespace clinic_panel.Controllers
                     NextPaymentDate = model.NextPaymentDate,
                     Note = model.PayNote,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.SubscriptionPayments.Add(payment);
                 db.SaveChanges();
@@ -214,6 +214,16 @@ namespace clinic_panel.Controllers
                     ConsultPrice = 0
                 };
                 ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", 3);
+                var allPeriods = new List<SelectListItem>() {
+                    new SelectListItem{Value = "5", Text = "5"},
+                    new SelectListItem{Value = "10", Text = "10"},
+                    new SelectListItem{Value = "15", Text = "15"},
+                    new SelectListItem{Value = "20", Text = "20"},
+                    new SelectListItem{Value = "30", Text = "30"},
+                    new SelectListItem{Value = "45", Text = "45"},
+                    new SelectListItem{Value = "60", Text = "60"},
+                };
+                ViewData["BookingPeriod"] = new SelectList(allPeriods, "Value", "Text", 15);
                 ViewBag.Tab = 3;
                 return View("Create");
             }
@@ -270,9 +280,9 @@ namespace clinic_panel.Controllers
                     IsActive = true,
                     IsDeleted = false,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 clinic.Doctors.Add(doctor);
                 clinic.AspNetUsers.Add(user);
@@ -287,9 +297,9 @@ namespace clinic_panel.Controllers
                         IsActive = true,
                         IsDeleted = false,
                         CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                         UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                     },
                     new ClinicBookingType
                     {
@@ -300,9 +310,9 @@ namespace clinic_panel.Controllers
                         IsActive = true,
                         IsDeleted = false,
                         CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                         UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                     },
                     new ClinicBookingType
                     {
@@ -313,9 +323,9 @@ namespace clinic_panel.Controllers
                         IsActive = true,
                         IsDeleted = false,
                         CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                         UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                        UpdatedOn = DateTime.Now
+                        UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                     }
                 };
                 db.ClinicBookingTypes.AddRange(newBookingTypes);
@@ -479,9 +489,9 @@ namespace clinic_panel.Controllers
                     NextPaymentDate = model.NextPaymentDate,
                     Note = model.Note,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                     UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = DateTime.Now
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.SubscriptionPayments.Add(payment);
                 db.SaveChanges();

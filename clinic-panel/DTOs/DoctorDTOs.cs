@@ -108,8 +108,6 @@ namespace clinic_panel.DTOs
     {
         public Guid UserId { get; set; }
         public Guid DoctorId { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public string ClinicName { get; set; }
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]
@@ -128,8 +126,6 @@ namespace clinic_panel.DTOs
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public string PrintDoctorDegree { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public string PrintClinicName { get; set; }
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]
@@ -138,16 +134,8 @@ namespace clinic_panel.DTOs
         public string PrintAddress3 { get; set; }
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]
-        [MinLength(11, ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
-        [RegularExpression(@"^\+?\d*$", ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
         public string PrintPhone1 { get; set; }
-
-        [MinLength(11, ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
-        [RegularExpression(@"^\+?\d*$", ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
         public string PrintPhone2 { get; set; }
-
-        [MinLength(11, ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
-        [RegularExpression(@"^\+?\d*$", ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
         public string PrintPhone3 { get; set; }
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]

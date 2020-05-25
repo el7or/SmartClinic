@@ -36,6 +36,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.chatService.messageReceived.subscribe((message: MessageReceived) => {
       if (message.senderId == this.userChatId) {
+        // =====> need to send this message to server to make it readed:
         const sender = this.users.filter((u) => u.id == message.senderId);
         this.messages.push({
           text: message.messageText,

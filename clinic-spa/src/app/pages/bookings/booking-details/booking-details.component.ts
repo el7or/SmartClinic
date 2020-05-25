@@ -89,7 +89,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       .getBookingDetails(
         this.patientId,
         this.bookId,
-        this.dateTimeService.clearTime(this.bookingService.chosenBookingDate)
+        this.dateTimeService.dateWithoutTime(this.bookingService.chosenBookingDate)
       )
       .pipe(
         map((res: GetBookingDetails) => {
@@ -234,10 +234,10 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
             this.form.patchValue({ time: res.clinicDayTimeFrom });
 
             // =====> set next availabel time:
-            this.bookingSetting.doctorAllBookingSameDay.forEach((booking) => {
+            res.doctorAllBookingSameDay.forEach((booking) => {
               if (
                 this.dateTimeService.isTimesEqual(
-                  new Date(res.clinicDayTimeFrom),
+                  new Date(this.form.value.time),
                   new Date(booking.time)
                 ) &&
                 booking.bookId != this.bookId

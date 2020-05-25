@@ -70,7 +70,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy {
     this.patientDiagnoses.push({
       id : 0,
       diagnosisId :0,
-      gradeId:0,
+      gradeId:null,
       note: "",
       createdOn: new Date()
     });
@@ -79,7 +79,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy {
     this.patientDiagnoses = [{
       id : 0,
       diagnosisId :0,
-      gradeId:0,
+      gradeId:null,
       note: "",
       createdOn: new Date()
     }]

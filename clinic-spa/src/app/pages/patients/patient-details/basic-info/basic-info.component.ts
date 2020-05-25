@@ -1,3 +1,4 @@
+import { PatientsService } from './../../patients.service';
 import { AlertService } from "./../../../../shared/services/alert.service";
 import { AuthService } from "./../../../../auth/auth.service";
 import { Router } from "@angular/router";
@@ -39,6 +40,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   areaValues: City[];
   @ViewChild("form", { static: false }) form: NgForm;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("done2Swal", { static: false }) done2Swal: SwalComponent;
   @ViewChild("duplicateNameSwal", { static: false })
   duplicateNameSwal: SwalComponent;
   @ViewChild("duplicatePhoneSwal", { static: false })
@@ -58,6 +60,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     public langgService: LanggService,
     private authService: AuthService,
     private alertService: AlertService,
+    private patientsService:PatientsService,
     private router: Router
   ) {}
 
@@ -160,6 +163,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     this.addSubs = this.basicInfoService.saveNewPatient(patient).subscribe(
       (res: AddPatientResponse) => {
         this.fireSwalBook();
+        this.patientInfo.patientId = res.patientId;
         this.formLoading = false;
         // =====> to unlock other tabs in patient details:
         this.router.navigate(["/pages/patients/details", res.seqNo, "basic"]);
@@ -175,7 +179,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   updatePatient() {
     this.formLoading = true;
     const patient: EditPatient = {
-      id: this.patientCodeId,
+      patientId: this.patientsService.patientId,
       clinicId: this.authService.clinicId,
       doctorId: this.authService.doctorId,
       fullName: this.form.value.patientName,
@@ -189,7 +193,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     };
     this.editSubs = this.basicInfoService.updatePatientInfo(patient).subscribe(
       () => {
-        this.fireSwalBook();
+        this.done2Swal.fire();
         this.formLoading = false;
       },
       (err) => {

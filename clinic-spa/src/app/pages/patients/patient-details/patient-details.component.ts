@@ -31,7 +31,7 @@ import { AlertService } from "../../../shared/services/alert.service";
           >: <span>{{ patientHeaderInfo?.name }}</span>
         </h5>
         <label *ngIf="patientHeaderInfo"
-          ><span langg>Age</span>: <span>{{ patientHeaderInfo?.age ? patientHeaderInfo?.age : '00' }}</span> |
+          ><span langg>Age</span>: <span>{{ patientHeaderInfo?.age ? patientHeaderInfo?.age : '0' }}</span> |
           <span langg>Visits Count</span>:
           <span>{{ patientHeaderInfo?.visitsCount }}</span></label
         >

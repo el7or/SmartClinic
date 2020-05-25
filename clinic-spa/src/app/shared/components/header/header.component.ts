@@ -151,9 +151,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.chatService.unReadExternalCount.subscribe(
           (count) => (this.externalCount = count)
         );
-        this.chatService.unReadChatCount.subscribe(
-          (count) => (this.messagesCount = count)
-        );
+        this.chatService.unReadChatCount.subscribe((count) => {
+          this.messagesCount = count;
+          /* if (this.router.url.indexOf("/chat") > -1) {
+            this.messagesCount = 0;
+          }
+          else{
+          this.messagesCount = count;
+          } */
+        });
       },
       (err) => {
         console.error(err);

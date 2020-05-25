@@ -73,7 +73,7 @@ namespace clinic_api.DTOs
 
     public class PatientPutDTO
     {
-        public int Id { get; set; }
+        public Guid PatientId { get; set; }
         public Guid DoctorId { get; set; }
         public Guid ClinicId { get; set; }
         public string FullName { get; set; }

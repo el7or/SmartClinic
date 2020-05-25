@@ -45,10 +45,11 @@ export interface NewPatient{
 }
 export interface AddPatientResponse{
   seqNo:number;
+  patientId:string;
 }
 
 export interface EditPatient{
-  id:number;
+  patientId:string;
   doctorId:string;
   clinicId:string;
   fullName:string;

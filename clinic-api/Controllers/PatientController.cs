@@ -172,7 +172,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == model.ClinicId && p.SeqNo == model.Id);
+            var patient = await _context.Patients.FindAsync(model.PatientId);
             patient.FullName = model.FullName.Trim().Normalize_AR();
             patient.Phone = model.Phone.Trim();
             patient.Age = model.Age;
@@ -251,7 +251,7 @@ namespace clinic_api.Controllers
                 }
             }
 
-            return Ok(new { seqNo = patient.SeqNo });
+            return Ok(new { seqNo = patient.SeqNo, patientId = patient.Id  });
         }
 
         //// DELETE: api/Patient/5

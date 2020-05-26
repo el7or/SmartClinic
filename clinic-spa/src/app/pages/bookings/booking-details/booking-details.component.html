@@ -91,11 +91,13 @@
             <input nbInput type="number" formControlName="paid" [placeholder]="'Amount Paid' | langg" fullWidth
               [min]="0" [max]="bookingTypePrice + bookingServicesPrice - bookingDiscountPrice"
               [status]="form?.get('paid').dirty && (form?.get('paid').invalid|| form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice)) ? 'danger' : (form?.value.paid ? 'success' : '')">
-            <ng-container *ngIf="form?.get('paid').invalid|| form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice)">
+            <ng-container
+              *ngIf="form?.get('paid').invalid|| form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice)">
               <p class="error-message text-danger" *ngIf="form?.get('paid')?.errors?.required" langg>
                 Paid is required!
               </p>
-              <p class="error-message text-danger" *ngIf="form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice)" langg>
+              <p class="error-message text-danger"
+                *ngIf="form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice)" langg>
                 Paid must not exceed the Total Amount!
               </p>
               <p class="error-message text-danger" *ngIf="form?.get('paid')?.errors?.min" langg>Can't be less than
@@ -119,15 +121,17 @@
               <tr>
                 <th>#</th>
                 <th langg>Time</th>
+                <th langg>Name</th>
                 <th langg>Type</th>
               </tr>
             </thead>
             <tbody>
               <!-- <tr *ngFor="let booking of bookingsBriefList" [class]="bookId==booking.bookId?'table-danger':''" > -->
               <tr *ngFor="let booking of bookingSetting?.doctorAllBookingSameDay; index as i"
-                [class]="bookId == booking.bookId?'table-danger':''">
+                [class]="bookId == booking.bookId || booking.patientId==patientId?'table-danger':''">
                 <td>{{i + 1}}</td>
                 <td>{{booking.time | time12Hour}}</td>
+                <td>{{booking.patientName}}</td>
                 <td>{{booking.type}}</td>
               </tr>
             </tbody>
@@ -152,4 +156,8 @@
 
 <swal #expiredSwal [title]="'Attention !' | langg" [text]="'Consult is expired.' | langg" icon="warning"
   [confirmButtonText]="'Ok' | langg">
+</swal>
+
+<swal #existSwal [title]="'Attention !' | langg" [text]="'This Patient has a Booking on the same day.' | langg"
+  icon="warning" [confirmButtonText]="'Ok' | langg">
 </swal>

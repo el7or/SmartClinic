@@ -33,6 +33,17 @@ export class BasicInfoService {
     );
   }
 
+  checkPatientExist(patientName:string){
+    return this.http.get<number>(
+      this.baseUrl +
+        "Patient/CheckPatientExist/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId+
+        "/" + patientName
+    );
+  }
+
   // =====> save new patient:
   saveNewPatient(newPatient: NewPatient) {
     // must create codeId for patient on clinic level not on doctor level

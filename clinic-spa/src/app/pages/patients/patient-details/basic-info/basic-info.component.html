@@ -1,14 +1,12 @@
-<form #form="ngForm" (ngSubmit)="onSave()" aria-labelledby="title" [nbSpinner]="formLoading"
-  nbSpinnerStatus="success">
+<form #form="ngForm" (ngSubmit)="onSave()" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
   <nb-card>
     <nb-card-body>
       <div class="row">
         <div class="col-md-3 col-sm-6 form-control-group" [nbSpinner]="nameLoading" nbSpinnerStatus="success">
           <label for="input-name" class="label"><span langg>Patient Name</span>:</label>
           <input nbInput [(ngModel)]="patientInfo.name" #patientName="ngModel" name="patientName" id="input-name"
-            [placeholder]="'Patient Name' | langg" fullWidth required minlength="7" maxlength="50"
-            [status]="patientName.touched ? (patientName.invalid  ? 'danger' : 'success') : ''">
-            <!-- (blur)="onBlurName(patientName)" -->
+            (blur)="onBlurName(patientName)" [placeholder]="'Patient Name' | langg" fullWidth required minlength="7"
+            maxlength="50" [status]="patientName.touched ? (patientName.invalid  ? 'danger' : 'success') : ''">
           <ng-container *ngIf="patientName.invalid && patientName.touched">
             <p class="error-message" *ngIf="patientName?.errors.required" langg>
               Patient Name is required!
@@ -39,35 +37,39 @@
         </div>
         <div class="col-md-3 col-sm-6 form-control-group form-inline">
           <label for="input-gender" class="label" langg>Gender:</label>
-          <nb-radio-group [(ngModel)]="patientInfo.gender" #gender="ngModel" id="input-gender" name="gender" class="form-inline">
+          <nb-radio-group [(ngModel)]="patientInfo.gender" #gender="ngModel" id="input-gender" name="gender"
+            class="form-inline">
             <nb-radio [value]="true"><span langg>Male</span>&nbsp;&nbsp;</nb-radio>
             <nb-radio [value]="false"><span langg>Female</span>&nbsp;&nbsp;</nb-radio>
           </nb-radio-group>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-status" class="label"><span langg>Social Status</span>:</label>
-          <nb-select fullWidth [(ngModel)]="patientInfo.status" #socialStatus="ngModel" name="socialStatus" id="input-status"
-            [placeholder]="'Social Status' | langg">
-            <nb-option *ngFor="let item of socialStatusValues" [value]="item.id">{{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
+          <nb-select fullWidth [(ngModel)]="patientInfo.status" #socialStatus="ngModel" name="socialStatus"
+            id="input-status" [placeholder]="'Social Status' | langg">
+            <nb-option *ngFor="let item of socialStatusValues" [value]="item.id">
+              {{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
           </nb-select>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-career" class="label"><span langg>Career</span>:</label>
-          <input nbInput [(ngModel)]="patientInfo.career" #career="ngModel" name="career" id="input-career" [placeholder]="'Career' | langg"
-            fullWidth>
+          <input nbInput [(ngModel)]="patientInfo.career" #career="ngModel" name="career" id="input-career"
+            [placeholder]="'Career' | langg" fullWidth>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-city" class="label"><span langg>Governorate</span>:</label>
           <nb-select fullWidth [(ngModel)]="patientInfo.city" #city="ngModel" name="city" id="input-city"
             [placeholder]="'Governorate' | langg" (selectedChange)="onSelectCity($event)">
-            <nb-option *ngFor="let item of cityValues" [value]="item.id">{{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
+            <nb-option *ngFor="let item of cityValues" [value]="item.id">
+              {{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
           </nb-select>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-area" class="label"><span langg>Area</span>:</label>
           <nb-select fullWidth [(ngModel)]="patientInfo.area" #area="ngModel" name="area" id="input-area"
             [placeholder]="'Area' | langg">
-            <nb-option *ngFor="let item of areaValues" [value]="item.id">{{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
+            <nb-option *ngFor="let item of areaValues" [value]="item.id">
+              {{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
           </nb-select>
         </div>
 

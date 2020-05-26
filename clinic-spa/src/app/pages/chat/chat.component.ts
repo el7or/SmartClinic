@@ -28,6 +28,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   getUsersSubs: Subscription;
   getMessagesSubs: Subscription;
   postMessageSubs: Subscription;
+  readMessageSubs: Subscription;
 
   constructor(
     public chatService: ChatService,
@@ -36,7 +37,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.chatService.messageReceived.subscribe((message: MessageReceived) => {
       if (message.senderId == this.userChatId) {
-        // =====> need to send this message to server to make it readed:
         const sender = this.users.filter((u) => u.id == message.senderId);
         this.messages.push({
           text: message.messageText,
@@ -47,10 +47,16 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             avatar: sender[0].picture,
           },
         });
-      }
-      else{
-       if(this.users) this.users.find((u) => u.id == message.senderId).unread ++;
-        // =====> need idea to prevent increase number of unread messages in header if open same chat user:
+        // =====> need to send this message to server to make it readed:
+        this.readMessageSubs = this.chatService
+          .readMessage(message.id)
+          .subscribe(
+            () => {},
+            (err) => {
+              console.error(err);
+              this.alertService.alertError();
+            }
+          );
       }
     });
   }
@@ -79,6 +85,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getUsersSubs.unsubscribe();
     if (this.getMessagesSubs) this.getMessagesSubs.unsubscribe();
     if (this.postMessageSubs) this.postMessageSubs.unsubscribe();
+    if (this.readMessageSubs) this.readMessageSubs.unsubscribe();
+    this.userChatId = null;
   }
 
   openChat(user) {

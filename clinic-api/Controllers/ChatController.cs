@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using clinic_api.Data;
 using clinic_api.DTOs;
 using clinic_api.Helper;
+using clinic_api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -96,18 +97,20 @@ namespace clinic_api.Controllers
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
-            }            
-            _context.ChatMessages.Add(new Models.ChatMessage
+            }
+            var newMessage = new ChatMessage
             {
                 SenderId = id,
                 ReceiverId = model.ReceiverId,
                 MessageText = model.MessageText,
                 SentOn = DateTime.Now.ToEgyptTime()
-            });
+            };
+            _context.ChatMessages.Add(newMessage);
             await _context.SaveChangesAsync();
 
             await _hub.Clients.User(model.ReceiverId.ToString()).SendAsync("NewMessageReceived", new MessageReceivedDTO
             {
+                Id = newMessage.Id,
                 SenderId = id,
                 MessageText = model.MessageText
             });
@@ -133,5 +136,24 @@ namespace clinic_api.Controllers
                 UnreadMessages = unReadMessages
             };
         }
+
+        // GET: api/Chat/ReadMessage/5
+        [HttpGet("ReadMessage/{id}/{messageId}")]
+        public async Task<IActionResult> ReadMessage(Guid id, int messageId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var message = _context.ChatMessages.Find(messageId);
+            message.ReadOn = DateTime.Now.ToEgyptTime();
+            message.IsRead = true;
+            _context.Entry(message).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            await _hub.Clients.User(id.ToString()).SendAsync("UpdateUnreadChatCount",
+                _context.ChatMessages.Where(m => m.ReceiverId == id && m.IsRead != true).Count());
+
+            return NoContent();
+    }
     }
 }

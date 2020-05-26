@@ -20,6 +20,7 @@ export interface NewMessageSent{
   messageText :string;
 }
 export interface MessageReceived{
+  id;
   senderId:string;
   messageText :string;
 }

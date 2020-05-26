@@ -114,6 +114,26 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Patient/5
+        [HttpGet("CheckPatientExist/{id}/{clinicId}/{patientName}")]
+        public async Task<ActionResult<int>> CheckPatientExist(Guid id, Guid clinicId, string patientName)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            patientName = patientName.Trim().Normalize_AR();
+            var isPatientExist = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && (p.FullName == patientName));
+            if (isPatientExist ==null)
+            {
+                return 0;
+            }
+            else
+            {
+                return isPatientExist.SeqNo;
+            }
+        }
+
+        // GET: api/Patient/5
         [HttpGet("GetPatientBasic/{id}/{patientId}")]
         public async Task<ActionResult<PatientValuesGetDTO>> GetPatientBasic(Guid id, string patientId)
         {

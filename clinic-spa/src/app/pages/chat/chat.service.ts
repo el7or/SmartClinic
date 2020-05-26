@@ -64,6 +64,16 @@ export class ChatService {
     );
   }
 
+  readMessage(id){
+    return this.http.get(
+      this.baseUrl +
+        "Chat/ReadMessage/" +
+        this.authService.userId +
+        "/" +
+        id
+    );
+  }
+
   /********   SignalR   *********/
 
   private _hubConnection: HubConnection;

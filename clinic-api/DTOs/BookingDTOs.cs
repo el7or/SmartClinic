@@ -38,6 +38,8 @@ namespace clinic_api.DTOs
     public class BookingBrief
     {
         public int BookId { get; set; }
+        public Guid PatientId { get; set; }
+        public string PatientName { get; set; }
         public DateTime Time { get; set; }
         public string Type { get; set; }
     }
@@ -56,7 +58,7 @@ namespace clinic_api.DTOs
         public DateTime BookingDateTime { get; set; }
         public int TypeId { get; set; }
         public int[] ServicesIds { get; set; }
-        public int DiscountId { get; set; }
+        public int? DiscountId { get; set; }
         public decimal Paid { get; set; }
     }
 
@@ -66,7 +68,7 @@ namespace clinic_api.DTOs
         public DateTime BookingDateTime { get; set; }
         public int TypeId { get; set; }
         public int[] ServicesIds { get; set; }
-        public int DiscountId { get; set; }
+        public int? DiscountId { get; set; }
         public decimal Paid { get; set; }
     }
 

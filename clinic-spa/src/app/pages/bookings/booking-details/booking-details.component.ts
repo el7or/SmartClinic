@@ -38,12 +38,14 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   bookingTypePrice = 0;
   bookingServicesPrice = 0;
   bookingDiscountPrice = 0;
+  isUserChangedDate = false;
 
   @Input() bookId: number;
   @Input() patientId: string;
 
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("expiredSwal", { static: false }) expiredSwal: SwalComponent;
+  @ViewChild("existSwal", { static: false }) existSwal: SwalComponent;
 
   getBookSubs: Subscription;
   getChangeDateSubs: Subscription;
@@ -89,7 +91,9 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       .getBookingDetails(
         this.patientId,
         this.bookId,
-        this.dateTimeService.dateWithoutTime(this.bookingService.chosenBookingDate)
+        this.dateTimeService.dateWithoutTime(
+          this.bookingService.chosenBookingDate
+        )
       )
       .pipe(
         map((res: GetBookingDetails) => {
@@ -179,7 +183,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
               this.form.controls["discount"].disable();
               this.form.controls["paid"].disable();
             }
-          }else{
+          } else {
             // =====> set next availabel time:
             this.bookingSetting.doctorAllBookingSameDay.forEach((booking) => {
               if (
@@ -196,6 +200,14 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
                 this.form.patchValue({ time: nextAvailTime });
               }
             });
+
+            // =====> check if same patient has booking in same day:
+            const prevBooking = this.bookingSetting.doctorAllBookingSameDay.find(
+              (b) => b.patientId == this.patientId
+            );
+            if (prevBooking) {
+              this.existSwal.fire();
+            }
           }
           this.formLoading = false;
         },
@@ -249,6 +261,16 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
                 this.form.patchValue({ time: nextAvailTime });
               }
             });
+
+            // =====> check if same patient has booking in same day:
+            if (!this.bookId) {
+              const prevBooking = res.doctorAllBookingSameDay.find(
+                (b) => b.patientId == this.patientId
+              );
+              if (prevBooking) {
+                this.existSwal.fire();
+              }
+            }
 
             this.formLoading = false;
           },
@@ -373,7 +395,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     );
   }
   updateBooking() {
-    const EditedBooking: BookingEdit = {
+    const editedBooking: BookingEdit = {
       bookingId: this.bookId,
       bookingDateTime: this.dateTimeService.mergDateTime(
         new Date(this.form.value.date),
@@ -385,7 +407,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       paid: this.form.value.paid,
     };
     this.editBookSubs = this.bookingService
-      .updateBooking(EditedBooking)
+      .updateBooking(editedBooking)
       .subscribe(
         () => {
           this.doneSwal.fire();

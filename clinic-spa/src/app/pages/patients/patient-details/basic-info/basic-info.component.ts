@@ -1,4 +1,4 @@
-import { PatientsService } from './../../patients.service';
+import { PatientsService } from "./../../patients.service";
 import { AlertService } from "./../../../../shared/services/alert.service";
 import { AuthService } from "./../../../../auth/auth.service";
 import { Router } from "@angular/router";
@@ -52,6 +52,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   addSubs: Subscription;
   editSubs: Subscription;
   infoSubs: Subscription;
+  nameSubs: Subscription;
 
   constructor(
     public location: Location,
@@ -60,7 +61,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     public langgService: LanggService,
     private authService: AuthService,
     private alertService: AlertService,
-    private patientsService:PatientsService,
+    private patientsService: PatientsService,
     private router: Router
   ) {}
 
@@ -104,39 +105,50 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     this.infoSubs.unsubscribe();
     if (this.addSubs) this.addSubs.unsubscribe();
     if (this.editSubs) this.editSubs.unsubscribe();
+    if (this.nameSubs) this.nameSubs.unsubscribe();
   }
 
   onSelectCity(id: number) {
     this.areaValues = this.cityValues.filter((c) => c.id == id)[0].cities;
   }
 
-  /*  // =====> check if patient name is exist:
+  // =====> check if patient name is exist:
   onBlurName(patientName: NgForm) {
+    this.nameLoading = true;
     if (patientName.valid) {
-      this.nameLoading = true;
-      setTimeout(() => {
-        if (patientName.value == "حاتم قطاوي") {
-          this.duplicateNameSwal.fire().then(result => {
-            if (result.value) {
-              // =====> load another patient details:
-              this.patientInfo = {
-                patientId: "dsfsdafda",
-                name: "حاتم قطاوي",
-                mobile: "0111111111111",
-                age: 40,
-                gender: true,
-              };
-              this.router.navigate(["/pages/patients/details", 1, "basic"]);
-            } else {
-              // =====> reset patient name:
-              this.patientInfo.name = "";
+      this.nameSubs = this.basicInfoService
+        .checkPatientExist(patientName.value)
+        .subscribe(
+          (res: number) => {
+            if (res) {
+              this.duplicateNameSwal.fire().then((result) => {
+                if (result.value) {
+                  // =====> load another patient details:
+                  this.router
+                    .navigateByUrl("/", { skipLocationChange: true })
+                    .then(() =>
+                      this.router.navigate([
+                        "/pages/patients/details",
+                        res,
+                        "basic",
+                      ])
+                    );
+                } else {
+                  // =====> reset patient name:
+                  this.patientInfo.name = "";
+                }
+              });
             }
-          });
-        }
-        this.nameLoading = false;
-      }, 1000);
+            this.nameLoading = false;
+          },
+          (err) => {
+            console.error(err);
+            this.alertService.alertError();
+            this.nameLoading = false;
+          }
+        );
     }
-  } */
+  }
 
   onSave() {
     if (this.isNewPatient) {

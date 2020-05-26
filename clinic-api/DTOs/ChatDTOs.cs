@@ -33,6 +33,7 @@ namespace clinic_api.DTOs
     }
     public class MessageReceivedDTO
     {
+        public int Id { get; set; }
         public Guid SenderId { get; set; }
         public string MessageText { get; set; }
     }

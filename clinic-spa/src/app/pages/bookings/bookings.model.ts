@@ -43,6 +43,8 @@ export interface BookingDiscount{
 }
 export interface BookingBrief{
   bookId:number;
+  patientId:string;
+  patientName:string;
   time: Date;
   type:string;
 }

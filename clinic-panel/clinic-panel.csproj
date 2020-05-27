@@ -575,6 +575,14 @@
     <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Payment\Expenses.cshtml" />
     <Content Include="Views\Payment\CreateWithdrawal.cshtml" />
+    <Content Include="Views\Medicine\EditMedicineName.cshtml" />
+    <Content Include="Views\Medicine\EditMedicineConcentration.cshtml" />
+    <Content Include="Views\Medicine\EditMedicineForm.cshtml" />
+    <Content Include="Views\Medicine\EditMedicineDose.cshtml" />
+    <Content Include="Views\Medicine\EditMedicineTiming.cshtml" />
+    <Content Include="Views\Medicine\EditMedicinePeriod.cshtml" />
+    <Content Include="Views\FileType\EditRayFileType.cshtml" />
+    <Content Include="Views\FileType\EditAnalysisFileType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

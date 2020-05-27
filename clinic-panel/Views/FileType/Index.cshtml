@@ -20,18 +20,24 @@
                     <th>
                         عدد الملفات المرفوعة
                     </th>
+                    <th></th>
                 </tr>
 
                 @foreach (var item in Model.RayFileTypes)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Text)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FilesCount)
-                        </td>
-                    </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FilesCount)
+                </td>
+                <td>
+                    <a href="@Url.Action("EditRayFileType",new { id= item.Id })">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </td>
+            </tr>
                 }
             </table>
         </div>
@@ -50,18 +56,24 @@
                     <th>
                         عدد الملفات المرفوعة
                     </th>
+                    <th></th>
                 </tr>
 
                 @foreach (var item in Model.AnalysisFileTypes)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Text)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FilesCount)
-                        </td>
-                    </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FilesCount)
+                </td>
+                <td>
+                    <a href="@Url.Action("EditAnalysisFileType",new { id= item.Id })">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </td>
+            </tr>
                 }
             </table>
         </div>

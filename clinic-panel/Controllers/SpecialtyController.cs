@@ -50,36 +50,37 @@ namespace clinic_panel.Controllers
             return View();
         }
 
-        //// GET: Specialty/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    SysDoctorsSpecialty sysDoctorsSpecialty = db.SysDoctorsSpecialties.Find(id);
-        //    if (sysDoctorsSpecialty == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(sysDoctorsSpecialty);
-        //}
+        // GET: Specialty/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SysDoctorsSpecialty specialty = db.SysDoctorsSpecialties.Find(id);
+            if (specialty == null)
+            {
+                return HttpNotFound();
+            }
+            return View(specialty);
+        }
 
-        //// POST: Specialty/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "Id,Value,Text")] SysDoctorsSpecialty sysDoctorsSpecialty)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(sysDoctorsSpecialty).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(sysDoctorsSpecialty);
-        //}
+        // POST: Specialty/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(SysDoctorsSpecialty specialty)
+        {
+            if (specialty.Value == "" || specialty.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
+            if (ModelState.IsValid)
+            {
+                specialty.Text = specialty.Value;
+                db.Entry(specialty).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View(specialty);
+        }
 
         //// GET: Specialty/Details/5
         //public ActionResult Details(int? id)

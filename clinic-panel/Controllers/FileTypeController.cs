@@ -59,6 +59,30 @@ namespace clinic_panel.Controllers
             return View();
         }
 
+        // GET: FileType/EditRayFileType
+        public ActionResult EditRayFileType(int id)
+        {
+            var type = db.SysRayFileTypesValues.Find(id);
+            return View(type);
+        }
+
+        // POST: FileType/EditRayFileType
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRayFileType(SysRayFileTypesValue type)
+        {
+            if (type.Value == "" || type.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
+            if (ModelState.IsValid)
+            {
+                type.Text = type.Value;
+                db.Entry(type).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
         // GET: FileType/CreateAnalysisFileType
         public ActionResult CreateAnalysisFileType()
         {
@@ -82,36 +106,30 @@ namespace clinic_panel.Controllers
             return View();
         }
 
-        //// GET: FileType/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    SysRayFileTypeValue sysRayFileTypeValue = db.SysRayFileTypeValues.Find(id);
-        //    if (sysRayFileTypeValue == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(sysRayFileTypeValue);
-        //}
+        // GET: FileType/EditAnalysisFileType
+        public ActionResult EditAnalysisFileType(int id)
+        {
+            var type = db.SysAnalysisFileTypesValues.Find(id);
+            return View(type);
+        }
 
-        //// POST: FileType/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "Id,Value,Text")] SysRayFileTypeValue sysRayFileTypeValue)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(sysRayFileTypeValue).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(sysRayFileTypeValue);
-        //}
+        // POST: FileType/EditAnalysisFileType
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAnalysisFileType(SysAnalysisFileTypesValue type)
+        {
+            if (type.Value == "" || type.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
+            if (ModelState.IsValid)
+            {
+                type.Text = type.Value;
+                db.Entry(type).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
 
         //// GET: FileType/Details/5
         //public ActionResult Details(int? id)

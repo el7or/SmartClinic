@@ -6,6 +6,10 @@
 
 <h2>مدن محافظة: @ViewBag.Gov</h2>
 
+
+<p>
+    @Html.ActionLink("إضافة مدينة", "Create",new { id = ViewBag.GovId })
+</p>
 <table class="table">
     <tr class="info">
         <th>
@@ -14,18 +18,23 @@
         <th>
             المدينة/إنجليزي
         </th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TextAR)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TextEN)
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.TextAR)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TextEN)
+    </td>
+    <td>
+        @Html.ActionLink("تعديل", "Edit", new { id = item.Id })@* |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+    </td>
+</tr>
     }
 
 </table>

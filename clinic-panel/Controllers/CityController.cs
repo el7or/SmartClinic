@@ -33,62 +33,67 @@ namespace clinic_panel.Controllers
                 return HttpNotFound();
             }
             ViewBag.Gov = sysGovernoratesValue.TextAR;
+            ViewBag.GovId = sysGovernoratesValue.Id;
             return View(db.SysCitiesValues.Where(g => g.GovId==id).OrderBy(n => n.TextAR).ToList());
         }
 
-        //// GET: City/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: City/Create
+        public ActionResult Create(int id)
+        {
+            SysCitiesValue city = new SysCitiesValue
+            {
+                GovId = id
+            };
+            return View(city);
+        }
 
-        //// POST: City/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "Id,Text_ar,Text_en")] SysGovernoratesValue sysGovernoratesValue)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.SysGovernoratesValues.Add(sysGovernoratesValue);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
+        // POST: City/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(SysCitiesValue city)
+        {
+            if (city.TextAR == "" || city.TextAR == null || city.TextEN == "" || city.TextEN == null) ModelState.AddModelError("TextEN", "لا بد من إدخال قيم في الحقلين !");
+            if (ModelState.IsValid)
+            {
+                db.SysCitiesValues.Add(city);
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Details",new { id = city.GovId });
+            }
 
-        //    return View(sysGovernoratesValue);
-        //}
+            return View(city);
+        }
 
-        //// GET: City/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    SysGovernoratesValue sysGovernoratesValue = db.SysGovernoratesValues.Find(id);
-        //    if (sysGovernoratesValue == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(sysGovernoratesValue);
-        //}
+        // GET: City/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SysCitiesValue city = db.SysCitiesValues.Find(id);
+            if (city == null)
+            {
+                return HttpNotFound();
+            }
+            return View(city);
+        }
 
-        //// POST: City/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "Id,Text_ar,Text_en")] SysGovernoratesValue sysGovernoratesValue)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(sysGovernoratesValue).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(sysGovernoratesValue);
-        //}
+        // POST: City/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(SysCitiesValue city)
+        {
+            if (city.TextAR == "" || city.TextAR == null || city.TextEN == "" || city.TextEN == null) ModelState.AddModelError("TextEN", "لا بد من إدخال قيم في الحقلين !");
+            if (ModelState.IsValid)
+            {
+                db.Entry(city).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Details", new { id = city.GovId });
+            }
+            return View(city);
+        }
 
         //// GET: City/Delete/5
         //public ActionResult Delete(int? id)

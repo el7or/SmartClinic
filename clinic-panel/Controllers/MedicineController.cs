@@ -73,6 +73,30 @@ namespace clinic_panel.Controllers
             return View();
         }
 
+        // GET: Medicine/EditMedicineName
+        public ActionResult EditMedicineName(int id)
+        {
+            var medicine = db.SysMedicinesValues.Find(id);
+            return View(medicine);
+        }
+
+        // POST: Medicine/EditMedicineName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMedicineName(SysMedicinesValue medicine)
+        {
+            if (medicine.Value == "" || medicine.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
+            if (ModelState.IsValid)
+            {
+                medicine.Text = medicine.Value;
+                db.Entry(medicine).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
         // GET: Medicine/CreateMedicineConcentration
         public ActionResult CreateMedicineConcentration()
         {
@@ -88,6 +112,30 @@ namespace clinic_panel.Controllers
             if (ModelState.IsValid)
             {
                 db.SysMedicineConcentrationsValues.Add(new SysMedicineConcentrationsValue { Value = value, Text = value });
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        // GET: Medicine/EditMedicineName
+        public ActionResult EditMedicineConcentration(int id)
+        {
+            var medicine = db.SysMedicineConcentrationsValues.Find(id);
+            return View(medicine);
+        }
+
+        // POST: Medicine/EditMedicineName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMedicineConcentration(SysMedicineConcentrationsValue medicine)
+        {
+            if (medicine.Value == "" || medicine.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
+            if (ModelState.IsValid)
+            {
+                medicine.Text = medicine.Value;
+                db.Entry(medicine).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
@@ -117,6 +165,30 @@ namespace clinic_panel.Controllers
             return View();
         }
 
+        // GET: Medicine/EditMedicineName
+        public ActionResult EditMedicineForm(int id)
+        {
+            var medicine = db.SysMedicineFormsValues.Find(id);
+            return View(medicine);
+        }
+
+        // POST: Medicine/EditMedicineName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMedicineForm(SysMedicineFormsValue medicine)
+        {
+            if (medicine.Value == "" || medicine.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
+            if (ModelState.IsValid)
+            {
+                medicine.Text = medicine.Value;
+                db.Entry(medicine).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
         // GET: Medicine/CreateMedicineDose
         public ActionResult CreateMedicineDose()
         {
@@ -132,6 +204,30 @@ namespace clinic_panel.Controllers
             if (ModelState.IsValid)
             {
                 db.SysMedicineDosesValues.Add(new SysMedicineDosesValue { Value = value, Text = value });
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        // GET: Medicine/EditMedicineName
+        public ActionResult EditMedicineDose(int id)
+        {
+            var medicine = db.SysMedicineDosesValues.Find(id);
+            return View(medicine);
+        }
+
+        // POST: Medicine/EditMedicineName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMedicineDose(SysMedicineDosesValue medicine)
+        {
+            if (medicine.Value == "" || medicine.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
+            if (ModelState.IsValid)
+            {
+                medicine.Text = medicine.Value;
+                db.Entry(medicine).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
@@ -161,6 +257,30 @@ namespace clinic_panel.Controllers
             return View();
         }
 
+        // GET: Medicine/EditMedicineName
+        public ActionResult EditMedicineTiming(int id)
+        {
+            var medicine = db.SysMedicineTimingsValues.Find(id);
+            return View(medicine);
+        }
+
+        // POST: Medicine/EditMedicineName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMedicineTiming(SysMedicineTimingsValue medicine)
+        {
+            if (medicine.Value == "" || medicine.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
+            if (ModelState.IsValid)
+            {
+                medicine.Text = medicine.Value;
+                db.Entry(medicine).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
         // GET: Medicine/CreateMedicinePeriod
         public ActionResult CreateMedicinePeriod()
         {
@@ -176,6 +296,30 @@ namespace clinic_panel.Controllers
             if (ModelState.IsValid)
             {
                 db.SysMedicinePeriodsValues.Add(new SysMedicinePeriodsValue { Value = value, Text = value });
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        // GET: Medicine/EditMedicineName
+        public ActionResult EditMedicinePeriod(int id)
+        {
+            var medicine = db.SysMedicinePeriodsValues.Find(id);
+            return View(medicine);
+        }
+
+        // POST: Medicine/EditMedicineName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMedicinePeriod(SysMedicinePeriodsValue medicine)
+        {
+            if (medicine.Value == "" || medicine.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
+            if (ModelState.IsValid)
+            {
+                medicine.Text = medicine.Value;
+                db.Entry(medicine).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");

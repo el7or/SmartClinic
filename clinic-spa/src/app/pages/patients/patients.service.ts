@@ -18,19 +18,19 @@ export class PatientsService {
     this._patientId = id;
   }
 
-  private _patientCodeId : number;
-  public get patientCodeId() : number {
+  private _patientCodeId: number;
+  public get patientCodeId(): number {
     return this._patientCodeId;
   }
-  public set patientCodeId(v : number) {
+  public set patientCodeId(v: number) {
     this._patientCodeId = v;
   }
 
-  private _patientName : string;
-  public get patientName() : string {
+  private _patientName: string;
+  public get patientName(): string {
     return this._patientName;
   }
-  public set patientName(v : string) {
+  public set patientName(v: string) {
     this._patientName = v;
   }
 
@@ -83,9 +83,15 @@ export class PatientsService {
       .pipe(
         map((p) => {
           this._patientId = p.patientId;
-          this._patientName = p.name
+          this._patientName = p.name;
           return p;
         })
       );
+  }
+
+  deletePatient(patientId: string) {
+    return this.http.delete(
+      this.baseUrl + "Patient/" + this.authService.userId + "/" + patientId
+    );
   }
 }

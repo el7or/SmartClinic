@@ -1,14 +1,11 @@
-import { DateTimeService } from './../../../../shared/services/date-time.service';
+import { DateTimeService } from "./../../../../shared/services/date-time.service";
 import { Subscription } from "rxjs";
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
 
 import { SettingsService } from "../../settings.service";
-import {
-  GetBookingSetting,
-  SetBookingSetting,
-} from "../../settings.model";
+import { GetBookingSetting, SetBookingSetting } from "../../settings.model";
 import { AlertService } from "../../../../shared/services/alert.service";
 import { AuthService } from "../../../../auth/auth.service";
 
@@ -30,7 +27,7 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
     private settingService: SettingsService,
     private alertService: AlertService,
     private authService: AuthService,
-    private dateTimeService:DateTimeService,
+    private dateTimeService: DateTimeService
   ) {}
 
   ngOnInit() {
@@ -54,6 +51,17 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
     if (this.bookSetSubs) this.bookSetSubs.unsubscribe();
   }
 
+  onChangeAllDaysOn(event: boolean) {
+    if (event) {
+      this.bookingSetting.isSaturdayOn = true;
+      this.bookingSetting.isMondayOn = true;
+      this.bookingSetting.isSundayOn = true;
+      this.bookingSetting.isTuesdayOn = true;
+      this.bookingSetting.isThursdayOn = true;
+      this.bookingSetting.isFridayOn = true;
+    }
+  }
+
   onSaveSetting() {
     this.formLoading = true;
     if (
@@ -65,7 +73,7 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
       this.bookingSetting.isFridayOn
     ) {
       this.bookingSetting.isAllDaysOn = true;
-      this.bookingSetting.workDays = [6,0,1,2,3,4,5];
+      this.bookingSetting.workDays = [6, 0, 1, 2, 3, 4, 5];
     } else {
       this.bookingSetting.isAllDaysOn = false;
       this.bookingSetting.workDays = [];
@@ -88,22 +96,54 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
       workDays: this.bookingSetting.workDays.toString(),
       isAllDaysOn: this.bookingSetting.isAllDaysOn,
       isAllDaysSameTime: this.bookingSetting.isAllDaysSameTime,
-      allDaysTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.allDaysTimeFrom),
-      allDaysTimeTo: this.dateTimeService.clearTime(this.bookingSetting.allDaysTimeTo),
-      saturdayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.saturdayTimeFrom),
-      saturdayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.saturdayTimeTo),
-      sundayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.sundayTimeFrom),
-      sundayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.sundayTimeTo),
-      mondayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.mondayTimeFrom),
-      mondayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.mondayTimeTo),
-      tuesdayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.tuesdayTimeFrom),
-      tuesdayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.tuesdayTimeTo),
-      wednesdayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.wednesdayTimeFrom),
-      wednesdayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.wednesdayTimeTo),
-      thursdayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.thursdayTimeFrom),
-      thursdayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.thursdayTimeTo),
-      fridayTimeFrom: this.dateTimeService.clearTime(this.bookingSetting.fridayTimeFrom),
-      fridayTimeTo: this.dateTimeService.clearTime(this.bookingSetting.fridayTimeTo),
+      allDaysTimeFrom: this.dateTimeService.clearTime(
+        this.bookingSetting.allDaysTimeFrom
+      ),
+      allDaysTimeTo: this.dateTimeService.clearTime(
+        this.bookingSetting.allDaysTimeTo
+      ),
+      saturdayTimeFrom: this.dateTimeService.clearTime(
+        this.bookingSetting.saturdayTimeFrom
+      ),
+      saturdayTimeTo: this.dateTimeService.clearTime(
+        this.bookingSetting.saturdayTimeTo
+      ),
+      sundayTimeFrom: this.dateTimeService.clearTime(
+        this.bookingSetting.sundayTimeFrom
+      ),
+      sundayTimeTo: this.dateTimeService.clearTime(
+        this.bookingSetting.sundayTimeTo
+      ),
+      mondayTimeFrom: this.dateTimeService.clearTime(
+        this.bookingSetting.mondayTimeFrom
+      ),
+      mondayTimeTo: this.dateTimeService.clearTime(
+        this.bookingSetting.mondayTimeTo
+      ),
+      tuesdayTimeFrom: this.dateTimeService.clearTime(
+        this.bookingSetting.tuesdayTimeFrom
+      ),
+      tuesdayTimeTo: this.dateTimeService.clearTime(
+        this.bookingSetting.tuesdayTimeTo
+      ),
+      wednesdayTimeFrom: this.dateTimeService.clearTime(
+        this.bookingSetting.wednesdayTimeFrom
+      ),
+      wednesdayTimeTo: this.dateTimeService.clearTime(
+        this.bookingSetting.wednesdayTimeTo
+      ),
+      thursdayTimeFrom: this.dateTimeService.clearTime(
+        this.bookingSetting.thursdayTimeFrom
+      ),
+      thursdayTimeTo: this.dateTimeService.clearTime(
+        this.bookingSetting.thursdayTimeTo
+      ),
+      fridayTimeFrom: this.dateTimeService.clearTime(
+        this.bookingSetting.fridayTimeFrom
+      ),
+      fridayTimeTo: this.dateTimeService.clearTime(
+        this.bookingSetting.fridayTimeTo
+      ),
     };
     this.bookSetSubs = this.settingService
       .saveBookingSetting(bookingSettingSetObj)

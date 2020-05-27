@@ -102,6 +102,36 @@ namespace clinic_panel.Controllers
             return View(model);
         }
 
+        // GET: User/Delete/5
+        public ActionResult Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AspNetUser user = db.AspNetUsers.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: User/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(Guid id)
+        {
+            AspNetUser user = db.AspNetUsers.Find(id);
+            user.IsDeleted = true;
+            user.EditedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id;
+            user.EditedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time");
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+            TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+            return RedirectToAction("Index");
+        }
+
         //// GET: User/Details/5
         //public ActionResult Details(Guid? id)
         //{
@@ -170,32 +200,6 @@ namespace clinic_panel.Controllers
         //        return RedirectToAction("Index");
         //    }
         //    return View(aspNetUser);
-        //}
-
-        //// GET: User/Delete/5
-        //public ActionResult Delete(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    AspNetUser aspNetUser = db.AspNetUsers.Find(id);
-        //    if (aspNetUser == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(aspNetUser);
-        //}
-
-        //// POST: User/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(Guid id)
-        //{
-        //    AspNetUser aspNetUser = db.AspNetUsers.Find(id);
-        //    db.AspNetUsers.Remove(aspNetUser);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
         //}
 
         protected override void Dispose(bool disposing)

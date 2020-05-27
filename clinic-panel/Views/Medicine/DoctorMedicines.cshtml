@@ -15,19 +15,23 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.DoctorId)
 
-        <div class="form-group">
-            <label class="col-md-2 control-label">اختيارات الأدوية:</label>
-            <div class="col-md-10">
-                @for (int i = 0; i < Model.Medicines.Count; i++)
-                {
-                    @Html.CheckBoxFor(m => Model.Medicines[i].IsChecked, new { @class = "m-0" })
+        <label class="control-label">اختيارات الأدوية:</label>
+        <div class="row">
+            <div class="col-md-12 table-bordered">
+                @Html.CheckBox("CheckAll", false, new { id = "select_all" }) تحديد/إلغاء الكل
+            </div>
+            <hr />
+            @for (int i = 0; i < Model.Medicines.Count; i++)
+            {
+                <div class="col-md-3 col-sm-6">
+                    @Html.CheckBoxFor(m => Model.Medicines[i].IsChecked, new { @class = "m-0 med" })
                     <span>&nbsp;</span>
                     @Model.Medicines[i].Text
                     @Html.HiddenFor(m => Model.Medicines[i].Id)
                     @Html.HiddenFor(m => Model.Medicines[i].Text)
                     <br />
-                }
-            </div>
+                </div>
+            }
         </div>
 
         <div class="form-group">
@@ -39,5 +43,16 @@
 }
 
 <div>
-    @Html.ActionLink("رجوع", "Index","Doctor")
+    @Html.ActionLink("رجوع", "Index", "Doctor")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            $('#select_all').click(function () {
+                $('.med').prop('checked', this.checked)
+            });
+        });
+    </script>
+}

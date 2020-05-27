@@ -32,7 +32,7 @@ namespace clinic_panel.Controllers
                     Plan = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).Plan.Title,
                     StartPlanDate = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).StartDate,
                     EndPlanDate = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).EndDate,
-                    SubscriptionDue = ( (int) db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SignUpFee) - ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SubscriptionPayments.Sum(p => p.Paid)),
+                    SubscriptionDue = ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SignUpFee) - ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SubscriptionPayments.Sum(p => p.Paid)),
                     UsersCount = d.Clinics.Sum(c => c.AspNetUsers.Count()),
                     ClinicsCount = d.Clinics.Count(),
                     PatientsCount = d.Patients.Count(),
@@ -68,7 +68,7 @@ namespace clinic_panel.Controllers
             if (ModelState.IsValid)
             {
                 model.RoleName = "doctor";
-                string currentUserId = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id.ToString();                
+                string currentUserId = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id.ToString();
                 string apiUrl = ConfigurationManager.AppSettings["apiurl"];
                 using (var client = new HttpClient())
                 {
@@ -192,7 +192,7 @@ namespace clinic_panel.Controllers
                 var payment = new SubscriptionPayment
                 {
                     Subscription = subscription,
-                    Paid = (decimal) model.SignUpFee,
+                    Paid = (decimal)model.SignUpFee,
                     NextPaymentDate = model.NextPaymentDate,
                     Note = model.PayNote,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
@@ -267,7 +267,7 @@ namespace clinic_panel.Controllers
                     SundayTimeTo = new DateTime(2020, 1, 1, 22, 0, 0),
                     ThursdayTimeTo = new DateTime(2020, 1, 1, 22, 0, 0),
                     TuesdayTimeTo = new DateTime(2020, 1, 1, 22, 0, 0),
-                    WednesdayTimeTo = new DateTime(2020, 1, 1, 22, 0, 0),                    
+                    WednesdayTimeTo = new DateTime(2020, 1, 1, 22, 0, 0),
                     PrintAddress1 = model.PrintAddress1,
                     PrintAddress2 = model.PrintAddress2,
                     PrintAddress3 = model.PrintAddress3,
@@ -355,6 +355,8 @@ namespace clinic_panel.Controllers
             }
             var model = new DoctorDetailsDTO
             {
+                DoctorId = doctor.Id,
+                ClinicId = clinic.Id,
                 FullName = doctor.FullName,
                 Specialty = doctor.SysDoctorsSpecialty.Text,
                 Phone1 = doctor.Phone1,
@@ -478,7 +480,7 @@ namespace clinic_panel.Controllers
         {
             if (model.Paid == 0)
             {
-                ModelState.AddModelError("Paid","لابد من إدخال قيمة !");
+                ModelState.AddModelError("Paid", "لابد من إدخال قيمة !");
             }
             if (ModelState.IsValid)
             {
@@ -502,38 +504,122 @@ namespace clinic_panel.Controllers
         }
 
 
-        //// GET: Doctor/Edit/5
-        //public ActionResult Edit(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Doctor doctor = db.Doctors.Find(id);
-        //    if (doctor == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.SpecialtyId = new SelectList(db.SysDoctorsSpecialties, "Id", "Value", doctor.SpecialtyId);
-        //    return View(doctor);
-        //}
+        // GET: Doctor/Edit/5
+        public ActionResult Edit(Guid? doctorId, Guid? clinicId)
+        {
+            if (doctorId == null || clinicId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Doctor doctor = db.Doctors.Find(doctorId);
+            Clinic clinic = db.Clinics.Find(clinicId);
+            if (doctor == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new DoctorEditDTO
+            {
+                DoctorId = doctor.Id,
+                ClinicId = clinic.Id,
+                FullName = doctor.FullName,
+                Phone1 = doctor.Phone1,
+                Phone2 = doctor.Phone2,
+                Phone3 = doctor.Phone3,
+                WhatsApp = doctor.WhatsApp,
+                Email1 = doctor.Email1,
+                Email2 = doctor.Email2,
+                Facebook = doctor.Facebook,
+                Twitter = doctor.Twitter,
+                LinkedIn = doctor.LinkedIn,
+                Instagram = doctor.Instagram,
+                ClinicName = clinic.ClinicName,
+                EntryOrderId = clinic.EntryOrderId,
+                BookingPeriod = clinic.BookingPeriod,
+                ConsultExpiration = clinic.ConsultExpiration,
+                PrintAddress1 = clinic.PrintAddress1,
+                PrintAddress2 = clinic.PrintAddress2,
+                PrintAddress3 = clinic.PrintAddress3,
+                PrintClinicName = clinic.PrintClinicName,
+                PrintDoctorDegree = clinic.PrintDoctorDegree,
+                PrintDoctorName = clinic.PrintDoctorName,
+                PrintPhone1 = clinic.PrintPhone1,
+                PrintPhone2 = clinic.PrintPhone2,
+                PrintPhone3 = clinic.PrintPhone3,
+                SpecialtyId = doctor.SpecialtyId
+            };
+            var allPeriods = new List<SelectListItem>() {
+                    new SelectListItem{Value = "5", Text = "5"},
+                    new SelectListItem{Value = "10", Text = "10"},
+                    new SelectListItem{Value = "15", Text = "15"},
+                    new SelectListItem{Value = "20", Text = "20"},
+                    new SelectListItem{Value = "30", Text = "30"},
+                    new SelectListItem{Value = "45", Text = "45"},
+                    new SelectListItem{Value = "60", Text = "60"},
+                };
+            ViewData["BookingPeriod"] = new SelectList(allPeriods, "Value", "Text", model.BookingPeriod);
+            ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value", model.SpecialtyId);
+            ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", model.EntryOrderId);
+            return View(model);
+        }
 
-        //// POST: Doctor/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "Id,UserId,SpecialtyId,FullName,IsActive,IsDeleted,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,PatientRecordSections,DiseasesQuestions,Phone1,Phone2,Phone3,WhatsApp,Email1,Email2,Facebook,Twitter,LinkedIn,Instagram")] Doctor doctor)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(doctor).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.SpecialtyId = new SelectList(db.SysDoctorsSpecialties, "Id", "Value", doctor.SpecialtyId);
-        //    return View(doctor);
-        //}
+        // POST: Doctor/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(DoctorEditDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                Doctor doctor = db.Doctors.Find(model.DoctorId);
+                Clinic clinic = db.Clinics.Find(model.ClinicId);
+                doctor.SpecialtyId = model.SpecialtyId;
+                doctor.FullName = model.FullName;
+                doctor.Phone1 = model.Phone1;
+                doctor.Phone2 = model.Phone2;
+                doctor.Phone3 = model.Phone3;
+                doctor.WhatsApp = model.WhatsApp;
+                doctor.Email1 = model.Email1;
+                doctor.Email2 = model.Email2;
+                doctor.Facebook = model.Facebook;
+                doctor.Twitter = model.Twitter;
+                doctor.LinkedIn = model.LinkedIn;
+                doctor.Instagram = model.Instagram;
+                doctor.UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id;
+                doctor.UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time");
+                clinic.ClinicName = model.ClinicName;
+                clinic.EntryOrderId = model.EntryOrderId;
+                clinic.BookingPeriod = model.BookingPeriod;
+                clinic.ConsultExpiration = model.ConsultExpiration;
+                clinic.PrintAddress1 = model.PrintAddress1;
+                clinic.PrintAddress2 = model.PrintAddress2;
+                clinic.PrintAddress3 = model.PrintAddress3;
+                clinic.PrintClinicName = model.PrintClinicName;
+                clinic.PrintDoctorDegree = model.PrintDoctorDegree;
+                clinic.PrintDoctorName = model.PrintDoctorName;
+                clinic.PrintPhone1 = model.PrintPhone1;
+                clinic.PrintPhone2 = model.PrintPhone2;
+                clinic.PrintPhone3 = model.PrintPhone3;
+                clinic.UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id;
+                clinic.UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time");
+                db.Entry(doctor).State = EntityState.Modified;
+                db.Entry(clinic).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            var allPeriods = new List<SelectListItem>() {
+                    new SelectListItem{Value = "5", Text = "5"},
+                    new SelectListItem{Value = "10", Text = "10"},
+                    new SelectListItem{Value = "15", Text = "15"},
+                    new SelectListItem{Value = "20", Text = "20"},
+                    new SelectListItem{Value = "30", Text = "30"},
+                    new SelectListItem{Value = "45", Text = "45"},
+                    new SelectListItem{Value = "60", Text = "60"},
+                };
+            ViewData["BookingPeriod"] = new SelectList(allPeriods, "Value", "Text", model.BookingPeriod);
+            ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value", model.SpecialtyId);
+            ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", model.EntryOrderId);
+            return View(model);
+        }
 
         //// GET: Doctor/Delete/5
         //public ActionResult Delete(Guid? id)

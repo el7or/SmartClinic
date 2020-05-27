@@ -33,6 +33,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   getSubs: Subscription;
   pageSubs: Subscription;
   searchSubs: Subscription;
+  deleteSubs: Subscription;
 
   constructor(
     private patientService: PatientsService,
@@ -73,6 +74,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     this.getSubs.unsubscribe();
     if (this.pageSubs) this.pageSubs.unsubscribe();
     if (this.searchSubs) this.searchSubs.unsubscribe();
+    if (this.deleteSubs) this.deleteSubs.unsubscribe();
   }
 
   // =====> on click on pagination:
@@ -122,7 +124,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   onOpenFilePatient(codeId: number) {
     if (this.authService.roleName != UserRole.Employee) {
       this.router.navigate(["/pages/patients/details/" + codeId + "/record"]);
-    }else{
+    } else {
       this.router.navigate(["/pages/patients/details/" + codeId + "/basic"]);
     }
   }
@@ -141,12 +143,27 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  /* // =====> on click delete in table:
-  onDeletePatient() {
+  // =====> on click delete in table:
+  onDeletePatient(id: string,index:number) {
     this.deleteSwal.fire().then((result) => {
       if (result.value) {
-        this.doneSwal.fire();
+        this.formLoading = true;
+        this.deleteSubs = this.patientService.deletePatient(id).subscribe(
+          () => {
+            this.formLoading = false;
+            this.doneSwal.fire();
+            this.patientsList.splice(index,1);
+            /* this.router
+              .navigateByUrl("/", { skipLocationChange: true })
+              .then(() => this.router.navigate(["/pages/patients/list"])); */
+          },
+          (error) => {
+            console.error(error);
+            this.alertService.alertError();
+            this.formLoading = false;
+          }
+        );
       }
     });
-  } */
+  }
 }

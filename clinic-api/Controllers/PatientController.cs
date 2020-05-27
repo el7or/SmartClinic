@@ -33,7 +33,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-                var patient = await _context.Patients.Where(p => p.ClinicId == clinicId && p.SeqNo == seqNo).Include(b => b.Bookings).FirstOrDefaultAsync();
+                var patient = await _context.Patients.Where(p => p.ClinicId == clinicId && p.SeqNo == seqNo && p.IsDeleted != true).Include(b => b.Bookings).FirstOrDefaultAsync();
                 var patientHeaderInfo = new PatientGetDTO
                 {
                     PatientId = patient.Id,
@@ -52,7 +52,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var patients = await _context.Patients.Include(b => b.Bookings).Where(c => c.ClinicId == clinicId).OrderByDescending(d => d.CreatedOn)
+            var patients = await _context.Patients.Include(b => b.Bookings).Where(c => c.ClinicId == clinicId && c.IsDeleted != true).OrderByDescending(d => d.CreatedOn)
                 .Select(p => new PatientsListDTO
                 {
                     Id = p.Id,
@@ -87,7 +87,7 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             searchText = searchText.Trim().Normalize_AR();
-            var patients = await _context.Patients.Include(b => b.Bookings).Where(p => p.ClinicId == clinicId && (p.FullName.Contains(searchText) || p.Phone.Trim() == searchText)).OrderByDescending(d => d.CreatedOn)
+            var patients = await _context.Patients.Include(b => b.Bookings).Where(p => p.ClinicId == clinicId && p.IsDeleted != true && (p.FullName.Contains(searchText) || p.Phone.Trim() == searchText)).OrderByDescending(d => d.CreatedOn)
                 .Select(p => new PatientsListDTO
                 {
                     Id = p.Id,
@@ -122,7 +122,7 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             patientName = patientName.Trim().Normalize_AR();
-            var isPatientExist = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && (p.FullName == patientName));
+            var isPatientExist = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && p.IsDeleted != true && (p.FullName == patientName));
             if (isPatientExist ==null)
             {
                 return 0;
@@ -144,7 +144,7 @@ namespace clinic_api.Controllers
             PatientGetBasicDTO patientDetails = null;
             if (patientId !="new")
             {
-                var patient = await _context.Patients.FindAsync(Guid.Parse(patientId));
+                var patient = await _context.Patients.FirstOrDefaultAsync(p => p.Id== Guid.Parse(patientId) && p.IsDeleted != true);
                 patientDetails = new PatientGetBasicDTO
                 {
                     PatientId = patient.Id,
@@ -192,7 +192,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var patient = await _context.Patients.FindAsync(model.PatientId);
+            var patient = await _context.Patients.FirstOrDefaultAsync(p=> p.Id== model.PatientId && p.IsDeleted != true);
             patient.FullName = model.FullName.Trim().Normalize_AR();
             patient.Phone = model.Phone.Trim();
             patient.Age = model.Age;
@@ -232,7 +232,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            int seqNo = _context.Patients.Where(p => p.ClinicId == model.ClinicId).Count() + 1;
+            int seqNo = _context.Patients.Where(p => p.ClinicId == model.ClinicId && p.IsDeleted != true).Count() + 1;
             var patient = new Patient
             {
                 Id = Guid.NewGuid(),
@@ -274,21 +274,28 @@ namespace clinic_api.Controllers
             return Ok(new { seqNo = patient.SeqNo, patientId = patient.Id  });
         }
 
-        //// DELETE: api/Patient/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<Patient>> DeletePatient(Guid id)
-        //{
-        //    var patient = await _context.Patients.FindAsync(id);
-        //    if (patient == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE: api/Patient/5
+        [HttpDelete("{id}/{patientId}")]
+        public async Task<ActionResult<Patient>> DeletePatient(Guid id, Guid patientId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var patient = await _context.Patients.FindAsync(patientId);
+            if (patient == null)
+            {
+                return NotFound();
+            }
 
-        //    _context.Patients.Remove(patient);
-        //    await _context.SaveChangesAsync();
+            patient.IsDeleted = true;
+            patient.UpdatedBy = id;
+            patient.UpdatedOn = DateTime.Now.ToEgyptTime();
+            _context.Entry(patient).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
-        //    return patient;
-        //}
+            return NoContent();
+        }
 
         private bool PatientExists(Guid id)
         {

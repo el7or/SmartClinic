@@ -114,39 +114,41 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
 
   // =====> check if patient name is exist:
   onBlurName(patientName: NgForm) {
-    this.nameLoading = true;
     if (patientName.valid) {
-      this.nameSubs = this.basicInfoService
-        .checkPatientExist(patientName.value)
-        .subscribe(
-          (res: number) => {
-            if (res) {
-              this.duplicateNameSwal.fire().then((result) => {
-                if (result.value) {
-                  // =====> load another patient details:
-                  this.router
-                    .navigateByUrl("/", { skipLocationChange: true })
-                    .then(() =>
-                      this.router.navigate([
-                        "/pages/patients/details",
-                        res,
-                        "basic",
-                      ])
-                    );
-                } else {
-                  // =====> reset patient name:
-                  this.patientInfo.name = "";
-                }
-              });
+      this.nameLoading = true;
+      if (patientName.valid) {
+        this.nameSubs = this.basicInfoService
+          .checkPatientExist(patientName.value)
+          .subscribe(
+            (res: number) => {
+              if (res) {
+                this.duplicateNameSwal.fire().then((result) => {
+                  if (result.value) {
+                    // =====> load another patient details:
+                    this.router
+                      .navigateByUrl("/", { skipLocationChange: true })
+                      .then(() =>
+                        this.router.navigate([
+                          "/pages/patients/details",
+                          res,
+                          "basic",
+                        ])
+                      );
+                  } else {
+                    // =====> reset patient name:
+                    this.patientInfo.name = "";
+                  }
+                });
+              }
+              this.nameLoading = false;
+            },
+            (err) => {
+              console.error(err);
+              this.alertService.alertError();
+              this.nameLoading = false;
             }
-            this.nameLoading = false;
-          },
-          (err) => {
-            console.error(err);
-            this.alertService.alertError();
-            this.nameLoading = false;
-          }
-        );
+          );
+      }
     }
   }
 

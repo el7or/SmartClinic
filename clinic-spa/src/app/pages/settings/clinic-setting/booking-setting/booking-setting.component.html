@@ -51,7 +51,7 @@
         <thead>
           <tr>
             <th>
-              <nb-checkbox [(checked)]="bookingSetting.isAllDaysOn">
+              <nb-checkbox [(checked)]="bookingSetting.isAllDaysOn" (checkedChange)="onChangeAllDaysOn($event)">
                 {{'All Days' | langg}}</nb-checkbox>
             </th>
             <th>
@@ -74,7 +74,7 @@
         <tbody>
           <tr>
             <td class="align-middle">
-              <nb-checkbox [(checked)]="bookingSetting.isAllDaysOn ? true : bookingSetting.isSaturdayOn"
+              <nb-checkbox [(checked)]=" bookingSetting.isSaturdayOn"
                 [disabled]="bookingSetting.isAllDaysOn">
                 {{'Saturday' | langg}}</nb-checkbox>
             </td>
@@ -95,7 +95,7 @@
           </tr>
           <tr>
             <td class="align-middle">
-              <nb-checkbox name="sunday" [(checked)]="bookingSetting.isAllDaysOn ? true :bookingSetting.isSundayOn"
+              <nb-checkbox name="sunday" [(checked)]="bookingSetting.isSundayOn"
                 [disabled]="bookingSetting.isAllDaysOn">
                 {{'Sunday' | langg}}</nb-checkbox>
             </td>
@@ -116,7 +116,7 @@
           </tr>
           <tr>
             <td class="align-middle">
-              <nb-checkbox name="monday" [(checked)]="bookingSetting.isAllDaysOn ? true :bookingSetting.isMondayOn"
+              <nb-checkbox name="monday" [(checked)]="bookingSetting.isMondayOn"
                 [disabled]="bookingSetting.isAllDaysOn">
                 {{'Monday' | langg}}</nb-checkbox>
             </td>
@@ -137,7 +137,7 @@
           </tr>
           <tr>
             <td class="align-middle">
-              <nb-checkbox name="tuesday" [(checked)]="bookingSetting.isAllDaysOn ? true :bookingSetting.isTuesdayOn"
+              <nb-checkbox name="tuesday" [(checked)]="bookingSetting.isTuesdayOn"
                 [disabled]="bookingSetting.isAllDaysOn">
                 {{'Tuesday' | langg}}</nb-checkbox>
             </td>
@@ -159,7 +159,7 @@
           <tr>
             <td class="align-middle">
               <nb-checkbox name="wednesday"
-                [(checked)]="bookingSetting.isAllDaysOn ? true :bookingSetting.isWednesdayOn"
+                [(checked)]="bookingSetting.isWednesdayOn"
                 [disabled]="bookingSetting.isAllDaysOn">
                 {{'Wednesday' | langg}}</nb-checkbox>
             </td>
@@ -180,7 +180,7 @@
           </tr>
           <tr>
             <td class="align-middle">
-              <nb-checkbox name="thursday" [(checked)]="bookingSetting.isAllDaysOn ? true :bookingSetting.isThursdayOn"
+              <nb-checkbox name="thursday" [(checked)]="bookingSetting.isThursdayOn"
                 [disabled]="bookingSetting.isAllDaysOn">
                 {{'Thursday' | langg}}</nb-checkbox>
             </td>
@@ -201,7 +201,7 @@
           </tr>
           <tr>
             <td class="align-middle">
-              <nb-checkbox name="friday" [(checked)]="bookingSetting.isAllDaysOn ? true :bookingSetting.isFridayOn"
+              <nb-checkbox name="friday" [(checked)]="bookingSetting.isFridayOn"
                 [disabled]="bookingSetting.isAllDaysOn">
                 {{'Friday' | langg}}</nb-checkbox>
             </td>

@@ -137,13 +137,13 @@
             @Html.DisplayFor(model => model.Paid) ج.م
         </dd>
 
-        <dt>
+        @*<dt>
             تاريخ دفع المتبقي (إن وجد):
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.NextPaymentDate)
-        </dd>
+        </dd>*@
 
         <dt>
             ملاحظات على الدفع:
@@ -260,6 +260,6 @@
     </dl>
 </div>
 <p>
-    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+    @Html.ActionLink("تعديل", "Edit", new {  doctorId = Model.DoctorId, clinicId= Model.ClinicId  }, new { @class = "btn btn-success" }) |
     @Html.ActionLink("رجوع", "Index")
 </p>

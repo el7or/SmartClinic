@@ -1,3 +1,4 @@
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import {
@@ -39,6 +40,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   bookingServicesPrice = 0;
   bookingDiscountPrice = 0;
   isUserChangedDate = false;
+  currentRoute: string;
 
   @Input() bookId: number;
   @Input() patientId: string;
@@ -58,7 +60,8 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private localeService: BsLocaleService,
     private authService: AuthService,
-    private dateTimeService: DateTimeService
+    private dateTimeService: DateTimeService,
+    private router: Router
   ) {
     // =====> localize datepicker:
     this.localeService.use(localStorage.getItem("langg"));
@@ -86,6 +89,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formLoading = true;
+    this.currentRoute = this.router.url;
     // =====> get booking settings & data:
     this.getBookSubs = this.bookingService
       .getBookingDetails(
@@ -386,6 +390,11 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
         this.doneSwal.fire();
         this.formLoading = false;
         this.dialogRef.close();
+        this.router
+          .navigateByUrl("/", { skipLocationChange: true })
+          .then(() =>
+            this.router.navigate([this.currentRoute])
+          );
       },
       (err) => {
         console.error(err);
@@ -413,6 +422,11 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           this.doneSwal.fire();
           this.formLoading = false;
           this.dialogRef.close();
+          this.router
+          .navigateByUrl("/", { skipLocationChange: true })
+          .then(() =>
+            this.router.navigate([this.currentRoute])
+          );
         },
         (err) => {
           console.error(err);

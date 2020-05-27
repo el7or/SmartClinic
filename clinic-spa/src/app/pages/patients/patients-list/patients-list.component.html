@@ -49,7 +49,7 @@
         </tr>
       </tbody>
       <tbody *ngIf="patientsList?.length">
-        <tr *ngFor="let item of patientsList">
+        <tr *ngFor="let item of patientsList; index as i">
           <td>{{item.name}}</td>
           <td>{{item.mobile}}</td>
           <td>{{item.visitsCount}}</td>
@@ -58,11 +58,14 @@
           <td class="text-center">
             <button nbButton (click)="onOpenFilePatient(item.codeId)" size="tiny" status="info" langg>Patient
               Profile</button>&nbsp;
-            <button nbButton *ngIf="!item.lastVisitBookId" (click)="onBook(0,item)" size="tiny" status="success" langg>New Book</button>
-            <button nbButton *ngIf="item.lastVisitBookId" (click)="onBook(item.lastVisitBookId,item)" size="tiny" langg>Last Book</button>&nbsp;
-            <!-- <button nbButton (click)="onDeletePatient()" size="tiny" status="danger" langg>Delete</button> | -->
-            <button nbButton *ngIf="item.visitsCount > 0" [routerLink]="['/pages/patients/details',item.codeId,'visits']" size="tiny"
-              status="warning" langg>All Visits</button>
+            <button nbButton *ngIf="!item.lastVisitBookId" (click)="onBook(0,item)" size="tiny" status="success"
+              langg>New Book</button>
+            <button nbButton *ngIf="item.lastVisitBookId" (click)="onBook(item.lastVisitBookId,item)" size="tiny"
+              langg>Last Book</button>&nbsp;
+            <button nbButton (click)="onDeletePatient(item.id,i)" size="tiny" status="danger" langg>Delete</button>
+            <span *ngIf="item.visitsCount > 0"> | <button nbButton
+                [routerLink]="['/pages/patients/details',item.codeId,'visits']" size="tiny" status="warning" langg>All
+                Visits</button></span>
           </td>
         </tr>
       </tbody>

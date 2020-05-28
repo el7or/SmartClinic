@@ -135,6 +135,8 @@ namespace clinic_api.DTOs
     {
         public int Id { get; set; }
         public int DiagnosisId { get; set; }
+        public string DiagnosisName { get; set; }
+        public bool? IsNameValid { get; set; }
         public int? GradeId { get; set; }
         public string Note { get; set; }
         public DateTime CreatedOn { get; set; }

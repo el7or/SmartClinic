@@ -40,4 +40,16 @@ export class DiagnosisService {
         patientDiagnosis
     );
   }
+
+  postDiagnosisValue(diagnosisValue: string) {
+    return this.http.post(
+      this.baseUrl +
+        "Doctor/PostDiagnosisValue/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId+
+        "/" + diagnosisValue,
+        {}
+    );
+  }
 }

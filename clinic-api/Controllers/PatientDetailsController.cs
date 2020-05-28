@@ -360,7 +360,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var patient = _context.Patients.Where(p => p.Id == patientId).Include(e => e.PatientDiagnosis).FirstOrDefault();
+            var patient = _context.Patients.Where(p => p.Id == patientId).Include(e => e.PatientDiagnosis).Include("PatientDiagnosis.Diagnosis").FirstOrDefault();
             if (patient == null)
             {
                 return NotFound();
@@ -381,6 +381,8 @@ namespace clinic_api.Controllers
                 {
                     Id = e.Id,
                     DiagnosisId = e.DiagnosisId,
+                    DiagnosisName = e.Diagnosis.Diagnosis,
+                    IsNameValid = true,
                     GradeId = e.GradeId,
                     Note = e.Note,
                     CreatedOn = e.CreatedOn
@@ -504,16 +506,36 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var patientPrescription = new PatientPrescription
+            var patientPrescription = new PatientPrescription();
+            if (model.Id == 0)
             {
-                PatientId = patientId,
-                Note = model.Note,
-                IsPrint = model.IsPrint,
-                CreatedBy = id,
-                CreatedOn = DateTime.Now.ToEgyptTime(),
-                UpdatedBy = id,
-                UpdatedOn = DateTime.Now.ToEgyptTime(),
-                PrescriptionMedicines = model.Medicines.Select(m => new PrescriptionMedicine
+                patientPrescription = new PatientPrescription
+                {
+                    PatientId = patientId,
+                    Note = model.Note,
+                    IsPrint = model.IsPrint,
+                    CreatedBy = id,
+                    CreatedOn = DateTime.Now.ToEgyptTime(),
+                    UpdatedBy = id,
+                    UpdatedOn = DateTime.Now.ToEgyptTime(),
+                    PrescriptionMedicines = model.Medicines.Select(m => new PrescriptionMedicine
+                    {
+                        MedicineId = m.MedicineId,
+                        ConcentrationId = m.ConcentrationId,
+                        DoseId = m.DoseId,
+                        FormId = m.FormId,
+                        PeriodId = m.PeriodId,
+                        TimingId = m.TimingId
+                    }).ToList()
+                };
+                _context.PatientPrescriptions.Add(patientPrescription);
+            }
+            else
+            {
+                patientPrescription = _context.PatientPrescriptions.Include(m => m.PrescriptionMedicines).FirstOrDefault(i => i.Id == model.Id);
+                patientPrescription.Note = model.Note;
+                _context.PrescriptionMedicines.RemoveRange(patientPrescription.PrescriptionMedicines);
+                patientPrescription.PrescriptionMedicines = model.Medicines.Select(m => new PrescriptionMedicine
                 {
                     MedicineId = m.MedicineId,
                     ConcentrationId = m.ConcentrationId,
@@ -521,11 +543,11 @@ namespace clinic_api.Controllers
                     FormId = m.FormId,
                     PeriodId = m.PeriodId,
                     TimingId = m.TimingId
-                }).ToList()
-            };
-
-
-            _context.PatientPrescriptions.Add(patientPrescription);
+                }).ToList();
+                patientPrescription.UpdatedBy = id;
+                patientPrescription.UpdatedOn = DateTime.Now.ToEgyptTime();
+                _context.Entry(patientPrescription).State = EntityState.Modified;
+            }
             try
             {
                 await _context.SaveChangesAsync();
@@ -584,12 +606,12 @@ namespace clinic_api.Controllers
                     Id = v.Id,
                     Text = v.RayName
                 }).ToListAsync(),
-                RayAreaValues = await _context.DoctorRayAreasValues.Select(v => new RayAreaValue
+                RayAreaValues = await _context.DoctorRayAreasValues.Where(d => d.DoctorId == doctorId).Select(v => new RayAreaValue
                 {
                     Id = v.Id,
                     Text = v.RayArea
                 }).ToListAsync(),
-                AnalysisValues = await _context.DoctorAnalysisValues.Select(v => new AnalysisValue
+                AnalysisValues = await _context.DoctorAnalysisValues.Where(d => d.DoctorId == doctorId).Select(v => new AnalysisValue
                 {
                     Id = v.Id,
                     Text = v.AnalysisName

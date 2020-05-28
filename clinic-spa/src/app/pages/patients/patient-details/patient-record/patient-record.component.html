@@ -11,41 +11,50 @@
     Booking for Patient</button>
   <!-- &nbsp;<button nbButton size="small" status="info" type="button" (click)="onBook(55)" class="mb-1" langg>Add Services to Last Booking</button> -->
 </div>
-<nb-accordion #acc [nbSpinner]="formLoading" nbSpinnerStatus="success">
+<div [nbSpinner]="formLoading" nbSpinnerStatus="success" [class]="formLoading? 'p-5':''">
+  <nb-accordion #acc>
     <nb-accordion-item *ngFor="let item of recordItems" (collapsedChange)="item.isExpanded = !$event">
-      <nb-accordion-item-header *ngIf="item.textEN=='Patient Complaint' && item.isActive"><span langg>Patient Complaint</span>:</nb-accordion-item-header>
+      <nb-accordion-item-header *ngIf="item.textEN=='Patient Complaint' && item.isActive"><span langg>Patient
+          Complaint</span>:</nb-accordion-item-header>
       <nb-accordion-item-body *ngIf="item.textEN=='Patient Complaint' && item.isActive">
         <complaints *ngIf="item.isExpanded" (onFinish)="acc.closeAll()"></complaints>
       </nb-accordion-item-body>
 
-      <nb-accordion-item-header *ngIf="item.textEN=='Patient History' && item.isActive"><span langg>Patient History</span>:</nb-accordion-item-header>
+      <nb-accordion-item-header *ngIf="item.textEN=='Patient History' && item.isActive"><span langg>Patient
+          History</span>:</nb-accordion-item-header>
       <nb-accordion-item-body *ngIf="item.textEN=='Patient History' && item.isActive">
         <history *ngIf="item.isExpanded" (onFinish)="acc.closeAll()"></history>
       </nb-accordion-item-body>
 
-    <nb-accordion-item-header *ngIf="item.textEN=='Examination' && item.isActive"><span langg>Examination</span>:</nb-accordion-item-header>
+      <nb-accordion-item-header *ngIf="item.textEN=='Examination' && item.isActive"><span langg>Examination</span>:
+      </nb-accordion-item-header>
       <nb-accordion-item-body *ngIf="item.textEN=='Examination' && item.isActive">
         <examination *ngIf="item.isExpanded" (onFinish)="acc.closeAll()"></examination>
       </nb-accordion-item-body>
 
-      <nb-accordion-item-header *ngIf="item.textEN=='Diagnosis' && item.isActive"><span langg>Diagnosis</span>:</nb-accordion-item-header>
+      <nb-accordion-item-header *ngIf="item.textEN=='Diagnosis' && item.isActive"><span langg>Diagnosis</span>:
+      </nb-accordion-item-header>
       <nb-accordion-item-body *ngIf="item.textEN=='Diagnosis' && item.isActive">
         <diagnosis *ngIf="item.isExpanded" (onFinish)="acc.closeAll()"></diagnosis>
       </nb-accordion-item-body>
 
-      <nb-accordion-item-header *ngIf="item.textEN=='X-Rays' && item.isActive"><span langg>X-Rays</span>:</nb-accordion-item-header>
+      <nb-accordion-item-header *ngIf="item.textEN=='X-Rays' && item.isActive"><span langg>X-Rays</span>:
+      </nb-accordion-item-header>
       <nb-accordion-item-body *ngIf="item.textEN=='X-Rays' && item.isActive">
         <xrays *ngIf="item.isExpanded" (onFinish)="acc.closeAll()"></xrays>
       </nb-accordion-item-body>
 
-      <nb-accordion-item-header *ngIf="item.textEN=='Analyses' && item.isActive"><span langg>Analyses</span>:</nb-accordion-item-header>
+      <nb-accordion-item-header *ngIf="item.textEN=='Analyses' && item.isActive"><span langg>Analyses</span>:
+      </nb-accordion-item-header>
       <nb-accordion-item-body *ngIf="item.textEN=='Analyses' && item.isActive">
         <analysis *ngIf="item.isExpanded" (onFinish)="acc.closeAll()"></analysis>
       </nb-accordion-item-body>
 
-      <nb-accordion-item-header *ngIf="item.textEN=='Operations' && item.isActive"><span langg>Operations</span>:</nb-accordion-item-header>
+      <nb-accordion-item-header *ngIf="item.textEN=='Operations' && item.isActive"><span langg>Operations</span>:
+      </nb-accordion-item-header>
       <nb-accordion-item-body *ngIf="item.textEN=='Operations' && item.isActive">
         <operations *ngIf="item.isExpanded" (onFinish)="acc.closeAll()"></operations>
       </nb-accordion-item-body>
     </nb-accordion-item>
-</nb-accordion>
+  </nb-accordion>
+</div>

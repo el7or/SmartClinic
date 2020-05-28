@@ -30,7 +30,7 @@ export class RequestsComponent implements OnInit {
   formLoading: boolean = false;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
-  newRequests: PatientRequest[] = [];
+  newRequests: PatientRequest[];
   prevPatientRequests: PatientRequest[] = [];
   rayNames: RayValue[] = [];
   rayAreas: RayAreaValue[] = [];
@@ -60,13 +60,17 @@ export class RequestsComponent implements OnInit {
         this.prevPatientRequests = res.prevPatientRequests;
         // =====> add empty request based on type in query param:
         const typeParam = this.route.snapshot.queryParamMap.get("type");
-        this.newRequests.push({
-          id: 0,
-          requestId: 0,
-          requestName: "",
-          requestType: typeParam,
-          isAreaValid: true,
-        });
+        if (typeParam) {
+          this.newRequests = [
+            {
+              id: 0,
+              requestId: 0,
+              requestName: "",
+              requestType: typeParam,
+              isAreaValid: true,
+            },
+          ];
+        }
         this.formLoading = false;
       },
       (err) => {
@@ -95,13 +99,25 @@ export class RequestsComponent implements OnInit {
 
   // =====> on add new request to form from button:
   onAddRequest(type) {
-    this.newRequests.push({
-      id: 0,
-      requestId: 0,
-      requestName: "",
-      requestType: type,
-      isAreaValid: true,
-    });
+    if (this.newRequests) {
+      this.newRequests.push({
+        id: 0,
+        requestId: 0,
+        requestName: "",
+        requestType: type,
+        isAreaValid: true,
+      });
+    } else {
+      this.newRequests = [
+        {
+          id: 0,
+          requestId: 0,
+          requestName: "",
+          requestType: type,
+          isAreaValid: true,
+        },
+      ];
+    }
   }
 
   /* // =====> on add new xray name or analysis name to thier list:

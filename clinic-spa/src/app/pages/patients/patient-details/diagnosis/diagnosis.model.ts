@@ -20,6 +20,8 @@ export interface DiseaseValue {
 export interface PatientDiagnosis {
   id?: number;
   diagnosisId?: number;
+  diagnosisName?: string;
+  isNameValid?:boolean;
   gradeId?: number;
   note: string;
   createdOn:Date;

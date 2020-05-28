@@ -105,7 +105,9 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   onSave(isPrint: boolean) {
     this.formLoading = true;
     this.newPatientPrescription.isPrint = isPrint;
-    this.newPatientPrescription.createdOn = new Date();
+    if (!this.newPatientPrescription.id) {
+      this.newPatientPrescription.createdOn = new Date();
+    }
     this.setSubs = this.medicineService
       .savePatientPrescription(this.newPatientPrescription)
       .subscribe(
@@ -121,8 +123,14 @@ export class MedicinesComponent implements OnInit, OnDestroy {
                 return m.medicineName;
               }
             );
-            this.newPatientPrescription.medicinesNames = medicinesNamesArray.toString();
-            this.prevPatientPrescriptions.push(this.newPatientPrescription);
+            if (!this.newPatientPrescription.id) {
+              this.newPatientPrescription.medicinesNames = medicinesNamesArray.toString();
+              this.prevPatientPrescriptions.push(this.newPatientPrescription);
+            } else {
+              this.prevPatientPrescriptions.find(
+                (i) => i.id == this.newPatientPrescription.id
+              ).medicinesNames = medicinesNamesArray.toString();
+            }
             this.newPatientPrescription = {
               id: 0,
               medicines: [{ medicineId: 0, medicineName: "" }],
@@ -140,11 +148,19 @@ export class MedicinesComponent implements OnInit, OnDestroy {
       );
   }
 
-  // =====> on make copy from previous prescription:
-  onCopy(item: PatientPrescription) {
-    item.medicines.forEach((m) => (m.isNameValid = true));
+  // =====> on make copy or edit from previous prescription:
+  onReOpen(item: PatientPrescription, type: string) {
+    let prescItem: PatientPrescription = {
+      id: type == "copy" ? 0 : item.id,
+      medicines: item.medicines,
+      createdOn: type == "copy" ? new Date() : item.createdOn,
+      isPrint: item.isPrint,
+      medicinesNames: item.medicinesNames,
+      note: item.note,
+    };
+    prescItem.medicines.forEach((m) => (m.isNameValid = true));
     this.isAnyNameInvalid = false;
-    this.newPatientPrescription = item;
+    this.newPatientPrescription = prescItem;
     // =====> scroll to top:
     this.scrollService.scrollTo(0, 0);
   }

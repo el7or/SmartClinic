@@ -26,6 +26,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     totalItemCount: 0,
   };
   patientsList: PatientList[];
+  userRole = UserRole;
   @ViewChild("form", { static: false }) form: NgForm;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
@@ -35,11 +36,12 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   searchSubs: Subscription;
   deleteSubs: Subscription;
 
+
   constructor(
     private patientService: PatientsService,
     private dialogService: NbDialogService,
     private alertService: AlertService,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
   ) {}

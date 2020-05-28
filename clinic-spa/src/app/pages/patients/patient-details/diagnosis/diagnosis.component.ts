@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { DiagnosisService } from "./diagnosis.service";
 import { DiagnosisValue, PatientDiagnosis, DiseaseValue, GetPatientDiagnosis, PutPatientDiagnosis } from "./diagnosis.model";
 import { AlertService } from '../../../../shared/services/alert.service';
+import { TypeaheadMatch } from 'ngx-bootstrap';
 
 @Component({
   selector: "diagnosis",
@@ -21,10 +22,12 @@ export class DiagnosisComponent implements OnInit, OnDestroy {
   diagnosisValues:DiagnosisValue[];
   diseaseValues:DiseaseValue[];
   patientDiagnoses: PatientDiagnosis[]=[];
+  isAnyNameInvalid = true;
   @Output() onFinish: EventEmitter<any> = new EventEmitter<any>();
 
   getSubs: Subscription;
   setSubs: Subscription;
+  addSubs: Subscription;
 
   constructor(
     private diagnosiService: DiagnosisService,
@@ -60,9 +63,30 @@ export class DiagnosisComponent implements OnInit, OnDestroy {
     if (this.setSubs) this.setSubs.unsubscribe();
   }
 
-  /* onAddNewItemToList(diagnoseName) {
-    this.diagnosesNames.push(diagnoseName);
-  } */
+  // =====> bind diagnosisId on select diagnosis from typehead:
+  onSelectDiagnose(event: TypeaheadMatch, index) {
+    this.isAnyNameInvalid = false;
+    this.patientDiagnoses[index].diagnosisId = event.item.id;
+  }
+
+  onAddNewItemToList(item:PatientDiagnosis) {
+    this.formLoading = true;
+    this.addSubs = this.diagnosiService
+      .postDiagnosisValue(item.diagnosisName)
+      .subscribe(
+        (res:DiagnosisValue) => {
+          this.diagnosisValues.push(res);
+          item.diagnosisId = res.id;
+          this.formLoading = false;
+          this.doneSwal.fire();
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
+  }
 
   // =====> on add new request to form from button:
   onAddDiagnose() {
@@ -70,6 +94,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy {
     this.patientDiagnoses.push({
       id : 0,
       diagnosisId :0,
+      isNameValid:true,
       gradeId:null,
       note: "",
       createdOn: new Date()

@@ -106,8 +106,8 @@
           <td>{{item.createdOn | localDateShort}}</td>
           <td>{{item.medicinesNames}}</td>
           <td class="text-center">
-            <!-- <button nbButton type="button" status="success" size="small" (click)="onCopy()" langg>Edit</button>&nbsp; -->
-            <button nbButton type="button" status="info" size="small" (click)="onCopy(item)" langg>Copy</button>&nbsp;
+            <button nbButton type="button" status="success" size="small" (click)="onReOpen(item,'edit')" langg>Edit</button>&nbsp;
+            <button nbButton type="button" status="info" size="small" (click)="onReOpen(item,'copy')" langg>Copy</button>&nbsp;
             <button nbButton type="button" status="basic" size="small" (click)="onPrint(item)" langg>Print</button>
           </td>
         </tr>

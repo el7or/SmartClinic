@@ -41,6 +41,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   bookingDiscountPrice = 0;
   isUserChangedDate = false;
   currentRoute: string;
+  isHasBookingSameDay:any;
 
   @Input() bookId: number;
   @Input() patientId: string;
@@ -206,10 +207,10 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
             });
 
             // =====> check if same patient has booking in same day:
-            const prevBooking = this.bookingSetting.doctorAllBookingSameDay.find(
+            this.isHasBookingSameDay = this.bookingSetting.doctorAllBookingSameDay.find(
               (b) => b.patientId == this.patientId
             );
-            if (prevBooking) {
+            if (this.isHasBookingSameDay) {
               this.existSwal.fire();
             }
           }
@@ -268,10 +269,10 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
             // =====> check if same patient has booking in same day:
             if (!this.bookId) {
-              const prevBooking = res.doctorAllBookingSameDay.find(
+              this.isHasBookingSameDay = res.doctorAllBookingSameDay.find(
                 (b) => b.patientId == this.patientId
               );
-              if (prevBooking) {
+              if (this.isHasBookingSameDay) {
                 this.existSwal.fire();
               }
             }

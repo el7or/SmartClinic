@@ -64,6 +64,10 @@ export class BookingsListTodayComponent
             (acc, booking) => acc + booking.paid,
             0
           );
+          // =====> set label to first attend booking:
+          this.nextBooking = this.bookingsList.findIndex(
+            (booking) => booking.isAttend && !booking.isEnter
+          );
           this.formLoading = false;
         },
         (err) => {
@@ -163,8 +167,7 @@ export class BookingsListTodayComponent
         if (!b.attendTime) {
           b.attendTime = b.entryTime;
           b.isAttend = b.isEnter;
-        }
-        else{
+        } else {
           b.attendTime = new Date(b.attendTime);
         }
       });
@@ -183,19 +186,19 @@ export class BookingsListTodayComponent
               +a.attendTime - +b.attendTime
           )
           .map((item, index) => (item.daySeqNo = index + 1));
-          this.updateBookingListDB(this.bookingsList);
+        this.updateBookingListDB(this.bookingsList);
         break;
       case "According to the Booking Time":
         this.bookingsList
           .sort((a, b) => +b.isEnter - +a.isEnter || +a.time - +b.time)
           .map((item, index) => (item.daySeqNo = index + 1));
-          this.updateBookingListDB(this.bookingsList);
+        this.updateBookingListDB(this.bookingsList);
         break;
       case "Manual":
         this.bookingsList
           .sort((a, b) => +b.isEnter - +a.isEnter || +b.isEnter - +a.isEnter)
           .map((item, index) => (item.daySeqNo = index + 1));
-          this.updateBookingListDB(this.bookingsList);
+        this.updateBookingListDB(this.bookingsList);
         break;
     }
     // =====> set label to first attend booking:
@@ -204,15 +207,19 @@ export class BookingsListTodayComponent
     );
   }
 
-  updateBookingListDB(bookingList: BookingList[]){
+  updateBookingListDB(bookingList: BookingList[]) {
     this.formLoading = true;
-    bookingList.forEach(book => {
-      book.entryTimeString = book.isEnter? this.dateTimeService.clearTime(book.entryTime) : null;
-      book.attendTimeString = book.isAttend? this.dateTimeService.clearTime(book.attendTime) : null;
+    bookingList.forEach((book) => {
+      book.entryTimeString = book.isEnter
+        ? this.dateTimeService.clearTime(book.entryTime)
+        : null;
+      book.attendTimeString = book.isAttend
+        ? this.dateTimeService.clearTime(book.attendTime)
+        : null;
     });
-    const listObj:PutBookingList = {
-      bookingsList : bookingList
-    }
+    const listObj: PutBookingList = {
+      bookingsList: bookingList,
+    };
     this.editListSubs = this.bookingService.putBookingsList(listObj).subscribe(
       () => {
         this.doneSwal.fire();

@@ -43,11 +43,11 @@
       </table>
 
       <button nbButton size="small" (click)="onAddRequest('ray')"
-        [disabled]="newRequests.length &&(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)" class="mx-1 mb-1">
+        [disabled]="newRequests?.length &&(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)" class="mx-1 mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Request X-Ray</span>
       </button>
       <button nbButton size="small" (click)="onAddRequest('analysis')"
-      [disabled]="newRequests.length &&(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)" class="mx-1 mb-1">
+      [disabled]="newRequests?.length &&(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)" class="mx-1 mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Request Analysis</span>
       </button>
 

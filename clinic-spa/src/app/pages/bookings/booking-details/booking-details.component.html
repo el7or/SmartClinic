@@ -71,7 +71,7 @@
           </div>
           <nb-alert accent="info" class="text-nowrap" *ngIf="bookingSetting?.clinicBookingDiscounts?.length">
             <label><span
-                langg>Price</span>:<u>&nbsp;{{bookingTypePrice + bookingServicesPrice | number:'0.0-0' | currency:'EGP':'symbol':'1.0'}}</u></label>
+                langg>Price</span>:<u>&nbsp;{{bookingTypePrice + bookingServicesPrice | number:'0.0-0' }} {{'EGP' | langg}}</u></label>
           </nb-alert>
           <div class="form-control-group" *ngIf="bookingSetting?.clinicBookingDiscounts?.length">
             <label for="input-discount" class="label"><span langg>Discount</span>:</label>
@@ -84,7 +84,7 @@
           </div>
           <nb-alert accent="warning" class="text-nowrap">
             <label><span langg>Total
-                Amount:</span><u>&nbsp;{{(bookingTypePrice + bookingServicesPrice - bookingDiscountPrice > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice : 0) | number:'0.0-0' | currency:'EGP':'symbol':'1.0'}}</u></label>
+                Amount:</span><u>&nbsp;{{(bookingTypePrice + bookingServicesPrice - bookingDiscountPrice > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice : 0) | number:'0.0-0' }} {{'EGP' | langg}}</u></label>
           </nb-alert>
           <div class="form-control-group">
             <label for="input-payment" class="label"><span langg>Amount Paid</span>:</label>
@@ -106,7 +106,7 @@
           </div>
           <nb-alert accent="danger" class="text-nowrap">
             <label><span langg>Amount
-                Due</span>:<u>&nbsp;{{ (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid  : 0) | number:'0.0-0' | currency:'EGP':'symbol':'1.0'}}</u></label>
+                Due</span>:<u>&nbsp;{{ (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid  : 0) | number:'0.0-0' }} {{'EGP' | langg}}</u></label>
           </nb-alert>
         </div>
         <div class="col-md-6" *ngIf="bookingSetting?.doctorAllBookingSameDay.length">
@@ -142,7 +142,7 @@
     <nb-card-footer>
       <div class="text-center nbButton-group">
         <button nbButton type="submit" status="success"
-          [disabled]="!form.valid || form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice)">
+          [disabled]="!form.valid || form?.value.paid > (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice) || isHasBookingSameDay">
           {{bookId?('Save'|langg):('Book'|langg)}}</button>
         <!-- <button nbButton type="button" (click)="onAddBookingPrint()" status="success" [disabled]="!form.valid" langg>Book & Print Invoice</button> -->
         <button nbButton type="button" status="danger" langg (click)="dialogRef.close()">Cancel</button></div>

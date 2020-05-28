@@ -9,6 +9,7 @@ using clinic_api.Data;
 using clinic_api.Models;
 using clinic_api.DTOs;
 using System.IdentityModel.Tokens.Jwt;
+using clinic_api.Helper;
 
 namespace clinic_api.Controllers
 {
@@ -169,6 +170,36 @@ namespace clinic_api.Controllers
             }
 
             return NoContent();
+        }
+
+        // PUT: api/Doctor/PostDiagnosisValue/5
+        [HttpPost("PostDiagnosisValue/{id}/{doctorId}/{diagnosis}")]
+        public async Task<ActionResult<DiagnosisValue>> PostDiagnosisValue(Guid id, Guid doctorId, string diagnosis)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var newDiagnosis = new DoctorDiagnosisValue {
+                DoctorId = doctorId,
+                Diagnosis = diagnosis,
+                IsActive = true,
+                IsDeleted = false,
+                CreatedBy = id,
+                CreatedOn = DateTime.Now.ToEgyptTime(),
+                UpdatedBy = id,
+                UpdatedOn = DateTime.Now.ToEgyptTime(),
+            };
+            _context.DoctorDiagnosisValues.Add(newDiagnosis);
+           
+                await _context.SaveChangesAsync();
+
+            var diagnosisValue = new DiagnosisValue
+            {
+                Id = newDiagnosis.Id,
+                Text = newDiagnosis.Diagnosis
+            };
+            return diagnosisValue;
         }
 
         //// GET: api/Doctor

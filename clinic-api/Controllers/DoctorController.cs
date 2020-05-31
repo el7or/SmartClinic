@@ -119,7 +119,7 @@ namespace clinic_api.Controllers
                     TextAR = d.Text,
                     TextEN = d.Value,
                     IsActive = true,
-                    IsExpanded =  false
+                    IsExpanded = d.Value == "Diagnosis" ? true : false
                 }).ToListAsync();
                 return model;
             }
@@ -180,7 +180,8 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var newDiagnosis = new DoctorDiagnosisValue {
+            var newDiagnosis = new DoctorDiagnosisValue
+            {
                 DoctorId = model.DoctorId,
                 Diagnosis = model.Diagnosis,
                 IsActive = true,
@@ -191,8 +192,8 @@ namespace clinic_api.Controllers
                 UpdatedOn = DateTime.Now.ToEgyptTime(),
             };
             _context.DoctorDiagnosisValues.Add(newDiagnosis);
-           
-                await _context.SaveChangesAsync();
+
+            await _context.SaveChangesAsync();
 
             var diagnosisValue = new DiagnosisValue
             {

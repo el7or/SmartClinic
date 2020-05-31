@@ -225,7 +225,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
         this.dialogService.open(BookingDetailsComponent, {
           context: {
             bookId: 0,
-            patientId: this.patientInfo.patientId,
+            patientId: this.patientsService.patientId,
           },
           autoFocus: true,
           hasBackdrop: true,

@@ -3,11 +3,11 @@ import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TypeaheadMatch } from 'ngx-bootstrap';
 
 import { DiagnosisService } from "./diagnosis.service";
 import { DiagnosisValue, PatientDiagnosis, DiseaseValue, GetPatientDiagnosis, PutPatientDiagnosis } from "./diagnosis.model";
 import { AlertService } from '../../../../shared/services/alert.service';
-import { TypeaheadMatch } from 'ngx-bootstrap';
 
 @Component({
   selector: "diagnosis",

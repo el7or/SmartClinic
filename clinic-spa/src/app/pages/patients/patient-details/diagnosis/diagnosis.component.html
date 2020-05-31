@@ -3,7 +3,7 @@
   <table class="table">
     <tbody>
       <tr *ngFor="let item of patientDiagnoses; index as i;">
-        <td>
+        <td class="tdTypeahead">
           <!-- <nb-select fullWidth [(ngModel)]="item.diagnosisId" [ngModelOptions]="{standalone: true}"
             [placeholder]="'Diagnosis' | langg" size="small">
             <nb-option *ngFor="let diagnose of diagnosisValues" [value]="diagnose.id">{{diagnose.text}}</nb-option>
@@ -11,7 +11,7 @@
           <input nbInput [(ngModel)]="item.diagnosisName" [typeahead]="diagnosisValues" typeaheadOptionField="text"
           (typeaheadOnSelect)="onSelectDiagnose($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
           (keyup)="!item.isNameValid || item.diagnosisName==''? isAnyNameInvalid = true : isAnyNameInvalid = false" [placeholder]="'Diagnosis' | langg" [isAnimated]="true"
-            fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
+            fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}" class="inputTypeahead"
             [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15" fullWidth>
           <ng-container *ngIf="!item.isNameValid && item.diagnosisName != ''">
             <label class="error-message" langg>This Name does not exist! Do you add it to the

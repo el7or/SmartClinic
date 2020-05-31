@@ -1,33 +1,46 @@
-import { PatientsService } from './../../patients.service';
-import { NbDialogService } from '@nebular/theme';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { PatientsService } from "./../../patients.service";
+import {
+  NbDialogService,
+  NbAccordionComponent,
+  NbAccordionItemComponent,
+} from "@nebular/theme";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChildren,
+  QueryList,
+  AfterViewInit,
+} from "@angular/core";
+import { Subscription } from "rxjs";
 
-import { SettingsService } from './../../../settings/settings.service';
-import { Recorditem } from '../../../settings/settings.model';
-import { BookingDetailsComponent } from '../../../bookings/booking-details/booking-details.component';
-import { ActivatedRoute } from '@angular/router';
-import { AlertService } from '../../../../shared/services/alert.service';
+import { SettingsService } from "./../../../settings/settings.service";
+import { Recorditem } from "../../../settings/settings.model";
+import { BookingDetailsComponent } from "../../../bookings/booking-details/booking-details.component";
+import { ActivatedRoute } from "@angular/router";
+import { AlertService } from "../../../../shared/services/alert.service";
 
 @Component({
-  selector: 'patient-record',
-  templateUrl: './patient-record.component.html',
-  styleUrls: ['./patient-record.component.scss']
+  selector: "patient-record",
+  templateUrl: "./patient-record.component.html",
+  styleUrls: ["./patient-record.component.scss"],
 })
-export class PatientRecordComponent implements OnInit,OnDestroy {
+export class PatientRecordComponent implements OnInit, OnDestroy {
   formLoading = false;
-  recordItems:Recorditem[];
+  recordItems: Recorditem[];
   isExpanded = false;
-  patientId:string;
+  patientId: string;
 
   getRecordSubs: Subscription;
   routeSubs: Subscription;
 
-  constructor(private settingService:SettingsService,
-    private dialogService:NbDialogService,
+  constructor(
+    private settingService: SettingsService,
+    private dialogService: NbDialogService,
     private alertService: AlertService,
-    private patientsService:PatientsService,
-    private route: ActivatedRoute,) { }
+    private patientsService: PatientsService,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit() {
     this.formLoading = true;
@@ -42,27 +55,26 @@ export class PatientRecordComponent implements OnInit,OnDestroy {
         this.formLoading = false;
       }
     );
-    this.routeSubs = this.route.parent.params.subscribe(params => {
+    this.routeSubs = this.route.parent.params.subscribe((params) => {
       this.patientId = params["id"];
     });
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.getRecordSubs.unsubscribe();
     this.routeSubs.unsubscribe();
   }
 
   // =====> on add new booking or edit booking to patients:
-  onBook(bookingId:number) {
+  onBook(bookingId: number) {
     this.dialogService.open(BookingDetailsComponent, {
       context: {
-        bookId:bookingId,
-        patientId:this.patientsService.patientId,
+        bookId: bookingId,
+        patientId: this.patientsService.patientId,
       },
       autoFocus: true,
       hasBackdrop: true,
       closeOnBackdropClick: false,
-      closeOnEsc: false
+      closeOnEsc: false,
     });
   }
-
 }

@@ -173,16 +173,16 @@ namespace clinic_api.Controllers
         }
 
         // PUT: api/Doctor/PostDiagnosisValue/5
-        [HttpPost("PostDiagnosisValue/{id}/{doctorId}/{diagnosis}")]
-        public async Task<ActionResult<DiagnosisValue>> PostDiagnosisValue(Guid id, Guid doctorId, string diagnosis)
+        [HttpPost("PostDiagnosisValue/{id}")]
+        public async Task<ActionResult<DiagnosisValue>> PostDiagnosisValue(Guid id, PostDoctorDiagnosisDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
             var newDiagnosis = new DoctorDiagnosisValue {
-                DoctorId = doctorId,
-                Diagnosis = diagnosis,
+                DoctorId = model.DoctorId,
+                Diagnosis = model.Diagnosis,
                 IsActive = true,
                 IsDeleted = false,
                 CreatedBy = id,

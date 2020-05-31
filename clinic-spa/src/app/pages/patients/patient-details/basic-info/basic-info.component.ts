@@ -177,10 +177,10 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     this.addSubs = this.basicInfoService.saveNewPatient(patient).subscribe(
       (res: AddPatientResponse) => {
         this.fireSwalBook();
-        this.patientInfo.patientId = res.patientId;
+        this.patientsService.patientId = res.patientId;
         this.formLoading = false;
         // =====> to unlock other tabs in patient details:
-        this.router.navigate(["/pages/patients/details", res.seqNo, "basic"]);
+        this.router.navigate(["/pages/patients/details", res.seqNo, "diseases"]);
       },
       (err) => {
         console.error(err);

@@ -145,6 +145,11 @@ namespace clinic_api.DTOs
     {
         public List<PatientDiagnosisListDTO> PatientDiagnosis { get; set; }
     }
+    public class PostDoctorDiagnosisDTO
+    {
+        public Guid DoctorId { get; set; }
+        public string Diagnosis { get; set; }
+    }
 
     // Precriptions
     public class GetPatientPrescriptionsDTO
@@ -345,7 +350,7 @@ namespace clinic_api.DTOs
         public bool? IsHasResult { get; set; }
         public DateTime? ResultDate { get; set; }
         public string ResultText { get; set; }
-        public string ResultNote{ get; set; }
+        public string ResultNote { get; set; }
         public List<AnalysisFileTypeValue> AnalysisFileTypes { get; set; }
         public List<AnalysisFileList> AnalysisFiles { get; set; }
     }

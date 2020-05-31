@@ -1,10 +1,14 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from "@angular/common/http";
 
-import {  GetPatientDiagnosis, PutPatientDiagnosis } from "./diagnosis.model";
-import { environment } from '../../../../../environments/environment';
-import { AuthService } from '../../../../auth/auth.service';
-import { PatientsService } from '../../patients.service';
+import {
+  GetPatientDiagnosis,
+  PutPatientDiagnosis,
+  PostDoctorDiagnosis,
+} from "./diagnosis.model";
+import { environment } from "../../../../../environments/environment";
+import { AuthService } from "../../../../auth/auth.service";
+import { PatientsService } from "../../patients.service";
 
 @Injectable({
   providedIn: "root",
@@ -37,19 +41,18 @@ export class DiagnosisService {
         this.authService.userId +
         "/" +
         this.patientService.patientId,
-        patientDiagnosis
+      patientDiagnosis
     );
   }
 
   postDiagnosisValue(diagnosisValue: string) {
+    const postObj: PostDoctorDiagnosis = {
+      doctorId: this.authService.doctorId,
+      diagnosis: diagnosisValue,
+    };
     return this.http.post(
-      this.baseUrl +
-        "Doctor/PostDiagnosisValue/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId+
-        "/" + diagnosisValue,
-        {}
+      this.baseUrl + "Doctor/PostDiagnosisValue/" + this.authService.userId,
+      postObj
     );
   }
 }

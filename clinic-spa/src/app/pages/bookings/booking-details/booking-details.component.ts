@@ -41,7 +41,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   bookingDiscountPrice = 0;
   isUserChangedDate = false;
   currentRoute: string;
-  isHasBookingSameDay:any;
+  isHasBookingSameDay: any;
 
   @Input() bookId: number;
   @Input() patientId: string;
@@ -268,7 +268,11 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
             });
 
             // =====> check if same patient has booking in same day:
-            if (!this.bookId) {
+            if (
+              !this.bookId ||
+              date.getTime() !=
+                new Date(this.bookingDetails.bookingDateTime).getTime()
+            ) {
               this.isHasBookingSameDay = res.doctorAllBookingSameDay.find(
                 (b) => b.patientId == this.patientId
               );
@@ -277,6 +281,11 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
               }
             }
 
+            // =====> disable edit date or time if patient enter:
+            if (this.bookId && this.bookingDetails.isEnter) {
+              this.form.controls["date"].disable();
+              this.form.controls["time"].disable();
+            }
             this.formLoading = false;
           },
           (err) => {
@@ -393,9 +402,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
         this.dialogRef.close();
         this.router
           .navigateByUrl("/", { skipLocationChange: true })
-          .then(() =>
-            this.router.navigate([this.currentRoute])
-          );
+          .then(() => this.router.navigate([this.currentRoute]));
       },
       (err) => {
         console.error(err);
@@ -424,10 +431,8 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           this.formLoading = false;
           this.dialogRef.close();
           this.router
-          .navigateByUrl("/", { skipLocationChange: true })
-          .then(() =>
-            this.router.navigate([this.currentRoute])
-          );
+            .navigateByUrl("/", { skipLocationChange: true })
+            .then(() => this.router.navigate([this.currentRoute]));
         },
         (err) => {
           console.error(err);

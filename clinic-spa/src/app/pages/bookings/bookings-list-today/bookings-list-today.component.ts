@@ -19,6 +19,8 @@ import { BookingDetailsComponent } from "../booking-details/booking-details.comp
 import { BookingList, GetBookingList, PutBookingList } from "../bookings.model";
 import { DateTimeService } from "../../../shared/services/date-time.service";
 import { AlertService } from "../../../shared/services/alert.service";
+import { UserRole } from '../../../auth/auth.model';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: "bookings-list-today",
@@ -33,6 +35,7 @@ export class BookingsListTodayComponent
   nextBooking: number;
   sortBookingsByText: string;
   totalPaid: number;
+  userRole = UserRole;
   @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
@@ -47,6 +50,7 @@ export class BookingsListTodayComponent
     private langgService: LanggService,
     private dateTimeService: DateTimeService,
     private alertService: AlertService,
+    public authService: AuthService,
     private router: Router,
     private cd: ChangeDetectorRef
   ) {}
@@ -60,13 +64,13 @@ export class BookingsListTodayComponent
         (res: GetBookingList) => {
           this.bookingsList = res.bookingsList;
           this.sortBookingsByText = res.sortBookingsByText;
-          this.totalPaid = res.bookingsList.reduce(
+          this.totalPaid = res.bookingsList.filter(b => !b.isCanceled).reduce(
             (acc, booking) => acc + booking.paid,
             0
           );
           // =====> set label to first attend booking:
           this.nextBooking = this.bookingsList.findIndex(
-            (booking) => booking.isAttend && !booking.isEnter
+            (booking) => booking.isAttend && !booking.isEnter && !booking.isCanceled
           );
           this.formLoading = false;
         },
@@ -117,17 +121,20 @@ export class BookingsListTodayComponent
     });
   }
 
-  // =====> on delete booking:
+  // =====> on cancel booking:
   onDeleteBooking(bookId: number) {
     this.cancelSwal.fire().then((result) => {
       if (result.value) {
+        this.formLoading = true;
         this.cancelBookSubs = this.bookingService
           .cancelBooking(bookId)
           .subscribe(
             () => {
-              this.bookingsList.find(
+              let canceledBooking= this.bookingsList.find(
                 (v) => v.bookId == bookId
-              ).isCanceled = true;
+              );
+              canceledBooking.isCanceled = true;
+              this.totalPaid = this.totalPaid - canceledBooking.paid;
               this.formLoading = false;
               this.doneSwal.fire();
             },

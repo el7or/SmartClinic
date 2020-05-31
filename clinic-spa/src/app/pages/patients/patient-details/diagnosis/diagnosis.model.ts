@@ -26,3 +26,8 @@ export interface PatientDiagnosis {
   note: string;
   createdOn:Date;
 }
+
+export interface PostDoctorDiagnosis{
+  doctorId:string;
+  diagnosis:string;
+}

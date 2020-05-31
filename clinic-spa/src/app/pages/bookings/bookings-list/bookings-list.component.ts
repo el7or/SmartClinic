@@ -119,7 +119,7 @@ export class BookingsListComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: GetBookingList) => {
           this.bookingsList = res.bookingsList;
-          this.totalPaid = res.bookingsList.reduce((acc, booking) => acc + booking.paid, 0);
+          this.totalPaid = res.bookingsList.filter(b => !b.isCanceled).reduce((acc, booking) => acc + booking.paid, 0);
           // =====> get weekends to disable it:
           this.weekendDays = res.weekEnds;
           this.formLoading = false;
@@ -146,17 +146,20 @@ export class BookingsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  // =====> on click on delete booking:
+  // =====> on click on cancel booking:
   onDeleteBooking(bookId: number) {
     this.cancelSwal.fire().then((result) => {
       if (result.value) {
+        this.formLoading = true;
         this.cancelBookSubs = this.bookingService
           .cancelBooking(bookId)
           .subscribe(
             () => {
-              this.bookingsList.find(
+              let canceledBooking= this.bookingsList.find(
                 (v) => v.bookId == bookId
-              ).isCanceled = true;
+              );
+              canceledBooking.isCanceled = true;
+              this.totalPaid = this.totalPaid - canceledBooking.paid;
               this.formLoading = false;
               this.doneSwal.fire();
             },

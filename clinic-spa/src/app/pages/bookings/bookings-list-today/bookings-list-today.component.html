@@ -67,7 +67,7 @@
           </td>
           <td class="text-center">
             <nb-checkbox [checked]="booking.isEnter" [(ngModel)]="booking.isEnter" status="danger"
-            [disabled]="booking.isCanceled" (ngModelChange)="onChangeEnter(booking)"></nb-checkbox>
+            [disabled]="booking.isCanceled || authService.roleName == userRole.Employee" (ngModelChange)="onChangeEnter(booking)"></nb-checkbox>
             <div *ngIf="booking.isEnter">
               <small class="text-danger">{{booking.entryTime | time12Hour}}</small>
             </div>

@@ -37,7 +37,7 @@ namespace clinic_api.Controllers
             int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
             int[] weekEnds = weekDays.Except(clinic.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray();
 
-            var bookingList = await _context.Bookings.Where(b => b.Patient.DoctorId == doctorId && b.Patient.IsDeleted !=true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date)
+            var bookingList = await _context.Bookings.Where(b => b.Patient.DoctorId == doctorId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date)
                 .Include(p => p.Patient).Include(t => t.Type).Include(s => s.BookingServices).Include(d => d.Discount).Include(p => p.BookingPayments)
                 .Select(b => new BookingList
                 {
@@ -128,14 +128,14 @@ namespace clinic_api.Controllers
             }
             var model = _context.Bookings.Where(p => p.PatientId == patientId && p.Patient.IsDeleted != true)
                 .Include(p => p.Patient).Include(t => t.Type).Include(s => s.BookingServices).OrderByDescending(d => d.CreatedOn).Select(b => new GetPatientBookingDTO
-            {
-                BookId = b.Id,
-                Date = b.BookingDateTime,
-                Type = b.Type.Text,
-                Servcies = b.BookingServices.Select(s => s.Service.Service).ToArray(),
-                IsEnter = b.IsEnter,
-                IsCanceled = b.IsCanceled
-            });
+                {
+                    BookId = b.Id,
+                    Date = b.BookingDateTime,
+                    Type = b.Type.Text,
+                    Servcies = b.BookingServices.Select(s => s.Service.Service).ToArray(),
+                    IsEnter = b.IsEnter,
+                    IsCanceled = b.IsCanceled
+                });
             return await model.ToListAsync();
         }
 
@@ -148,7 +148,7 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             var doctor = _context.Doctors.Find(doctorId);
-            var calEvents = _context.Bookings.Include(p=> p.Patient).Where(b => b.DoctorId == doctorId && b.IsCanceled != true && b.Patient.IsDeleted != true)
+            var calEvents = _context.Bookings.Include(p => p.Patient).Where(b => b.DoctorId == doctorId && b.IsCanceled != true && b.Patient.IsDeleted != true)
                 .GroupBy(b => b.BookingDateTime.Date)
                 .Select(b => new
                 {
@@ -212,7 +212,21 @@ namespace clinic_api.Controllers
                     }).ToList()
                 }
             };
-            if (bookingId != 0)
+            if (bookingId == 0)
+            {
+                model.PrevBookingsDues = _context.Bookings.Where(p => p.PatientId == patientId && p.IsCanceled != true)
+                    .Include(p => p.BookingPayments).Include(s => s.Type).Include(s => s.Discount).Include("BookingServices.Service")
+                    .Where(b => b.BookingPayments.Sum(p => p.Paid) < (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)))
+                    .Select(b => new PrevBookingDue
+                    {
+                        BookingId = b.Id,
+                        BookingDate = b.BookingDateTime,
+                        BookingType = b.Type.Text,
+                        BookingDue = b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0),
+                        BookingPaid = b.BookingPayments.Sum(p => p.Paid)
+                    }).ToList();
+            }
+            else
             {
                 var booking = await _context.Bookings.Where(b => b.Id == bookingId).Include(s => s.BookingServices).Include(p => p.BookingPayments).FirstOrDefaultAsync();
                 model.BookingDetails = new BookingDetails
@@ -356,6 +370,25 @@ namespace clinic_api.Controllers
             });
 
             _context.Bookings.Add(booking);
+
+            foreach (var item in model.PrevBookingsDues)
+            {
+                var prevBooking = await _context.Bookings.Where(b => b.Id == item.BookingId)
+               .Include(p => p.BookingPayments).FirstOrDefaultAsync();
+
+                _context.BookingPayments.RemoveRange(prevBooking.BookingPayments);
+                prevBooking.BookingPayments.Add(new BookingPayment
+                {
+                    BookingId = item.BookingId,
+                    Paid = item.BookingPaid,
+                    CreatedBy = id,
+                    CreatedOn = DateTime.Now.ToEgyptTime(),
+                    UpdatedBy = id,
+                    UpdatedOn = DateTime.Now.ToEgyptTime()
+                });
+                _context.Entry(prevBooking).State = EntityState.Modified;
+            }
+
             try
             {
                 await _context.SaveChangesAsync();

@@ -1,6 +1,7 @@
 export interface GetBookingDetails{
 bookingSetting:BookingSetting;
 bookingDetails?:BookingDetails;
+prevBookingsDues?: PrevBookingDue[];
 }
 export interface BookingSetting{
   patientName:string;
@@ -15,15 +16,6 @@ export interface BookingSetting{
   clinicBookingServices:BookingService[];
   clinicBookingDiscounts:BookingDiscount[];
   doctorAllBookingSameDay:BookingBrief[];
-}
-export interface BookingDetails{
-  bookingDateTime:Date;
-  bookingTypeId:number;
-  bookingServicesIds?:number[];
-  bookingDiscountId?:number;
-  bookingPayments:number;
-  isCanceled?: boolean;
-  isEnter?: boolean;
 }
 export interface BookingType{
   id: number;
@@ -48,6 +40,22 @@ export interface BookingBrief{
   time: Date;
   type:string;
 }
+export interface BookingDetails{
+  bookingDateTime:Date;
+  bookingTypeId:number;
+  bookingServicesIds?:number[];
+  bookingDiscountId?:number;
+  bookingPayments:number;
+  isCanceled?: boolean;
+  isEnter?: boolean;
+}
+export interface PrevBookingDue{
+  bookingId:number;
+  bookingDate:Date;
+  bookingType:string;
+  bookingDue:number;
+  bookingPaid:number;
+}
 
 export interface BookingChangeDate{
   clinicDayTimeFrom:Date;
@@ -63,6 +71,7 @@ export interface BookingNew{
   servicesIds?: number[];
   discountId?: number;
   paid: number;
+  prevBookingsDues?: PrevBookingDue[];
 }
 
 export interface BookingEdit {

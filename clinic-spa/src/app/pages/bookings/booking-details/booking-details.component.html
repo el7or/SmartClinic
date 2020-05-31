@@ -11,7 +11,7 @@
     </nb-card-header>
     <nb-card-body>
       <div class="row">
-        <div [class]="bookingSetting?.doctorAllBookingSameDay.length?'col-md-6':'col-md-12'">
+        <div [class]="bookingSetting?.doctorAllBookingSameDay.length || prevBookingsDues?.length?'col-md-6':'col-md-12'">
           <!-- <div class="form-control-group">
             <label for="input-bookingDoctor" class="label"><span langg>Doctor Name</span>:</label>
             <nb-select fullWidth [(ngModel)]="bookingDoctorData" #bookingDoctor="ngModel" name="bookingDoctor"
@@ -70,8 +70,8 @@
             </ng-container>
           </div>
           <nb-alert accent="info" class="text-nowrap" *ngIf="bookingSetting?.clinicBookingDiscounts?.length">
-            <label><span
-                langg>Price</span>:<u>&nbsp;{{bookingTypePrice + bookingServicesPrice | number:'0.0-0' }} {{'EGP' | langg}}</u></label>
+            <label><span langg>Price</span>:<u>&nbsp;{{bookingTypePrice + bookingServicesPrice | number:'0.0-0' }}
+                {{'EGP' | langg}}</u></label>
           </nb-alert>
           <div class="form-control-group" *ngIf="bookingSetting?.clinicBookingDiscounts?.length">
             <label for="input-discount" class="label"><span langg>Discount</span>:</label>
@@ -84,7 +84,8 @@
           </div>
           <nb-alert accent="warning" class="text-nowrap">
             <label><span langg>Total
-                Amount:</span><u>&nbsp;{{(bookingTypePrice + bookingServicesPrice - bookingDiscountPrice > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice : 0) | number:'0.0-0' }} {{'EGP' | langg}}</u></label>
+                Amount:</span><u>&nbsp;{{(bookingTypePrice + bookingServicesPrice - bookingDiscountPrice > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice : 0) | number:'0.0-0' }}
+                {{'EGP' | langg}}</u></label>
           </nb-alert>
           <div class="form-control-group">
             <label for="input-payment" class="label"><span langg>Amount Paid</span>:</label>
@@ -106,36 +107,67 @@
           </div>
           <nb-alert accent="danger" class="text-nowrap">
             <label><span langg>Amount
-                Due</span>:<u>&nbsp;{{ (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid  : 0) | number:'0.0-0' }} {{'EGP' | langg}}</u></label>
+                Due</span>:<u>&nbsp;{{ (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid  : 0) | number:'0.0-0' }}
+                {{'EGP' | langg}}</u></label>
           </nb-alert>
         </div>
-        <div class="col-md-6" *ngIf="bookingSetting?.doctorAllBookingSameDay.length">
-          <h6 langg>Same Date Bookings:</h6>
-          <!-- <small>
+        <div class="col-md-6">
+          <div *ngIf="bookingSetting?.doctorAllBookingSameDay.length">
+            <h6 langg>Same Date Bookings:</h6>
+            <!-- <small>
             <b langg>Urgent Diagnoses</b>: 2&nbsp;|
             <b langg>Diagnoses</b>: 15&nbsp;|
             <b langg>Consults</b>: 5|
           </small> -->
-          <table class="table table-striped">
-            <thead class="thead-dark">
-              <tr>
-                <th>#</th>
-                <th langg>Time</th>
-                <th langg>Name</th>
-                <th langg>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- <tr *ngFor="let booking of bookingsBriefList" [class]="bookId==booking.bookId?'table-danger':''" > -->
-              <tr *ngFor="let booking of bookingSetting?.doctorAllBookingSameDay; index as i"
-                [class]="bookId == booking.bookId || booking.patientId==patientId?'table-danger':''">
-                <td>{{i + 1}}</td>
-                <td>{{booking.time | time12Hour}}</td>
-                <td>{{booking.patientName}}</td>
-                <td>{{booking.type}}</td>
-              </tr>
-            </tbody>
-          </table>
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th>#</th>
+                  <th langg>Time</th>
+                  <th langg>Name</th>
+                  <th langg>Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- <tr *ngFor="let booking of bookingsBriefList" [class]="bookId==booking.bookId?'table-danger':''" > -->
+                <tr *ngFor="let booking of bookingSetting?.doctorAllBookingSameDay; index as i"
+                  [class]="bookId == booking.bookId || booking.patientId==patientId?'table-danger':''">
+                  <td>{{i + 1}}</td>
+                  <td>{{booking.time | time12Hour}}</td>
+                  <td>{{booking.patientName}}</td>
+                  <td>{{booking.type}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="!bookId && prevBookingsDues?.length">
+            <hr>
+            <h6 langg>Amounts Due from Patient:</h6>
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th langg>Date</th>
+                  <th langg>Type</th>
+                  <th langg>Due</th>
+                  <th class="text-center" langg>Paid</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let booking of prevBookingsDues"
+                  [class]="booking.bookingDue > booking.bookingPaid || booking.bookingPaid < 0 || booking.bookingPaid > booking.bookingDue ?'table-danger':'table-success'">
+                  <td>{{booking.bookingDate | localDateShort}}</td>
+                  <td>{{booking.bookingType}}</td>
+                  <td>{{booking.bookingDue+('EGP'|langg)}}</td>
+                  <td>
+                    <input nbInput type="number" [(ngModel)]="booking.bookingPaid" [ngModelOptions]="{standalone: true}"
+                      [min]="0" [max]="booking.bookingDue" [placeholder]="'Paid' | langg" fieldSize="small"
+                      [status]="booking.bookingPaid < 0 || booking.bookingPaid > booking.bookingDue ? 'danger' : booking.bookingDue == booking.bookingPaid ? 'success' : ''"
+                      fullWidth>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </nb-card-body>

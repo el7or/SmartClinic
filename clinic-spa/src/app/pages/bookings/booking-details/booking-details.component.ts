@@ -1,12 +1,7 @@
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { map } from "rxjs/operators";
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  AbstractControl,
-} from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Component, OnInit, Input, ViewChild, OnDestroy } from "@angular/core";
 import { NbDialogRef } from "@nebular/theme";
 import { BsLocaleService } from "ngx-bootstrap";
@@ -19,6 +14,7 @@ import {
   BookingSetting,
   BookingDetails,
   BookingChangeDate,
+  PrevBookingDue,
 } from "./../bookings.model";
 import { BookingsService } from "./../bookings.service";
 import { AlertService } from "../../../shared/services/alert.service";
@@ -36,6 +32,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   todayDate: Date = new Date();
   bookingSetting: BookingSetting;
   bookingDetails: BookingDetails;
+  prevBookingsDues?: PrevBookingDue[];
   bookingTypePrice = 0;
   bookingServicesPrice = 0;
   bookingDiscountPrice = 0;
@@ -109,6 +106,9 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           this.bookingSetting.clinicDayTimeTo = new Date(
             this.bookingSetting.clinicDayTimeTo
           );
+          if (!this.bookId) {
+            this.prevBookingsDues = res.prevBookingsDues;
+          }
           return res.bookingDetails;
         })
       )
@@ -394,6 +394,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       servicesIds: this.form.value.services,
       discountId: this.form.value.discount,
       paid: this.form.value.paid,
+      prevBookingsDues: this.prevBookingsDues,
     };
     this.newBookSubs = this.bookingService.addNewBooking(newBooking).subscribe(
       () => {

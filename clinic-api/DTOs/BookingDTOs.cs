@@ -9,6 +9,7 @@ namespace clinic_api.DTOs
     {
         public BookingSetting BookingSetting { get; set; }
         public BookingDetails BookingDetails { get; set; }
+        public List<PrevBookingDue> PrevBookingsDues { get; set; }
     }
     public class BookingSetting
     {
@@ -35,6 +36,14 @@ namespace clinic_api.DTOs
         public bool? IsCanceled { get; set; }
         public bool? IsEnter { get; set; }
     }
+    public class PrevBookingDue
+    {
+        public int BookingId { get; set; }
+        public DateTime BookingDate { get; set; }
+        public string BookingType { get; set; }
+        public decimal? BookingDue { get; set; }
+        public decimal BookingPaid { get; set; }
+    }
     public class BookingBrief
     {
         public int BookId { get; set; }
@@ -60,6 +69,7 @@ namespace clinic_api.DTOs
         public int[] ServicesIds { get; set; }
         public int? DiscountId { get; set; }
         public decimal Paid { get; set; }
+        public List<PrevBookingDue> PrevBookingsDues { get; set; }
     }
 
     public class BookingPutDTO

@@ -585,5 +585,8 @@
   { "ar": "لا توجد رسائل بعد.", "en": "No messages yet." },
   { "ar": "لم يتم اختيار مستخدم.", "en": "No user selected." },
   { "ar": "اكتب رسالتك هنا", "en": "Type a message" },
-  { "ar": "هذا المريض لديه حجز في نفس اليوم.", "en": "This Patient has a Booking on the same day." }
+  { "ar": "هذا المريض لديه حجز في نفس اليوم.", "en": "This Patient has a Booking on the same day." },
+  { "ar": "مبالغ مستحقة على المريض:", "en": "Amounts Due from Patient:" },
+  { "ar": "المطلوب", "en": "Due" },
+  { "ar": "المدفوع", "en": "Paid" }
 ]

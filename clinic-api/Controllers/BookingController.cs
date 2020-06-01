@@ -10,6 +10,7 @@ using clinic_api.Models;
 using System.IdentityModel.Tokens.Jwt;
 using clinic_api.DTOs;
 using clinic_api.Helper;
+using Microsoft.AspNetCore.SignalR;
 
 namespace clinic_api.Controllers
 {
@@ -18,10 +19,12 @@ namespace clinic_api.Controllers
     public class BookingController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<ChatHub> _hub;
 
-        public BookingController(ApplicationDbContext context)
+        public BookingController(ApplicationDbContext context, IHubContext<ChatHub> hub)
         {
             _context = context;
+            _hub = hub;
         }
 
         // GET: api/Booking
@@ -279,19 +282,19 @@ namespace clinic_api.Controllers
         }
 
         // PUT: api/Booking/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBooking(Guid id, BookingPutDTO model)
+        [HttpPut("{id}/{clinicId}")]
+        public async Task<IActionResult> PutBooking(Guid id, Guid clinicId, BookingPutDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
             var booking = await _context.Bookings.Where(b => b.Id == model.BookingId)
-                .Include(s => s.BookingServices).Include(p => p.BookingPayments).FirstOrDefaultAsync();
+                .Include(s => s.BookingServices).Include(p => p.BookingPayments).Include(p => p.Patient).FirstOrDefaultAsync();
 
             booking.BookingDateTime = model.BookingDateTime;
             booking.TypeId = model.TypeId;
-            booking.DiscountId = model.DiscountId == 0 ? (int?)null : model.DiscountId;
+            booking.DiscountId = model.DiscountId == 0 ? null : model.DiscountId;
             booking.UpdatedBy = id;
             booking.UpdatedOn = DateTime.Now.ToEgyptTime();
 
@@ -327,6 +330,14 @@ namespace clinic_api.Controllers
                 else
                 {
                     throw;
+                }
+            }
+            if (booking.BookingDateTime.Date == DateTime.Now.ToEgyptTime().Date)
+            {
+                var usersInClinic = _context.Clinics.Where(i => i.Id == clinicId).Include(u => u.ClinicUsers).FirstOrDefault().ClinicUsers.Where(u => u.UserId != id).Select(u => u.UserId).ToArray();
+                foreach (var userId in usersInClinic)
+                {
+                    await _hub.Clients.User(userId.ToString()).SendAsync("UpdateTodayBooking",booking.Patient.FullName);
                 }
             }
 

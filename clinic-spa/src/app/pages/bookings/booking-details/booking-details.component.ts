@@ -326,6 +326,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   }
 
   onChangeType(typeId) {
+    //this.form.patchValue({ paid: 0 });
     const type = this.bookingSetting.clinicBookingTypes.find(
       (t) => t.id == typeId
     ).type;
@@ -420,8 +421,12 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     const editedBooking: BookingEdit = {
       bookingId: this.bookId,
       bookingDateTime: this.dateTimeService.mergDateTime(
-        new Date(this.form.value.date),
-        new Date(this.form.value.time)
+        this.bookingDetails.isEnter
+          ? new Date(this.bookingDetails.bookingDateTime)
+          : new Date(this.form.value.date),
+        this.bookingDetails.isEnter
+          ? new Date(this.bookingDetails.bookingDateTime)
+          : new Date(this.form.value.time)
       ),
       typeId: this.form.value.type,
       servicesIds: this.form.value.services,
@@ -438,17 +443,6 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           this.router
             .navigateByUrl("/", { skipLocationChange: true })
             .then(() => this.router.navigate([this.currentRoute]));
-          /* // =====> send alert for another users for update booking:
-          if (
-            this.dateTimeService.isDatesEqual(
-              new Date(),
-              new Date(this.form.value.date)
-            )
-          ) {
-            this.alertService.alertUpdateBooking(
-              this.bookingSetting.patientName
-            );
-          } */
         },
         (err) => {
           console.error(err);

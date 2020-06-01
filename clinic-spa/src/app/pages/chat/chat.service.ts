@@ -77,11 +77,12 @@ export class ChatService {
   /********   SignalR   *********/
 
   private _hubConnection: HubConnection;
+  connectionEstablished = new EventEmitter<Boolean>();
+  connectionIsEstablished = false;
   unReadExternalCount = new EventEmitter<number>();
   unReadChatCount = new EventEmitter<number>();
   messageReceived = new EventEmitter<MessageReceived>();
-  connectionEstablished = new EventEmitter<Boolean>();
-  connectionIsEstablished = false;
+  bookingUpdated = new EventEmitter<string>();
 
   private createConnection() {
     this._hubConnection = new HubConnectionBuilder()
@@ -123,6 +124,9 @@ export class ChatService {
     });
     this._hubConnection.on("NewMessageReceived", (data: MessageReceived) => {
       this.messageReceived.emit(data);
+    });
+    this._hubConnection.on("UpdateTodayBooking", (data:string) => {
+      this.bookingUpdated.emit(data);
     });
 
     this._hubConnection.onclose((err) => console.error(err));

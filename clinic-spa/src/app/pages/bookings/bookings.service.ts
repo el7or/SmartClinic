@@ -66,7 +66,11 @@ export class BookingsService {
   }
   updateBooking(booking: BookingEdit) {
     return this.http.put(
-      this.baseUrl + "Booking/" + this.authService.userId,
+      this.baseUrl +
+        "Booking/" +
+        this.authService.userId +
+        "/" +
+        this.authService.clinicId,
       booking
     );
   }
@@ -101,7 +105,7 @@ export class BookingsService {
   }
 
   // =====> update booking list today (daySeqNo,attendTime,enterTime):
-  putBookingsList(bookingList:PutBookingList){
+  putBookingsList(bookingList: PutBookingList) {
     return this.http.put(
       this.baseUrl + "Booking/PutBookingList/" + this.authService.userId,
       bookingList

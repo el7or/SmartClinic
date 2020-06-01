@@ -1,3 +1,4 @@
+import { ChatService } from "./../../chat/chat.service";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import {
@@ -19,8 +20,8 @@ import { BookingDetailsComponent } from "../booking-details/booking-details.comp
 import { BookingList, GetBookingList, PutBookingList } from "../bookings.model";
 import { DateTimeService } from "../../../shared/services/date-time.service";
 import { AlertService } from "../../../shared/services/alert.service";
-import { UserRole } from '../../../auth/auth.model';
-import { AuthService } from '../../../auth/auth.service';
+import { UserRole } from "../../../auth/auth.model";
+import { AuthService } from "../../../auth/auth.service";
 
 @Component({
   selector: "bookings-list-today",
@@ -42,6 +43,7 @@ export class BookingsListTodayComponent
   getListSubs: Subscription;
   editListSubs: Subscription;
   cancelBookSubs: Subscription;
+  updateBookSubs: Subscription;
 
   constructor(
     private bookingService: BookingsService,
@@ -52,6 +54,7 @@ export class BookingsListTodayComponent
     private alertService: AlertService,
     public authService: AuthService,
     private router: Router,
+    private chatService: ChatService,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -64,13 +67,13 @@ export class BookingsListTodayComponent
         (res: GetBookingList) => {
           this.bookingsList = res.bookingsList;
           this.sortBookingsByText = res.sortBookingsByText;
-          this.totalPaid = res.bookingsList.filter(b => !b.isCanceled).reduce(
-            (acc, booking) => acc + booking.paid,
-            0
-          );
+          this.totalPaid = res.bookingsList
+            .filter((b) => !b.isCanceled)
+            .reduce((acc, booking) => acc + booking.paid, 0);
           // =====> set label to first attend booking:
           this.nextBooking = this.bookingsList.findIndex(
-            (booking) => booking.isAttend && !booking.isEnter && !booking.isCanceled
+            (booking) =>
+              booking.isAttend && !booking.isEnter && !booking.isCanceled
           );
           this.formLoading = false;
         },
@@ -80,6 +83,14 @@ export class BookingsListTodayComponent
           this.formLoading = false;
         }
       );
+
+    // =====> if another user update booking in today:
+    this.updateBookSubs = this.chatService.bookingUpdated.subscribe((patientName:string) => {
+      this.alertService.alertUpdateBooking(patientName);
+      this.router
+            .navigateByUrl("/", { skipLocationChange: true })
+            .then(() => this.router.navigate(["/pages/bookings/today"]));
+    });
   }
   ngAfterViewInit() {
     this.cd.detectChanges();
@@ -88,6 +99,7 @@ export class BookingsListTodayComponent
     this.getListSubs.unsubscribe();
     if (this.editListSubs) this.editListSubs.unsubscribe();
     if (this.cancelBookSubs) this.cancelBookSubs.unsubscribe();
+    if (this.updateBookSubs) this.updateBookSubs.unsubscribe();
   }
 
   // =====> on add new booking on current day tp patient out the table:
@@ -130,7 +142,7 @@ export class BookingsListTodayComponent
           .cancelBooking(bookId)
           .subscribe(
             () => {
-              let canceledBooking= this.bookingsList.find(
+              let canceledBooking = this.bookingsList.find(
                 (v) => v.bookId == bookId
               );
               canceledBooking.isCanceled = true;
@@ -238,6 +250,15 @@ export class BookingsListTodayComponent
         this.formLoading = false;
       }
     );
+  }
+
+  // =====> on click file patient in table:
+  onOpenFilePatient(codeId: number) {
+    if (this.authService.roleName != UserRole.Employee) {
+      this.router.navigate(["/pages/patients/details/" + codeId + "/record"]);
+    } else {
+      this.router.navigate(["/pages/patients/details/" + codeId + "/basic"]);
+    }
   }
 
   /* // =====> on click on info for payment:

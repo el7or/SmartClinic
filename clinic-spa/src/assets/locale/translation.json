@@ -558,7 +558,7 @@
   { "ar": "تاريخ الورود", "en": "Received Date" },
   { "ar": "تأكيد الحجز", "en": "Confirm Booking" },
   { "ar": "حذف الطلب", "en": "Delete Request" },
-  { "ar": "إضافة خدمات لآخر حجز للمريض", "en": "Add Services to Last Booking" },
+  { "ar": "تعديل حجز اليوم", "en": "Edit today Booking" },
   { "ar": "حجز جديد للمريض", "en": "New Booking for Patient" },
   {"ar":"حدث خطأ ما!","en":"Something Wrong!"},
   {"ar":"الرجاءإعادة تحميل الصفحة والمحاولة مرة أخرى أو التواصل مع المطور.","en":"Please refresh page and try again or Contact Developer."},
@@ -588,5 +588,7 @@
   { "ar": "هذا المريض لديه حجز في نفس اليوم.", "en": "This Patient has a Booking on the same day." },
   { "ar": "مبالغ مستحقة على المريض:", "en": "Amounts Due from Patient:" },
   { "ar": "المطلوب", "en": "Due" },
-  { "ar": "المدفوع", "en": "Paid" }
+  { "ar": "المدفوع", "en": "Paid" },
+  { "ar": "مبلغ مطلوب", "en": "Due amount" },
+  { "ar": "تحديث جديد لحجز في اليوم الحالي خاص بالمريض: ", "en": "New update to booking in current day for Patient: " }
 ]

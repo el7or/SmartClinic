@@ -90,6 +90,7 @@ export interface PatientVisit {
   servcies:string[];
   isEnter:boolean;
   isCanceled:boolean;
+  due:number;
 }
 
 export interface GetBookingList {

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { PatientHeaderInfo, PatientsPagedList } from "./patients.model";
+import { PatientHeaderInfo, PatientsPagedList, GetPatientRecord } from "./patients.model";
 import { AuthService } from "../../auth/auth.service";
 import { environment } from "../../../environments/environment";
 import { map } from "rxjs/operators";
@@ -92,6 +92,17 @@ export class PatientsService {
   deletePatient(patientId: string) {
     return this.http.delete(
       this.baseUrl + "Patient/" + this.authService.userId + "/" + patientId
+    );
+  }
+
+  getPatientFileItems() {
+    return this.http.get<GetPatientRecord>(
+      this.baseUrl +
+        "Patient/GetPatientFile/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId+
+        "/" + this.patientId
     );
   }
 }

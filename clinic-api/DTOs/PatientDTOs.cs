@@ -85,4 +85,10 @@ namespace clinic_api.DTOs
         public int? GovernorateId { get; set; }
         public int? CityId { get; set; }
     }
+
+    public class GetPatientRecordDTO
+    {
+        public List<RecordSectionDTO> RecordItems { get; set; }
+        public int TodayBookingId { get; set; }
+    }
 }

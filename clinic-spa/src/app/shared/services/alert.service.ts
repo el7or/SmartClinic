@@ -1,16 +1,17 @@
-import { Injectable } from '@angular/core';
-import { NbToastrService } from '@nebular/theme';
-import { LanggService } from './langg.service';
+import { Injectable } from "@angular/core";
+import { NbToastrService } from "@nebular/theme";
+import { LanggService } from "./langg.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AlertService {
+  constructor(
+    private toastrService: NbToastrService,
+    private langgService: LanggService
+  ) {}
 
-  constructor(private toastrService: NbToastrService,
-    private langgService: LanggService,) { }
-
-  alertError(){
+  alertError() {
     this.toastrService.danger(
       this.langgService.translateWord(
         "Please refresh page and try again or Contact Developer."
@@ -24,11 +25,9 @@ export class AlertService {
     );
   }
 
-  alertFileSize(){
+  alertFileSize() {
     this.toastrService.danger(
-      this.langgService.translateWord(
-        "File size cannot exceed 10MB"
-      ),
+      this.langgService.translateWord("File size cannot exceed 10MB"),
       this.langgService.translateWord("Large file size!"),
       {
         duration: 10000,
@@ -38,7 +37,7 @@ export class AlertService {
     );
   }
 
-  alertFileType(){
+  alertFileType() {
     this.toastrService.danger(
       this.langgService.translateWord(
         "Only image and pdf documents are allowed"
@@ -46,6 +45,20 @@ export class AlertService {
       this.langgService.translateWord("Wrong file type!"),
       {
         duration: 10000,
+        icon: "close-square-outline",
+        destroyByClick: true,
+      }
+    );
+  }
+
+  alertUpdateBooking(patientName: string) {
+    this.toastrService.warning(
+      this.langgService.translateWord(
+        "New update to booking in current day for Patient: "
+      ) + patientName,
+      this.langgService.translateWord("Attention !"),
+      {
+        duration: 99999999,
         icon: "close-square-outline",
         destroyByClick: true,
       }

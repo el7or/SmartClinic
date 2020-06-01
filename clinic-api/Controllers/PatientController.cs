@@ -297,6 +297,56 @@ namespace clinic_api.Controllers
             return NoContent();
         }
 
+        // GET: api/Patient/GetPatientFile/5
+        [HttpGet("GetPatientFile/{id}/{doctorId}/{patientId}")]
+        public async Task<ActionResult<GetPatientRecordDTO>> GetPatientFile(Guid id, Guid doctorId,Guid patientId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var doctor = await _context.Doctors.FindAsync(doctorId);
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+            var today = DateTime.Now.ToEgyptTime().Date;
+            var todayBooking = await _context.Bookings.FirstOrDefaultAsync(b => b.PatientId == patientId && b.BookingDateTime.Date == today);
+            if (doctor.PatientRecordSections == "All")
+            {
+                var model = new GetPatientRecordDTO
+                {
+                    RecordItems = await _context.SysPatientRecordSectionsValues.Select(d => new RecordSectionDTO
+                    {
+                        Id = d.Id,
+                        TextAR = d.Text,
+                        TextEN = d.Value,
+                        IsActive = true,
+                        IsExpanded = d.Value == "Diagnosis" ? true : false
+                    }).ToListAsync(),
+                    TodayBookingId = todayBooking == null ? 0 : todayBooking.Id
+                };
+                return model;
+            }
+            else
+            {
+                int[] ids = doctor.PatientRecordSections.Split(",").ToArray().Select(int.Parse).ToArray();
+                var model = new GetPatientRecordDTO
+                {
+                    RecordItems = await _context.SysPatientRecordSectionsValues.Select(d => new RecordSectionDTO
+                    {
+                        Id = d.Id,
+                        TextAR = d.Text,
+                        TextEN = d.Value,
+                        IsActive = ids.Contains(d.Id),
+                        IsExpanded = false
+                    }).ToListAsync(),
+                    TodayBookingId = todayBooking == null ? 0 : todayBooking.Id
+                };
+                return model;
+            }
+        }
+
         private bool PatientExists(Guid id)
         {
             return _context.Patients.Any(e => e.Id == id);

@@ -90,6 +90,7 @@ namespace clinic_api.DTOs
         public string[] Servcies { get; set; }
         public bool? IsEnter { get; set; }
         public bool? IsCanceled { get; set; }
+        public decimal? Due { get; set; }
     }
 
     public class GetBookingsDTO

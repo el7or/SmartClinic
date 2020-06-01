@@ -127,14 +127,16 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             var model = _context.Bookings.Where(p => p.PatientId == patientId && p.Patient.IsDeleted != true)
-                .Include(p => p.Patient).Include(t => t.Type).Include(s => s.BookingServices).OrderByDescending(d => d.CreatedOn).Select(b => new GetPatientBookingDTO
+                .Include(p => p.Patient).Include(p => p.BookingPayments).Include(s => s.Type).Include(s => s.Discount).Include("BookingServices.Service")
+                .OrderByDescending(d => d.CreatedOn).Select(b => new GetPatientBookingDTO
                 {
                     BookId = b.Id,
                     Date = b.BookingDateTime,
                     Type = b.Type.Text,
                     Servcies = b.BookingServices.Select(s => s.Service.Service).ToArray(),
                     IsEnter = b.IsEnter,
-                    IsCanceled = b.IsCanceled
+                    IsCanceled = b.IsCanceled,
+                    Due = (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)) - b.BookingPayments.Sum(p => p.Paid)
                 });
             return await model.ToListAsync();
         }

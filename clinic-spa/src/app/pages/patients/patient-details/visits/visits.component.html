@@ -10,6 +10,7 @@
           <th langg>Booking Type</th>
           <th langg>Services</th>
           <th langg>Booking Status</th>
+          <th langg>Due amount</th>
           <th></th>
         </tr>
       </thead>
@@ -29,6 +30,7 @@
           <td *ngIf="visit.isCanceled" langg>Canceled</td>
           <td *ngIf="visit.isEnter && !visit.isCanceled" langg>Done</td>
           <td *ngIf="!visit.isEnter && !visit.isCanceled" langg>Not Done</td>
+          <td>{{visit.due}} {{'EGP' | langg}}</td>
           <td class="text-center">
             <button (click)="onBook(visit.bookId)" nbButton size="small" status="info">
               <nb-icon icon="external-link-outline"></nb-icon><span langg>Details</span>

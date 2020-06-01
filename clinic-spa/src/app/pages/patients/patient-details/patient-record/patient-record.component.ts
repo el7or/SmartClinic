@@ -1,24 +1,19 @@
-import { PatientsService } from "./../../patients.service";
 import {
   NbDialogService,
-  NbAccordionComponent,
-  NbAccordionItemComponent,
 } from "@nebular/theme";
 import {
   Component,
   OnInit,
   OnDestroy,
-  ViewChildren,
-  QueryList,
-  AfterViewInit,
 } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { SettingsService } from "./../../../settings/settings.service";
+import { PatientsService } from "./../../patients.service";
 import { Recorditem } from "../../../settings/settings.model";
 import { BookingDetailsComponent } from "../../../bookings/booking-details/booking-details.component";
 import { ActivatedRoute } from "@angular/router";
 import { AlertService } from "../../../../shared/services/alert.service";
+import { GetPatientRecord } from '../../patients.model';
 
 @Component({
   selector: "patient-record",
@@ -30,12 +25,12 @@ export class PatientRecordComponent implements OnInit, OnDestroy {
   recordItems: Recorditem[];
   isExpanded = false;
   patientId: string;
+  todayBookingId:number;
 
   getRecordSubs: Subscription;
   routeSubs: Subscription;
 
   constructor(
-    private settingService: SettingsService,
     private dialogService: NbDialogService,
     private alertService: AlertService,
     private patientsService: PatientsService,
@@ -44,9 +39,10 @@ export class PatientRecordComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formLoading = true;
-    this.getRecordSubs = this.settingService.getRecordItemsSetting().subscribe(
-      (res: Recorditem[]) => {
-        this.recordItems = res;
+    this.getRecordSubs = this.patientsService.getPatientFileItems().subscribe(
+      (res: GetPatientRecord) => {
+        this.todayBookingId = res.todayBookingId;
+        this.recordItems = res.recordItems;
         this.formLoading = false;
       },
       (err) => {

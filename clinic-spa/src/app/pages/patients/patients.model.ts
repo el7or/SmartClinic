@@ -25,3 +25,15 @@ export interface PatientHeaderInfo {
   age: number;
   visitsCount: number;
 }
+
+export interface GetPatientRecord {
+  recordItems:Recorditem[];
+  todayBookingId:number;
+}
+export interface Recorditem {
+  id: number;
+  textEN: string;
+  textAR: string;
+  isActive: boolean;
+  isExpanded:boolean;
+}

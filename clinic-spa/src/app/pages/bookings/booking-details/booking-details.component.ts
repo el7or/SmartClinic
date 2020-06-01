@@ -270,8 +270,10 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
             // =====> check if same patient has booking in same day:
             if (
               !this.bookId ||
-              date.getTime() !=
-                new Date(this.bookingDetails.bookingDateTime).getTime()
+              !this.dateTimeService.isDatesEqual(
+                date,
+                new Date(this.bookingDetails.bookingDateTime)
+              )
             ) {
               this.isHasBookingSameDay = res.doctorAllBookingSameDay.find(
                 (b) => b.patientId == this.patientId
@@ -286,6 +288,8 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
               this.form.controls["date"].disable();
               this.form.controls["time"].disable();
             }
+            this.form.get("date").clearValidators();
+            this.form.get("date").updateValueAndValidity();
             this.formLoading = false;
           },
           (err) => {
@@ -434,6 +438,17 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           this.router
             .navigateByUrl("/", { skipLocationChange: true })
             .then(() => this.router.navigate([this.currentRoute]));
+          /* // =====> send alert for another users for update booking:
+          if (
+            this.dateTimeService.isDatesEqual(
+              new Date(),
+              new Date(this.form.value.date)
+            )
+          ) {
+            this.alertService.alertUpdateBooking(
+              this.bookingSetting.patientName
+            );
+          } */
         },
         (err) => {
           console.error(err);

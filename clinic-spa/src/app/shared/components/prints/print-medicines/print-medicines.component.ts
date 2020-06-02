@@ -40,6 +40,9 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
     this.printSubs = this.settingsService.getPrintSetting().subscribe(
       (res: GetPrintSetting) => {
         this.printInfoSetting = res;
+        if(!this.printInfoSetting.logoUrl){
+          this.printInfoSetting.logoUrl = "../../../../../assets/images/print-logo.png";
+        }
         this.printType = this.route.snapshot.queryParamMap.get("type");
         if (this.printType == "medicine") {
           this.prescription = this.medicineService.prescriptionForPrint;

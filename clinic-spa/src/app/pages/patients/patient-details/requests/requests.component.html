@@ -88,7 +88,7 @@
           <td>{{request.requestName}}</td>
           <td>{{request.isHasResult ? ('Registered Result' | langg) :('No Result Recorded' | langg)}}</td>
           <td class="text-center">
-            <button nbButton (click)="onOpenDetails(request.requestId,request.requestType)" type="click" [status]="request.isHasResult ? 'info' : 'success'" size="small">{{request.isHasResult ? ('Show Result' | langg) : ('Register Result' | langg)}}</button>
+            <button nbButton (click)="onOpenDetails(request.id,request.requestType)" type="click" [status]="request.isHasResult ? 'info' : 'success'" size="small">{{request.isHasResult ? ('Show Result' | langg) : ('Register Result' | langg)}}</button>
           </td>
         </tr>
       </tbody>

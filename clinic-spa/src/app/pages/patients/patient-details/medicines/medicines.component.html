@@ -16,7 +16,7 @@
                   <label class="error-message" langg>Must choose from the list !</label>
                 </ng-container>
             </td>
-            <td>
+            <!-- <td>
               <nb-select fullWidth [(ngModel)]="item.concentrationId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Concentration' | langg" size="small">
                 <nb-option *ngFor="let item of concentrationValues" [value]="item.id">{{item.text}}</nb-option>
@@ -27,7 +27,7 @@
                 [placeholder]="'Form' | langg" size="small">
                 <nb-option *ngFor="let item of formValues" [value]="item.id">{{item.text}}</nb-option>
               </nb-select>
-            </td>
+            </td> -->
             <td>
               <nb-select fullWidth [(ngModel)]="item.doseId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Dose' | langg" size="small">

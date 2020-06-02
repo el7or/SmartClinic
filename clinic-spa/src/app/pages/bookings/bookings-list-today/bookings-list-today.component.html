@@ -53,11 +53,11 @@
               langg>Canceled Booking</button>
           </td>
           <td>{{booking.mobile}}</td>
-          <td langg>{{booking.type}}</td>
-          <td langg>{{booking.services}}</td>
-          <td langg>{{booking.paid + booking.due | currency:'EGP':'symbol':'1.0'}}</td>
-          <td langg>{{booking.paid | currency:'EGP':'symbol':'1.0'}}</td>
-          <td langg>{{booking.due | currency:'EGP':'symbol':'1.0'}}</td>
+          <td>{{booking.type}}</td>
+          <td>{{booking.services}}</td>
+          <td>{{booking.paid + booking.due | currency:'EGP':'symbol':'1.0'}}</td>
+          <td>{{booking.paid | currency:'EGP':'symbol':'1.0'}}</td>
+          <td class="text-danger">{{booking.due | currency:'EGP':'symbol':'1.0'}}</td>
           <td class="text-center">
             <nb-checkbox [checked]="booking.isAttend" [(ngModel)]="booking.isAttend" status="success"
               [disabled]="booking.isEnter || booking.isCanceled" (ngModelChange)="onChangeAttend(booking)"></nb-checkbox>

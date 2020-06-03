@@ -163,7 +163,7 @@ export class BookingsListTodayComponent
   // =====> on drag drop row in table if order setting is 'Manual':
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.bookingsList, event.previousIndex, event.currentIndex);
-    // =====> reorder array after deag drop:
+    // =====> reorder array after drag drop:
     this.sortBookings(this.sortBookingsByText);
   }
 

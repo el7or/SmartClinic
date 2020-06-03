@@ -575,7 +575,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var prevPatientRays = _context.PatientRays.Where(p => p.PatientId == patientId).Include(e => e.Ray).Include(e => e.RayArea).Select(r => new PatientRequestListDTO
+            var prevPatientRays = _context.PatientRays.Where(p => p.PatientId == patientId && p.IsDeleted != true).Include(e => e.Ray).Include(e => e.RayArea).Select(r => new PatientRequestListDTO
             {
                 Id = r.Id,
                 RequestId = r.RayId,
@@ -587,7 +587,7 @@ namespace clinic_api.Controllers
                 RequestDate = r.CreatedOn,
                 isHasResult = r.IsHasResult
             }).ToList();
-            var prevPatientAnalsis = _context.PatientAnalysis.Where(p => p.PatientId == patientId).Include(e => e.Analysis).Select(a => new PatientRequestListDTO
+            var prevPatientAnalsis = _context.PatientAnalysis.Where(p => p.PatientId == patientId && p.IsDeleted != true).Include(e => e.Analysis).Select(a => new PatientRequestListDTO
             {
                 Id = a.Id,
                 RequestId = a.AnalysisId,
@@ -622,7 +622,7 @@ namespace clinic_api.Controllers
             return model;
         }
 
-        // POSt: api/PatientDetails/PostPatientRequest/5
+        // POST: api/PatientDetails/PostPatientRequest/5
         [HttpPost("PostPatientRequest/{id}/{patientId}")]
         public async Task<IActionResult> PostPatientRequest(Guid id, Guid patientId, PostPatientRequestsDTO model)
         {
@@ -666,6 +666,46 @@ namespace clinic_api.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // DELETE: api/PatientDetails/DeletePatientRequest/5
+        [HttpDelete("DeletePatientRequest/{id}/{requestId}/{type}")]
+        public async Task<IActionResult> DeletePatientRequest(Guid id, int requestId, string type)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            if (type == "ray")
+            {
+                var patientRay = _context.PatientRays.Find(requestId);
+                if (patientRay == null)
+                {
+                    return NotFound();
+                }
+                patientRay.IsDeleted = true;
+                patientRay.UpdatedBy = id;
+                patientRay.UpdatedOn = DateTime.Now.ToEgyptTime();
+
+                _context.Entry(patientRay).State = EntityState.Modified;
+            }
+            else
+            {
+                var patientAnalysis = _context.PatientAnalysis.Find(requestId);
+                if (patientAnalysis == null)
+                {
+                    return NotFound();
+                }
+                patientAnalysis.IsDeleted = true;
+                patientAnalysis.UpdatedBy = id;
+                patientAnalysis.UpdatedOn = DateTime.Now.ToEgyptTime();
+
+                _context.Entry(patientAnalysis).State = EntityState.Modified;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         // GET: api/PatientDetails/GetOper/5
@@ -731,7 +771,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var model = await _context.PatientRays.Include(d => d.Ray).Include(d => d.RayArea).Include(g => g.ResultGrade).Where(p => p.PatientId == patientId).Select(r => new RaysListDTO
+            var model = await _context.PatientRays.Include(d => d.Ray).Include(d => d.RayArea).Include(g => g.ResultGrade).Where(p => p.PatientId == patientId && p.IsDeleted != true).Select(r => new RaysListDTO
             {
                 Id = r.Id,
                 XrayName = r.Ray.RayName,
@@ -752,7 +792,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var model = await _context.PatientRays.Where(i => i.Id == rayId).Include(r => r.Ray).Include(r => r.RayArea)
+            var model = await _context.PatientRays.Where(i => i.Id == rayId && i.IsDeleted != true).Include(r => r.Ray).Include(r => r.RayArea)
                 .Include(r => r.PatientRayFiles).Include("PatientRayFiles.FileType").Select(r => new RayDetailsDTO
                 {
                     Id = r.Id,
@@ -866,7 +906,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var model = await _context.PatientAnalysis.Include(d => d.Analysis).Include(g => g.ResultGrade).Where(p => p.PatientId == patientId).Select(r => new AnalysisListDTO
+            var model = await _context.PatientAnalysis.Include(d => d.Analysis).Include(g => g.ResultGrade).Where(p => p.PatientId == patientId && p.IsDeleted != true).Select(r => new AnalysisListDTO
             {
                 Id = r.Id,
                 AnalysisName = r.Analysis.AnalysisName,
@@ -886,7 +926,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var model = await _context.PatientAnalysis.Where(i => i.Id == analysisId).Include(r => r.Analysis)
+            var model = await _context.PatientAnalysis.Where(i => i.Id == analysisId && i.IsDeleted != true).Include(r => r.Analysis)
                 .Include(r => r.PatientAnalysisFiles).Include("PatientAnalysisFiles.FileType").Select(a => new AnalysisDetailsDTO
                 {
                     Id = a.Id,

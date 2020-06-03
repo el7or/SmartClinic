@@ -1,22 +1,27 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { environment } from '../../../../../environments/environment';
-import { RequestsForPrint, GetPatientRequests, PatientRequest, PutPatientRequests } from './requests.model';
-import { AuthService } from '../../../../auth/auth.service';
-import { PatientsService } from '../../patients.service';
+import { environment } from "../../../../../environments/environment";
+import {
+  RequestsForPrint,
+  GetPatientRequests,
+  PatientRequest,
+  PutPatientRequests,
+} from "./requests.model";
+import { AuthService } from "../../../../auth/auth.service";
+import { PatientsService } from "../../patients.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class RequestsService {
-baseUrl = environment.API_URL;
+  baseUrl = environment.API_URL;
 
-  private _requestsForPrint : RequestsForPrint;
-  public get requestsForPrint() : RequestsForPrint {
+  private _requestsForPrint: RequestsForPrint;
+  public get requestsForPrint(): RequestsForPrint {
     return this._requestsForPrint;
   }
-  public set requestsForPrint(v : RequestsForPrint) {
+  public set requestsForPrint(v: RequestsForPrint) {
     this._requestsForPrint = v;
   }
 
@@ -45,7 +50,19 @@ baseUrl = environment.API_URL;
         this.authService.userId +
         "/" +
         this.patientService.patientId,
-        patientRequest
+      patientRequest
+    );
+  }
+
+  deletePatientRequest(requestId: number, type: string) {
+    return this.http.delete(
+      this.baseUrl +
+        "PatientDetails/DeletePatientRequest/" +
+        this.authService.userId +
+        "/" +
+        requestId +
+        "/" +
+        type
     );
   }
 }

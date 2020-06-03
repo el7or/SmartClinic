@@ -39,6 +39,7 @@ export class RequestsComponent implements OnInit {
 
   getSubs: Subscription;
   setSubs: Subscription;
+  deleteSubs: Subscription;
 
   constructor(
     public location: Location,
@@ -83,6 +84,7 @@ export class RequestsComponent implements OnInit {
   ngOnDestroy() {
     this.getSubs.unsubscribe();
     if (this.setSubs) this.setSubs.unsubscribe();
+    if (this.deleteSubs) this.deleteSubs.unsubscribe();
   }
 
   // =====> bind requestId on select from typehead:
@@ -209,11 +211,24 @@ export class RequestsComponent implements OnInit {
     }
   }
 
-  /* onDeleteRequest() {
+  // =====> on click delete in table:
+  onDeleteRequest(id: number,type:string,index:number) {
     this.deleteSwal.fire().then((result) => {
       if (result.value) {
-        this.doneSwal.fire();
+        this.formLoading = true;
+        this.deleteSubs = this.requestService.deletePatientRequest(id,type).subscribe(
+          () => {
+            this.formLoading = false;
+            this.doneSwal.fire();
+            this.prevPatientRequests.splice(index,1);
+          },
+          (error) => {
+            console.error(error);
+            this.alertService.alertError();
+            this.formLoading = false;
+          }
+        );
       }
     });
-  } */
+  }
 }

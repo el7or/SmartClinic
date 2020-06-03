@@ -1400,6 +1400,9 @@ namespace clinic_api.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("IsHasResult")
                         .HasColumnType("bit");
 
@@ -1780,6 +1783,9 @@ namespace clinic_api.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool?>("IsHasResult")
                         .HasColumnType("bit");

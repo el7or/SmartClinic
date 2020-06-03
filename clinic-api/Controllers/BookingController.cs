@@ -65,7 +65,7 @@ namespace clinic_api.Controllers
             {
                 // According to the Attendance
                 case 1:
-                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenByDescending(b => b.IsAttend).ThenBy(b => b.AttendTime).ToList();
+                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenByDescending(b => b.IsAttend).ThenBy(b => b.AttendTime).ThenBy(b => b.Time).ToList();
                     break;
                 // According to the Booking Time
                 case 2:
@@ -73,7 +73,7 @@ namespace clinic_api.Controllers
                     break;
                 // Manual
                 case 3:
-                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenBy(b => b.DaySeqNo).ToList();
+                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenBy(b => b.DaySeqNo).ThenBy(b => b.Time).ToList();
                     break;
                 default:
                     break;

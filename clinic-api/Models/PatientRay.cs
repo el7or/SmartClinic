@@ -20,6 +20,7 @@ namespace clinic_api.Models
         public string ResultText { get; set; }
         public int? ResultGradeId { get; set; }
         public string ResultNote { get; set; }
+        public bool? IsDeleted { get; set; }
         public DateTime CreatedOn { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime UpdatedOn { get; set; }

@@ -339,7 +339,7 @@ namespace clinic_api.Controllers
                         TextAR = d.Text,
                         TextEN = d.Value,
                         IsActive = ids.Contains(d.Id),
-                        IsExpanded = false
+                        IsExpanded = d.Value == "Diagnosis" ? true : false
                     }).ToListAsync(),
                     TodayBookingId = todayBooking == null ? 0 : todayBooking.Id
                 };

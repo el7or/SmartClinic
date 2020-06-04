@@ -85,12 +85,14 @@ export class BookingsListTodayComponent
       );
 
     // =====> if another user update booking in today:
-    this.updateBookSubs = this.chatService.bookingUpdated.subscribe((patientName:string) => {
-      this.alertService.alertUpdateBooking(patientName);
-      this.router
-            .navigateByUrl("/", { skipLocationChange: true })
-            .then(() => this.router.navigate(["/pages/bookings/today"]));
-    });
+    this.updateBookSubs = this.chatService.bookingUpdated.subscribe(
+      (patientName: string) => {
+        this.alertService.alertUpdateBooking(patientName);
+        this.router
+          .navigateByUrl("/", { skipLocationChange: true })
+          .then(() => this.router.navigate(["/pages/bookings/today"]));
+      }
+    );
   }
   ngAfterViewInit() {
     this.cd.detectChanges();
@@ -164,7 +166,16 @@ export class BookingsListTodayComponent
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.bookingsList, event.previousIndex, event.currentIndex);
     // =====> reorder array after drag drop:
-    this.sortBookings(this.sortBookingsByText);
+    this.bookingsList.map((item, index) => (item.daySeqNo = index + 1));
+    this.updateBookingListDB(this.bookingsList);
+  }
+
+  onSetNextBooking(booking:BookingList,index:number){
+    if(booking.isAttend){
+      moveItemInArray(this.bookingsList, this.nextBooking, index);
+      this.bookingsList.map((item, index) => (item.daySeqNo = index + 1));
+      this.updateBookingListDB(this.bookingsList);
+    }
   }
 
   // =====> on change attend checkbox:
@@ -213,16 +224,10 @@ export class BookingsListTodayComponent
           .map((item, index) => (item.daySeqNo = index + 1));
         this.updateBookingListDB(this.bookingsList);
         break;
-      case "Manual":
-        this.bookingsList
-          .sort((a, b) => +b.isEnter - +a.isEnter || +b.isEnter - +a.isEnter)
-          .map((item, index) => (item.daySeqNo = index + 1));
-        this.updateBookingListDB(this.bookingsList);
-        break;
     }
     // =====> set label to first attend booking:
     this.nextBooking = this.bookingsList.findIndex(
-      (booking) => booking.isAttend && !booking.isEnter
+      (booking) => booking.isAttend && !booking.isEnter && !booking.isCanceled
     );
   }
 
@@ -237,6 +242,7 @@ export class BookingsListTodayComponent
         : null;
     });
     const listObj: PutBookingList = {
+      clinicId: this.authService.clinicId,
       bookingsList: bookingList,
     };
     this.editListSubs = this.bookingService.putBookingsList(listObj).subscribe(
@@ -260,17 +266,4 @@ export class BookingsListTodayComponent
       this.router.navigate(["/pages/patients/details/" + codeId + "/basic"]);
     }
   }
-
-  /* // =====> on click on info for payment:
-  onOpenPaymentSummary(patientId: number) {
-    this.dialogService.open(PaymentSummaryComponent, {
-      context: {
-        patientDetails: "ملخص حالة الدفع:"
-      },
-      autoFocus: true,
-      hasBackdrop: true,
-      closeOnBackdropClick: false,
-      closeOnEsc: false
-    });
-  } */
 }

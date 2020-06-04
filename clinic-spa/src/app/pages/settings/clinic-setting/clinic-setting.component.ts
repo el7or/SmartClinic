@@ -36,7 +36,7 @@ export class ClinicSettingComponent implements OnInit {
     this.clinicSettingTabs = [
       {
         title: this.langgService.translateWord("Bookings"),
-        route: "./bookings",
+        route: ".",
       },
       {
         title: this.langgService.translateWord("Prices"),

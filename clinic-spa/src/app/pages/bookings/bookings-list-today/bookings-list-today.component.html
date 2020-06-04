@@ -23,6 +23,8 @@
     </button>
     <small class="form-text text-muted font-weight-bold">&#9733;&nbsp;<span langg>Current Order of Bookings made
         according to the Clinic Settings</span>:&nbsp;<span langg>{{sortBookingsByText | langg}}</span>.</small>
+    <small class="form-text text-muted font-weight-bold">&#9733;&#9733;&nbsp;<span langg>Bookings sequence can be changed by
+        Drag-and-Drop or Double-Click on one of attendees to be brought to the next role</span>.</small>
     <table class="table table-hover table-bordered">
       <thead class="thead-dark">
         <tr>
@@ -42,9 +44,9 @@
       </thead>
       <tbody cdkDropList (cdkDropListDropped)="drop($event)">
         <tr *ngFor="let booking of bookingsList; let i = index;"
-          [class]="booking.isEnter || booking.isCanceled ? (sortBookingsByText!='Manual' ? 'table-danger cdk-drag-disabled': 'table-danger'):(booking.isAttend ? (sortBookingsByText!='Manual' ? 'table-success cdk-drag-disabled' : 'table-success') : (sortBookingsByText!='Manual' ? 'table-light cdk-drag-disabled' : 'table-light'))"
-          cdkDrag [cdkDragDisabled]="booking.isEnter || booking.isCanceled || sortBookingsByText!='Manual'"
-          (dblclick)="nextBooking = i">
+          [class]="booking.isEnter || booking.isCanceled ?'table-danger' :(booking.isAttend ? 'table-success' :  'table-light')"
+          cdkDrag [cdkDragDisabled]="booking.isEnter || booking.isCanceled || bookingsList.length == 1"
+          (dblclick)="onSetNextBooking(booking,i)">
           <th>{{booking.daySeqNo}}</th>
           <td>{{booking.time | time12Hour}}</td>
           <td>{{booking.name}}

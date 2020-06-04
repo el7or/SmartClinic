@@ -14,7 +14,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     pathMatch: "prefix"
   },
   {
-    title: 'Today Booking',
+    title: 'Today Bookings',
     icon: 'clipboard-outline',
     link: '/pages/bookings/today',
   },

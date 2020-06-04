@@ -9,7 +9,7 @@
   { "ar": "الرسائل", "en": "Messages" },
   { "ar": "طلبات خارجية", "en": "External Requests" },
   { "ar": "إضافة مريض جديد", "en": "Add New Patient" },
-  { "ar": "حجوزات اليوم الحالي", "en": "Today Booking" },
+  { "ar": "حجوزات اليوم الحالي", "en": "Today Bookings" },
   { "ar": "ملخص الحجوزات", "en": "Current Bookings" },
   { "ar": "بيانات المرضى", "en": "Patients Records" },
   { "ar": "بحث المرضى", "en": "Patients Search" },
@@ -590,5 +590,10 @@
   { "ar": "المطلوب", "en": "Due" },
   { "ar": "المدفوع", "en": "Paid" },
   { "ar": "مبلغ مطلوب", "en": "Due amount" },
-  { "ar": "تحديث جديد لحجز في اليوم الحالي خاص بالمريض: ", "en": "New update to booking in current day for Patient: " }
+  { "ar": "تحديث جديد لحجز في اليوم الحالي خاص بالمريض: ", "en": "New update to booking in current day for Patient: " },
+  { "ar": "يمكن تغيير الترتيب عن طريق السحب والإفلات أو النقر المزدوج على أحد الحضور ليتم نقله إلى الدور القادم", "en": "Bookings sequence can be changed by Drag-and-Drop or Double-Click on one of attendees to be brought to the next role" },
+  { "ar": "تحديث جديد لترتيب حجوزات اليوم الحالي.", "en": "New update to sequence today’s Bookings." },
+  { "ar": "عند النقر على اليوم الحالي، ستتم إعادة توجيهك إلى صفحة حجوزات اليوم الحالي", "en": "When click on Today, will be redirected to Today Bookings page" },
+  { "ar": "يمكن عمل حجز جديد في أي تاريخ قادم بالنقر فوق اليوم لإعادة التوجيه إلى صفحة بيانات المرضى لاختيار المريض الذي سيتم الحجز له في اليوم المحدد", "en": "New Booking can be made on any future date by clicking on the day to redirect to Patients Records page to choose the patient to be booked on the specified day" },
+  { "ar": "عند النقر على أي تاريخ سابق ، ستتم إعادة توجيهك إلى صفحة تصفح الحجوزات لليوم المحدد", "en": "When click on any Past date, will be redirected to Browse Bookings page for the specified day" }
 ]

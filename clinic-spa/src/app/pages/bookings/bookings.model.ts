@@ -76,6 +76,7 @@ export interface BookingNew{
 
 export interface BookingEdit {
   bookingId:number;
+  doctorId:string;
   bookingDateTime: string;
   typeId: number;
   servicesIds?: number[];
@@ -119,5 +120,6 @@ export interface BookingList {
   isCanceled: boolean;
 }
 export interface PutBookingList {
+  clinicId:string;
   bookingsList:BookingList[];
 }

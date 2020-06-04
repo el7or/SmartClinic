@@ -52,16 +52,30 @@ export class AlertService {
   }
 
   alertUpdateBooking(patientName: string) {
-    this.toastrService.warning(
-      this.langgService.translateWord(
-        "New update to booking in current day for Patient: "
-      ) + patientName,
-      this.langgService.translateWord("Attention !"),
-      {
-        duration: 99999999,
-        icon: "close-square-outline",
-        destroyByClick: true,
-      }
-    );
+    if (patientName == null || patientName=='') {
+      this.toastrService.warning(
+        this.langgService.translateWord(
+          "New update to sequence today’s Bookings."
+        ),
+        this.langgService.translateWord("Attention !"),
+        {
+          duration: 99999999,
+          icon: "close-square-outline",
+          destroyByClick: true,
+        }
+      );
+    } else {
+      this.toastrService.warning(
+        this.langgService.translateWord(
+          "New update to booking in current day for Patient: "
+        ) + patientName,
+        this.langgService.translateWord("Attention !"),
+        {
+          duration: 99999999,
+          icon: "close-square-outline",
+          destroyByClick: true,
+        }
+      );
+    }
   }
 }

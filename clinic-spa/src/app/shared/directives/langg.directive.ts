@@ -23,6 +23,6 @@ export class LanggDirective implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.langgSubscription.unsubscribe();
+    if(this.langgSubscription) this.langgSubscription.unsubscribe();
   }
 }

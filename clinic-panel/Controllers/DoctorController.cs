@@ -213,7 +213,7 @@ namespace clinic_panel.Controllers
                     DiagnosePrice = 0,
                     ConsultPrice = 0
                 };
-                ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", 3);
+                ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", 2);
                 var allPeriods = new List<SelectListItem>() {
                     new SelectListItem{Value = "5", Text = "5"},
                     new SelectListItem{Value = "10", Text = "10"},

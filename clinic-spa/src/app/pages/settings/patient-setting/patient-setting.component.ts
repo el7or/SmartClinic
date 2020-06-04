@@ -32,7 +32,7 @@ export class PatientSettingComponent implements OnInit {
     this.patientSettingTabs = [
       {
         title: this.langgService.translateWord("Associated Diseases"),
-        route: "./diseases",
+        route: ".",
       },
       {
         title: this.langgService.translateWord("Patient Record"),

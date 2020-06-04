@@ -42,6 +42,7 @@ namespace clinic_api.Controllers
 
             var bookingList = await _context.Bookings.Where(b => b.Patient.DoctorId == doctorId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date)
                 .Include(p => p.Patient).Include(t => t.Type).Include(s => s.BookingServices).Include(d => d.Discount).Include(p => p.BookingPayments)
+                .OrderBy(b => b.DaySeqNo)
                 .Select(b => new BookingList
                 {
                     BookId = b.Id,
@@ -61,31 +62,6 @@ namespace clinic_api.Controllers
                     Paid = b.BookingPayments.Sum(p => p.Paid),
                     Due = b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.Discount != null ? ((bool)b.Discount.IsPercent ? ((b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) * b.Discount.Price) / 100) : b.Discount.Price) : 0) - b.BookingPayments.Sum(p => p.Paid),
                 }).ToListAsync();
-            switch (clinic.EntryOrderId)
-            {
-                // According to the Attendance
-                case 1:
-                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenByDescending(b => b.IsAttend).ThenBy(b => b.AttendTime).ThenBy(b => b.Time).ToList();
-                    break;
-                // According to the Booking Time
-                case 2:
-                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenBy(b => b.Time).ToList();
-                    break;
-                // Manual
-                case 3:
-                    bookingList = bookingList.OrderByDescending(b => b.IsEnter).ThenBy(b => b.EntryTime).ThenBy(b => b.DaySeqNo).ThenBy(b => b.Time).ToList();
-                    break;
-                default:
-                    break;
-            }
-            for (int i = 0; i < bookingList.Count(); i++)
-            {
-                bookingList[i].DaySeqNo = i + 1;
-                var book = _context.Bookings.Find(bookingList[i].BookId);
-                book.DaySeqNo = i + 1;
-                _context.Entry(book).State = EntityState.Modified;
-            }
-            await _context.SaveChangesAsync();
 
             var model = new GetBookingsDTO
             {
@@ -117,6 +93,12 @@ namespace clinic_api.Controllers
                 _context.Entry(book).State = EntityState.Modified;
             }
             await _context.SaveChangesAsync();
+
+            var usersInClinic = _context.Clinics.Where(i => i.Id == model.ClinicId).Include(u => u.ClinicUsers).FirstOrDefault().ClinicUsers.Where(u => u.UserId != id).Select(u => u.UserId).ToArray();
+            foreach (var userId in usersInClinic)
+            {
+                await _hub.Clients.User(userId.ToString()).SendAsync("UpdateTodayBooking");
+            }
 
             return NoContent();
         }
@@ -291,7 +273,6 @@ namespace clinic_api.Controllers
             }
             var booking = await _context.Bookings.Where(b => b.Id == model.BookingId)
                 .Include(s => s.BookingServices).Include(p => p.BookingPayments).Include(p => p.Patient).FirstOrDefaultAsync();
-
             booking.BookingDateTime = model.BookingDateTime;
             booking.TypeId = model.TypeId;
             booking.DiscountId = model.DiscountId == 0 ? null : model.DiscountId;
@@ -314,8 +295,19 @@ namespace clinic_api.Controllers
                 UpdatedBy = id,
                 UpdatedOn = DateTime.Now.ToEgyptTime()
             });
-
             _context.Entry(booking).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            // reorder sequance number for bookings in same date
+            if (model.BookingDateTime.Date != DateTime.Now.ToEgyptTime().Date)
+            {
+                var sameDayBookings = _context.Bookings.Where(p => p.BookingDateTime.Date == model.BookingDateTime.Date && p.DoctorId == model.DoctorId).OrderBy(d => d.BookingDateTime).ToList();
+                for (int i = 0; i < sameDayBookings.Count(); i++)
+                {
+                    sameDayBookings[i].DaySeqNo = i + 1;
+                    _context.Entry(sameDayBookings[i]).State = EntityState.Modified;
+                }
+            }
 
             try
             {
@@ -360,7 +352,7 @@ namespace clinic_api.Controllers
                 DaySeqNo = lastBookingInDay == null ? 1 : lastBookingInDay.DaySeqNo + 1,
                 BookingDateTime = model.BookingDateTime,
                 TypeId = model.TypeId,
-                DiscountId = model.DiscountId == 0 ? (int?)null : model.DiscountId,
+                DiscountId = model.DiscountId == 0 ? null : model.DiscountId,
                 IsActive = true,
                 IsDeleted = false,
                 CreatedBy = id,
@@ -401,10 +393,22 @@ namespace clinic_api.Controllers
                 });
                 _context.Entry(prevBooking).State = EntityState.Modified;
             }
+            _context.SaveChanges();
+
+            // reorder sequance number for bookings in same date
+            if (model.BookingDateTime.Date != DateTime.Now.ToEgyptTime().Date && lastBookingInDay != null)
+            {
+                var sameDayBookings = _context.Bookings.Where(p => p.BookingDateTime.Date == model.BookingDateTime.Date && p.DoctorId == model.DoctorId).OrderBy(b => b.BookingDateTime).ToList();
+                for (int i = 0; i < sameDayBookings.Count(); i++)
+                {
+                    sameDayBookings[i].DaySeqNo = i + 1;
+                    _context.Entry(sameDayBookings[i]).State = EntityState.Modified;
+                }
+            }
 
             try
             {
-                await _context.SaveChangesAsync();
+               await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {

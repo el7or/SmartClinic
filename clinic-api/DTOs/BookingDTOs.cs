@@ -75,6 +75,7 @@ namespace clinic_api.DTOs
     public class BookingPutDTO
     {
         public int BookingId { get; set; }
+        public Guid DoctorId { get; set; }
         public DateTime BookingDateTime { get; set; }
         public int TypeId { get; set; }
         public int[] ServicesIds { get; set; }
@@ -123,6 +124,7 @@ namespace clinic_api.DTOs
     }
     public class BookingPutListDTO
     {
+        public Guid ClinicId { get; set; }
         public List<BookingList> BookingsList { get; set; }
     }
 }

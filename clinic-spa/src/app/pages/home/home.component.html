@@ -10,5 +10,11 @@
       titleFormat="D MMM YYYY" [header]="calendarHeader" (dateClick)="onDateClick($event)"
       (eventClick)="onEventClick($event)" (eventMouseEnter)="onMouseOver($event)" (eventRender)="onEventRender($event)"
       [locale]="locle" [hiddenDays]="calendarHiddenDays" [height]="550"></full-calendar>
+    <small class="form-text text-muted font-weight-bold">&#9733;&nbsp;<span langg>When click on Today, will be
+        redirected to Today Bookings page</span>.</small>
+        <small class="form-text text-muted font-weight-bold">&#9733;&#9733;&nbsp;<span langg>New Booking can be made on any
+            future date by clicking on the day to redirect to Patients Records page to choose the patient to be booked on
+            the specified day</span>.</small>
+            <small class="form-text text-muted font-weight-bold">&#9733;&#9733;&#9733;&nbsp;<span langg>When click on any Past date, will be redirected to Browse Bookings page for the specified day</span>.</small>
   </nb-card-body>
 </nb-card>

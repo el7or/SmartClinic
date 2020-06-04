@@ -148,12 +148,7 @@ const routes: Routes = [
             component: ClinicSettingComponent,
             children:[
               {
-                path: "",
-                redirectTo: "bookings",
-                pathMatch: "full"
-              },
-              {
-                path:"bookings",
+                path:"",
                 component:BookingSettingComponent
               },
               {
@@ -171,12 +166,7 @@ const routes: Routes = [
             component: PatientSettingComponent,
             children:[
               {
-                path: "",
-                redirectTo: "diseases",
-                pathMatch: "full"
-              },
-              {
-                path:"diseases",
+                path:"",
                 component:DiseasesSettingComponent
               },
               {

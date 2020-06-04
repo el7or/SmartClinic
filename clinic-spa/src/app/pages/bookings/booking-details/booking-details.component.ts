@@ -37,7 +37,6 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   bookingServicesPrice = 0;
   bookingDiscountPrice = 0;
   isUserChangedDate = false;
-  currentRoute: string;
   isHasBookingSameDay: any;
 
   @Input() bookId: number;
@@ -87,7 +86,6 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formLoading = true;
-    this.currentRoute = this.router.url;
     // =====> get booking settings & data:
     this.getBookSubs = this.bookingService
       .getBookingDetails(
@@ -248,24 +246,41 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
             this.bookingSetting.doctorAllBookingSameDay =
               res.doctorAllBookingSameDay;
 
-            this.form.patchValue({ time: res.clinicDayTimeFrom });
-
-            // =====> set next availabel time:
-            res.doctorAllBookingSameDay.forEach((booking) => {
-              if (
-                this.dateTimeService.isTimesEqual(
-                  new Date(this.form.value.time),
-                  new Date(booking.time)
-                ) &&
-                booking.bookId != this.bookId
-              ) {
-                const nextAvailTime = new Date(
-                  new Date(booking.time).getTime() +
-                    this.bookingSetting.clinicBookingPeriod * 60000
-                );
-                this.form.patchValue({ time: nextAvailTime });
-              }
-            });
+              // =====> if update booking for first load data:
+            if (
+              this.dateTimeService.isDatesEqual(
+                date,
+                new Date(this.bookingDetails.bookingDateTime)
+              )
+            ) {
+              const bookingTime = new Date(
+                2020,
+                0,
+                1,
+                new Date(this.bookingDetails.bookingDateTime).getHours(),
+                new Date(this.bookingDetails.bookingDateTime).getMinutes(),
+                0
+              );
+              this.form.patchValue({ time: bookingTime });
+            } else {
+              this.form.patchValue({ time: res.clinicDayTimeFrom });
+              // =====> set next availabel time:
+              res.doctorAllBookingSameDay.forEach((booking) => {
+                if (
+                  this.dateTimeService.isTimesEqual(
+                    new Date(this.form.value.time),
+                    new Date(booking.time)
+                  ) &&
+                  booking.bookId != this.bookId
+                ) {
+                  const nextAvailTime = new Date(
+                    new Date(booking.time).getTime() +
+                      this.bookingSetting.clinicBookingPeriod * 60000
+                  );
+                  this.form.patchValue({ time: nextAvailTime });
+                }
+              });
+            }
 
             // =====> check if same patient has booking in same day:
             if (
@@ -322,6 +337,9 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           return true;
         }
       });
+      this.bookingSetting.doctorAllBookingSameDay.sort(
+        (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
+      );
     }
   }
 
@@ -403,12 +421,13 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     };
     this.newBookSubs = this.bookingService.addNewBooking(newBooking).subscribe(
       () => {
+        const currentRoute = this.router.url;
         this.doneSwal.fire();
         this.formLoading = false;
         this.dialogRef.close();
         this.router
           .navigateByUrl("/", { skipLocationChange: true })
-          .then(() => this.router.navigate([this.currentRoute]));
+          .then(() => this.router.navigate([currentRoute]));
       },
       (err) => {
         console.error(err);
@@ -420,6 +439,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   updateBooking() {
     const editedBooking: BookingEdit = {
       bookingId: this.bookId,
+      doctorId: this.authService.doctorId,
       bookingDateTime: this.dateTimeService.mergDateTime(
         this.bookingDetails.isEnter
           ? new Date(this.bookingDetails.bookingDateTime)
@@ -437,12 +457,13 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       .updateBooking(editedBooking)
       .subscribe(
         () => {
+          const currentRoute = this.router.url;
           this.doneSwal.fire();
           this.formLoading = false;
           this.dialogRef.close();
           this.router
             .navigateByUrl("/", { skipLocationChange: true })
-            .then(() => this.router.navigate([this.currentRoute]));
+            .then(() => this.router.navigate([currentRoute]));
         },
         (err) => {
           console.error(err);

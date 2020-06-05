@@ -17,9 +17,9 @@
           </ng-container>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
-          <label for="input-mobile" class="label"><span langg>Mobile</span>:</label>
+          <label for="input-mobile" class="label"><span langg>Mobile 1</span>:</label>
           <input nbInput [(ngModel)]="patientInfo.mobile" #patientPhone="ngModel" name="patientPhone" id="input-mobile"
-            [placeholder]="'Mobile' | langg" fullWidth pattern="[0-9]*" minlength="10" required
+            [placeholder]="'Mobile 1' | langg" fullWidth pattern="[0-9]*" minlength="10" required
             [status]="patientPhone.touched ? (patientPhone.invalid  ? 'danger' : 'success') : ''">
           <ng-container *ngIf="patientPhone.invalid && patientPhone.touched">
             <p class="error-message" *ngIf="patientPhone?.errors.required" langg>
@@ -31,11 +31,22 @@
           </ng-container>
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
+          <label for="input-mobile2" class="label"><span langg>Mobile 2</span>:</label>
+          <input nbInput [(ngModel)]="patientInfo.mobile2" #patientPhone2="ngModel" name="patientPhone2" id="input-mobile"
+            [placeholder]="'Mobile 2' | langg" fullWidth pattern="[0-9]*" minlength="10"
+            [status]="patientPhone2.touched ? (patientPhone2.invalid  ? 'danger' : (patientPhone2.value ? 'success': '')) : ''">
+          <ng-container *ngIf="patientPhone2.invalid && patientPhone2.touched">
+            <p class="error-message" *ngIf="patientPhone2?.errors.pattern || patientPhone2?.errors.minlength" langg>
+              Mobile must be real number!
+            </p>
+          </ng-container>
+        </div>
+        <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-age" class="label"><span langg>Age</span>:</label>
           <input nbInput [(ngModel)]="patientInfo.age" #age="ngModel" name="age" id="input-age"
             [placeholder]="'Age' | langg" fullWidth type="number" min="1" max="120">
         </div>
-        <div class="col-md-3 col-sm-6 form-control-group form-inline">
+        <div class="col-md-4 col-sm-6 form-control-group form-inline">
           <label for="input-gender" class="label" langg>Gender:</label>
           <nb-radio-group [(ngModel)]="patientInfo.gender" #gender="ngModel" id="input-gender" name="gender"
             class="form-inline">
@@ -43,7 +54,7 @@
             <nb-radio [value]="false"><span langg>Female</span>&nbsp;&nbsp;</nb-radio>
           </nb-radio-group>
         </div>
-        <div class="col-md-3 col-sm-6 form-control-group">
+        <div class="col-md-4 col-sm-6 form-control-group">
           <label for="input-status" class="label"><span langg>Social Status</span>:</label>
           <nb-select fullWidth [(ngModel)]="patientInfo.status" #socialStatus="ngModel" name="socialStatus"
             id="input-status" [placeholder]="'Social Status' | langg">
@@ -51,12 +62,12 @@
               {{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
           </nb-select>
         </div>
-        <div class="col-md-3 col-sm-6 form-control-group">
+        <div class="col-md-4 col-sm-6 form-control-group">
           <label for="input-career" class="label"><span langg>Career</span>:</label>
           <input nbInput [(ngModel)]="patientInfo.career" #career="ngModel" name="career" id="input-career"
             [placeholder]="'Career' | langg" fullWidth>
         </div>
-        <div class="col-md-3 col-sm-6 form-control-group">
+        <div class="col-md-4 col-sm-6 form-control-group">
           <label for="input-city" class="label"><span langg>Governorate</span>:</label>
           <nb-select fullWidth [(ngModel)]="patientInfo.city" #city="ngModel" name="city" id="input-city"
             [placeholder]="'Governorate' | langg" (selectedChange)="onSelectCity($event)">
@@ -64,7 +75,7 @@
               {{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
           </nb-select>
         </div>
-        <div class="col-md-3 col-sm-6 form-control-group">
+        <div class="col-md-4 col-sm-6 form-control-group">
           <label for="input-area" class="label"><span langg>Area</span>:</label>
           <nb-select fullWidth [(ngModel)]="patientInfo.area" #area="ngModel" name="area" id="input-area"
             [placeholder]="'Area' | langg">
@@ -72,12 +83,11 @@
               {{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
           </nb-select>
         </div>
-
-
-        <!-- <div class="col-md-3 col-sm-6 form-control-group">
-          <label for="input-area" class="label"><span langg>Area</span>:</label>
-          <input nbInput [(ngModel)]="patientInfo.area" #area="ngModel" name="area" id="input-area" [placeholder]="'Area' | langg" fullWidth>
-        </div> -->
+        <div class="col-md-12 col-sm-12 form-control-group">
+          <label for="input-note" class="label"><span langg>Note</span>:</label>
+          <textarea nbInput [(ngModel)]="patientInfo.note" #note="ngModel" name="note" id="input-note"
+            [placeholder]="'Note' | langg" fullWidth></textarea>
+        </div>
       </div>
     </nb-card-body>
     <nb-card-footer>

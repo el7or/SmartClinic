@@ -35,12 +35,16 @@ namespace clinic_api.Models
 
         [StringLength(256)]
         public string Phone { get; set; }
+
+        [StringLength(256)]
+        public string Phone2 { get; set; }
         public int? Age { get; set; }
         public bool? Gender { get; set; }
         public int? SocialStatusId { get; set; }
         public string Career { get; set; }
         public int? GovernorateId { get; set; }
         public int? CityId { get; set; }
+        public string Note { get; set; }
         public int? Children { get; set; }
         public int? PrevMarriages { get; set; }
         public int? PrevMarriagesPartner { get; set; }

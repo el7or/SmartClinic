@@ -7,12 +7,14 @@ export interface BasicInfo {
   patientId:string;
   name:string;
   mobile:string;
+  mobile2?:string;
   age?:number;
   gender?:boolean;
   status?:number;
   career?:string;
   city?:number;
   area?:number;
+  note?:string;
 }
 export interface SocialStatus{
   id:number;
@@ -36,12 +38,14 @@ export interface NewPatient{
   clinicId:string;
   fullName:string;
   phone:string;
+  phone2?:string;
   age?:number;
   gender?:boolean;
   socialStatusId?:number;
   career?:string;
   governorateId?:number;
   cityId?:number;
+  note?:string;
 }
 export interface AddPatientResponse{
   seqNo:number;
@@ -54,10 +58,12 @@ export interface EditPatient{
   clinicId:string;
   fullName:string;
   phone:string;
+  phone2?:string;
   age?:number;
   gender?:boolean;
   socialStatusId?:number;
   career?:string;
   governorateId?:number;
   cityId?:number;
+  note?:string;
 }

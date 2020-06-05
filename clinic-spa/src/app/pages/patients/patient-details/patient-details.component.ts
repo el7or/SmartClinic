@@ -33,7 +33,9 @@ import { AlertService } from "../../../shared/services/alert.service";
         <label *ngIf="patientHeaderInfo"
           ><span langg>Age</span>: <span>{{ patientHeaderInfo?.age ? patientHeaderInfo?.age : '0' }}</span> |
           <span langg>Visits Count</span>:
-          <span>{{ patientHeaderInfo?.visitsCount }}</span></label
+          <span>{{ patientHeaderInfo?.visitsCount }}</span>
+          <span *ngIf="patientHeaderInfo.areaTextEN"> | <span langg>Area</span>: {{langgService.locale=='en'? patientHeaderInfo.areaTextEN : patientHeaderInfo.areaTextAR}}</span>
+          </label
         >
       </nb-card-header>
       <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
@@ -60,7 +62,7 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
     private patientsService: PatientsService,
     private authService: AuthService,
     private alertService: AlertService,
-    private langgService: LanggService
+    public langgService: LanggService
   ) {}
 
   ngOnInit() {

@@ -119,7 +119,6 @@ namespace clinic_api.Controllers
                     TextAR = d.Text,
                     TextEN = d.Value,
                     IsActive = true,
-                    IsExpanded = d.Value == "Diagnosis" ? true : false
                 }).ToListAsync();
                 return model;
             }
@@ -132,7 +131,6 @@ namespace clinic_api.Controllers
                     TextAR = d.Text,
                     TextEN = d.Value,
                     IsActive = ids.Contains(d.Id),
-                    IsExpanded = d.Value == "Diagnosis" ? true : false
                 }).ToListAsync();
                 return model;
             }

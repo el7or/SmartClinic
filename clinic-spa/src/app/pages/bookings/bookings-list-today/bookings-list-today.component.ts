@@ -170,6 +170,7 @@ export class BookingsListTodayComponent
     this.updateBookingListDB(this.bookingsList);
   }
 
+  // =====> on double click on attend patient to make him next booking:
   onSetNextBooking(booking:BookingList,index:number){
     if(booking.isAttend){
       moveItemInArray(this.bookingsList, this.nextBooking, index);

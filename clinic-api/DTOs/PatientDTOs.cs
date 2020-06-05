@@ -36,6 +36,8 @@ namespace clinic_api.DTOs
         public string Name { get; set; }
         public int? Age { get; set; }
         public int VisitsCount { get; set; }
+        public string AreaTextEN { get; set; }
+        public string AreaTextAR { get; set; }
     }
 
     public class PatientValuesGetDTO
@@ -49,12 +51,14 @@ namespace clinic_api.DTOs
         public Guid PatientId { get; set; }
         public string Name { get; set; }
         public string Mobile { get; set; }
+        public string Mobile2 { get; set; }
         public int? Age { get; set; }
         public bool? Gender { get; set; }
         public int? Status { get; set; }
         public string Career { get; set; }
         public int? City { get; set; }
         public int? Area { get; set; }
+        public string Note { get; set; }
     }
 
     public class PatientPostDTO
@@ -63,12 +67,14 @@ namespace clinic_api.DTOs
         public Guid ClinicId { get; set; }
         public string FullName { get; set; }
         public string Phone { get; set; }
+        public string Phone2 { get; set; }
         public int? Age { get; set; }
         public bool? Gender { get; set; }
         public int? SocialStatusId { get; set; }
         public string Career { get; set; }
         public int? GovernorateId { get; set; }
         public int? CityId { get; set; }
+        public string Note { get; set; }
     }
 
     public class PatientPutDTO
@@ -78,12 +84,14 @@ namespace clinic_api.DTOs
         public Guid ClinicId { get; set; }
         public string FullName { get; set; }
         public string Phone { get; set; }
+        public string Phone2 { get; set; }
         public int? Age { get; set; }
         public bool? Gender { get; set; }
         public int? SocialStatusId { get; set; }
         public string Career { get; set; }
         public int? GovernorateId { get; set; }
         public int? CityId { get; set; }
+        public string Note { get; set; }
     }
 
     public class GetPatientRecordDTO

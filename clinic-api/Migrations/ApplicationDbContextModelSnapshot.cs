@@ -1336,7 +1336,14 @@ namespace clinic_api.Migrations
                     b.Property<decimal?>("Length")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Phone2")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 

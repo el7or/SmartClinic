@@ -24,6 +24,8 @@ export interface PatientHeaderInfo {
   name: string;
   age: number;
   visitsCount: number;
+  areaTextEN?:string;
+  areaTextAR?:string;
 }
 
 export interface GetPatientRecord {

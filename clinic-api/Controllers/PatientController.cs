@@ -33,13 +33,16 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-                var patient = await _context.Patients.Where(p => p.ClinicId == clinicId && p.SeqNo == seqNo && p.IsDeleted != true).Include(b => b.Bookings).FirstOrDefaultAsync();
+                var patient = await _context.Patients.Where(p => p.ClinicId == clinicId && p.SeqNo == seqNo && p.IsDeleted != true)
+                .Include(b => b.Bookings).Include(s=> s.City).FirstOrDefaultAsync();
                 var patientHeaderInfo = new PatientGetDTO
                 {
                     PatientId = patient.Id,
                     Age = patient.Age,
                     Name = patient.FullName,
-                    VisitsCount = patient.Bookings.Count()
+                    VisitsCount = patient.Bookings.Count(),
+                    AreaTextEN = patient.City?.TextEN,
+                    AreaTextAR = patient.City?.TextAR
                 };
             return patientHeaderInfo;
         }
@@ -152,10 +155,12 @@ namespace clinic_api.Controllers
                     Career = patient.Career,
                     Gender = patient.Gender,
                     Mobile = patient.Phone,
+                    Mobile2 = patient.Phone2,
                     Name = patient.FullName,
                     Status = patient.SocialStatusId,
                     City = patient.GovernorateId,
-                    Area = patient.CityId
+                    Area = patient.CityId,
+                    Note = patient.Note
                 };
             }
             var patientWithValues = new PatientValuesGetDTO
@@ -195,12 +200,14 @@ namespace clinic_api.Controllers
             var patient = await _context.Patients.FirstOrDefaultAsync(p=> p.Id== model.PatientId && p.IsDeleted != true);
             patient.FullName = model.FullName.Trim().Normalize_AR();
             patient.Phone = model.Phone.Trim();
+            patient.Phone2 = model.Phone2.Trim();
             patient.Age = model.Age;
             patient.Gender = model.Gender;
             patient.SocialStatusId = model.SocialStatusId;
             patient.Career = model.Career;
             patient.GovernorateId = model.GovernorateId;
             patient.CityId = model.CityId;
+            patient.Note = model.Note;
             patient.UpdatedBy = id;
             patient.UpdatedOn = DateTime.Now.ToEgyptTime();
             _context.Entry(patient).State = EntityState.Modified;
@@ -241,12 +248,14 @@ namespace clinic_api.Controllers
                 SeqNo = seqNo,
                 FullName = model.FullName.Trim().Normalize_AR(),
                 Phone = model.Phone.Trim(),
+                Phone2 = model.Phone2.Trim(),
                 Age = model.Age,
                 Gender = model.Gender,
                 SocialStatusId = model.SocialStatusId,
                 Career = model.Career,
                 GovernorateId = model.GovernorateId,
                 CityId = model.CityId,
+                Note = model.Note,
                 IsActive = true,
                 IsDeleted = false,
                 CreatedBy = id,

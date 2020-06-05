@@ -167,12 +167,14 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
       doctorId: this.authService.doctorId,
       fullName: this.form.value.patientName,
       phone: this.form.value.patientPhone,
+      phone2: this.form.value.patientPhone2,
       age: this.form.value.age,
       career: this.form.value.career,
       cityId: this.form.value.area,
       gender: this.form.value.gender,
       governorateId: this.form.value.city,
       socialStatusId: this.form.value.socialStatus,
+      note: this.form.value.note,
     };
     this.addSubs = this.basicInfoService.saveNewPatient(patient).subscribe(
       (res: AddPatientResponse) => {
@@ -198,12 +200,14 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
       doctorId: this.authService.doctorId,
       fullName: this.form.value.patientName,
       phone: this.form.value.patientPhone,
+      phone2: this.form.value.patientPhone2,
       age: this.form.value.age,
       career: this.form.value.career,
       cityId: this.form.value.area,
       gender: this.form.value.gender,
       governorateId: this.form.value.city,
       socialStatusId: this.form.value.socialStatus,
+      note: this.form.value.note,
     };
     this.editSubs = this.basicInfoService.updatePatientInfo(patient).subscribe(
       () => {

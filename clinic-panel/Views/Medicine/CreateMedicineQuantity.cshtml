@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "إضافة تركيز";
+    ViewBag.Title = "إضافة كمية";
 }
 
-<h2>إضافة تركيز</h2>
+<h2>إضافة كمية دواء</h2>
 
 
 @using (Html.BeginForm())
@@ -13,7 +13,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            <label class="control-label col-md-2">التركيز:</label>
+            <label class="control-label col-md-2">الكمية:</label>
             <div class="col-md-10">
                 @Html.TextBox("Value", null, new { @class = "form-control" })
                 @Html.ValidationMessage("Value", new { @class = "text-danger" })

@@ -5,66 +5,63 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="bfec69010bf64f9c9bca018d3c735719" Name="Diagram1" ZoomLevel="89">
-        <EntityTypeShape EntityType="Models.AspNetRole" Width="1.5" PointX="1.5" PointY="56.5" />
-        <EntityTypeShape EntityType="Models.AspNetUser" Width="1.5" PointX="0.75" PointY="47.375" />
-        <EntityTypeShape EntityType="Models.AspNetUserToken" Width="1.5" PointX="3" PointY="63.625" />
-        <EntityTypeShape EntityType="Models.BookingPayment" Width="1.5" PointX="15.75" PointY="34.375" />
-        <EntityTypeShape EntityType="Models.Booking" Width="1.5" PointX="13.5" PointY="32.625" />
-        <EntityTypeShape EntityType="Models.ChatMessage" Width="1.5" PointX="3" PointY="59.875" />
-        <EntityTypeShape EntityType="Models.ClinicBookingType" Width="1.5" PointX="11.25" PointY="18.875" />
-        <EntityTypeShape EntityType="Models.ClinicDiscount" Width="1.5" PointX="11.25" PointY="48.375" />
-        <EntityTypeShape EntityType="Models.Clinic" Width="1.5" PointX="3" PointY="43.875" />
-        <EntityTypeShape EntityType="Models.ClinicService" Width="1.5" PointX="18.75" PointY="34.25" />
-        <EntityTypeShape EntityType="Models.DoctorAnalysisValue" Width="1.5" PointX="5.25" PointY="47.375" />
-        <EntityTypeShape EntityType="Models.DoctorComplaintChoicesValue" Width="1.5" PointX="11.25" PointY="24.375" />
-        <EntityTypeShape EntityType="Models.DoctorDetailedComplaintsValue" Width="1.5" PointX="9" PointY="24.25" />
-        <EntityTypeShape EntityType="Models.DoctorDiagnosisValue" Width="1.5" PointX="5.25" PointY="42.875" />
-        <EntityTypeShape EntityType="Models.DoctorExaminationAreasValue" Width="1.5" PointX="8.25" PointY="14.375" />
-        <EntityTypeShape EntityType="Models.DoctorExaminationsValue" Width="1.5" PointX="8.25" PointY="19.25" />
-        <EntityTypeShape EntityType="Models.DoctorGeneralComplaintsValue" Width="1.5" PointX="8.25" PointY="51.375" />
-        <EntityTypeShape EntityType="Models.DoctorMedicinesValue" Width="1.5" PointX="13.75" PointY="49.75" />
-        <EntityTypeShape EntityType="Models.DoctorOperationTypesValue" Width="1.5" PointX="5.25" PointY="26.375" />
-        <EntityTypeShape EntityType="Models.DoctorRayAreasValue" Width="1.5" PointX="11.25" PointY="53.25" />
-        <EntityTypeShape EntityType="Models.DoctorRaysValue" Width="1.5" PointX="11.25" PointY="57.375" />
-        <EntityTypeShape EntityType="Models.Doctor" Width="1.5" PointX="3" PointY="19" />
+        <EntityTypeShape EntityType="Models.AspNetRole" Width="1.5" PointX="1.5" PointY="56.75" />
+        <EntityTypeShape EntityType="Models.AspNetUser" Width="1.5" PointX="0.75" PointY="47.5" />
+        <EntityTypeShape EntityType="Models.AspNetUserToken" Width="1.5" PointX="3" PointY="63.875" />
+        <EntityTypeShape EntityType="Models.BookingPayment" Width="1.5" PointX="15.75" PointY="34.625" />
+        <EntityTypeShape EntityType="Models.Booking" Width="1.5" PointX="13.5" PointY="32.875" />
+        <EntityTypeShape EntityType="Models.ChatMessage" Width="1.5" PointX="3" PointY="60.125" />
+        <EntityTypeShape EntityType="Models.ClinicBookingType" Width="1.5" PointX="11.25" PointY="44" />
+        <EntityTypeShape EntityType="Models.ClinicDiscount" Width="1.5" PointX="11.25" PointY="48.625" />
+        <EntityTypeShape EntityType="Models.Clinic" Width="1.5" PointX="3" PointY="44.125" />
+        <EntityTypeShape EntityType="Models.ClinicService" Width="1.5" PointX="18.75" PointY="34.375" />
+        <EntityTypeShape EntityType="Models.DoctorAnalysisValue" Width="1.5" PointX="5.25" PointY="47" />
+        <EntityTypeShape EntityType="Models.DoctorComplaintChoicesValue" Width="1.5" PointX="8.25" PointY="24.5" />
+        <EntityTypeShape EntityType="Models.DoctorDetailedComplaintsValue" Width="1.5" PointX="6" PointY="24.375" />
+        <EntityTypeShape EntityType="Models.DoctorDiagnosisValue" Width="1.5" PointX="8.25" PointY="44.5" />
+        <EntityTypeShape EntityType="Models.DoctorExaminationAreasValue" Width="1.5" PointX="5.25" PointY="42.625" />
+        <EntityTypeShape EntityType="Models.DoctorExaminationsValue" Width="1.5" PointX="5.25" PointY="19.5" />
+        <EntityTypeShape EntityType="Models.DoctorGeneralComplaintsValue" Width="1.5" PointX="11.25" PointY="24.5" />
+        <EntityTypeShape EntityType="Models.DoctorMedicinesValue" Width="1.5" PointX="13.75" PointY="52.125" />
+        <EntityTypeShape EntityType="Models.DoctorOperationTypesValue" Width="1.5" PointX="8.25" PointY="49.5" />
+        <EntityTypeShape EntityType="Models.DoctorRayAreasValue" Width="1.5" PointX="11.25" PointY="53.5" />
+        <EntityTypeShape EntityType="Models.DoctorRaysValue" Width="1.5" PointX="11.25" PointY="57.625" />
+        <EntityTypeShape EntityType="Models.Doctor" Width="1.5" PointX="3" PointY="19.125" />
         <EntityTypeShape EntityType="Models.Expens" Width="1.5" PointX="10" PointY="8" />
-        <EntityTypeShape EntityType="Models.PatientAnalysi" Width="1.5" PointX="7.5" PointY="38.625" />
-        <EntityTypeShape EntityType="Models.PatientAnalysisFile" Width="1.5" PointX="9.75" PointY="43.25" />
-        <EntityTypeShape EntityType="Models.PatientDetailedComplaint" Width="1.5" PointX="13.5" PointY="27.125" />
-        <EntityTypeShape EntityType="Models.PatientDiagnosi" Width="1.5" PointX="7.5" PointY="34.125" />
-        <EntityTypeShape EntityType="Models.PatientDiseas" Width="1.5" PointX="10.5" PointY="34.375" />
-        <EntityTypeShape EntityType="Models.PatientExamination" Width="1.5" PointX="10.5" PointY="29.25" />
-        <EntityTypeShape EntityType="Models.PatientGeneralComplaint" Width="1.5" PointX="10.5" PointY="38.375" />
-        <EntityTypeShape EntityType="Models.PatientOperation" Width="1.5" PointX="7.5" PointY="29.125" />
-        <EntityTypeShape EntityType="Models.PatientPrescription" Width="1.5" PointX="7.5" PointY="79.125" />
-        <EntityTypeShape EntityType="Models.PatientRayFile" Width="1.5" PointX="15.75" PointY="41.25" />
-        <EntityTypeShape EntityType="Models.PatientRay" Width="1.5" PointX="13.5" PointY="40.5" />
-        <EntityTypeShape EntityType="Models.PatientReferral" Width="1.5" PointX="15.75" PointY="28.625" />
+        <EntityTypeShape EntityType="Models.PatientAnalysi" Width="1.5" PointX="7.5" PointY="33.75" />
+        <EntityTypeShape EntityType="Models.PatientAnalysisFile" Width="1.5" PointX="15.75" PointY="29.375" />
+        <EntityTypeShape EntityType="Models.PatientDetailedComplaint" Width="1.5" PointX="10.5" PointY="29.375" />
+        <EntityTypeShape EntityType="Models.PatientDiagnosi" Width="1.5" PointX="10.5" PointY="34.375" />
+        <EntityTypeShape EntityType="Models.PatientDiseas" Width="1.5" PointX="7.5" PointY="39.625" />
+        <EntityTypeShape EntityType="Models.PatientExamination" Width="1.5" PointX="7.5" PointY="29.375" />
+        <EntityTypeShape EntityType="Models.PatientGeneralComplaint" Width="1.5" PointX="13.5" PointY="28.625" />
+        <EntityTypeShape EntityType="Models.PatientOperation" Width="1.5" PointX="10.5" PointY="39.375" />
+        <EntityTypeShape EntityType="Models.PatientPrescription" Width="1.5" PointX="7.5" PointY="79.75" />
+        <EntityTypeShape EntityType="Models.PatientRayFile" Width="1.5" PointX="15.75" PointY="44.375" />
+        <EntityTypeShape EntityType="Models.PatientRay" Width="1.5" PointX="13.5" PointY="40.625" />
+        <EntityTypeShape EntityType="Models.PatientReferral" Width="1.5" PointX="15.75" PointY="38.75" />
         <EntityTypeShape EntityType="Models.Patient" Width="1.5" PointX="5.25" PointY="30.75" />
         <EntityTypeShape EntityType="Models.Plan" Width="1.5" PointX="3" PointY="1.75" />
-        <EntityTypeShape EntityType="Models.PrescriptionMedicine" Width="1.5" PointX="9.75" PointY="78.625" />
         <EntityTypeShape EntityType="Models.SubscriptionPayment" Width="1.5" PointX="7.5" PointY="2.875" />
         <EntityTypeShape EntityType="Models.Subscription" Width="1.5" PointX="5.25" PointY="1.125" />
-        <EntityTypeShape EntityType="Models.SysAnalysisFileTypesValue" Width="1.5" PointX="7.5" PointY="45" />
-        <EntityTypeShape EntityType="Models.SysBloodPressureValue" Width="1.5" PointX="3" PointY="35.25" />
-        <EntityTypeShape EntityType="Models.SysCitiesValue" Width="1.5" PointX="3" PointY="40.5" />
+        <EntityTypeShape EntityType="Models.SysAnalysisFileTypesValue" Width="1.5" PointX="13.5" PointY="25.25" />
+        <EntityTypeShape EntityType="Models.SysBloodPressureValue" Width="1.5" PointX="3" PointY="35.5" />
+        <EntityTypeShape EntityType="Models.SysCitiesValue" Width="1.5" PointX="3" PointY="40.875" />
         <EntityTypeShape EntityType="Models.sysdiagram" Width="1.5" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Models.SysDiseaseGradesValue" Width="1.5" PointX="5.25" PointY="22.75" />
-        <EntityTypeShape EntityType="Models.SysDiseasesQuestionsValue" Width="1.5" PointX="8.25" PointY="48" />
-        <EntityTypeShape EntityType="Models.SysDoctorsSpecialty" Width="1.5" PointX="0.75" PointY="22.375" />
-        <EntityTypeShape EntityType="Models.SysEntryOrderValue" Width="1.5" PointX="0.75" PointY="44.625" />
+        <EntityTypeShape EntityType="Models.SysDiseaseGradesValue" Width="1.5" PointX="5.25" PointY="51.125" />
+        <EntityTypeShape EntityType="Models.SysDiseasesQuestionsValue" Width="1.5" PointX="5.25" PointY="54.25" />
+        <EntityTypeShape EntityType="Models.SysDoctorsSpecialty" Width="1.5" PointX="0.75" PointY="22.625" />
+        <EntityTypeShape EntityType="Models.SysEntryOrderValue" Width="1.5" PointX="0.75" PointY="44.875" />
         <EntityTypeShape EntityType="Models.SysExpenseType" Width="1.5" PointX="7.75" PointY="8.75" />
         <EntityTypeShape EntityType="Models.SysGovernoratesValue" Width="1.5" PointX="0.75" PointY="29.25" />
-        <EntityTypeShape EntityType="Models.SysMedicineConcentrationsValue" Width="1.5" PointX="7.5" PointY="88.875" />
-        <EntityTypeShape EntityType="Models.SysMedicineDosesValue" Width="1.5" PointX="7.5" PointY="73" />
-        <EntityTypeShape EntityType="Models.SysMedicineFormsValue" Width="1.5" PointX="7.5" PointY="91.5" />
-        <EntityTypeShape EntityType="Models.SysMedicinePeriodsValue" Width="1.5" PointX="7.5" PointY="86.125" />
-        <EntityTypeShape EntityType="Models.SysMedicinesValue" Width="1.5" PointX="7.5" PointY="75.625" />
-        <EntityTypeShape EntityType="Models.SysMedicineTimingsValue" Width="1.5" PointX="7.5" PointY="83.5" />
+        <EntityTypeShape EntityType="Models.SysMedicineDosesValue" Width="1.5" PointX="7.5" PointY="74.875" />
+        <EntityTypeShape EntityType="Models.SysMedicinePeriodsValue" Width="1.5" PointX="7.5" PointY="89.75" />
+        <EntityTypeShape EntityType="Models.SysMedicinesValue" Width="1.5" PointX="7.5" PointY="84.25" />
+        <EntityTypeShape EntityType="Models.SysMedicineTimingsValue" Width="1.5" PointX="7.5" PointY="87.125" />
         <EntityTypeShape EntityType="Models.SysPatientRecordSectionsValue" Width="1.5" PointX="9.75" PointY="3.75" />
-        <EntityTypeShape EntityType="Models.SysRayFileTypesValue" Width="1.5" PointX="13.5" PointY="47" />
+        <EntityTypeShape EntityType="Models.SysRayFileTypesValue" Width="1.5" PointX="13.5" PointY="47.25" />
         <EntityTypeShape EntityType="Models.SysRenewalTypeValue" Width="1.5" PointX="0.75" PointY="3.5" />
-        <EntityTypeShape EntityType="Models.SysSocialStatusValue" Width="1.5" PointX="3" PointY="32.5" />
+        <EntityTypeShape EntityType="Models.SysSocialStatusValue" Width="1.5" PointX="3" PointY="32.75" />
         <EntityTypeShape EntityType="Models.SysSubscriberTypeValue" Width="1.5" PointX="3" PointY="8.125" />
         <EntityTypeShape EntityType="Models.SysSubscriptionTypeValue" Width="1.5" PointX="3" PointY="11.75" />
         <AssociationConnector Association="Models.FK_AspNetUserTokens_AspNetUsers_UserId" />
@@ -120,7 +117,6 @@
         <AssociationConnector Association="Models.FK_PatientGeneralComplaints_Patients" />
         <AssociationConnector Association="Models.FK_PatientOperations_Patients" />
         <AssociationConnector Association="Models.FK_PatientPrescriptions_Patients" />
-        <AssociationConnector Association="Models.FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId" />
         <AssociationConnector Association="Models.FK_PatientRayFiles_PatientRays" />
         <AssociationConnector Association="Models.FK_PatientRayFiles_SysRayFileTypesValues" />
         <AssociationConnector Association="Models.FK_PatientRays_Patients" />
@@ -132,12 +128,6 @@
         <AssociationConnector Association="Models.FK_Patients_SysSocialStatusValues" />
         <AssociationConnector Association="Models.FK_Plans_SysRenewalTypeValues" />
         <AssociationConnector Association="Models.FK_Subscriptions_Plans" />
-        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicineConcentrationsValues" />
-        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicineDosesValues" />
-        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicineFormsValues" />
-        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicinePeriodsValues" />
-        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicinesValue" />
-        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicineTimingsValues" />
         <AssociationConnector Association="Models.FK_SubscriptionPayments_Subscriptions" />
         <AssociationConnector Association="Models.FK_Subscriptions_SysSubscriberTypeValues" />
         <AssociationConnector Association="Models.FK_Subscriptions_SysSubscriptionTypeValues" />
@@ -146,6 +136,14 @@
         <AssociationConnector Association="Models.BookingServices" />
         <AssociationConnector Association="Models.ClinicUsers" />
         <AssociationConnector Association="Models.DoctorClinics" />
+        <EntityTypeShape EntityType="Models.SysMedicineQuantityValue" Width="1.5" PointX="7.5" PointY="71.625" />
+        <EntityTypeShape EntityType="Models.PrescriptionMedicine" Width="1.5" PointX="9.75" PointY="79.5" />
+        <AssociationConnector Association="Models.FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId" />
+        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicineDosesValues" />
+        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicinePeriodsValues" />
+        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicineQuantityValues" />
+        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicinesValue" />
+        <AssociationConnector Association="Models.FK_PrescriptionMedicines_SysMedicineTimingsValues" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

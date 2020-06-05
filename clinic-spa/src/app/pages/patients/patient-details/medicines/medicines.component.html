@@ -1,33 +1,28 @@
 <nb-card>
-  <nb-card-body>
-    <form #form="ngForm" aria-labelledby="title" [nbSpinner]="formLoading" nbSpinnerStatus="success">
+  <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
+    <form #form="ngForm" aria-labelledby="title">
       <h6 langg>Add Prescription:</h6>
       <table class="table mb-1">
         <tbody>
           <tr *ngFor="let item of newPatientPrescription.medicines; index as i;">
             <td>
               <input nbInput [(ngModel)]="item.medicineName" [placeholder]="'Type Medicine Name ..' | langg"
-                [typeahead]="medicineValues" typeaheadOptionField="text" (typeaheadOnSelect)="onSelectMedicine($event,i)"
-                 (typeaheadNoResults)="item.isNameValid = !$event" (keyup)="!item.isNameValid || item.medicineName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
+                [typeahead]="medicineValues" typeaheadOptionField="text"
+                (typeaheadOnSelect)="onSelectMedicine($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
+                (keyup)="!item.isNameValid || item.medicineName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
                 [placeholder]="'Medication Name' | langg" [isAnimated]="true" [typeaheadMinLength]="0"
                 [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
                 [typeaheadOptionsInScrollableView]="15" fieldSize="small" fullWidth>
-                <ng-container *ngIf="!item.isNameValid && item.medicineName != ''">
-                  <label class="error-message" langg>Must choose from the list !</label>
-                </ng-container>
-            </td>
-            <!-- <td>
-              <nb-select fullWidth [(ngModel)]="item.concentrationId" [ngModelOptions]="{standalone: true}"
-                [placeholder]="'Concentration' | langg" size="small">
-                <nb-option *ngFor="let item of concentrationValues" [value]="item.id">{{item.text}}</nb-option>
-              </nb-select>
+              <ng-container *ngIf="!item.isNameValid && item.medicineName != ''">
+                <label class="error-message" langg>Must choose from the list !</label>
+              </ng-container>
             </td>
             <td>
-              <nb-select fullWidth [(ngModel)]="item.formId" [ngModelOptions]="{standalone: true}"
-                [placeholder]="'Form' | langg" size="small">
-                <nb-option *ngFor="let item of formValues" [value]="item.id">{{item.text}}</nb-option>
+              <nb-select fullWidth [(ngModel)]="item.quantityId" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'Quantity' | langg" size="small">
+                <nb-option *ngFor="let item of quantityValues" [value]="item.id">{{item.text}}</nb-option>
               </nb-select>
-            </td> -->
+            </td>
             <td>
               <nb-select fullWidth [(ngModel)]="item.doseId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Dose' | langg" size="small">
@@ -60,8 +55,8 @@
         <nb-icon icon="plus"></nb-icon>
       </button>
       <div class="form-control-group">
-        <textarea nbInput [(ngModel)]="newPatientPrescription.note" #note="ngModel" name="note" [placeholder]="'Other Notes ...' | langg"
-          fullWidth></textarea>
+        <textarea nbInput [(ngModel)]="newPatientPrescription.note" #note="ngModel" name="note"
+          [placeholder]="'Other Notes ...' | langg" fullWidth></textarea>
       </div>
 
       <!-- <div class="form-control-group">
@@ -75,9 +70,11 @@
 
       <div class="text-center nbButton-group mb-1">
         <button nbButton type="submit" status="success" (click)="onSave(false)"
-          [disabled]="isAnyNameInvalid || !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId" langg>Save</button>
+          [disabled]="isAnyNameInvalid || !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId"
+          langg>Save</button>
         <button nbButton type="submit" status="success" (click)="onSave(true)"
-          [disabled]="isAnyNameInvalid || !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId" langg>Save
+          [disabled]="isAnyNameInvalid || !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId"
+          langg>Save
           &
           Print</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
@@ -106,8 +103,10 @@
           <td>{{item.createdOn | localDateShort}}</td>
           <td>{{item.medicinesNames}}</td>
           <td class="text-center">
-            <button nbButton type="button" status="success" size="small" (click)="onReOpen(item,'edit')" langg>Edit</button>&nbsp;
-            <button nbButton type="button" status="info" size="small" (click)="onReOpen(item,'copy')" langg>Copy</button>&nbsp;
+            <button nbButton type="button" status="success" size="small" (click)="onReOpen(item,'edit')"
+              langg>Edit</button>&nbsp;
+            <button nbButton type="button" status="info" size="small" (click)="onReOpen(item,'copy')"
+              langg>Copy</button>&nbsp;
             <button nbButton type="button" status="basic" size="small" (click)="onPrint(item)" langg>Print</button>
           </td>
         </tr>

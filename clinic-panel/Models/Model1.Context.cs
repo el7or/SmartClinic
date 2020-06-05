@@ -62,7 +62,6 @@ namespace clinic_panel.Models
         public virtual DbSet<PatientReferral> PatientReferrals { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<Plan> Plans { get; set; }
-        public virtual DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; }
         public virtual DbSet<SubscriptionPayment> SubscriptionPayments { get; set; }
         public virtual DbSet<Subscription> Subscriptions { get; set; }
         public virtual DbSet<SysAnalysisFileTypesValue> SysAnalysisFileTypesValues { get; set; }
@@ -75,9 +74,7 @@ namespace clinic_panel.Models
         public virtual DbSet<SysEntryOrderValue> SysEntryOrderValues { get; set; }
         public virtual DbSet<SysExpenseType> SysExpenseTypes { get; set; }
         public virtual DbSet<SysGovernoratesValue> SysGovernoratesValues { get; set; }
-        public virtual DbSet<SysMedicineConcentrationsValue> SysMedicineConcentrationsValues { get; set; }
         public virtual DbSet<SysMedicineDosesValue> SysMedicineDosesValues { get; set; }
-        public virtual DbSet<SysMedicineFormsValue> SysMedicineFormsValues { get; set; }
         public virtual DbSet<SysMedicinePeriodsValue> SysMedicinePeriodsValues { get; set; }
         public virtual DbSet<SysMedicinesValue> SysMedicinesValues { get; set; }
         public virtual DbSet<SysMedicineTimingsValue> SysMedicineTimingsValues { get; set; }
@@ -87,5 +84,7 @@ namespace clinic_panel.Models
         public virtual DbSet<SysSocialStatusValue> SysSocialStatusValues { get; set; }
         public virtual DbSet<SysSubscriberTypeValue> SysSubscriberTypeValues { get; set; }
         public virtual DbSet<SysSubscriptionTypeValue> SysSubscriptionTypeValues { get; set; }
+        public virtual DbSet<SysMedicineQuantityValue> SysMedicineQuantityValues { get; set; }
+        public virtual DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; }
     }
 }

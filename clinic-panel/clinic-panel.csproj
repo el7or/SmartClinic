@@ -335,16 +335,13 @@
     <Compile Include="Models\SysGovernoratesValue.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SysMedicineConcentrationsValue.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SysMedicineDosesValue.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SysMedicineFormsValue.cs">
+    <Compile Include="Models\SysMedicinePeriodsValue.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SysMedicinePeriodsValue.cs">
+    <Compile Include="Models\SysMedicineQuantityValue.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SysMedicinesValue.cs">
@@ -509,8 +506,7 @@
     <Content Include="Views\FileType\CreateAnalysisFileType.cshtml" />
     <Content Include="Views\Medicine\Index.cshtml" />
     <Content Include="Views\Medicine\CreateMedicineName.cshtml" />
-    <Content Include="Views\Medicine\CreateMedicineConcentration.cshtml" />
-    <Content Include="Views\Medicine\CreateMedicineForm.cshtml" />
+    <Content Include="Views\Medicine\CreateMedicineQuantity.cshtml" />
     <Content Include="Views\Medicine\CreateMedicineDose.cshtml" />
     <Content Include="Views\Medicine\CreateMedicineTiming.cshtml" />
     <Content Include="Views\Medicine\CreateMedicinePeriod.cshtml" />
@@ -576,8 +572,7 @@
     <Content Include="Views\Payment\Expenses.cshtml" />
     <Content Include="Views\Payment\CreateWithdrawal.cshtml" />
     <Content Include="Views\Medicine\EditMedicineName.cshtml" />
-    <Content Include="Views\Medicine\EditMedicineConcentration.cshtml" />
-    <Content Include="Views\Medicine\EditMedicineForm.cshtml" />
+    <Content Include="Views\Medicine\EditMedicineQuantity.cshtml" />
     <Content Include="Views\Medicine\EditMedicineDose.cshtml" />
     <Content Include="Views\Medicine\EditMedicineTiming.cshtml" />
     <Content Include="Views\Medicine\EditMedicinePeriod.cshtml" />

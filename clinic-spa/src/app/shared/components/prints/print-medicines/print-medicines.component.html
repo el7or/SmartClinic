@@ -41,11 +41,10 @@
         <tr *ngFor="let item of prescription.medicinesForPrint">
           <td class="left">
             <span class="r">R/</span>&nbsp;
-            <span class="medicine">{{item.medicine}}</span>&nbsp;
-            <span class="concentration">{{item.concentration}}</span>&nbsp;
-            <span class="form">{{item.form}}</span>
+            <span class="medicine">{{item.medicine}}</span>
           </td>
           <td class="right">
+            <span class="quantity">{{item.quantity}}</span>&nbsp;
             <span class="Dose">{{item.dose}}</span>&nbsp;
             <span class="timing">{{item.timing}}</span>&nbsp;
             <span class="period">{{item.period}}</span>

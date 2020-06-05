@@ -58,6 +58,8 @@ namespace clinic_panel.Models
         public Nullable<decimal> BodyMass { get; set; }
         public Nullable<int> BloodPressureId { get; set; }
         public Nullable<decimal> Temperature { get; set; }
+        public string Phone2 { get; set; }
+        public string Note { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }

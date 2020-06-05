@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Models
 {
-    public partial class SysMedicineConcentrationsValue
+    public partial class SysMedicineQuantityValue
     {
-        public SysMedicineConcentrationsValue()
+        public SysMedicineQuantityValue()
         {
             PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
         }

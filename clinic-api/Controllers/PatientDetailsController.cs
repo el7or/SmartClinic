@@ -451,12 +451,7 @@ namespace clinic_api.Controllers
                     Id = v.MedicineId,
                     Text = v.Medicine.Text
                 }).ToList(),
-                FormValues = _context.SysMedicineFormsValues.Select(v => new FormValue
-                {
-                    Id = v.Id,
-                    Text = v.Text
-                }).ToList(),
-                ConcentrationValues = _context.SysMedicineConcentrationsValues.Select(v => new ConcentrationValue
+                QuantityValues = _context.SysMedicineQuantityValues.Select(v => new QuantityValue
                 {
                     Id = v.Id,
                     Text = v.Text
@@ -486,9 +481,8 @@ namespace clinic_api.Controllers
                     {
                         MedicineId = m.MedicineId,
                         MedicineName = m.Medicine.Text,
-                        ConcentrationId = m.ConcentrationId,
                         DoseId = m.DoseId,
-                        FormId = m.FormId,
+                        QuantityId = m.QuantityId,
                         PeriodId = m.PeriodId,
                         TimingId = m.TimingId
                     }).ToList()
@@ -521,9 +515,8 @@ namespace clinic_api.Controllers
                     PrescriptionMedicines = model.Medicines.Select(m => new PrescriptionMedicine
                     {
                         MedicineId = m.MedicineId,
-                        ConcentrationId = m.ConcentrationId,
                         DoseId = m.DoseId,
-                        FormId = m.FormId,
+                        QuantityId = m.QuantityId,
                         PeriodId = m.PeriodId,
                         TimingId = m.TimingId
                     }).ToList()
@@ -538,9 +531,8 @@ namespace clinic_api.Controllers
                 patientPrescription.PrescriptionMedicines = model.Medicines.Select(m => new PrescriptionMedicine
                 {
                     MedicineId = m.MedicineId,
-                    ConcentrationId = m.ConcentrationId,
                     DoseId = m.DoseId,
-                    FormId = m.FormId,
+                    QuantityId = m.QuantityId,
                     PeriodId = m.PeriodId,
                     TimingId = m.TimingId
                 }).ToList();

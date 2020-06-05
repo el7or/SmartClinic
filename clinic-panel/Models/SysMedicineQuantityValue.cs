@@ -12,10 +12,10 @@ namespace clinic_panel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SysMedicineConcentrationsValue
+    public partial class SysMedicineQuantityValue
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SysMedicineConcentrationsValue()
+        public SysMedicineQuantityValue()
         {
             this.PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
         }

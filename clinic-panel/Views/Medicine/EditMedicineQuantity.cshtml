@@ -1,10 +1,10 @@
-﻿@model clinic_panel.Models.SysMedicineConcentrationsValue
+﻿@model clinic_panel.Models.SysMedicineQuantityValue
 
 @{
-    ViewBag.Title = "EditMedicineConcentration";
+    ViewBag.Title = "EditMedicineQuantity";
 }
 
-<h2>تعديل تركيز</h2>
+<h2>تعديل كمية الدواء</h2>
 
 
 @using (Html.BeginForm())
@@ -17,7 +17,7 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            <label class="control-label col-md-2">التركيز:</label>
+            <label class="control-label col-md-2">الكمية:</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })

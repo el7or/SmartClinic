@@ -34,6 +34,7 @@ namespace clinic_panel.Models
         public System.Guid CreatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual DoctorRayAreasValue DoctorRayAreasValue { get; set; }
         public virtual DoctorRaysValue DoctorRaysValue { get; set; }

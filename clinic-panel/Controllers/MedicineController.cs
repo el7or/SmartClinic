@@ -22,27 +22,22 @@ namespace clinic_panel.Controllers
                     Id = r.Id,
                     Text = r.Text,
                 }).ToList(),
-                MedicineConcentrations = db.SysMedicineConcentrationsValues.OrderBy(t => t.Text).Select(r => new MedicineConcentration
+                MedicineDoses = db.SysMedicineDosesValues.Select(r => new MedicineDose
                 {
                     Id = r.Id,
                     Text = r.Text,
                 }).ToList(),
-                MedicineDoses = db.SysMedicineDosesValues.OrderBy(t => t.Text).Select(r => new MedicineDose
+                MedicineQuantities = db.SysMedicineQuantityValues.Select(r => new MedicineQuantity
                 {
                     Id = r.Id,
                     Text = r.Text,
                 }).ToList(),
-                MedicineForms = db.SysMedicineFormsValues.OrderBy(t => t.Text).Select(r => new MedicineForm
+                MedicineTimings = db.SysMedicineTimingsValues.Select(r => new MedicineTiming
                 {
                     Id = r.Id,
                     Text = r.Text,
                 }).ToList(),
-                MedicineTimings = db.SysMedicineTimingsValues.OrderBy(t => t.Text).Select(r => new MedicineTiming
-                {
-                    Id = r.Id,
-                    Text = r.Text,
-                }).ToList(),
-                MedicinePeriods = db.SysMedicinePeriodsValues.OrderBy(t => t.Text).Select(r => new MedicinePeriod
+                MedicinePeriods = db.SysMedicinePeriodsValues.Select(r => new MedicinePeriod
                 {
                     Id = r.Id,
                     Text = r.Text,
@@ -97,54 +92,8 @@ namespace clinic_panel.Controllers
             return View();
         }
 
-        // GET: Medicine/CreateMedicineConcentration
-        public ActionResult CreateMedicineConcentration()
-        {
-            return View();
-        }
-
-        // POST: Medicine/CreateMedicineConcentration
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateMedicineConcentration(string value)
-        {
-            if (value == "" || value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
-            if (ModelState.IsValid)
-            {
-                db.SysMedicineConcentrationsValues.Add(new SysMedicineConcentrationsValue { Value = value, Text = value });
-                db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
-        // GET: Medicine/EditMedicineName
-        public ActionResult EditMedicineConcentration(int id)
-        {
-            var medicine = db.SysMedicineConcentrationsValues.Find(id);
-            return View(medicine);
-        }
-
-        // POST: Medicine/EditMedicineName
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditMedicineConcentration(SysMedicineConcentrationsValue medicine)
-        {
-            if (medicine.Value == "" || medicine.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
-            if (ModelState.IsValid)
-            {
-                medicine.Text = medicine.Value;
-                db.Entry(medicine).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
         // GET: Medicine/CreateMedicineForm
-        public ActionResult CreateMedicineForm()
+        public ActionResult CreateMedicineQuantity()
         {
             return View();
         }
@@ -152,12 +101,12 @@ namespace clinic_panel.Controllers
         // POST: Medicine/CreateMedicineForm
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMedicineForm(string value)
+        public ActionResult CreateMedicineQuantity(string value)
         {
             if (value == "" || value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
             if (ModelState.IsValid)
             {
-                db.SysMedicineFormsValues.Add(new SysMedicineFormsValue { Value = value, Text = value });
+                db.SysMedicineQuantityValues.Add(new SysMedicineQuantityValue { Value = value, Text = value });
                 db.SaveChanges();
                 TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
@@ -166,16 +115,16 @@ namespace clinic_panel.Controllers
         }
 
         // GET: Medicine/EditMedicineName
-        public ActionResult EditMedicineForm(int id)
+        public ActionResult EditMedicineQuantity(int id)
         {
-            var medicine = db.SysMedicineFormsValues.Find(id);
+            var medicine = db.SysMedicineQuantityValues.Find(id);
             return View(medicine);
         }
 
         // POST: Medicine/EditMedicineName
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditMedicineForm(SysMedicineFormsValue medicine)
+        public ActionResult EditMedicineQuantity(SysMedicineQuantityValue medicine)
         {
             if (medicine.Value == "" || medicine.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
             if (ModelState.IsValid)

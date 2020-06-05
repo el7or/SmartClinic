@@ -117,9 +117,8 @@ namespace clinic_api.Data
         public virtual DbSet<SysEntryOrderValue> SysEntryOrderValues { get; set; }
         public virtual DbSet<SysExpenseType> SysExpenseTypes { get; set; }
         public virtual DbSet<SysGovernoratesValue> SysGovernoratesValues { get; set; }
-        public virtual DbSet<SysMedicineConcentrationsValue> SysMedicineConcentrationsValues { get; set; }
         public virtual DbSet<SysMedicineDosesValue> SysMedicineDosesValues { get; set; }
-        public virtual DbSet<SysMedicineFormsValue> SysMedicineFormsValues { get; set; }
+        public virtual DbSet<SysMedicineQuantityValue> SysMedicineQuantityValues { get; set; }
         public virtual DbSet<SysMedicinePeriodsValue> SysMedicinePeriodsValues { get; set; }
         public virtual DbSet<SysMedicineTimingsValue> SysMedicineTimingsValues { get; set; }
         public virtual DbSet<SysMedicinesValue> SysMedicinesValues { get; set; }
@@ -805,20 +804,15 @@ namespace clinic_api.Data
             {
                 entity.HasKey(e => new { e.PrescriptionId, e.MedicineId });
 
-                entity.HasOne(d => d.Concentration)
-                    .WithMany(p => p.PrescriptionMedicines)
-                    .HasForeignKey(d => d.ConcentrationId)
-                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicineConcentrationsValues");
-
                 entity.HasOne(d => d.Dose)
                     .WithMany(p => p.PrescriptionMedicines)
                     .HasForeignKey(d => d.DoseId)
                     .HasConstraintName("FK_PrescriptionMedicines_SysMedicineDosesValues");
 
-                entity.HasOne(d => d.Form)
+                entity.HasOne(d => d.Quantity)
                     .WithMany(p => p.PrescriptionMedicines)
-                    .HasForeignKey(d => d.FormId)
-                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicineFormsValues");
+                    .HasForeignKey(d => d.QuantityId)
+                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicineQuantityValues");
 
                 entity.HasOne(d => d.Medicine)
                     .WithMany(p => p.PrescriptionMedicines)
@@ -1105,13 +1099,6 @@ namespace clinic_api.Data
             {
             });
 
-            modelBuilder.Entity<SysMedicineConcentrationsValue>(entity =>
-            {
-                entity.Property(e => e.Text).IsRequired();
-
-                entity.Property(e => e.Value).IsRequired();
-            });
-
             modelBuilder.Entity<SysMedicineDosesValue>(entity =>
             {
                 entity.Property(e => e.Text).IsRequired();
@@ -1119,7 +1106,7 @@ namespace clinic_api.Data
                 entity.Property(e => e.Value).IsRequired();
             });
 
-            modelBuilder.Entity<SysMedicineFormsValue>(entity =>
+            modelBuilder.Entity<SysMedicineQuantityValue>(entity =>
             {
                 entity.Property(e => e.Text).IsRequired();
 

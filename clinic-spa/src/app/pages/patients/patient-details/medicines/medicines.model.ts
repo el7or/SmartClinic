@@ -1,7 +1,6 @@
 export interface GetPatientPrescriptions{
   medicineValues:MedicineValue[];
-  concentrationValues:ConcentrationValue[];
-  formValues:FormValue[];
+  quantityValues:QuantityValue[];
   doseValues:DoseValue[];
   timingValues:TimingValue[];
   periodValues:PeriodValue[];
@@ -11,11 +10,7 @@ export interface MedicineValue {
   id:number;
   text:string
 }
-export interface ConcentrationValue {
-  id:number;
-  text:string
-}
-export interface FormValue {
+export interface QuantityValue {
   id:number;
   text:string
 }
@@ -43,8 +38,7 @@ export interface PrescriptionMedicine {
   medicineId:number;
   medicineName:string;
   isNameValid?:boolean;
-  concentrationId?:number;
-  formId?:number;
+  quantityId?:number;
   doseId?:number;
   timingId?:number;
   periodId?:number;
@@ -59,8 +53,7 @@ export interface PrescriptionForPrint {
 }
 export interface MedicinesForPrint {
   medicine:string;
-  concentration?:string;
-  form?:string;
+  quantity?:string;
   dose?:string;
   timing?:string;
   period?:string;

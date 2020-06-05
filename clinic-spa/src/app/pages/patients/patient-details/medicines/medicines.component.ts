@@ -5,19 +5,16 @@ import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { Location } from "@angular/common";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Subscription } from "rxjs";
-import { map } from "rxjs/operators";
 
 import { MedicinesService } from "./medicines.service";
 import {
   MedicineValue,
-  ConcentrationValue,
-  FormValue,
+  QuantityValue,
   DoseValue,
   TimingValue,
   PeriodValue,
   PatientPrescription,
   GetPatientPrescriptions,
-  MedicinesForPrint,
 } from "./medicines.model";
 import { AlertService } from "../../../../shared/services/alert.service";
 import { TypeaheadMatch } from "ngx-bootstrap";
@@ -30,8 +27,7 @@ import { TypeaheadMatch } from "ngx-bootstrap";
 export class MedicinesComponent implements OnInit, OnDestroy {
   formLoading: boolean = false;
   medicineValues: MedicineValue[];
-  concentrationValues: ConcentrationValue[];
-  formValues: FormValue[];
+  quantityValues: QuantityValue[];
   doseValues: DoseValue[];
   timingValues: TimingValue[];
   periodValues: PeriodValue[];
@@ -62,8 +58,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
     this.getSubs = this.medicineService.getPatientPrescriptions().subscribe(
       (res: GetPatientPrescriptions) => {
         this.medicineValues = res.medicineValues;
-        this.concentrationValues = res.concentrationValues;
-        this.formValues = res.formValues;
+        this.quantityValues = res.quantityValues;
         this.doseValues = res.doseValues;
         this.timingValues = res.timingValues;
         this.periodValues = res.periodValues;
@@ -182,12 +177,8 @@ export class MedicinesComponent implements OnInit, OnDestroy {
       medicinesForPrint: item.medicines.map((m) => {
         return {
           medicine: this.medicineValues.find((v) => v.id == m.medicineId).text,
-          concentration: m.concentrationId
-            ? this.concentrationValues.find((v) => v.id == m.concentrationId)
-                .text
-            : "",
-          form: m.formId
-            ? this.formValues.find((v) => v.id == m.formId).text
+          quantity: m.quantityId
+            ? this.quantityValues.find((v) => v.id == m.quantityId).text
             : "",
           dose: m.doseId
             ? this.doseValues.find((v) => v.id == m.doseId).text

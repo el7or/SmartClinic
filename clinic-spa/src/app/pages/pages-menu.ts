@@ -1,6 +1,6 @@
 import { NbMenuItem } from "@nebular/theme";
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const MENU_ITEMS: any[] = [
   {
     title: "Current Bookings",
     icon: "calendar-outline",
@@ -26,23 +26,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: "Accounting",
-    icon: "activity-outline",
-    expanded: true,
+    icon: { icon: 'calculator', pack: 'solid'},
+    expanded: false,
     data: "roleDoctor",
     children: [
       {
         title: "Incomes",
-        icon: "trending-up-outline",
+        icon:  { icon: 'sign-in-alt', pack: 'solid'},
         link: "/pages/accounting/income",
       },
       {
         title: "Expenses",
-        icon: "trending-down-outline",
+        icon:  { icon: 'sign-out-alt', pack: 'solid'},
         link: "/pages/accounting/expense",
       },
       {
         title: "Profits",
-        icon: "award-outline",
+        icon:  { icon: 'hand-holding-usd', pack: 'solid'},
         link: "/pages/accounting/profit",
       },
     ],
@@ -61,20 +61,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: "Settings",
-    icon: "settings-outline",
+    icon:  "settings-outline",
     expanded: false,
     data: "roleDoctor",
     children: [
       {
         title: "Clinic Setting",
+        icon:  { icon: 'user-md', pack: 'solid'},
         link: "/pages/settings/clinic",
       },
       {
         title: "Patient Profile Setting",
+        icon:  { icon: 'user-injured', pack: 'solid'},
         link: "/pages/settings/patient",
       },
       {
         title: "Users",
+        icon:  { icon: 'user-friends', pack: 'solid'},
         link: "/pages/settings/users",
       },
     ],

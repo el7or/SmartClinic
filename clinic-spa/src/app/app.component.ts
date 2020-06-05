@@ -3,21 +3,20 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Component, OnInit } from "@angular/core";
+import { Component } from '@angular/core';
 import { NbIconLibraries } from '@nebular/theme';
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
 
 @Component({
-  selector: "ngx-app",
-  template: "<router-outlet></router-outlet>",
+  selector: 'ngx-app',
+  template: '<router-outlet></router-outlet>',
 })
-export class AppComponent implements OnInit {
-  constructor(private iconLibraries: NbIconLibraries) {
-    this.iconLibraries.registerFontPack("fa", { iconClassPrefix: "fa" });
-    this.iconLibraries.registerFontPack("fas", { iconClassPrefix: "fas" });
-    this.iconLibraries.registerFontPack("fad", { iconClassPrefix: "fad" });
-    this.iconLibraries.registerFontPack("fal", { iconClassPrefix: "fal" });
-    this.iconLibraries.setDefaultPack("fad");
-  }
+export class AppComponent {
 
-  ngOnInit(): void {}
+  constructor(private iconsLibrary: NbIconLibraries) {
+    this.iconsLibrary.registerFontPack('font-awesome', { packClass: 'fa', iconClassPrefix: 'fa' });
+    this.iconsLibrary.registerFontPack('solid', { packClass: 'fas', iconClassPrefix: 'fa' });
+    this.iconsLibrary.registerFontPack('brands', { packClass: 'fab', iconClassPrefix: 'fa' });
+  }
 }

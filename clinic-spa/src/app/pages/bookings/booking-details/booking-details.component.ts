@@ -248,6 +248,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
               // =====> if update booking for first load data:
             if (
+              this.bookId &&
               this.dateTimeService.isDatesEqual(
                 date,
                 new Date(this.bookingDetails.bookingDateTime)

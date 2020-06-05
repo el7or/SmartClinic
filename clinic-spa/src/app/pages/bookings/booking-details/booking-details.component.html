@@ -106,7 +106,7 @@
                 zero!</p>
             </ng-container>
           </div>
-          <nb-alert accent="danger" class="text-nowrap">
+          <nb-alert *ngIf="!bookingDetails?.isCanceled" accent="danger" class="text-nowrap">
             <label><span langg>Amount
                 Due</span>:<u>&nbsp;{{ (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid > 0 ? bookingTypePrice + bookingServicesPrice - bookingDiscountPrice - form?.value.paid  : 0) | number:'0.0-0' }}
                 {{'EGP' | langg}}</u></label>

@@ -59,7 +59,7 @@ export class AlertService {
         ),
         this.langgService.translateWord("Attention !"),
         {
-          duration: 99999999,
+          duration: 5000,
           icon: "close-square-outline",
           destroyByClick: true,
         }
@@ -71,7 +71,7 @@ export class AlertService {
         ) + patientName,
         this.langgService.translateWord("Attention !"),
         {
-          duration: 99999999,
+          duration: 5000,
           icon: "close-square-outline",
           destroyByClick: true,
         }

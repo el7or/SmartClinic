@@ -90,7 +90,8 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             searchText = searchText.Trim().Normalize_AR();
-            var patients = await _context.Patients.Include(b => b.Bookings).Where(p => p.ClinicId == clinicId && p.IsDeleted != true && (p.FullName.Contains(searchText) || p.Phone.Trim() == searchText)).OrderByDescending(d => d.CreatedOn)
+            var patients = await _context.Patients.Include(b => b.Bookings)
+                .Where(p => p.ClinicId == clinicId && p.IsDeleted != true && (p.FullName.Contains(searchText) || p.Phone.Trim() == searchText || p.Phone2.Trim() == searchText)).OrderByDescending(d => d.CreatedOn)
                 .Select(p => new PatientsListDTO
                 {
                     Id = p.Id,
@@ -200,7 +201,7 @@ namespace clinic_api.Controllers
             var patient = await _context.Patients.FirstOrDefaultAsync(p=> p.Id== model.PatientId && p.IsDeleted != true);
             patient.FullName = model.FullName.Trim().Normalize_AR();
             patient.Phone = model.Phone.Trim();
-            patient.Phone2 = model.Phone2.Trim();
+            patient.Phone2 = model.Phone2 == null ? null : model.Phone2.Trim();
             patient.Age = model.Age;
             patient.Gender = model.Gender;
             patient.SocialStatusId = model.SocialStatusId;
@@ -248,7 +249,7 @@ namespace clinic_api.Controllers
                 SeqNo = seqNo,
                 FullName = model.FullName.Trim().Normalize_AR(),
                 Phone = model.Phone.Trim(),
-                Phone2 = model.Phone2.Trim(),
+                Phone2 = model.Phone2 == null ? null : model.Phone2.Trim(),
                 Age = model.Age,
                 Gender = model.Gender,
                 SocialStatusId = model.SocialStatusId,

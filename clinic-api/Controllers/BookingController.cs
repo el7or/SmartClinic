@@ -60,7 +60,7 @@ namespace clinic_api.Controllers
                     AttendTime = b.AttendanceTime,
                     IsCanceled = b.IsCanceled,
                     Paid = b.BookingPayments.Sum(p => p.Paid),
-                    Due = b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.Discount != null ? ((bool)b.Discount.IsPercent ? ((b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) * b.Discount.Price) / 100) : b.Discount.Price) : 0) - b.BookingPayments.Sum(p => p.Paid),
+                    Due = b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.Discount != null ? ((bool)b.Discount.IsPercent ? ((b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) * b.Discount.Price) / 100) : b.Discount.Price) : 0) - (b.BookingPayments.Any() ? b.BookingPayments.Sum(p => p.Paid) : 0),
                 }).ToListAsync();
 
             var model = new GetBookingsDTO
@@ -121,7 +121,7 @@ namespace clinic_api.Controllers
                     Servcies = b.BookingServices.Select(s => s.Service.Service).ToArray(),
                     IsEnter = b.IsEnter,
                     IsCanceled = b.IsCanceled,
-                    Due = (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)) - b.BookingPayments.Sum(p => p.Paid)
+                    Due = (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)) - (b.BookingPayments.Any() ? b.BookingPayments.Sum(p => p.Paid) : 0)
                 });
             return await model.ToListAsync();
         }
@@ -209,8 +209,8 @@ namespace clinic_api.Controllers
                         BookingId = b.Id,
                         BookingDate = b.BookingDateTime,
                         BookingType = b.Type.Text,
-                        BookingDue = b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0),
-                        BookingPaid = b.BookingPayments.Sum(p => p.Paid)
+                        BookingDue = b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0) - (b.BookingPayments.Any() ? b.BookingPayments.Sum(p => p.Paid) : 0),
+                        BookingPaid = 0
                     }).ToList();
             }
             else
@@ -226,6 +226,17 @@ namespace clinic_api.Controllers
                     IsCanceled = booking.IsCanceled,
                     IsEnter = booking.IsEnter
                 };
+                model.PrevBookingsDues = _context.Bookings.Where(b => b.PatientId == patientId && b.IsCanceled != true && b.Id != bookingId)
+                    .Include(p => p.BookingPayments).Include(s => s.Type).Include(s => s.Discount).Include("BookingServices.Service")
+                    .Where(b => b.BookingPayments.Sum(p => p.Paid) < (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)))
+                    .Select(b => new PrevBookingDue
+                    {
+                        BookingId = b.Id,
+                        BookingDate = b.BookingDateTime,
+                        BookingType = b.Type.Text,
+                        BookingDue = b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0) - (b.BookingPayments.Any() ? b.BookingPayments.Sum(p => p.Paid) : 0),
+                        BookingPaid = 0
+                    }).ToList();
             }
 
             return model;
@@ -284,18 +295,38 @@ namespace clinic_api.Controllers
             {
                 booking.BookingServices.Add(new BookingService { Booking = booking, ServiceId = serviceId });
             }
-
-            _context.BookingPayments.RemoveRange(booking.BookingPayments);
-            booking.BookingPayments.Add(new BookingPayment
+            if (model.Paid > 0)
             {
-                Booking = booking,
-                Paid = model.Paid,
-                CreatedBy = id,
-                CreatedOn = DateTime.Now.ToEgyptTime(),
-                UpdatedBy = id,
-                UpdatedOn = DateTime.Now.ToEgyptTime()
-            });
+                booking.BookingPayments.Add(new BookingPayment
+                {
+                    Booking = booking,
+                    Paid = model.Paid,
+                    CreatedBy = id,
+                    CreatedOn = DateTime.Now.ToEgyptTime(),
+                    UpdatedBy = id,
+                    UpdatedOn = DateTime.Now.ToEgyptTime()
+                });
+            }
             _context.Entry(booking).State = EntityState.Modified;
+            foreach (var item in model.PrevBookingsDues)
+            {
+                if (item.BookingPaid > 0)
+                {
+                    var prevBooking = await _context.Bookings.Where(b => b.Id == item.BookingId)
+                   .Include(p => p.BookingPayments).FirstOrDefaultAsync();
+
+                    prevBooking.BookingPayments.Add(new BookingPayment
+                    {
+                        BookingId = item.BookingId,
+                        Paid = (decimal)item.BookingPaid,
+                        CreatedBy = id,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
+                        UpdatedBy = id,
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
+                    });
+                    _context.Entry(prevBooking).State = EntityState.Modified;
+                }
+            }
             _context.SaveChanges();
 
             // reorder sequance number for bookings in same date
@@ -329,7 +360,7 @@ namespace clinic_api.Controllers
                 var usersInClinic = _context.Clinics.Where(i => i.Id == clinicId).Include(u => u.ClinicUsers).FirstOrDefault().ClinicUsers.Where(u => u.UserId != id).Select(u => u.UserId).ToArray();
                 foreach (var userId in usersInClinic)
                 {
-                    await _hub.Clients.User(userId.ToString()).SendAsync("UpdateTodayBooking",booking.Patient.FullName);
+                    await _hub.Clients.User(userId.ToString()).SendAsync("UpdateTodayBooking", booking.Patient.FullName);
                 }
             }
 
@@ -364,34 +395,39 @@ namespace clinic_api.Controllers
             {
                 booking.BookingServices.Add(new BookingService { Booking = booking, ServiceId = serviceId });
             }
-            booking.BookingPayments.Add(new BookingPayment
+            if (model.Paid > 0)
             {
-                Booking = booking,
-                Paid = model.Paid,
-                CreatedBy = id,
-                CreatedOn = DateTime.Now.ToEgyptTime(),
-                UpdatedBy = id,
-                UpdatedOn = DateTime.Now.ToEgyptTime()
-            });
-
-            _context.Bookings.Add(booking);
-
-            foreach (var item in model.PrevBookingsDues)
-            {
-                var prevBooking = await _context.Bookings.Where(b => b.Id == item.BookingId)
-               .Include(p => p.BookingPayments).FirstOrDefaultAsync();
-
-                _context.BookingPayments.RemoveRange(prevBooking.BookingPayments);
-                prevBooking.BookingPayments.Add(new BookingPayment
+                booking.BookingPayments.Add(new BookingPayment
                 {
-                    BookingId = item.BookingId,
-                    Paid = item.BookingPaid,
+                    Booking = booking,
+                    Paid = model.Paid,
                     CreatedBy = id,
                     CreatedOn = DateTime.Now.ToEgyptTime(),
                     UpdatedBy = id,
                     UpdatedOn = DateTime.Now.ToEgyptTime()
                 });
-                _context.Entry(prevBooking).State = EntityState.Modified;
+            }
+
+            _context.Bookings.Add(booking);
+
+            foreach (var item in model.PrevBookingsDues)
+            {
+                if (item.BookingPaid > 0)
+                {
+                    var prevBooking = await _context.Bookings.Where(b => b.Id == item.BookingId)
+                   .Include(p => p.BookingPayments).FirstOrDefaultAsync();
+
+                    prevBooking.BookingPayments.Add(new BookingPayment
+                    {
+                        BookingId = item.BookingId,
+                        Paid = (decimal)item.BookingPaid,
+                        CreatedBy = id,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
+                        UpdatedBy = id,
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
+                    });
+                    _context.Entry(prevBooking).State = EntityState.Modified;
+                }
             }
             _context.SaveChanges();
 
@@ -408,7 +444,7 @@ namespace clinic_api.Controllers
 
             try
             {
-               await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {

@@ -42,7 +42,7 @@ namespace clinic_api.DTOs
         public DateTime BookingDate { get; set; }
         public string BookingType { get; set; }
         public decimal? BookingDue { get; set; }
-        public decimal BookingPaid { get; set; }
+        public decimal? BookingPaid { get; set; }
     }
     public class BookingBrief
     {
@@ -81,6 +81,7 @@ namespace clinic_api.DTOs
         public int[] ServicesIds { get; set; }
         public int? DiscountId { get; set; }
         public decimal Paid { get; set; }
+        public List<PrevBookingDue> PrevBookingsDues { get; set; }
     }
 
     public class GetPatientBookingDTO

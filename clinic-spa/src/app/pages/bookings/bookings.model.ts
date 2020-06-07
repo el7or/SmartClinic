@@ -54,7 +54,7 @@ export interface PrevBookingDue{
   bookingDate:Date;
   bookingType:string;
   bookingDue:number;
-  bookingPaid:number;
+  bookingPaid?:number;
 }
 
 export interface BookingChangeDate{
@@ -82,6 +82,7 @@ export interface BookingEdit {
   servicesIds?: number[];
   discountId?: number;
   paid: number;
+  prevBookingsDues?: PrevBookingDue[];
 }
 
 export interface PatientVisit {

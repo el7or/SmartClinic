@@ -38,6 +38,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   bookingDiscountPrice = 0;
   isUserChangedDate = false;
   isHasBookingSameDay: any;
+  isAnyPrevDueInvalid = false;
 
   @Input() bookId: number;
   @Input() patientId: string;
@@ -79,7 +80,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       }),
       discount: new FormControl(),
       paid: new FormControl(null, {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.min(0)],
       }),
     });
   }
@@ -104,9 +105,8 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           this.bookingSetting.clinicDayTimeTo = new Date(
             this.bookingSetting.clinicDayTimeTo
           );
-          if (!this.bookId) {
-            this.prevBookingsDues = res.prevBookingsDues;
-          }
+          this.prevBookingsDues = res.prevBookingsDues;
+
           return res.bookingDetails;
         })
       )
@@ -129,7 +129,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
               ? []
               : this.bookingDetails.bookingServicesIds,
             discount: !this.bookId ? 0 : this.bookingDetails.bookingDiscountId,
-            paid: !this.bookId ? 0 : this.bookingDetails.bookingPayments,
+            paid: 0,
           });
 
           setTimeout(() => {
@@ -246,7 +246,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
             this.bookingSetting.doctorAllBookingSameDay =
               res.doctorAllBookingSameDay;
 
-              // =====> if update booking for first load data:
+            // =====> if update booking for first load data:
             if (
               this.bookId &&
               this.dateTimeService.isDatesEqual(
@@ -453,6 +453,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       servicesIds: this.form.value.services,
       discountId: this.form.value.discount,
       paid: this.form.value.paid,
+      prevBookingsDues: this.prevBookingsDues,
     };
     this.editBookSubs = this.bookingService
       .updateBooking(editedBooking)

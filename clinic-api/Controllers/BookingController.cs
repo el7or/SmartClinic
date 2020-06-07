@@ -203,7 +203,7 @@ namespace clinic_api.Controllers
             {
                 model.PrevBookingsDues = _context.Bookings.Where(p => p.PatientId == patientId && p.IsCanceled != true)
                     .Include(p => p.BookingPayments).Include(s => s.Type).Include(s => s.Discount).Include("BookingServices.Service")
-                    .Where(b => b.BookingPayments.Sum(p => p.Paid) < (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)))
+                    .Where(b => (b.BookingPayments.Any() ? b.BookingPayments.Sum(p => p.Paid) : 0) < (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)))
                     .Select(b => new PrevBookingDue
                     {
                         BookingId = b.Id,
@@ -228,7 +228,7 @@ namespace clinic_api.Controllers
                 };
                 model.PrevBookingsDues = _context.Bookings.Where(b => b.PatientId == patientId && b.IsCanceled != true && b.Id != bookingId)
                     .Include(p => p.BookingPayments).Include(s => s.Type).Include(s => s.Discount).Include("BookingServices.Service")
-                    .Where(b => b.BookingPayments.Sum(p => p.Paid) < (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)))
+                    .Where(b => (b.BookingPayments.Any() ? b.BookingPayments.Sum(p => p.Paid) : 0) < (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)))
                     .Select(b => new PrevBookingDue
                     {
                         BookingId = b.Id,

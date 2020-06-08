@@ -42,7 +42,7 @@ export const MENU_ITEMS: any[] = [
       },
       {
         title: "Profits",
-        icon:  { icon: 'hand-holding-usd', pack: 'solid'},
+        icon:  { icon: 'award', pack: 'solid'},
         link: "/pages/accounting/profit",
       },
     ],

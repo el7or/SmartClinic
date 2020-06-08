@@ -1,3 +1,5 @@
+import { ProfitsComponent } from './accounting/profits/profits.component';
+import { ExpensesComponent } from './accounting/expenses/expenses.component';
 import { MonthlyIncomeComponent } from './accounting/incomes/monthly-income/monthly-income.component';
 import { DailyIncomeComponent } from './accounting/incomes/daily-income/daily-income.component';
 import { IncomesComponent } from './accounting/incomes/incomes.component';
@@ -153,6 +155,14 @@ const routes: Routes = [
                 component:MonthlyIncomeComponent
               },
             ]
+          },
+          {
+            path: "expense",
+            component: ExpensesComponent,
+          },
+          {
+            path: "profit",
+            component: ProfitsComponent,
           },
         ]
       },

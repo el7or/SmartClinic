@@ -1,3 +1,4 @@
+import { ExpensesListComponent } from './accounting/expenses/expenses-list/expenses-list.component';
 import { ProfitsComponent } from './accounting/profits/profits.component';
 import { ExpensesComponent } from './accounting/expenses/expenses.component';
 import { MonthlyIncomeComponent } from './accounting/incomes/monthly-income/monthly-income.component';
@@ -38,6 +39,7 @@ import { BookingsComponent } from "./bookings/bookings.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { ClinicSettingComponent } from "./settings/clinic-setting/clinic-setting.component";
 import { BasicInfoComponent } from "./patients/patient-details/basic-info/basic-info.component";
+import { ExpenseDetailsComponent } from './accounting/expenses/expense-details/expense-details.component';
 
 const routes: Routes = [
   {
@@ -159,6 +161,21 @@ const routes: Routes = [
           {
             path: "expense",
             component: ExpensesComponent,
+            children: [
+              {
+                path: "",
+                redirectTo: "list",
+                pathMatch: "full"
+              },
+              {
+                path: "list",
+                component: ExpensesListComponent
+              },
+              {
+                path: "details/:id",
+                component: ExpenseDetailsComponent,
+              }
+            ]
           },
           {
             path: "profit",

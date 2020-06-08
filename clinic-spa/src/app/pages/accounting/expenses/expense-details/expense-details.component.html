@@ -1,0 +1,78 @@
+<form #form="ngForm" (ngSubmit)="onSave(form)" aria-labelledby="title" [nbSpinner]="formLoading"
+  nbSpinnerStatus="success">
+  <nb-card>
+    <nb-card-header>
+      <nav class="navigation">
+        <a [routerLink]="" routerLinkActive="router-link-active" (click)="location.back()" class="link back-link"
+          aria-label="Back">
+          <nb-icon icon="arrow-back"></nb-icon>
+        </a>
+      </nav>
+      <h5><span langg>Add New Expense</span>:</h5>
+    </nb-card-header>
+    <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
+      <div class="row">
+        <div class="form-control-group col-md-6">
+          <label for="input-expenseDate" class="label"><span langg>Expense Date</span>:</label>
+          <input type="text" bsDatepicker nbInput ngModel #expenseDate="ngModel" name="expenseDate"
+            id="input-expenseDate" fullWidth autocomplete="off" readonly
+            [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
+            [placeholder]="'Expense Date' | langg" required
+            [status]="expenseDate.touched ? (expenseDate.invalid  ? 'danger' : 'success') : ''">
+          <ng-container *ngIf="expenseDate.invalid && expenseDate.touched">
+            <p class="error-message text-danger" *ngIf="expenseDate?.errors.required" langg>
+              Expense Date is required!
+            </p>
+          </ng-container>
+        </div>
+        <div class="form-control-group col-md-6">
+          <label for="input-expenseAmount" class="label"><span langg>Expense Amount</span>:</label>
+          <input nbInput type="number" ngModel #expenseAmount="ngModel" name="expenseAmount" id="input-expenseAmount"
+            [placeholder]="'Expense Amount' | langg" fullWidth required [min]="0"
+            [status]="expenseAmount.touched && (expenseAmount.invalid || expenseAmount.value < 0) ? 'danger' : (expenseAmount.value ? 'success' : '')">
+          <ng-container *ngIf="expenseAmount.touched && ( expenseAmount.invalid || expenseAmount.value < 0)">
+            <p class="error-message text-danger" *ngIf="expenseAmount.errors?.required" langg>
+              Expense Amount is required!
+            </p>
+            <p class="error-message text-danger" *ngIf="expenseAmount.value < 0" langg>Can't be less than zero!</p>
+          </ng-container>
+        </div>
+        <div class="form-control-group col-md-6">
+          <label for="input-expenseItem" class="label"><span langg>Expense Item</span>:</label>
+          <nb-select fullWidth ngModel #expenseItem="ngModel" name="expenseItem" id="input-expenseItem" required
+            [placeholder]="'Expense Item' | langg" [selected]="expenseItemValues?.length? expenseItemValues[0].id: ''"
+            [status]="expenseItem.touched ? (expenseItem.invalid  ? 'danger' : 'success') : ''">
+            <nb-option *ngFor="let item of expenseItemValues" [value]="item.id">
+              {{item.text}}</nb-option>
+          </nb-select>
+          <ng-container *ngIf="expenseItem.touched && expenseItem.invalid">
+            <p class="error-message text-danger" *ngIf="expenseItem.errors?.required" langg>
+              Expense Item is required!
+            </p>
+          </ng-container>
+        </div>
+        <div class="form-control-group my-auto col-md-6">
+          <button nbButton size="small" type="button" (click)="onAddItem()">
+            <nb-icon icon="plus-outline"></nb-icon><span langg>Add Expense Item</span>
+          </button>
+          <p class="error-message text-danger" *ngIf="!expenseItemValues?.length"
+          langg>There are no Expense Items, Please add at least one item.</p>
+        </div>
+        <div class="form-control-group col-md-12">
+          <label for="input-note" class="label"><span langg>Note</span>:</label>
+          <textarea nbInput ngModel #note="ngModel" name="note" id="input-note" [placeholder]="'Note' | langg"
+            fullWidth></textarea>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="text-center nbButton-group">
+        <button nbButton type="submit" status="success" [disabled]="!form.valid" langg>Save</button>
+        <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button></div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

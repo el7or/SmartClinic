@@ -38,7 +38,7 @@ export const MENU_ITEMS: any[] = [
       {
         title: "Expenses",
         icon:  { icon: 'sign-out-alt', pack: 'solid'},
-        link: "/pages/accounting/expense",
+        link: "/pages/accounting/expense/list",
       },
       {
         title: "Profits",

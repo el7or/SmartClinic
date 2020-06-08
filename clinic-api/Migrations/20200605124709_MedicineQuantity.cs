@@ -63,6 +63,10 @@ namespace clinic_api.Migrations
                 principalTable: "SysMedicineQuantityValues",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.DropColumn(
+                name: "ConcentrationId",
+                table: "PrescriptionMedicines");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -141,6 +145,12 @@ namespace clinic_api.Migrations
                 principalTable: "SysMedicineFormsValues",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddColumn<int>(
+                name: "ConcentrationId",
+                table: "PrescriptionMedicines",
+                type: "int",
+                nullable: true);
         }
     }
 }

@@ -13,6 +13,9 @@ import { BookingsModule } from '../bookings/bookings.module';
 import { NbTabsetModule, NbRouteTabsetModule, NbCardModule, NbInputModule, NbButtonModule, NbRadioModule, NbSelectModule, NbSpinnerModule, NbIconModule, NbTooltipModule, NbAlertModule, NbDialogModule } from '@nebular/theme';
 import { BsDatepickerModule, PaginationModule } from 'ngx-bootstrap';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ExpensesListComponent } from './expenses/expenses-list/expenses-list.component';
+import { ExpenseDetailsComponent } from './expenses/expense-details/expense-details.component';
+import { AddItemComponent } from './expenses/expense-details/add-item/add-item.component';
 
 
 
@@ -23,7 +26,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     DailyIncomeComponent,
     MonthlyIncomeComponent,
     ExpensesComponent,
-    ProfitsComponent
+    ProfitsComponent,
+    ExpensesListComponent,
+    ExpenseDetailsComponent,
+    AddItemComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +52,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     BsDatepickerModule.forRoot(),
     SweetAlert2Module.forRoot(),
     PaginationModule.forRoot()
-  ]
+  ],
+  entryComponents:[AddItemComponent]
 })
 export class AccountingModule { }

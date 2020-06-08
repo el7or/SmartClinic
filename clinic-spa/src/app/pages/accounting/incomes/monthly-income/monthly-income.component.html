@@ -11,7 +11,7 @@
       <tbody>
         <tr *ngFor="let payment of monthPayments; let i = index;">
           <td>{{i + 1}}</td>
-          <td>{{(payment.year.toString() + '-' + payment.month.toString() + '-1') | localMonthLong}}</td>
+          <td>{{payment.month | localMonthLong}}</td>
           <td>{{payment.totalPaid | currency:'EGP':'symbol':'1.0'}}</td>
         </tr>
       </tbody>

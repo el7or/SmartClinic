@@ -90,6 +90,8 @@ namespace clinic_api.Data
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<DoctorExpense> DoctorExpenses { get; set; }
+        public virtual DbSet<DoctorExpenseItemValue> DoctorExpenseItems { get; set; }
         public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<PatientAnalysis> PatientAnalysis { get; set; }
         public virtual DbSet<PatientAnalysisFile> PatientAnalysisFiles { get; set; }
@@ -125,7 +127,7 @@ namespace clinic_api.Data
         public virtual DbSet<SysPatientRecordSectionsValue> SysPatientRecordSectionsValues { get; set; }
         public virtual DbSet<SysRayFileTypesValue> SysRayFileTypesValues { get; set; }
         public virtual DbSet<SysRenewalTypeValue> SysRenewalTypeValues { get; set; }
-        public virtual DbSet<SysSocialStatusValue> SysSocialStatusValues { get; set; }        
+        public virtual DbSet<SysSocialStatusValue> SysSocialStatusValues { get; set; }
         public virtual DbSet<SysSubscriberTypeValue> SysSubscriberTypeValues { get; set; }
         public virtual DbSet<SysSubscriptionTypeValue> SysSubscriptionTypeValues { get; set; }
 
@@ -587,6 +589,42 @@ namespace clinic_api.Data
                     .HasConstraintName("FK_Doctors_SysDoctorsSpecialties");
             });
 
+            modelBuilder.Entity<DoctorExpense>(entity =>
+            {
+                entity.Property(e => e.ExpenseAmount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorExpenses)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorExpenses_Doctors");
+
+                entity.HasOne(d => d.ExpenseItem)
+                    .WithMany(p => p.DoctorExpenses)
+                    .HasForeignKey(d => d.ExpenseItemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorExpenses_DoctorExpenseItems");
+            });
+
+            modelBuilder.Entity<DoctorExpenseItemValue>(entity =>
+            {
+                entity.Property(e => e.ExpenseItem).IsRequired();
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorExpenseItems)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorExpenseItems_Doctors");
+            });
+
             modelBuilder.Entity<Expense>(entity =>
             {
                 entity.Property(e => e.ExpenseCost).HasColumnType("decimal(18, 2)");
@@ -791,7 +829,7 @@ namespace clinic_api.Data
             {
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");                
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Patient)
                     .WithMany(p => p.PatientPrescriptions)
@@ -831,26 +869,26 @@ namespace clinic_api.Data
                     .HasConstraintName("FK_PrescriptionMedicines_SysMedicineTimingsValues");
             });
 
-                modelBuilder.Entity<PatientRayFile>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+            modelBuilder.Entity<PatientRayFile>(entity =>
+        {
+            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
 
-                entity.Property(e => e.Url).IsRequired();
+            entity.Property(e => e.Url).IsRequired();
 
-                entity.HasOne(d => d.FileType)
-                    .WithMany(p => p.PatientRayFiles)
-                    .HasForeignKey(d => d.FileTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PatientRayFiles_SysRayFileTypesValues");
+            entity.HasOne(d => d.FileType)
+                .WithMany(p => p.PatientRayFiles)
+                .HasForeignKey(d => d.FileTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PatientRayFiles_SysRayFileTypesValues");
 
-                entity.HasOne(d => d.PatientRay)
-                    .WithMany(p => p.PatientRayFiles)
-                    .HasForeignKey(d => d.PatientRayId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PatientRayFiles_PatientRays");
-            });
+            entity.HasOne(d => d.PatientRay)
+                .WithMany(p => p.PatientRayFiles)
+                .HasForeignKey(d => d.PatientRayId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PatientRayFiles_PatientRays");
+        });
 
             modelBuilder.Entity<PatientRay>(entity =>
             {

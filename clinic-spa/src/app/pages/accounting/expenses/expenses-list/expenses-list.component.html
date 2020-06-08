@@ -1,0 +1,42 @@
+<nb-card>
+  <nb-card-header>
+    <button nbButton [routerLink]="['/pages/accounting/expense/details','new']" hero size="small" langg>Add New Expense</button>
+  </nb-card-header>
+  <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
+    <div *ngIf="allExpenses?.length" class="row mb-2">
+      <div class="col-4">
+        <h6 class="d-inline" langg>Month</h6>:
+        <div class="d-inline">
+          <nb-select #expensesMonth name="expensesMonth" (selectedChange)="onChangeMonth($event)" [selected]="allExpenses?.length ? allExpenses[0].month : ''">
+            <nb-option *ngFor="let item of allExpenses" [value]="item.month">{{item.month | localMonthLong}}</nb-option>
+          </nb-select>
+        </div>
+      </div>
+    </div>
+    <table class="table table-striped table-light">
+      <thead class="thead-dark">
+        <tr>
+          <th langg>Date</th>
+          <th langg>Expense Amount</th>
+          <th langg>Expense Item</th>
+          <th langg>Note</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!monthExpenses?.length">
+        <tr>
+          <td colspan="6" class="text-center">
+            <h5 langg>No Results !</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="monthExpenses?.length">
+        <tr *ngFor="let item of monthExpenses; index as i">
+          <td>{{item.date | localDateShort}}</td>
+          <td>{{item.amount}}</td>
+          <td>{{item.item}}</td>
+          <td>{{item.note}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

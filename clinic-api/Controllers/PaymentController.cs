@@ -22,9 +22,9 @@ namespace clinic_api.Controllers
             _context = context;
         }
 
-        // GET: api/Payment
+        // GET: api/Pay
         [HttpGet("{id}/{doctorId}/{paymentDate}")]
-        public async Task<ActionResult<GetPaymentListDTO>> GetPayments(Guid id, Guid doctorId, string paymentDate)
+        public async Task<ActionResult<GetIncomeListDTO>> GetPayments(Guid id, Guid doctorId, string paymentDate)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -42,7 +42,7 @@ namespace clinic_api.Controllers
                 .Include(b => b.Booking).ThenInclude(s => s.BookingServices)
                 .Include(b => b.Booking).ThenInclude(d => d.Discount)
                 .OrderByDescending(p => p.CreatedOn)
-                .Select(p => new PaymentList
+                .Select(p => new IncomeList
                 {
                     BookId = p.Booking.Id,
                     PatientCodeId = p.Booking.Patient.SeqNo,
@@ -55,7 +55,7 @@ namespace clinic_api.Controllers
                     Paid = p.Paid,
                 }).ToListAsync();
 
-            var model = new GetPaymentListDTO
+            var model = new GetIncomeListDTO
             {
                 PaymentsList = paymentList,
                 WeekEnds = weekEnds,
@@ -64,9 +64,9 @@ namespace clinic_api.Controllers
             return model;
         }
 
-        // GET: api/Payment/GetIncomeMonthly
+        // GET: api/Pay/GetIncomeMonthly
         [HttpGet("GetIncomeMonthly/{id}/{doctorId}")]
-        public async Task<ActionResult<IEnumerable<MonthPaymentDTO>>> GetIncomeMonthly(Guid id, Guid doctorId)
+        public async Task<ActionResult<IEnumerable<MonthIncomeDTO>>> GetIncomeMonthly(Guid id, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -78,12 +78,43 @@ namespace clinic_api.Controllers
                 .Include(b => b.Booking)
                 .GroupBy(p => new { p.CreatedOn.Month, p.CreatedOn.Year})
                 .OrderBy(y => y.Key.Year).ThenBy(m => m.Key.Month)
-                .Select(p => new MonthPaymentDTO
+                .Select(p => new MonthIncomeDTO
                 {
-                    Month = p.Key.Month,
-                    Year = p.Key.Year,
+                    Month =  p.Key.Year.ToString() + "-" + p.Key.Month.ToString() + "-1" ,
                     TotalPaid = p.Sum(x => x.Paid)
                 }).ToListAsync();
+
+            return model;
+        }
+
+        // GET: api/Pay/GetExpenseMonthly
+        [HttpGet("GetExpenseMonthly/{id}/{doctorId}")]
+        public async Task<ActionResult<IEnumerable<GetExpenseListDTO>>> GetExpenseMonthly(Guid id, Guid doctorId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+
+            var doctorExpenses = await _context.DoctorExpenses
+                .Where(p => p.DoctorId == doctorId && p.IsDeleted != true)
+                .Include(b => b.ExpenseItem).Select(e => new ExpenseList
+                {
+                    Id = e.Id,
+                    Date = e.ExpenseDate,
+                    Amount = e.ExpenseAmount,
+                    Item = e.ExpenseItem.ExpenseItem,
+                    Note = e.Note
+                }).ToListAsync();
+
+            var model = doctorExpenses
+                .GroupBy(p => new { p.Date.Month, p.Date.Year })
+                .OrderBy(y => y.Key.Year).ThenBy(m => m.Key.Month)
+                .Select(p => new GetExpenseListDTO
+                {
+                    Month =  p.Key.Year.ToString() + "-" + p.Key.Month.ToString() + "-1",
+                    ExpensesList = p.OrderByDescending(d => d.Date)
+                }).ToList();
 
             return model;
         }

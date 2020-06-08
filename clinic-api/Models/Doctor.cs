@@ -22,6 +22,7 @@ namespace clinic_api.Models
             PatientReferrals = new HashSet<PatientReferral>();
             Patients = new HashSet<Patient>();
             Bookings = new HashSet<Booking>();
+            DoctorExpenses = new HashSet<DoctorExpense>();
         }
 
         public Guid Id { get; set; }
@@ -86,5 +87,7 @@ namespace clinic_api.Models
         public virtual ICollection<PatientReferral> PatientReferrals { get; set; }
         public virtual ICollection<Patient> Patients { get; set; }
         public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual ICollection<DoctorExpense> DoctorExpenses { get; set; }
+        public virtual ICollection<DoctorExpenseItemValue> DoctorExpenseItems { get; set; }
     }
 }

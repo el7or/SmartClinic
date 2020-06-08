@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../auth/auth.service';
-import { GetPaymentList, MonthPayment } from './accounting.model';
+import { GetIncomeList, MonthIncome, GetExpenseList } from './accounting.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,8 @@ export class AccountingService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getPaymentsListByDate(date: string) {
-    return this.http.get<GetPaymentList>(
+  getIncomesListByDate(date: string) {
+    return this.http.get<GetIncomeList>(
       this.baseUrl +
         "Pay/" +
         this.authService.userId +
@@ -25,13 +25,32 @@ export class AccountingService {
     );
   }
 
-  getMonthPayments(){
-    return this.http.get<MonthPayment[]>(
+  getMonthIncomes(){
+    return this.http.get<MonthIncome[]>(
       this.baseUrl +
         "Pay/GetIncomeMonthly/" +
         this.authService.userId +
         "/" +
         this.authService.doctorId
     );
+  }
+
+  getExpensesList() {
+    return this.http.get<GetExpenseList[]>(
+      this.baseUrl +
+        "Pay/GetExpenseMonthly/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId +
+        "/"
+    );
+  }
+
+  postExpenseItem(){
+
+  }
+
+  postExpense(){
+
   }
 }

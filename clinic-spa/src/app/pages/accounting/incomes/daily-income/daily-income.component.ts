@@ -6,7 +6,7 @@ import { BsLocaleService } from "ngx-bootstrap";
 import { LanggService } from "../../../../shared/services/langg.service";
 import { DateTimeService } from "../../../../shared/services/date-time.service";
 import { AlertService } from "../../../../shared/services/alert.service";
-import { PaymentList, GetPaymentList } from "../../accounting.model";
+import { IncomeList, GetIncomeList } from "../../accounting.model";
 
 @Component({
   selector: "daily-income",
@@ -16,7 +16,7 @@ import { PaymentList, GetPaymentList } from "../../accounting.model";
 export class DailyIncomeComponent implements OnInit {
   formLoading = false;
   currentDay?: Date = new Date();
-  paymentsList: PaymentList[];
+  paymentsList: IncomeList[];
   autoCompleteList: any[] = [];
   weekendDays: number[];
   totalPaid: number;
@@ -80,9 +80,9 @@ export class DailyIncomeComponent implements OnInit {
       this.getSubs.unsubscribe();
     }
     this.getSubs = this.accountingService
-      .getPaymentsListByDate(this.dateTimeService.dateWithoutTime(date))
+      .getIncomesListByDate(this.dateTimeService.dateWithoutTime(date))
       .subscribe(
-        (res: GetPaymentList) => {
+        (res: GetIncomeList) => {
           this.paymentsList = res.paymentsList;
           if (this.paymentsList) {
             this.totalPaid = res.paymentsList.reduce(

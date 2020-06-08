@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { AccountingService } from '../../accounting.service';
 import { AlertService } from '../../../../shared/services/alert.service';
-import { MonthPayment } from '../../accounting.model';
+import { MonthIncome } from '../../accounting.model';
 
 @Component({
   selector: "monthly-income",
@@ -13,7 +13,7 @@ import { MonthPayment } from '../../accounting.model';
 export class MonthlyIncomeComponent implements OnInit {
   formLoading = false;
   currentDay?: Date = new Date();
-  monthPayments: MonthPayment[];
+  monthPayments: MonthIncome[];
 
   getSubs: Subscription;
 
@@ -25,9 +25,9 @@ export class MonthlyIncomeComponent implements OnInit {
   ngOnInit() {
     this.formLoading = true;
     this.getSubs = this.accountingService
-      .getMonthPayments()
+      .getMonthIncomes()
       .subscribe(
-        (res: MonthPayment[]) => {
+        (res: MonthIncome[]) => {
           this.monthPayments = res;
           this.formLoading = false;
         },

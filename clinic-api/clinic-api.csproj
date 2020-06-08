@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200608095824_DoctorExpense.cs" />
+    <Compile Remove="Migrations\20200608095824_DoctorExpense.Designer.cs" />
+    <Compile Remove="Migrations\20200608110347_DoctorExpense2.cs" />
+    <Compile Remove="Migrations\20200608110347_DoctorExpense2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

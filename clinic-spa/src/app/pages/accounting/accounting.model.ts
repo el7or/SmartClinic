@@ -1,8 +1,8 @@
-export interface GetPaymentList {
-  paymentsList:PaymentList[];
+export interface GetIncomeList {
+  paymentsList:IncomeList[];
   weekEnds:number[];
 }
-export interface PaymentList {
+export interface IncomeList {
   bookId: number;
   patientCodeId:number;
   patientId: string;
@@ -13,9 +13,19 @@ export interface PaymentList {
   totalPrice:number;
   paid: number;
 }
-
-export interface MonthPayment{
+export interface MonthIncome{
   month:Date;
-  year:number;
   totalPaid:number;
+}
+
+export interface GetExpenseList{
+  month:Date;
+  expensesList:ExpenseList[];
+}
+export interface ExpenseList{
+  id:number;
+  date:Date;
+  amount:number;
+  item:string;
+  note:string;
 }

@@ -316,6 +316,36 @@
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
+        <EntityType Name="DoctorExpenseItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExpenseItem" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DoctorExpenses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ExpenseItemId" Type="int" Nullable="false" />
+          <Property Name="ExpenseDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ExpenseAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="DoctorGeneralComplaintsValues">
           <Key>
             <PropertyRef Name="Id" />
@@ -1191,6 +1221,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DoctorExpenseItems_Doctors">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="1" />
+          <End Role="DoctorExpenseItems" Type="Self.DoctorExpenseItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorExpenseItems">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorExpenses_DoctorExpenseItems">
+          <End Role="DoctorExpenseItems" Type="Self.DoctorExpenseItems" Multiplicity="1" />
+          <End Role="DoctorExpenses" Type="Self.DoctorExpenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorExpenseItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorExpenses">
+              <PropertyRef Name="ExpenseItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorExpenses_Doctors">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="1" />
+          <End Role="DoctorExpenses" Type="Self.DoctorExpenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorExpenses">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DoctorGeneralComplaintsValues_Doctors">
           <End Role="Doctors" Type="Self.Doctors" Multiplicity="1" />
           <End Role="DoctorGeneralComplaintsValues" Type="Self.DoctorGeneralComplaintsValues" Multiplicity="*" />
@@ -1910,6 +1976,8 @@
           <EntitySet Name="DoctorDiagnosisValues" EntityType="Self.DoctorDiagnosisValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorExaminationAreasValues" EntityType="Self.DoctorExaminationAreasValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorExaminationsValues" EntityType="Self.DoctorExaminationsValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoctorExpenseItems" EntityType="Self.DoctorExpenseItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoctorExpenses" EntityType="Self.DoctorExpenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorGeneralComplaintsValues" EntityType="Self.DoctorGeneralComplaintsValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorMedicinesValues" EntityType="Self.DoctorMedicinesValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorOperationTypesValues" EntityType="Self.DoctorOperationTypesValues" Schema="dbo" store:Type="Tables" />
@@ -2050,6 +2118,18 @@
           <AssociationSet Name="FK_DoctorExaminationsValues_Doctors" Association="Self.FK_DoctorExaminationsValues_Doctors">
             <End Role="Doctors" EntitySet="Doctors" />
             <End Role="DoctorExaminationsValues" EntitySet="DoctorExaminationsValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorExpenseItems_Doctors" Association="Self.FK_DoctorExpenseItems_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="DoctorExpenseItems" EntitySet="DoctorExpenseItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorExpenses_DoctorExpenseItems" Association="Self.FK_DoctorExpenses_DoctorExpenseItems">
+            <End Role="DoctorExpenseItems" EntitySet="DoctorExpenseItems" />
+            <End Role="DoctorExpenses" EntitySet="DoctorExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorExpenses_Doctors" Association="Self.FK_DoctorExpenses_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="DoctorExpenses" EntitySet="DoctorExpenses" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorGeneralComplaintsValues_Doctors" Association="Self.FK_DoctorGeneralComplaintsValues_Doctors">
             <End Role="Doctors" EntitySet="Doctors" />
@@ -2662,6 +2742,20 @@
             <End Role="SysMedicineTimingsValue" EntitySet="SysMedicineTimingsValues" />
             <End Role="PrescriptionMedicine" EntitySet="PrescriptionMedicines" />
           </AssociationSet>
+          <EntitySet Name="DoctorExpenseItems" EntityType="Models.DoctorExpenseItem" />
+          <EntitySet Name="DoctorExpenses" EntityType="Models.DoctorExpens" />
+          <AssociationSet Name="FK_DoctorExpenseItems_Doctors" Association="Models.FK_DoctorExpenseItems_Doctors">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="DoctorExpenseItem" EntitySet="DoctorExpenseItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorExpenses_DoctorExpenseItems" Association="Models.FK_DoctorExpenses_DoctorExpenseItems">
+            <End Role="DoctorExpenseItem" EntitySet="DoctorExpenseItems" />
+            <End Role="DoctorExpens" EntitySet="DoctorExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorExpenses_Doctors" Association="Models.FK_DoctorExpenses_Doctors">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="DoctorExpens" EntitySet="DoctorExpenses" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -3105,6 +3199,8 @@
           <NavigationProperty Name="PatientReferrals" Relationship="Models.FK_PatientReferrals_Doctors" FromRole="Doctor" ToRole="PatientReferral" />
           <NavigationProperty Name="Patients" Relationship="Models.FK_Patients_Doctors" FromRole="Doctor" ToRole="Patient" />
           <NavigationProperty Name="Clinics" Relationship="Models.DoctorClinics" FromRole="Doctor" ToRole="Clinic" />
+          <NavigationProperty Name="DoctorExpenseItems" Relationship="Models.FK_DoctorExpenseItems_Doctors" FromRole="Doctor" ToRole="DoctorExpenseItem" />
+          <NavigationProperty Name="DoctorExpenses" Relationship="Models.FK_DoctorExpenses_Doctors" FromRole="Doctor" ToRole="DoctorExpens" />
         </EntityType>
         <EntityType Name="Expens">
           <Key>
@@ -4587,6 +4683,76 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DoctorExpenseItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorId" Type="Guid" Nullable="false" />
+          <Property Name="ExpenseItem" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Doctor" Relationship="Models.FK_DoctorExpenseItems_Doctors" FromRole="DoctorExpenseItem" ToRole="Doctor" />
+          <NavigationProperty Name="DoctorExpenses" Relationship="Models.FK_DoctorExpenses_DoctorExpenseItems" FromRole="DoctorExpenseItem" ToRole="DoctorExpens" />
+        </EntityType>
+        <EntityType Name="DoctorExpens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorId" Type="Guid" Nullable="false" />
+          <Property Name="ExpenseItemId" Type="Int32" Nullable="false" />
+          <Property Name="ExpenseDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ExpenseAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="DoctorExpenseItem" Relationship="Models.FK_DoctorExpenses_DoctorExpenseItems" FromRole="DoctorExpens" ToRole="DoctorExpenseItem" />
+          <NavigationProperty Name="Doctor" Relationship="Models.FK_DoctorExpenses_Doctors" FromRole="DoctorExpens" ToRole="Doctor" />
+        </EntityType>
+        <Association Name="FK_DoctorExpenseItems_Doctors">
+          <End Type="Models.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="Models.DoctorExpenseItem" Role="DoctorExpenseItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorExpenseItem">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorExpenses_DoctorExpenseItems">
+          <End Type="Models.DoctorExpenseItem" Role="DoctorExpenseItem" Multiplicity="1" />
+          <End Type="Models.DoctorExpens" Role="DoctorExpens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorExpenseItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorExpens">
+              <PropertyRef Name="ExpenseItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorExpenses_Doctors">
+          <End Type="Models.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="Models.DoctorExpens" Role="DoctorExpens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorExpens">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5539,6 +5705,38 @@
                 <ScalarProperty Name="DoseId" ColumnName="DoseId" />
                 <ScalarProperty Name="MedicineId" ColumnName="MedicineId" />
                 <ScalarProperty Name="PrescriptionId" ColumnName="PrescriptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorExpenseItems">
+            <EntityTypeMapping TypeName="Models.DoctorExpenseItem">
+              <MappingFragment StoreEntitySet="DoctorExpenseItems">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ExpenseItem" ColumnName="ExpenseItem" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorExpenses">
+            <EntityTypeMapping TypeName="Models.DoctorExpens">
+              <MappingFragment StoreEntitySet="DoctorExpenses">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="ExpenseAmount" ColumnName="ExpenseAmount" />
+                <ScalarProperty Name="ExpenseDate" ColumnName="ExpenseDate" />
+                <ScalarProperty Name="ExpenseItemId" ColumnName="ExpenseItemId" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

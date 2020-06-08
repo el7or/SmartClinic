@@ -602,6 +602,7 @@
   { "ar": "عند النقر على أي تاريخ سابق ، ستتم إعادة توجيهك إلى صفحة تصفح الحجوزات لليوم المحدد", "en": "When click on any Past date, will be redirected to Browse Bookings page for the specified day" },
   { "ar": "الدخل اليومي", "en": "Daily Income" },
   { "ar": "الدخل الشهري", "en": "Monthly Income" },
+  { "ar": "الأرباح الشهرية", "en": "Monthly Profits" },
   { "ar": "تاريخ الإيرادات", "en": "Income Date" },
   { "ar": "تاريخ الدفع", "en": "Payment Date" },
   { "ar": "السعر الكلي", "en": "Total Price" },
@@ -616,5 +617,9 @@
   { "ar": "لابد من إدخال تاريخ الصرف !", "en": "Expense Date is required!" },
   { "ar": "لابد من إدخال مبلغ الصرف !", "en": "Expense Amount is required!" },
   { "ar": "لابد من إدخال بند الصرف !", "en": "Expense Item is required!" },
-  { "ar": "لا توجد أي بنود مصاريف ، يرجى إضافة بند واحد على الأقل.", "en": "There are no Expense Items, Please add at least one item." }
+  { "ar": "لا توجد أي بنود مصاريف ، يرجى إضافة بند واحد على الأقل.", "en": "There are no Expense Items, Please add at least one item." },
+  { "ar": "إجمالي الإيرادات", "en": "Total Income" },
+  { "ar": "إجمالي المصروفات", "en": "Total Expenses" },
+  { "ar": "أرباح الشهر", "en": "Total Profits" },
+  { "ar": "المصروفات خلال الشهر", "en": "Expenses during the month" }
 ]

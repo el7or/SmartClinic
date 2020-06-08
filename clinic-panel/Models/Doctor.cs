@@ -31,6 +31,8 @@ namespace clinic_panel.Models
             this.PatientReferrals = new HashSet<PatientReferral>();
             this.Patients = new HashSet<Patient>();
             this.Clinics = new HashSet<Clinic>();
+            this.DoctorExpenseItems = new HashSet<DoctorExpenseItem>();
+            this.DoctorExpenses = new HashSet<DoctorExpens>();
         }
     
         public System.Guid Id { get; set; }
@@ -85,5 +87,9 @@ namespace clinic_panel.Models
         public virtual ICollection<Patient> Patients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Clinic> Clinics { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorExpenseItem> DoctorExpenseItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorExpens> DoctorExpenses { get; set; }
     }
 }

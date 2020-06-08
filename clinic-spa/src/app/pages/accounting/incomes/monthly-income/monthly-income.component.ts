@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from 'rxjs';
 
 import { AccountingService } from '../../accounting.service';
@@ -10,7 +10,7 @@ import { MonthIncome } from '../../accounting.model';
   templateUrl: "./monthly-income.component.html",
   styleUrls: ["./monthly-income.component.scss"],
 })
-export class MonthlyIncomeComponent implements OnInit {
+export class MonthlyIncomeComponent implements OnInit,OnDestroy {
   formLoading = false;
   currentDay?: Date = new Date();
   monthPayments: MonthIncome[];

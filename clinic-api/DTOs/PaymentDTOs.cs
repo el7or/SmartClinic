@@ -41,4 +41,28 @@ namespace clinic_api.DTOs
         public string Item { get; set; }
         public string Note { get; set; }
     }
+    public class ExpenseItemValueDTO
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class PostExpenseItemValueDTO
+    {
+        public Guid DoctorId { get; set; }
+        public string Item { get; set; }
+    }
+    public class PostExpenseDTO
+    {
+        public DateTime Date { get; set; }
+        public decimal Amount { get; set; }
+        public int ItemId { get; set; }
+        public string Note { get; set; }
+    }
+
+    public class MonthProfitDTO
+    {
+        public string Month { get; set; }
+        public decimal TotalIncomes { get; set; }
+        public decimal TotalExpenses { get; set; }
+    }
 }

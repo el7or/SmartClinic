@@ -14,6 +14,7 @@ export class ExpensesListComponent implements OnInit {
   formLoading = false;
   allExpenses: GetExpenseList[];
   monthExpenses: ExpenseList[];
+  totalPaid: number;
 
   getSubs: Subscription;
 
@@ -29,6 +30,7 @@ export class ExpensesListComponent implements OnInit {
         this.allExpenses = res;
         if (this.allExpenses.length) {
           this.monthExpenses = res[0].expensesList;
+          this.totalPaid = res[0].expensesList.reduce((acc, expense) => acc + expense.amount, 0);
         }
         this.formLoading = false;
       },
@@ -47,5 +49,6 @@ export class ExpensesListComponent implements OnInit {
     this.monthExpenses = this.allExpenses.find(
       (m) => m.month == month
     ).expensesList;
+    this.totalPaid = this.monthExpenses.reduce((acc, expense) => acc + expense.amount, 0);
   }
 }

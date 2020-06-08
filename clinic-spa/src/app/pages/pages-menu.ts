@@ -34,11 +34,13 @@ export const MENU_ITEMS: any[] = [
         title: "Incomes",
         icon:  { icon: 'sign-in-alt', pack: 'solid'},
         link: "/pages/accounting/income",
+        pathMatch: "prefix",
       },
       {
         title: "Expenses",
         icon:  { icon: 'sign-out-alt', pack: 'solid'},
-        link: "/pages/accounting/expense/list",
+        link: "/pages/accounting/expense",
+        pathMatch: "prefix",
       },
       {
         title: "Profits",
@@ -69,11 +71,13 @@ export const MENU_ITEMS: any[] = [
         title: "Clinic Setting",
         icon:  { icon: 'user-md', pack: 'solid'},
         link: "/pages/settings/clinic",
+        pathMatch: "prefix",
       },
       {
         title: "Patient Profile Setting",
         icon:  { icon: 'user-injured', pack: 'solid'},
         link: "/pages/settings/patient",
+        pathMatch: "prefix",
       },
       {
         title: "Users",

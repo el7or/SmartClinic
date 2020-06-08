@@ -6,7 +6,7 @@ import { AdvsService } from '../../services/advs.service';
   styleUrls: ["./footer.component.scss"],
   template: `
     <span class="created-by">Created by<b>
-      <a href="mailto:Hatems325@gmail.com" target="_blank">Smart Clinic</a>
+      <a href="mailto:smartclinic007@gmail.com" target="_blank">Smart Clinic</a>
     </b>&reg; 2020</span>
     <a [href]="advService.getFooterAdvs().hrefLink" target="_blank" class="header-container ads"
   [style.background]="'url('+ advService.getFooterAdvs().backgroundUrl +')'">

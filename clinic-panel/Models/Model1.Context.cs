@@ -86,5 +86,7 @@ namespace clinic_panel.Models
         public virtual DbSet<SysSubscriptionTypeValue> SysSubscriptionTypeValues { get; set; }
         public virtual DbSet<SysMedicineQuantityValue> SysMedicineQuantityValues { get; set; }
         public virtual DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; }
+        public virtual DbSet<DoctorExpenseItem> DoctorExpenseItems { get; set; }
+        public virtual DbSet<DoctorExpens> DoctorExpenses { get; set; }
     }
 }

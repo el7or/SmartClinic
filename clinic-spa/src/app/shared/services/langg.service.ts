@@ -10,7 +10,7 @@ import { NbLayoutDirectionService, NbLayoutDirection } from "@nebular/theme";
 import * as words from "../../../assets/locale/translation.json";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class LanggService implements OnDestroy {
   _words = [];
@@ -34,7 +34,7 @@ export class LanggService implements OnDestroy {
     private dirService: NbLayoutDirectionService
   ) {
     // =====> change language based on value of BehaviorSubject 'language':
-    this.langgSubscription = this.lang.subscribe(lang => {
+    this.langgSubscription = this.lang.subscribe((lang) => {
       if (lang == "en") {
         localStorage.setItem("langg", "en");
         titleService.setTitle("Smart Clinic");
@@ -80,10 +80,14 @@ export class LanggService implements OnDestroy {
 
   // =====> translate any words from json file:
   translateWord(value) {
-    let words = this._words.filter(o =>
-      Object.keys(o).some(k => o[k] == value)
-    );
-    value = words[0][this.locale];
-    return value;
+    try {
+      let words = this._words.filter((o) =>
+        Object.keys(o).some((k) => o[k] == value)
+      );
+      value = words[0][this.locale];
+      return value;
+    } catch (error) {
+      return value;
+    }
   }
 }

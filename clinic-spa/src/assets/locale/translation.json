@@ -599,5 +599,12 @@
   { "ar": "تحديث جديد لترتيب حجوزات اليوم الحالي.", "en": "New update to sequence today’s Bookings." },
   { "ar": "عند النقر على اليوم الحالي، ستتم إعادة توجيهك إلى صفحة حجوزات اليوم الحالي", "en": "When click on Today, will be redirected to Today Bookings page" },
   { "ar": "يمكن عمل حجز جديد في أي تاريخ قادم بالنقر فوق اليوم لإعادة التوجيه إلى صفحة بيانات المرضى لاختيار المريض الذي سيتم الحجز له في اليوم المحدد", "en": "New Booking can be made on any future date by clicking on the day to redirect to Patients Records page to choose the patient to be booked on the specified day" },
-  { "ar": "عند النقر على أي تاريخ سابق ، ستتم إعادة توجيهك إلى صفحة تصفح الحجوزات لليوم المحدد", "en": "When click on any Past date, will be redirected to Browse Bookings page for the specified day" }
+  { "ar": "عند النقر على أي تاريخ سابق ، ستتم إعادة توجيهك إلى صفحة تصفح الحجوزات لليوم المحدد", "en": "When click on any Past date, will be redirected to Browse Bookings page for the specified day" },
+  { "ar": "الدخل اليومي", "en": "Daily Income" },
+  { "ar": "الدخل الشهري", "en": "Monthly Income" },
+  { "ar": "تاريخ الإيرادات", "en": "Income Date" },
+  { "ar": "تاريخ الدفع", "en": "Payment Date" },
+  { "ar": "السعر الكلي", "en": "Total Price" },
+  { "ar": "مجموع المبالغ المدفوعة", "en": "Total Paid" },
+  { "ar": "الشهر", "en": "Month" }
 ]

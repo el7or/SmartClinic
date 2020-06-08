@@ -1,4 +1,4 @@
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
@@ -20,11 +20,11 @@ import {
   NbDialogModule,
   NbInputModule,
   NbTooltipModule,
-  NbSpinnerModule
+  NbSpinnerModule,
 } from "@nebular/theme";
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { NbSecurityModule } from "@nebular/security";
-import { NgxBarcodeModule } from 'ngx-barcode';
+import { NgxBarcodeModule } from "ngx-barcode";
 
 import { ProfileComponent } from "./components/profile/profile.component";
 import { DEFAULT_THEME } from "./styles/theme.default";
@@ -44,6 +44,7 @@ import { LocalDateLongPipe } from "./pipes/local-date-long.pipe";
 import { Time12HourPipe } from "./pipes/time-12-hour.pipe";
 import { PrintMedicinesComponent } from "./components/prints/print-medicines/print-medicines.component";
 import { PrintInvoiceComponent } from "./components/prints/print-invoice/print-invoice.component";
+import { LocalMonthLongPipe } from "./pipes/local-month-long.pipe";
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -65,7 +66,7 @@ const NB_MODULES = [
   NbTooltipModule,
   NbSpinnerModule,
   NbDialogModule.forChild(),
-  SweetAlert2Module.forRoot()
+  SweetAlert2Module.forRoot(),
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -73,7 +74,7 @@ const COMPONENTS = [
   ProfileComponent,
   TinyMCEComponent,
   PrintMedicinesComponent,
-  PrintInvoiceComponent
+  PrintInvoiceComponent,
 ];
 const PIPES = [
   TimeAgoPipe,
@@ -81,14 +82,15 @@ const PIPES = [
   DateWithoutTimePipe,
   LocalDateLongPipe,
   LocalDateShortPipe,
-  Time12HourPipe
+  LocalMonthLongPipe,
+  Time12HourPipe,
 ];
 
 @NgModule({
   imports: [CommonModule, ...NB_MODULES, RouterModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS, LanggDirective],
   declarations: [...COMPONENTS, ...PIPES, LanggDirective],
-  entryComponents: [ProfileComponent]
+  entryComponents: [ProfileComponent],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
@@ -97,13 +99,13 @@ export class SharedModule {
       providers: [
         ...NbThemeModule.forRoot(
           {
-            name: "default"
+            name: "default",
           },
           [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME],
           DEFAULT_MEDIA_BREAKPOINTS,
           NbLayoutDirection.RTL
-        ).providers
-      ]
+        ).providers,
+      ],
     };
   }
 }

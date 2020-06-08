@@ -1,3 +1,4 @@
+import { AccountingModule } from './accounting/accounting.module';
 import { FormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
 import {
@@ -34,6 +35,7 @@ const COMPONENTS = [
   PagesComponent,
   HomeComponent,
   ChatComponent,
+  ExternalsComponent,
   NotFoundComponent
 ];
 
@@ -43,6 +45,7 @@ const MODULES = [
   PatientsModule,
   BookingsModule,
   SettingsModule,
+  AccountingModule,
   ContactModule,
   NbMenuModule,
   NbAlertModule,
@@ -64,6 +67,6 @@ const MODULES = [
 
 @NgModule({
   imports: [...MODULES],
-  declarations: [...COMPONENTS, ExternalsComponent]
+  declarations: [...COMPONENTS]
 })
 export class PagesModule {}

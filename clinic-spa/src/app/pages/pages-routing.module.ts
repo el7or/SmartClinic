@@ -1,3 +1,7 @@
+import { MonthlyIncomeComponent } from './accounting/incomes/monthly-income/monthly-income.component';
+import { DailyIncomeComponent } from './accounting/incomes/daily-income/daily-income.component';
+import { IncomesComponent } from './accounting/incomes/incomes.component';
+import { AccountingComponent } from './accounting/accounting.component';
 import { RecordSettingComponent } from './settings/patient-setting/record-setting/record-setting.component';
 import { DiseasesSettingComponent } from './settings/patient-setting/diseases-setting/diseases-setting.component';
 import { PrintSettingComponent } from './settings/clinic-setting/print-setting/print-setting.component';
@@ -124,6 +128,32 @@ const routes: Routes = [
             path: "today",
             component: BookingsListTodayComponent
           }
+        ]
+      },
+      {
+        path: "accounting",
+        component: AccountingComponent,
+        children :
+        [
+          {
+            path: "",
+            redirectTo: "income",
+            pathMatch: "full"
+          },
+          {
+            path: "income",
+            component: IncomesComponent,
+            children:[
+              {
+                path:"",
+                component:DailyIncomeComponent
+              },
+              {
+                path:"monthly",
+                component:MonthlyIncomeComponent
+              },
+            ]
+          },
         ]
       },
       {

@@ -1,0 +1,69 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-4 text-center my-auto">
+        <button nbButton (click)="onPrevDay(currentDay)" status="info" shape="semi-round">
+          <nb-icon [icon]="langgService.locale=='ar' ? 'arrow-circle-right-outline':'arrow-circle-left-outline'">
+          </nb-icon>
+          <span langg>Previous Day</span>
+        </button></div>
+      <div class="col-4">
+        <label for="input-bookingDate" class="label"><span langg>Income Date</span>:</label>
+        <input type="text" bsDatepicker nbInput #bookingDate name="bookingDate" fullWidth id="input-bookingDate"
+          [placeholder]="'Choose Day' | langg" readonly
+          [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
+          (bsValueChange)="onChoosePaymentsDate($event)" [bsValue]="currentDay" [daysDisabled]="weekendDays">
+      </div>
+      <div class="col-4 text-center my-auto">
+        <button nbButton (click)="onNextDay(currentDay)" status="info" shape="semi-round">
+          <span langg>Next Day</span>
+          <nb-icon [icon]="langgService.locale=='ar' ? 'arrow-circle-left-outline':'arrow-circle-right-outline'">
+          </nb-icon>
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table table-striped table-bordered table-light" [nbSpinner]="formLoading" nbSpinnerStatus="info">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th langg>Payment Date</th>
+          <th langg>Name</th>
+          <th langg>Booking Type</th>
+          <th langg>Services</th>
+          <th langg>Total Price</th>
+          <th langg>Amount Paid</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!paymentsList?.length">
+        <tr>
+          <td colspan="7" class="text-center">
+            <h5 langg>No Results !</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="paymentsList?.length">
+        <tr *ngFor="let payment of paymentsList; let i = index;">
+          <td>{{i + 1}}</td>
+          <td>{{payment.paymentDate | localDateShort}}</td>
+          <td>{{payment.name}}</td>
+          <td langg>{{payment.type}}</td>
+          <td langg>{{payment.services}}</td>
+          <td langg>{{payment.totalPrice | currency:'EGP':'symbol':'1.0'}}</td>
+          <td langg>{{payment.paid | currency:'EGP':'symbol':'1.0'}}</td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="paymentsList?.length">
+        <tr class="table-dark font-weight-bolder lead">
+          <td colspan="6" class="text-center"><span langg>Total Amount:</span></td>
+          <td colspan="1">{{totalPaid | currency:'EGP':'symbol':'1.0'}}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </nb-card-body>
+</nb-card>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

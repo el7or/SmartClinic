@@ -15,8 +15,8 @@
         <p>@Html.ActionLink("بيانات المستخدمين »", "Index", "User", null, new { @class = "btn btn-primary" })</p>
     </div>
     <div class="col-md-4">
-        <h2>إجمالي المبالغ المطلوبة</h2>
-        <p>@(((decimal)ViewBag.TotalDue).ToString("C0", CultureInfo.CreateSpecificCulture("ar-EG")))</p>
+        <h2>إجمالي المبالغ المحصلة</h2>
+        <p>@(((decimal)ViewBag.TotalPaid).ToString("C0", CultureInfo.CreateSpecificCulture("ar-EG")))</p>
         <p>@Html.ActionLink("الحسابات »", "Index", "Payment", null, new { @class = "btn btn-primary" })</p>
     </div>
 </div>

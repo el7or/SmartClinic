@@ -17,11 +17,11 @@ namespace clinic_panel.Controllers
         private SmartClinicDBContext db = new SmartClinicDBContext();
         public ActionResult Index()
         {
-            ViewBag.DoctorsCount = db.Doctors.Where(d => d.IsActive == true && d.IsDeleted == false).Count();
+            ViewBag.DoctorsCount = db.Doctors.Where(d => d.IsActive == true && d.IsDeleted == false).Count() -1;
             ViewBag.UsersCount = db.AspNetUsers.Where(c => c.IsActive == true && c.IsDeleted == false).Count();
-            var totalFees = db.Subscriptions.Sum(s => s.SignUpFee);
+            //var totalFees = db.Subscriptions.Sum(s => s.SignUpFee);
             var totalPaid = db.SubscriptionPayments.Sum(p => (decimal?) p.Paid);
-            ViewBag.TotalDue = (totalFees==null?0:totalFees) - (totalPaid == null ? 0 : totalPaid);
+            ViewBag.TotalPaid = db.SubscriptionPayments.Sum(p => (decimal?)p.Paid);
             return View();
         }
         public ActionResult Error()

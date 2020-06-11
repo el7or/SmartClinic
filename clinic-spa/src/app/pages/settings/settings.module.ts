@@ -22,7 +22,6 @@ import { ClinicSettingComponent } from "./clinic-setting/clinic-setting.componen
 import { SettingsComponent } from "./settings.component";
 import { PatientSettingComponent } from "./patient-setting/patient-setting.component";
 import { DiseasesSettingComponent } from "./patient-setting/diseases-setting/diseases-setting.component";
-import { MedicinesSettingComponent } from './patient-setting/medicines-setting/medicines-setting.component';
 import { TypeaheadModule, TimepickerModule } from 'ngx-bootstrap';
 import { PrintSettingComponent } from './clinic-setting/print-setting/print-setting.component';
 import { RecordSettingComponent } from './patient-setting/record-setting/record-setting.component';
@@ -40,7 +39,6 @@ import { FileUploadModule } from 'ng2-file-upload';
     UsersSettingComponent,
     PatientSettingComponent,
     DiseasesSettingComponent,
-    MedicinesSettingComponent,
     PrintSettingComponent,
     RecordSettingComponent,
     BookingSettingComponent,

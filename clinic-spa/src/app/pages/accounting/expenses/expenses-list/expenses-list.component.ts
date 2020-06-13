@@ -12,7 +12,7 @@ import { AlertService } from "../../../../shared/services/alert.service";
 })
 export class ExpensesListComponent implements OnInit {
   formLoading = false;
-  allExpenses: GetExpenseList[];
+  allExpenses: GetExpenseList[]=[];
   monthExpenses: ExpenseList[];
   totalPaid: number;
 

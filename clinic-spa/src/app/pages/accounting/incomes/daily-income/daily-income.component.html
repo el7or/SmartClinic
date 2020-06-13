@@ -32,13 +32,14 @@
           <th langg>Name</th>
           <th langg>Booking Type</th>
           <th langg>Services</th>
+          <th langg>Booking Date</th>
           <th langg>Total Price</th>
           <th langg>Amount Paid</th>
         </tr>
       </thead>
       <tbody *ngIf="!paymentsList?.length">
         <tr>
-          <td colspan="7" class="text-center">
+          <td colspan="8" class="text-center">
             <h5 langg>No Results !</h5>
           </td>
         </tr>
@@ -50,13 +51,14 @@
           <td>{{payment.name}}</td>
           <td langg>{{payment.type}}</td>
           <td langg>{{payment.services}}</td>
+          <td>{{payment.bookingDate | localDateShort}}</td>
           <td langg>{{payment.totalPrice | currency:'EGP':'symbol':'1.0'}}</td>
           <td langg>{{payment.paid | currency:'EGP':'symbol':'1.0'}}</td>
         </tr>
       </tbody>
       <tfoot *ngIf="paymentsList?.length">
         <tr class="table-dark font-weight-bolder lead">
-          <td colspan="6" class="text-center"><span langg>Total Amount:</span></td>
+          <td colspan="7" class="text-center"><span langg>Total Amount:</span></td>
           <td colspan="1">{{totalPaid | currency:'EGP':'symbol':'1.0'}}</td>
         </tr>
       </tfoot>

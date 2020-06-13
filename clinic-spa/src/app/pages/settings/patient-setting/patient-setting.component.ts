@@ -9,14 +9,6 @@ import { LanggService } from '../../../shared/services/langg.service';
     <span langg>Patient Profile Setting</span>:
   </nb-card-header>
   <nb-card-body>
-    <!-- <nb-tabset>
-      <nb-tab [tabTitle]="'Associated Diseases' | langg">
-        <diseases-setting></diseases-setting>
-      </nb-tab>
-      <nb-tab [tabTitle]="'Patient Record' | langg">
-        <record-setting></record-setting>
-      </nb-tab>
-    </nb-tabset> -->
     <nb-route-tabset [tabs]="patientSettingTabs"></nb-route-tabset>
   </nb-card-body>
 </nb-card>
@@ -37,7 +29,11 @@ export class PatientSettingComponent implements OnInit {
       {
         title: this.langgService.translateWord("Patient Record"),
         route: "./records",
-      }
+      },
+      /* {
+        title: this.langgService.translateWord("Patient Record Items"),
+        route: "./items",
+      } */
     ];
   }
 

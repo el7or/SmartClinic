@@ -142,7 +142,10 @@
   { "ar": "تاريخ الحجوزات", "en": "Bookings Date" },
   { "ar": "موعد الحجز", "en": "Booking Time" },
   { "ar": "لابد من تحديد يوم الحجز!", "en": "Booking Date is required!" },
-  { "ar": "لابد من تحديد الخدمة لأن نوع الحجز خدمة فقط!", "en": "Service is required if Booking Type is Just Service!" },
+  {
+    "ar": "لابد من تحديد الخدمة لأن نوع الحجز خدمة فقط!",
+    "en": "Service is required if Booking Type is Just Service!"
+  },
   { "ar": "لابد من تحديد السعر!", "en": "Price is required!" },
   { "ar": "نوع الحجز", "en": "Booking Type" },
   { "ar": "أسعار الحجوزات", "en": "Bookings prices" },
@@ -204,16 +207,20 @@
   { "ar": "خصم من السعر", "en": "Discount" },
   { "ar": "توضيح سبب الإضافة", "en": "Additional Payment Note" },
   { "ar": "توضيح سبب الخصم", "en": "Discount Note" },
-  { "ar": "لابد من توضيح سبب الإضافة!", "en": "Additional Payment Note is required!" },
+  {
+    "ar": "لابد من توضيح سبب الإضافة!",
+    "en": "Additional Payment Note is required!"
+  },
   { "ar": "لابد من توضيح سبب الخصم!", "en": "Discount Note is required!" },
   { "ar": "المعلومات الأساسية", "en": "Basic info" },
   { "ar": "الأمراض المصاحبة", "en": "Associated Diseases" },
-  { "ar": "الأشعة", "en": "X-Rays" },
-  { "ar": "التحاليل", "en": "Analyses" },
   { "ar": "التاريخ المرضي", "en": "Patient History" },
   { "ar": "شكوى المريض", "en": "Patient Complaint" },
-  { "ar": "التشخيص", "en": "Diagnosis" },
   { "ar": "الفحص", "en": "Examination" },
+  { "ar": "التشخيص", "en": "Diagnosis" },
+  { "ar": "الأشعة", "en": "X-Rays" },
+  { "ar": "التحاليل", "en": "Analyses" },
+  { "ar": "عمليات", "en": "Operations" },
   { "ar": "نوع آخر زيارة", "en": "Last Visit Type" },
   { "ar": "تاريخ آخر زيارة", "en": "Last Visit Date" },
   { "ar": "تفاصيل الحجز للمريض:", "en": "Booking Details for:" },
@@ -221,7 +228,10 @@
   { "ar": "بحث", "en": "search" },
   { "ar": "حسناً", "en": "Ok" },
   { "ar": "مدة صلاحية الاستشارة انتهت.", "en": "Consult is expired." },
-  { "ar": "بحث باسم المريض أو رقم الوبايل", "en": "Patient Name Search or Mobile number" },
+  {
+    "ar": "بحث باسم المريض أو رقم الوبايل",
+    "en": "Patient Name Search or Mobile number"
+  },
   { "ar": "بحث باسم المريض", "en": "Patient Name Search" },
   { "ar": "بحث بالموبايل", "en": "Patient Mobile Search" },
   { "ar": "بحث بكود المريض", "en": "Patient Code Search" },
@@ -277,9 +287,15 @@
   { "ar": "الأربعاء", "en": "Wednesday" },
   { "ar": "الخميس", "en": "Thursday" },
   { "ar": "الجمعة", "en": "Friday" },
-  { "ar": "لابد من إدخال أيام صلاحية الاستشارة!", "en": "Consult Expire Days is required!" },
+  {
+    "ar": "لابد من إدخال أيام صلاحية الاستشارة!",
+    "en": "Consult Expire Days is required!"
+  },
   { "ar": "عدد أيام صلاحية الاستشارة", "en": "Consult Expire after Days" },
-  { "ar": "الفترة التي بعدها يتم التنبيه بانتهاء مدة صلاحية الاستشارة.", "en": "The period after which the Consult is expired." },
+  {
+    "ar": "الفترة التي بعدها يتم التنبيه بانتهاء مدة صلاحية الاستشارة.",
+    "en": "The period after which the Consult is expired."
+  },
   {
     "ar": "الأيام التي يُسمح فيها بالحجز.",
     "en": "The days when Bookings will be allowed."
@@ -315,7 +331,6 @@
   { "ar": "الأدوية", "en": "Medicines" },
   { "ar": "طلب أشعة أو تحاليل", "en": "Request X-Ray & Analysis" },
   { "ar": "تحويلات خارجية", "en": "External Referrals" },
-  { "ar": "عمليات", "en": "Operations" },
   { "ar": "ملخص التشخيص", "en": "Diagnosis Summary" },
   { "ar": "قائمة المستخدمين", "en": "Users List" },
   { "ar": "اضغط Enter للبحث", "en": "Hit enter to search" },
@@ -544,7 +559,10 @@
   { "ar": "درجة الحرارة", "en": "Temperature" },
   { "ar": "الاختيارات", "en": "Choices" },
   { "ar": "تاريخ الإضافة", "en": "Added Date" },
-  { "ar": "عند إضافة خدمة ، ستتم إضافتها إلى آخر حجز للمريض وسيتم إبلاغ مكتب الاستقبال بذلك.", "en": "When adding a service, it will be added to the patient’s last reservation and the reception will be informed about it." },
+  {
+    "ar": "عند إضافة خدمة ، ستتم إضافتها إلى آخر حجز للمريض وسيتم إبلاغ مكتب الاستقبال بذلك.",
+    "en": "When adding a service, it will be added to the patient’s last reservation and the reception will be informed about it."
+  },
   { "ar": "تشخيصات المريض", "en": "Patient Diagnoses" },
   { "ar": "إضافة تشخيص", "en": "Add Diagnose" },
   { "ar": "إزالة التشخيص", "en": "Remove Diagnose" },
@@ -564,42 +582,90 @@
   { "ar": "حذف الطلب", "en": "Delete Request" },
   { "ar": "تعديل حجز اليوم", "en": "Edit today Booking" },
   { "ar": "حجز جديد للمريض", "en": "New Booking for Patient" },
-  {"ar":"حدث خطأ ما!","en":"Something Wrong!"},
-  {"ar":"الرجاءإعادة تحميل الصفحة والمحاولة مرة أخرى أو التواصل مع المطور.","en":"Please refresh page and try again or Contact Developer."},
-  {"ar":"دخول خاطئ","en":"Unauthorized"},
-  {"ar":"خطأ في اسم المستخدم أو كلمة السر!","en":"Wrong UserName or Password!"},
-  {"ar":"تم تسجيل الدخول بنجاح!","en":"Login successfully!"},
+  { "ar": "حدث خطأ ما!", "en": "Something Wrong!" },
+  {
+    "ar": "الرجاءإعادة تحميل الصفحة والمحاولة مرة أخرى أو التواصل مع المطور.",
+    "en": "Please refresh page and try again or Contact Developer."
+  },
+  { "ar": "دخول خاطئ", "en": "Unauthorized" },
+  {
+    "ar": "خطأ في اسم المستخدم أو كلمة السر!",
+    "en": "Wrong UserName or Password!"
+  },
+  { "ar": "تم تسجيل الدخول بنجاح!", "en": "Login successfully!" },
   { "ar": "لا توجد نتائج !", "en": "No Results !" },
   { "ar": "الكل", "en": "All" },
-  { "ar": "نسبة الخصم لا يمكن أن تزيد عن 100%", "en": "Percentage cannot be more than 100%" },
-  { "ar": "اسم المريض يجب أن يكون مابين 7 إلى 50 حرف !", "en": "Patient Name should contains from 7 to 50 characters!" },
+  {
+    "ar": "نسبة الخصم لا يمكن أن تزيد عن 100%",
+    "en": "Percentage cannot be more than 100%"
+  },
+  {
+    "ar": "اسم المريض يجب أن يكون مابين 7 إلى 50 حرف !",
+    "en": "Patient Name should contains from 7 to 50 characters!"
+  },
   { "ar": "لابد من  إدخال رقم المبلغ المدفوع !", "en": "Paid is required!" },
   { "ar": "آخر حجز", "en": "Last Book" },
-  { "ar": "هل أنت متأكد من إلغاء الحجز؟", "en": "Are you sure to cancel the Booking?" },
-  { "ar": "لم يتم تسجيل أي تشخيص للمريض في سجل المريض.", "en": "No Patient Diagnosis was recorded in the Patient Record." },
+  {
+    "ar": "هل أنت متأكد من إلغاء الحجز؟",
+    "en": "Are you sure to cancel the Booking?"
+  },
+  {
+    "ar": "لم يتم تسجيل أي تشخيص للمريض في سجل المريض.",
+    "en": "No Patient Diagnosis was recorded in the Patient Record."
+  },
   { "ar": "إلى تخصص", "en": "Referral to Specialty" },
   { "ar": "إلى الطبيب", "en": "Referral to Doctor" },
   { "ar": "تشخيص المريض", "en": "Patient Diagnosis" },
   { "ar": "تحويل من د. ", "en": "Referral from Dr. " },
   { "ar": "اختيار الملف", "en": "Choose File" },
   { "ar": "حجم الملف كبير!", "en": "Large file size!" },
-  { "ar": "لا يمكن أن يتجاوز حجم الملف مساحة ١٠MB", "en": "File size cannot exceed 10MB" },
+  {
+    "ar": "لا يمكن أن يتجاوز حجم الملف مساحة ١٠MB",
+    "en": "File size cannot exceed 10MB"
+  },
   { "ar": "نوع ملف خاطئ!", "en": "Wrong file type!" },
-  { "ar": "يسمح فقط بالصور ومستندات pdf", "en": "Only image and pdf documents are allowed" },
+  {
+    "ar": "يسمح فقط بالصور ومستندات pdf",
+    "en": "Only image and pdf documents are allowed"
+  },
   { "ar": "لا توجد رسائل بعد.", "en": "No messages yet." },
   { "ar": "لم يتم اختيار مستخدم.", "en": "No user selected." },
   { "ar": "اكتب رسالتك هنا", "en": "Type a message" },
-  { "ar": "هذا المريض لديه حجز في نفس اليوم.", "en": "This Patient has a Booking on the same day." },
-  { "ar": "مبالغ أخرى مستحقة على المريض:", "en": "Other Amounts Due from Patient:" },
+  {
+    "ar": "هذا المريض لديه حجز في نفس اليوم.",
+    "en": "This Patient has a Booking on the same day."
+  },
+  {
+    "ar": "مبالغ أخرى مستحقة على المريض:",
+    "en": "Other Amounts Due from Patient:"
+  },
   { "ar": "المطلوب", "en": "Due" },
   { "ar": "المدفوع", "en": "Paid" },
   { "ar": "مبلغ مطلوب", "en": "Due amount" },
-  { "ar": "تحديث جديد لحجز في اليوم الحالي خاص بالمريض: ", "en": "New update to booking in current day for Patient: " },
-  { "ar": "يمكن تغيير الترتيب عن طريق السحب والإفلات أو النقر المزدوج على أحد الحضور ليتم نقله إلى الدور القادم", "en": "Bookings sequence can be changed by Drag-and-Drop or Double-Click on one of attendees to be brought to the next role" },
-  { "ar": "تحديث جديد لترتيب حجوزات اليوم الحالي.", "en": "New update to sequence today’s Bookings." },
-  { "ar": "عند النقر على اليوم الحالي، ستتم إعادة توجيهك إلى صفحة حجوزات اليوم الحالي", "en": "When click on Today, will be redirected to Today Bookings page" },
-  { "ar": "يمكن عمل حجز جديد في أي تاريخ قادم بالنقر فوق اليوم لإعادة التوجيه إلى صفحة بيانات المرضى لاختيار المريض الذي سيتم الحجز له في اليوم المحدد", "en": "New Booking can be made on any future date by clicking on the day to redirect to Patients Records page to choose the patient to be booked on the specified day" },
-  { "ar": "عند النقر على أي تاريخ سابق ، ستتم إعادة توجيهك إلى صفحة تصفح الحجوزات لليوم المحدد", "en": "When click on any Past date, will be redirected to Browse Bookings page for the specified day" },
+  {
+    "ar": "تحديث جديد لحجز في اليوم الحالي خاص بالمريض: ",
+    "en": "New update to booking in current day for Patient: "
+  },
+  {
+    "ar": "يمكن تغيير الترتيب عن طريق السحب والإفلات أو النقر المزدوج على أحد الحضور ليتم نقله إلى الدور القادم",
+    "en": "Bookings sequence can be changed by Drag-and-Drop or Double-Click on one of attendees to be brought to the next role"
+  },
+  {
+    "ar": "تحديث جديد لترتيب حجوزات اليوم الحالي.",
+    "en": "New update to sequence today’s Bookings."
+  },
+  {
+    "ar": "عند النقر على اليوم الحالي، ستتم إعادة توجيهك إلى صفحة حجوزات اليوم الحالي",
+    "en": "When click on Today, will be redirected to Today Bookings page"
+  },
+  {
+    "ar": "يمكن عمل حجز جديد في أي تاريخ قادم بالنقر فوق اليوم لإعادة التوجيه إلى صفحة بيانات المرضى لاختيار المريض الذي سيتم الحجز له في اليوم المحدد",
+    "en": "New Booking can be made on any future date by clicking on the day to redirect to Patients Records page to choose the patient to be booked on the specified day"
+  },
+  {
+    "ar": "عند النقر على أي تاريخ سابق ، ستتم إعادة توجيهك إلى صفحة تصفح الحجوزات لليوم المحدد",
+    "en": "When click on any Past date, will be redirected to Browse Bookings page for the specified day"
+  },
   { "ar": "الدخل اليومي", "en": "Daily Income" },
   { "ar": "الدخل الشهري", "en": "Monthly Income" },
   { "ar": "الأرباح الشهرية", "en": "Monthly Profits" },
@@ -617,9 +683,20 @@
   { "ar": "لابد من إدخال تاريخ الصرف !", "en": "Expense Date is required!" },
   { "ar": "لابد من إدخال مبلغ الصرف !", "en": "Expense Amount is required!" },
   { "ar": "لابد من إدخال بند الصرف !", "en": "Expense Item is required!" },
-  { "ar": "لا توجد أي بنود مصاريف ، يرجى إضافة بند واحد على الأقل.", "en": "There are no Expense Items, Please add at least one item." },
+  {
+    "ar": "لا توجد أي بنود مصاريف ، يرجى إضافة بند واحد على الأقل.",
+    "en": "There are no Expense Items, Please add at least one item."
+  },
   { "ar": "إجمالي الإيرادات", "en": "Total Income" },
   { "ar": "إجمالي المصروفات", "en": "Total Expenses" },
   { "ar": "أرباح الشهر", "en": "Total Profits" },
-  { "ar": "المصروفات خلال الشهر", "en": "Expenses during the month" }
+  { "ar": "المصروفات خلال الشهر", "en": "Expenses during the month" },
+  { "ar": "عناصر السجل المرضي", "en": "Patient Record Items" },
+  { "ar": "أنواع الشكاوى العامة", "en": "General Complaints Types" },
+  { "ar": "أنواع الفحوصات", "en": "Examinations Types" },
+  { "ar": "أنواع التشخيصات", "en": "Diagnosis Types" },
+  { "ar": "أنواع الأشعة", "en": "Rays Types" },
+  { "ar": "أنواع التحاليل", "en": "Analyses Types" },
+  { "ar": "أنواع العمليات", "en": "Operations Types" },
+  { "ar": "نوع الشكوى العامة", "en": "General Complaint Type" }
 ]

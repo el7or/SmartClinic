@@ -5,8 +5,8 @@
     </div>
   </nb-card-header>
   <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
-    <div *ngIf="allExpenses?.length" class="row mb-2">
-      <div class="col-4">
+    <div  class="row mb-2">
+      <div *ngIf="allExpenses?.length" class="col-4">
         <h6 class="d-inline" langg>Month</h6>:&nbsp;
         <div class="d-inline">
           <nb-select #expensesMonth name="expensesMonth" (selectedChange)="onChangeMonth($event)"
@@ -15,7 +15,7 @@
           </nb-select>
         </div>
       </div>
-      <div class="col-8 d-flex flex-row-reverse">
+      <div [class]="(allExpenses?.length ? 'col-8' : 'col-12') + ' d-flex flex-row-reverse'">
         <button nbButton [routerLink]="['/pages/accounting/expense/details','new']" hero>
           <nb-icon icon="plus-outline"></nb-icon><span langg>Add New Expense</span>
         </button>

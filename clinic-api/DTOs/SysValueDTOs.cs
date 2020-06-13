@@ -48,4 +48,10 @@ namespace clinic_api.DTOs
         public string Subject { get; set; }
         public string Message { get; set; }
     }
+
+    public class DoctorAnyValueDTO
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
 }

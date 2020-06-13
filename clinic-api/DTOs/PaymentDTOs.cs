@@ -16,6 +16,7 @@ namespace clinic_api.DTOs
         public int PatientCodeId { get; set; }
         public Guid PatientId { get; set; }
         public DateTime PaymentDate { get; set; }
+        public DateTime BookingDate { get; set; }
         public string Type { get; set; }
         public string[] Services { get; set; }
         public string Name { get; set; }

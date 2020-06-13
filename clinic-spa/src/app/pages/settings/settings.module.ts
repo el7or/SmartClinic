@@ -13,7 +13,8 @@ import {
   NbInputModule,
   NbToggleModule,
   NbIconModule,
-  NbRouteTabsetModule
+  NbRouteTabsetModule,
+  NbAccordionModule
 } from "@nebular/theme";
 
 import { UsersSettingComponent } from "./users-setting/users-setting.component";
@@ -31,6 +32,13 @@ import { AddTypeComponent } from './clinic-setting/prices-setting/add-type/add-t
 import { AddServiceComponent } from './clinic-setting/prices-setting/add-service/add-service.component';
 import { AddDiscountComponent } from './clinic-setting/prices-setting/add-discount/add-discount.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { RecordItemsSettingComponent } from './patient-setting/record-items-setting/record-items-setting.component';
+import { DiagnosisSettingComponent } from './patient-setting/record-items-setting/diagnosis-setting/diagnosis-setting.component';
+import { ComplaintSettingComponent } from './patient-setting/record-items-setting/complaint-setting/complaint-setting.component';
+import { ExaminationSettingComponent } from './patient-setting/record-items-setting/examination-setting/examination-setting.component';
+import { RaysSettingComponent } from './patient-setting/record-items-setting/rays-setting/rays-setting.component';
+import { AnalysisSettingComponent } from './patient-setting/record-items-setting/analysis-setting/analysis-setting.component';
+import { OperationSettingComponent } from './patient-setting/record-items-setting/operation-setting/operation-setting.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +53,14 @@ import { FileUploadModule } from 'ng2-file-upload';
     PricesSettingComponent,
     AddTypeComponent,
     AddServiceComponent,
-    AddDiscountComponent
+    AddDiscountComponent,
+    RecordItemsSettingComponent,
+    DiagnosisSettingComponent,
+    ComplaintSettingComponent,
+    ExaminationSettingComponent,
+    RaysSettingComponent,
+    AnalysisSettingComponent,
+    OperationSettingComponent
   ],
   imports: [
     CommonModule,
@@ -63,6 +78,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     NbToggleModule,
     NbRouteTabsetModule,
     NbIconModule,
+    NbAccordionModule,
     TimepickerModule,
     FileUploadModule,
     TypeaheadModule.forRoot(),

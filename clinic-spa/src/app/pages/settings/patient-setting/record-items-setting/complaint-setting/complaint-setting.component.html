@@ -1,0 +1,33 @@
+<nb-card>
+  <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
+    <button nbButton (click)="onAddItem()" size="small" class="mb-2">
+      <nb-icon icon="plus-outline"></nb-icon><span>{{'Add General Complaint' | langg}}</span>
+    </button>
+    <table class="table table-striped table-light">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>{{'General Complaint Type' | langg}}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!complaintValues?.length">
+        <tr>
+          <td colspan="3" class="text-center">
+            <h5>{{'No Results !' | langg}}</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="complaintValues?.length">
+        <tr *ngFor="let item of complaintValues; index as i">
+          <td>{{i + 1}}</td>
+          <td>{{item.text}}</td>
+          <td>
+            <button nbButton (click)="onEdit(item)" size="small" status="success" langg>Edit</button>&nbsp;
+            <button nbButton (click)="onDelete(item.id,i)" size="small" status="danger" langg>Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

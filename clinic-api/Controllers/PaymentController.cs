@@ -50,6 +50,7 @@ namespace clinic_api.Controllers
                     PatientCodeId = p.Booking.Patient.SeqNo,
                     PatientId = p.Booking.PatientId,
                     PaymentDate = p.CreatedOn,
+                     BookingDate = p.Booking.BookingDateTime,
                     Type = p.Booking.Type.Text,
                     Services = p.Booking.BookingServices.Select(s => s.Service.Service).ToArray(),
                     Name = p.Booking.Patient.FullName,

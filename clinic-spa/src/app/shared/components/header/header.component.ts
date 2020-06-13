@@ -211,6 +211,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
           element.hidden = false;
         }
       }
+      if (element.children) {
+        element.children.forEach((childElement) => {
+          if (childElement.data == "roleDoctor") {
+            if (this.authService.roleName == UserRole.Employee) {
+              childElement.hidden = true;
+            } else {
+              childElement.hidden = false;
+            }
+          }
+        });
+      }
     });
   }
 

@@ -125,3 +125,8 @@ export interface GetUser {
   roleTitle: string;
   isActive: boolean;
 }
+
+export interface AnyPatientFileValue{
+  id: number;
+  text: string;
+}

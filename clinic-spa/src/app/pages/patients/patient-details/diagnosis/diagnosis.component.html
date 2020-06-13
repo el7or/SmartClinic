@@ -11,7 +11,7 @@
           <input nbInput [(ngModel)]="item.diagnosisName" [typeahead]="diagnosisValues" typeaheadOptionField="text"
           (typeaheadOnSelect)="onSelectDiagnose($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
           (keyup)="!item.isNameValid || item.diagnosisName==''? isAnyNameInvalid = true : isAnyNameInvalid = false" [placeholder]="'Diagnosis' | langg" [isAnimated]="true"
-            fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}" class="inputTypeahead"
+             [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}" class="inputTypeahead font-weight-bold"
             [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15" fullWidth>
           <ng-container *ngIf="!item.isNameValid && item.diagnosisName != ''">
             <label class="error-message" langg>This Name does not exist! Do you add it to the
@@ -22,15 +22,15 @@
         </td>
         <td>
           <nb-select fullWidth [(ngModel)]="item.gradeId" [ngModelOptions]="{standalone: true}"
-            [placeholder]="'Disease Severity' | langg" size="small">
+            [placeholder]="'Disease Severity' | langg">
             <nb-option *ngFor="let grade of diseaseValues" [value]="grade.id">{{grade.text}}</nb-option>
           </nb-select>
         </td>
         <td>
           <input nbInput [(ngModel)]="item.note" [ngModelOptions]="{standalone: true}" [placeholder]="'Notes' | langg"
-            fullWidth fieldSize="small">
+            fullWidth>
         </td>
-        <td class="label pt-2">
+        <td class="label pt-3">
           <label><span>{{'Added Date' | langg}}</span>:&nbsp;<b>{{item.createdOn | localDateShort}}</b>
           </label>
         </td>

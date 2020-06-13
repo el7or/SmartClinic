@@ -108,6 +108,7 @@ export class RequestsComponent implements OnInit {
         requestName: "",
         requestType: type,
         isAreaValid: true,
+        requestDate : new Date()
       });
     } else {
       this.newRequests = [
@@ -117,6 +118,7 @@ export class RequestsComponent implements OnInit {
           requestName: "",
           requestType: type,
           isAreaValid: true,
+          requestDate : new Date()
         },
       ];
     }
@@ -153,7 +155,9 @@ export class RequestsComponent implements OnInit {
             queryParams: { type: "request" },
           });
         } else {
-          this.prevPatientRequests.concat(this.newRequests);
+          this.prevPatientRequests = this.prevPatientRequests.concat(
+            this.newRequests
+          );
           this.formLoading = false;
           this.doneSwal.fire();
         }
@@ -212,22 +216,24 @@ export class RequestsComponent implements OnInit {
   }
 
   // =====> on click delete in table:
-  onDeleteRequest(id: number,type:string,index:number) {
+  onDeleteRequest(id: number, type: string, index: number) {
     this.deleteSwal.fire().then((result) => {
       if (result.value) {
         this.formLoading = true;
-        this.deleteSubs = this.requestService.deletePatientRequest(id,type).subscribe(
-          () => {
-            this.formLoading = false;
-            this.doneSwal.fire();
-            this.prevPatientRequests.splice(index,1);
-          },
-          (error) => {
-            console.error(error);
-            this.alertService.alertError();
-            this.formLoading = false;
-          }
-        );
+        this.deleteSubs = this.requestService
+          .deletePatientRequest(id, type)
+          .subscribe(
+            () => {
+              this.formLoading = false;
+              this.doneSwal.fire();
+              this.prevPatientRequests.splice(index, 1);
+            },
+            (error) => {
+              console.error(error);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          );
       }
     });
   }

@@ -7,6 +7,7 @@ export interface IncomeList {
   patientCodeId: number;
   patientId: string;
   paymentDate: Date;
+  bookingDate: Date;
   type: string;
   services: string[];
   name: string;

@@ -168,10 +168,6 @@ const routes: Routes = [
           {
             path: "income",
             component: IncomesComponent,
-            canActivate: [RoleGuard],
-            data: {
-              role: "doctor",
-            },
             children: [
               {
                 path: "",
@@ -180,6 +176,10 @@ const routes: Routes = [
               {
                 path: "monthly",
                 component: MonthlyIncomeComponent,
+                canActivate: [RoleGuard],
+                data: {
+                  role: "doctor",
+                },
               },
             ],
           },

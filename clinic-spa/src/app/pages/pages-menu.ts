@@ -34,7 +34,6 @@ export const MENU_ITEMS: any[] = [
         icon:  { icon: 'sign-in-alt', pack: 'solid'},
         link: "/pages/accounting/income",
         pathMatch: "prefix",
-        data: "roleDoctor",
       },
       {
         title: "Expenses",

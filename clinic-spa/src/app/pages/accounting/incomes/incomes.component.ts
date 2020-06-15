@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 
+import { AuthService } from "./../../../auth/auth.service";
 import { LanggService } from "../../../shared/services/langg.service";
+import { UserRole } from "../../../auth/auth.model";
 
 @Component({
   selector: "incomes",
@@ -17,18 +19,31 @@ import { LanggService } from "../../../shared/services/langg.service";
 export class IncomesComponent implements OnInit {
   incomeTabs: any[];
 
-  constructor(private langgService: LanggService) {}
+  constructor(
+    private authService: AuthService,
+    private langgService: LanggService
+  ) {}
 
   ngOnInit() {
-    this.incomeTabs = [
-      {
-        title: this.langgService.translateWord("Daily Income"),
-        route: ".",
-      },
-      {
-        title: this.langgService.translateWord("Monthly Income"),
-        route: "./monthly",
-      }
-    ];
+    // =====> create tabs based on user role:
+    if (this.authService.roleName == UserRole.Employee) {
+      this.incomeTabs = [
+        {
+          title: this.langgService.translateWord("Daily Income"),
+          route: ".",
+        },
+      ];
+    } else {
+      this.incomeTabs = [
+        {
+          title: this.langgService.translateWord("Daily Income"),
+          route: ".",
+        },
+        {
+          title: this.langgService.translateWord("Monthly Income"),
+          route: "./monthly",
+        },
+      ];
+    }
   }
 }

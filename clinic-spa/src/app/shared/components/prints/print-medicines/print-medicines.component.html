@@ -31,7 +31,6 @@
               <label class="dotted">{{printType=='medicine' ? prescription?.patientName : printType=='request' ? requests?.patientName : printType=='referral'? referral?.patientName : ''}}</label>
               <br>
               <label>التاريخ:</label>&nbsp;
-              <label class="dotted">{{prescription?.createdOn | localDateShort}}</label>
               <label class="dotted">{{printType=='medicine' ? (prescription?.createdOn | localDateShort) : printType=='request' ? (requests?.createdOn | localDateShort) : printType=='referral'? (referral?.createdOn | localDateShort) : ''}}</label>
             </div>
           </th>

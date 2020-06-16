@@ -1,5 +1,5 @@
 <div class="print-container">
-  <header>
+  <header [ngStyle]="!printInfoSetting?.clinicTitle &&!printInfoSetting?.doctorDegree &&!printInfoSetting?.doctorName ? {} :{'border-top': '1px solid #5D6975','border-bottom': '1px solid #5D6975'}">
     <div class="row">
       <div class="col-4 left">
         <h2 style="white-space: pre-line">{{printInfoSetting?.clinicTitle}}</h2>
@@ -18,20 +18,21 @@
       <thead>
         <tr>
           <th>
-            <div class="right">
-              <label>كود المريض:</label>&nbsp;
-              <label class="dotted">{{printType=='medicine' ? prescription?.patientCodeId : printType=='request' ? requests?.patientCodeId : printType=='referral'? referral?.patientCodeId : ''}}</label>
-              <br>
-              <ngx-barcode [bc-value]="prescription?.patientCodeId" [bc-display-value]="true"></ngx-barcode>
+            <div class="right float-left">
+              <label>التاريخ:</label>&nbsp;
+              <label
+                class="dotted">{{printType=='medicine' ? (prescription?.createdOn | localDateShort) : printType=='request' ? (requests?.createdOn | localDateShort) : printType=='referral'? (referral?.createdOn | localDateShort) : ''}}</label>
+              <ngx-barcode
+                [bc-value]="printType=='medicine' ? prescription?.patientCodeId : printType=='request' ? requests?.patientCodeId : printType=='referral'? referral?.patientCodeId : ''"
+                [bc-display-value]="true"></ngx-barcode>
             </div>
           </th>
           <th>
             <div class="right">
-              <label>الإسم:</label>&nbsp;
-              <label class="dotted">{{printType=='medicine' ? prescription?.patientName : printType=='request' ? requests?.patientName : printType=='referral'? referral?.patientName : ''}}</label>
-              <br>
-              <label>التاريخ:</label>&nbsp;
-              <label class="dotted">{{printType=='medicine' ? (prescription?.createdOn | localDateShort) : printType=='request' ? (requests?.createdOn | localDateShort) : printType=='referral'? (referral?.createdOn | localDateShort) : ''}}</label>
+              <label>إسم المريض:</label>&nbsp;
+              <label
+                class="dotted">{{printType=='medicine' ? prescription?.patientName : printType=='request' ? requests?.patientName : printType=='referral'? referral?.patientName : ''}}</label>
+
             </div>
           </th>
         </tr>
@@ -85,7 +86,8 @@
       </tbody>
     </table>
   </main>
-  <footer>
+  <footer
+    [ngStyle]="!printInfoSetting?.phone1 &&!printInfoSetting?.phone2 &&!printInfoSetting?.phone3 &&!printInfoSetting?.address1 &&!printInfoSetting?.address2 &&!printInfoSetting?.address3 ? {} :{'border-top': '1px solid #5D6975'}">
     <div class="row">
       <div class="col-6 left">
         <h6>{{printInfoSetting?.phone1}}</h6>

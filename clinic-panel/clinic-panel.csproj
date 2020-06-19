@@ -230,9 +230,6 @@
     <Compile Include="Models\DoctorGeneralComplaintsValue.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DoctorMedicinesValue.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DoctorOperationTypesValue.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

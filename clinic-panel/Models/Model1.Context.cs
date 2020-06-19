@@ -42,7 +42,6 @@ namespace clinic_panel.Models
         public virtual DbSet<DoctorExaminationAreasValue> DoctorExaminationAreasValues { get; set; }
         public virtual DbSet<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
         public virtual DbSet<DoctorGeneralComplaintsValue> DoctorGeneralComplaintsValues { get; set; }
-        public virtual DbSet<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
         public virtual DbSet<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }

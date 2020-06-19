@@ -22,7 +22,6 @@
         <EntityTypeShape EntityType="Models.DoctorExaminationAreasValue" Width="1.5" PointX="8.25" PointY="49.625" />
         <EntityTypeShape EntityType="Models.DoctorExaminationsValue" Width="1.5" PointX="8.25" PointY="16.5" />
         <EntityTypeShape EntityType="Models.DoctorGeneralComplaintsValue" Width="1.5" PointX="5.25" PointY="26.5" />
-        <EntityTypeShape EntityType="Models.DoctorMedicinesValue" Width="1.5" PointX="13.75" PointY="52.125" />
         <EntityTypeShape EntityType="Models.DoctorOperationTypesValue" Width="1.5" PointX="11.25" PointY="24.5" />
         <EntityTypeShape EntityType="Models.DoctorRayAreasValue" Width="1.5" PointX="11.25" PointY="54.5" />
         <EntityTypeShape EntityType="Models.DoctorRaysValue" Width="1.5" PointX="11.25" PointY="58.625" />
@@ -91,8 +90,6 @@
         <AssociationConnector Association="Models.FK_PatientExaminations_DoctorExaminationsValues" />
         <AssociationConnector Association="Models.FK_DoctorGeneralComplaintsValues_Doctors" />
         <AssociationConnector Association="Models.FK_PatientGeneralComplaints_DoctorGeneralComplaintsValues" />
-        <AssociationConnector Association="Models.FK_DoctorMedicinesValues_Doctors" />
-        <AssociationConnector Association="Models.FK_DoctorMedicinesValues_SysMedicinesValues" />
         <AssociationConnector Association="Models.FK_DoctorOperationTypesValues_Doctors" />
         <AssociationConnector Association="Models.FK_PatientOperations_DoctorOperationTypesValues" />
         <AssociationConnector Association="Models.FK_DoctorRayAreas_Doctors" />

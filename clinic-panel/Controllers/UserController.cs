@@ -124,6 +124,7 @@ namespace clinic_panel.Controllers
         {
             AspNetUser user = db.AspNetUsers.Find(id);
             user.IsDeleted = true;
+            user.IsActive = false;
             user.EditedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id;
             user.EditedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time");
             db.Entry(user).State = EntityState.Modified;

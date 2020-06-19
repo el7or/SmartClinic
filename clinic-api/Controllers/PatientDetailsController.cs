@@ -446,10 +446,10 @@ namespace clinic_api.Controllers
             var prevPatientPrescriptions = await _context.PatientPrescriptions.Where(p => p.PatientId == patientId).Include(e => e.PrescriptionMedicines).Include("PrescriptionMedicines.Medicine").ToListAsync();
             GetPatientPrescriptionsDTO model = new GetPatientPrescriptionsDTO
             {
-                MedicineValues = _context.DoctorMedicinesValues.Where(d => d.DoctorId == doctorId).Include(m => m.Medicine).Select(v => new MedicineValue
+                MedicineValues = _context.SysMedicinesValues.Select(v => new MedicineValue
                 {
-                    Id = v.MedicineId,
-                    Text = v.Medicine.Text
+                    Id = v.Id,
+                    Text = v.Text
                 }).ToList(),
                 QuantityValues = _context.SysMedicineQuantityValues.Select(v => new QuantityValue
                 {

@@ -24,7 +24,6 @@ namespace clinic_panel.Models
             this.DoctorExaminationAreasValues = new HashSet<DoctorExaminationAreasValue>();
             this.DoctorExaminationsValues = new HashSet<DoctorExaminationsValue>();
             this.DoctorGeneralComplaintsValues = new HashSet<DoctorGeneralComplaintsValue>();
-            this.DoctorMedicinesValues = new HashSet<DoctorMedicinesValue>();
             this.DoctorOperationTypesValues = new HashSet<DoctorOperationTypesValue>();
             this.DoctorRayAreasValues = new HashSet<DoctorRayAreasValue>();
             this.DoctorRaysValues = new HashSet<DoctorRaysValue>();
@@ -72,8 +71,6 @@ namespace clinic_panel.Models
         public virtual ICollection<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorGeneralComplaintsValue> DoctorGeneralComplaintsValues { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

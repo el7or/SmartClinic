@@ -15,7 +15,6 @@ namespace clinic_api.Models
             DoctorExaminationAreasValues = new HashSet<DoctorExaminationAreasValue>();
             DoctorExaminationsValues = new HashSet<DoctorExaminationsValue>();
             DoctorGeneralComplaintsValues = new HashSet<DoctorGeneralComplaintsValue>();
-            DoctorMedicinesValues = new HashSet<DoctorMedicinesValue>();
             DoctorOperationTypesValues = new HashSet<DoctorOperationTypesValue>();
             DoctorRayAreasValues = new HashSet<DoctorRayAreasValue>();
             DoctorRaysValues = new HashSet<DoctorRaysValue>();
@@ -80,7 +79,6 @@ namespace clinic_api.Models
         public virtual ICollection<DoctorExaminationAreasValue> DoctorExaminationAreasValues { get; set; }
         public virtual ICollection<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
         public virtual ICollection<DoctorGeneralComplaintsValue> DoctorGeneralComplaintsValues { get; set; }
-        public virtual ICollection<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
         public virtual ICollection<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
         public virtual ICollection<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual ICollection<DoctorRaysValue> DoctorRaysValues { get; set; }

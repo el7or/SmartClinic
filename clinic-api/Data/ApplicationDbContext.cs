@@ -85,7 +85,6 @@ namespace clinic_api.Data
         public virtual DbSet<DoctorExaminationAreasValue> DoctorExaminationAreasValues { get; set; }
         public virtual DbSet<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
         public virtual DbSet<DoctorGeneralComplaintsValue> DoctorGeneralComplaintsValues { get; set; }
-        public virtual DbSet<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
         public virtual DbSet<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }
@@ -504,27 +503,6 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.DoctorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DoctorGeneralComplaintsValues_Doctors");
-            });
-
-            modelBuilder.Entity<DoctorMedicinesValue>(entity =>
-            {
-                entity.HasKey(e => new { e.DoctorId, e.MedicineId });
-
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Doctor)
-                    .WithMany(p => p.DoctorMedicinesValues)
-                    .HasForeignKey(d => d.DoctorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DoctorMedicinesValues_Doctors");
-
-                entity.HasOne(d => d.Medicine)
-                    .WithMany(p => p.DoctorMedicinesValues)
-                    .HasForeignKey(d => d.MedicineId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DoctorMedicinesValues_SysMedicinesValues");
             });
 
             modelBuilder.Entity<DoctorOperationTypesValue>(entity =>

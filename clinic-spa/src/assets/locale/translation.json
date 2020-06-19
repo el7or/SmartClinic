@@ -698,5 +698,19 @@
   { "ar": "أنواع الأشعة", "en": "Rays Types" },
   { "ar": "أنواع التحاليل", "en": "Analyses Types" },
   { "ar": "أنواع العمليات", "en": "Operations Types" },
-  { "ar": "نوع الشكوى العامة", "en": "General Complaint Type" }
+  { "ar": "نوع الشكوى العامة", "en": "General Complaint Type" },
+  { "ar": "اسم العنصر", "en": "Item Name" },
+  { "ar": "هذا العنصر موجود بالفعل في القائمة ولا يمكن تكرار العناصر.", "en": "This item is already in the list and items cannot be duplicated." },
+  { "ar": "إضافة اسم تحليل", "en": "Add Analysis Name" },
+  { "ar": "اسم التحليل", "en": "Analysis Name" },
+  { "ar": "إضافة اسم تشخيص", "en": "Add Diagnosis Name" },
+  { "ar": "اسم التشخيص", "en": "Diagnosis Name" },
+  { "ar": "إضافة نوع فحص", "en": "Add Examination Type" },
+  { "ar": "نوع الفحص", "en": "Examination Type" },
+  { "ar": "إضافة نوع عملية", "en": "Add Operation Type" },
+  { "ar": "نوع العملية", "en": "Operation Type" },
+  { "ar": "إضافة اسم أشعة", "en": "Add Ray Name" },
+  { "ar": "اسم الأشعة", "en": "Ray Name" },
+  { "ar": "إضافة منطقة أشعة", "en": "Add Ray Area" },
+  { "ar": "منطقة الأشعة", "en": "Ray Area" }
 ]

@@ -30,10 +30,10 @@ export class PatientSettingComponent implements OnInit {
         title: this.langgService.translateWord("Patient Record"),
         route: "./records",
       },
-      /* {
+      {
         title: this.langgService.translateWord("Patient Record Items"),
         route: "./items",
-      } */
+      }
     ];
   }
 

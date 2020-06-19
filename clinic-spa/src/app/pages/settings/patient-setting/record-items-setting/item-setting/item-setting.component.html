@@ -1,0 +1,11 @@
+<nb-card>
+  <nb-card-header><span langg>Item Name</span>:</nb-card-header>
+  <nb-card-body>
+    <input nbInput #itemValueInput>
+  </nb-card-body>
+  <nb-card-footer class="text-center nbButton-group">
+    <button nbButton hero status="primary" (click)="onSave(itemValueInput.value)"
+    [disabled]="!itemValueInput.value" langg status="success">Save</button>
+    <button nbButton hero status="danger" (click)="dialogRef.close()" langg>Cancel</button>
+  </nb-card-footer>
+</nb-card>

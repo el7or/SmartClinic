@@ -10,7 +10,6 @@ import {
   GetPrintSetting,
   SetPrintSetting,
   GetUser,
-  AnyPatientFileValue,
 } from "./settings.model";
 import { AuthService } from "../../auth/auth.service";
 import { environment } from "../../../environments/environment";
@@ -123,18 +122,6 @@ export class SettingsService {
       {}
     );
   }
-
- // =====> get/set general complaint setting:
- getGeneralComplaintSetting() {
-  return this.http.get<AnyPatientFileValue[]>(
-    this.baseUrl +
-      "Doctor/GetCompValues/" +
-      this.authService.userId +
-      "/" +
-      this.authService.doctorId
-  );
-}
-
 
   // =====> get/set users setting:
   getUsersSetting() {

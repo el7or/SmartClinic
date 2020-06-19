@@ -54,4 +54,15 @@ namespace clinic_api.DTOs
         public int Id { get; set; }
         public string Text { get; set; }
     }
+    public enum ItemsType
+    {
+        Complaint,
+        Examination,
+        ExaminationArea,
+        Diagnosis,
+        Ray,
+        RayArea,
+        Analysis,
+        Operation
+    }
 }

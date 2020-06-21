@@ -18,12 +18,12 @@ namespace clinic_panel.Controllers
             var model = new RayDoctorDTO
             {
                 DoctorId = id,
-                RayNames = db.DoctorRaysValues.Where(d => d.DoctorId == id).Select(e => new RayName
+                RayNames = db.DoctorRaysValues.Where(d => d.DoctorId == id && d.IsDeleted != true).Select(e => new RayName
                 {
                     Id = e.Id,
                     Name = e.RayName
                 }).ToList(),
-                RayAreas = db.DoctorRayAreasValues.Where(d => d.DoctorId == id).Select(e => new RayArea
+                RayAreas = db.DoctorRayAreasValues.Where(d => d.DoctorId == id && d.IsDeleted != true).Select(e => new RayArea
                 {
                     Id = e.Id,
                     Area = e.RayArea

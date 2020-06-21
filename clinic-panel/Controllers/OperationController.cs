@@ -18,7 +18,7 @@ namespace clinic_panel.Controllers
             var model = new OperationsDoctorDTO
             {
                 DoctorId = id,
-                Operations = db.DoctorOperationTypesValues.Where(d => d.DoctorId == id).Select(d => new Operation
+                Operations = db.DoctorOperationTypesValues.Where(d => d.DoctorId == id && d.IsDeleted != true).Select(d => new Operation
                 {
                     Id = d.Id,
                     OperationType = d.OperationType

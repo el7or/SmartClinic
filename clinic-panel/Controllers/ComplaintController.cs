@@ -18,12 +18,12 @@ namespace clinic_panel.Controllers
             var model = new ComplaintDoctorDTO
             {
                 DoctorId = id,
-                GeneralComplaints = db.DoctorGeneralComplaintsValues.Where(d => d.DoctorId == id).Select(c => new GeneralComplaint
+                GeneralComplaints = db.DoctorGeneralComplaintsValues.Where(d => d.DoctorId == id && d.IsDeleted !=true).Select(c => new GeneralComplaint
                 {
                     Id = c.Id,
                     Complaint = c.Complaint
                 }).ToList(),
-                DetailedComplaints = db.DoctorDetailedComplaintsValues.Where(d => d.DoctorId == id).Select(c => new DetailedComplaint
+                DetailedComplaints = db.DoctorDetailedComplaintsValues.Where(d => d.DoctorId == id && d.IsDeleted != true).Select(c => new DetailedComplaint
                 {
                     Id = c.Id,
                     Complaint = c.Complaint,

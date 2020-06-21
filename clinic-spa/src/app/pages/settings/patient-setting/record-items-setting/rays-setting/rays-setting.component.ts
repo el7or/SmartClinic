@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AnyPatientFileValue, ItemsType } from '../record-items-setting.model';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { ItemSettingComponent } from '../item-setting/item-setting.component';
   templateUrl: './rays-setting.component.html',
   styleUrls: ['./rays-setting.component.scss']
 })
-export class RaysSettingComponent implements OnInit {
+export class RaysSettingComponent implements OnInit,OnDestroy {
   formLoading = false;
   itemValues: AnyPatientFileValue[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;

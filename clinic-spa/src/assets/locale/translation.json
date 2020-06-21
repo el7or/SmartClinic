@@ -712,5 +712,8 @@
   { "ar": "إضافة اسم أشعة", "en": "Add Ray Name" },
   { "ar": "اسم الأشعة", "en": "Ray Name" },
   { "ar": "إضافة منطقة أشعة", "en": "Add Ray Area" },
-  { "ar": "منطقة الأشعة", "en": "Ray Area" }
+  { "ar": "منطقة الأشعة", "en": "Ray Area" },
+  { "ar": "مناطق الفحص", "en": "Examination Areas" },
+  { "ar": "إضافة منطقة فحص", "en": "Add Examination Area" },
+  { "ar": "مناطق الأشعة", "en": "Ray Areas" }
 ]

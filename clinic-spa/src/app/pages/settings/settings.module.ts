@@ -40,6 +40,8 @@ import { RaysSettingComponent } from './patient-setting/record-items-setting/ray
 import { AnalysisSettingComponent } from './patient-setting/record-items-setting/analysis-setting/analysis-setting.component';
 import { OperationSettingComponent } from './patient-setting/record-items-setting/operation-setting/operation-setting.component';
 import { ItemSettingComponent } from './patient-setting/record-items-setting/item-setting/item-setting.component';
+import { ExaminationAreaSettingComponent } from './patient-setting/record-items-setting/examination-area-setting/examination-area-setting.component';
+import { RayAreaSettingComponent } from './patient-setting/record-items-setting/ray-area-setting/ray-area-setting.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { ItemSettingComponent } from './patient-setting/record-items-setting/ite
     RaysSettingComponent,
     AnalysisSettingComponent,
     OperationSettingComponent,
-    ItemSettingComponent
+    ItemSettingComponent,
+    ExaminationAreaSettingComponent,
+    RayAreaSettingComponent
   ],
   imports: [
     CommonModule,

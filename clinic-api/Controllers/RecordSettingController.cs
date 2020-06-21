@@ -84,6 +84,22 @@ namespace clinic_api.Controllers
                             Text = e.OperationType
                         });
                     break;
+                case ItemsType.ExaminationArea:
+                    model = _context.DoctorExaminationAreasValues.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
+                        .OrderBy(e => e.ExaminationArea).Select(e => new DoctorAnyValueDTO
+                        {
+                            Id = e.Id,
+                            Text = e.ExaminationArea
+                        });
+                    break;
+                case ItemsType.RayArea:
+                    model = _context.DoctorRayAreasValues.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
+                        .OrderBy(e => e.RayArea).Select(e => new DoctorAnyValueDTO
+                        {
+                            Id = e.Id,
+                            Text = e.RayArea
+                        });
+                    break;
                 default:
                     break;
             }
@@ -125,6 +141,14 @@ namespace clinic_api.Controllers
                 case ItemsType.Operation:
                     itemValue = _context.DoctorOperationTypesValues.Find(item.Id);
                     itemValue.OperationType = item.Text;
+                    break;
+                case ItemsType.ExaminationArea:
+                    itemValue = _context.DoctorExaminationAreasValues.Find(item.Id);
+                    itemValue.ExaminationArea = item.Text;
+                    break;
+                case ItemsType.RayArea:
+                    itemValue = _context.DoctorRayAreasValues.Find(item.Id);
+                    itemValue.RayArea = item.Text;
                     break;
                 default:
                     break;
@@ -196,6 +220,22 @@ namespace clinic_api.Controllers
                     };
                     _context.DoctorOperationTypesValues.Add(newItem);
                     break;
+                case ItemsType.ExaminationArea:
+                    newItem = new DoctorExaminationAreasValue
+                    {
+                        DoctorId = doctorId,
+                        ExaminationArea = item.Text
+                    };
+                    _context.DoctorExaminationAreasValues.Add(newItem);
+                    break;
+                case ItemsType.RayArea:
+                    newItem = new DoctorRayAreasValue
+                    {
+                        DoctorId = doctorId,
+                        RayArea = item.Text
+                    };
+                    _context.DoctorRayAreasValues.Add(newItem);
+                    break;
                 default:
                     break;
             }
@@ -239,6 +279,12 @@ namespace clinic_api.Controllers
                     break;
                 case ItemsType.Operation:
                     itemValue = _context.DoctorOperationTypesValues.Find(itemId);
+                    break;
+                case ItemsType.ExaminationArea:
+                    itemValue = _context.DoctorExaminationAreasValues.Find(itemId);
+                    break;
+                case ItemsType.RayArea:
+                    itemValue = _context.DoctorRayAreasValues.Find(itemId);
                     break;
                 default:
                     break;

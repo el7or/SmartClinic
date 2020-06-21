@@ -18,12 +18,12 @@ namespace clinic_panel.Controllers
             var model = new ExaminationDoctorDTO
             {
                 DoctorId = id,
-                ExaminationTypes = db.DoctorExaminationsValues.Where(d => d.DoctorId == id).Select(e => new ExaminationType
+                ExaminationTypes = db.DoctorExaminationsValues.Where(d => d.DoctorId == id && d.IsDeleted != true).Select(e => new ExaminationType
                 {
                     Id = e.Id,
                     Examination = e.Examination
                 }).ToList(),
-                ExaminationAreas = db.DoctorExaminationAreasValues.Where(d => d.DoctorId == id).Select(e => new ExaminationArea
+                ExaminationAreas = db.DoctorExaminationAreasValues.Where(d => d.DoctorId == id && d.IsDeleted != true).Select(e => new ExaminationArea
                 {
                     Id = e.Id,
                     Area = e.ExaminationArea

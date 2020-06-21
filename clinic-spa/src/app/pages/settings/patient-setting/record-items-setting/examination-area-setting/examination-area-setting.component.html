@@ -1,0 +1,46 @@
+<nb-card>
+  <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
+    <button nbButton (click)="onAddItem()" size="small" class="mb-2">
+      <nb-icon icon="plus-outline"></nb-icon><span>{{'Add Examination Area' | langg}}</span>
+    </button>
+    <table class="table table-striped table-light">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>{{'Examination Area' | langg}}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!itemValues?.length">
+        <tr>
+          <td colspan="3" class="text-center">
+            <h5>{{'No Results !' | langg}}</h5>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="itemValues?.length">
+        <tr *ngFor="let item of itemValues; index as i">
+          <td>{{i + 1}}</td>
+          <td>{{item.text}}</td>
+          <td>
+            <button nbButton (click)="onEditItem(item)" size="small" status="success" langg>Edit</button>&nbsp;
+            <button nbButton (click)="onDelete(item.id,i)" size="small" status="danger" langg>Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
+
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>
+
+<swal #duplicatSwal [title]="'Attention !' | langg" [text]="'This item is already in the list and items cannot be duplicated.' | langg"
+  icon="warning" [confirmButtonText]="'Ok' | langg">
+</swal>
+
+<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
+  [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
+  [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
+</swal>

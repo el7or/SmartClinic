@@ -1,15 +1,19 @@
 <div class="print-container">
-  <header [ngStyle]="!printInfoSetting?.clinicTitle &&!printInfoSetting?.doctorDegree &&!printInfoSetting?.doctorName ? {} :{'border-top': '1px solid #5D6975','border-bottom': '1px solid #5D6975'}">
+  <header
+    [ngStyle]="!printInfoSetting?.clinicTitle &&!printInfoSetting?.doctorDegree &&!printInfoSetting?.doctorName ? {} :{'border-top': '1px solid #5D6975','border-bottom': '1px solid #5D6975'}">
     <div class="row">
       <div class="col-4 left">
-        <h2 style="white-space: pre-line">{{printInfoSetting?.clinicTitle}}</h2>
+        <h1 style="white-space: pre-line">{{printInfoSetting?.clinicTitle}}</h1>
         <img [src]="printInfoSetting?.logoUrl" (load)="onImageLoad($event)">
       </div>
       <div class="col-4">
+        <ngx-barcode
+                [bc-value]="printType=='medicine' ? prescription?.patientCodeId : printType=='request' ? requests?.patientCodeId : printType=='referral'? referral?.patientCodeId : ''"
+                [bc-display-value]="false"></ngx-barcode>
       </div>
       <div class="col-4 right">
-        <h4>{{printInfoSetting?.doctorName}}</h4>
-        <h5 style="white-space: pre-line">{{printInfoSetting?.doctorDegree}}</h5>
+        <h1>{{printInfoSetting?.doctorName}}</h1>
+        <h3 style="white-space: pre-line">{{printInfoSetting?.doctorDegree}}</h3>
       </div>
     </div>
   </header>
@@ -20,11 +24,8 @@
           <th>
             <div class="right float-left">
               <label>التاريخ:</label>&nbsp;
-              <label
-                class="dotted">{{printType=='medicine' ? (prescription?.createdOn | localDateShort) : printType=='request' ? (requests?.createdOn | localDateShort) : printType=='referral'? (referral?.createdOn | localDateShort) : ''}}</label>
-              <ngx-barcode
-                [bc-value]="printType=='medicine' ? prescription?.patientCodeId : printType=='request' ? requests?.patientCodeId : printType=='referral'? referral?.patientCodeId : ''"
-                [bc-display-value]="true"></ngx-barcode>
+              <!-- <label class="dotted">{{printType=='medicine' ? (prescription?.createdOn | localDateShort) : printType=='request' ? (requests?.createdOn | localDateShort) : printType=='referral'? (referral?.createdOn | localDateShort) : ''}}</label> -->
+              <label class="dotted">{{today | localDateShort}}</label>
             </div>
           </th>
           <th>
@@ -45,8 +46,8 @@
           </td>
           <td class="right">
             <span class="quantity">{{item.quantity}}</span>&nbsp;
-            <span class="Dose">{{item.dose}}</span>&nbsp;
-            <span class="timing">{{item.timing}}</span>&nbsp;
+            <span class="Dose">{{item.dose}}</span>&nbsp;-&nbsp;
+            <span class="timing">{{item.timing}}</span>&nbsp;-&nbsp;
             <span class="period">{{item.period}}</span>
           </td>
         </tr>

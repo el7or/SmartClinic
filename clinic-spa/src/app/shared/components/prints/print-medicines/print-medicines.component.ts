@@ -23,6 +23,7 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
   prescription: PrescriptionForPrint;
   requests: RequestsForPrint;
   referral: ReferralForPrint;
+  today = new Date();
 
   printSubs:Subscription;
 

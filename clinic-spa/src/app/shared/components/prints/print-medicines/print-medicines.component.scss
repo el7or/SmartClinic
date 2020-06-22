@@ -20,7 +20,7 @@ header img {
 .print-container header {
   text-align: center;
   padding: 2rem 0;
-  margin-top: 5rem !important;
+  //margin-top: 5rem !important;
 }
 .print-container footer {
   position: fixed;
@@ -60,7 +60,9 @@ header img {
   padding-top: 3rem;
 }
 
+.print-container h1,
 .print-container h2,
+.print-container h3,
 .print-container h4,
 .print-container h5 {
   font-family: "DecoType Naskh";
@@ -68,7 +70,7 @@ header img {
 }
 .print-container table thead div.right {
   font-family: "Arabic Typesetting";
-  font-size: 1.5rem;
+  font-size: 2.25rem;
 }
 .print-container span.r {
   font-family: "ToyorAljanah";
@@ -86,8 +88,8 @@ header img {
   font-size: 1.5rem;
 }
 
-ngx-barcode {
+/* ngx-barcode {
   position: absolute;
   top: 0;
   left: 5%;
-}
+} */

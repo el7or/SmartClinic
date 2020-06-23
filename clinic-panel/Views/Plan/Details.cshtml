@@ -18,14 +18,6 @@
         </dd>
 
         <dt>
-            التفعيل:
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-
-        <dt>
             رسوم الاشتراك أول مرة:
         </dt>
 
@@ -34,11 +26,19 @@
         </dd>
 
         <dt>
-            رسوم التجديد السنوي:
+            نوع التجديد:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AnnualRenewalFee) ج.م
+            @Html.DisplayFor(model => model.RenewalType)
+        </dd>
+
+        <dt>
+            رسوم التجديد:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RenewalFee) ج.م
         </dd>
 
         <dt>
@@ -57,71 +57,80 @@
             @Html.DisplayFor(model => model.MaxUsers)
         </dd>
 
-        <dt>
-            العدد الأقصى للزيارات شهريا:
-        </dt>
+        @if (Model.MaxBookingsMonthly != null)
+        {
+            <dt>
+                العدد الأقصى للزيارات شهريا:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MaxBookingsMonthly) زيارة
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MaxBookingsMonthly) زيارة
+            </dd>
+        }
 
-        <dt>
-            الحد الأقصى لرفع الصور شهريا:
-        </dt>
+        @if (Model.MaxFilesMonthlyMB != null)
+        {
+            <dt>
+                الحد الأقصى لرفع الصور شهريا:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MaxFilesMonthlyMB) MB
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MaxFilesMonthlyMB) MB
+            </dd>
+        }
 
-        <dt>
-            أقصى مساحة لرفع الصورة الواحدة:
-        </dt>
+        @if (Model.MaxFileSizeMB != null)
+        {
+            <dt>
+                أقصى مساحة لرفع الصورة الواحدة:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MaxFileSizeMB) MB
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MaxFileSizeMB) MB
+            </dd>
+        }
 
-        <dt>
-            نوع التجديد:
-        </dt>
+            <dt>
+                تفعيل الباقة:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.RenewalType)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.IsActive)
+            </dd>
 
-        <dt>
-            إنشاء بتاريخ:
-        </dt>
+            <dt>
+                إنشاء بتاريخ:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
 
-        <dt>
-            إنشاء بواسطة:
-        </dt>
+            <dt>
+                إنشاء بواسطة:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
 
-        <dt>
-            آخر تعديل بتاريخ:
-        </dt>
+            <dt>
+                آخر تعديل بتاريخ:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedOn)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedOn)
+            </dd>
 
-        <dt>
-            آخر تعديل بواسطة:
-        </dt>
+            <dt>
+                آخر تعديل بواسطة:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedBy)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedBy)
+            </dd>
 
-    </dl>
+        </dl>
 </div>
 <p>
     @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@

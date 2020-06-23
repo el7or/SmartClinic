@@ -11,8 +11,9 @@ namespace clinic_panel.DTOs
         public int Id { get; set; }
         public string Title { get; set; }
         public string IsActive { get; set; }
-        public int SignUpFee { get; set; }
-        public int AnnualRenewalFee { get; set; }
+        public decimal? SignUpFee { get; set; }
+        public string RenewalType { get; set; }
+        public decimal? RenewalFee { get; set; }
         public int? MaxUsers { get; set; }
         public int? MaxBookingsMonthly { get; set; }
         public int SubscriptionsCount { get; set; }
@@ -22,9 +23,9 @@ namespace clinic_panel.DTOs
         public int Id { get; set; }
         public string Title { get; set; }
         public string IsActive { get; set; }
-        public int SignUpFee { get; set; }
+        public decimal? SignUpFee { get; set; }
         public string RenewalType { get; set; }
-        public int AnnualRenewalFee { get; set; }
+        public decimal? RenewalFee { get; set; }
         public int? GracePeriodDays { get; set; }
         public int? MaxUsers { get; set; }
         public int? MaxBookingsMonthly { get; set; }

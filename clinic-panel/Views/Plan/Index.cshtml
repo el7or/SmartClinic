@@ -21,6 +21,9 @@
             رسوم الاشتراك
         </th>
         <th>
+            نوع التجديد
+        </th>
+        <th>
             رسوم التجديد
         </th>
         <th>
@@ -36,34 +39,37 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SignUpFee) ج.م
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnnualRenewalFee) ج.م
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaxUsers)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaxBookingsMonthly)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubscriptionsCount)
-        </td>
-        <td>
-            @Html.ActionLink("التفاصيل", "Details", new { id = item.Id }) @*|
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Title)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsActive)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SignUpFee) ج.م
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.RenewalType)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.RenewalFee) ج.م
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MaxUsers)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MaxBookingsMonthly)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SubscriptionsCount)
+    </td>
+    <td>
+        @Html.ActionLink("التفاصيل", "Details", new { id = item.Id }) @*|
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-        </td>
-    </tr>
+    </td>
+</tr>
 }
 
 </table>

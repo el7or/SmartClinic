@@ -27,6 +27,8 @@ namespace clinic_api.Data
         public virtual ICollection<ClinicUser> ClinicUsers { get; set; }
         public virtual ICollection<ChatMessage> MessagesSent { get; set; }
         public virtual ICollection<ChatMessage> MessagesReceived { get; set; }
+        public virtual ICollection<Doctor> Doctors { get; set; }
+        public virtual ICollection<Pharmacy> Pharmacies { get; set; }
     }
     public class ApplicationRole : IdentityRole<Guid>
     {
@@ -105,6 +107,7 @@ namespace clinic_api.Data
         public virtual DbSet<PatientRay> PatientRays { get; set; }
         public virtual DbSet<PatientReferral> PatientReferrals { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
+        public virtual DbSet<Pharmacy> Pharmacies { get; set; }
         public virtual DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; }
         public virtual DbSet<Plan> Plans { get; set; }
         public virtual DbSet<Subscription> Subscriptions { get; set; }
@@ -560,6 +563,12 @@ namespace clinic_api.Data
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
 
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Doctors)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Doctors_AspNetUsers");
+
                 entity.HasOne(d => d.Specialty)
                     .WithMany(p => p.Doctors)
                     .HasForeignKey(d => d.SpecialtyId)
@@ -814,6 +823,12 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.PatientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PatientPrescriptions_Patients");
+
+                entity.HasOne(d => d.Pharmacy)
+                    .WithMany(p => p.PatientPrescriptions)
+                    .HasForeignKey(d => d.PharmacyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PatientPrescriptions_Pharmacies");
             });
 
             modelBuilder.Entity<PrescriptionMedicine>(entity =>
@@ -980,6 +995,23 @@ namespace clinic_api.Data
                     .WithMany(p => p.Patients)
                     .HasForeignKey(d => d.SocialStatusId)
                     .HasConstraintName("FK_Patients_SysSocialStatusValues");
+            });
+
+            modelBuilder.Entity<Pharmacy>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.PharmacyName).IsRequired();
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Pharmacies)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Pharmacies_AspNetUsers");
             });
 
             modelBuilder.Entity<Plan>(entity =>

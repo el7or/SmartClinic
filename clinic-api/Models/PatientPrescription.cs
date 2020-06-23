@@ -17,8 +17,12 @@ namespace clinic_api.Models
         public DateTime UpdatedOn { get; set; }
         public Guid UpdatedBy { get; set; }
         public bool? IsPrint { get; set; }
+        public Guid? PharmacyId { get; set; }
+        public bool? IsPharmacyDone { get; set; }
+        public bool? IsPharmacyDelete { get; set; }
 
         public virtual Patient Patient { get; set; }
+        public virtual Pharmacy Pharmacy { get; set; }
         public virtual ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
     }
 }

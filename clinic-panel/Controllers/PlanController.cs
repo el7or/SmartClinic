@@ -20,11 +20,12 @@ namespace clinic_panel.Controllers
         {
             var plans = db.Plans.Where(d => d.IsDeleted != true).Include(p => p.SysRenewalTypeValue).Select(p => new PlanIndexDTO {
                 Id = p.Id,
-                AnnualRenewalFee = (int) p.AnnualRenewalFee,
+                RenewalType = p.SysRenewalTypeValue.Text,
+                RenewalFee = p.SysRenewalTypeValue.Text== "سنوي" ? p.AnnualRenewalFee: p.MonthlyRenewalFee,
                 IsActive = p.IsActive == true ? "مفعل" : "معطل",
                 MaxBookingsMonthly = p.MaxBookingsMonthly,
                 MaxUsers = p.MaxUsers,
-                SignUpFee = (int)p.SignUpFee,
+                SignUpFee = p.SignUpFee,
                 Title = p.Title,
                 SubscriptionsCount = p.Subscriptions.Count()
             });
@@ -46,11 +47,11 @@ namespace clinic_panel.Controllers
             var model = new PlanDetailsDTO
             {
                 Id = p.Id,
-                AnnualRenewalFee = (int)p.AnnualRenewalFee,
+                RenewalFee = p.SysRenewalTypeValue.Text == "سنوي" ? p.AnnualRenewalFee : p.MonthlyRenewalFee,
                 IsActive = p.IsActive == true ? "مفعل" : "معطل",
                 MaxBookingsMonthly = p.MaxBookingsMonthly,
                 MaxUsers = p.MaxUsers,
-                SignUpFee = (int)p.SignUpFee,
+                SignUpFee = p.SignUpFee,
                 Title = p.Title,
                 CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.Id == p.CreatedBy).FullName,
                 UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.Id == p.CreatedBy).FullName,

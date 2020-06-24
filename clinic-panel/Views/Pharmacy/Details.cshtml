@@ -1,0 +1,72 @@
+﻿@model clinic_panel.Models.Pharmacy
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>تفاصيل الصيدلية</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            اسم الصيدلية
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PharmacyName)
+        </dd>
+
+        <dt>
+            اسم الصيدلي
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PharmacistName)
+        </dd>
+
+        <dt>
+            هاتف 1
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone1)
+        </dd>
+
+        <dt>
+            هاتف 2
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone2)
+        </dd>
+
+        <dt>
+            واتس آب
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WhatsApp)
+        </dd>
+
+        <dt>
+            البريد الإلكتروني
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            عنوان الصيدلية
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("رجوع", "Index")
+</p>

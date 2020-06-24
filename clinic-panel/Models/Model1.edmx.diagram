@@ -146,6 +146,10 @@
         <AssociationConnector Association="Models.FK_DoctorExpenseItems_Doctors" />
         <AssociationConnector Association="Models.FK_DoctorExpenses_DoctorExpenseItems" />
         <AssociationConnector Association="Models.FK_DoctorExpenses_Doctors" />
+        <EntityTypeShape EntityType="Models.Pharmacy" Width="1.5" PointX="3" PointY="67.125" />
+        <AssociationConnector Association="Models.FK_Doctors_AspNetUsers" />
+        <AssociationConnector Association="Models.FK_Pharmacies_AspNetUsers" />
+        <AssociationConnector Association="Models.FK_PatientPrescriptions_Pharmacies" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

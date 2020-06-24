@@ -16,7 +16,7 @@
 }(function (datepicker) {
 
 	datepicker.regional.ar = {
-		closeText: "إغلاق",
+		closeText: "حفظ",
 		prevText: "&#x3C;السابق",
 		nextText: "التالي&#x3E;",
 		currentText: "اليوم",

@@ -575,6 +575,9 @@
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IsPrint" Type="bit" />
+          <Property Name="PharmacyId" Type="uniqueidentifier" />
+          <Property Name="IsPharmacyDone" Type="bit" />
+          <Property Name="IsPharmacyDelete" Type="bit" />
         </EntityType>
         <EntityType Name="PatientRayFiles">
           <Key>
@@ -665,6 +668,26 @@
           <Property Name="BodyMass" Type="decimal" Precision="18" Scale="2" />
           <Property Name="BloodPressureId" Type="int" />
           <Property Name="Temperature" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Pharmacies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PharmacyName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PharmacistName" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Phone1" Type="nvarchar" MaxLength="256" />
+          <Property Name="Phone2" Type="nvarchar" MaxLength="256" />
+          <Property Name="WhatsApp" Type="nvarchar" MaxLength="256" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="Address" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Plans">
           <Key>
@@ -1291,6 +1314,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Doctors_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Doctors">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Doctors_SysDoctorsSpecialties">
           <End Role="SysDoctorsSpecialties" Type="Self.SysDoctorsSpecialties" Multiplicity="1" />
           <End Role="Doctors" Type="Self.Doctors" Multiplicity="*" />
@@ -1591,6 +1626,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PatientPrescriptions_Pharmacies">
+          <End Role="Pharmacies" Type="Self.Pharmacies" Multiplicity="0..1" />
+          <End Role="PatientPrescriptions" Type="Self.PatientPrescriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pharmacies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientPrescriptions">
+              <PropertyRef Name="PharmacyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PatientRayFiles_PatientRays">
           <End Role="PatientRays" Type="Self.PatientRays" Multiplicity="1" />
           <End Role="PatientRayFiles" Type="Self.PatientRayFiles" Multiplicity="*" />
@@ -1768,6 +1815,18 @@
             </Principal>
             <Dependent Role="Patients">
               <PropertyRef Name="SocialStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pharmacies_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Pharmacies" Type="Self.Pharmacies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pharmacies">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1959,6 +2018,7 @@
           <EntitySet Name="PatientRays" EntityType="Self.PatientRays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PatientReferrals" EntityType="Self.PatientReferrals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pharmacies" EntityType="Self.Pharmacies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plans" EntityType="Self.Plans" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrescriptionMedicines" EntityType="Self.PrescriptionMedicines" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubscriptionPayments" EntityType="Self.SubscriptionPayments" Schema="dbo" store:Type="Tables" />
@@ -2108,6 +2168,10 @@
             <End Role="Doctors" EntitySet="Doctors" />
             <End Role="DoctorRaysValues" EntitySet="DoctorRaysValues" />
           </AssociationSet>
+          <AssociationSet Name="FK_Doctors_AspNetUsers" Association="Self.FK_Doctors_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Doctors" EntitySet="Doctors" />
+          </AssociationSet>
           <AssociationSet Name="FK_Doctors_SysDoctorsSpecialties" Association="Self.FK_Doctors_SysDoctorsSpecialties">
             <End Role="SysDoctorsSpecialties" EntitySet="SysDoctorsSpecialties" />
             <End Role="Doctors" EntitySet="Doctors" />
@@ -2208,6 +2272,10 @@
             <End Role="Patients" EntitySet="Patients" />
             <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
           </AssociationSet>
+          <AssociationSet Name="FK_PatientPrescriptions_Pharmacies" Association="Self.FK_PatientPrescriptions_Pharmacies">
+            <End Role="Pharmacies" EntitySet="Pharmacies" />
+            <End Role="PatientPrescriptions" EntitySet="PatientPrescriptions" />
+          </AssociationSet>
           <AssociationSet Name="FK_PatientRayFiles_PatientRays" Association="Self.FK_PatientRayFiles_PatientRays">
             <End Role="PatientRays" EntitySet="PatientRays" />
             <End Role="PatientRayFiles" EntitySet="PatientRayFiles" />
@@ -2267,6 +2335,10 @@
           <AssociationSet Name="FK_Patients_SysSocialStatusValues" Association="Self.FK_Patients_SysSocialStatusValues">
             <End Role="SysSocialStatusValues" EntitySet="SysSocialStatusValues" />
             <End Role="Patients" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pharmacies_AspNetUsers" Association="Self.FK_Pharmacies_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Pharmacies" EntitySet="Pharmacies" />
           </AssociationSet>
           <AssociationSet Name="FK_Plans_SysRenewalTypeValues" Association="Self.FK_Plans_SysRenewalTypeValues">
             <End Role="SysRenewalTypeValues" EntitySet="SysRenewalTypeValues" />
@@ -2700,6 +2772,19 @@
             <End Role="Doctor" EntitySet="Doctors" />
             <End Role="DoctorExpens" EntitySet="DoctorExpenses" />
           </AssociationSet>
+          <EntitySet Name="Pharmacies" EntityType="Models.Pharmacy" />
+          <AssociationSet Name="FK_Doctors_AspNetUsers" Association="Models.FK_Doctors_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Doctor" EntitySet="Doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pharmacies_AspNetUsers" Association="Models.FK_Pharmacies_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Pharmacy" EntitySet="Pharmacies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientPrescriptions_Pharmacies" Association="Models.FK_PatientPrescriptions_Pharmacies">
+            <End Role="Pharmacy" EntitySet="Pharmacies" />
+            <End Role="PatientPrescription" EntitySet="PatientPrescriptions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -2745,6 +2830,8 @@
           <NavigationProperty Name="ChatMessages1" Relationship="Models.FK_MessagesSent_AspNetUsers" FromRole="AspNetUser" ToRole="ChatMessage" />
           <NavigationProperty Name="AspNetRoles" Relationship="Models.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
           <NavigationProperty Name="Clinics" Relationship="Models.ClinicUsers" FromRole="AspNetUser" ToRole="Clinic" />
+          <NavigationProperty Name="Doctors" Relationship="Models.FK_Doctors_AspNetUsers" FromRole="AspNetUser" ToRole="Doctor" />
+          <NavigationProperty Name="Pharmacies" Relationship="Models.FK_Pharmacies_AspNetUsers" FromRole="AspNetUser" ToRole="Pharmacy" />
         </EntityType>
         <EntityType Name="AspNetUserToken">
           <Key>
@@ -3128,6 +3215,7 @@
           <NavigationProperty Name="Clinics" Relationship="Models.DoctorClinics" FromRole="Doctor" ToRole="Clinic" />
           <NavigationProperty Name="DoctorExpenseItems" Relationship="Models.FK_DoctorExpenseItems_Doctors" FromRole="Doctor" ToRole="DoctorExpenseItem" />
           <NavigationProperty Name="DoctorExpenses" Relationship="Models.FK_DoctorExpenses_Doctors" FromRole="Doctor" ToRole="DoctorExpens" />
+          <NavigationProperty Name="AspNetUser" Relationship="Models.FK_Doctors_AspNetUsers" FromRole="Doctor" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Expens">
           <Key>
@@ -3300,6 +3388,10 @@
           <Property Name="IsPrint" Type="Boolean" />
           <NavigationProperty Name="Patient" Relationship="Models.FK_PatientPrescriptions_Patients" FromRole="PatientPrescription" ToRole="Patient" />
           <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_PatientPrescriptions_PrescriptionId" FromRole="PatientPrescription" ToRole="PrescriptionMedicine" />
+          <Property Name="PharmacyId" Type="Guid" />
+          <Property Name="IsPharmacyDone" Type="Boolean" />
+          <Property Name="IsPharmacyDelete" Type="Boolean" />
+          <NavigationProperty Name="Pharmacy" Relationship="Models.FK_PatientPrescriptions_Pharmacies" FromRole="PatientPrescription" ToRole="Pharmacy" />
         </EntityType>
         <EntityType Name="PatientRayFile">
           <Key>
@@ -4655,6 +4747,64 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Pharmacy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="PharmacyName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PharmacistName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <Property Name="Phone1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Phone2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="WhatsApp" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Models.FK_Pharmacies_AspNetUsers" FromRole="Pharmacy" ToRole="AspNetUser" />
+          <NavigationProperty Name="PatientPrescriptions" Relationship="Models.FK_PatientPrescriptions_Pharmacies" FromRole="Pharmacy" ToRole="PatientPrescription" />
+        </EntityType>
+        <Association Name="FK_Doctors_AspNetUsers">
+          <End Type="Models.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Models.Doctor" Role="Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pharmacies_AspNetUsers">
+          <End Type="Models.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Models.Pharmacy" Role="Pharmacy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pharmacy">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientPrescriptions_Pharmacies">
+          <End Type="Models.Pharmacy" Role="Pharmacy" Multiplicity="0..1" />
+          <End Type="Models.PatientPrescription" Role="PatientPrescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pharmacy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientPrescription">
+              <PropertyRef Name="PharmacyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5188,6 +5338,9 @@
           <EntitySetMapping Name="PatientPrescriptions">
             <EntityTypeMapping TypeName="Models.PatientPrescription">
               <MappingFragment StoreEntitySet="PatientPrescriptions">
+                <ScalarProperty Name="IsPharmacyDelete" ColumnName="IsPharmacyDelete" />
+                <ScalarProperty Name="IsPharmacyDone" ColumnName="IsPharmacyDone" />
+                <ScalarProperty Name="PharmacyId" ColumnName="PharmacyId" />
                 <ScalarProperty Name="IsPrint" ColumnName="IsPrint" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
@@ -5624,6 +5777,27 @@
                 <ScalarProperty Name="ExpenseDate" ColumnName="ExpenseDate" />
                 <ScalarProperty Name="ExpenseItemId" ColumnName="ExpenseItemId" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pharmacies">
+            <EntityTypeMapping TypeName="Models.Pharmacy">
+              <MappingFragment StoreEntitySet="Pharmacies">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="WhatsApp" ColumnName="WhatsApp" />
+                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+                <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PharmacistName" ColumnName="PharmacistName" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

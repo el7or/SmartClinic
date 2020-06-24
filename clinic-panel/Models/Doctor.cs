@@ -88,5 +88,6 @@ namespace clinic_panel.Models
         public virtual ICollection<DoctorExpenseItem> DoctorExpenseItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorExpens> DoctorExpenses { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

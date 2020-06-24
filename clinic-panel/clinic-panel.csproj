@@ -146,6 +146,7 @@
     <Compile Include="Controllers\MedicineController.cs" />
     <Compile Include="Controllers\OperationController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\PharmacyController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
     <Compile Include="Controllers\RayController.cs" />
     <Compile Include="Controllers\SocialStatusController.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="DTOs\MedicineDTOs.cs" />
     <Compile Include="DTOs\OperationDTOs.cs" />
     <Compile Include="DTOs\PaymentDTOs.cs" />
+    <Compile Include="DTOs\PharmacyDTOs.cs" />
     <Compile Include="DTOs\PlanDTOs.cs" />
     <Compile Include="DTOs\RayDTOs.cs" />
     <Compile Include="DTOs\SpecialtyDTOs.cs" />
@@ -294,6 +296,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PatientReferral.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pharmacy.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Plan.cs">
@@ -581,6 +586,11 @@
     <Content Include="Views\Medicine\EditMedicinePeriod.cshtml" />
     <Content Include="Views\FileType\EditRayFileType.cshtml" />
     <Content Include="Views\FileType\EditAnalysisFileType.cshtml" />
+    <Content Include="Views\Pharmacy\Create.cshtml" />
+    <Content Include="Views\Pharmacy\Delete.cshtml" />
+    <Content Include="Views\Pharmacy\Details.cshtml" />
+    <Content Include="Views\Pharmacy\Edit.cshtml" />
+    <Content Include="Views\Pharmacy\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

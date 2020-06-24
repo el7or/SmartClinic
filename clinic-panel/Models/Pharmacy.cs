@@ -12,29 +12,32 @@ namespace clinic_panel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PatientPrescription
+    public partial class Pharmacy
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PatientPrescription()
+        public Pharmacy()
         {
-            this.PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
+            this.PatientPrescriptions = new HashSet<PatientPrescription>();
         }
     
-        public int Id { get; set; }
-        public System.Guid PatientId { get; set; }
-        public string Note { get; set; }
+        public System.Guid Id { get; set; }
+        public System.Guid UserId { get; set; }
+        public string PharmacyName { get; set; }
+        public string PharmacistName { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public System.Guid CreatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
-        public Nullable<bool> IsPrint { get; set; }
-        public Nullable<System.Guid> PharmacyId { get; set; }
-        public Nullable<bool> IsPharmacyDone { get; set; }
-        public Nullable<bool> IsPharmacyDelete { get; set; }
+        public string Phone1 { get; set; }
+        public string Phone2 { get; set; }
+        public string WhatsApp { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
     
-        public virtual Patient Patient { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
-        public virtual Pharmacy Pharmacy { get; set; }
+        public virtual ICollection<PatientPrescription> PatientPrescriptions { get; set; }
     }
 }

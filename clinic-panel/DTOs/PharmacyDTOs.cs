@@ -70,4 +70,39 @@ namespace clinic_panel.DTOs
         public string RoleName { get; set; }
         public string FullName { get; set; }
     }
+
+    public class PharmacyEditDTO
+    {
+        public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        public string PharmacyName { get; set; }
+        public string PharmacistName { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [MinLength(11, ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
+        [RegularExpression(@"^\+?\d*$", ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
+        public string Phone1 { get; set; }
+
+        [MinLength(11, ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
+        [RegularExpression(@"^\+?\d*$", ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
+        public string Phone2 { get; set; }
+
+        [MinLength(11, ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
+        [RegularExpression(@"^\+?\d*$", ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
+        public string WhatsApp { get; set; }
+
+        [EmailAddress(ErrorMessage = "لابد من إدخال بريد إلكتروني صحيح !")]
+        public string Email { get; set; }
+        public string Address { get; set; }
+    }
+
+    public class PharmacyRenewDTO
+    {
+        public Guid Id { get; set; }
+        public string Plan { get; set; }
+        public int SignUpFee { get; set; }
+        public DateTime SubsStartDate { get; set; }
+        public string SubsNote { get; set; }
+    }
 }

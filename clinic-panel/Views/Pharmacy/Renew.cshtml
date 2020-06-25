@@ -1,0 +1,98 @@
+﻿@model clinic_panel.DTOs.PharmacyRenewDTO
+
+@{
+    ViewBag.Title = "Renew";
+}
+
+<h2>تجديد اشتراك صيدلية: @ViewBag.PharmacyName</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">باقة الاشتراك</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Plan, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Plan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">قيمة الاشتراك الشهري</label>
+            <div class="col-md-10  form-inline">
+                @Html.EditorFor(model => model.SignUpFee, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } }) ج.م
+                @Html.ValidationMessageFor(model => model.SignUpFee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">تاريخ بداية الاشتراك الجديد</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SubsStartDate, new { htmlAttributes = new { @Value = Model.SubsStartDate.ToString("yyyy/MM/dd"), @type = "text", @class = "form-control datepicker", @readonly = "readonly" } })
+                @*@Html.ValidationMessageFor(model => model.SubsStartDate, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">ملاحظات على الاشتراك</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.SubsNote, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SubsNote, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="حفظ" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("رجوع", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            // initial Datepicker
+            $.datepicker.setDefaults($.datepicker.regional['ar']);
+            $('#SubsStartDate').datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onClose: function (dateText, inst) {
+                    function isDonePressed() {
+                        return ($('#ui-datepicker-div').html().indexOf('ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all ui-state-hover') > -1);
+                    }
+
+                    if (isDonePressed()) {
+                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                        $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
+
+                        $('.date-picker').focusout()//Added to remove focus from datepicker input box on selecting date
+                    }
+                }
+            });
+        });
+    </script>
+}
+
+@section Styles {
+    <style>
+        .ui-datepicker-calendar {
+            display: none;
+        }
+    </style>
+}

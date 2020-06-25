@@ -31,7 +31,7 @@ namespace clinic_panel.Controllers
                 StartSubscriptionDate = db.Subscriptions.Where(s => s.SubscriberId == p.Id).OrderBy(d => d.StartDate).FirstOrDefault().StartDate,
                 EndSubscriptionDate = db.Subscriptions.Where(s => s.SubscriberId == p.Id).OrderByDescending(d => d.EndDate).FirstOrDefault().EndDate,
                 SubscriptionsCount = db.Subscriptions.Where(s => s.SubscriberId == p.Id).Count(),
-                SubscriptionsPaid = (int) db.Subscriptions.Where(s => s.SubscriberId == p.Id).Sum(s => s.SubscriptionPayments.Sum(y => y.Paid)),
+                SubscriptionsPaid = (int)db.Subscriptions.Where(s => s.SubscriberId == p.Id).Sum(s => s.SubscriptionPayments.Select(e => e.Paid).DefaultIfEmpty(0).Sum()),
                 IsActive = p.IsActive == false ? "معطل" : "مفعل"
             });
             return View(pharmacies.ToList());
@@ -55,13 +55,13 @@ namespace clinic_panel.Controllers
         // GET: Pharmacy/Create
         public ActionResult Create()
         {
-            var pharmacyPlan = db.Plans.FirstOrDefault(p => p.Id==4);
+            var pharmacyPlan = db.Plans.FirstOrDefault(p => p.Id == 4);
             var model = new PharmacyCreateDTO
             {
                 Plan = pharmacyPlan.Title,
-                SignUpFee =(int) pharmacyPlan.SignUpFee,
-                SubsStartDate  = new DateTime(DateTime.Now.AddMonths(1).Year, DateTime.Now.AddMonths(1).Month, 1)
-        };
+                SignUpFee = (int)pharmacyPlan.SignUpFee,
+                SubsStartDate = new DateTime(DateTime.Now.AddMonths(1).Year, DateTime.Now.AddMonths(1).Month, 1)
+            };
             return View(model);
         }
 
@@ -129,7 +129,7 @@ namespace clinic_panel.Controllers
                         {
                             SubscriberId = pharmacy.Id,
                             SubscriberTypeId = 2, // Pharmacy
-                            Plan = plan, 
+                            Plan = plan,
                             SubscriptionTypeId = 1, // First Time
                             StartDate = model.SubsStartDate,
                             EndDate = new DateTime(model.SubsStartDate.Year, model.SubsStartDate.Month, DateTime.DaysInMonth(model.SubsStartDate.Year, model.SubsStartDate.Month)),
@@ -149,7 +149,7 @@ namespace clinic_panel.Controllers
                         var payment = new SubscriptionPayment
                         {
                             Subscription = subscription,
-                            Paid = (decimal) plan.SignUpFee,
+                            Paid = (decimal)plan.SignUpFee,
                             CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
                             CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
                             UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
@@ -165,7 +165,7 @@ namespace clinic_panel.Controllers
                         ModelState.AddModelError("", "حدث خطأ ما !");
                         return View(model);
                     }
-                }                
+                }
             }
             return View(model);
         }
@@ -182,50 +182,136 @@ namespace clinic_panel.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "UserName", pharmacy.UserId);
-            return View(pharmacy);
+            var model = new PharmacyEditDTO
+            {
+                Id = pharmacy.Id,
+                Address = pharmacy.Address,
+                Email = pharmacy.Email,
+                PharmacistName = pharmacy.PharmacistName,
+                PharmacyName = pharmacy.PharmacyName,
+                Phone1 = pharmacy.Phone1,
+                Phone2 = pharmacy.Phone2,
+                WhatsApp = pharmacy.WhatsApp
+            };
+            return View(model);
         }
 
         // POST: Pharmacy/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,PharmacyName,PharmacistName,IsActive,IsDeleted,CreatedOn,CreatedBy,UpdatedOn,UpdatedBy,Phone1,Phone2,WhatsApp,Email,Address")] Pharmacy pharmacy)
+        public ActionResult Edit(PharmacyEditDTO model)
         {
             if (ModelState.IsValid)
             {
+                Pharmacy pharmacy = db.Pharmacies.Find(model.Id);
+                pharmacy.Address = model.Address;
+                pharmacy.Email = model.Email;
+                pharmacy.PharmacistName = model.PharmacistName;
+                pharmacy.PharmacyName = model.PharmacyName;
+                pharmacy.Phone1 = model.Phone1;
+                pharmacy.Phone2 = model.Phone2;
+                pharmacy.WhatsApp = model.WhatsApp;
+                pharmacy.UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id;
+                pharmacy.UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time");
                 db.Entry(pharmacy).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");
             }
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "UserName", pharmacy.UserId);
-            return View(pharmacy);
+            return View(model);
         }
 
-        // GET: Pharmacy/Delete/5
-        public ActionResult Delete(Guid? id)
+        // GET: Pharmacy/Renew
+        public ActionResult Renew(Guid id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Pharmacy pharmacy = db.Pharmacies.Find(id);
-            if (pharmacy == null)
+            var pharmacyPlan = db.Plans.FirstOrDefault(p => p.Id == 4);
+            var LastSubscriptionDate = db.Subscriptions.Where(s => s.SubscriberId == id).OrderByDescending(d => d.EndDate).FirstOrDefault().EndDate;
+            var model = new PharmacyRenewDTO
             {
-                return HttpNotFound();
-            }
-            return View(pharmacy);
+                Id = id,
+                Plan = pharmacyPlan.Title,
+                SignUpFee = (int)pharmacyPlan.SignUpFee,
+                SubsStartDate = new DateTime(LastSubscriptionDate.AddMonths(1).Year, LastSubscriptionDate.AddMonths(1).Month, 1)
+            };
+            ViewBag.PharmacyName = db.Pharmacies.Find(id).PharmacyName;
+            return View(model);
         }
 
-        // POST: Pharmacy/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Pharmacy/Renew
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public ActionResult Renew(PharmacyRenewDTO model)
         {
-            Pharmacy pharmacy = db.Pharmacies.Find(id);
-            db.Pharmacies.Remove(pharmacy);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                var plan = db.Plans.Find(4); // باقة الصيدليات
+                var subscription = new Subscription
+                {
+                    SubscriberId = model.Id,
+                    SubscriberTypeId = 2, // Pharmacy
+                    Plan = plan,
+                    SubscriptionTypeId = 2, // Renewal
+                    StartDate = model.SubsStartDate,
+                    EndDate = new DateTime(model.SubsStartDate.Year, model.SubsStartDate.Month, DateTime.DaysInMonth(model.SubsStartDate.Year, model.SubsStartDate.Month)),
+                    Note = model.SubsNote,
+                    SignUpFee = plan.SignUpFee,
+                    MonthlyRenewalFee = plan.MonthlyRenewalFee,
+                    GracePeriodDays = plan.GracePeriodDays,
+                    MaxUsers = plan.MaxUsers,
+                    IsActive = true,
+                    IsDeleted = false,
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
+                };
+                db.Subscriptions.Add(subscription);
+                var payment = new SubscriptionPayment
+                {
+                    Subscription = subscription,
+                    Paid = (decimal)plan.SignUpFee,
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
+                };
+                db.SubscriptionPayments.Add(payment);
+                db.SaveChanges();
+                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
+
+        //// GET: Pharmacy/Delete/5
+        //public ActionResult Delete(Guid? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Pharmacy pharmacy = db.Pharmacies.Find(id);
+        //    if (pharmacy == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(pharmacy);
+        //}
+
+        //// POST: Pharmacy/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(Guid id)
+        //{
+        //    Pharmacy pharmacy = db.Pharmacies.Find(id);
+        //    db.Pharmacies.Remove(pharmacy);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {

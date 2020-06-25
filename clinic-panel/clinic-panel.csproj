@@ -591,6 +591,7 @@
     <Content Include="Views\Pharmacy\Details.cshtml" />
     <Content Include="Views\Pharmacy\Edit.cshtml" />
     <Content Include="Views\Pharmacy\Index.cshtml" />
+    <Content Include="Views\Pharmacy\Renew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { AuthGuard } from "./auth/auth.guard";
 import { PrintInvoiceComponent } from "./shared/components/prints/print-invoice/print-invoice.component";
 import { PrintMedicinesComponent } from "./shared/components/prints/print-medicines/print-medicines.component";
+import { ContactUsComponent } from './shared/components/contact/contact-us.component';
 
 const routes: Routes = [
   {

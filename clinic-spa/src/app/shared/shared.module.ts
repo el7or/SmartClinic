@@ -1,3 +1,4 @@
+import { FormsModule } from "@angular/forms";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -21,6 +22,7 @@ import {
   NbInputModule,
   NbTooltipModule,
   NbSpinnerModule,
+  NbRadioModule,
 } from "@nebular/theme";
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { NbSecurityModule } from "@nebular/security";
@@ -45,9 +47,12 @@ import { Time12HourPipe } from "./pipes/time-12-hour.pipe";
 import { PrintMedicinesComponent } from "./components/prints/print-medicines/print-medicines.component";
 import { PrintInvoiceComponent } from "./components/prints/print-invoice/print-invoice.component";
 import { LocalMonthLongPipe } from "./pipes/local-month-long.pipe";
-import { NotFoundComponent } from './components/not-found/not-found.component';
+import { NotFoundComponent } from "./components/not-found/not-found.component";
+import { ContactUsComponent } from "./components/contact/contact-us.component";
 
-const NB_MODULES = [
+const MODULES = [
+  RouterModule,
+  FormsModule,
   NbLayoutModule,
   NbMenuModule,
   NbUserModule,
@@ -68,6 +73,11 @@ const NB_MODULES = [
   NbSpinnerModule,
   NbDialogModule.forChild(),
   SweetAlert2Module.forRoot(),
+  NbCardModule,
+  NbButtonModule,
+  NbSpinnerModule,
+  NbInputModule,
+  NbRadioModule,
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -76,7 +86,8 @@ const COMPONENTS = [
   TinyMCEComponent,
   PrintMedicinesComponent,
   PrintInvoiceComponent,
-  NotFoundComponent
+  ContactUsComponent,
+  NotFoundComponent,
 ];
 const PIPES = [
   TimeAgoPipe,
@@ -89,7 +100,7 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES, RouterModule],
+  imports: [CommonModule, ...MODULES, RouterModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS, LanggDirective],
   declarations: [...COMPONENTS, ...PIPES, LanggDirective],
   entryComponents: [ProfileComponent],

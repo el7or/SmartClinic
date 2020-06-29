@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MENU_ITEMS } from './pages-pharmacy-menu';
+import { MENU_ITEMS_PH } from './pages-pharmacy-menu';
 import { Subscription } from 'rxjs';
 import { LanggService } from '../shared/services/langg.service';
 
@@ -34,7 +34,7 @@ import { LanggService } from '../shared/services/langg.service';
   `
 })
 export class PagesPharmacyComponent implements OnInit, OnDestroy {
-  menu = MENU_ITEMS;
+  menu = MENU_ITEMS_PH;
   langgloading: boolean;
   langSubscription: Subscription;
 

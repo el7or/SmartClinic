@@ -26,7 +26,7 @@ import { DiseasesComponent } from "./patients/patient-details/diseases/diseases.
 import { AnalysisComponent } from "./patients/patient-details/analysis/analysis.component";
 import { XRaysComponent } from "./patients/patient-details/xrays/xrays.component";
 import { PatientSettingComponent } from "./settings/patient-setting/patient-setting.component";
-import { ContactUsComponent } from "./contact/contact-us.component";
+import { ContactUsComponent } from "../shared/components/contact/contact-us.component";
 import { UsersSettingComponent } from "./settings/users-setting/users-setting.component";
 import { PagesComponent } from "./pages.component";
 import { HomeComponent } from "./home/home.component";
@@ -279,10 +279,6 @@ const routes: Routes = [
             component: UsersSettingComponent,
           },
         ],
-      },
-      {
-        path: "contact",
-        component: ContactUsComponent,
       },
       {
         path: "**",

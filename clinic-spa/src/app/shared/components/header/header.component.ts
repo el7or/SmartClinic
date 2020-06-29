@@ -19,6 +19,7 @@ import { ProfileComponent } from "../profile/profile.component";
 import { UserRole } from "../../../auth/auth.model";
 import { AdvsService } from "../../services/advs.service";
 import { UnreadCount } from "../../../pages/chat/chat.model";
+import { MENU_ITEMS_PH } from '../../../pages-pharmacy/pages-pharmacy-menu';
 
 @Component({
   selector: "ngx-header",
@@ -28,16 +29,14 @@ import { UnreadCount } from "../../../pages/chat/chat.model";
 export class HeaderComponent implements OnInit, OnDestroy {
   user: any;
   menu = MENU_ITEMS;
+  menuPharmacy = MENU_ITEMS_PH;
   externalCount: number;
   messagesCount: number;
   currentTheme = "default";
   selectedTheme = "Light";
 
-  menuSubscription: Subscription;
-  searchSubscription: Subscription;
-  nameSubscription: Subscription;
-  themeSubscription: Subscription;
-  getUnreadSubscription: Subscription;
+  subs = new Subscription();
+
   private destroy$: Subject<void> = new Subject<void>();
 
   userMenu = [
@@ -66,7 +65,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private menuService: NbMenuService,
     private themeService: NbThemeService,
     private langgService: LanggService,
-    private authService: AuthService,
+    public authService: AuthService,
     private searchService: NbSearchService,
     private dialogService: NbDialogService,
     private chatService: ChatService,
@@ -75,16 +74,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     // =====> on search from icon:
-    this.searchSubscription = this.searchService
+   this.subs.add(this.searchService
       .onSearchSubmit()
       .subscribe((data: any) => {
         router.navigateByUrl("/pages/patients/list?name=" + data.term);
-      });
+      }));
   }
 
   ngOnInit() {
     // =====> hide change clinic from user menu if not a doctor:
-    if (this.authService.roleName == UserRole.employee) {
+    if (this.authService.roleName != UserRole.doctor) {
       this.userMenu = this.userMenu.filter((item) => item.data != "clinic2");
     }
 
@@ -97,16 +96,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ? "default"
         : localStorage.getItem("theme");
     this.onChangeTheme(this.currentTheme);
-    this.themeSubscription = this.themeService
+    this.subs.add(this.themeService
       .onThemeChange()
       .pipe(
         map(({ name }) => name),
         takeUntil(this.destroy$)
       )
-      .subscribe((themeName) => (this.currentTheme = themeName));
+      .subscribe((themeName) => (this.currentTheme = themeName)));
 
     // =====> add user name and photo to header icon:
-    this.nameSubscription = this.authService
+    this.subs.add( this.authService
       .getNickName()
       .subscribe((username) => {
         this.user = {
@@ -116,10 +115,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
               ? "assets/images/doctor.png"
               : "assets/images/employee.png",
         };
-      });
+      }));
 
     // =====> on click on user menu:
-    this.menuSubscription = this.menuService
+    this.subs.add( this.menuService
       .onItemClick()
       .subscribe((event) => {
         switch (event.item.data) {
@@ -141,41 +140,42 @@ export class HeaderComponent implements OnInit, OnDestroy {
           default:
             break;
         }
-      });
+      }));
 
-    // =====> get unread count:
-    this.getUnreadSubscription = this.chatService.getUnreadCount().subscribe(
-      (res: UnreadCount) => {
-        this.externalCount = res.unreadExternals;
-        this.messagesCount = res.unreadMessages;
-        this.chatService.unReadExternalCount.subscribe(
-          (count) => (this.externalCount = count)
-        );
-        this.chatService.unReadChatCount.subscribe((count) => {
-          this.messagesCount = count;
-          /* if (this.router.url.indexOf("/chat") > -1) {
+    if (
+      this.authService.roleName == UserRole.doctor ||
+      this.authService.roleName == UserRole.employee
+    ) {
+      // =====> get unread count:
+      this.subs.add( this.chatService.getUnreadCount().subscribe(
+        (res: UnreadCount) => {
+          this.externalCount = res.unreadExternals;
+          this.messagesCount = res.unreadMessages;
+          this.chatService.unReadExternalCount.subscribe(
+            (count) => (this.externalCount = count)
+          );
+          this.chatService.unReadChatCount.subscribe((count) => {
+            this.messagesCount = count;
+            /* if (this.router.url.indexOf("/chat") > -1) {
             this.messagesCount = 0;
           }
           else{
           this.messagesCount = count;
           } */
-        });
-      },
-      (err) => {
-        console.error(err);
-        this.alertService.alertError();
-      }
-    );
+          });
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+        }
+      ));
+    }
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-    this.menuSubscription.unsubscribe();
-    this.searchSubscription.unsubscribe();
-    this.nameSubscription.unsubscribe();
-    this.getUnreadSubscription.unsubscribe();
-    this.themeSubscription.unsubscribe();
+    this.subs.unsubscribe();
   }
 
   // =====> toggle language from button in header:
@@ -195,7 +195,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // =====> translate main menu & user menu on first initial:
   translateMenus() {
-    this.menu.concat(this.userMenu).forEach((element) => {
+    this.menu.concat(this.menuPharmacy).concat(this.userMenu).forEach((element) => {
       element.title = this.langgService.translateWord(element.title);
       if (element.children != null) {
         element.children.forEach((el) => {

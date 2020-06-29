@@ -5,10 +5,10 @@ import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { HttpClient } from "@angular/common/http";
 
-import { AlertService } from "./../../shared/services/alert.service";
-import { AuthService } from "./../../auth/auth.service";
+import { AlertService } from "../../services/alert.service";
+import { AuthService } from "../../../auth/auth.service";
 import { ContactMessage } from "./contact.model";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "contact-us",

@@ -89,7 +89,7 @@ export const MENU_ITEMS: any[] = [
   {
     title: "Contact Developer",
     icon: "info-outline",
-    link: "/pages/contact",
+    link: "/contact",
     pathMatch: "full",
   },
   /* {

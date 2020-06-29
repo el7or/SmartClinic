@@ -1,6 +1,6 @@
 import { NbMenuItem } from "@nebular/theme";
 
-export const MENU_ITEMS: any[] = [
+export const MENU_ITEMS_PH: any[] = [
   {
     title: "Current Bookings",
     icon: "calendar-outline",
@@ -12,5 +12,11 @@ export const MENU_ITEMS: any[] = [
     icon: "file-text-outline",
     link: "/pages/patients",
     pathMatch: "prefix",
-  }
+  },
+  {
+    title: "Contact Developer",
+    icon: "info-outline",
+    link: "/pharmacy/contact",
+    pathMatch: "full",
+  },
 ];

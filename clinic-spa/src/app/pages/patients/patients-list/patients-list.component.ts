@@ -156,7 +156,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
             this.doneSwal.fire();
             this.patientsList.splice(index,1);
             /* this.router
-              .navigateByUrl("/", { skipLocationChange: true })
+              .navigateByUrl("/pages", { skipLocationChange: true })
               .then(() => this.router.navigate(["/pages/patients/list"])); */
           },
           (error) => {

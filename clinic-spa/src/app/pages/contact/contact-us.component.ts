@@ -47,7 +47,7 @@ export class ContactUsComponent implements OnInit, OnDestroy {
         () => {
           this.doneSwal.fire();
           this.formLoading = false;
-          this.router.navigateByUrl("/");
+          this.router.navigateByUrl("/pages");
         },
         (err) => {
           console.error(err);

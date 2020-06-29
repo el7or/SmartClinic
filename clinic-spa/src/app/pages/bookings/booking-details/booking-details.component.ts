@@ -427,7 +427,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
         this.formLoading = false;
         this.dialogRef.close();
         this.router
-          .navigateByUrl("/", { skipLocationChange: true })
+          .navigateByUrl("/pages", { skipLocationChange: true })
           .then(() => this.router.navigate([currentRoute]));
       },
       (err) => {
@@ -464,7 +464,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           this.formLoading = false;
           this.dialogRef.close();
           this.router
-            .navigateByUrl("/", { skipLocationChange: true })
+            .navigateByUrl("/pages", { skipLocationChange: true })
             .then(() => this.router.navigate([currentRoute]));
         },
         (err) => {

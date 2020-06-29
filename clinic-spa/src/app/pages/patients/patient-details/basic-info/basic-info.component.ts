@@ -126,7 +126,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
                   if (result.value) {
                     // =====> load another patient details:
                     this.router
-                      .navigateByUrl("/", { skipLocationChange: true })
+                      .navigateByUrl("/pages", { skipLocationChange: true })
                       .then(() =>
                         this.router.navigate([
                           "/pages/patients/details",

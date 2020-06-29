@@ -89,7 +89,7 @@ export class BookingsListTodayComponent
       (patientName: string) => {
         this.alertService.alertUpdateBooking(patientName);
         this.router
-          .navigateByUrl("/", { skipLocationChange: true })
+          .navigateByUrl("/pages", { skipLocationChange: true })
           .then(() => this.router.navigate(["/pages/bookings/today"]));
       }
     );

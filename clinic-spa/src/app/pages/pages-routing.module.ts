@@ -31,7 +31,7 @@ import { UsersSettingComponent } from "./settings/users-setting/users-setting.co
 import { PagesComponent } from "./pages.component";
 import { HomeComponent } from "./home/home.component";
 import { ChatComponent } from "./chat/chat.component";
-import { NotFoundComponent } from "./not-found/not-found.component";
+import { NotFoundComponent } from "../shared/components/not-found/not-found.component";
 import { PatientsComponent } from "./patients/patients.component";
 import { PatientDetailsComponent } from "./patients/patient-details/patient-details.component";
 import { PatientsListComponent } from "./patients/patients-list/patients-list.component";
@@ -48,6 +48,11 @@ const routes: Routes = [
     path: "",
     component: PagesComponent,
     children: [
+      {
+        path: "",
+        redirectTo: "home",
+        pathMatch: "full",
+      },
       {
         path: "home",
         component: HomeComponent,
@@ -278,11 +283,6 @@ const routes: Routes = [
       {
         path: "contact",
         component: ContactUsComponent,
-      },
-      {
-        path: "",
-        redirectTo: "home",
-        pathMatch: "full",
       },
       {
         path: "**",

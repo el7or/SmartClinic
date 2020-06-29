@@ -45,7 +45,9 @@ export class MedicinesService {
         "PatientDetails/PostPatientPresc/" +
         this.authService.userId +
         "/" +
-        this.patientService.patientId,
+        this.patientService.patientId+
+        "/" +
+        this.authService.doctorId,
         patientPrescription
     );
   }

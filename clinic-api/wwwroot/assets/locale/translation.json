@@ -715,5 +715,7 @@
   { "ar": "منطقة الأشعة", "en": "Ray Area" },
   { "ar": "مناطق الفحص", "en": "Examination Areas" },
   { "ar": "إضافة منطقة فحص", "en": "Add Examination Area" },
-  { "ar": "مناطق الأشعة", "en": "Ray Areas" }
+  { "ar": "مناطق الأشعة", "en": "Ray Areas" },
+  { "ar": "اسم الصيدلية", "en": "Pharmacy Name" },
+  { "ar": "إرسال إلى الصيدلية:", "en": "Send to Pharmacy:" }
 ]

@@ -15,6 +15,7 @@ import {
   PeriodValue,
   PatientPrescription,
   GetPatientPrescriptions,
+  PharmacyValue,
 } from "./medicines.model";
 import { AlertService } from "../../../../shared/services/alert.service";
 import { TypeaheadMatch } from "ngx-bootstrap";
@@ -31,6 +32,8 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   doseValues: DoseValue[];
   timingValues: TimingValue[];
   periodValues: PeriodValue[];
+  pharmacyValues:PharmacyValue[];
+  doctorPharmacyId?:string;
   newPatientPrescription: PatientPrescription = {
     id: 0,
     medicines: [{ medicineId: 0, medicineName: "" }],
@@ -62,6 +65,8 @@ export class MedicinesComponent implements OnInit, OnDestroy {
         this.doseValues = res.doseValues;
         this.timingValues = res.timingValues;
         this.periodValues = res.periodValues;
+        this.pharmacyValues = res.pharmacyValues;
+        this.doctorPharmacyId = res.doctorPharmacyId;
         this.prevPatientPrescriptions = res.prevPatientPrescriptions;
         this.formLoading = false;
       },
@@ -100,6 +105,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   onSave(isPrint: boolean) {
     this.formLoading = true;
     this.newPatientPrescription.isPrint = isPrint;
+    this.newPatientPrescription.pharmacyId = this.doctorPharmacyId;
     if (!this.newPatientPrescription.id) {
       this.newPatientPrescription.createdOn = new Date();
     }

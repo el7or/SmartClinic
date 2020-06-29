@@ -18,7 +18,7 @@ export class RoleGuard implements CanActivate {
     const userRole = this.jwtHelper.decodeToken(token).prn;
     const expectedRole = route.data.role;
     if (!this.auth.isAuthenticated || userRole !== expectedRole) {
-      this.router.navigateByUrl("/pages");
+      this.router.navigateByUrl("/");
       return false;
     }
     return true;

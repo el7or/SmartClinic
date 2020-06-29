@@ -45,6 +45,7 @@ import { Time12HourPipe } from "./pipes/time-12-hour.pipe";
 import { PrintMedicinesComponent } from "./components/prints/print-medicines/print-medicines.component";
 import { PrintInvoiceComponent } from "./components/prints/print-invoice/print-invoice.component";
 import { LocalMonthLongPipe } from "./pipes/local-month-long.pipe";
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -75,6 +76,7 @@ const COMPONENTS = [
   TinyMCEComponent,
   PrintMedicinesComponent,
   PrintInvoiceComponent,
+  NotFoundComponent
 ];
 const PIPES = [
   TimeAgoPipe,

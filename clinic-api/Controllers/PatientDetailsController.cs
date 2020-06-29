@@ -443,10 +443,12 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
+            var pharmacies = _context.Pharmacies.Where(p => p.IsDeleted != true).OrderBy(p => p.PharmacyName);
+            var doctorPharmacy = _context.Doctors.Find(doctorId).PharmacyId;
             var prevPatientPrescriptions = await _context.PatientPrescriptions.Where(p => p.PatientId == patientId).Include(e => e.PrescriptionMedicines).Include("PrescriptionMedicines.Medicine").ToListAsync();
             GetPatientPrescriptionsDTO model = new GetPatientPrescriptionsDTO
             {
-                MedicineValues = _context.SysMedicinesValues.Select(v => new MedicineValue
+                MedicineValues = _context.SysMedicinesValues.OrderBy(m => m.Text).Select(v => new MedicineValue
                 {
                     Id = v.Id,
                     Text = v.Text
@@ -471,6 +473,11 @@ namespace clinic_api.Controllers
                     Id = v.Id,
                     Text = v.Text
                 }).ToList(),
+                PharmacyValues = pharmacies.Select(p => new PharmacyValue { 
+                    Id = p.Id,
+                    Text = p.PharmacyName
+                }).ToList(),
+                DoctorPharmacyId = doctorPharmacy==null ? pharmacies.FirstOrDefault().Id : doctorPharmacy,
                 PrevPatientPrescriptions = prevPatientPrescriptions.Select(p => new PatientPrescriptionListDTO
                 {
                     Id = p.Id,
@@ -493,8 +500,8 @@ namespace clinic_api.Controllers
         }
 
         // POST: api/PatientDetails/PutPatientPresc/5
-        [HttpPost("PostPatientPresc/{id}/{patientId}")]
-        public async Task<IActionResult> PostPatientPresc(Guid id, Guid patientId, PatientPrescriptionListDTO model)
+        [HttpPost("PostPatientPresc/{id}/{patientId}/{doctorId}")]
+        public async Task<IActionResult> PostPatientPresc(Guid id, Guid patientId, Guid doctorId, PatientPrescriptionListDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -508,6 +515,7 @@ namespace clinic_api.Controllers
                     PatientId = patientId,
                     Note = model.Note,
                     IsPrint = model.IsPrint,
+                    PharmacyId = model.PharmacyId,
                     CreatedBy = id,
                     CreatedOn = DateTime.Now.ToEgyptTime(),
                     UpdatedBy = id,
@@ -540,6 +548,9 @@ namespace clinic_api.Controllers
                 patientPrescription.UpdatedOn = DateTime.Now.ToEgyptTime();
                 _context.Entry(patientPrescription).State = EntityState.Modified;
             }
+            var doctor = _context.Doctors.Find(doctorId);
+            doctor.PharmacyId = model.PharmacyId;
+            _context.Entry(doctor).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();

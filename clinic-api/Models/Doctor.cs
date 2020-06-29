@@ -72,8 +72,11 @@ namespace clinic_api.Models
         [StringLength(256)]
         public string Instagram { get; set; }
 
+        public Guid? PharmacyId { get; set; }
+
         public virtual ApplicationUser User { get; set; }
         public virtual SysDoctorsSpecialty Specialty { get; set; }
+        public virtual Pharmacy Pharmacy { get; set; }
         public virtual ICollection<DoctorAnalysisValue> DoctorAnalysisValues { get; set; }
         public virtual ICollection<DoctorClinic> DoctorClinics { get; set; }
         public virtual ICollection<DoctorDetailedComplaintsValue> DoctorDetailedComplaintsValues { get; set; }

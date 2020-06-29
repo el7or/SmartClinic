@@ -46,7 +46,10 @@ namespace clinic_api.Controllers
             //var result = await _signInManager.PasswordSignInAsync(userDTO.UserName, userDTO.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                var loginUser = await _userManager.Users.Where(u => u.NormalizedUserName == userDTO.UserName.ToUpper()).Include(c => c.ClinicUsers).Include("ClinicUsers.Clinic").Include("ClinicUsers.Clinic.DoctorClinics").FirstOrDefaultAsync();
+                var loginUser = await _userManager.Users.Where(u => u.NormalizedUserName == userDTO.UserName.ToUpper())
+                    .Include(c => c.ClinicUsers).Include("ClinicUsers.Clinic").Include("ClinicUsers.Clinic.DoctorClinics")
+                    .Include(p => p.Pharmacies)
+                    .FirstOrDefaultAsync();
                 return Ok(new
                 {
                     token = GenerateJWToken(loginUser).Result,
@@ -70,12 +73,20 @@ namespace clinic_api.Controllers
                 claims.Add(new Claim(JwtRegisteredClaimNames.Prn, role));
             }
 
+            // if user is doctor or employee
             var clinicUser = user.ClinicUsers.FirstOrDefault();
             if (clinicUser != null)
             {
                 var clinic = clinicUser.Clinic;
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sid, clinic.Id.ToString()));
                 claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, clinic.DoctorClinics.FirstOrDefault().DoctorId.ToString()));
+            }
+
+            // if user is pharmacy
+            var pharmacyUser = user.Pharmacies.FirstOrDefault();
+            if (pharmacyUser != null)
+            {
+                claims.Add(new Claim(JwtRegisteredClaimNames.Aud, pharmacyUser.Id.ToString()));
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));

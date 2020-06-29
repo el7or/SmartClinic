@@ -84,7 +84,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // =====> hide change clinic from user menu if not a doctor:
-    if (this.authService.roleName == UserRole.Employee) {
+    if (this.authService.roleName == UserRole.employee) {
       this.userMenu = this.userMenu.filter((item) => item.data != "clinic2");
     }
 
@@ -112,7 +112,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.user = {
           name: username,
           picture:
-            this.authService.roleName == UserRole.Doctor
+            this.authService.roleName == UserRole.doctor
               ? "assets/images/doctor.png"
               : "assets/images/employee.png",
         };
@@ -205,7 +205,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       // =====> hide items from employee:
       if (element.data == "roleDoctor") {
-        if (this.authService.roleName == UserRole.Employee) {
+        if (this.authService.roleName == UserRole.employee) {
           element.hidden = true;
         } else {
           element.hidden = false;
@@ -214,7 +214,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (element.children) {
         element.children.forEach((childElement) => {
           if (childElement.data == "roleDoctor") {
-            if (this.authService.roleName == UserRole.Employee) {
+            if (this.authService.roleName == UserRole.employee) {
               childElement.hidden = true;
             } else {
               childElement.hidden = false;

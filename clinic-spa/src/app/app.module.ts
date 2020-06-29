@@ -30,6 +30,7 @@ import { SharedModule } from "./shared/shared.module";
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { LanggService } from './shared/services/langg.service';
+import { PagesPharmacyComponent } from './pages-pharmacy/pages-pharmacy.component';
 
 defineLocale('ar', arLocale);
 

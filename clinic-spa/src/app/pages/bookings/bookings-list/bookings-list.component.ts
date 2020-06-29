@@ -175,7 +175,7 @@ export class BookingsListComponent implements OnInit, OnDestroy {
 
   // =====> on click file patient in table:
   onOpenFilePatient(codeId: number) {
-    if (this.authService.roleName != UserRole.Employee) {
+    if (this.authService.roleName != UserRole.employee) {
       this.router.navigate(["/pages/patients/details/" + codeId + "/record"]);
     } else {
       this.router.navigate(["/pages/patients/details/" + codeId + "/basic"]);

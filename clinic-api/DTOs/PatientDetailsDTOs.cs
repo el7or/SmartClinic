@@ -159,6 +159,8 @@ namespace clinic_api.DTOs
         public List<DoseValue> DoseValues { get; set; }
         public List<TimingValue> TimingValues { get; set; }
         public List<PeriodValue> PeriodValues { get; set; }
+        public List<PharmacyValue> PharmacyValues { get; set; }
+        public Guid? DoctorPharmacyId { get; set; }
         public List<PatientPrescriptionListDTO> PrevPatientPrescriptions { get; set; }
     }
     public class MedicineValue
@@ -186,6 +188,11 @@ namespace clinic_api.DTOs
         public int Id { get; set; }
         public string Text { get; set; }
     }
+    public class PharmacyValue
+    {
+        public Guid Id { get; set; }
+        public string Text { get; set; }
+    }
     public class PatientPrescriptionListDTO
     {
         public int Id { get; set; }
@@ -194,6 +201,7 @@ namespace clinic_api.DTOs
         public string[] MedicinesNames { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool? IsPrint { get; set; }
+        public Guid? PharmacyId { get; set; }
     }
     public class PrescriptionMedicineListDTO
     {

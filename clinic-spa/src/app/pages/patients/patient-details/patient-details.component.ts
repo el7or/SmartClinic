@@ -99,7 +99,7 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
 
   createTabs() {
     // =====> create tabs based on user role:
-    if (this.authService.roleName == UserRole.Employee) {
+    if (this.authService.roleName == UserRole.employee) {
       this.patientTabs = [
         {
           title: this.langgService.translateWord("Basic info"),

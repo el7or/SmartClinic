@@ -4,8 +4,9 @@ export interface LoginUser {
 }
 
 export enum UserRole{
-  Doctor,
-  Employee
+  doctor = "doctor",
+  employee  = "employee",
+  pharmacy = "pharmacy"
 }
 
 export interface LoginResponse {

@@ -15,9 +15,9 @@ import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
-import { LoginUser } from "./../auth.model";
+import { LoginUser, UserRole } from "./../auth.model";
 import { AuthService } from "./../auth.service";
-import { AlertService } from '../../shared/services/alert.service';
+import { AlertService } from "../../shared/services/alert.service";
 
 @Component({
   selector: "ngx-login",
@@ -34,7 +34,7 @@ export class LoginComponent extends NbLoginComponent implements OnDestroy {
   constructor(
     private ser: NbAuthService,
     private authService: AuthService,
-    private alertService:AlertService,
+    private alertService: AlertService,
     service: NbAuthService,
     @Inject(NB_AUTH_OPTIONS) options: {},
     cd: ChangeDetectorRef,
@@ -54,9 +54,19 @@ export class LoginComponent extends NbLoginComponent implements OnDestroy {
       password: this.form.value.password,
     };
     this.authSubs = this.authService.login(loginUser).subscribe(
-      () => {
+      (roleName: UserRole) => {
         this.authSwal.fire();
-        this.router.navigate(["/pages"]);
+        switch (roleName) {
+          case UserRole.doctor:
+          case UserRole.employee:
+            this.router.navigate(["/pages"]);
+            break;
+          case UserRole.pharmacy:
+            this.router.navigate(["/pharmacy"]);
+            break;
+          default:
+            break;
+        }
         this.loading = false;
       },
       (err) => {

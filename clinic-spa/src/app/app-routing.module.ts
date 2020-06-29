@@ -1,46 +1,45 @@
-import { ExtraOptions, RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
-import {
-  NbAuthComponent,
-  NbLoginComponent,
-  NbLogoutComponent,
-  NbRegisterComponent,
-  NbRequestPasswordComponent,
-  NbResetPasswordComponent,
-} from '@nebular/auth';
+import { ExtraOptions, RouterModule, Routes } from "@angular/router";
+import { NgModule } from "@angular/core";
 
-import { AuthGuard } from './auth/auth.guard';
-import { PrintInvoiceComponent } from './shared/components/prints/print-invoice/print-invoice.component';
-import { PrintMedicinesComponent } from './shared/components/prints/print-medicines/print-medicines.component';
+import { AuthGuard } from "./auth/auth.guard";
+import { PrintInvoiceComponent } from "./shared/components/prints/print-invoice/print-invoice.component";
+import { PrintMedicinesComponent } from "./shared/components/prints/print-medicines/print-medicines.component";
 
 const routes: Routes = [
   {
-    path: 'pages',
-    canActivate:[AuthGuard],
-    runGuardsAndResolvers:'always',
-    loadChildren: () => import('./pages/pages.module')
-      .then(m => m.PagesModule),
+    path: "auth",
+    loadChildren: () =>
+      import("./auth/auth.module").then((m) => m.NgxAuthModule),
   },
   {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module')
-      .then(m => m.NgxAuthModule),
+    path: "pages",
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: "always",
+    loadChildren: () =>
+      import("./pages/pages.module").then((m) => m.PagesModule),
   },
   {
-    path: 'print',
-    children:[
+    path: "pharmacy",
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: "always",
+    loadChildren: () =>
+      import("./pages-pharmacy/pages-pharmacy.module").then((m) => m.PagesPharmacyModule),
+  },
+  {
+    path: "print",
+    children: [
       {
-        path:'medicines',
-        component:PrintMedicinesComponent
+        path: "medicines",
+        component: PrintMedicinesComponent,
       },
       {
-        path:'invoice',
-        component:PrintInvoiceComponent
-      }
-    ]
+        path: "invoice",
+        component: PrintInvoiceComponent,
+      },
+    ],
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  { path: "", redirectTo: "auth/login", pathMatch: "full" },
+  { path: "**", redirectTo: "auth/login" },
 ];
 
 const config: ExtraOptions = {
@@ -51,5 +50,4 @@ const config: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, config)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

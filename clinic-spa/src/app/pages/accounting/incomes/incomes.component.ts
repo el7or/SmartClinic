@@ -26,7 +26,7 @@ export class IncomesComponent implements OnInit {
 
   ngOnInit() {
     // =====> create tabs based on user role:
-    if (this.authService.roleName == UserRole.Employee) {
+    if (this.authService.roleName == UserRole.employee) {
       this.incomeTabs = [
         {
           title: this.langgService.translateWord("Daily Income"),

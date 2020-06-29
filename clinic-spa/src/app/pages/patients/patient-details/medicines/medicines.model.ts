@@ -4,6 +4,8 @@ export interface GetPatientPrescriptions{
   doseValues:DoseValue[];
   timingValues:TimingValue[];
   periodValues:PeriodValue[];
+  pharmacyValues:PharmacyValue[];
+  doctorPharmacyId?:string;
   prevPatientPrescriptions:PatientPrescription[];
 }
 export interface MedicineValue {
@@ -26,6 +28,10 @@ export interface PeriodValue {
   id:number;
   text:string
 }
+export interface PharmacyValue {
+  id:string;
+  text:string
+}
 export interface PatientPrescription {
   id:number;
   medicines:PrescriptionMedicine[];
@@ -33,6 +39,7 @@ export interface PatientPrescription {
   medicinesNames?:string;
   createdOn?:Date;
   isPrint?:boolean;
+  pharmacyId?:string;
 }
 export interface PrescriptionMedicine {
   medicineId:number;

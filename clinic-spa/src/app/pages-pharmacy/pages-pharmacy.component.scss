@@ -1,0 +1,38 @@
+@import '../shared/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  ::ng-deep router-outlet + * {
+    display: block;
+    animation: fade 1s;
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
+  .menu-sidebar ::ng-deep .scrollable {
+    padding-top: nb-theme(layout-padding-top);
+  }
+
+  ::ng-deep .menu-title{
+    font-family: 'Tajawal';
+  }
+
+  ::ng-deep .menu-icon{
+    @include nb-ltr(margin, 0 0.5rem 0 0);
+      @include nb-rtl(margin, 0 0 0 0.5rem);
+  }
+
+  print-medicines,
+    print-invoice{
+      display: none;
+    }
+}

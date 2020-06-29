@@ -33,12 +33,13 @@ export class AuthService {
     }
   }
   public get roleName(): UserRole {
-    if (this.decodedToken.prn == "doctor") {
+    return UserRole[this.decodedToken.prn] as UserRole;
+    /* if (this.decodedToken.prn == "doctor") {
       return UserRole.Doctor;
     }
     if (this.decodedToken.prn == "employee") {
       return UserRole.Employee;
-    }
+    } */
   }
   public get userId(): string {
     return this.decodedToken.jti;
@@ -48,6 +49,9 @@ export class AuthService {
   }
   public get doctorId(): string {
     return this.decodedToken.nbf;
+  }
+  public get pharmacyId(): string {
+    return this.decodedToken.aud;
   }
 
   constructor(private http: HttpClient) {}
@@ -62,11 +66,13 @@ export class AuthService {
             localStorage.setItem("token", res.token);
             this.decodedToken = this.jwtHelper.decodeToken(res.token);
             localStorage.setItem("nickName", res.nickName);
+            return this.roleName;
             /*
           decodedToken.jti --> userId
           decodedToken.prn --> roleName
           decodedToken.sid --> clinicId
           decodedToken.nbf --> doctorId
+          decodedToken.aud --> pharmacyId
           */
           }
         })

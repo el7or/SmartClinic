@@ -1,16 +1,16 @@
 import { NbMenuItem } from "@nebular/theme";
 
-export const MENU_ITEMS_PH: any[] = [
+export const MENU_ITEMS_PH: NbMenuItem[] = [
   {
-    title: "Current Bookings",
-    icon: "calendar-outline",
-    link: "/pages/home",
+    title: "New Prescriptions",
+    icon: "corner-down-left-outline",
+    link: "/pharmacy/home",
     home: true,
   },
   {
-    title: "Patients Records",
-    icon: "file-text-outline",
-    link: "/pages/patients",
+    title: "Prev Prescriptions",
+    icon: "archive-outline",
+    link: "/pharmacy/list",
     pathMatch: "prefix",
   },
   {

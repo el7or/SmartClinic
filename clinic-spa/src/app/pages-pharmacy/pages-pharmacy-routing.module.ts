@@ -1,3 +1,4 @@
+import { PrevListComponent } from './prev-list/prev-list.component';
 import { HomePharmacyComponent } from "./home-pharmacy/home-pharmacy.component";
 import { PagesPharmacyComponent } from "./pages-pharmacy.component";
 import { NgModule } from "@angular/core";
@@ -18,6 +19,10 @@ const routes: Routes = [
       {
         path: "home",
         component: HomePharmacyComponent,
+      },
+      {
+        path: "list",
+        component: PrevListComponent,
       },
       {
         path: "contact",

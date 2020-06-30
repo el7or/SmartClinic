@@ -717,5 +717,13 @@
   { "ar": "إضافة منطقة فحص", "en": "Add Examination Area" },
   { "ar": "مناطق الأشعة", "en": "Ray Areas" },
   { "ar": "اسم الصيدلية", "en": "Pharmacy Name" },
-  { "ar": "إرسال إلى الصيدلية:", "en": "Send to Pharmacy:" }
+  { "ar": "إرسال إلى الصيدلية:", "en": "Send to Pharmacy:" },
+  { "ar": "روشتات جديدة", "en": "New Prescriptions" },
+  { "ar": "الروشتات السابقة", "en": "Prev Prescriptions" },
+  { "ar": "مهنة المريض", "en": "Patient Career" },
+  { "ar": "هاتف المريض", "en": "Patient Phone" },
+  { "ar": "هاتف آخر", "en": "Patient Phone 2" },
+  { "ar": "المدينة", "en": "City" },
+  { "ar": "تم نقل البيانات إلى الروشتات السابقة", "en": "Moved to Prev Prescriptions" },
+  { "ar": "الحالة", "en": "Status" }
 ]

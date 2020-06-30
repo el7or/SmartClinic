@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { PagesPharmacyRoutingModule } from './pages-pharmacy-routing.module';
+import { PrevListComponent } from './prev-list/prev-list.component';
+import { PrescDetailsComponent } from './presc-details/presc-details.component';
 
 const MODULES = [
   PagesPharmacyRoutingModule,
@@ -30,7 +32,8 @@ const MODULES = [
 ];
 
 @NgModule({
-  declarations: [PagesPharmacyComponent, HomePharmacyComponent],
+  declarations: [PagesPharmacyComponent, HomePharmacyComponent, PrevListComponent, PrescDetailsComponent],
   imports: [...MODULES],
+  entryComponents:[PrescDetailsComponent]
 })
 export class PagesPharmacyModule {}

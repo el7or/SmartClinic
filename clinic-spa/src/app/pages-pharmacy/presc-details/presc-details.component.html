@@ -1,0 +1,23 @@
+<nb-card class="dialog-center">
+  <nb-card-header><span langg>Prescription Details</span>:</nb-card-header>
+  <nb-card-body>
+    <h6>التاريخ:&nbsp;
+    {{prescDetails.createdOn | localDateLong}}</h6>
+    <nb-list dir="ltr" class="text-left">
+      <nb-list-item *ngFor="let item of prescDetails.medicinesPresc">
+        <span class="font-r float-left">R/ </span>
+        <span class="float-left">{{item.medicine}}</span>&nbsp;
+        <span>{{item.quantity}}</span>&nbsp;
+        <span>{{item.dose}}</span>&nbsp;-&nbsp;
+        <span>{{item.timing}}</span>&nbsp;-&nbsp;
+        <span>{{item.period}}</span>
+      </nb-list-item>
+      <nb-list-item *ngIf="prescDetails.note">
+        {{prescDetails.note}}
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+  <nb-card-footer class="border-0">
+    <button nbButton hero status="primary" (click)="dialogRef.close()" langg>Close</button>
+  </nb-card-footer>
+</nb-card>

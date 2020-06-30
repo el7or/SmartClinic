@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <span langg>New Prescriptions</span>:
+    <span langg>Prev Prescriptions</span>:
   </nb-card-header>
   <nb-card-body>
     <table class="table table-striped table-light table-bordered" [nbSpinner]="formLoading" nbSpinnerStatus="success">
@@ -13,19 +13,19 @@
           <th langg>Patient Phone 2</th>
           <th langg>City</th>
           <th langg>Date</th>
-          <th></th>
+          <th langg>Status</th>
           <th></th>
         </tr>
       </thead>
-      <tbody *ngIf="!newPrescList?.length">
+      <tbody *ngIf="!prevPrescList?.length">
         <tr>
           <td colspan="8" class="text-center">
             <h5 langg>No Results !</h5>
           </td>
         </tr>
       </tbody>
-      <tbody *ngIf="newPrescList?.length">
-        <tr *ngFor="let item of newPrescList; index as i">
+      <tbody *ngIf="prevPrescList?.length">
+        <tr *ngFor="let item of prevPrescList; index as i">
           <td>{{item.doctorFullName}}</td>
           <td>{{item.patientFullName}}</td>
           <td>{{item.career}}</td>
@@ -33,25 +33,13 @@
           <td>{{item.phone2}}</td>
           <td>{{item.city}}</td>
           <td>{{item.createdOn | localDateShort}}</td>
+          <td>{{item.status | langg}}</td>
           <td class="text-center">
             <button nbButton (click)="onOpenPresc(item)" size="small" status="info" shape="round"
               langg>Prescription</button>
-          </td>
-          <td class="text-center">
-            <button nbButton (click)="onDonePresc(item.id,i)" size="small" status="success" langg>Done</button>&nbsp;
-            <button nbButton (click)="onDeletePresc(item.id,i)" size="small" status="danger" langg>Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
   </nb-card-body>
 </nb-card>
-
-<swal #doneSwal [title]="'Success' | langg" [text]="'Moved to Prev Prescriptions' | langg" icon="success" timer="3000"
-  [showConfirmButton]="false">
-</swal>
-
-<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
-  [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
-  [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
-</swal>

@@ -86,7 +86,7 @@ namespace clinic_api.Controllers
             var pharmacyUser = user.Pharmacies.FirstOrDefault();
             if (pharmacyUser != null)
             {
-                claims.Add(new Claim(JwtRegisteredClaimNames.Aud, pharmacyUser.Id.ToString()));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Acr, pharmacyUser.Id.ToString()));
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));

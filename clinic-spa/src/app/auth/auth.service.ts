@@ -51,7 +51,7 @@ export class AuthService {
     return this.decodedToken.nbf;
   }
   public get pharmacyId(): string {
-    return this.decodedToken.aud;
+    return this.decodedToken.acr;
   }
 
   constructor(private http: HttpClient) {}
@@ -72,7 +72,7 @@ export class AuthService {
           decodedToken.prn --> roleName
           decodedToken.sid --> clinicId
           decodedToken.nbf --> doctorId
-          decodedToken.aud --> pharmacyId
+          decodedToken.acr --> pharmacyId
           */
           }
         })

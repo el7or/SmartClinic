@@ -48,7 +48,7 @@ namespace clinic_api.Controllers
             //{
             //    return BadRequest();
             //}
-            var user = _context.Users.Find(model.UserId);
+            var user = _context.Users.Where(u => u.Id == model.UserId).Include(r => r.UserRoles).ThenInclude(r => r.Role).FirstOrDefault();
             user.FullName = model.FullName;
             _context.Entry(user).State = EntityState.Modified;
             if (user.UserRoles.FirstOrDefault().Role.Name == "doctor")

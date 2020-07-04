@@ -16,8 +16,10 @@ export interface ComplaintGeneralValue {
 export interface PatientGeneralComplaint {
   id:number;
   compId:number;
+  compName: string;
   note: string;
   createdOn:Date;
+  isNameValid?:boolean;
 }
 
 export interface ComplaintDetailsValue {

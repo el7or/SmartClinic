@@ -44,40 +44,40 @@
         <tbody>
           <tr *ngFor="let item of patientExaminations.examinations; index as i;">
             <td>
-              <nb-select [(ngModel)]="item.typeId" [ngModelOptions]="{standalone: true}"
+              <!-- <nb-select [(ngModel)]="item.typeId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Examination Type' | langg" size="small" fullWidth>
                 <nb-option *ngFor="let typeValue of examinationsTypes" [value]="typeValue.typeId">
                   {{typeValue.typeText}}
                 </nb-option>
-              </nb-select>
-              <!-- <input nbInput [(ngModel)]="item.type" [typeahead]="examinationsTypes" fullWidth
-                (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Examination Type' | langg"
-                [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
-                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
-              <ng-container *ngIf="!item.isTypeValid">
-                <label class="error-message" langg>This Name does not exist! Do you add it to the
-                  list?</label>&nbsp;
-                <button nbButton type="button" (click)="onAddNewItemToList(item.type,'type');item.isNameValid=true"
-                  status="info" size="small" class="mt-2" langg>Add</button>
-              </ng-container> -->
+              </nb-select> -->
+              <input nbInput [(ngModel)]="item.typeName" [placeholder]="'Examination Type' | langg"
+                [typeahead]="examinationsTypes" typeaheadOptionField="typeText"
+                (typeaheadOnSelect)="onSelectType($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
+                (keyup)="!item.isNameValid || item.typeName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
+                [isAnimated]="true" [typeaheadMinLength]="0"
+                [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
+                [typeaheadOptionsInScrollableView]="15" fieldSize="small" fullWidth>
+              <ng-container *ngIf="!item.isNameValid && item.typeName != ''">
+                <label class="error-message" langg>Must choose from the list !</label>
+              </ng-container>
             </td>
             <td>
-              <nb-select [(ngModel)]="item.areaId" [ngModelOptions]="{standalone: true}"
+              <!-- <nb-select [(ngModel)]="item.areaId" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Examination Area' | langg" size="small" fullWidth>
                 <nb-option *ngFor="let areaValue of examinationsAreas" [value]="areaValue.areaId">
                   {{areaValue.areaText}}
                 </nb-option>
-              </nb-select>
-              <!-- <input nbInput [(ngModel)]="item.area" [typeahead]="examinationsAreas" fullWidth
-                (typeaheadNoResults)="item.isAreaValid = !$event" [placeholder]="'Examination Area' | langg"
-                [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
-                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
-              <ng-container *ngIf="!item.isAreaValid">
-                <label class="error-message" langg>This Name does not exist! Do you add it to the
-                  list?</label>&nbsp;
-                <button nbButton type="button" (click)="onAddNewItemToList(item.area,'area');item.isAreaValid=true"
-                  status="info" size="small" class="mt-2" langg>Add</button>
-              </ng-container> -->
+              </nb-select> -->
+              <input nbInput [(ngModel)]="item.areaName" [placeholder]="'Examination Area' | langg"
+                [typeahead]="examinationsAreas" typeaheadOptionField="areaText"
+                (typeaheadOnSelect)="onSelectArea($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
+                (keyup)="!item.isNameValid || item.areaName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
+                [isAnimated]="true" [typeaheadMinLength]="0"
+                [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
+                [typeaheadOptionsInScrollableView]="15" fieldSize="small" fullWidth>
+              <ng-container *ngIf="!item.isNameValid && item.areaName != ''">
+                <label class="error-message" langg>Must choose from the list !</label>
+              </ng-container>
             </td>
             <td class="label pt-2">
               <label
@@ -95,7 +95,7 @@
         </tbody>
       </table>
       <button nbButton size="small" type="button" (click)="onAddExamination()"
-        [disabled]="patientExaminations?.examinations?.length && !patientExaminations?.examinations[patientExaminations?.examinations?.length-1]?.typeId"
+        [disabled]="isAnyNameInvalid || (patientExaminations?.examinations?.length && !patientExaminations?.examinations[patientExaminations?.examinations?.length-1]?.typeId)"
         class="mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span>{{'Add Examination Type' | langg}}</span>
       </button>
@@ -103,7 +103,7 @@
 
     <div class="col-12 text-center nbButton-group">
       <button nbButton type="submit" status="success"
-        [disabled]="!form.valid || !patientExaminations?.examinations[patientExaminations?.examinations?.length-1]?.typeId">{{'Save' | langg}}</button>
+        [disabled]="!form.valid || isAnyNameInvalid || !patientExaminations?.examinations[patientExaminations?.examinations?.length-1]?.typeId">{{'Save' | langg}}</button>
       <button nbButton type="button" status="danger" (click)="location.back()">{{'Cancel' | langg}}</button>
     </div>
   </div>

@@ -1,5 +1,12 @@
-import { AlertService } from './../../../../shared/services/alert.service';
-import { Component, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from "@angular/core";
+import { AlertService } from "./../../../../shared/services/alert.service";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  Output,
+  EventEmitter,
+} from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
@@ -15,6 +22,7 @@ import {
 } from "./complaints.model";
 import { Subscription } from "rxjs";
 import { map } from "rxjs/operators";
+import { TypeaheadMatch } from "ngx-bootstrap";
 
 @Component({
   selector: "complaints",
@@ -32,13 +40,14 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @Output() onFinish: EventEmitter<any> = new EventEmitter<any>();
+  isAnyNameInvalid = false;
 
   getSubs: Subscription;
   setSubs: Subscription;
 
   constructor(
     private complantService: ComplaintsService,
-    private alertService:AlertService,
+    private alertService: AlertService,
     public location: Location
   ) {}
 
@@ -61,14 +70,15 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
           this.complaintsGeneralValues = res.complaintGeneralValues;
           this.complaintsDetailsValues = res.complaintDetailsValues;
           return {
-            patientGeneralComplaints : res.patientGeneralComplaints,
-            patientDetailsComplaints : res.patientDetailsComplaints
-          }
+            patientGeneralComplaints: res.patientGeneralComplaints,
+            patientDetailsComplaints: res.patientDetailsComplaints,
+          };
         })
       )
       .subscribe(
         (res: PutPatientComplaints) => {
           this.patientGeneralComplaints = res.patientGeneralComplaints;
+          this.patientGeneralComplaints.every((c) => (c.isNameValid = true));
           this.patientDetailsComplaints = res.patientDetailsComplaints;
           this.formLoading = false;
         },
@@ -84,18 +94,13 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
     if (this.setSubs) this.setSubs.unsubscribe();
   }
 
-  /* // =====> add chosen general complaint to patient general compliants:
-  onSelectGeneralComplaint(event: TypeaheadMatch){
-    console.log(event.item);
-    this.patientGeneralComplaints.push({
-      compId: event.item.compId,
-      compName:event.item.compName,
-      isNameValid:true,
-      note:""
-    })
+  // =====> add chosen general complaint to patient general compliants:
+  onSelectGeneralComplaint(event: TypeaheadMatch, index) {
+    this.isAnyNameInvalid = false;
+    this.patientGeneralComplaints[index].compId = event.item.compId;
   }
 
-  // =====> on add new item to general complaints values:
+  /* // =====> on add new item to general complaints values:
   onAddNewItemToList(complaintName) {
     this.complaintsGeneralValues.push(complaintName);
   }*/
@@ -113,6 +118,7 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
       this.patientGeneralComplaints.push({
         id: 0,
         compId: 0,
+        compName: "",
         note: "",
         createdOn: new Date(),
       });
@@ -141,23 +147,21 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
   // =====> on save requests without print:
   onSave() {
     this.formLoading = true;
-    const putObj:PutPatientComplaints = {
-      patientGeneralComplaints : this.patientGeneralComplaints,
-      patientDetailsComplaints : this.patientDetailsComplaints
-    }
-    this.setSubs = this.complantService
-      .savePatientComplaints(putObj)
-      .subscribe(
-        () => {
-          this.formLoading = false;
-          this.doneSwal.fire();
-          this.onFinish.emit();
-        },
-        (err) => {
-          console.error(err);
-          this.alertService.alertError();
-          this.formLoading = false;
-        }
-      );
+    const putObj: PutPatientComplaints = {
+      patientGeneralComplaints: this.patientGeneralComplaints,
+      patientDetailsComplaints: this.patientDetailsComplaints,
+    };
+    this.setSubs = this.complantService.savePatientComplaints(putObj).subscribe(
+      () => {
+        this.formLoading = false;
+        this.doneSwal.fire();
+        this.onFinish.emit();
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
   }
 }

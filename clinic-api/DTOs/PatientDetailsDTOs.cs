@@ -42,6 +42,7 @@ namespace clinic_api.DTOs
     {
         public int Id { get; set; }
         public int CompId { get; set; }
+        public string CompName { get; set; }
         public string Note { get; set; }
         public DateTime CreatedOn { get; set; }
     }
@@ -110,7 +111,9 @@ namespace clinic_api.DTOs
     {
         public int Id { get; set; }
         public int TypeId { get; set; }
+        public string TypeName { get; set; }
         public int? AreaId { get; set; }
+        public string AreaName { get; set; }
         public DateTime CreatedOn { get; set; }
     }
 

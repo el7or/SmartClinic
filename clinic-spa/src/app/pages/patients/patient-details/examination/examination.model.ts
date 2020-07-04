@@ -27,6 +27,9 @@ export interface PatientExaminationsDetails {
 export interface PatientExamination {
   id: number;
   typeId: number;
+  typeName:string;
   areaId: number;
+  areaName:string;
   createdOn: Date;
+  isNameValid?:boolean;
 }

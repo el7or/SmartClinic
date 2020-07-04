@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { ExaminationService } from "./examination.service";
 import { PatientExaminationsDetails, ExaminationTypeValue, ExaminationAreaValue, GetPatientExaminations, BloodPressureValue } from "./examination.model";
 import { AlertService } from '../../../../shared/services/alert.service';
+import { TypeaheadMatch } from 'ngx-bootstrap';
 
 @Component({
   selector: "examination",
@@ -27,6 +28,8 @@ export class ExaminationComponent implements OnInit,OnDestroy {
   patientExaminations: PatientExaminationsDetails={
     examinations:[]
   };
+
+  isAnyNameInvalid = false;
 
   getSubs: Subscription;
   setSubs: Subscription;
@@ -66,6 +69,16 @@ ngOnDestroy() {
   if (this.setSubs) this.setSubs.unsubscribe();
 }
 
+onSelectType(event: TypeaheadMatch, index) {
+  this.isAnyNameInvalid = false;
+  this.patientExaminations.examinations[index].typeId = event.item.typeId;
+}
+
+onSelectArea(event: TypeaheadMatch, index) {
+  this.isAnyNameInvalid = false;
+  this.patientExaminations.examinations[index].areaId = event.item.areaId;
+}
+
   /* onAddNewItemToList(name, type) {
     if (type == "type") {
       this.examinationsTypes.push(name);
@@ -79,7 +92,9 @@ ngOnDestroy() {
     this.patientExaminations.examinations.push({
       id: 0,
       typeId: 0,
+      typeName:"",
       areaId: 0,
+      areaName:"",
       createdOn: new Date()
     });
   }

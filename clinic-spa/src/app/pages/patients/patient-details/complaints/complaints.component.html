@@ -8,22 +8,22 @@
     <tbody>
       <tr *ngFor="let item of patientGeneralComplaints; index as i;">
         <td>
-          <nb-select fullWidth [(ngModel)]="item.compId" [ngModelOptions]="{standalone: true}"
+          <!-- <nb-select fullWidth [(ngModel)]="item.compId" [ngModelOptions]="{standalone: true}"
             [placeholder]="'Complaint' | langg" size="small">
             <nb-option *ngFor="let complaintValue of complaintsGeneralValues" [value]="complaintValue.compId">
               {{complaintValue.compName}}
             </nb-option>
-          </nb-select>
-          <!-- <input nbInput [(ngModel)]="item.compName" [typeahead]="complaintsGeneralValues" typeaheadOptionField="compName"
-          (typeaheadOnSelect)="onSelectGeneralComplaint($event)"  (typeaheadNoResults)="item.isNameValid = !$event" [placeholder]="'Complaint' | langg"
-            [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
-            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15" fullWidth>
-          <ng-container *ngIf="!item.isNameValid">
-            <label class="error-message" langg>This Name does not exist! Do you add it to the
-              list?</label>&nbsp;
-            <button nbButton type="button" (click)="onAddNewItemToList(item.compName);item.isNameValid=true"
-              status="info" size="small" class="mt-2" langg>Add</button>
-          </ng-container> -->
+          </nb-select> -->
+          <input nbInput [(ngModel)]="item.compName" [placeholder]="'Complaint' | langg"
+                [typeahead]="complaintsGeneralValues" typeaheadOptionField="compName"
+                (typeaheadOnSelect)="onSelectGeneralComplaint($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
+                (keyup)="!item.isNameValid || item.compName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
+                [isAnimated]="true" [typeaheadMinLength]="0"
+                [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
+                [typeaheadOptionsInScrollableView]="15" fieldSize="small" fullWidth>
+              <ng-container *ngIf="!item.isNameValid && item.compName != ''">
+                <label class="error-message" langg>Must choose from the list !</label>
+              </ng-container>
         </td>
         <td>
           <input nbInput [(ngModel)]="item.note" [ngModelOptions]="{standalone: true}"
@@ -44,7 +44,7 @@
     </tbody>
   </table>
   <button nbButton size="small" (click)="onAddComplaint('general')"
-    [disabled]="patientGeneralComplaints.length && !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId"
+    [disabled]="isAnyNameInvalid || (patientGeneralComplaints.length && !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId)"
     class="mx-1 mb-1">
     <nb-icon icon="plus-outline"></nb-icon><span>{{'Add General Complaint'| langg}}</span>
   </button>
@@ -101,7 +101,7 @@
 
   <div class="text-center nbButton-group mb-1">
     <button nbButton type="submit" status="success" (click)="onSave()"
-      [disabled]="!patientGeneralComplaints.length || !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId">{{'Save'| langg}}</button>
+      [disabled]="isAnyNameInvalid || !patientGeneralComplaints.length || !patientGeneralComplaints[patientGeneralComplaints?.length-1]?.compId">{{'Save'| langg}}</button>
     <button nbButton type="button" status="danger" (click)="location.back()">{{'Cancel'| langg}}</button>
   </div>
 </form>

@@ -121,10 +121,11 @@ namespace clinic_api.Controllers
                         ChoiceName = s.Choice
                     }).ToList()
                 }).ToListAsync(),
-                PatientGeneralComplaints = await _context.PatientGeneralComplaints.Where(p => p.PatientId == patientId).Select(c => new PatientGeneralComplaintList
+                PatientGeneralComplaints = await _context.PatientGeneralComplaints.Where(p => p.PatientId == patientId).Include(d => d.GeneralComplaint).Select(c => new PatientGeneralComplaintList
                 {
                     Id = c.Id,
                     CompId = c.GeneralComplaintId,
+                    CompName = c.GeneralComplaint.Complaint,
                     Note = c.Note,
                     CreatedOn = c.CreatedOn
                 }).ToListAsync(),
@@ -264,7 +265,10 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var patient = _context.Patients.Where(p => p.Id == patientId).Include(e => e.PatientExaminations).FirstOrDefault();
+            var patient = _context.Patients.Where(p => p.Id == patientId)
+                .Include(e => e.PatientExaminations).ThenInclude(d => d.Examination)
+                .Include(e => e.PatientExaminations).ThenInclude(d => d.ExaminationArea)
+                .FirstOrDefault();
             if (patient == null)
             {
                 return NotFound();
@@ -297,7 +301,9 @@ namespace clinic_api.Controllers
                     {
                         Id = e.Id,
                         TypeId = e.ExaminationId,
+                        TypeName = e.Examination.Examination,
                         AreaId = e.ExaminationAreaId,
+                        AreaName = e.ExaminationArea.ExaminationArea,
                         CreatedOn = e.CreatedOn
                     }).ToList()
                 }

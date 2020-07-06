@@ -141,56 +141,5 @@ namespace clinic_api.Controllers
 
             return NoContent();
         }
-
-        // GET: api/Doctor/GetCompValues
-        [HttpGet("GetCompValues/{id}/{doctorId}")]
-        public async Task<ActionResult<IEnumerable<DoctorAnyValueDTO>>> GetCompValues(Guid id, Guid doctorId)
-        {
-            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
-            {
-                return Unauthorized();
-            }
-
-            var model = await _context.DoctorGeneralComplaintsValues.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
-                .OrderBy(e => e.Complaint)
-                .Select(e => new DoctorAnyValueDTO
-                {
-                    Id = e.Id,
-                    Text = e.Complaint
-                }).ToListAsync();
-
-            return model;
-        }
-
-        // PUT: api/Doctor/PostDiagnosisValue/5
-        [HttpPost("PostDiagnosisValue/{id}")]
-        public async Task<ActionResult<DiagnosisValue>> PostDiagnosisValue(Guid id, PostDoctorDiagnosisDTO model)
-        {
-            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
-            {
-                return Unauthorized();
-            }
-            var newDiagnosis = new DoctorDiagnosisValue
-            {
-                DoctorId = model.DoctorId,
-                Diagnosis = model.Diagnosis,
-                IsActive = true,
-                IsDeleted = false,
-                CreatedBy = id,
-                CreatedOn = DateTime.Now.ToEgyptTime(),
-                UpdatedBy = id,
-                UpdatedOn = DateTime.Now.ToEgyptTime(),
-            };
-            _context.DoctorDiagnosisValues.Add(newDiagnosis);
-
-            await _context.SaveChangesAsync();
-
-            var diagnosisValue = new DiagnosisValue
-            {
-                Id = newDiagnosis.Id,
-                Text = newDiagnosis.Diagnosis
-            };
-            return diagnosisValue;
-        }
     }
 }

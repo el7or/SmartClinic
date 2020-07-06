@@ -23,6 +23,7 @@ import {
 import { Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { TypeaheadMatch } from "ngx-bootstrap";
+import { AnyPatientFileValue } from '../../../settings/patient-setting/record-items-setting/record-items-setting.model';
 
 @Component({
   selector: "complaints",
@@ -40,10 +41,11 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
   @Output() onFinish: EventEmitter<any> = new EventEmitter<any>();
-  isAnyNameInvalid = false;
+  isAnyNameInvalid = true;
 
   getSubs: Subscription;
   setSubs: Subscription;
+  addSubs: Subscription;
 
   constructor(
     private complantService: ComplaintsService,
@@ -92,6 +94,7 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.getSubs.unsubscribe();
     if (this.setSubs) this.setSubs.unsubscribe();
+    if (this.addSubs) this.addSubs.unsubscribe();
   }
 
   // =====> add chosen general complaint to patient general compliants:
@@ -100,10 +103,25 @@ export class ComplaintsComponent implements OnInit, OnDestroy {
     this.patientGeneralComplaints[index].compId = event.item.compId;
   }
 
-  /* // =====> on add new item to general complaints values:
-  onAddNewItemToList(complaintName) {
-    this.complaintsGeneralValues.push(complaintName);
-  }*/
+  // =====> on add new item to general complaints values:
+  onAddNewItemToList(item:PatientGeneralComplaint) {
+    this.formLoading = true;
+    this.addSubs = this.complantService
+      .postComplaintValue(item.compName)
+      .subscribe(
+        (res:AnyPatientFileValue) => {
+          this.complaintsGeneralValues.push({compId:res.id, compName:res.text});
+          item.compId = res.id;
+          this.formLoading = false;
+          this.doneSwal.fire();
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
+  }
 
   // =====> on select Complaint details from dropDownList:
   onChangeComplaintDetails(event, item: PatientDetailsComplaint) {

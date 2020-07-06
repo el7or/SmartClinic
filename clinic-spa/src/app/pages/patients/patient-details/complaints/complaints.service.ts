@@ -2,14 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import {
-  ComplaintDetailsValue,
-  ComplaintGeneralValue,
   GetPatientComplaints,
   PutPatientComplaints,
 } from "./complaints.model";
 import { environment } from "../../../../../environments/environment";
 import { AuthService } from "../../../../auth/auth.service";
 import { PatientsService } from "../../patients.service";
+import { AnyPatientFileValue, ItemsType } from '../../../settings/patient-setting/record-items-setting/record-items-setting.model';
 
 @Injectable({
   providedIn: "root",
@@ -42,6 +41,22 @@ export class ComplaintsService {
         "/" +
         this.patientService.patientId,
       patientComplaints
+    );
+  }
+  postComplaintValue(compValue: string) {
+    const postObj: AnyPatientFileValue = {
+      id: 0,
+      text: compValue,
+    };
+    return this.http.post<AnyPatientFileValue>(
+      this.baseUrl +
+        "RecordSetting/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId +
+        "/" +
+        ItemsType.Complaint,
+        postObj
     );
   }
 }

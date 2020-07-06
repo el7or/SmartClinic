@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ExaminationService } from "./examination.service";
-import { PatientExaminationsDetails, ExaminationTypeValue, ExaminationAreaValue, GetPatientExaminations, BloodPressureValue } from "./examination.model";
+import { PatientExaminationsDetails, ExaminationTypeValue, ExaminationAreaValue, GetPatientExaminations, BloodPressureValue, PatientExamination } from "./examination.model";
 import { AlertService } from '../../../../shared/services/alert.service';
 import { TypeaheadMatch } from 'ngx-bootstrap';
+import { AnyPatientFileValue, ItemsType } from '../../../settings/patient-setting/record-items-setting/record-items-setting.model';
 
 @Component({
   selector: "examination",
@@ -29,10 +30,11 @@ export class ExaminationComponent implements OnInit,OnDestroy {
     examinations:[]
   };
 
-  isAnyNameInvalid = false;
+  isAnyNameInvalid = true;
 
   getSubs: Subscription;
   setSubs: Subscription;
+  addSubs: Subscription;
 
   constructor(
     private examinationService: ExaminationService,
@@ -67,6 +69,7 @@ export class ExaminationComponent implements OnInit,OnDestroy {
 ngOnDestroy() {
   this.getSubs.unsubscribe();
   if (this.setSubs) this.setSubs.unsubscribe();
+  if (this.addSubs) this.addSubs.unsubscribe();
 }
 
 onSelectType(event: TypeaheadMatch, index) {
@@ -79,13 +82,45 @@ onSelectArea(event: TypeaheadMatch, index) {
   this.patientExaminations.examinations[index].areaId = event.item.areaId;
 }
 
-  /* onAddNewItemToList(name, type) {
-    if (type == "type") {
-      this.examinationsTypes.push(name);
-    } else {
-      this.examinationsAreas.push(name);
-    }
-  } */
+// =====> on add new item to examination type values:
+onAddNewTypeToList(item:PatientExamination) {
+  this.formLoading = true;
+  this.addSubs = this.examinationService
+    .postExaminationValue(item.typeName,ItemsType.Examination)
+    .subscribe(
+      (res:AnyPatientFileValue) => {
+        this.examinationsTypes.push({typeId:res.id, typeText:res.text});
+        item.typeId = res.id;
+        this.formLoading = false;
+        this.doneSwal.fire();
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
+}
+
+// =====> on add new item to examination area values:
+onAddNewAreaToList(item:PatientExamination) {
+  this.formLoading = true;
+  this.addSubs = this.examinationService
+    .postExaminationValue(item.areaName,ItemsType.ExaminationArea)
+    .subscribe(
+      (res:AnyPatientFileValue) => {
+        this.examinationsAreas.push({areaId:res.id, areaText:res.text});
+        item.areaId = res.id;
+        this.formLoading = false;
+        this.doneSwal.fire();
+      },
+      (err) => {
+        console.error(err);
+        this.alertService.alertError();
+        this.formLoading = false;
+      }
+    );
+}
 
   // =====> on add new request to form from button:
   onAddExamination() {

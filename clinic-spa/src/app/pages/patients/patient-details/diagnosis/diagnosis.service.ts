@@ -4,11 +4,11 @@ import { HttpClient } from "@angular/common/http";
 import {
   GetPatientDiagnosis,
   PutPatientDiagnosis,
-  PostDoctorDiagnosis,
 } from "./diagnosis.model";
 import { environment } from "../../../../../environments/environment";
 import { AuthService } from "../../../../auth/auth.service";
 import { PatientsService } from "../../patients.service";
+import { AnyPatientFileValue, ItemsType } from '../../../settings/patient-setting/record-items-setting/record-items-setting.model';
 
 @Injectable({
   providedIn: "root",
@@ -46,13 +46,19 @@ export class DiagnosisService {
   }
 
   postDiagnosisValue(diagnosisValue: string) {
-    const postObj: PostDoctorDiagnosis = {
-      doctorId: this.authService.doctorId,
-      diagnosis: diagnosisValue,
+    const postObj: AnyPatientFileValue = {
+      id: 0,
+      text: diagnosisValue,
     };
-    return this.http.post(
-      this.baseUrl + "Doctor/PostDiagnosisValue/" + this.authService.userId,
-      postObj
+    return this.http.post<AnyPatientFileValue>(
+      this.baseUrl +
+        "RecordSetting/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId +
+        "/" +
+        ItemsType.Diagnosis,
+        postObj
     );
   }
 }

@@ -454,10 +454,10 @@ namespace clinic_api.Controllers
             var prevPatientPrescriptions = await _context.PatientPrescriptions.Where(p => p.PatientId == patientId).Include(e => e.PrescriptionMedicines).Include("PrescriptionMedicines.Medicine").ToListAsync();
             GetPatientPrescriptionsDTO model = new GetPatientPrescriptionsDTO
             {
-                MedicineValues = _context.SysMedicinesValues.OrderBy(m => m.Text).Select(v => new MedicineValue
+                MedicineValues = _context.DoctorMedicinesValues.Where(d => d.DoctorId==doctorId).OrderBy(m => m.MedicineName).Select(v => new MedicineValue
                 {
                     Id = v.Id,
-                    Text = v.Text
+                    Text = v.MedicineName
                 }).ToList(),
                 QuantityValues = _context.SysMedicineQuantityValues.Select(v => new QuantityValue
                 {
@@ -487,13 +487,13 @@ namespace clinic_api.Controllers
                 PrevPatientPrescriptions = prevPatientPrescriptions.Select(p => new PatientPrescriptionListDTO
                 {
                     Id = p.Id,
-                    MedicinesNames = p.PrescriptionMedicines.Select(m => m.Medicine.Text).ToArray(),
+                    MedicinesNames = p.PrescriptionMedicines.Select(m => m.Medicine.MedicineName).ToArray(),
                     Note = p.Note,
                     CreatedOn = p.CreatedOn,
                     Medicines = p.PrescriptionMedicines.Select(m => new PrescriptionMedicineListDTO
                     {
                         MedicineId = m.MedicineId,
-                        MedicineName = m.Medicine.Text,
+                        MedicineName = m.Medicine.MedicineName,
                         DoseId = m.DoseId,
                         QuantityId = m.QuantityId,
                         PeriodId = m.PeriodId,

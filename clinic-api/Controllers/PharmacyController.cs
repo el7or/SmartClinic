@@ -54,7 +54,7 @@ namespace clinic_api.Controllers
                    Note = p.Note,
                    MedicinesPresc = p.PrescriptionMedicines.Select(m => new MedicinesPresc
                    {
-                       Medicine = m.Medicine.Text,
+                       Medicine = m.Medicine.MedicineName,
                        Quantity = m.Quantity.Text,
                        Dose = m.Dose.Text,
                        Period = m.Period.Text,
@@ -96,7 +96,7 @@ namespace clinic_api.Controllers
                    Status = (p.IsPharmacyDone==true ? "Done" : "Canceled"),
                    MedicinesPresc = p.PrescriptionMedicines.Select(m => new MedicinesPresc
                    {
-                       Medicine = m.Medicine.Text,
+                       Medicine = m.Medicine.MedicineName,
                        Quantity = m.Quantity.Text,
                        Dose = m.Dose.Text,
                        Period = m.Period.Text,

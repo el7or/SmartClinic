@@ -16,9 +16,9 @@ namespace clinic_api.Models
         public int? PeriodId { get; set; }
 
         public virtual PatientPrescription Prescription { get; set; }
-        public virtual SysMedicineDosesValue Dose { get; set; }
+        public virtual DoctorMedicinesValue Medicine { get; set; }
         public virtual SysMedicineQuantityValue Quantity { get; set; }
-        public virtual SysMedicinesValue Medicine { get; set; }
+        public virtual SysMedicineDosesValue Dose { get; set; }
         public virtual SysMedicinePeriodsValue Period { get; set; }
         public virtual SysMedicineTimingsValue Timing { get; set; }
     }

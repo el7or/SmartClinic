@@ -16,6 +16,7 @@ import {
   PatientPrescription,
   GetPatientPrescriptions,
   PharmacyValue,
+  PrescriptionMedicine,
 } from "./medicines.model";
 import { AlertService } from "../../../../shared/services/alert.service";
 import { TypeaheadMatch } from "ngx-bootstrap";
@@ -45,6 +46,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
 
   getSubs: Subscription;
   setSubs: Subscription;
+  addSubs: Subscription;
 
   constructor(
     public location: Location,
@@ -80,6 +82,27 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.getSubs.unsubscribe();
     if (this.setSubs) this.setSubs.unsubscribe();
+    if (this.addSubs) this.addSubs.unsubscribe();
+  }
+
+  // =====> add new medicine to doctor medicines list:
+  onAddNewItemToList(item:PrescriptionMedicine) {
+    this.formLoading = true;
+    this.addSubs = this.medicineService
+      .postMedicineValue(item.medicineName)
+      .subscribe(
+        (res:MedicineValue) => {
+          this.medicineValues.push(res);
+          item.medicineId = res.id;
+          this.formLoading = false;
+          this.doneSwal.fire();
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 
   // =====> bind medicineId on select medicine from typehead:

@@ -1,3 +1,4 @@
+import { MedicinesSettingComponent } from './settings/patient-setting/medicines-setting/medicines-setting.component';
 import { RecordItemsSettingComponent } from './settings/patient-setting/record-items-setting/record-items-setting.component';
 import { RoleGuard } from "./../auth/role.guard";
 import { ExpensesListComponent } from "./accounting/expenses/expenses-list/expenses-list.component";
@@ -271,6 +272,10 @@ const routes: Routes = [
               {
                 path: "items",
                 component: RecordItemsSettingComponent,
+              },
+              {
+                path: "medicines",
+                component: MedicinesSettingComponent,
               },
             ],
           },

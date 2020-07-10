@@ -725,5 +725,6 @@
   { "ar": "هاتف آخر", "en": "Patient Phone 2" },
   { "ar": "المدينة", "en": "City" },
   { "ar": "تم نقل البيانات إلى الروشتات السابقة", "en": "Moved to Prev Prescriptions" },
-  { "ar": "الحالة", "en": "Status" }
+  { "ar": "الحالة", "en": "Status" },
+  { "ar": "اسم الدواء", "en": "Medicine Name" }
 ]

@@ -100,6 +100,14 @@ namespace clinic_api.Controllers
                             Text = e.RayArea
                         });
                     break;
+                case ItemsType.Medicine:
+                    model = _context.DoctorMedicinesValues.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
+                        .OrderBy(e => e.MedicineName).Select(e => new DoctorAnyValueDTO
+                        {
+                            Id = e.Id,
+                            Text = e.MedicineName
+                        });
+                    break;
                 default:
                     break;
             }
@@ -120,8 +128,8 @@ namespace clinic_api.Controllers
             {
                 case ItemsType.Complaint:
                     itemValue = _context.DoctorGeneralComplaintsValues.Find(item.Id);
-                    itemValue.Complaint = item.Text;                                    
-                   break;
+                    itemValue.Complaint = item.Text;
+                    break;
                 case ItemsType.Examination:
                     itemValue = _context.DoctorExaminationsValues.Find(item.Id);
                     itemValue.Examination = item.Text;
@@ -149,6 +157,10 @@ namespace clinic_api.Controllers
                 case ItemsType.RayArea:
                     itemValue = _context.DoctorRayAreasValues.Find(item.Id);
                     itemValue.RayArea = item.Text;
+                    break;
+                case ItemsType.Medicine:
+                    itemValue = _context.DoctorMedicinesValues.Find(item.Id);
+                    itemValue.MedicineName = item.Text;
                     break;
                 default:
                     break;
@@ -236,6 +248,14 @@ namespace clinic_api.Controllers
                     };
                     _context.DoctorRayAreasValues.Add(newItem);
                     break;
+                case ItemsType.Medicine:
+                    newItem = new DoctorMedicinesValue
+                    {
+                        DoctorId = doctorId,
+                        MedicineName = item.Text
+                    };
+                    _context.DoctorMedicinesValues.Add(newItem);
+                    break;
                 default:
                     break;
             }
@@ -252,7 +272,7 @@ namespace clinic_api.Controllers
 
         // DELETE: api/RecordSetting/5
         [HttpDelete("{id}/{type}/{itemId}")]
-        public async Task<ActionResult<SysPatientRecordSectionsValue>> DeleteRecordSetting(Guid id ,ItemsType type,int itemId)
+        public async Task<ActionResult<SysPatientRecordSectionsValue>> DeleteRecordSetting(Guid id, ItemsType type, int itemId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -285,6 +305,9 @@ namespace clinic_api.Controllers
                     break;
                 case ItemsType.RayArea:
                     itemValue = _context.DoctorRayAreasValues.Find(itemId);
+                    break;
+                case ItemsType.Medicine:
+                    itemValue = _context.DoctorMedicinesValues.Find(itemId);
                     break;
                 default:
                     break;

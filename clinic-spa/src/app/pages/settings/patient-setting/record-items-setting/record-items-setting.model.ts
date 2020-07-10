@@ -11,5 +11,6 @@ export enum ItemsType {
   Ray = "Ray",
   RayArea = "RayArea",
   Analysis = "Analysis",
-  Operation = "Operation"
+  Operation = "Operation",
+  Medicine= "Medicine"
 }

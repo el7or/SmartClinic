@@ -63,6 +63,7 @@ namespace clinic_api.DTOs
         Ray,
         RayArea,
         Analysis,
-        Operation
+        Operation,
+        Medicine
     }
 }

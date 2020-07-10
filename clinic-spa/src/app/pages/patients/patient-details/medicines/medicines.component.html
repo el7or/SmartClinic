@@ -6,15 +6,17 @@
         <tbody>
           <tr *ngFor="let item of newPatientPrescription.medicines; index as i;">
             <td>
-              <input nbInput [(ngModel)]="item.medicineName"
-                [typeahead]="medicineValues" typeaheadOptionField="text"
+              <input nbInput [(ngModel)]="item.medicineName" [typeahead]="medicineValues" typeaheadOptionField="text"
                 (typeaheadOnSelect)="onSelectMedicine($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
                 (keyup)="!item.isNameValid || item.medicineName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
                 [placeholder]="'Medication Name' | langg" [isAnimated]="true" [typeaheadMinLength]="0"
-                [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
-                [typeaheadOptionsInScrollableView]="15" fieldSize="small" fullWidth>
+                [ngModelOptions]="{standalone: true}" class="leftAutoComplete"
+                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15" fieldSize="small" fullWidth>
               <ng-container *ngIf="!item.isNameValid && item.medicineName != ''">
-                <label class="error-message" langg>Must choose from the list !</label>
+                <label class="error-message" langg>This Name does not exist! Do you add it to the
+                  list?</label>&nbsp;
+                <button nbButton type="button" (click)="onAddNewItemToList(item);item.isNameValid=true" status="info"
+                  size="small" class="mt-2" langg>Add</button>
               </ng-container>
             </td>
             <td>
@@ -51,7 +53,7 @@
         </tbody>
       </table>
       <button (click)="onAddMedicine()" nbButton size="small" class="mb-1"
-        [disabled]="isAnyNameInvalid || !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId">
+        [disabled]="newPatientPrescription.medicines.length && !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId">
         <nb-icon icon="plus"></nb-icon>
       </button>
       <div class="form-control-group">
@@ -77,7 +79,7 @@
 
       <div class="text-center nbButton-group mb-1">
         <button nbButton type="submit" status="success" (click)="onSave(false)"
-          [disabled]="isAnyNameInvalid || !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId"
+          [disabled]="!newPatientPrescription.medicines.length || (newPatientPrescription.medicines.length && !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId)"
           langg>Save</button>
         <button nbButton type="submit" status="success" (click)="onSave(true)"
           [disabled]="isAnyNameInvalid || !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId"

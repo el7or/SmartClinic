@@ -171,6 +171,12 @@
     @include nb-ltr(text-align, left);
     @include nb-rtl(text-align, right);
   }
+  .leftAutoComplete + .dropdown-menu {
+    text-align: left;
+    float: right !important;
+    position: inherit !important;
+    transform: unset !important;
+  }
 
   // =====> good arabic font but with arabic number only:
   .font-naskh {
@@ -183,12 +189,12 @@
     font-weight: bold;
   }
 
-  .font-andalus{
+  .font-andalus {
     font-family: "Andalus";
     font-size: x-large;
   }
 
-  .font-urdu{
+  .font-urdu {
     font-family: "Urdu Typesetting";
     font-size: xx-large;
     font-weight: normal;
@@ -226,7 +232,7 @@
     color: #c5cee0 !important;
   }
 
-  textarea:disabled{
+  textarea:disabled {
     color: black !important;
     background-color: #faebd7 !important;
   }

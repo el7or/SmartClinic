@@ -87,6 +87,7 @@ namespace clinic_api.Data
         public virtual DbSet<DoctorExaminationAreasValue> DoctorExaminationAreasValues { get; set; }
         public virtual DbSet<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
         public virtual DbSet<DoctorGeneralComplaintsValue> DoctorGeneralComplaintsValues { get; set; }
+        public virtual DbSet<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
         public virtual DbSet<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }
@@ -125,7 +126,6 @@ namespace clinic_api.Data
         public virtual DbSet<SysMedicineQuantityValue> SysMedicineQuantityValues { get; set; }
         public virtual DbSet<SysMedicinePeriodsValue> SysMedicinePeriodsValues { get; set; }
         public virtual DbSet<SysMedicineTimingsValue> SysMedicineTimingsValues { get; set; }
-        public virtual DbSet<SysMedicinesValue> SysMedicinesValues { get; set; }
         public virtual DbSet<SysPatientRecordSectionsValue> SysPatientRecordSectionsValues { get; set; }
         public virtual DbSet<SysRayFileTypesValue> SysRayFileTypesValues { get; set; }
         public virtual DbSet<SysRenewalTypeValue> SysRenewalTypeValues { get; set; }
@@ -508,6 +508,21 @@ namespace clinic_api.Data
                     .HasConstraintName("FK_DoctorGeneralComplaintsValues_Doctors");
             });
 
+            modelBuilder.Entity<DoctorMedicinesValue>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.MedicineName).IsRequired();
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorMedicinesValues)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorMedicinesValues_Doctors");
+            });
+
             modelBuilder.Entity<DoctorOperationTypesValue>(entity =>
             {
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
@@ -849,7 +864,7 @@ namespace clinic_api.Data
                     .WithMany(p => p.PrescriptionMedicines)
                     .HasForeignKey(d => d.MedicineId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PrescriptionMedicines_SysMedicinesValue");
+                    .HasConstraintName("FK_PrescriptionMedicines_DoctorMedicinesValue");
 
                 entity.HasOne(d => d.Period)
                     .WithMany(p => p.PrescriptionMedicines)
@@ -1169,13 +1184,6 @@ namespace clinic_api.Data
             });
 
             modelBuilder.Entity<SysMedicineTimingsValue>(entity =>
-            {
-                entity.Property(e => e.Text).IsRequired();
-
-                entity.Property(e => e.Value).IsRequired();
-            });
-
-            modelBuilder.Entity<SysMedicinesValue>(entity =>
             {
                 entity.Property(e => e.Text).IsRequired();
 

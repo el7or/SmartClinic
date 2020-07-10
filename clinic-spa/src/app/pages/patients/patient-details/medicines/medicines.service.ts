@@ -5,6 +5,7 @@ import { GetPatientPrescriptions, PatientPrescription, PrescriptionForPrint } fr
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../auth/auth.service';
 import { PatientsService } from '../../patients.service';
+import { AnyPatientFileValue, ItemsType } from '../../../settings/patient-setting/record-items-setting/record-items-setting.model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,23 @@ export class MedicinesService {
         "/" +
         this.authService.doctorId,
         patientPrescription
+    );
+  }
+
+  postMedicineValue(medicineValue: string) {
+    const postObj: AnyPatientFileValue = {
+      id: 0,
+      text: medicineValue,
+    };
+    return this.http.post<AnyPatientFileValue>(
+      this.baseUrl +
+        "RecordSetting/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId +
+        "/" +
+        ItemsType.Medicine,
+        postObj
     );
   }
 }

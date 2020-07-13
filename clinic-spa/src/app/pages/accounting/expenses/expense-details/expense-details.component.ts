@@ -22,6 +22,7 @@ export class ExpenseDetailsComponent implements OnInit, OnDestroy {
   formLoading = false;
   expenseItemValues: ExpenseItemValue[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  currentDay?: Date = new Date();
 
   getSubs: Subscription;
   itemSubs: Subscription;

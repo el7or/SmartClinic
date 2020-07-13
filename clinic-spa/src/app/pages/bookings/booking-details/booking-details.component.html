@@ -62,7 +62,7 @@
             <nb-select multiple fullWidth formControlName="services" (selectedChange)="onChangeService($event)"
               [placeholder]="'Add Service' | langg"
               [status]="form?.get('services').invalid ? 'danger' : ( form?.value.services?.length ? 'success':'')">
-              <nb-option *ngFor="let item of bookingSetting?.clinicBookingServices" [value]="item.id" langg>
+              <nb-option *ngFor="let item of bookingSetting?.clinicBookingServices" [value]="item.id">
                 {{item.service | langg}}&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</nb-option>
             </nb-select>
             <ng-container *ngIf="form?.get('services').invalid && form?.get('services').dirty">

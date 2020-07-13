@@ -16,6 +16,7 @@ namespace clinic_api.Models
         [StringLength(256)]
         public string Title { get; set; }
         public string Description { get; set; }
+        public int SubscriberTypeId { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
         public DateTime CreatedOn { get; set; }
@@ -32,6 +33,7 @@ namespace clinic_api.Models
         public int? MaxFilesMonthlyMB { get; set; }
         public int? MaxFileSizeMB { get; set; }
 
+        public virtual SysSubscriberTypeValue SubscriberType { get; set; }
         public virtual SysRenewalTypeValue RenewalType { get; set; }
         public virtual ICollection<Subscription> Subscriptions { get; set; }
     }

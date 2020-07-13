@@ -33,8 +33,8 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   doseValues: DoseValue[];
   timingValues: TimingValue[];
   periodValues: PeriodValue[];
-  pharmacyValues:PharmacyValue[];
-  doctorPharmacyId?:string;
+  pharmacyValues: PharmacyValue[];
+  doctorPharmacyId?: string;
   newPatientPrescription: PatientPrescription = {
     id: 0,
     medicines: [{ medicineId: 0, medicineName: "" }],
@@ -42,6 +42,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   };
   prevPatientPrescriptions: PatientPrescription[] = [];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
+  @ViewChild("confirmSwal", { static: false }) confirmSwal: SwalComponent;
   isAnyNameInvalid = true;
 
   getSubs: Subscription;
@@ -86,12 +87,12 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   }
 
   // =====> add new medicine to doctor medicines list:
-  onAddNewItemToList(item:PrescriptionMedicine) {
+  onAddNewItemToList(item: PrescriptionMedicine) {
     this.formLoading = true;
     this.addSubs = this.medicineService
       .postMedicineValue(item.medicineName)
       .subscribe(
-        (res:MedicineValue) => {
+        (res: MedicineValue) => {
           this.medicineValues.push(res);
           item.medicineId = res.id;
           this.formLoading = false;
@@ -126,50 +127,54 @@ export class MedicinesComponent implements OnInit, OnDestroy {
 
   // =====> on save prescription:
   onSave(isPrint: boolean) {
-    this.formLoading = true;
-    this.newPatientPrescription.isPrint = isPrint;
-    this.newPatientPrescription.pharmacyId = this.doctorPharmacyId;
-    if (!this.newPatientPrescription.id) {
-      this.newPatientPrescription.createdOn = new Date();
-    }
-    this.setSubs = this.medicineService
-      .savePatientPrescription(this.newPatientPrescription)
-      .subscribe(
-        () => {
-          if (isPrint) {
-            this.createPrescForPrint(this.newPatientPrescription);
-            this.router.navigate(["/print/medicines"], {
-              queryParams: { type: "medicine" },
-            });
-          } else {
-            let medicinesNamesArray = this.newPatientPrescription.medicines.map(
-              (m) => {
-                return m.medicineName;
-              }
-            );
-            if (!this.newPatientPrescription.id) {
-              this.newPatientPrescription.medicinesNames = medicinesNamesArray.toString();
-              this.prevPatientPrescriptions.push(this.newPatientPrescription);
+    this.confirmSwal.fire().then((result) => {
+      this.formLoading = true;
+      result.value
+        ? (this.newPatientPrescription.pharmacyId = this.doctorPharmacyId)
+        : (this.newPatientPrescription.pharmacyId = null);
+      this.newPatientPrescription.isPrint = isPrint;
+      if (!this.newPatientPrescription.id) {
+        this.newPatientPrescription.createdOn = new Date();
+      }
+      this.setSubs = this.medicineService
+        .savePatientPrescription(this.newPatientPrescription)
+        .subscribe(
+          () => {
+            if (isPrint) {
+              this.createPrescForPrint(this.newPatientPrescription);
+              this.router.navigate(["/print/medicines"], {
+                queryParams: { type: "medicine" },
+              });
             } else {
-              this.prevPatientPrescriptions.find(
-                (i) => i.id == this.newPatientPrescription.id
-              ).medicinesNames = medicinesNamesArray.toString();
+              let medicinesNamesArray = this.newPatientPrescription.medicines.map(
+                (m) => {
+                  return m.medicineName;
+                }
+              );
+              if (!this.newPatientPrescription.id) {
+                this.newPatientPrescription.medicinesNames = medicinesNamesArray.toString();
+                this.prevPatientPrescriptions.push(this.newPatientPrescription);
+              } else {
+                this.prevPatientPrescriptions.find(
+                  (i) => i.id == this.newPatientPrescription.id
+                ).medicinesNames = medicinesNamesArray.toString();
+              }
+              this.newPatientPrescription = {
+                id: 0,
+                medicines: [{ medicineId: 0, medicineName: "" }],
+                note: "",
+              };
+              this.formLoading = false;
+              this.doneSwal.fire();
             }
-            this.newPatientPrescription = {
-              id: 0,
-              medicines: [{ medicineId: 0, medicineName: "" }],
-              note: "",
-            };
+          },
+          (err) => {
+            console.error(err);
+            this.alertService.alertError();
             this.formLoading = false;
-            this.doneSwal.fire();
           }
-        },
-        (err) => {
-          console.error(err);
-          this.alertService.alertError();
-          this.formLoading = false;
-        }
-      );
+        );
+    });
   }
 
   // =====> on make copy or edit from previous prescription:

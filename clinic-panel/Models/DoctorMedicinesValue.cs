@@ -12,18 +12,25 @@ namespace clinic_panel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SysMedicinesValue
+    public partial class DoctorMedicinesValue
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SysMedicinesValue()
+        public DoctorMedicinesValue()
         {
             this.PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
         }
     
         public int Id { get; set; }
-        public string Value { get; set; }
-        public string Text { get; set; }
+        public System.Guid DoctorId { get; set; }
+        public string MedicineName { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public System.Guid CreatedBy { get; set; }
+        public System.DateTime UpdatedOn { get; set; }
+        public System.Guid UpdatedBy { get; set; }
     
+        public virtual Doctor Doctor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
     }

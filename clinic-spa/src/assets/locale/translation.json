@@ -726,5 +726,7 @@
   { "ar": "المدينة", "en": "City" },
   { "ar": "تم نقل البيانات إلى الروشتات السابقة", "en": "Moved to Prev Prescriptions" },
   { "ar": "الحالة", "en": "Status" },
-  { "ar": "اسم الدواء", "en": "Medicine Name" }
+  { "ar": "اسم الدواء", "en": "Medicine Name" },
+  { "ar": "تأكيد", "en": "Confirmation" },
+  { "ar": "سيتم إرسال الروشتة إلى الصيدلية..", "en": "Will send the Prescription to Pharmacy.." }
 ]

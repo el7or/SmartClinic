@@ -11,15 +11,16 @@ namespace clinic_panel.DTOs
         public Guid Id { get; set; }
         public string PharmacyName { get; set; }
         public string PharmacistName { get; set; }
+        public string Plan { get; set; }
         public string Phone1 { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [DataType(DataType.Date)]
-        public DateTime StartSubscriptionDate { get; set; }
+        public DateTime? StartSubscriptionDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [DataType(DataType.Date)]
-        public DateTime EndSubscriptionDate { get; set; }
+        public DateTime? EndSubscriptionDate { get; set; }
 
         public int SubscriptionsCount { get; set; }
         public int SubscriptionsPaid { get; set; }
@@ -58,7 +59,7 @@ namespace clinic_panel.DTOs
         public string Email { get; set; }
         public string Address { get; set; }
 
-        public string Plan { get; set; }
+        public int PlanId { get; set; }
         public int SignUpFee { get; set; }
         public DateTime SubsStartDate { get; set; }
         public string SubsNote { get; set; }

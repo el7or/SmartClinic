@@ -22,16 +22,17 @@ namespace clinic_panel.Controllers
         // GET: Pharmacy
         public ActionResult Index()
         {
-            var pharmacies = db.Pharmacies.Select(p => new PharmacyIndexDTO
+            var pharmacies = db.Pharmacies.OrderBy(p => p.CreatedOn).Select(p => new PharmacyIndexDTO
             {
                 Id = p.Id,
                 PharmacistName = p.PharmacistName,
                 PharmacyName = p.PharmacyName,
+                Plan = p.PharmacyName == "pharmacy test" ? null : db.Subscriptions.FirstOrDefault(s => s.SubscriberId == p.Id).Plan.Title,
                 Phone1 = p.Phone1,
-                StartSubscriptionDate = db.Subscriptions.Where(s => s.SubscriberId == p.Id).OrderBy(d => d.StartDate).FirstOrDefault().StartDate,
-                EndSubscriptionDate = db.Subscriptions.Where(s => s.SubscriberId == p.Id).OrderByDescending(d => d.EndDate).FirstOrDefault().EndDate,
-                SubscriptionsCount = db.Subscriptions.Where(s => s.SubscriberId == p.Id).Count(),
-                SubscriptionsPaid = (int)db.Subscriptions.Where(s => s.SubscriberId == p.Id).Sum(s => s.SubscriptionPayments.Select(e => e.Paid).DefaultIfEmpty(0).Sum()),
+                StartSubscriptionDate = p.PharmacyName == "pharmacy test" ? (DateTime?) null : db.Subscriptions.Where(s => s.SubscriberId == p.Id).OrderBy(d => d.StartDate).FirstOrDefault().StartDate,
+                EndSubscriptionDate = p.PharmacyName == "pharmacy test" ? (DateTime?)null : db.Subscriptions.Where(s => s.SubscriberId == p.Id).OrderByDescending(d => d.EndDate).FirstOrDefault().EndDate,
+                SubscriptionsCount = p.PharmacyName == "pharmacy test" ? 0 : db.Subscriptions.Where(s => s.SubscriberId == p.Id).Count(),
+                SubscriptionsPaid = p.PharmacyName == "pharmacy test" ? 0 : (int)db.Subscriptions.Where(s => s.SubscriberId == p.Id).Sum(s => s.SubscriptionPayments.Select(e => e.Paid).DefaultIfEmpty(0).Sum()),
                 IsActive = p.IsActive == false ? "معطل" : "مفعل"
             });
             return View(pharmacies.ToList());
@@ -55,13 +56,12 @@ namespace clinic_panel.Controllers
         // GET: Pharmacy/Create
         public ActionResult Create()
         {
-            var pharmacyPlan = db.Plans.FirstOrDefault(p => p.Id == 4);
+            var pharmacyPlans = db.Plans.Where(p => p.SubscriberTypeId == 2).ToList(); // Pharmacy
             var model = new PharmacyCreateDTO
             {
-                Plan = pharmacyPlan.Title,
-                SignUpFee = (int)pharmacyPlan.SignUpFee,
                 SubsStartDate = new DateTime(DateTime.Now.AddMonths(1).Year, DateTime.Now.AddMonths(1).Month, 1)
             };
+            ViewData["PlanId"] = new SelectList(pharmacyPlans, "Id", "Title");
             return View(model);
         }
 
@@ -124,7 +124,7 @@ namespace clinic_panel.Controllers
                             UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                         };
                         db.Pharmacies.Add(pharmacy);
-                        var plan = db.Plans.Find(4); // باقة الصيدليات
+                        var plan = db.Plans.Find(model.PlanId); 
                         var subscription = new Subscription
                         {
                             SubscriberId = pharmacy.Id,
@@ -146,16 +146,19 @@ namespace clinic_panel.Controllers
                             UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                         };
                         db.Subscriptions.Add(subscription);
-                        var payment = new SubscriptionPayment
+                        if (subscription.SignUpFee > 0)
                         {
-                            Subscription = subscription,
-                            Paid = (decimal)plan.SignUpFee,
-                            CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                            CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
-                            UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                            UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
-                        };
-                        db.SubscriptionPayments.Add(payment);
+                            var payment = new SubscriptionPayment
+                            {
+                                Subscription = subscription,
+                                Paid = (decimal)plan.SignUpFee,
+                                CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                                CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+                                UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                                UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
+                            };
+                            db.SubscriptionPayments.Add(payment);
+                        }
                         db.SaveChanges();
                         TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                         return RedirectToAction("Index");

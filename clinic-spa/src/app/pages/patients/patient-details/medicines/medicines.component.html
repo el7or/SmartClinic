@@ -127,3 +127,8 @@
 <swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
   [showConfirmButton]="false">
 </swal>
+
+<swal #confirmSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Confirmation' | langg"
+  [text]="'Will send the Prescription to Pharmacy..' | langg"
+  [confirmButtonText]="'Send' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#00b887">
+</swal>

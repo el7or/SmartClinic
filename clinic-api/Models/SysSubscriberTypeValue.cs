@@ -9,6 +9,7 @@ namespace clinic_api.Models
         public SysSubscriberTypeValue()
         {
             Subscriptions = new HashSet<Subscription>();
+            Plans = new HashSet<Plan>();
         }
 
         public int Id { get; set; }
@@ -20,5 +21,6 @@ namespace clinic_api.Models
         public string Text { get; set; }
 
         public virtual ICollection<Subscription> Subscriptions { get; set; }
+        public virtual ICollection<Plan> Plans { get; set; }
     }
 }

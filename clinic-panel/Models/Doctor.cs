@@ -32,6 +32,7 @@ namespace clinic_panel.Models
             this.Clinics = new HashSet<Clinic>();
             this.DoctorExpenseItems = new HashSet<DoctorExpenseItem>();
             this.DoctorExpenses = new HashSet<DoctorExpens>();
+            this.DoctorMedicinesValues = new HashSet<DoctorMedicinesValue>();
         }
     
         public System.Guid Id { get; set; }
@@ -56,6 +57,7 @@ namespace clinic_panel.Models
         public string Twitter { get; set; }
         public string LinkedIn { get; set; }
         public string Instagram { get; set; }
+        public Nullable<System.Guid> PharmacyId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
@@ -89,5 +91,8 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorExpens> DoctorExpenses { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
+        public virtual Pharmacy Pharmacy { get; set; }
     }
 }

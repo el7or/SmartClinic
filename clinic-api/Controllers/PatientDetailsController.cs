@@ -449,7 +449,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var pharmacies = _context.Pharmacies.Where(p => p.IsDeleted != true).OrderBy(p => p.PharmacyName);
+            var pharmacies = _context.Pharmacies.Where(p => p.IsDeleted != true && p.PharmacyName != "pharmacy test").OrderBy(p => p.PharmacyName);
             var doctorPharmacy = _context.Doctors.Find(doctorId).PharmacyId;
             var prevPatientPrescriptions = await _context.PatientPrescriptions.Where(p => p.PatientId == patientId).Include(e => e.PrescriptionMedicines).Include("PrescriptionMedicines.Medicine").ToListAsync();
             GetPatientPrescriptionsDTO model = new GetPatientPrescriptionsDTO

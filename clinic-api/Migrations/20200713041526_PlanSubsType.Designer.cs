@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using clinic_api.Data;
 
 namespace clinic_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200713041526_PlanSubsType")]
+    partial class PlanSubsType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2164,7 +2166,7 @@ namespace clinic_api.Migrations
                     b.Property<decimal?>("SignUpFee")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("SubscriberTypeId")
+                    b.Property<int?>("SubscriberTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -3364,8 +3366,7 @@ namespace clinic_api.Migrations
                     b.HasOne("clinic_api.Models.SysSubscriberTypeValue", "SubscriberType")
                         .WithMany("Plans")
                         .HasForeignKey("SubscriberTypeId")
-                        .HasConstraintName("FK_Plans_SysSubscriberTypeValues")
-                        .IsRequired();
+                        .HasConstraintName("FK_Plans_SysSubscriberTypeValues");
                 });
 
             modelBuilder.Entity("clinic_api.Models.PrescriptionMedicine", b =>

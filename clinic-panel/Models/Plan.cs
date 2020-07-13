@@ -23,6 +23,7 @@ namespace clinic_panel.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public int SubscriberTypeId { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
         public System.DateTime CreatedOn { get; set; }
@@ -40,6 +41,7 @@ namespace clinic_panel.Models
         public Nullable<int> MaxFileSizeMB { get; set; }
     
         public virtual SysRenewalTypeValue SysRenewalTypeValue { get; set; }
+        public virtual SysSubscriberTypeValue SysSubscriberTypeValue { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Subscription> Subscriptions { get; set; }
     }

@@ -10,6 +10,10 @@
     <Compile Remove="Migrations\20200608095824_DoctorExpense.Designer.cs" />
     <Compile Remove="Migrations\20200608110347_DoctorExpense2.cs" />
     <Compile Remove="Migrations\20200608110347_DoctorExpense2.Designer.cs" />
+    <Compile Remove="Migrations\20200713041055_PlanSubsType.cs" />
+    <Compile Remove="Migrations\20200713041055_PlanSubsType.Designer.cs" />
+    <Compile Remove="Migrations\20200713041405_PlanSubsType.cs" />
+    <Compile Remove="Migrations\20200713041405_PlanSubsType.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

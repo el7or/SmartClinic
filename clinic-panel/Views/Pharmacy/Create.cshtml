@@ -96,8 +96,8 @@
     <div class="form-group">
         <label class="control-label col-md-2">باقة الاشتراك</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Plan, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.Plan, "", new { @class = "text-danger" })
+            @Html.DropDownList("PlanId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PlanId, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -144,16 +144,6 @@
             // initial Datepicker
             $.datepicker.setDefaults($.datepicker.regional['ar']);
             $('#SubsStartDate').datepicker({
-                //changeMonth: true,
-                //changeYear: true,
-                //showButtonPanel: true,
-                //dateFormat: 'MM yy',
-                //onClose: function (dateText, inst) {
-                //    $(this).datepicker('disable');
-                //    $(this).datepicker('setDate', new Date(inst.selectedYear,  inst.selectedMonth, 1));
-                //    $(this).datepicker('enable');
-                //    $(this).text(new Date(inst.selectedYear, inst.selectedMonth, 1));
-                //}
                 dateFormat: "yy/mm/dd",
                 changeMonth: true,
                 changeYear: true,
@@ -171,16 +161,15 @@
                         $('.date-picker').focusout()//Added to remove focus from datepicker input box on selecting date
                     }
                 },
-                //beforeShow: function (input, inst) {
-                //    inst.dpDiv.addClass('month_year_datepicker')
-                //    if ((datestr = $(this).val()).length > 0) {
-                //        year = datestr.substring(datestr.length - 4, datestr.length);
-                //        month = datestr.substring(0, 2);
-                //        $(this).datepicker('option', 'defaultDate', new Date(year, month - 1, 1));
-                //        $(this).datepicker('setDate', new Date(year, month - 1, 1));
-                //        $(".ui-datepicker-calendar").hide();
-                //    }
-                //}
+            });
+
+            $('#PlanId').change(function () {
+                if (+$(this).val() == 4) {
+                    $('#SignUpFee').val(0);
+                }
+                if (+$(this).val() == 5) {
+                    $('#SignUpFee').val(300);
+                }
             });
         });
     </script>

@@ -1043,6 +1043,12 @@ namespace clinic_api.Data
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
 
+                entity.HasOne(d => d.SubscriberType)
+                    .WithMany(p => p.Plans)
+                    .HasForeignKey(d => d.SubscriberTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Plans_SysSubscriberTypeValues");
+
                 entity.HasOne(d => d.RenewalType)
                     .WithMany(p => p.Plans)
                     .HasForeignKey(d => d.RenewalTypeId)

@@ -50,11 +50,20 @@ namespace clinic_api.Controllers
                     .Include(c => c.ClinicUsers).Include("ClinicUsers.Clinic").Include("ClinicUsers.Clinic.DoctorClinics")
                     .Include(p => p.Pharmacies)
                     .FirstOrDefaultAsync();
-                return Ok(new
+                // check if subscription valid
+                var userSubscription = _context.Subscriptions.Where(s => s.SubscriberId == loginUser.Id).OrderByDescending(c => c.CreatedOn).FirstOrDefault();
+                if (userSubscription != null && userSubscription.EndDate < DateTime.Now)
                 {
-                    token = GenerateJWToken(loginUser).Result,
-                    nickName = loginUser.FullName
-                });
+                    return Unauthorized();
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        token = GenerateJWToken(loginUser).Result,
+                        nickName = loginUser.FullName
+                    });
+                }
             }
             else return Unauthorized();
         }

@@ -113,11 +113,11 @@ namespace clinic_api.Controllers
 
             var model = doctorExpenses
                 .GroupBy(p => new { p.Date.Month, p.Date.Year })
-                .OrderBy(y => y.Key.Year).ThenBy(m => m.Key.Month)
+                .OrderByDescending(y => y.Key.Year).ThenByDescending(m => m.Key.Month)
                 .Select(p => new GetExpenseListDTO
                 {
                     Month = p.Key.Year.ToString() + "-" + p.Key.Month.ToString() + "-1",
-                    ExpensesList = p.OrderBy(d => d.Date)
+                    ExpensesList = p.OrderByDescending(d => d.Date)
                 }).ToList();
 
             return model;

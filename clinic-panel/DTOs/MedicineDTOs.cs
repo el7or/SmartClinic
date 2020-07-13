@@ -10,23 +10,17 @@ namespace clinic_panel.DTOs
     }
     public class MedicineIndexDTO
     {
-        public List<MedicineName> MedicineNames { get; set; }
-        public List<MedicineConcentration> MedicineConcentrations { get; set; }
+        //public List<MedicineName> MedicineNames { get; set; }
         public List<MedicineQuantity> MedicineQuantities { get; set; }
         public List<MedicineDose> MedicineDoses { get; set; }
         public List<MedicineTiming> MedicineTimings { get; set; }
         public List<MedicinePeriod> MedicinePeriods { get; set; }
     }
-    public class MedicineName
-    {
-        public int Id { get; set; }
-        public string Text { get; set; }
-    }
-    public class MedicineConcentration
-    {
-        public int Id { get; set; }
-        public string Text { get; set; }
-    }
+    //public class MedicineName
+    //{
+    //    public int Id { get; set; }
+    //    public string Text { get; set; }
+    //}
     public class MedicineQuantity
     {
         public int Id { get; set; }

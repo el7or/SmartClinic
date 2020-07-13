@@ -13,7 +13,7 @@
       <div class="row">
         <div class="form-control-group col-md-6">
           <label for="input-expenseDate" class="label"><span langg>Expense Date</span>:</label>
-          <input type="text" bsDatepicker nbInput ngModel #expenseDate="ngModel" name="expenseDate"
+          <input type="text" bsDatepicker nbInput [ngModel]="currentDay" #expenseDate="ngModel" name="expenseDate"
             id="input-expenseDate" fullWidth autocomplete="off" readonly
             [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
             [placeholder]="'Expense Date' | langg" required

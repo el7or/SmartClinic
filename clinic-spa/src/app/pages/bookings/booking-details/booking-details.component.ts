@@ -29,7 +29,7 @@ import { DateTimeService } from "./../../../shared/services/date-time.service";
 export class BookingDetailsComponent implements OnInit, OnDestroy {
   form: FormGroup;
   formLoading: boolean = false;
-  todayDate: Date = new Date();
+  todayDate: Date;
   bookingSetting: BookingSetting;
   bookingDetails: BookingDetails;
   prevBookingsDues?: PrevBookingDue[];
@@ -86,6 +86,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.todayDate = new Date();
     this.formLoading = true;
     // =====> get booking settings & data:
     this.getBookSubs = this.bookingService

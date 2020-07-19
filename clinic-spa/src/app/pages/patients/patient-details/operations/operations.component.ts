@@ -69,7 +69,7 @@ export class OperationsComponent implements OnInit {
     this.formLoading = true;
     const postObj: PostPatientOperation = {
       typeId: form.value.type,
-      date: this.dateTimeSetvice.dateWithoutTime(form.value.date),
+      date: form.value.date? this.dateTimeSetvice.dateWithoutTime(form.value.date):null,
       place: form.value.place,
       cost: form.value.cost,
       note: form.value.note,

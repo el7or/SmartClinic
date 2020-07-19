@@ -12,7 +12,6 @@ namespace clinic_api.Models
         public Pharmacy()
         {
             PatientPrescriptions = new HashSet<PatientPrescription>();
-            Doctors = new HashSet<Doctor>();
         }
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
@@ -41,6 +40,6 @@ namespace clinic_api.Models
 
         public virtual ApplicationUser User { get; set; }
         public virtual ICollection<PatientPrescription> PatientPrescriptions { get; set; }
-        public virtual ICollection<Doctor> Doctors { get; set; }
+        public virtual ICollection<DoctorPharmacy> DoctorPharmacies { get; set; }
     }
 }

@@ -449,8 +449,6 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var pharmacies = _context.Pharmacies.Where(p => p.IsDeleted != true && p.PharmacyName != "pharmacy test").OrderBy(p => p.PharmacyName);
-            var doctorPharmacy = _context.Doctors.Find(doctorId).PharmacyId;
             var prevPatientPrescriptions = await _context.PatientPrescriptions.Where(p => p.PatientId == patientId).Include(e => e.PrescriptionMedicines).Include("PrescriptionMedicines.Medicine").ToListAsync();
             GetPatientPrescriptionsDTO model = new GetPatientPrescriptionsDTO
             {
@@ -479,11 +477,11 @@ namespace clinic_api.Controllers
                     Id = v.Id,
                     Text = v.Text
                 }).ToList(),
-                PharmacyValues = pharmacies.Select(p => new PharmacyValue { 
-                    Id = p.Id,
-                    Text = p.PharmacyName
+                PharmacyValues = _context.DoctorPharmacies.Where(d => d.DoctorId==doctorId).Include(p => p.Pharmacy).Select(p => new PharmacyValue { 
+                    Id = p.PharmacyId,
+                    Text = p.Pharmacy.PharmacyName
                 }).ToList(),
-                DoctorPharmacyId = doctorPharmacy==null ? pharmacies.FirstOrDefault().Id : doctorPharmacy,
+                DoctorPharmacyId = _context.DoctorPharmacies.FirstOrDefault(d => d.DoctorId==doctorId && d.IsDefault==true).PharmacyId,
                 PrevPatientPrescriptions = prevPatientPrescriptions.Select(p => new PatientPrescriptionListDTO
                 {
                     Id = p.Id,
@@ -554,9 +552,6 @@ namespace clinic_api.Controllers
                 patientPrescription.UpdatedOn = DateTime.Now.ToEgyptTime();
                 _context.Entry(patientPrescription).State = EntityState.Modified;
             }
-            var doctor = _context.Doctors.Find(doctorId);
-            doctor.PharmacyId = model.PharmacyId;
-            _context.Entry(doctor).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();

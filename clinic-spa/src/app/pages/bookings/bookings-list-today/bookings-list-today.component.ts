@@ -32,7 +32,7 @@ export class BookingsListTodayComponent
   implements OnInit, AfterViewInit, OnDestroy {
   formLoading = false;
   bookingsList: BookingList[];
-  today: Date = new Date();
+  today: Date;
   nextBooking: number;
   sortBookingsByText: string;
   totalPaid: number;
@@ -59,6 +59,7 @@ export class BookingsListTodayComponent
   ) {}
 
   ngOnInit() {
+    this.today = new Date();
     this.formLoading = true;
     // =====> get list bookings in today (come from DB with sorting depends on setting):
     this.getListSubs = this.bookingService
@@ -171,8 +172,8 @@ export class BookingsListTodayComponent
   }
 
   // =====> on double click on attend patient to make him next booking:
-  onSetNextBooking(booking:BookingList,index:number){
-    if(booking.isAttend){
+  onSetNextBooking(booking: BookingList, index: number) {
+    if (booking.isAttend) {
       moveItemInArray(this.bookingsList, this.nextBooking, index);
       this.bookingsList.map((item, index) => (item.daySeqNo = index + 1));
       this.updateBookingListDB(this.bookingsList);

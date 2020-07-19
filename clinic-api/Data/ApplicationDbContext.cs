@@ -81,6 +81,7 @@ namespace clinic_api.Data
         public virtual DbSet<Clinic> Clinics { get; set; }
         public virtual DbSet<DoctorAnalysisValue> DoctorAnalysisValues { get; set; }
         public virtual DbSet<DoctorClinic> DoctorClinics { get; set; }
+        public virtual DbSet<DoctorPharmacy> DoctorPharmacies { get; set; }
         public virtual DbSet<DoctorComplaintChoicesValue> DoctorComplaintChoicesValues { get; set; }
         public virtual DbSet<DoctorDetailedComplaintsValue> DoctorDetailedComplaintsValues { get; set; }
         public virtual DbSet<DoctorDiagnosisValue> DoctorDiagnosisValues { get; set; }
@@ -416,6 +417,23 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.DoctorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DoctorClinics_Doctors");
+            });
+
+            modelBuilder.Entity<DoctorPharmacy>(entity =>
+            {
+                entity.HasKey(e => new { e.DoctorId, e.PharmacyId });
+
+                entity.HasOne(d => d.Pharmacy)
+                    .WithMany(p => p.DoctorPharmacies)
+                    .HasForeignKey(d => d.PharmacyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorPharmacies_Pharmacies");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorPharmacies)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorPharmacies_Doctors");
             });
 
             modelBuilder.Entity<DoctorComplaintChoicesValue>(entity =>

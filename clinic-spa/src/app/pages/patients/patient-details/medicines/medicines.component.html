@@ -10,8 +10,8 @@
                 (typeaheadOnSelect)="onSelectMedicine($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
                 (keyup)="!item.isNameValid || item.medicineName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
                 [placeholder]="'Medication Name' | langg" [isAnimated]="true" [typeaheadMinLength]="0"
-                [ngModelOptions]="{standalone: true}" class="leftAutoComplete"
-                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15" fieldSize="small" fullWidth>
+                [ngModelOptions]="{standalone: true}" class="leftAutoComplete" [typeaheadScrollable]="true"
+                [typeaheadOptionsInScrollableView]="15" fieldSize="small" fullWidth>
               <ng-container *ngIf="!item.isNameValid && item.medicineName != ''">
                 <label class="error-message" langg>This Name does not exist! Do you add it to the
                   list?</label>&nbsp;
@@ -112,11 +112,14 @@
           <td>{{item.createdOn | localDateShort}}</td>
           <td>{{item.medicinesNames}}</td>
           <td class="text-center">
-            <button nbButton type="button" status="success" size="small" (click)="onReOpen(item,'edit')"
+            <button nbButton type="button" status="warning" size="small" (click)="onReOpen(item,'edit')"
               langg>Edit</button>&nbsp;
             <button nbButton type="button" status="info" size="small" (click)="onReOpen(item,'copy')"
               langg>Copy</button>&nbsp;
-            <button nbButton type="button" status="basic" size="small" (click)="onPrint(item)" langg>Print</button>
+            <button nbButton type="button" status="basic" size="small" (click)="onPrint(item)"
+              langg>Print</button>&nbsp;
+            <button *ngIf="!item.pharmacyId" nbButton type="button" status="success" size="small"
+              (click)="onSendPharmacy(item)" langg>To Pharmacy</button>
           </td>
         </tr>
       </tbody>
@@ -129,6 +132,6 @@
 </swal>
 
 <swal #confirmSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Confirmation' | langg"
-  [text]="'Will send the Prescription to Pharmacy..' | langg"
-  [confirmButtonText]="'Send' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#00b887">
+  [text]="'Will send the Prescription to Pharmacy..' | langg" [confirmButtonText]="'Send' | langg"
+  [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#00b887">
 </swal>

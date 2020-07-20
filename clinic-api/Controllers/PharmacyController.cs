@@ -40,7 +40,7 @@ namespace clinic_api.Controllers
                .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Dose)
                .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Timing)
                .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Period)
-               .OrderByDescending(d => d.CreatedOn)
+               .OrderByDescending(d => d.UpdatedOn)
                .Select(p => new PharmacyNewPrescriptionDTO
                {
                    Id = p.Id,
@@ -50,7 +50,7 @@ namespace clinic_api.Controllers
                    Phone2 = p.Patient.Phone2,
                    Career = p.Patient.Career,
                    City = p.Patient.Governorate.TextAR + " - " + p.Patient.City.TextAR,
-                   CreatedOn = p.CreatedOn,
+                   CreatedOn = p.UpdatedOn,
                    Note = p.Note,
                    MedicinesPresc = p.PrescriptionMedicines.Select(m => new MedicinesPresc
                    {
@@ -91,7 +91,7 @@ namespace clinic_api.Controllers
                    Phone2 = p.Patient.Phone2,
                    Career = p.Patient.Career,
                    City = p.Patient.Governorate.TextAR + " - " + p.Patient.City.TextAR,
-                   CreatedOn = p.CreatedOn,
+                   CreatedOn = p.UpdatedOn,
                    Note = p.Note,
                    Status = (p.IsPharmacyDone==true ? "Done" : "Canceled"),
                    MedicinesPresc = p.PrescriptionMedicines.Select(m => new MedicinesPresc

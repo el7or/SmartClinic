@@ -452,7 +452,7 @@ namespace clinic_api.Controllers
             var prevPatientPrescriptions = await _context.PatientPrescriptions.Where(p => p.PatientId == patientId).Include(e => e.PrescriptionMedicines).Include("PrescriptionMedicines.Medicine").ToListAsync();
             GetPatientPrescriptionsDTO model = new GetPatientPrescriptionsDTO
             {
-                MedicineValues = _context.DoctorMedicinesValues.Where(d => d.DoctorId==doctorId).OrderBy(m => m.MedicineName).Select(v => new MedicineValue
+                MedicineValues = _context.DoctorMedicinesValues.Where(d => d.DoctorId == doctorId).OrderBy(m => m.MedicineName).Select(v => new MedicineValue
                 {
                     Id = v.Id,
                     Text = v.MedicineName
@@ -477,11 +477,12 @@ namespace clinic_api.Controllers
                     Id = v.Id,
                     Text = v.Text
                 }).ToList(),
-                PharmacyValues = _context.DoctorPharmacies.Where(d => d.DoctorId==doctorId).Include(p => p.Pharmacy).Select(p => new PharmacyValue { 
+                PharmacyValues = _context.DoctorPharmacies.Where(d => d.DoctorId == doctorId).Include(p => p.Pharmacy).Select(p => new PharmacyValue
+                {
                     Id = p.PharmacyId,
                     Text = p.Pharmacy.PharmacyName
                 }).ToList(),
-                DoctorPharmacyId = _context.DoctorPharmacies.FirstOrDefault(d => d.DoctorId==doctorId && d.IsDefault==true).PharmacyId,
+                DoctorPharmacyId = _context.DoctorPharmacies.FirstOrDefault(d => d.DoctorId == doctorId && d.IsDefault == true).PharmacyId,
                 PrevPatientPrescriptions = prevPatientPrescriptions.Select(p => new PatientPrescriptionListDTO
                 {
                     Id = p.Id,
@@ -602,6 +603,57 @@ namespace clinic_api.Controllers
                }).FirstOrDefault();
                 await _hub.Clients.User(phramacy.UserId.ToString()).SendAsync("UpdatePharmacyPresc", newPrescription);
             }
+
+            return Ok(patientPrescription.Id);
+        }
+
+        // GET: api/PatientDetails/SendPresc/5
+        [HttpGet("SendPresc/{id}/{prescId}/{pharmacyId}")]
+        public async Task<IActionResult> SendPresc(Guid id, int prescId, Guid pharmacyId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var prescription = _context.PatientPrescriptions.Where(p => p.Id == prescId)
+           .Include(p => p.Patient).ThenInclude(p => p.Doctor)
+           .Include(p => p.Patient).ThenInclude(p => p.Governorate)
+           .Include(p => p.Patient).ThenInclude(p => p.City)
+           .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Medicine)
+           .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Quantity)
+           .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Dose)
+           .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Timing)
+           .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Period);
+
+            var patientPrescription = prescription.FirstOrDefault();
+            patientPrescription.PharmacyId = pharmacyId;
+            patientPrescription.UpdatedBy = id;
+            patientPrescription.UpdatedOn = DateTime.Now.ToEgyptTime();
+            _context.Entry(patientPrescription).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            var pharmacyPresc =  prescription.Select(p => new PharmacyNewPrescriptionDTO
+           {
+               Id = p.Id,
+               DoctorFullName = p.Patient.Doctor.FullName,
+               PatientFullName = p.Patient.FullName,
+               Phone = p.Patient.Phone,
+               Phone2 = p.Patient.Phone2,
+               Career = p.Patient.Career,
+               City = p.Patient.Governorate.TextAR + " - " + p.Patient.City.TextAR,
+               CreatedOn = p.UpdatedOn,
+               Note = p.Note,
+               MedicinesPresc = p.PrescriptionMedicines.Select(m => new MedicinesPresc
+               {
+                   Medicine = m.Medicine.MedicineName,
+                   Quantity = m.Quantity.Text,
+                   Dose = m.Dose.Text,
+                   Period = m.Period.Text,
+                   Timing = m.Timing.Text
+               }).ToList()
+           }).FirstOrDefault();
+            var phramacy = _context.Pharmacies.Find(pharmacyId);
+            await _hub.Clients.User(phramacy.UserId.ToString()).SendAsync("UpdatePharmacyPresc", pharmacyPresc);
 
             return NoContent();
         }

@@ -45,9 +45,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   @ViewChild("confirmSwal", { static: false }) confirmSwal: SwalComponent;
   isAnyNameInvalid = true;
 
-  getSubs: Subscription;
-  setSubs: Subscription;
-  addSubs: Subscription;
+  subs = new Subscription();
 
   constructor(
     public location: Location,
@@ -61,37 +59,36 @@ export class MedicinesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formLoading = true;
-    this.getSubs = this.medicineService.getPatientPrescriptions().subscribe(
-      (res: GetPatientPrescriptions) => {
-        this.medicineValues = res.medicineValues;
-        this.quantityValues = res.quantityValues;
-        this.doseValues = res.doseValues;
-        this.timingValues = res.timingValues;
-        this.periodValues = res.periodValues;
-        this.pharmacyValues = res.pharmacyValues;
-        this.doctorPharmacyId = res.doctorPharmacyId;
-        this.prevPatientPrescriptions = res.prevPatientPrescriptions;
-        this.formLoading = false;
-      },
-      (err) => {
-        console.error(err);
-        this.alertService.alertError();
-        this.formLoading = false;
-      }
+    this.subs.add(
+      this.medicineService.getPatientPrescriptions().subscribe(
+        (res: GetPatientPrescriptions) => {
+          this.medicineValues = res.medicineValues;
+          this.quantityValues = res.quantityValues;
+          this.doseValues = res.doseValues;
+          this.timingValues = res.timingValues;
+          this.periodValues = res.periodValues;
+          this.pharmacyValues = res.pharmacyValues;
+          this.doctorPharmacyId = res.doctorPharmacyId;
+          this.prevPatientPrescriptions = res.prevPatientPrescriptions;
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      )
     );
   }
   ngOnDestroy() {
-    this.getSubs.unsubscribe();
-    if (this.setSubs) this.setSubs.unsubscribe();
-    if (this.addSubs) this.addSubs.unsubscribe();
+    this.subs.unsubscribe();
   }
 
   // =====> add new medicine to doctor medicines list:
   onAddNewItemToList(item: PrescriptionMedicine) {
     this.formLoading = true;
-    this.addSubs = this.medicineService
-      .postMedicineValue(item.medicineName)
-      .subscribe(
+    this.subs.add(
+      this.medicineService.postMedicineValue(item.medicineName).subscribe(
         (res: MedicineValue) => {
           this.medicineValues.push(res);
           item.medicineId = res.id;
@@ -103,7 +100,8 @@ export class MedicinesComponent implements OnInit, OnDestroy {
           this.alertService.alertError();
           this.formLoading = false;
         }
-      );
+      )
+    );
   }
 
   // =====> bind medicineId on select medicine from typehead:
@@ -136,44 +134,49 @@ export class MedicinesComponent implements OnInit, OnDestroy {
       if (!this.newPatientPrescription.id) {
         this.newPatientPrescription.createdOn = new Date();
       }
-      this.setSubs = this.medicineService
-        .savePatientPrescription(this.newPatientPrescription)
-        .subscribe(
-          () => {
-            if (isPrint) {
-              this.createPrescForPrint(this.newPatientPrescription);
-              this.router.navigate(["/print/medicines"], {
-                queryParams: { type: "medicine" },
-              });
-            } else {
-              let medicinesNamesArray = this.newPatientPrescription.medicines.map(
-                (m) => {
-                  return m.medicineName;
-                }
-              );
-              if (!this.newPatientPrescription.id) {
-                this.newPatientPrescription.medicinesNames = medicinesNamesArray.toString();
-                this.prevPatientPrescriptions.push(this.newPatientPrescription);
+      this.subs.add(
+        this.medicineService
+          .savePatientPrescription(this.newPatientPrescription)
+          .subscribe(
+            (prescId:number) => {
+              if (isPrint) {
+                this.createPrescForPrint(this.newPatientPrescription);
+                this.router.navigate(["/print/medicines"], {
+                  queryParams: { type: "medicine" },
+                });
               } else {
-                this.prevPatientPrescriptions.find(
-                  (i) => i.id == this.newPatientPrescription.id
-                ).medicinesNames = medicinesNamesArray.toString();
+                let medicinesNamesArray = this.newPatientPrescription.medicines.map(
+                  (m) => {
+                    return m.medicineName;
+                  }
+                );
+                if (!this.newPatientPrescription.id) {
+                  this.newPatientPrescription.id = prescId;
+                  this.newPatientPrescription.medicinesNames = medicinesNamesArray.toString();
+                  this.prevPatientPrescriptions.push(
+                    this.newPatientPrescription
+                  );
+                } else {
+                  this.prevPatientPrescriptions.find(
+                    (i) => i.id == this.newPatientPrescription.id
+                  ).medicinesNames = medicinesNamesArray.toString();
+                }
+                this.newPatientPrescription = {
+                  id: 0,
+                  medicines: [{ medicineId: 0, medicineName: "" }],
+                  note: "",
+                };
+                this.formLoading = false;
+                this.doneSwal.fire();
               }
-              this.newPatientPrescription = {
-                id: 0,
-                medicines: [{ medicineId: 0, medicineName: "" }],
-                note: "",
-              };
+            },
+            (err) => {
+              console.error(err);
+              this.alertService.alertError();
               this.formLoading = false;
-              this.doneSwal.fire();
             }
-          },
-          (err) => {
-            console.error(err);
-            this.alertService.alertError();
-            this.formLoading = false;
-          }
-        );
+          )
+      );
     });
   }
 
@@ -200,6 +203,27 @@ export class MedicinesComponent implements OnInit, OnDestroy {
     this.router.navigate(["/print/medicines"], {
       queryParams: { type: "medicine" },
     });
+  }
+
+  // =====> on send previous prescription to pharmacy:
+  onSendPharmacy(item: PatientPrescription) {
+    this.formLoading = true;
+    this.subs.add(
+      this.medicineService
+        .sendPatientPrescription(item.id, this.doctorPharmacyId)
+        .subscribe(
+          () => {
+            item.pharmacyId = this.doctorPharmacyId;
+            this.formLoading = false;
+            this.doneSwal.fire();
+          },
+          (err) => {
+            console.error(err);
+            this.alertService.alertError();
+            this.formLoading = false;
+          }
+        )
+    );
   }
 
   createPrescForPrint(item: PatientPrescription) {

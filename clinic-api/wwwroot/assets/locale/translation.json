@@ -728,5 +728,9 @@
   { "ar": "الحالة", "en": "Status" },
   { "ar": "اسم الدواء", "en": "Medicine Name" },
   { "ar": "تأكيد", "en": "Confirmation" },
-  { "ar": "سيتم إرسال الروشتة إلى الصيدلية..", "en": "Will send the Prescription to Pharmacy.." }
+  { "ar": "سيتم إرسال الروشتة إلى الصيدلية..", "en": "Will send the Prescription to Pharmacy.." },
+  { "ar": "روشتة جديدة جاءت من د/ ", "en": "A new prescription came from Dr. " },
+  { "ar": "تاريخ الإرسال", "en": "Sent Date" },
+  { "ar": "وقت الإرسال", "en": "Sent Time" },
+  { "ar": "إلى الصيدلية", "en": "To Pharmacy" }
 ]

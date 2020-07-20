@@ -12,7 +12,8 @@
           <th langg>Patient Phone</th>
           <th langg>Patient Phone 2</th>
           <th langg>City</th>
-          <th langg>Date</th>
+          <th langg>Sent Date</th>
+          <th langg>Sent Time</th>
           <th></th>
           <th></th>
         </tr>
@@ -33,6 +34,7 @@
           <td>{{item.phone2}}</td>
           <td>{{item.city}}</td>
           <td>{{item.createdOn | localDateShort}}</td>
+          <td>{{item.createdOn | time12Hour}}</td>
           <td class="text-center">
             <button nbButton (click)="onOpenPresc(item)" size="small" status="info" shape="round"
               langg>Prescription</button>

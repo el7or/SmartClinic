@@ -1,4 +1,4 @@
-import { ChatService } from './../../../chat/chat.service';
+import { ChatService } from '../../../../shared/services/chat.service';
 import { PatientsService } from "./../../patients.service";
 import { AlertService } from "./../../../../shared/services/alert.service";
 import { Router } from "@angular/router";

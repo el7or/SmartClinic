@@ -40,7 +40,7 @@ namespace clinic_api.Controllers
                .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Dose)
                .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Timing)
                .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Period)
-               .OrderBy(d => d.CreatedOn)
+               .OrderByDescending(d => d.CreatedOn)
                .Select(p => new PharmacyNewPrescriptionDTO
                {
                    Id = p.Id,

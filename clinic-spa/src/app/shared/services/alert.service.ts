@@ -52,7 +52,7 @@ export class AlertService {
   }
 
   alertUpdateBooking(patientName: string) {
-    if (patientName == null || patientName=='') {
+    if (patientName == null || patientName == "") {
       this.toastrService.warning(
         this.langgService.translateWord(
           "New update to sequence today’s Bookings."
@@ -77,5 +77,19 @@ export class AlertService {
         }
       );
     }
+  }
+
+  alertUpdatePharmacy(doctorName: string) {
+    this.toastrService.success(
+      this.langgService.translateWord(
+        "A new prescription came from Dr. "
+      ) + doctorName,
+      this.langgService.translateWord("Attention !"),
+      {
+        duration: 10000,
+        icon: "close-square-outline",
+        destroyByClick: true,
+      }
+    );
   }
 }

@@ -567,6 +567,40 @@ namespace clinic_api.Controllers
                     throw;
                 }
             }
+            if (model.PharmacyId != null)
+            {
+                var phramacy = _context.Pharmacies.Find(model.PharmacyId);
+                var newPrescription = _context.PatientPrescriptions.Where(p => p.Id == patientPrescription.Id)
+               .Include(p => p.Patient).ThenInclude(p => p.Doctor)
+               .Include(p => p.Patient).ThenInclude(p => p.Governorate)
+               .Include(p => p.Patient).ThenInclude(p => p.City)
+               .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Medicine)
+               .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Quantity)
+               .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Dose)
+               .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Timing)
+               .Include(m => m.PrescriptionMedicines).ThenInclude(m => m.Period)
+               .Select(p => new PharmacyNewPrescriptionDTO
+               {
+                   Id = p.Id,
+                   DoctorFullName = p.Patient.Doctor.FullName,
+                   PatientFullName = p.Patient.FullName,
+                   Phone = p.Patient.Phone,
+                   Phone2 = p.Patient.Phone2,
+                   Career = p.Patient.Career,
+                   City = p.Patient.Governorate.TextAR + " - " + p.Patient.City.TextAR,
+                   CreatedOn = p.CreatedOn,
+                   Note = p.Note,
+                   MedicinesPresc = p.PrescriptionMedicines.Select(m => new MedicinesPresc
+                   {
+                       Medicine = m.Medicine.MedicineName,
+                       Quantity = m.Quantity.Text,
+                       Dose = m.Dose.Text,
+                       Period = m.Period.Text,
+                       Timing = m.Timing.Text
+                   }).ToList()
+               }).FirstOrDefault();
+                await _hub.Clients.User(phramacy.UserId.ToString()).SendAsync("UpdatePharmacyPresc", newPrescription);
+            }
 
             return NoContent();
         }

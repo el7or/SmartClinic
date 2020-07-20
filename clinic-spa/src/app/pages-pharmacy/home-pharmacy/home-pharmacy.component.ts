@@ -1,3 +1,5 @@
+import { Router } from "@angular/router";
+import { ChatService } from "../../shared/services/chat.service";
 import { Subscription } from "rxjs";
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
@@ -13,7 +15,7 @@ import { AlertService } from "../../shared/services/alert.service";
   templateUrl: "./home-pharmacy.component.html",
   styleUrls: ["./home-pharmacy.component.scss"],
 })
-export class HomePharmacyComponent implements OnInit,OnDestroy {
+export class HomePharmacyComponent implements OnInit, OnDestroy {
   formLoading: boolean = false;
   newPrescList: NewPrescription[];
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
@@ -24,7 +26,9 @@ export class HomePharmacyComponent implements OnInit,OnDestroy {
   constructor(
     private pharmacyService: PharmacyService,
     private alertService: AlertService,
-    private dialogService: NbDialogService
+    private dialogService: NbDialogService,
+    private chatService: ChatService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -39,6 +43,24 @@ export class HomePharmacyComponent implements OnInit,OnDestroy {
           console.error(err);
           this.alertService.alertError();
           this.formLoading = false;
+        }
+      )
+    );
+
+    // =====> if any doctor send new presc:
+    this.subs.add(
+      this.chatService.pharmacyPrescUpdated.subscribe(
+        (newPresc: NewPrescription) => {
+          let audio = new Audio();
+          audio.src = "../../../assets/audio/alarm.wav";
+          audio.load();
+          audio.play();
+          this.alertService.alertUpdatePharmacy(newPresc.doctorFullName);
+          this.newPrescList.unshift(newPresc);
+          /* this.router
+          .navigateByUrl("/pharmacy", { skipLocationChange: true })
+          .then(() => this.router.navigate(["/pharmacy/home"])); */
+          /* location.reload(); */
         }
       )
     );

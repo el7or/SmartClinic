@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 
 import { AlertService } from "./../../shared/services/alert.service";
 import { LanggService } from "./../../shared/services/langg.service";
-import { ChatService } from "./chat.service";
+import { ChatService } from "../../shared/services/chat.service";
 import {
   UserChat,
   Message,

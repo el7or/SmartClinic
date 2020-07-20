@@ -12,9 +12,10 @@ import {
   UnreadCount,
   NewMessageSent,
   MessageReceived,
-} from "./chat.model";
+} from "../../pages/chat/chat.model";
 import { environment } from "../../../environments/environment";
 import { AuthService } from "../../auth/auth.service";
+import { NewPrescription } from '../../pages-pharmacy/pharmacy.model';
 
 @Injectable()
 export class ChatService {
@@ -83,6 +84,7 @@ export class ChatService {
   unReadChatCount = new EventEmitter<number>();
   messageReceived = new EventEmitter<MessageReceived>();
   bookingUpdated = new EventEmitter<string>();
+  pharmacyPrescUpdated = new EventEmitter<NewPrescription>();
 
   private createConnection() {
     this._hubConnection = new HubConnectionBuilder()
@@ -127,6 +129,9 @@ export class ChatService {
     });
     this._hubConnection.on("UpdateTodayBooking", (data:string) => {
       this.bookingUpdated.emit(data);
+    });
+    this._hubConnection.on("UpdatePharmacyPresc", (data:NewPrescription) => {
+      this.pharmacyPrescUpdated.emit(data);
     });
 
     this._hubConnection.onclose((err) => console.error(err));

@@ -1,4 +1,4 @@
-import { ChatService } from './pages/chat/chat.service';
+import { ChatService } from './shared/services/chat.service';
 import { TokenInterceptorProvidor } from './shared/interceptors/token-interceptor';
 /**
  * @license

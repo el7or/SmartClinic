@@ -62,7 +62,7 @@
               langg>New Book</button>
             <button nbButton *ngIf="item.lastVisitBookId" (click)="onBook(item.lastVisitBookId,item)" size="tiny"
               langg>Last Book</button>&nbsp;
-            <button *ngIf="authService.roleName == userRole.Doctor" nbButton (click)="onDeletePatient(item.id,i)" size="tiny" status="danger" langg>Delete</button>
+            <button *ngIf="authService.roleName == userRole.doctor" nbButton (click)="onDeletePatient(item.id,i)" size="tiny" status="danger" langg>Delete</button>
             <span *ngIf="item.visitsCount > 0"> | <button nbButton
                 [routerLink]="['/pages/patients/details',item.codeId,'visits']" size="tiny" status="warning" langg>All
                 Visits</button></span>

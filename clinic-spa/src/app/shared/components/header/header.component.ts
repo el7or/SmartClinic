@@ -11,7 +11,7 @@ import {
 import { Subject, Subscription } from "rxjs";
 
 import { AlertService } from "./../../services/alert.service";
-import { ChatService } from "./../../../pages/chat/chat.service";
+import { ChatService } from "../../services/chat.service";
 import { AuthService } from "./../../../auth/auth.service";
 import { LanggService } from "../../services/langg.service";
 import { MENU_ITEMS } from "../../../pages/pages-menu";

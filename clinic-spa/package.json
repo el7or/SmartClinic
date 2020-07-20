@@ -63,6 +63,7 @@
     "core-js": "2.5.1",
     "echarts": "^4.6.0",
     "eva-icons": "^1.1.2",
+    "howler": "^2.2.0",
     "intl": "1.2.5",
     "leaflet": "1.2.0",
     "nebular-icons": "1.1.0",

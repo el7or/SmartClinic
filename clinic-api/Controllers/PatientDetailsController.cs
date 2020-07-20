@@ -488,6 +488,7 @@ namespace clinic_api.Controllers
                     MedicinesNames = p.PrescriptionMedicines.Select(m => m.Medicine.MedicineName).ToArray(),
                     Note = p.Note,
                     CreatedOn = p.CreatedOn,
+                    PharmacyId = p.PharmacyId,
                     Medicines = p.PrescriptionMedicines.Select(m => new PrescriptionMedicineListDTO
                     {
                         MedicineId = m.MedicineId,

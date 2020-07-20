@@ -1,10 +1,11 @@
 import { Router } from "@angular/router";
-import { ChatService } from "../../shared/services/chat.service";
 import { Subscription } from "rxjs";
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { NbDialogService } from "@nebular/theme";
+import { Howl } from "howler";
 
+import { ChatService } from "../../shared/services/chat.service";
 import { PrescDetailsComponent } from "./../presc-details/presc-details.component";
 import { PharmacyService } from "./../pharmacy.service";
 import { NewPrescription, SavePresc } from "../pharmacy.model";
@@ -51,16 +52,17 @@ export class HomePharmacyComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.chatService.pharmacyPrescUpdated.subscribe(
         (newPresc: NewPrescription) => {
-          let audio = new Audio();
+          /* let audio = new Audio();
           audio.src = "../../../assets/audio/alarm.wav";
           audio.load();
-          audio.play();
+          audio.play(); */
+          var sound = new Howl({
+            src: ['../../../assets/audio/alarm.wav']
+          });
+          sound.play();
+
           this.alertService.alertUpdatePharmacy(newPresc.doctorFullName);
           this.newPrescList.unshift(newPresc);
-          /* this.router
-          .navigateByUrl("/pharmacy", { skipLocationChange: true })
-          .then(() => this.router.navigate(["/pharmacy/home"])); */
-          /* location.reload(); */
         }
       )
     );

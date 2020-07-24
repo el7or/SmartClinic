@@ -146,7 +146,7 @@ namespace clinic_panel.Controllers
                     PlanId = 2,
                     SignUpFee = 3000
                 };
-                ViewData["PlanId"] = new SelectList(db.Plans, "Id", "Title", 2);
+                ViewData["PlanId"] = new SelectList(db.Plans.Where(p => p.SubscriberTypeId==1), "Id", "Title", 2);
                 ViewBag.Tab = 2;
                 return View("Create");
             }

@@ -108,6 +108,8 @@ namespace clinic_panel.DTOs
     {
         public Guid UserId { get; set; }
         public Guid DoctorId { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public string ClinicName { get; set; }
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]
@@ -120,7 +122,6 @@ namespace clinic_panel.DTOs
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
         public int? ConsultExpiration { get; set; }
-
         public string PrintDoctorName { get; set; }
         public string PrintDoctorDegree { get; set; }
         public string PrintClinicName { get; set; }
@@ -255,7 +256,7 @@ namespace clinic_panel.DTOs
 
         [Url(ErrorMessage = "لابد من إدخال رابط صحيح !")]
         public string Instagram { get; set; }
-        
+
         public string ClinicName { get; set; }
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]

@@ -27,7 +27,6 @@ namespace clinic_panel.Models
     
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<BookingPayment> BookingPayments { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<ChatMessage> ChatMessages { get; set; }
@@ -41,8 +40,12 @@ namespace clinic_panel.Models
         public virtual DbSet<DoctorDiagnosisValue> DoctorDiagnosisValues { get; set; }
         public virtual DbSet<DoctorExaminationAreasValue> DoctorExaminationAreasValues { get; set; }
         public virtual DbSet<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
+        public virtual DbSet<DoctorExpenseItem> DoctorExpenseItems { get; set; }
+        public virtual DbSet<DoctorExpens> DoctorExpenses { get; set; }
         public virtual DbSet<DoctorGeneralComplaintsValue> DoctorGeneralComplaintsValues { get; set; }
+        public virtual DbSet<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
         public virtual DbSet<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
+        public virtual DbSet<DoctorPharmacy> DoctorPharmacies { get; set; }
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
@@ -60,6 +63,9 @@ namespace clinic_panel.Models
         public virtual DbSet<PatientRay> PatientRays { get; set; }
         public virtual DbSet<PatientReferral> PatientReferrals { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
+        public virtual DbSet<Pharmacy> Pharmacies { get; set; }
+        public virtual DbSet<Plan> Plans { get; set; }
+        public virtual DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; }
         public virtual DbSet<SubscriptionPayment> SubscriptionPayments { get; set; }
         public virtual DbSet<Subscription> Subscriptions { get; set; }
         public virtual DbSet<SysAnalysisFileTypesValue> SysAnalysisFileTypesValues { get; set; }
@@ -74,6 +80,7 @@ namespace clinic_panel.Models
         public virtual DbSet<SysGovernoratesValue> SysGovernoratesValues { get; set; }
         public virtual DbSet<SysMedicineDosesValue> SysMedicineDosesValues { get; set; }
         public virtual DbSet<SysMedicinePeriodsValue> SysMedicinePeriodsValues { get; set; }
+        public virtual DbSet<SysMedicineQuantityValue> SysMedicineQuantityValues { get; set; }
         public virtual DbSet<SysMedicineTimingsValue> SysMedicineTimingsValues { get; set; }
         public virtual DbSet<SysPatientRecordSectionsValue> SysPatientRecordSectionsValues { get; set; }
         public virtual DbSet<SysRayFileTypesValue> SysRayFileTypesValues { get; set; }
@@ -81,12 +88,5 @@ namespace clinic_panel.Models
         public virtual DbSet<SysSocialStatusValue> SysSocialStatusValues { get; set; }
         public virtual DbSet<SysSubscriberTypeValue> SysSubscriberTypeValues { get; set; }
         public virtual DbSet<SysSubscriptionTypeValue> SysSubscriptionTypeValues { get; set; }
-        public virtual DbSet<SysMedicineQuantityValue> SysMedicineQuantityValues { get; set; }
-        public virtual DbSet<PrescriptionMedicine> PrescriptionMedicines { get; set; }
-        public virtual DbSet<DoctorExpenseItem> DoctorExpenseItems { get; set; }
-        public virtual DbSet<DoctorExpens> DoctorExpenses { get; set; }
-        public virtual DbSet<Pharmacy> Pharmacies { get; set; }
-        public virtual DbSet<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
-        public virtual DbSet<Plan> Plans { get; set; }
     }
 }

@@ -12,13 +12,13 @@ namespace clinic_panel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserToken
+    public partial class DoctorPharmacy
     {
-        public System.Guid UserId { get; set; }
-        public string LoginProvider { get; set; }
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public System.Guid DoctorId { get; set; }
+        public System.Guid PharmacyId { get; set; }
+        public Nullable<bool> IsDefault { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Doctor Doctor { get; set; }
+        public virtual Pharmacy Pharmacy { get; set; }
     }
 }

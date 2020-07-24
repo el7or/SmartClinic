@@ -23,16 +23,17 @@ namespace clinic_panel.Models
             this.DoctorDiagnosisValues = new HashSet<DoctorDiagnosisValue>();
             this.DoctorExaminationAreasValues = new HashSet<DoctorExaminationAreasValue>();
             this.DoctorExaminationsValues = new HashSet<DoctorExaminationsValue>();
+            this.DoctorExpenseItems = new HashSet<DoctorExpenseItem>();
+            this.DoctorExpenses = new HashSet<DoctorExpens>();
             this.DoctorGeneralComplaintsValues = new HashSet<DoctorGeneralComplaintsValue>();
+            this.DoctorMedicinesValues = new HashSet<DoctorMedicinesValue>();
             this.DoctorOperationTypesValues = new HashSet<DoctorOperationTypesValue>();
+            this.DoctorPharmacies = new HashSet<DoctorPharmacy>();
             this.DoctorRayAreasValues = new HashSet<DoctorRayAreasValue>();
             this.DoctorRaysValues = new HashSet<DoctorRaysValue>();
             this.PatientReferrals = new HashSet<PatientReferral>();
             this.Patients = new HashSet<Patient>();
             this.Clinics = new HashSet<Clinic>();
-            this.DoctorExpenseItems = new HashSet<DoctorExpenseItem>();
-            this.DoctorExpenses = new HashSet<DoctorExpens>();
-            this.DoctorMedicinesValues = new HashSet<DoctorMedicinesValue>();
         }
     
         public System.Guid Id { get; set; }
@@ -57,8 +58,8 @@ namespace clinic_panel.Models
         public string Twitter { get; set; }
         public string LinkedIn { get; set; }
         public string Instagram { get; set; }
-        public Nullable<System.Guid> PharmacyId { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -72,9 +73,17 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorExaminationsValue> DoctorExaminationsValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorExpenseItem> DoctorExpenseItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorExpens> DoctorExpenses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorGeneralComplaintsValue> DoctorGeneralComplaintsValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorPharmacy> DoctorPharmacies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -86,13 +95,5 @@ namespace clinic_panel.Models
         public virtual ICollection<Patient> Patients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Clinic> Clinics { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DoctorExpenseItem> DoctorExpenseItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DoctorExpens> DoctorExpenses { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
-        public virtual Pharmacy Pharmacy { get; set; }
     }
 }

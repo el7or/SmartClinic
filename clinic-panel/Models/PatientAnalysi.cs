@@ -29,11 +29,11 @@ namespace clinic_panel.Models
         public string ResultText { get; set; }
         public Nullable<int> ResultGradeId { get; set; }
         public string ResultNote { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public System.Guid CreatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual DoctorAnalysisValue DoctorAnalysisValue { get; set; }
         public virtual Patient Patient { get; set; }

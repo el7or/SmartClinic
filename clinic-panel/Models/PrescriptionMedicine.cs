@@ -21,11 +21,11 @@ namespace clinic_panel.Models
         public Nullable<int> PeriodId { get; set; }
         public Nullable<int> QuantityId { get; set; }
     
+        public virtual DoctorMedicinesValue DoctorMedicinesValue { get; set; }
         public virtual PatientPrescription PatientPrescription { get; set; }
         public virtual SysMedicineDosesValue SysMedicineDosesValue { get; set; }
         public virtual SysMedicinePeriodsValue SysMedicinePeriodsValue { get; set; }
         public virtual SysMedicineQuantityValue SysMedicineQuantityValue { get; set; }
         public virtual SysMedicineTimingsValue SysMedicineTimingsValue { get; set; }
-        public virtual DoctorMedicinesValue DoctorMedicinesValue { get; set; }
     }
 }

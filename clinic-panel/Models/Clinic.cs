@@ -40,6 +40,7 @@ namespace clinic_panel.Models
         public string PrintDoctorDegree { get; set; }
         public string PrintClinicName { get; set; }
         public string PrintLogoUrl { get; set; }
+        public string PrintLogoPublicId { get; set; }
         public string PrintAddress1 { get; set; }
         public string PrintAddress2 { get; set; }
         public string PrintAddress3 { get; set; }
@@ -65,7 +66,6 @@ namespace clinic_panel.Models
         public Nullable<System.DateTime> WednesdayTimeTo { get; set; }
         public Nullable<System.DateTime> ThursdayTimeTo { get; set; }
         public Nullable<System.DateTime> FridayTimeTo { get; set; }
-        public string PrintLogoPublicId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClinicBookingType> ClinicBookingTypes { get; set; }

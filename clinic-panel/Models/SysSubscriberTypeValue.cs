@@ -17,8 +17,8 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SysSubscriberTypeValue()
         {
-            this.Subscriptions = new HashSet<Subscription>();
             this.Plans = new HashSet<Plan>();
+            this.Subscriptions = new HashSet<Subscription>();
         }
     
         public int Id { get; set; }
@@ -26,8 +26,8 @@ namespace clinic_panel.Models
         public string Text { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Subscription> Subscriptions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Plan> Plans { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Subscription> Subscriptions { get; set; }
     }
 }

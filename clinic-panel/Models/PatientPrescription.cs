@@ -33,8 +33,8 @@ namespace clinic_panel.Models
         public Nullable<bool> IsPharmacyDelete { get; set; }
     
         public virtual Patient Patient { get; set; }
+        public virtual Pharmacy Pharmacy { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
-        public virtual Pharmacy Pharmacy { get; set; }
     }
 }

@@ -42,12 +42,14 @@ namespace clinic_panel.Models
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
         public string Phone { get; set; }
+        public string Phone2 { get; set; }
         public Nullable<int> Age { get; set; }
         public Nullable<bool> Gender { get; set; }
         public Nullable<int> SocialStatusId { get; set; }
         public string Career { get; set; }
         public Nullable<int> GovernorateId { get; set; }
         public Nullable<int> CityId { get; set; }
+        public string Note { get; set; }
         public Nullable<int> Children { get; set; }
         public Nullable<int> PrevMarriages { get; set; }
         public Nullable<int> PrevMarriagesPartner { get; set; }
@@ -58,8 +60,6 @@ namespace clinic_panel.Models
         public Nullable<decimal> BodyMass { get; set; }
         public Nullable<int> BloodPressureId { get; set; }
         public Nullable<decimal> Temperature { get; set; }
-        public string Phone2 { get; set; }
-        public string Note { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }

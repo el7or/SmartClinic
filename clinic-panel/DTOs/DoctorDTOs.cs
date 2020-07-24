@@ -121,19 +121,12 @@ namespace clinic_panel.DTOs
         [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
         public int? ConsultExpiration { get; set; }
 
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public string PrintDoctorName { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public string PrintDoctorDegree { get; set; }
         public string PrintClinicName { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public string PrintAddress1 { get; set; }
         public string PrintAddress2 { get; set; }
         public string PrintAddress3 { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public string PrintPhone1 { get; set; }
         public string PrintPhone2 { get; set; }
         public string PrintPhone3 { get; set; }

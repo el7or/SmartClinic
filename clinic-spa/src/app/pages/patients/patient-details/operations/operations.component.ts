@@ -1,3 +1,4 @@
+import { AnyPatientFileValue } from './../../../settings/patient-setting/record-items-setting/record-items-setting.model';
 import { DateTimeService } from "./../../../../shared/services/date-time.service";
 import { OperationsService } from "./operations.service";
 import {
@@ -9,7 +10,7 @@ import {
 } from "@angular/core";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { Location } from "@angular/common";
-import { BsLocaleService } from "ngx-bootstrap";
+import { BsLocaleService, TypeaheadMatch } from "ngx-bootstrap";
 import { NgForm } from "@angular/forms";
 import { Subscription } from "rxjs";
 
@@ -21,6 +22,7 @@ import {
   PutPatientOperation,
 } from "./operations.model";
 import { AlertService } from "../../../../shared/services/alert.service";
+import { ItemsType } from '../../../settings/patient-setting/record-items-setting/record-items-setting.model';
 
 @Component({
   selector: "operations",
@@ -29,9 +31,14 @@ import { AlertService } from "../../../../shared/services/alert.service";
 })
 export class OperationsComponent implements OnInit {
   formLoading: boolean = false;
-  operation: PatientOperation;
+  operation: PatientOperation = {
+    id: 0,
+    type: "",
+    typeId: 0,
+  };
   operationTypeValues: OperationTypeValue[];
   prevPatientOperations: PatientOperation[];
+  isOperTypeInvalid = true;
   @Output() onFinish: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
@@ -71,11 +78,34 @@ export class OperationsComponent implements OnInit {
     this.subs.unsubscribe();
   }
 
+  onAddNewTypeToList(typeText) {
+    this.formLoading = true;
+    this.subs.add(
+      this.operationService
+        .postOperationTypeValue(typeText, ItemsType.Operation)
+        .subscribe(
+          (res: AnyPatientFileValue) => {
+            this.operationTypeValues.push({ id: res.id, text: res.text });
+            this.operation.type = res.text;
+            this.isOperTypeInvalid = false;
+            this.formLoading = false;
+            this.doneSwal.fire();
+          },
+          (err) => {
+            console.error(err);
+            this.alertService.alertError();
+            this.formLoading = false;
+          }
+        )
+    );
+  }
+
   onSave(form: NgForm) {
     this.formLoading = true;
     if (!this.operation.id) {
       const postObj: PostPatientOperation = {
-        typeId: form.value.type,
+        typeId: this.operationTypeValues.find((t) => t.text == form.value.type)
+          .id,
         date: form.value.date
           ? this.dateTimeSetvice.dateWithoutTime(form.value.date)
           : null,
@@ -101,7 +131,8 @@ export class OperationsComponent implements OnInit {
     } else {
       const putObj: PutPatientOperation = {
         id: this.operation.id,
-        typeId: form.value.type,
+        typeId: this.operationTypeValues.find((t) => t.text == form.value.type)
+          .id,
         date: form.value.date
           ? this.dateTimeSetvice.dateWithoutTime(form.value.date)
           : null,
@@ -114,6 +145,11 @@ export class OperationsComponent implements OnInit {
           () => {
             form.reset();
             this.onFinish.emit();
+            this.operation = {
+              id: 0,
+              type: "",
+              typeId: 0,
+            };
             this.formLoading = false;
             this.doneSwal.fire();
           },
@@ -128,25 +164,31 @@ export class OperationsComponent implements OnInit {
   }
 
   onEditOperation(item: PatientOperation) {
+    this.isOperTypeInvalid = false;
     this.operation = item;
+    this.operation.date = this.operation.date
+      ? new Date(this.operation.date)
+      : null;
   }
 
-  onDeleteOperation(id: number,index:number) {
+  onDeleteOperation(id: number, index: number) {
     this.deleteSwal.fire().then((result) => {
       if (result.value) {
         this.formLoading = true;
-        this.subs.add(this.operationService.deletePatientOperation(id).subscribe(
-          () => {
-            this.formLoading = false;
-            this.doneSwal.fire();
-            this.prevPatientOperations.splice(index,1);
-          },
-          (error) => {
-            console.error(error);
-            this.alertService.alertError();
-            this.formLoading = false;
-          }
-        ));
+        this.subs.add(
+          this.operationService.deletePatientOperation(id).subscribe(
+            () => {
+              this.formLoading = false;
+              this.doneSwal.fire();
+              this.prevPatientOperations.splice(index, 1);
+            },
+            (error) => {
+              console.error(error);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          )
+        );
       }
     });
   }

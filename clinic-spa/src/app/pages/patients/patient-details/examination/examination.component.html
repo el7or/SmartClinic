@@ -54,7 +54,7 @@
                 (typeaheadOnSelect)="onSelectType($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
                 (keyup)="!item.isNameValid || item.typeName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
                 [placeholder]="'Examination Type' | langg" [isAnimated]="true" [typeaheadMinLength]="0"
-                [ngModelOptions]="{standalone: true}" class="inputTypeahead font-weight-bold"
+                [ngModelOptions]="{standalone: true}" class="font-weight-bold"
                 [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15" fullWidth>
               <ng-container *ngIf="!item.isNameValid && item.typeName != ''">
                 <label class="error-message" langg>This Name does not exist! Do you add it to the
@@ -74,7 +74,7 @@
                 (typeaheadOnSelect)="onSelectArea($event,i)" (typeaheadNoResults)="item.isNameValid = !$event"
                 (keyup)="!item.isNameValid || item.areaName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
                 [placeholder]="'Examination Area' | langg" [isAnimated]="true" [typeaheadMinLength]="0"
-                [ngModelOptions]="{standalone: true}" class="inputTypeahead font-weight-bold"
+                [ngModelOptions]="{standalone: true}" class="font-weight-bold"
                 [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15" fullWidth>
               <ng-container *ngIf="!item.isNameValid && item.areaName != ''">
                 <label class="error-message" langg>This Name does not exist! Do you add it to the

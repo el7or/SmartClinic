@@ -106,12 +106,12 @@ namespace clinic_api.Controllers
             }
             GetPatientComplaintDTO model = new GetPatientComplaintDTO
             {
-                ComplaintGeneralValues = await _context.DoctorGeneralComplaintsValues.Where(d => d.DoctorId == doctorId).Select(c => new ComplaintGeneralValue
+                ComplaintGeneralValues = await _context.DoctorGeneralComplaintsValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(c => new ComplaintGeneralValue
                 {
                     CompId = c.Id,
                     CompName = c.Complaint
                 }).ToListAsync(),
-                ComplaintDetailsValues = await _context.DoctorDetailedComplaintsValues.Where(d => d.DoctorId == doctorId).Include(c => c.DoctorComplaintChoicesValues).Select(c => new ComplaintDetailsValue
+                ComplaintDetailsValues = await _context.DoctorDetailedComplaintsValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Include(c => c.DoctorComplaintChoicesValues).Select(c => new ComplaintDetailsValue
                 {
                     CompId = c.Id,
                     CompName = c.Complaint,
@@ -275,12 +275,12 @@ namespace clinic_api.Controllers
             }
             GetPatientExaminationsDTO model = new GetPatientExaminationsDTO
             {
-                ExaminationTypeValues = await _context.DoctorExaminationsValues.Where(d => d.DoctorId == doctorId).Select(c => new ExaminationTypeValue
+                ExaminationTypeValues = await _context.DoctorExaminationsValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(c => new ExaminationTypeValue
                 {
                     TypeId = c.Id,
                     TypeText = c.Examination
                 }).ToListAsync(),
-                ExaminationAreaValues = await _context.DoctorExaminationAreasValues.Where(d => d.DoctorId == doctorId).Select(c => new ExaminationAreaValue
+                ExaminationAreaValues = await _context.DoctorExaminationAreasValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(c => new ExaminationAreaValue
                 {
                     AreaId = c.Id,
                     AreaText = c.ExaminationArea
@@ -373,7 +373,7 @@ namespace clinic_api.Controllers
             }
             GetPatientDiagnosisDTO model = new GetPatientDiagnosisDTO
             {
-                DiagnosisValues = await _context.DoctorDiagnosisValues.Where(d => d.DoctorId == doctorId).Select(c => new DiagnosisValue
+                DiagnosisValues = await _context.DoctorDiagnosisValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(c => new DiagnosisValue
                 {
                     Id = c.Id,
                     Text = c.Diagnosis
@@ -452,7 +452,7 @@ namespace clinic_api.Controllers
             var prevPatientPrescriptions = await _context.PatientPrescriptions.Where(p => p.PatientId == patientId).Include(e => e.PrescriptionMedicines).Include("PrescriptionMedicines.Medicine").ToListAsync();
             GetPatientPrescriptionsDTO model = new GetPatientPrescriptionsDTO
             {
-                MedicineValues = _context.DoctorMedicinesValues.Where(d => d.DoctorId == doctorId).OrderBy(m => m.MedicineName).Select(v => new MedicineValue
+                MedicineValues = _context.DoctorMedicinesValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).OrderBy(m => m.MedicineName).Select(v => new MedicineValue
                 {
                     Id = v.Id,
                     Text = v.MedicineName
@@ -809,7 +809,7 @@ namespace clinic_api.Controllers
             }
             GetPatientOperationsDTO model = new GetPatientOperationsDTO
             {
-                OperationTypeValues = await _context.DoctorOperationTypesValues.Where(d => d.DoctorId == doctorId).Select(s => new OperationTypeValue
+                OperationTypeValues = await _context.DoctorOperationTypesValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(s => new OperationTypeValue
                 {
                     Id = s.Id,
                     Text = s.OperationType

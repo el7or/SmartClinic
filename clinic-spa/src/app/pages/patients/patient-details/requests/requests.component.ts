@@ -2,7 +2,7 @@ import { PatientsService } from "./../../patients.service";
 import { XRayDetailComponent } from "./../xrays/xray-detail/xray-detail.component";
 import { AlertService } from "./../../../../shared/services/alert.service";
 import { NbDialogService } from "@nebular/theme";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
@@ -20,13 +20,17 @@ import {
 } from "./requests.model";
 import { Subscription } from "rxjs";
 import { TypeaheadMatch } from "ngx-bootstrap";
+import {
+  ItemsType,
+  AnyPatientFileValue,
+} from "../../../settings/patient-setting/record-items-setting/record-items-setting.model";
 
 @Component({
   selector: "requests",
   templateUrl: "./requests.component.html",
   styleUrls: ["./requests.component.scss"],
 })
-export class RequestsComponent implements OnInit {
+export class RequestsComponent implements OnInit, OnDestroy {
   formLoading: boolean = false;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("deleteSwal", { static: false }) deleteSwal: SwalComponent;
@@ -37,9 +41,7 @@ export class RequestsComponent implements OnInit {
   analysisNames: AnalysisValue[] = [];
   isAnyNameInvalid = true;
 
-  getSubs: Subscription;
-  setSubs: Subscription;
-  deleteSubs: Subscription;
+  subs = new Subscription();
 
   constructor(
     public location: Location,
@@ -53,38 +55,38 @@ export class RequestsComponent implements OnInit {
 
   ngOnInit() {
     this.formLoading = true;
-    this.getSubs = this.requestService.getPatientRequests().subscribe(
-      (res: GetPatientRequests) => {
-        this.rayNames = res.rayValues;
-        this.rayAreas = res.rayAreaValues;
-        this.analysisNames = res.analysisValues;
-        this.prevPatientRequests = res.prevPatientRequests;
-        // =====> add empty request based on type in query param:
-        const typeParam = this.route.snapshot.queryParamMap.get("type");
-        if (typeParam) {
-          this.newRequests = [
-            {
-              id: 0,
-              requestId: 0,
-              requestName: "",
-              requestType: typeParam,
-              isAreaValid: true,
-            },
-          ];
+    this.subs.add(
+      this.requestService.getPatientRequests().subscribe(
+        (res: GetPatientRequests) => {
+          this.rayNames = res.rayValues;
+          this.rayAreas = res.rayAreaValues;
+          this.analysisNames = res.analysisValues;
+          this.prevPatientRequests = res.prevPatientRequests;
+          // =====> add empty request based on type in query param:
+          const typeParam = this.route.snapshot.queryParamMap.get("type");
+          if (typeParam) {
+            this.newRequests = [
+              {
+                id: 0,
+                requestId: 0,
+                requestName: "",
+                requestType: typeParam,
+                isAreaValid: true,
+              },
+            ];
+          }
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
         }
-        this.formLoading = false;
-      },
-      (err) => {
-        console.error(err);
-        this.alertService.alertError();
-        this.formLoading = false;
-      }
+      )
     );
   }
   ngOnDestroy() {
-    this.getSubs.unsubscribe();
-    if (this.setSubs) this.setSubs.unsubscribe();
-    if (this.deleteSubs) this.deleteSubs.unsubscribe();
+    this.subs.unsubscribe();
   }
 
   // =====> bind requestId on select from typehead:
@@ -108,7 +110,7 @@ export class RequestsComponent implements OnInit {
         requestName: "",
         requestType: type,
         isAreaValid: true,
-        requestDate : new Date()
+        requestDate: new Date(),
       });
     } else {
       this.newRequests = [
@@ -118,23 +120,80 @@ export class RequestsComponent implements OnInit {
           requestName: "",
           requestType: type,
           isAreaValid: true,
-          requestDate : new Date()
+          requestDate: new Date(),
         },
       ];
     }
   }
 
-  /* // =====> on add new xray name or analysis name to thier list:
-  onAddNewItemToList(itemName, itemType) {
-    if (itemType == "xRay") {
-      this.rayNames.push(itemName);
+  // =====> on add new xray name or analysis name to thier list:
+  onAddNewItemToList(item: PatientRequest, itemType) {
+    this.formLoading = true;
+    if (itemType == "ray") {
+      this.subs.add(
+        this.requestService
+          .postNewItemValue(item.requestName, ItemsType.Ray)
+          .subscribe(
+            (res: AnyPatientFileValue) => {
+              this.rayNames.push({
+                id: res.id,
+                text: res.text,
+              });
+              item.requestId = res.id;
+              this.formLoading = false;
+              this.doneSwal.fire();
+            },
+            (err) => {
+              console.error(err);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          )
+      );
     } else if (itemType == "area") {
-      this.rayAreas.push(itemName);
+      this.subs.add(
+        this.requestService
+          .postNewItemValue(item.rayAreaName, ItemsType.RayArea)
+          .subscribe(
+            (res: AnyPatientFileValue) => {
+              this.rayAreas.push({
+                id: res.id,
+                text: res.text,
+              });
+              item.rayAreaId = res.id;
+              this.formLoading = false;
+              this.doneSwal.fire();
+            },
+            (err) => {
+              console.error(err);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          )
+      );
     } else {
-      this.analysisNames.push(itemName);
+      this.subs.add(
+        this.requestService
+          .postNewItemValue(item.requestName, ItemsType.Analysis)
+          .subscribe(
+            (res: AnyPatientFileValue) => {
+              this.analysisNames.push({
+                id: res.id,
+                text: res.text,
+              });
+              item.requestId = res.id;
+              this.formLoading = false;
+              this.doneSwal.fire();
+            },
+            (err) => {
+              console.error(err);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          )
+      );
     }
-    this.doneSwal.fire();
-  } */
+  }
 
   // =====> on remove row from requests:
   onRemoveRequest(index) {
@@ -147,26 +206,28 @@ export class RequestsComponent implements OnInit {
     const putObj: PutPatientRequests = {
       newPatientRequests: this.newRequests,
     };
-    this.setSubs = this.requestService.savePatientRequest(putObj).subscribe(
-      () => {
-        if (isPrint) {
-          this.createRequestForPrint(this.newRequests);
-          this.router.navigate(["/print/medicines"], {
-            queryParams: { type: "request" },
-          });
-        } else {
-          this.prevPatientRequests = this.prevPatientRequests.concat(
-            this.newRequests
-          );
+    this.subs.add(
+      this.requestService.savePatientRequest(putObj).subscribe(
+        () => {
+          if (isPrint) {
+            this.createRequestForPrint(this.newRequests);
+            this.router.navigate(["/print/medicines"], {
+              queryParams: { type: "request" },
+            });
+          } else {
+            this.prevPatientRequests = this.prevPatientRequests.concat(
+              this.newRequests
+            );
+            this.formLoading = false;
+            this.doneSwal.fire();
+          }
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
           this.formLoading = false;
-          this.doneSwal.fire();
         }
-      },
-      (err) => {
-        console.error(err);
-        this.alertService.alertError();
-        this.formLoading = false;
-      }
+      )
     );
   }
 
@@ -220,9 +281,8 @@ export class RequestsComponent implements OnInit {
     this.deleteSwal.fire().then((result) => {
       if (result.value) {
         this.formLoading = true;
-        this.deleteSubs = this.requestService
-          .deletePatientRequest(id, type)
-          .subscribe(
+        this.subs.add(
+          this.requestService.deletePatientRequest(id, type).subscribe(
             () => {
               this.formLoading = false;
               this.doneSwal.fire();
@@ -233,7 +293,8 @@ export class RequestsComponent implements OnInit {
               this.alertService.alertError();
               this.formLoading = false;
             }
-          );
+          )
+        );
       }
     });
   }

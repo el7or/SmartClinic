@@ -135,7 +135,7 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             var doctor = _context.Doctors.Find(doctorId);
-            var calEvents = _context.Bookings.Include(p => p.Patient).Where(b => b.DoctorId == doctorId && b.IsCanceled != true && b.Patient.IsDeleted != true)
+            var calBookingEvents = _context.Bookings.Include(p => p.Patient).Where(b => b.DoctorId == doctorId && b.IsCanceled != true && b.Patient.IsDeleted != true)
                 .GroupBy(b => b.BookingDateTime.Date)
                 .Select(b => new
                 {
@@ -143,11 +143,19 @@ namespace clinic_api.Controllers
                     Start = b.Key.ToString("yyyy-MM-dd"),
                     Description = doctor.FullName
                 }).ToList();
+            var calOperationEvents = _context.PatientOperations.Include(p => p.OperationType).Where(b => b.OperationType.DoctorId == doctorId && b.OperationDate != null && b.IsDeleted != true && b.Patient.IsDeleted != true)
+                .GroupBy(b => b.OperationDate.Value)
+                .Select(b => new
+                {
+                    Title = "عدد العمليات: " + b.Count(),
+                    Start = b.Key.ToString("yyyy-MM-dd"),
+                    Description = doctor.FullName
+                }).ToList();
             var clinic = await _context.Clinics.FindAsync(clinicId);
             int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
             var model = new
             {
-                CalendarEvents = calEvents,
+                CalendarEvents = calBookingEvents.Concat(calOperationEvents),
                 WeekEnds = weekDays.Except(clinic.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray()
             };
             return Ok(model);

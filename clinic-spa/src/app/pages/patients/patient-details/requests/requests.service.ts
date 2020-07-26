@@ -10,6 +10,7 @@ import {
 } from "./requests.model";
 import { AuthService } from "../../../../auth/auth.service";
 import { PatientsService } from "../../patients.service";
+import { ItemsType, AnyPatientFileValue } from '../../../settings/patient-setting/record-items-setting/record-items-setting.model';
 
 @Injectable({
   providedIn: "root",
@@ -63,6 +64,23 @@ export class RequestsService {
         requestId +
         "/" +
         type
+    );
+  }
+
+  postNewItemValue(value: string, type:ItemsType) {
+    const postObj: AnyPatientFileValue = {
+      id: 0,
+      text: value,
+    };
+    return this.http.post<AnyPatientFileValue>(
+      this.baseUrl +
+        "RecordSetting/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId +
+        "/" +
+        type,
+        postObj
     );
   }
 }

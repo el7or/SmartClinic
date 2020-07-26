@@ -1,7 +1,5 @@
-import { AlertService } from "./../../shared/services/alert.service";
-import { HomeService } from "./home.service";
 import { Router } from "@angular/router";
-import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
@@ -12,8 +10,9 @@ import momentPlugin from "@fullcalendar/moment";
 import { Subscription } from "rxjs";
 import { NbToastrService } from "@nebular/theme";
 
+import { AlertService } from "./../../shared/services/alert.service";
+import { HomeService } from "./home.service";
 import { BookingsService } from "./../bookings/bookings.service";
-import { SettingsService } from "./../settings/settings.service";
 import { LanggService } from "../../shared/services/langg.service";
 import { DateWithoutTimePipe } from "./../../shared/pipes/date-without-time.pipe";
 import { HomeEvents } from "./home.model";

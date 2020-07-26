@@ -19,7 +19,7 @@
             (typeaheadNoResults)="item.isNameValid = !$event"
             (keyup)="!item.isNameValid || item.compName==''? isAnyNameInvalid = true : isAnyNameInvalid = false"
             [placeholder]="'Complaint' | langg" [isAnimated]="true" [typeaheadMinLength]="0"
-            [ngModelOptions]="{standalone: true}" class="inputTypeahead font-weight-bold" [typeaheadScrollable]="true"
+            [ngModelOptions]="{standalone: true}" class="font-weight-bold" [typeaheadScrollable]="true"
             [typeaheadOptionsInScrollableView]="15" fullWidth>
           <ng-container *ngIf="!item.isNameValid && item.compName != ''">
             <label class="error-message" langg>This Name does not exist! Do you add it to the

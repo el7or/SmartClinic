@@ -4,9 +4,20 @@
   <div class="row">
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-type" class="label"><span>{{'Operation Type' | langg}}</span>:</label>
-      <nb-select fullWidth [ngModel]="operation?.typeId" #type="ngModel" name="type" [placeholder]="'' | langg" required>
+      <!-- <nb-select fullWidth [ngModel]="operation?.typeId" #type="ngModel" name="type" [placeholder]="'' | langg" required>
         <nb-option *ngFor="let item of operationTypeValues" [value]="item.id" langg>{{item.text}}</nb-option>
-      </nb-select>
+      </nb-select> -->
+      <input nbInput [ngModel]="operation.type" #type="ngModel" name="type" [typeahead]="operationTypeValues" typeaheadOptionField="text"
+                (typeaheadNoResults)="isOperTypeInvalid = $event"
+                [isAnimated]="true" [typeaheadMinLength]="0"
+                class="font-weight-bold"
+                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15" fullWidth>
+              <ng-container *ngIf="isOperTypeInvalid && type.value != ''">
+                <label class="error-message" langg>This Name does not exist! Do you add it to the
+                  list?</label>&nbsp;
+                <button nbButton type="button" (click)="onAddNewTypeToList(type.value);isOperTypeInvalid=false" status="info"
+                  size="small" class="mt-2" langg>Add</button>
+              </ng-container>
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-date" class="label"><span>{{'Operation Date' | langg}}</span>:</label>
@@ -57,7 +68,7 @@
       <td>{{item.date | localDateShort}}</td>
       <td>{{item.type}}</td>
       <td>{{item.place}}</td>
-      <td>{{item.cost}} {{'EGP' | langg}}</td>
+      <td>{{item.cost}} {{ item.cost ? ('EGP' | langg) : ''}}</td>
       <td>{{item.note}}</td>
       <td class="text-center">
         <button nbButton type="button" (click)="onEditOperation(item)" status="warning" size="small">{{'Edit' | langg}}</button>&nbsp;

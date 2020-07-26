@@ -16,8 +16,14 @@
                 [placeholder]="item.requestType=='ray'?('X-Ray Name' | langg):('Analysis Name' | langg)"
                 [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
                 [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
-              <ng-container *ngIf="!item.isNameValid && item.requestName != ''">
+              <!-- <ng-container *ngIf="!item.isNameValid && item.requestName != ''">
                 <label class="error-message" langg>Must choose from the list !</label>
+              </ng-container> -->
+              <ng-container *ngIf="!item.isNameValid && item.requestName != ''">
+                <label class="error-message" langg>This Name does not exist! Do you add it to the
+                  list?</label>&nbsp;
+                <button nbButton type="button" (click)="onAddNewItemToList(item,item.requestType);item.isNameValid=true" status="info"
+                  size="small" class="mt-2" langg>Add</button>
               </ng-container>
             </td>
             <td>
@@ -27,8 +33,14 @@
                 typeaheadOptionField="text" fieldSize="small" [typeaheadMinLength]="0"
                 [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
                 [typeaheadOptionsInScrollableView]="15">
-              <ng-container *ngIf="!item.isAreaValid  && item.rayAreaName != ''">
+              <!-- <ng-container *ngIf="!item.isAreaValid  && item.rayAreaName != ''">
                 <label class="error-message" langg>Must choose from the list !</label>
+              </ng-container> -->
+              <ng-container *ngIf="!item.isAreaValid && item.rayAreaName != ''">
+                <label class="error-message" langg>This Name does not exist! Do you add it to the
+                  list?</label>&nbsp;
+                <button nbButton type="button" (click)="onAddNewItemToList(item,'area');item.isAreaValid=true" status="info"
+                  size="small" class="mt-2" langg>Add</button>
               </ng-container>
             </td>
             <td>

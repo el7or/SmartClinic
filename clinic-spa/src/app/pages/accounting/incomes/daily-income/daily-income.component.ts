@@ -1,3 +1,4 @@
+import { AuthService } from './../../../../auth/auth.service';
 import { AccountingService } from "./../../accounting.service";
 import { Component, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
@@ -28,7 +29,8 @@ export class DailyIncomeComponent implements OnInit {
     public langgService: LanggService,
     private localeService: BsLocaleService,
     private dateTimeService: DateTimeService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    public authService:AuthService
   ) {
     // =====> localize datepicker:
     this.localeService.use(langgService.locale);

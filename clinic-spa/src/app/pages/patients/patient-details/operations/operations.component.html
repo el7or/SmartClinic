@@ -4,25 +4,25 @@
   <div class="row">
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-type" class="label"><span>{{'Operation Type' | langg}}</span>:</label>
-      <nb-select fullWidth ngModel #type="ngModel" name="type" [placeholder]="'' | langg" required>
+      <nb-select fullWidth [ngModel]="operation?.typeId" #type="ngModel" name="type" [placeholder]="'' | langg" required>
         <nb-option *ngFor="let item of operationTypeValues" [value]="item.id" langg>{{item.text}}</nb-option>
       </nb-select>
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-date" class="label"><span>{{'Operation Date' | langg}}</span>:</label>
-      <input type="text" bsDatepicker nbInput ngModel #date="ngModel" name="date" id="input-date" fullWidth readonly
+      <input type="text" bsDatepicker nbInput [ngModel]="operation?.date" #date="ngModel" name="date" id="input-date" fullWidth readonly
         [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }">
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-place" class="label"><span>{{'Operation Place' | langg}}</span>:</label>
-      <input nbInput ngModel type="text" #place="ngModel" name="place" id="input-place" fullWidth>
+      <input nbInput [ngModel]="operation?.place" type="text" #place="ngModel" name="place" id="input-place" fullWidth>
     </div>
     <div class="col-md-3 col-sm-6 form-control-group">
       <label for="input-cost" class="label"><span>{{'Operation Cost' | langg}}</span>:</label>
-      <input nbInput ngModel type="number" #cost="ngModel" name="cost" id="input-cost" fullWidth>
+      <input nbInput [ngModel]="operation?.cost" type="number" #cost="ngModel" name="cost" id="input-cost" fullWidth>
     </div>
     <div class="col-12 form-control-group">
-      <textarea nbInput ngModel #note="ngModel" name="note" [placeholder]="'General notes on Operation' | langg"
+      <textarea nbInput [ngModel]="operation?.note" #note="ngModel" name="note" [placeholder]="'General notes on Operation' | langg"
         fullWidth></textarea>
     </div>
   </div>
@@ -41,6 +41,8 @@
       <th>{{'Operation Type' | langg}}</th>
       <th>{{'Operation Place' | langg}}</th>
       <th>{{'Operation Cost' | langg}}</th>
+      <th>{{'Note' | langg}}</th>
+      <th></th>
     </tr>
   </thead>
   <tbody *ngIf="!prevPatientOperations?.length">
@@ -51,14 +53,16 @@
     </tr>
   </tbody>
   <tbody *ngIf="prevPatientOperations?.length">
-    <tr *ngFor="let item of prevPatientOperations">
+    <tr *ngFor="let item of prevPatientOperations; index as i">
       <td>{{item.date | localDateShort}}</td>
       <td>{{item.type}}</td>
       <td>{{item.place}}</td>
       <td>{{item.cost}} {{'EGP' | langg}}</td>
-      <!-- <td class="text-center">
-        <button nbButton type="button" (click)="onDeleteOperation()" status="danger" size="small">{{'Delete' | langg}}</button>
-      </td> -->
+      <td>{{item.note}}</td>
+      <td class="text-center">
+        <button nbButton type="button" (click)="onEditOperation(item)" status="warning" size="small">{{'Edit' | langg}}</button>&nbsp;
+        <button nbButton type="button" (click)="onDeleteOperation(item.id,i)" status="danger" size="small">{{'Delete' | langg}}</button>
+      </td>
     </tr>
   </tbody>
 </table>

@@ -166,6 +166,12 @@
     box-shadow: 0 0 0 0.1rem #e4e9f2;
   }
 
+  // =====> font in autocomplete:
+  typeahead-container{
+    font-size: x-large !important;
+    font-weight: bold !important;
+  }
+
   // =====> text align in autocomplete:
   .dropdown-menu {
     @include nb-ltr(text-align, left);

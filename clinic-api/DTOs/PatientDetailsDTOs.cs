@@ -270,13 +270,24 @@ namespace clinic_api.DTOs
     public class PatientOperationListDTO
     {
         public int Id { get; set; }
+        public int TypeId { get; set; }
         public string Type { get; set; }
         public DateTime? Date { get; set; }
         public string Place { get; set; }
         public decimal? Cost { get; set; }
+        public string Note { get; set; }
     }
     public class PostPatientOperationDTO
     {
+        public int TypeId { get; set; }
+        public DateTime? Date { get; set; }
+        public string Place { get; set; }
+        public decimal? Cost { get; set; }
+        public string Note { get; set; }
+    }
+    public class PutPatientOperationDTO
+    {
+        public int Id { get; set; }
         public int TypeId { get; set; }
         public DateTime? Date { get; set; }
         public string Place { get; set; }

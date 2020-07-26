@@ -8,12 +8,23 @@ export interface OperationTypeValue {
 }
 export interface PatientOperation {
   id:number;
+  typeId:number;
   type: string;
   date?: Date;
   place?: string;
   cost?: number;
+  note?:string;
 }
 export interface PostPatientOperation {
+  typeId: number;
+  date?: string;
+  place?: string;
+  cost?: number;
+  note?:string;
+}
+
+export interface PutPatientOperation {
+  id:number;
   typeId: number;
   date?: string;
   place?: string;

@@ -1,29 +1,32 @@
 <nb-card>
   <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
     <h6 langg>Add New Requests:</h6>
-    <form #form="ngForm" aria-labelledby="title" >
+    <form #form="ngForm" aria-labelledby="title">
       <table class="table requests">
         <tbody>
           <tr *ngFor="let item of newRequests; index as i;">
             <td class="font-weight-bold text-center">
               {{item.requestType=='ray'?('Request X-Ray' | langg):('Request Analysis' | langg)}}&nbsp;:</td>
             <td>
-              <input nbInput [(ngModel)]="item.requestName" [typeahead]="item.requestType=='ray'? rayNames: analysisNames" fullWidth
-              (typeaheadOnSelect)="onSelectRequest($event,i)" typeaheadOptionField="text"
-                (typeaheadNoResults)="item.isNameValid = !$event" (keyup)="!item.isNameValid || item.requestName=='' || !item.requestId ? isAnyNameInvalid = true : isAnyNameInvalid = false"
-                [placeholder]="item.requestType=='ray'?('X-Ray Name' | langg):('Analysis Name' | langg)" [isAnimated]="true"
-                fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
+              <input nbInput [(ngModel)]="item.requestName"
+                [typeahead]="item.requestType=='ray'? rayNames: analysisNames" fullWidth
+                (typeaheadOnSelect)="onSelectRequest($event,i)" typeaheadOptionField="text"
+                (typeaheadNoResults)="item.isNameValid = !$event"
+                (keyup)="!item.isNameValid || item.requestName=='' || !item.requestId ? isAnyNameInvalid = true : isAnyNameInvalid = false"
+                [placeholder]="item.requestType=='ray'?('X-Ray Name' | langg):('Analysis Name' | langg)"
+                [isAnimated]="true" fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
                 [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
-                <ng-container *ngIf="!item.isNameValid && item.requestName != ''">
-                  <label class="error-message" langg>Must choose from the list !</label>
-                </ng-container>
+              <ng-container *ngIf="!item.isNameValid && item.requestName != ''">
+                <label class="error-message" langg>Must choose from the list !</label>
+              </ng-container>
             </td>
             <td>
               <input nbInput [(ngModel)]="item.rayAreaName" [typeahead]="rayAreas" fullWidth
-              (typeaheadNoResults)="item.isAreaValid = !$event" (typeaheadOnSelect)="onSelectArea($event,i)" [hidden]="item.requestType!='ray'"
-              [placeholder]="'X-Ray Area' | langg" [isAnimated]="true" typeaheadOptionField="text"
-              fieldSize="small" [typeaheadMinLength]="0" [ngModelOptions]="{standalone: true}"
-              [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="15">
+                (typeaheadNoResults)="item.isAreaValid = !$event" (typeaheadOnSelect)="onSelectArea($event,i)"
+                [hidden]="item.requestType!='ray'" [placeholder]="'X-Ray Area' | langg" [isAnimated]="true"
+                typeaheadOptionField="text" fieldSize="small" [typeaheadMinLength]="0"
+                [ngModelOptions]="{standalone: true}" [typeaheadScrollable]="true"
+                [typeaheadOptionsInScrollableView]="15">
               <ng-container *ngIf="!item.isAreaValid  && item.rayAreaName != ''">
                 <label class="error-message" langg>Must choose from the list !</label>
               </ng-container>
@@ -43,19 +46,23 @@
       </table>
 
       <button nbButton size="small" (click)="onAddRequest('ray')"
-        [disabled]="newRequests?.length &&(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)" class="mx-1 mb-1">
+        [disabled]="newRequests?.length &&(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)"
+        class="mx-1 mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Request X-Ray</span>
       </button>
       <button nbButton size="small" (click)="onAddRequest('analysis')"
-      [disabled]="newRequests?.length &&(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)" class="mx-1 mb-1">
+        [disabled]="newRequests?.length &&(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)"
+        class="mx-1 mb-1">
         <nb-icon icon="plus-outline"></nb-icon><span langg>Request Analysis</span>
       </button>
 
       <div class="text-center nbButton-group mb-1">
         <button nbButton type="submit" status="success" (click)="onSave(false)"
-          [disabled]="isAnyNameInvalid ||(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)" langg>Save</button>
+          [disabled]="isAnyNameInvalid ||(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)"
+          langg>Save</button>
         <button nbButton type="submit" status="success" (click)="onSave(true)"
-          [disabled]="isAnyNameInvalid ||(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)" langg>Save
+          [disabled]="isAnyNameInvalid ||(!newRequests[newRequests?.length-1]?.requestName || !newRequests[newRequests?.length-1]?.isNameValid)"
+          langg>Save
           &
           Print Request</button>
         <button nbButton type="button" status="danger" (click)="location.back()" langg>Cancel</button>
@@ -88,8 +95,11 @@
           <td>{{request.requestName}}</td>
           <td>{{request.isHasResult ? ('Registered Result' | langg) :('No Result Recorded' | langg)}}</td>
           <td class="text-center">
-            <button nbButton (click)="onOpenDetails(request.id,request.requestType)" type="click" [status]="request.isHasResult ? 'info' : 'success'" size="small">{{request.isHasResult ? ('Show Result' | langg) : ('Register Result' | langg)}}</button>&nbsp;
-            <button nbButton (click)="onDeleteRequest(request.id,request.requestType,i)" size="small" status="danger" langg>Delete Request</button>
+            <button nbButton (click)="onOpenDetails(request.id,request.requestType)" type="click"
+              [status]="request.isHasResult ? 'info' : 'success'"
+              size="small">{{request.isHasResult ? ('Show Result' | langg) : ('Register Result' | langg)}}</button>&nbsp;
+            <button nbButton (click)="onDeleteRequest(request.id,request.requestType,i)" size="small" status="danger"
+              langg>Delete Request</button>
           </td>
         </tr>
       </tbody>

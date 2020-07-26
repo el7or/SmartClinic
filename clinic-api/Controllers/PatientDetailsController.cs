@@ -692,17 +692,17 @@ namespace clinic_api.Controllers
             }).ToList();
             GetPatientRequestsDTO model = new GetPatientRequestsDTO
             {
-                RayValues = await _context.DoctorRaysValues.Where(d => d.DoctorId == doctorId).Select(v => new RayValue
+                RayValues = await _context.DoctorRaysValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(v => new RayValue
                 {
                     Id = v.Id,
                     Text = v.RayName
                 }).ToListAsync(),
-                RayAreaValues = await _context.DoctorRayAreasValues.Where(d => d.DoctorId == doctorId).Select(v => new RayAreaValue
+                RayAreaValues = await _context.DoctorRayAreasValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(v => new RayAreaValue
                 {
                     Id = v.Id,
                     Text = v.RayArea
                 }).ToListAsync(),
-                AnalysisValues = await _context.DoctorAnalysisValues.Where(d => d.DoctorId == doctorId).Select(v => new AnalysisValue
+                AnalysisValues = await _context.DoctorAnalysisValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(v => new AnalysisValue
                 {
                     Id = v.Id,
                     Text = v.AnalysisName
@@ -814,14 +814,16 @@ namespace clinic_api.Controllers
                     Id = s.Id,
                     Text = s.OperationType
                 }).ToListAsync(),
-                PrevPatientOperations = await _context.PatientOperations.Where(p => p.PatientId == patientId)
+                PrevPatientOperations = await _context.PatientOperations.Where(p => p.PatientId == patientId && p.IsDeleted != true)
                 .Include(d => d.OperationType).Select(r => new PatientOperationListDTO
                 {
                     Id = r.Id,
+                    TypeId = r.OperationTypeId,
                     Type = r.OperationType.OperationType,
                     Date = r.OperationDate,
                     Place = r.Place,
-                    Cost = r.Cost
+                    Cost = r.Cost,
+                    Note = r.Note
                 }).ToListAsync()
             };
             return model;
@@ -848,6 +850,48 @@ namespace clinic_api.Controllers
                 UpdatedBy = id,
                 UpdatedOn = DateTime.Now.ToEgyptTime()
             });
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // PUT: api/PatientDetails/PutPatientOper/5
+        [HttpPut("PutPatientOper/{id}")]
+        public async Task<IActionResult> PutPatientOper(Guid id, PutPatientOperationDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var operation = _context.PatientOperations.Find(model.Id);
+            operation.OperationTypeId = model.TypeId;
+            operation.OperationDate = model.Date;
+            operation.Cost = model.Cost;
+            operation.Place = model.Place;
+            operation.Note = model.Note;
+            operation.UpdatedBy = id;
+            operation.UpdatedOn = DateTime.Now.ToEgyptTime();
+            _context.Entry(operation).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // PUT: api/PatientDetails/DeletePatientOper/5
+        [HttpPut("DeletePatientOper/{id}")]
+        public async Task<IActionResult> DeletePatientOper(Guid id, int operationId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            var operation = _context.PatientOperations.Find(operationId);
+            operation.IsDeleted = true;
+            operation.UpdatedBy = id;
+            operation.UpdatedOn = DateTime.Now.ToEgyptTime();
+            _context.Entry(operation).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
 

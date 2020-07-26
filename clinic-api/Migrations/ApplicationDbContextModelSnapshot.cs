@@ -1826,6 +1826,9 @@ namespace clinic_api.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 

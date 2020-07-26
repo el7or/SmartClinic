@@ -12,6 +12,7 @@ namespace clinic_api.Models
         public string Place { get; set; }
         public decimal? Cost { get; set; }
         public string Note { get; set; }
+        public bool? IsDeleted { get; set; }
         public DateTime CreatedOn { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime UpdatedOn { get; set; }

@@ -119,6 +119,7 @@ namespace clinic_api.Data
         public virtual DbSet<SysCitiesValue> SysCitiesValues { get; set; }
         public virtual DbSet<SysDiseaseGradesValue> SysDiseaseGradesValues { get; set; }
         public virtual DbSet<SysDiseasesQuestionsValue> SysDiseasesQuestionsValues { get; set; }
+        public virtual DbSet<SysDoctorExpenseTypeValue> SysDoctorExpenseTypes { get; set; }
         public virtual DbSet<SysDoctorsSpecialty> SysDoctorsSpecialties { get; set; }
         public virtual DbSet<SysEntryOrderValue> SysEntryOrderValues { get; set; }
         public virtual DbSet<SysExpenseType> SysExpenseTypes { get; set; }
@@ -628,6 +629,12 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.ExpenseItemId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DoctorExpenses_DoctorExpenseItems");
+
+                entity.HasOne(d => d.ExpenseType)
+                    .WithMany(p => p.DoctorExpenses)
+                    .HasForeignKey(d => d.ExpenseTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorExpenses_DoctorExpenseTypes");
             });
 
             modelBuilder.Entity<DoctorExpenseItemValue>(entity =>
@@ -643,6 +650,13 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.DoctorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DoctorExpenseItems_Doctors");
+            });
+
+            modelBuilder.Entity<SysDoctorExpenseTypeValue>(entity =>
+            {
+                entity.Property(e => e.Text).IsRequired();
+
+                entity.Property(e => e.Value).IsRequired();
             });
 
             modelBuilder.Entity<Expense>(entity =>

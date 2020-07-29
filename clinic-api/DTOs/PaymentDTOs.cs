@@ -40,7 +40,13 @@ namespace clinic_api.DTOs
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public string Item { get; set; }
+        public string Type { get; set; }
         public string Note { get; set; }
+    }
+    public class ExpenseValuesDTO
+    {
+        public List<ExpenseItemValueDTO> ExpenseItemValues { get; set; }
+        public List<ExpenseItemValueDTO> ExpenseTypeValues { get; set; }
     }
     public class ExpenseItemValueDTO
     {
@@ -57,12 +63,20 @@ namespace clinic_api.DTOs
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public int ItemId { get; set; }
+        public int TypeId { get; set; }
         public string Note { get; set; }
     }
 
     public class MonthProfitDTO
     {
         public string Month { get; set; }
+        public decimal TotalIncomes { get; set; }
+        public decimal TotalExpenses { get; set; }
+    }
+
+    public class DayProfitDTO
+    {
+        public string Day { get; set; }
         public decimal TotalIncomes { get; set; }
         public decimal TotalExpenses { get; set; }
     }

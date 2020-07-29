@@ -46,6 +46,7 @@ export const MENU_ITEMS: any[] = [
         icon:  { icon: 'award', pack: 'solid'},
         link: "/pages/accounting/profit",
         data: "roleDoctor",
+        pathMatch: "prefix",
       },
     ],
   },

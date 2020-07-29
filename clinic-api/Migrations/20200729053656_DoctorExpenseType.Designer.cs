@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using clinic_api.Data;
 
 namespace clinic_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200729053656_DoctorExpenseType")]
+    partial class DoctorExpenseType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1072,7 +1074,7 @@ namespace clinic_api.Migrations
                     b.Property<int>("ExpenseItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ExpenseTypeId")
+                    b.Property<int?>("ExpenseTypeId")
                         .HasColumnType("int");
 
                     b.Property<bool?>("IsDeleted")
@@ -3074,8 +3076,7 @@ namespace clinic_api.Migrations
                     b.HasOne("clinic_api.Models.SysDoctorExpenseTypeValue", "ExpenseType")
                         .WithMany("DoctorExpenses")
                         .HasForeignKey("ExpenseTypeId")
-                        .HasConstraintName("FK_DoctorExpenses_DoctorExpenseTypes")
-                        .IsRequired();
+                        .HasConstraintName("FK_DoctorExpenses_DoctorExpenseTypes");
                 });
 
             modelBuilder.Entity("clinic_api.Models.DoctorExpenseItemValue", b =>

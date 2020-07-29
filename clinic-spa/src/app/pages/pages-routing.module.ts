@@ -1,3 +1,5 @@
+import { MonthlyProfitComponent } from './accounting/profits/monthly-profit/monthly-profit.component';
+import { DailyProfitComponent } from './accounting/profits/daily-profit/daily-profit.component';
 import { MedicinesSettingComponent } from './settings/patient-setting/medicines-setting/medicines-setting.component';
 import { RecordItemsSettingComponent } from './settings/patient-setting/record-items-setting/record-items-setting.component';
 import { RoleGuard } from "./../auth/role.guard";
@@ -215,6 +217,16 @@ const routes: Routes = [
             data: {
               role: "doctor",
             },
+            children: [
+              {
+                path: "",
+                component: DailyProfitComponent,
+              },
+              {
+                path: "monthly",
+                component: MonthlyProfitComponent,
+              },
+            ],
           },
         ],
       },

@@ -54,8 +54,26 @@
           <button nbButton status="info" size="small" type="button" (click)="onAddItem()">
             <nb-icon icon="plus-outline"></nb-icon><span langg>Add Expense Item</span>
           </button>
-          <p class="error-message text-danger" *ngIf="!expenseItemValues?.length"
-          langg>There are no Expense Items, Please add at least one item.</p>
+          <p class="error-message text-danger" *ngIf="!expenseItemValues?.length" langg>There are no Expense Items,
+            Please add at least one item.</p>
+        </div>
+        <div class="form-control-group col-md-6">
+          <label for="input-expenseType" class="label"><span langg>Expense Type</span>:</label>
+          <button nbButton type="button" status="warning" ghost shape="round"
+          [nbTooltip]="'Monthly expense is discounted from the Monthly Profits only, and Sundry Expense is discounted from the Daily Profits and from the total Monthly Profits.' | langg">
+            <nb-icon icon="info"></nb-icon>
+          </button>
+          <nb-select fullWidth ngModel #expenseType="ngModel" name="expenseType" id="input-expenseType" required
+            [placeholder]="'Expense Type' | langg" [selected]="expenseTypeValues?.length? expenseTypeValues[0].id: ''"
+            [status]="expenseType.touched ? (expenseType.invalid  ? 'danger' : 'success') : ''">
+            <nb-option *ngFor="let item of expenseTypeValues" [value]="item.id">
+              {{item.text | langg}}</nb-option>
+          </nb-select>
+          <ng-container *ngIf="expenseType.touched && expenseType.invalid">
+            <p class="error-message text-danger" *ngIf="expenseType.errors?.required" langg>
+              Expense Type is required!
+            </p>
+          </ng-container>
         </div>
         <div class="form-control-group col-md-12">
           <label for="input-note" class="label"><span langg>Note</span>:</label>

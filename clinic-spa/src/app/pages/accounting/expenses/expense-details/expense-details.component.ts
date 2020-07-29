@@ -9,7 +9,7 @@ import { NbDialogService } from "@nebular/theme";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 
 import { AddItemComponent } from "./add-item/add-item.component";
-import { ExpenseItemValue, PostExpense } from "../../accounting.model";
+import { ExpenseItemValue, PostExpense, ExpenseValues } from "../../accounting.model";
 import { AccountingService } from "../../accounting.service";
 import { AlertService } from "../../../../shared/services/alert.service";
 
@@ -21,6 +21,7 @@ import { AlertService } from "../../../../shared/services/alert.service";
 export class ExpenseDetailsComponent implements OnInit, OnDestroy {
   formLoading = false;
   expenseItemValues: ExpenseItemValue[];
+  expenseTypeValues: ExpenseItemValue[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   currentDay?: Date = new Date();
 
@@ -43,9 +44,10 @@ export class ExpenseDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formLoading = true;
-    this.getSubs = this.accountingService.getExpensesItems().subscribe(
-      (res: ExpenseItemValue[]) => {
-        this.expenseItemValues = res;
+    this.getSubs = this.accountingService.getExpensesValues().subscribe(
+      (res: ExpenseValues) => {
+        this.expenseItemValues = res.expenseItemValues;
+        this.expenseTypeValues = res.expenseTypeValues;
         this.formLoading = false;
       },
       (err) => {
@@ -98,6 +100,7 @@ export class ExpenseDetailsComponent implements OnInit, OnDestroy {
       date: this.dateTimeService.dateWithoutTime(form.value.expenseDate),
       amount: form.value.expenseAmount,
       itemId: form.value.expenseItem,
+      typeId: form.value.expenseType,
       note: form.value.note,
     };
     this.accountingService.postExpense(postObj).subscribe(

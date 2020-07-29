@@ -1,43 +1,35 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MonthProfit } from '../accounting.model';
-import { Subscription } from 'rxjs';
-import { AccountingService } from '../accounting.service';
-import { AlertService } from '../../../shared/services/alert.service';
+import { Component, OnInit } from "@angular/core";
+import { LanggService } from '../../../shared/services/langg.service';
 
 @Component({
-  selector: 'profits',
-  templateUrl: './profits.component.html',
-  styleUrls: ['./profits.component.scss']
+  selector: "profits",
+  template: `
+    <nb-card>
+      <nb-card-header> <span langg>Profits</span>: </nb-card-header>
+      <nb-card-body>
+        <nb-route-tabset [tabs]="profitTabs"></nb-route-tabset>
+      </nb-card-body>
+    </nb-card>
+  `,
+  styleUrls: ["./profits.component.scss"],
 })
-export class ProfitsComponent implements OnInit,OnDestroy {
-  formLoading = false;
-  monthProfits: MonthProfit[];
-
-  getSubs: Subscription;
+export class ProfitsComponent implements OnInit {
+  profitTabs: any[];
 
   constructor(
-    private accountingService: AccountingService,
-    private alertService: AlertService
+    private langgService: LanggService
   ) {}
 
   ngOnInit() {
-    this.formLoading = true;
-    this.getSubs = this.accountingService
-      .getMonthProfits()
-      .subscribe(
-        (res: MonthProfit[]) => {
-          this.monthProfits = res;
-          this.formLoading = false;
-        },
-        (err) => {
-          console.error(err);
-          this.alertService.alertError();
-          this.formLoading = false;
-        }
-      );
+    this.profitTabs = [
+      {
+        title: this.langgService.translateWord("Daily Profit"),
+        route: ".",
+      },
+      {
+        title: this.langgService.translateWord("Monthly Profit"),
+        route: "./monthly",
+      },
+    ];
   }
-  ngOnDestroy() {
-    this.getSubs.unsubscribe();
-  }
-
 }

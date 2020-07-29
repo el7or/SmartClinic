@@ -732,5 +732,13 @@
   { "ar": "روشتة جديدة جاءت من د/ ", "en": "A new prescription came from Dr. " },
   { "ar": "تاريخ الإرسال", "en": "Sent Date" },
   { "ar": "وقت الإرسال", "en": "Sent Time" },
-  { "ar": "إلى الصيدلية", "en": "To Pharmacy" }
+  { "ar": "إلى الصيدلية", "en": "To Pharmacy" },
+  { "ar": "نوع المصروف", "en": "Expense Type" },
+  { "ar": "مصروف نثري", "en": "Sundry Expense" },
+  { "ar": "مصروف شهري", "en": "Monthly Expense" },
+  { "ar": "لايد من إدخال نوع المصروف !", "en": "Expense Type is required!" },
+  { "ar": "المصروف الشهري يتم خصمه من الأرباح الشهرية فقط، والمصروف النثري يتم خصمه من الأرباح اليومية ومن إجمالي الأرباح الشهرية.", "en": "Monthly expense is discounted from the Monthly Profits only, and Sundry Expense is discounted from the Daily Profits and from the total Monthly Profits." },
+  { "ar": "الأرباح اليومية", "en": "Daily Profit" },
+  { "ar": "الأرباح الشهرية", "en": "Monthly Profit" },
+  { "ar": "اليوم", "en": "Day" }
 ]

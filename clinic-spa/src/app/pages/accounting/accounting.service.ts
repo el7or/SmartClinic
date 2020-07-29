@@ -11,6 +11,8 @@ import {
   PostExpenseItemValue,
   PostExpense,
   MonthProfit,
+  ExpenseValues,
+  DayProfit,
 } from "./accounting.model";
 
 @Injectable({
@@ -53,10 +55,10 @@ export class AccountingService {
     );
   }
 
-  getExpensesItems() {
-    return this.http.get<ExpenseItemValue[]>(
+  getExpensesValues() {
+    return this.http.get<ExpenseValues>(
       this.baseUrl +
-        "Pay/GetExpenseItems/" +
+        "Pay/GetExpenseValues/" +
         this.authService.userId +
         "/" +
         this.authService.doctorId
@@ -82,6 +84,16 @@ export class AccountingService {
         "/" +
         this.authService.doctorId,
       expense
+    );
+  }
+
+  getDailyProfits() {
+    return this.http.get<DayProfit[]>(
+      this.baseUrl +
+        "Pay/GetProfitDaily/" +
+        this.authService.userId +
+        "/" +
+        this.authService.doctorId
     );
   }
 

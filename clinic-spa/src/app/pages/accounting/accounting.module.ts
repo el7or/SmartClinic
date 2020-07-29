@@ -16,6 +16,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ExpensesListComponent } from './expenses/expenses-list/expenses-list.component';
 import { ExpenseDetailsComponent } from './expenses/expense-details/expense-details.component';
 import { AddItemComponent } from './expenses/expense-details/add-item/add-item.component';
+import { MonthlyProfitComponent } from './profits/monthly-profit/monthly-profit.component';
+import { DailyProfitComponent } from './profits/daily-profit/daily-profit.component';
 
 
 
@@ -29,7 +31,9 @@ import { AddItemComponent } from './expenses/expense-details/add-item/add-item.c
     ProfitsComponent,
     ExpensesListComponent,
     ExpenseDetailsComponent,
-    AddItemComponent
+    AddItemComponent,
+    MonthlyProfitComponent,
+    DailyProfitComponent
   ],
   imports: [
     CommonModule,

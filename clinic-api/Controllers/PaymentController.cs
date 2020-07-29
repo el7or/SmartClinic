@@ -50,7 +50,7 @@ namespace clinic_api.Controllers
                     PatientCodeId = p.Booking.Patient.SeqNo,
                     PatientId = p.Booking.PatientId,
                     PaymentDate = p.CreatedOn,
-                     BookingDate = p.Booking.BookingDateTime,
+                    BookingDate = p.Booking.BookingDateTime,
                     Type = p.Booking.Type.Text,
                     Services = p.Booking.BookingServices.Select(s => s.Service.Service).ToArray(),
                     Name = p.Booking.Patient.FullName,
@@ -101,13 +101,14 @@ namespace clinic_api.Controllers
 
             var doctorExpenses = await _context.DoctorExpenses
                 .Where(p => p.DoctorId == doctorId && p.IsDeleted != true)
-                .Include(b => b.ExpenseItem)
+                .Include(b => b.ExpenseItem).Include(t => t.ExpenseType)
                 .Select(e => new ExpenseList
                 {
                     Id = e.Id,
                     Date = e.ExpenseDate,
                     Amount = e.ExpenseAmount,
                     Item = e.ExpenseItem.ExpenseItem,
+                    Type = e.ExpenseType.Value,
                     Note = e.Note
                 }).ToListAsync();
 
@@ -123,23 +124,31 @@ namespace clinic_api.Controllers
             return model;
         }
 
-        // GET: api/Pay/GetExpenseItems
-        [HttpGet("GetExpenseItems/{id}/{doctorId}")]
-        public async Task<ActionResult<IEnumerable<ExpenseItemValueDTO>>> GetExpenseItems(Guid id, Guid doctorId)
+        // GET: api/Pay/GetExpenseValues
+        [HttpGet("GetExpenseValues/{id}/{doctorId}")]
+        public async Task<ActionResult<ExpenseValuesDTO>> GetExpenseValues(Guid id, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
 
-            var model = await _context.DoctorExpenseItems.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
+            var model = new ExpenseValuesDTO
+            {
+                ExpenseItemValues = await _context.DoctorExpenseItems.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
                 .OrderBy(e => e.ExpenseItem)
                 .Select(e => new ExpenseItemValueDTO
                 {
                     Id = e.Id,
                     Text = e.ExpenseItem
-                }).ToListAsync();
-
+                }).ToListAsync(),
+                ExpenseTypeValues = await _context.SysDoctorExpenseTypes
+                .Select(e => new ExpenseItemValueDTO
+                {
+                    Id = e.Id,
+                    Text = e.Value
+                }).ToListAsync(),
+            };
             return model;
         }
 
@@ -189,6 +198,7 @@ namespace clinic_api.Controllers
                 ExpenseDate = model.Date,
                 ExpenseAmount = model.Amount,
                 ExpenseItemId = model.ItemId,
+                ExpenseTypeId = model.TypeId,
                 Note = model.Note,
                 CreatedBy = id,
                 IsDeleted = false,
@@ -201,6 +211,48 @@ namespace clinic_api.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        // GET: api/Pay/GetProfitDaily
+        [HttpGet("GetProfitDaily/{id}/{doctorId}")]
+        public async Task<ActionResult<IEnumerable<DayProfitDTO>>> GetProfitDaily(Guid id, Guid doctorId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+
+            var dailyIncome = await _context.BookingPayments
+                .Where(p => p.Booking.DoctorId == doctorId && p.Booking.IsCanceled != true && p.Booking.Patient.IsDeleted != true)
+                .Include(b => b.Booking)
+                .GroupBy(p => new { p.CreatedOn.Day, p.CreatedOn.Month, p.CreatedOn.Year })
+                .OrderByDescending(y => y.Key.Year).ThenByDescending(m => m.Key.Month).ThenByDescending(m => m.Key.Day)
+                .Select(p => new DayProfitDTO
+                {
+                    Day = p.Key.Year.ToString() + "-" + p.Key.Month.ToString() + "-" + p.Key.Day.ToString(),
+                    TotalIncomes = p.Sum(x => x.Paid)
+                }).ToListAsync();
+
+            var dailyExpense = await _context.DoctorExpenses
+                .Where(p => p.DoctorId == doctorId && p.IsDeleted != true && p.ExpenseTypeId == 1) // المصروفات المثرية اليومية
+                .GroupBy(p => new { p.ExpenseDate.Day, p.ExpenseDate.Month, p.ExpenseDate.Year })
+                .OrderByDescending(y => y.Key.Year).ThenByDescending(m => m.Key.Month).ThenByDescending(m => m.Key.Day)
+                .Select(p => new DayProfitDTO
+                {
+                    Day = p.Key.Year.ToString() + "-" + p.Key.Month.ToString() + "-" + p.Key.Day.ToString(),
+                    TotalExpenses = p.Sum(x => x.ExpenseAmount)
+                }).ToListAsync();
+
+            foreach (var item in dailyIncome)
+            {
+                var sameDay = dailyExpense.FirstOrDefault(m => m.Day == item.Day);
+                if (sameDay != null)
+                {
+                    item.TotalExpenses = sameDay.TotalExpenses;
+                }
+            }
+
+            return dailyIncome;
         }
 
         // GET: api/Pay/GetProfitMonthly
@@ -216,7 +268,7 @@ namespace clinic_api.Controllers
                 .Where(p => p.Booking.DoctorId == doctorId && p.Booking.IsCanceled != true && p.Booking.Patient.IsDeleted != true)
                 .Include(b => b.Booking)
                 .GroupBy(p => new { p.CreatedOn.Month, p.CreatedOn.Year })
-                .OrderBy(y => y.Key.Year).ThenBy(m => m.Key.Month)
+                .OrderByDescending(y => y.Key.Year).ThenByDescending(m => m.Key.Month)
                 .Select(p => new MonthProfitDTO
                 {
                     Month = p.Key.Year.ToString() + "-" + p.Key.Month.ToString() + "-1",
@@ -226,7 +278,7 @@ namespace clinic_api.Controllers
             var monthlyExpense = await _context.DoctorExpenses
                 .Where(p => p.DoctorId == doctorId && p.IsDeleted != true)
                 .GroupBy(p => new { p.ExpenseDate.Month, p.ExpenseDate.Year })
-                .OrderBy(y => y.Key.Year).ThenBy(m => m.Key.Month)
+                .OrderByDescending(y => y.Key.Year).ThenByDescending(m => m.Key.Month)
                 .Select(p => new MonthProfitDTO
                 {
                     Month = p.Key.Year.ToString() + "-" + p.Key.Month.ToString() + "-1",
@@ -236,7 +288,7 @@ namespace clinic_api.Controllers
             foreach (var item in monthlyIncome)
             {
                 var sameMonth = monthlyExpense.FirstOrDefault(m => m.Month == item.Month);
-                if(sameMonth != null)
+                if (sameMonth != null)
                 {
                     item.TotalExpenses = sameMonth.TotalExpenses;
                 }

@@ -28,7 +28,12 @@ export interface ExpenseList {
   date: Date;
   amount: number;
   item: string;
+  type: string;
   note: string;
+}
+export interface ExpenseValues {
+  expenseItemValues: ExpenseItemValue[];
+  expenseTypeValues: ExpenseItemValue[];
 }
 export interface ExpenseItemValue {
   id: number;
@@ -42,11 +47,18 @@ export interface PostExpense {
   date: string;
   amount: number;
   itemId: number;
+  typeId: number;
   note: string;
 }
 
-export interface MonthProfit{
+export interface DayProfit {
+  day: Date;
+  totalIncomes: number;
+  totalExpenses: number;
+}
+
+export interface MonthProfit {
   month: Date;
   totalIncomes: number;
-  totalExpenses:number;
+  totalExpenses: number;
 }

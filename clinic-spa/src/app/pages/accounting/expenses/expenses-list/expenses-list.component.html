@@ -16,7 +16,7 @@
         </div>
       </div>
       <div [class]="(allExpenses?.length ? 'col-8' : 'col-12') + ' d-flex flex-row-reverse'">
-        <button nbButton [routerLink]="['/pages/accounting/expense/details','new']" hero>
+        <button nbButton [routerLink]="['/pages/accounting/expense/details','new']" hero size="small">
           <nb-icon icon="plus-outline"></nb-icon><span langg>Add New Expense</span>
         </button>
       </div>
@@ -29,6 +29,7 @@
           <th langg>Expense Item</th>
           <th langg>Expense Type</th>
           <th langg>Note</th>
+          <th></th>
         </tr>
       </thead>
       <tbody *ngIf="!monthExpenses?.length">
@@ -45,14 +46,27 @@
           <td>{{item.item}}</td>
           <td>{{item.type | langg}}</td>
           <td>{{item.note}}</td>
+          <td>
+            <button nbButton [routerLink]="['/pages/accounting/expense/details',item.id]" status="success" size="small"
+              langg>Edit</button>&nbsp;
+            <button nbButton (click)="onDeleteExpense(item.id,i)" size="small" status="danger" langg>Delete</button>
+          </td>
         </tr>
       </tbody>
       <tfoot *ngIf="monthExpenses?.length">
         <tr class="table-dark font-weight-bolder lead">
           <td colspan="1"><span langg>Total Amount:</span></td>
-          <td colspan="4">{{totalPaid | currency:'EGP':'symbol':'1.0'}}</td>
+          <td colspan="5">{{totalPaid | currency:'EGP':'symbol':'1.0'}}</td>
         </tr>
       </tfoot>
     </table>
   </nb-card-body>
 </nb-card>
+
+<swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"
+  [text]="'This data will be deleted forever and all other data related to it, and it will not be retrievable again!' | langg"
+  [confirmButtonText]="'Delete' | langg" [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#ff3d71">
+</swal>
+<swal #doneSwal [title]="'Success' | langg" [text]="'Done successfully!' | langg" icon="success" timer="2000"
+  [showConfirmButton]="false">
+</swal>

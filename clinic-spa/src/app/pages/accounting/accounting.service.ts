@@ -9,9 +9,9 @@ import {
   GetExpenseList,
   ExpenseItemValue,
   PostExpenseItemValue,
-  PostExpense,
+  ExpenseDetails,
   MonthProfit,
-  ExpenseValues,
+  GetExpenseDetails,
   DayProfit,
 } from "./accounting.model";
 
@@ -55,13 +55,15 @@ export class AccountingService {
     );
   }
 
-  getExpensesValues() {
-    return this.http.get<ExpenseValues>(
+  getExpenseDetails(id: number) {
+    return this.http.get<GetExpenseDetails>(
       this.baseUrl +
-        "Pay/GetExpenseValues/" +
+        "Pay/GetExpenseDetails/" +
         this.authService.userId +
         "/" +
-        this.authService.doctorId
+        this.authService.doctorId +
+        "/" +
+        id
     );
   }
 
@@ -76,14 +78,29 @@ export class AccountingService {
     );
   }
 
-  postExpense(expense: PostExpense) {
-    return this.http.post<ExpenseItemValue>(
+  postExpense(expense: ExpenseDetails) {
+    return this.http.post(
       this.baseUrl +
         "Pay/" +
         this.authService.userId +
         "/" +
         this.authService.doctorId,
       expense
+    );
+  }
+
+  putExpense(expense: ExpenseDetails) {
+    return this.http.put(
+      this.baseUrl +
+        "Pay/" +
+        this.authService.userId,
+      expense
+    );
+  }
+
+  deleteExpense(expenseId: number) {
+    return this.http.delete(
+      this.baseUrl + "Pay/" + this.authService.userId + "/" + expenseId
     );
   }
 

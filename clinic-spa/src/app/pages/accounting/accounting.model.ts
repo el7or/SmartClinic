@@ -31,7 +31,8 @@ export interface ExpenseList {
   type: string;
   note: string;
 }
-export interface ExpenseValues {
+export interface GetExpenseDetails {
+  expenseDetails?:ExpenseDetails;
   expenseItemValues: ExpenseItemValue[];
   expenseTypeValues: ExpenseItemValue[];
 }
@@ -43,7 +44,8 @@ export interface PostExpenseItemValue {
   doctorId: string;
   item: string;
 }
-export interface PostExpense {
+export interface ExpenseDetails {
+  id?:number;
   date: string;
   amount: number;
   itemId: number;

@@ -13,7 +13,7 @@
       <div class="row">
         <div class="form-control-group col-md-6">
           <label for="input-expenseDate" class="label"><span langg>Expense Date</span>:</label>
-          <input type="text" bsDatepicker nbInput [ngModel]="currentDay" #expenseDate="ngModel" name="expenseDate"
+          <input type="text" bsDatepicker nbInput [ngModel]="expenseDateValue" #expenseDate="ngModel" name="expenseDate"
             id="input-expenseDate" fullWidth autocomplete="off" readonly
             [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
             [placeholder]="'Expense Date' | langg" required
@@ -26,8 +26,8 @@
         </div>
         <div class="form-control-group col-md-6">
           <label for="input-expenseAmount" class="label"><span langg>Expense Amount</span>:</label>
-          <input nbInput type="number" ngModel #expenseAmount="ngModel" name="expenseAmount" id="input-expenseAmount"
-            [placeholder]="'Expense Amount' | langg" fullWidth required [min]="0"
+          <input nbInput type="number" [ngModel]="expenseDetails?.amount" #expenseAmount="ngModel" name="expenseAmount"
+            id="input-expenseAmount" [placeholder]="'Expense Amount' | langg" fullWidth required [min]="0"
             [status]="expenseAmount.touched && (expenseAmount.invalid || expenseAmount.value < 0) ? 'danger' : (expenseAmount.value ? 'success' : '')">
           <ng-container *ngIf="expenseAmount.touched && ( expenseAmount.invalid || expenseAmount.value < 0)">
             <p class="error-message text-danger" *ngIf="expenseAmount.errors?.required" langg>
@@ -38,8 +38,9 @@
         </div>
         <div class="form-control-group col-md-6">
           <label for="input-expenseItem" class="label"><span langg>Expense Item</span>:</label>
-          <nb-select fullWidth ngModel #expenseItem="ngModel" name="expenseItem" id="input-expenseItem" required
-            [placeholder]="'Expense Item' | langg" [selected]="expenseItemValues?.length? expenseItemValues[0].id: ''"
+          <nb-select fullWidth [ngModel]="expenseDetails?.itemId" #expenseItem="ngModel" name="expenseItem"
+            id="input-expenseItem" required [placeholder]="'Expense Item' | langg"
+            [selected]="expenseItemValues?.length? expenseItemValues[0].id: ''"
             [status]="expenseItem.touched ? (expenseItem.invalid  ? 'danger' : 'success') : ''">
             <nb-option *ngFor="let item of expenseItemValues" [value]="item.id">
               {{item.text}}</nb-option>
@@ -60,11 +61,12 @@
         <div class="form-control-group col-md-6">
           <label for="input-expenseType" class="label"><span langg>Expense Type</span>:</label>
           <button nbButton type="button" status="warning" ghost shape="round"
-          [nbTooltip]="'Monthly expense is discounted from the Monthly Profits only, and Sundry Expense is discounted from the Daily Profits and from the total Monthly Profits.' | langg">
+            [nbTooltip]="'Monthly expense is discounted from the Monthly Profits only, and Sundry Expense is discounted from the Daily Profits and from the total Monthly Profits.' | langg">
             <nb-icon icon="info"></nb-icon>
           </button>
-          <nb-select fullWidth ngModel #expenseType="ngModel" name="expenseType" id="input-expenseType" required
-            [placeholder]="'Expense Type' | langg" [selected]="expenseTypeValues?.length? expenseTypeValues[0].id: ''"
+          <nb-select fullWidth [ngModel]="expenseDetails?.typeId" #expenseType="ngModel" name="expenseType"
+            id="input-expenseType" required [placeholder]="'Expense Type' | langg"
+            [selected]="expenseTypeValues?.length? expenseTypeValues[0].id: ''"
             [status]="expenseType.touched ? (expenseType.invalid  ? 'danger' : 'success') : ''">
             <nb-option *ngFor="let item of expenseTypeValues" [value]="item.id">
               {{item.text | langg}}</nb-option>
@@ -77,8 +79,8 @@
         </div>
         <div class="form-control-group col-md-12">
           <label for="input-note" class="label"><span langg>Note</span>:</label>
-          <textarea nbInput ngModel #note="ngModel" name="note" id="input-note" [placeholder]="'Note' | langg"
-            fullWidth></textarea>
+          <textarea nbInput [ngModel]="expenseDetails?.note" #note="ngModel" name="note" id="input-note"
+            [placeholder]="'Note' | langg" fullWidth></textarea>
         </div>
       </div>
     </nb-card-body>

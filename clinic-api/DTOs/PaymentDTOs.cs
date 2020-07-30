@@ -43,8 +43,9 @@ namespace clinic_api.DTOs
         public string Type { get; set; }
         public string Note { get; set; }
     }
-    public class ExpenseValuesDTO
+    public class GetExpenseDetailsDTO
     {
+        public ExpenseDetailsDTO ExpenseDetails { get; set; }
         public List<ExpenseItemValueDTO> ExpenseItemValues { get; set; }
         public List<ExpenseItemValueDTO> ExpenseTypeValues { get; set; }
     }
@@ -58,8 +59,9 @@ namespace clinic_api.DTOs
         public Guid DoctorId { get; set; }
         public string Item { get; set; }
     }
-    public class PostExpenseDTO
+    public class ExpenseDetailsDTO
     {
+        public int? Id { get; set; }
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public int ItemId { get; set; }

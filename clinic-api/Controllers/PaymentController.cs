@@ -124,17 +124,26 @@ namespace clinic_api.Controllers
             return model;
         }
 
-        // GET: api/Pay/GetExpenseValues
-        [HttpGet("GetExpenseValues/{id}/{doctorId}")]
-        public async Task<ActionResult<ExpenseValuesDTO>> GetExpenseValues(Guid id, Guid doctorId)
+        // GET: api/Pay/GetExpenseDetails
+        [HttpGet("GetExpenseDetails/{id}/{doctorId}/{expenseId}")]
+        public async Task<ActionResult<GetExpenseDetailsDTO>> GetExpenseDetails(Guid id, Guid doctorId, int expenseId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
 
-            var model = new ExpenseValuesDTO
+            var model = new GetExpenseDetailsDTO
             {
+                ExpenseDetails = expenseId == 0 ? null : await _context.DoctorExpenses.Where(i => i.Id == expenseId).Select(e => new ExpenseDetailsDTO
+                {
+                    Id = e.Id,
+                    Amount = e.ExpenseAmount,
+                    Date = e.ExpenseDate,
+                    ItemId = e.ExpenseItemId,
+                    TypeId = e.ExpenseTypeId,
+                    Note = e.Note
+                }).FirstOrDefaultAsync(),
                 ExpenseItemValues = await _context.DoctorExpenseItems.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
                 .OrderBy(e => e.ExpenseItem)
                 .Select(e => new ExpenseItemValueDTO
@@ -185,7 +194,7 @@ namespace clinic_api.Controllers
 
         // POST: api/Pay/
         [HttpPost("{id}/{doctorId}")]
-        public async Task<IActionResult> PostExpense(Guid id, Guid doctorId, PostExpenseDTO model)
+        public async Task<IActionResult> PostExpense(Guid id, Guid doctorId, ExpenseDetailsDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -207,6 +216,52 @@ namespace clinic_api.Controllers
                 UpdatedOn = DateTime.Now.ToEgyptTime()
             };
             _context.DoctorExpenses.Add(newExpense);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        // PUT: api/Pay/
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutExpense(Guid id, ExpenseDetailsDTO model)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+
+            var expense = _context.DoctorExpenses.Find(model.Id);
+            expense.ExpenseAmount = model.Amount;
+            expense.ExpenseDate = model.Date;
+            expense.ExpenseItemId = model.ItemId;
+            expense.ExpenseTypeId = model.TypeId;
+            expense.Note = model.Note;
+            expense.UpdatedBy = id;
+            expense.UpdatedOn = DateTime.Now.ToEgyptTime();
+
+            _context.Entry(expense).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        // DELETE: api/Pay/
+        [HttpDelete("{id}/{expenseId}")]
+        public async Task<IActionResult> DeleteExpense(Guid id, int expenseId)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+
+            var expense = _context.DoctorExpenses.Find(expenseId);
+            expense.IsDeleted = true;
+            expense.UpdatedBy = id;
+            expense.UpdatedOn = DateTime.Now.ToEgyptTime();
+
+            _context.Entry(expense).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
 

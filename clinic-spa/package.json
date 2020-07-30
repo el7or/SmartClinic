@@ -49,6 +49,7 @@
     "@fullcalendar/list": "^4.3.0",
     "@fullcalendar/moment": "^4.3.0",
     "@fullcalendar/timegrid": "^4.3.0",
+    "@microsoft/signalr": "^3.1.6",
     "@nebular/auth": "4.1.2",
     "@nebular/eva-icons": "^4.2.2",
     "@nebular/security": "^4.6.0",

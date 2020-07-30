@@ -4,7 +4,7 @@ import {
   HubConnection,
   HubConnectionBuilder,
   HttpTransportType,
-} from "@aspnet/signalr";
+} from "@microsoft/signalr";
 
 import {
   UserChat,
@@ -15,7 +15,8 @@ import {
 } from "../../pages/chat/chat.model";
 import { environment } from "../../../environments/environment";
 import { AuthService } from "../../auth/auth.service";
-import { NewPrescription } from '../../pages-pharmacy/pharmacy.model';
+import { NewPrescription } from "../../pages-pharmacy/pharmacy.model";
+import * as signalR from "@aspnet/signalr";
 
 @Injectable()
 export class ChatService {
@@ -65,13 +66,9 @@ export class ChatService {
     );
   }
 
-  readMessage(id){
+  readMessage(id) {
     return this.http.get(
-      this.baseUrl +
-        "Chat/ReadMessage/" +
-        this.authService.userId +
-        "/" +
-        id
+      this.baseUrl + "Chat/ReadMessage/" + this.authService.userId + "/" + id
     );
   }
 
@@ -93,8 +90,11 @@ export class ChatService {
         transport: HttpTransportType.WebSockets,
         accessTokenFactory: () => localStorage.getItem("token"),
       })
+      .withAutomaticReconnect()
+      .configureLogging(signalR.LogLevel.Information)
       .build();
   }
+
   private startConnection(): void {
     Object.defineProperty(WebSocket, "OPEN", { value: 1 });
     this._hubConnection
@@ -127,10 +127,10 @@ export class ChatService {
     this._hubConnection.on("NewMessageReceived", (data: MessageReceived) => {
       this.messageReceived.emit(data);
     });
-    this._hubConnection.on("UpdateTodayBooking", (data:string) => {
+    this._hubConnection.on("UpdateTodayBooking", (data: string) => {
       this.bookingUpdated.emit(data);
     });
-    this._hubConnection.on("UpdatePharmacyPresc", (data:NewPrescription) => {
+    this._hubConnection.on("UpdatePharmacyPresc", (data: NewPrescription) => {
       this.pharmacyPrescUpdated.emit(data);
     });
 

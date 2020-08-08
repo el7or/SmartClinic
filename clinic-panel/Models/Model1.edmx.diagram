@@ -153,6 +153,8 @@
         <AssociationConnector Association="Models.BookingServices" ManuallyRouted="false" />
         <AssociationConnector Association="Models.ClinicUsers" ManuallyRouted="false" />
         <AssociationConnector Association="Models.DoctorClinics" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Models.SysDoctorExpenseType" Width="1.5" PointX="5.375" PointY="11.875" />
+        <AssociationConnector Association="Models.FK_DoctorExpenses_DoctorExpenseTypes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

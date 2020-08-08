@@ -277,6 +277,16 @@ namespace clinic_api.DTOs
         public decimal? Cost { get; set; }
         public string Note { get; set; }
     }
+    public class CalendarOperationListDTO
+    {
+        public int Id { get; set; }
+        public string PatientName { get; set; }
+        public int PatientCodeId { get; set; }
+        public string Type { get; set; }
+        public string Place { get; set; }
+        public decimal? Cost { get; set; }
+        public string Note { get; set; }
+    }
     public class PostPatientOperationDTO
     {
         public int TypeId { get; set; }

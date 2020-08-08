@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -326,6 +326,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ExpenseItemId" Type="int" Nullable="false" />
+          <Property Name="ExpenseTypeId" Type="int" Nullable="false" />
           <Property Name="ExpenseDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ExpenseAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Note" Type="nvarchar(max)" />
@@ -574,6 +575,7 @@
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="PatientPrescriptions">
           <Key>
@@ -828,6 +830,14 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SysDoctorExpenseTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="SysDoctorsSpecialties">
           <Key>
@@ -1242,6 +1252,18 @@
             </Principal>
             <Dependent Role="DoctorExpenses">
               <PropertyRef Name="ExpenseItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorExpenses_DoctorExpenseTypes">
+          <End Role="SysDoctorExpenseTypes" Type="Self.SysDoctorExpenseTypes" Multiplicity="1" />
+          <End Role="DoctorExpenses" Type="Self.DoctorExpenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysDoctorExpenseTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorExpenses">
+              <PropertyRef Name="ExpenseTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2069,6 +2091,7 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysDiseaseGradesValues" EntityType="Self.SysDiseaseGradesValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysDiseasesQuestionsValues" EntityType="Self.SysDiseasesQuestionsValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SysDoctorExpenseTypes" EntityType="Self.SysDoctorExpenseTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysDoctorsSpecialties" EntityType="Self.SysDoctorsSpecialties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysEntryOrderValues" EntityType="Self.SysEntryOrderValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SysExpenseTypes" EntityType="Self.SysExpenseTypes" Schema="dbo" store:Type="Tables" />
@@ -2181,6 +2204,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DoctorExpenses_DoctorExpenseItems" Association="Self.FK_DoctorExpenses_DoctorExpenseItems">
             <End Role="DoctorExpenseItems" EntitySet="DoctorExpenseItems" />
+            <End Role="DoctorExpenses" EntitySet="DoctorExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorExpenses_DoctorExpenseTypes" Association="Self.FK_DoctorExpenses_DoctorExpenseTypes">
+            <End Role="SysDoctorExpenseTypes" EntitySet="SysDoctorExpenseTypes" />
             <End Role="DoctorExpenses" EntitySet="DoctorExpenses" />
           </AssociationSet>
           <AssociationSet Name="FK_DoctorExpenses_Doctors" Association="Self.FK_DoctorExpenses_Doctors">
@@ -2440,8 +2467,7 @@
             <End Role="SysCitiesValues" EntitySet="SysCitiesValues" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2788,6 +2814,8 @@
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="DoctorExpenseItem" Relationship="Self.FK_DoctorExpenses_DoctorExpenseItems" FromRole="DoctorExpenses" ToRole="DoctorExpenseItems" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK_DoctorExpenses_Doctors" FromRole="DoctorExpenses" ToRole="Doctors" />
+          <Property Name="ExpenseTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SysDoctorExpenseType" Relationship="Models.FK_DoctorExpenses_DoctorExpenseTypes" FromRole="DoctorExpens" ToRole="SysDoctorExpenseType" />
         </EntityType>
         <EntityType Name="DoctorGeneralComplaintsValue">
           <Key>
@@ -3082,6 +3110,7 @@
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="DoctorOperationTypesValue" Relationship="Self.FK_PatientOperations_DoctorOperationTypesValues" FromRole="PatientOperations" ToRole="DoctorOperationTypesValues" />
           <NavigationProperty Name="Patient" Relationship="Self.FK_PatientOperations_Patients" FromRole="PatientOperations" ToRole="Patients" />
+          <Property Name="IsDeleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="PatientPrescription">
           <Key>
@@ -4913,7 +4942,33 @@
             <End Role="Clinics" EntitySet="Clinics" />
             <End Role="Doctors" EntitySet="Doctors" />
           </AssociationSet>
+          <EntitySet Name="SysDoctorExpenseTypes" EntityType="Models.SysDoctorExpenseType" />
+          <AssociationSet Name="FK_DoctorExpenses_DoctorExpenseTypes" Association="Models.FK_DoctorExpenses_DoctorExpenseTypes">
+            <End Role="SysDoctorExpenseType" EntitySet="SysDoctorExpenseTypes" />
+            <End Role="DoctorExpens" EntitySet="DoctorExpenses" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="SysDoctorExpenseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DoctorExpenses" Relationship="Models.FK_DoctorExpenses_DoctorExpenseTypes" FromRole="SysDoctorExpenseType" ToRole="DoctorExpens" />
+        </EntityType>
+        <Association Name="FK_DoctorExpenses_DoctorExpenseTypes">
+          <End Type="Models.SysDoctorExpenseType" Role="SysDoctorExpenseType" Multiplicity="1" />
+          <End Type="Models.DoctorExpens" Role="DoctorExpens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysDoctorExpenseType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorExpens">
+              <PropertyRef Name="ExpenseTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5221,6 +5276,7 @@
           <EntitySetMapping Name="DoctorExpenses">
             <EntityTypeMapping TypeName="Models.DoctorExpens">
               <MappingFragment StoreEntitySet="DoctorExpenses">
+                <ScalarProperty Name="ExpenseTypeId" ColumnName="ExpenseTypeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
                 <ScalarProperty Name="ExpenseItemId" ColumnName="ExpenseItemId" />
@@ -5476,6 +5532,7 @@
           <EntitySetMapping Name="PatientOperations">
             <EntityTypeMapping TypeName="Models.PatientOperation">
               <MappingFragment StoreEntitySet="PatientOperations">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PatientId" ColumnName="PatientId" />
                 <ScalarProperty Name="OperationTypeId" ColumnName="OperationTypeId" />
@@ -5917,6 +5974,15 @@
               <ScalarProperty Name="Id" ColumnName="DoctorId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="SysDoctorExpenseTypes">
+            <EntityTypeMapping TypeName="Models.SysDoctorExpenseType">
+              <MappingFragment StoreEntitySet="SysDoctorExpenseTypes">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

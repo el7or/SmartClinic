@@ -25,8 +25,10 @@ namespace clinic_panel.Models
         public System.Guid CreatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
+        public int ExpenseTypeId { get; set; }
     
         public virtual DoctorExpenseItem DoctorExpenseItem { get; set; }
         public virtual Doctor Doctor { get; set; }
+        public virtual SysDoctorExpenseType SysDoctorExpenseType { get; set; }
     }
 }

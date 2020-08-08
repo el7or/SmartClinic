@@ -740,5 +740,6 @@
   { "ar": "المصروف الشهري يتم خصمه من الأرباح الشهرية فقط، والمصروف النثري يتم خصمه من الأرباح اليومية ومن إجمالي الأرباح الشهرية.", "en": "Monthly expense is discounted from the Monthly Profits only, and Sundry Expense is discounted from the Daily Profits and from the total Monthly Profits." },
   { "ar": "الأرباح اليومية", "en": "Daily Profit" },
   { "ar": "الأرباح الشهرية", "en": "Monthly Profit" },
-  { "ar": "اليوم", "en": "Day" }
+  { "ar": "اليوم", "en": "Day" },
+  { "ar": "جميع العمليات بتاريخ", "en": "All Operations in" }
 ]

@@ -1,0 +1,33 @@
+﻿@model clinic_panel.Models.SysMedicineDosesValue
+
+@{
+    ViewBag.Title = "DeleteMedicineDose";
+}
+
+<h2>حذف جرعة</h2>
+
+<h3>هل أنت متأكد من حذف هذا العنصر؟</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            العنصر
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف" class="btn btn-danger" /> |
+            @Html.ActionLink("الغاء", "Index")
+        </div>
+    }
+</div>

@@ -28,12 +28,14 @@ import { PagesRoutingModule } from "./pages-routing.module";
 import { HomeComponent } from "./home/home.component";
 import { ExternalsComponent } from "./externals/externals.component";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
+import { CalendarOperationsComponent } from './home/calendar-operations/calendar-operations.component';
 
 const COMPONENTS = [
   PagesComponent,
   HomeComponent,
   ChatComponent,
   ExternalsComponent,
+  CalendarOperationsComponent
 ];
 
 const MODULES = [
@@ -64,5 +66,6 @@ const MODULES = [
 @NgModule({
   imports: [...MODULES],
   declarations: [...COMPONENTS],
+  entryComponents:[CalendarOperationsComponent]
 })
 export class PagesModule {}

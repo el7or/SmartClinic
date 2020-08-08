@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+using System.Net;
 
 namespace clinic_panel.Controllers
 {
@@ -46,59 +48,13 @@ namespace clinic_panel.Controllers
             return View(model);
         }
 
-        //// GET: Medicine/CreateMedicineName
-        //public ActionResult CreateMedicineName()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Medicine/CreateMedicineName
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult CreateMedicineName(string value)
-        //{
-        //    if (value == "" || value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.SysMedicinesValues.Add(new SysMedicinesValue { Value = value.Trim(), Text = value.Trim() });
-        //        db.SaveChanges();
-        //        TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View();
-        //}
-
-        //// GET: Medicine/EditMedicineName
-        //public ActionResult EditMedicineName(int id)
-        //{
-        //    var medicine = db.SysMedicinesValues.Find(id);
-        //    return View(medicine);
-        //}
-
-        //// POST: Medicine/EditMedicineName
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult EditMedicineName(SysMedicinesValue medicine)
-        //{
-        //    if (medicine.Value == "" || medicine.Value == null) ModelState.AddModelError("Value", "لا بد من إدخال قيمة !");
-        //    if (ModelState.IsValid)
-        //    {
-        //        medicine.Text = medicine.Value.Trim();
-        //        db.Entry(medicine).State = System.Data.Entity.EntityState.Modified;
-        //        db.SaveChanges();
-        //        TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View();
-        //}
-
-        // GET: Medicine/CreateMedicineForm
+        // GET: Medicine/CreateMedicineQuantity
         public ActionResult CreateMedicineQuantity()
         {
             return View();
         }
 
-        // POST: Medicine/CreateMedicineForm
+        // POST: Medicine/CreateMedicineQuantity
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateMedicineQuantity(string value)
@@ -114,14 +70,14 @@ namespace clinic_panel.Controllers
             return View();
         }
 
-        // GET: Medicine/EditMedicineName
+        // GET: Medicine/EditMedicineQuantity
         public ActionResult EditMedicineQuantity(int id)
         {
             var medicine = db.SysMedicineQuantityValues.Find(id);
             return View(medicine);
         }
 
-        // POST: Medicine/EditMedicineName
+        // POST: Medicine/EditMedicineQuantity
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditMedicineQuantity(SysMedicineQuantityValue medicine)
@@ -136,6 +92,33 @@ namespace clinic_panel.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+        // GET: User/DeleteMedicineQuantity/5
+        public ActionResult DeleteMedicineQuantity(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var item = db.SysMedicineQuantityValues.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            return View(item);
+        }
+
+        // POST: User/DeleteMedicineQuantity/5
+        [HttpPost, ActionName("DeleteMedicineQuantity")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteMedicineQuantity(int id)
+        {
+            var item = db.SysMedicineQuantityValues.Find(id);
+            db.SysMedicineQuantityValues.Remove(item);
+            db.SaveChanges();
+            TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+            return RedirectToAction("Index");
         }
 
         // GET: Medicine/CreateMedicineDose
@@ -184,6 +167,33 @@ namespace clinic_panel.Controllers
             return View();
         }
 
+        // GET: User/DeleteMedicineDose/5
+        public ActionResult DeleteMedicineDose(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var item = db.SysMedicineDosesValues.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            return View(item);
+        }
+
+        // POST: User/DeleteMedicineDose/5
+        [HttpPost, ActionName("DeleteMedicineDose")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteMedicineDose(int id)
+        {
+            var item = db.SysMedicineDosesValues.Find(id);
+            db.SysMedicineDosesValues.Remove(item);
+            db.SaveChanges();
+            TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+            return RedirectToAction("Index");
+        }
+
         // GET: Medicine/CreateMedicineTiming
         public ActionResult CreateMedicineTiming()
         {
@@ -230,6 +240,33 @@ namespace clinic_panel.Controllers
             return View();
         }
 
+        // GET: User/DeleteMedicineTiming/5
+        public ActionResult DeleteMedicineTiming(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var item = db.SysMedicineTimingsValues.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            return View(item);
+        }
+
+        // POST: User/DeleteMedicineTiming/5
+        [HttpPost, ActionName("DeleteMedicineTiming")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteMedicineTiming(int id)
+        {
+            var item = db.SysMedicineTimingsValues.Find(id);
+            db.SysMedicineTimingsValues.Remove(item);
+            db.SaveChanges();
+            TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+            return RedirectToAction("Index");
+        }
+
         // GET: Medicine/CreateMedicinePeriod
         public ActionResult CreateMedicinePeriod()
         {
@@ -274,6 +311,33 @@ namespace clinic_panel.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+        // GET: User/DeleteMedicinePeriod/5
+        public ActionResult DeleteMedicinePeriod(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var item = db.SysMedicinePeriodsValues.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            return View(item);
+        }
+
+        // POST: User/DeleteMedicinePeriod/5
+        [HttpPost, ActionName("DeleteMedicinePeriod")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteMedicinePeriod(int id)
+        {
+            var item = db.SysMedicinePeriodsValues.Find(id);
+            db.SysMedicinePeriodsValues.Remove(item);
+            db.SaveChanges();
+            TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+            return RedirectToAction("Index");
         }
 
         //// GET: Medicine/DoctorMedicines

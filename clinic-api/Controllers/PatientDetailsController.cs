@@ -632,26 +632,26 @@ namespace clinic_api.Controllers
             _context.Entry(patientPrescription).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            var pharmacyPresc =  prescription.Select(p => new PharmacyNewPrescriptionDTO
-           {
-               Id = p.Id,
-               DoctorFullName = p.Patient.Doctor.FullName,
-               PatientFullName = p.Patient.FullName,
-               Phone = p.Patient.Phone,
-               Phone2 = p.Patient.Phone2,
-               Career = p.Patient.Career,
-               City = p.Patient.Governorate.TextAR + " - " + p.Patient.City.TextAR,
-               CreatedOn = p.UpdatedOn,
-               Note = p.Note,
-               MedicinesPresc = p.PrescriptionMedicines.Select(m => new MedicinesPresc
-               {
-                   Medicine = m.Medicine.MedicineName,
-                   Quantity = m.Quantity.Text,
-                   Dose = m.Dose.Text,
-                   Period = m.Period.Text,
-                   Timing = m.Timing.Text
-               }).ToList()
-           }).FirstOrDefault();
+            var pharmacyPresc = prescription.Select(p => new PharmacyNewPrescriptionDTO
+            {
+                Id = p.Id,
+                DoctorFullName = p.Patient.Doctor.FullName,
+                PatientFullName = p.Patient.FullName,
+                Phone = p.Patient.Phone,
+                Phone2 = p.Patient.Phone2,
+                Career = p.Patient.Career,
+                City = p.Patient.Governorate.TextAR + " - " + p.Patient.City.TextAR,
+                CreatedOn = p.UpdatedOn,
+                Note = p.Note,
+                MedicinesPresc = p.PrescriptionMedicines.Select(m => new MedicinesPresc
+                {
+                    Medicine = m.Medicine.MedicineName,
+                    Quantity = m.Quantity.Text,
+                    Dose = m.Dose.Text,
+                    Period = m.Period.Text,
+                    Timing = m.Timing.Text
+                }).ToList()
+            }).FirstOrDefault();
             var phramacy = _context.Pharmacies.Find(pharmacyId);
             await _hub.Clients.User(phramacy.UserId.ToString()).SendAsync("UpdatePharmacyPresc", pharmacyPresc);
 
@@ -826,6 +826,31 @@ namespace clinic_api.Controllers
                     Note = r.Note
                 }).ToListAsync()
             };
+            return model;
+        }
+
+        // GET: api/PatientDetails/GetCalOper/5
+        [HttpGet("GetCalOper/{id}/{doctorId}/{date}")]
+        public async Task<ActionResult<IEnumerable<CalendarOperationListDTO>>> GetCalOper(Guid id, Guid doctorId, DateTime date)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+
+            var model = await _context.PatientOperations.Include(p => p.Patient)
+                .Where(p => p.Patient.DoctorId == doctorId && p.OperationDate.Value.Date == date.Date && p.IsDeleted != true)
+                .Include(d => d.OperationType).Select(r => new CalendarOperationListDTO
+                {
+                    Id = r.Id,
+                    PatientName = r.Patient.FullName,
+                    PatientCodeId = r.Patient.SeqNo,
+                    Type = r.OperationType.OperationType,
+                    Place = r.Place,
+                    Cost = r.Cost,
+                    Note = r.Note
+                }).ToListAsync();
+
             return model;
         }
 

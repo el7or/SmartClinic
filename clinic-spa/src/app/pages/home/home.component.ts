@@ -1,3 +1,5 @@
+import { CalendarOperationsComponent } from './calendar-operations/calendar-operations.component';
+import { DateTimeService } from "./../../shared/services/date-time.service";
 import { Router } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -8,14 +10,13 @@ import arLocale from "@fullcalendar/core/locales/ar";
 import enLocale from "@fullcalendar/core/locales/en-gb";
 import momentPlugin from "@fullcalendar/moment";
 import { Subscription } from "rxjs";
-import { NbToastrService } from "@nebular/theme";
+import { NbToastrService, NbDialogService } from "@nebular/theme";
 
 import { AlertService } from "./../../shared/services/alert.service";
 import { HomeService } from "./home.service";
 import { BookingsService } from "./../bookings/bookings.service";
 import { LanggService } from "../../shared/services/langg.service";
-import { DateWithoutTimePipe } from "./../../shared/pipes/date-without-time.pipe";
-import { HomeEvents } from "./home.model";
+import { HomeEvents, ClickType } from "./home.model";
 
 @Component({
   selector: "home",
@@ -46,8 +47,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     private langgService: LanggService,
     private toastrService: NbToastrService,
     private homeService: HomeService,
-    private bookingService:BookingsService,
-    private alertService: AlertService
+    private bookingService: BookingsService,
+    private dialogService:NbDialogService,
+    private alertService: AlertService,
+    private datetimeService: DateTimeService
   ) {}
 
   ngOnInit() {
@@ -86,8 +89,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-   if(this.langSubscription) this.langSubscription.unsubscribe();
-   if(this.getSubs) this.getSubs.unsubscribe();
+    if (this.langSubscription) this.langSubscription.unsubscribe();
+    if (this.getSubs) this.getSubs.unsubscribe();
   }
 
   addEvent() {
@@ -99,6 +102,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onEventClick(info) {
+    const eventTitle: string = info.event.title;
+    if (eventTitle.includes("العمليات")) {
+      this.dialogService.open(CalendarOperationsComponent, {
+        context: {
+          eventDate: info.event.start,
+        },
+        autoFocus: true,
+        hasBackdrop: true,
+        closeOnBackdropClick: false,
+        closeOnEsc: false,
+      });
+    } else {
+      this.openBookings(info, ClickType.EventClick);
+    }
     //this.router.navigateByUrl("/pages/bookings");
     /* alert('Event: ' + info.event.title);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
@@ -107,35 +124,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onDateClick(info) {
-    // =====> check clicked date if today or past or future:
-    const todayShort = new DateWithoutTimePipe().transform(new Date());
-    const todayString = new Date(todayShort).toISOString();
-    const dateClicked = new Date(info.dateStr).toISOString();
-    // =====> if clicked on today:
-    if (todayString == dateClicked) {
-      this.router.navigateByUrl("/pages/bookings/today");
-    }
-    // =====> if clicked on past:
-    else if (todayString > dateClicked) {
-      this.router.navigate(["/pages/bookings/list", info.dateStr]);
-    }
-    // =====> if clicked on future:
-    else if (todayString < dateClicked) {
-      // =====> save clicked date to next booking:
-      this.bookingService.chosenBookingDate = info.date;
-      this.toastrService.info(
-        info.dateStr,
-        this.langgService.translateWord(
-          "Choose a Patient to add booking for on chosen day:"
-        ),
-        {
-          icon: "info-outline",
-          duration: 5000,
-          destroyByClick: true,
-        }
-      );
-      this.router.navigateByUrl("/pages/patients");
-    }
+    this.openBookings(info, ClickType.DateClick);
     /* alert('Clicked on: ' + info.dateStr);
     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
     alert('Current view: ' + info.view.type);
@@ -152,5 +141,41 @@ export class HomeComponent implements OnInit, OnDestroy {
     info.el.querySelectorAll(".fc-content")[0].setAttribute('nbTooltip',info.event.extendedProps.description);
     info.el.querySelectorAll(".fc-content")[0].setAttribute('ng-reflect-content',info.event.extendedProps.description);*/
     info.el.setAttribute("title", info.event.extendedProps.description);
+  }
+
+  openBookings(info, clickType: ClickType) {
+    // =====> check clicked date if today or past or future:
+    const todayShort = this.datetimeService.dateWithoutTime(new Date());
+    const todayString = new Date(todayShort).toISOString();
+    const currentDate =
+      clickType == ClickType.DateClick
+        ? info.dateStr
+        : this.datetimeService.dateWithoutTime(info.event.start);
+    const dateClicked = new Date(currentDate).toISOString();
+    // =====> if clicked on today:
+    if (todayString == dateClicked) {
+      this.router.navigateByUrl("/pages/bookings/today");
+    }
+    // =====> if clicked on past:
+    else if (todayString > dateClicked) {
+      this.router.navigate(["/pages/bookings/list", currentDate]);
+    }
+    // =====> if clicked on future:
+    else if (todayString < dateClicked) {
+      // =====> save clicked date to next booking:
+      this.bookingService.chosenBookingDate = info.date;
+      this.toastrService.info(
+        currentDate,
+        this.langgService.translateWord(
+          "Choose a Patient to add booking for on chosen day:"
+        ),
+        {
+          icon: "info-outline",
+          duration: 5000,
+          destroyByClick: true,
+        }
+      );
+      this.router.navigateByUrl("/pages/patients");
+    }
   }
 }

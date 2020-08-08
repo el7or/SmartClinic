@@ -1,0 +1,33 @@
+<nb-card class="dialog-center">
+  <nb-card-header><span langg>All Operations in</span>: {{eventDate | localDateShort}}</nb-card-header>
+  <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="info">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th>{{'Patient Name' | langg}}</th>
+          <th>{{'Operation Type' | langg}}</th>
+          <th>{{'Operation Place' | langg}}</th>
+          <th>{{'Operation Cost' | langg}}</th>
+          <th>{{'Note' | langg}}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of operations; index as i">
+          <td>{{item.patientName}}</td>
+          <td>{{item.type}}</td>
+          <td>{{item.place}}</td>
+          <td>{{item.cost}} {{ item.cost ? ('EGP' | langg) : ''}}</td>
+          <td>{{item.note}}</td>
+          <td class="text-center">
+            <button nbButton (click)="onOpenFilePatient(item.patientCodeId)" size="tiny" status="info" langg>Patient
+              Profile</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+  <nb-card-footer class="border-0">
+    <button nbButton hero status="primary" (click)="dialogRef.close()" langg>Close</button>
+  </nb-card-footer>
+</nb-card>

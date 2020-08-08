@@ -7,9 +7,9 @@
         <img [src]="printInfoSetting?.logoUrl" (load)="onImageLoad($event)">
       </div>
       <div class="col-4">
-        <ngx-barcode
+        <!-- <ngx-barcode
                 [bc-value]="printType=='medicine' ? prescription?.patientCodeId : printType=='request' ? requests?.patientCodeId : printType=='referral'? referral?.patientCodeId : ''"
-                [bc-display-value]="false"></ngx-barcode>
+                [bc-display-value]="false"></ngx-barcode> -->
       </div>
       <div class="col-4 right">
         <h1>{{printInfoSetting?.doctorName}}</h1>

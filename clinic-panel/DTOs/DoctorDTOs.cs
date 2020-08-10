@@ -54,6 +54,9 @@ namespace clinic_panel.DTOs
         public int SpecialtyId { get; set; }
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        public Guid PharmacyId { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         [MinLength(11, ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
         [RegularExpression(@"^\+?\d*$", ErrorMessage = "لابد من إدخال رقم هاتف صحيح !")]
         public string Phone1 { get; set; }

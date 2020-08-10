@@ -29,10 +29,10 @@ namespace clinic_panel.Controllers
                     ClinicId = d.Clinics.FirstOrDefault().Id,
                     FullName = d.FullName,
                     Specialty = d.SysDoctorsSpecialty.Text,
-                    Plan = d.FullName == "test doctor" ? "(حساب اختبار)" : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).Plan.Title,
-                    StartPlanDate = d.FullName == "test doctor" ? new DateTime(2020, 1, 1) : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).StartDate,
-                    EndPlanDate = d.FullName == "test doctor" ? new DateTime(2050, 1, 1) : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).EndDate,
-                    SubscriptionDue = d.FullName == "test doctor" ? 0 : ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SignUpFee) - ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SubscriptionPayments.Sum(p => p.Paid)),
+                    Plan = d.FullName == "doctor" ? "(حساب اختبار)" : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).Plan.Title,
+                    StartPlanDate = d.FullName == "doctor" ? new DateTime(2020, 1, 1) : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).StartDate,
+                    EndPlanDate = d.FullName == "doctor" ? new DateTime(2050, 1, 1) : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).EndDate,
+                    SubscriptionDue = d.FullName == "doctor" ? 0 : ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SignUpFee) - ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SubscriptionPayments.Sum(p => p.Paid)),
                     UsersCount = d.Clinics.Sum(c => c.AspNetUsers.Count()),
                     ClinicsCount = d.Clinics.Count(),
                     PatientsCount = d.Patients.Count(),
@@ -89,6 +89,7 @@ namespace clinic_panel.Controllers
                         };
                         TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                         ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value");
+                        ViewData["PharmacyId"] = new SelectList(db.Pharmacies, "Id", "PharmacyName");
                         ViewBag.Tab = 1;
                         return View();
                     }
@@ -137,6 +138,7 @@ namespace clinic_panel.Controllers
                     UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                 };
                 db.Doctors.Add(doctor);
+                db.DoctorPharmacies.Add(new DoctorPharmacy { DoctorId = doctor.Id, PharmacyId = model.PharmacyId, IsDefault = true });
                 db.SaveChanges();
                 TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 ViewData["Tab2Model"] = new DoctorCreateSubsDTO
@@ -146,12 +148,13 @@ namespace clinic_panel.Controllers
                     PlanId = 2,
                     SignUpFee = 3000
                 };
-                ViewData["PlanId"] = new SelectList(db.Plans.Where(p => p.SubscriberTypeId==1), "Id", "Title", 2);
+                ViewData["PlanId"] = new SelectList(db.Plans.Where(p => p.SubscriberTypeId == 1), "Id", "Title", 2);
                 ViewBag.Tab = 2;
                 return View("Create");
             }
             ViewData["Tab1Model"] = model;
             ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value", model.SpecialtyId);
+            ViewData["PharmacyId"] = new SelectList(db.Pharmacies, "Id", "Value", model.PharmacyId);
             ViewBag.Tab = 1;
             return View("Create");
         }

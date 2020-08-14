@@ -76,6 +76,14 @@ namespace clinic_api.Controllers
                             Text = e.AnalysisName
                         });
                     break;
+                case ItemsType.PhysicalTherapy:
+                    model = _context.DoctorPhysicalTherapyValues.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
+                        .OrderBy(e => e.PhysicalTherapyName).Select(e => new DoctorAnyValueDTO
+                        {
+                            Id = e.Id,
+                            Text = e.PhysicalTherapyName
+                        });
+                    break;
                 case ItemsType.Operation:
                     model = _context.DoctorOperationTypesValues.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
                         .OrderBy(e => e.OperationType).Select(e => new DoctorAnyValueDTO
@@ -98,6 +106,14 @@ namespace clinic_api.Controllers
                         {
                             Id = e.Id,
                             Text = e.RayArea
+                        });
+                    break;
+                case ItemsType.PhysicalTherapyArea:
+                    model = _context.DoctorPhysicalTherapyAreaValues.Where(e => e.DoctorId == doctorId && e.IsDeleted != true)
+                        .OrderBy(e => e.PhysicalTherapyArea).Select(e => new DoctorAnyValueDTO
+                        {
+                            Id = e.Id,
+                            Text = e.PhysicalTherapyArea
                         });
                     break;
                 case ItemsType.Medicine:
@@ -146,6 +162,10 @@ namespace clinic_api.Controllers
                     itemValue = _context.DoctorAnalysisValues.Find(item.Id);
                     itemValue.AnalysisName = item.Text;
                     break;
+                case ItemsType.PhysicalTherapy:
+                    itemValue = _context.DoctorPhysicalTherapyValues.Find(item.Id);
+                    itemValue.PhysicalTherapyName = item.Text;
+                    break;
                 case ItemsType.Operation:
                     itemValue = _context.DoctorOperationTypesValues.Find(item.Id);
                     itemValue.OperationType = item.Text;
@@ -157,6 +177,10 @@ namespace clinic_api.Controllers
                 case ItemsType.RayArea:
                     itemValue = _context.DoctorRayAreasValues.Find(item.Id);
                     itemValue.RayArea = item.Text;
+                    break;
+                case ItemsType.PhysicalTherapyArea:
+                    itemValue = _context.DoctorPhysicalTherapyAreaValues.Find(item.Id);
+                    itemValue.PhysicalTherapyArea = item.Text;
                     break;
                 case ItemsType.Medicine:
                     itemValue = _context.DoctorMedicinesValues.Find(item.Id);
@@ -224,6 +248,14 @@ namespace clinic_api.Controllers
                     };
                     _context.DoctorAnalysisValues.Add(newItem);
                     break;
+                case ItemsType.PhysicalTherapy:
+                    newItem = new DoctorPhysicalTherapyValue
+                    {
+                        DoctorId = doctorId,
+                        PhysicalTherapyName = item.Text
+                    };
+                    _context.DoctorPhysicalTherapyValues.Add(newItem);
+                    break;
                 case ItemsType.Operation:
                     newItem = new DoctorOperationTypesValue
                     {
@@ -247,6 +279,14 @@ namespace clinic_api.Controllers
                         RayArea = item.Text
                     };
                     _context.DoctorRayAreasValues.Add(newItem);
+                    break;
+                case ItemsType.PhysicalTherapyArea:
+                    newItem = new DoctorPhysicalTherapyAreaValue
+                    {
+                        DoctorId = doctorId,
+                        PhysicalTherapyArea = item.Text
+                    };
+                    _context.DoctorPhysicalTherapyAreaValues.Add(newItem);
                     break;
                 case ItemsType.Medicine:
                     newItem = new DoctorMedicinesValue
@@ -297,6 +337,9 @@ namespace clinic_api.Controllers
                 case ItemsType.Analysis:
                     itemValue = _context.DoctorAnalysisValues.Find(itemId);
                     break;
+                case ItemsType.PhysicalTherapy:
+                    itemValue = _context.DoctorPhysicalTherapyValues.Find(itemId);
+                    break;
                 case ItemsType.Operation:
                     itemValue = _context.DoctorOperationTypesValues.Find(itemId);
                     break;
@@ -305,6 +348,9 @@ namespace clinic_api.Controllers
                     break;
                 case ItemsType.RayArea:
                     itemValue = _context.DoctorRayAreasValues.Find(itemId);
+                    break;
+                case ItemsType.PhysicalTherapyArea:
+                    itemValue = _context.DoctorPhysicalTherapyAreaValues.Find(itemId);
                     break;
                 case ItemsType.Medicine:
                     itemValue = _context.DoctorMedicinesValues.Find(itemId);

@@ -18,6 +18,7 @@ namespace clinic_api.Models
             PatientOperations = new HashSet<PatientOperation>();
             PatientPrescriptions = new HashSet<PatientPrescription>();
             PatientRays = new HashSet<PatientRay>();
+            PatientPhysicalTherapies = new HashSet<PatientPhysicalTherapy>();
             PatientReferrals = new HashSet<PatientReferral>();
         }
 
@@ -72,6 +73,7 @@ namespace clinic_api.Models
         public virtual ICollection<PatientOperation> PatientOperations { get; set; }
         public virtual ICollection<PatientPrescription> PatientPrescriptions { get; set; }
         public virtual ICollection<PatientRay> PatientRays { get; set; }
+        public virtual ICollection<PatientPhysicalTherapy> PatientPhysicalTherapies { get; set; }
         public virtual ICollection<PatientReferral> PatientReferrals { get; set; }
     }
 }

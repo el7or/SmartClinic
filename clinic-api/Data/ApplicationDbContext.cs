@@ -92,6 +92,8 @@ namespace clinic_api.Data
         public virtual DbSet<DoctorOperationTypesValue> DoctorOperationTypesValues { get; set; }
         public virtual DbSet<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         public virtual DbSet<DoctorRaysValue> DoctorRaysValues { get; set; }
+        public virtual DbSet<DoctorPhysicalTherapyAreaValue> DoctorPhysicalTherapyAreaValues { get; set; }
+        public virtual DbSet<DoctorPhysicalTherapyValue> DoctorPhysicalTherapyValues { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<DoctorExpense> DoctorExpenses { get; set; }
         public virtual DbSet<DoctorExpenseItemValue> DoctorExpenseItems { get; set; }
@@ -107,6 +109,7 @@ namespace clinic_api.Data
         public virtual DbSet<PatientPrescription> PatientPrescriptions { get; set; }
         public virtual DbSet<PatientRayFile> PatientRayFiles { get; set; }
         public virtual DbSet<PatientRay> PatientRays { get; set; }
+        public virtual DbSet<PatientPhysicalTherapy> PatientPhysicalTherapies { get; set; }
         public virtual DbSet<PatientReferral> PatientReferrals { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<Pharmacy> Pharmacies { get; set; }
@@ -587,6 +590,36 @@ namespace clinic_api.Data
                     .HasConstraintName("FK_DoctorRaysValues_Doctors");
             });
 
+            modelBuilder.Entity<DoctorPhysicalTherapyAreaValue>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.PhysicalTherapyArea).IsRequired();
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorPhysicalTherapyAreaValues)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorPhysicalTherapyAreas_Doctors");
+            });
+
+            modelBuilder.Entity<DoctorPhysicalTherapyValue>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.PhysicalTherapyName).IsRequired();
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorPhysicalTherapiesValues)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorPhysicalTherapyValues_Doctors");
+            });
+
             modelBuilder.Entity<Doctor>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -959,6 +992,30 @@ namespace clinic_api.Data
                     .WithMany(p => p.PatientRays)
                     .HasForeignKey(d => d.ResultGradeId)
                     .HasConstraintName("FK_PatientRays_SysDiseaseGradesValues");
+            });
+
+            modelBuilder.Entity<PatientPhysicalTherapy>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Patient)
+                    .WithMany(p => p.PatientPhysicalTherapies)
+                    .HasForeignKey(d => d.PatientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PatientPhysicalTherapy_Patients");
+
+                entity.HasOne(d => d.PhysicalTherapyArea)
+                    .WithMany(p => p.PatientPhysicalTherapies)
+                    .HasForeignKey(d => d.PhysicalTherapyAreaId)
+                    .HasConstraintName("FK_PatientPhysicalTherapy_DoctorRayAreas");
+
+                entity.HasOne(d => d.PhysicalTherapy)
+                    .WithMany(p => p.PatientPhysicalTherapies)
+                    .HasForeignKey(d => d.PhysicalTherapyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PatientPhysicalTherapy_DoctorRaysValues");
             });
 
             modelBuilder.Entity<PatientReferral>(entity =>

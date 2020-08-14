@@ -28,6 +28,7 @@ namespace clinic_panel.Models
             this.PatientPrescriptions = new HashSet<PatientPrescription>();
             this.PatientRays = new HashSet<PatientRay>();
             this.PatientReferrals = new HashSet<PatientReferral>();
+            this.PatientPhysicalTherapies = new HashSet<PatientPhysicalTherapy>();
         }
     
         public System.Guid Id { get; set; }
@@ -89,5 +90,7 @@ namespace clinic_panel.Models
         public virtual SysCitiesValue SysCitiesValue { get; set; }
         public virtual SysGovernoratesValue SysGovernoratesValue { get; set; }
         public virtual SysSocialStatusValue SysSocialStatusValue { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PatientPhysicalTherapy> PatientPhysicalTherapies { get; set; }
     }
 }

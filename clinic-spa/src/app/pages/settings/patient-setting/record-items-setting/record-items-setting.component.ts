@@ -44,6 +44,20 @@ export class RecordItemsSettingComponent implements OnInit, OnDestroy {
               isActive: true,
               isExpanded: false,
             },
+            {
+              id: 8,
+              textEN: "Physical Therapy",
+              textAR: "أنواع العلاج الطبيعي",
+              isActive: true,
+              isExpanded: false,
+            },
+            {
+              id: 9,
+              textEN: "Physical Therapy Areas",
+              textAR: "مناطق العلاج الطبيعي",
+              isActive: true,
+              isExpanded: false,
+            },
           ];
           res.push(...extraItems);
           res.sort((a, b) => a.id - b.id)

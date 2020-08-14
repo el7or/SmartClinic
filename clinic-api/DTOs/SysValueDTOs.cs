@@ -63,6 +63,8 @@ namespace clinic_api.DTOs
         Ray,
         RayArea,
         Analysis,
+        PhysicalTherapy,
+        PhysicalTherapyArea,
         Operation,
         Medicine
     }

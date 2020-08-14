@@ -222,6 +222,8 @@ namespace clinic_api.DTOs
         public List<RayValue> RayValues { get; set; }
         public List<RayAreaValue> RayAreaValues { get; set; }
         public List<AnalysisValue> AnalysisValues { get; set; }
+        public List<PhysicalTherapyValue> PhysicalTherapyValues { get; set; }
+        public List<PhysicalTherapyAreaValue> PhysicalTherapyAreaValues { get; set; }
         public List<PatientRequestListDTO> PrevPatientRequests { get; set; }
     }
     public class RayValue
@@ -239,6 +241,16 @@ namespace clinic_api.DTOs
         public int Id { get; set; }
         public string Text { get; set; }
     }
+    public class PhysicalTherapyValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class PhysicalTherapyAreaValue
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
     public class PatientRequestListDTO
     {
         public int Id { get; set; }
@@ -246,8 +258,8 @@ namespace clinic_api.DTOs
         public string RequestType { get; set; }
         public int RequestId { get; set; }
         public string RequestName { get; set; }
-        public int? RayAreaId { get; set; }
-        public string RayAreaName { get; set; }
+        public int? AreaId { get; set; }
+        public string AreaName { get; set; }
         public string Note { get; set; }
         public bool? isHasResult { get; set; }
     }

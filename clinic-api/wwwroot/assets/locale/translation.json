@@ -741,5 +741,12 @@
   { "ar": "الأرباح اليومية", "en": "Daily Profit" },
   { "ar": "الأرباح الشهرية", "en": "Monthly Profit" },
   { "ar": "اليوم", "en": "Day" },
-  { "ar": "جميع العمليات بتاريخ", "en": "All Operations in" }
+  { "ar": "جميع العمليات بتاريخ", "en": "All Operations in" },
+  { "ar": "طلب علاج طبيعي", "en": "Request Physical Therapy" },
+  { "ar": "اسم العلاج الطبيعي", "en": "Physical Therapy Name" },
+  { "ar": "أنواع العلاج الطبيعي", "en": "Physical Therapy Types" },
+  { "ar": "مناطق العلاج الطبيعي", "en": "Physical Therapy Areas" },
+  { "ar": "إضافة اسم العلاج الطبيعي", "en": "Add Physical Therapy Name" },
+  { "ar": "إضافة منطقة العلاج الطبيعي", "en": "Add Physical Therapy Area" },
+  { "ar": "منطقة العلاج الطبيعي", "en": "Physical Therapy Area" }
 ]

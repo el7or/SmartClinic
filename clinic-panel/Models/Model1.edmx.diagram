@@ -155,6 +155,14 @@
         <AssociationConnector Association="Models.DoctorClinics" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Models.SysDoctorExpenseType" Width="1.5" PointX="5.375" PointY="11.875" />
         <AssociationConnector Association="Models.FK_DoctorExpenses_DoctorExpenseTypes" />
+        <EntityTypeShape EntityType="Models.DoctorPhysicalTherapyAreaValue" Width="1.5" PointX="23.75" PointY="43" />
+        <EntityTypeShape EntityType="Models.DoctorPhysicalTherapyValue" Width="1.5" PointX="23.75" PointY="38.125" />
+        <EntityTypeShape EntityType="Models.PatientPhysicalTherapy" Width="1.5" PointX="26" PointY="46.875" />
+        <AssociationConnector Association="Models.FK_DoctorPhysicalTherapyAreas_Doctors" />
+        <AssociationConnector Association="Models.FK_PatientPhysicalTherapy_DoctorRayAreas" />
+        <AssociationConnector Association="Models.FK_DoctorPhysicalTherapyValues_Doctors" />
+        <AssociationConnector Association="Models.FK_PatientPhysicalTherapy_DoctorRaysValues" />
+        <AssociationConnector Association="Models.FK_PatientPhysicalTherapy_Patients" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

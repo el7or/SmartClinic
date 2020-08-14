@@ -89,5 +89,8 @@ namespace clinic_panel.Models
         public virtual DbSet<SysSubscriberTypeValue> SysSubscriberTypeValues { get; set; }
         public virtual DbSet<SysSubscriptionTypeValue> SysSubscriptionTypeValues { get; set; }
         public virtual DbSet<SysDoctorExpenseType> SysDoctorExpenseTypes { get; set; }
+        public virtual DbSet<DoctorPhysicalTherapyAreaValue> DoctorPhysicalTherapyAreaValues { get; set; }
+        public virtual DbSet<DoctorPhysicalTherapyValue> DoctorPhysicalTherapyValues { get; set; }
+        public virtual DbSet<PatientPhysicalTherapy> PatientPhysicalTherapies { get; set; }
     }
 }

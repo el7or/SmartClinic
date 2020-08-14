@@ -670,10 +670,10 @@ namespace clinic_api.Controllers
             {
                 Id = r.Id,
                 RequestId = r.RayId,
-                RayAreaId = r.RayAreaId,
+                AreaId = r.RayAreaId,
                 RequestType = "ray",
                 RequestName = r.Ray.RayName,
-                RayAreaName = r.RayArea.RayArea,
+                AreaName = r.RayArea.RayArea,
                 Note = r.RequestNote,
                 RequestDate = r.CreatedOn,
                 isHasResult = r.IsHasResult
@@ -682,14 +682,29 @@ namespace clinic_api.Controllers
             {
                 Id = a.Id,
                 RequestId = a.AnalysisId,
-                RayAreaId = null,
+                AreaId = null,
                 RequestType = "analysis",
                 RequestName = a.Analysis.AnalysisName,
-                RayAreaName = null,
+                AreaName = null,
                 Note = a.RequestNote,
                 RequestDate = a.CreatedOn,
                 isHasResult = a.IsHasResult
             }).ToList();
+            var prevPatientPhysicalTherapies = _context.PatientPhysicalTherapies.Where(p => p.PatientId == patientId && p.IsDeleted != true).Include(e => e.PhysicalTherapy).Include(e => e.PhysicalTherapyArea).Select(r => new PatientRequestListDTO
+            {
+                Id = r.Id,
+                RequestId = r.PhysicalTherapyId,
+                AreaId = r.PhysicalTherapyAreaId,
+                RequestType = "therapy",
+                RequestName = r.PhysicalTherapy.PhysicalTherapyName,
+                AreaName = r.PhysicalTherapyArea.PhysicalTherapyArea,
+                Note = r.RequestNote,
+                RequestDate = r.CreatedOn
+            }).ToList();
+            var prevPatientRequests = prevPatientRays;
+            if (prevPatientAnalsis != null) prevPatientRequests = prevPatientRequests.Union(prevPatientAnalsis).ToList();
+            if (prevPatientPhysicalTherapies != null) prevPatientRequests = prevPatientRequests.Union(prevPatientPhysicalTherapies).ToList();
+
             GetPatientRequestsDTO model = new GetPatientRequestsDTO
             {
                 RayValues = await _context.DoctorRaysValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(v => new RayValue
@@ -707,9 +722,18 @@ namespace clinic_api.Controllers
                     Id = v.Id,
                     Text = v.AnalysisName
                 }).ToListAsync(),
-                PrevPatientRequests = prevPatientAnalsis != null ? prevPatientRays.Union(prevPatientAnalsis).OrderBy(p => p.RequestDate).ToList() : prevPatientRays
+                PhysicalTherapyValues = await _context.DoctorPhysicalTherapyValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(v => new PhysicalTherapyValue
+                {
+                    Id = v.Id,
+                    Text = v.PhysicalTherapyName
+                }).ToListAsync(),
+                PhysicalTherapyAreaValues = await _context.DoctorPhysicalTherapyAreaValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).Select(v => new PhysicalTherapyAreaValue
+                {
+                    Id = v.Id,
+                    Text = v.PhysicalTherapyArea
+                }).ToListAsync(),
+                PrevPatientRequests = prevPatientRequests.OrderBy(p => p.RequestDate).ToList()
             };
-
             return model;
         }
 
@@ -729,7 +753,7 @@ namespace clinic_api.Controllers
                     {
                         PatientId = patientId,
                         RayId = item.RequestId,
-                        RayAreaId = item.RayAreaId,
+                        RayAreaId = item.AreaId,
                         RequestNote = item.Note,
                         IsHasResult = false,
                         CreatedBy = id,
@@ -738,7 +762,7 @@ namespace clinic_api.Controllers
                         UpdatedOn = DateTime.Now.ToEgyptTime()
                     });
                 }
-                else
+                else if (item.RequestType == "analysis")
                 {
                     _context.PatientAnalysis.Add(new PatientAnalysis
                     {
@@ -746,6 +770,19 @@ namespace clinic_api.Controllers
                         AnalysisId = item.RequestId,
                         RequestNote = item.Note,
                         IsHasResult = false,
+                        CreatedBy = id,
+                        CreatedOn = DateTime.Now.ToEgyptTime(),
+                        UpdatedBy = id,
+                        UpdatedOn = DateTime.Now.ToEgyptTime()
+                    });
+                }
+                else if (item.RequestType == "therapy")
+                {
+                    _context.PatientPhysicalTherapies.Add(new PatientPhysicalTherapy
+                    {
+                        PatientId = patientId,
+                        PhysicalTherapyId = item.RequestId,
+                        RequestNote = item.Note,
                         CreatedBy = id,
                         CreatedOn = DateTime.Now.ToEgyptTime(),
                         UpdatedBy = id,
@@ -780,7 +817,7 @@ namespace clinic_api.Controllers
 
                 _context.Entry(patientRay).State = EntityState.Modified;
             }
-            else
+            else if (type == "analysis")
             {
                 var patientAnalysis = _context.PatientAnalysis.Find(requestId);
                 if (patientAnalysis == null)
@@ -792,6 +829,19 @@ namespace clinic_api.Controllers
                 patientAnalysis.UpdatedOn = DateTime.Now.ToEgyptTime();
 
                 _context.Entry(patientAnalysis).State = EntityState.Modified;
+            }
+            else if (type == "therapy")
+            {
+                var patientPhysicalTherapy = _context.PatientPhysicalTherapies.Find(requestId);
+                if (patientPhysicalTherapy == null)
+                {
+                    return NotFound();
+                }
+                patientPhysicalTherapy.IsDeleted = true;
+                patientPhysicalTherapy.UpdatedBy = id;
+                patientPhysicalTherapy.UpdatedOn = DateTime.Now.ToEgyptTime();
+
+                _context.Entry(patientPhysicalTherapy).State = EntityState.Modified;
             }
 
             await _context.SaveChangesAsync();

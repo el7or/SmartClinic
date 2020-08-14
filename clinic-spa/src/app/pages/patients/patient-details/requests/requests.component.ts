@@ -3,7 +3,6 @@ import { XRayDetailComponent } from "./../xrays/xray-detail/xray-detail.componen
 import { AlertService } from "./../../../../shared/services/alert.service";
 import { NbDialogService } from "@nebular/theme";
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
@@ -17,6 +16,8 @@ import {
   AnalysisValue,
   GetPatientRequests,
   PutPatientRequests,
+  PhysicalTherapyValue,
+  PhysicalTherapyAreaValue,
 } from "./requests.model";
 import { Subscription } from "rxjs";
 import { TypeaheadMatch } from "ngx-bootstrap";
@@ -39,6 +40,8 @@ export class RequestsComponent implements OnInit, OnDestroy {
   rayNames: RayValue[] = [];
   rayAreas: RayAreaValue[] = [];
   analysisNames: AnalysisValue[] = [];
+  physicalTherapyNames: PhysicalTherapyValue[] = [];
+  physicalTherapyAreas: PhysicalTherapyAreaValue[] = [];
   isAnyNameInvalid = true;
 
   subs = new Subscription();
@@ -61,6 +64,8 @@ export class RequestsComponent implements OnInit, OnDestroy {
           this.rayNames = res.rayValues;
           this.rayAreas = res.rayAreaValues;
           this.analysisNames = res.analysisValues;
+          this.physicalTherapyNames = res.physicalTherapyValues;
+          this.physicalTherapyAreas = res.physicalTherapyAreaValues;
           this.prevPatientRequests = res.prevPatientRequests;
           // =====> add empty request based on type in query param:
           const typeParam = this.route.snapshot.queryParamMap.get("type");
@@ -95,10 +100,10 @@ export class RequestsComponent implements OnInit, OnDestroy {
     this.newRequests[index].requestId = event.item.id;
   }
 
-  // =====> bind reaAreaId on select from typehead:
+  // =====> bind areaId on select from typehead:
   onSelectArea(event: TypeaheadMatch, index) {
     this.isAnyNameInvalid = false;
-    this.newRequests[index].rayAreaId = event.item.id;
+    this.newRequests[index].areaId = event.item.id;
   }
 
   // =====> on add new request to form from button:
@@ -127,7 +132,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
   }
 
   // =====> on add new xray name or analysis name to thier list:
-  onAddNewItemToList(item: PatientRequest, itemType) {
+  onAddNewItemToList(item: PatientRequest, itemType, areaType?) {
     this.formLoading = true;
     if (itemType == "ray") {
       this.subs.add(
@@ -150,28 +155,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
             }
           )
       );
-    } else if (itemType == "area") {
-      this.subs.add(
-        this.requestService
-          .postNewItemValue(item.rayAreaName, ItemsType.RayArea)
-          .subscribe(
-            (res: AnyPatientFileValue) => {
-              this.rayAreas.push({
-                id: res.id,
-                text: res.text,
-              });
-              item.rayAreaId = res.id;
-              this.formLoading = false;
-              this.doneSwal.fire();
-            },
-            (err) => {
-              console.error(err);
-              this.alertService.alertError();
-              this.formLoading = false;
-            }
-          )
-      );
-    } else {
+    } else if (itemType == "analysis") {
       this.subs.add(
         this.requestService
           .postNewItemValue(item.requestName, ItemsType.Analysis)
@@ -192,6 +176,71 @@ export class RequestsComponent implements OnInit, OnDestroy {
             }
           )
       );
+    } else if (itemType == "therapy") {
+      this.subs.add(
+        this.requestService
+          .postNewItemValue(item.requestName, ItemsType.PhysicalTherapy)
+          .subscribe(
+            (res: AnyPatientFileValue) => {
+              this.physicalTherapyNames.push({
+                id: res.id,
+                text: res.text,
+              });
+              item.requestId = res.id;
+              this.formLoading = false;
+              this.doneSwal.fire();
+            },
+            (err) => {
+              console.error(err);
+              this.alertService.alertError();
+              this.formLoading = false;
+            }
+          )
+      );
+    } else if (itemType == "area") {
+      if (areaType == "ray") {
+        this.subs.add(
+          this.requestService
+            .postNewItemValue(item.areaName, ItemsType.RayArea)
+            .subscribe(
+              (res: AnyPatientFileValue) => {
+                this.rayAreas.push({
+                  id: res.id,
+                  text: res.text,
+                });
+                item.areaId = res.id;
+                this.formLoading = false;
+                this.doneSwal.fire();
+              },
+              (err) => {
+                console.error(err);
+                this.alertService.alertError();
+                this.formLoading = false;
+              }
+            )
+        );
+      } else if (areaType == "therapy") {
+        this.subs.add(
+          this.requestService
+            .postNewItemValue(item.areaName, ItemsType.PhysicalTherapyArea)
+            .subscribe(
+              (res: AnyPatientFileValue) => {
+                this.physicalTherapyAreas.push({
+                  id: res.id,
+                  text: res.text,
+                });
+                item.areaId = res.id;
+                this.formLoading = false;
+                this.doneSwal.fire();
+              },
+              (err) => {
+                console.error(err);
+                this.alertService.alertError();
+                this.formLoading = false;
+              }
+            )
+        );
+      }
     }
   }
 
@@ -220,6 +269,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
             );
             this.formLoading = false;
             this.doneSwal.fire();
+            this.location.back();
           }
         },
         (err) => {
@@ -242,9 +292,13 @@ export class RequestsComponent implements OnInit, OnDestroy {
           requestName:
             m.requestType == "ray"
               ? this.rayNames.find((v) => v.id == m.requestId).text
-              : this.analysisNames.find((v) => v.id == m.requestId).text,
-          rayArea: m.rayAreaId
-            ? this.rayAreas.find((v) => v.id == m.rayAreaId).text
+              : m.requestType == "analysis"
+              ? this.analysisNames.find((v) => v.id == m.requestId).text
+              : this.physicalTherapyNames.find((v) => v.id == m.requestId).text,
+          rayArea: m.areaId
+            ? m.requestType == "ray"
+              ? this.rayAreas.find((v) => v.id == m.areaId).text
+              : this.physicalTherapyAreas.find((v) => v.id == m.areaId).text
             : "",
           note: m.note,
         };

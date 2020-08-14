@@ -66,7 +66,7 @@
             <span class="form">{{item.note}}</span>
           </td>
           <td class="right">
-            <span class="period">{{item.requestType=='ray'?'طلب أشعة':'طلب تحاليل'}}</span>
+            <span class="period">{{item.requestType=='ray'?'طلب أشعة':item.requestType=='analysis'?'طلب تحاليل':'طلب علاج طبيعي'}}</span>
           </td>
         </tr>
       </tbody>

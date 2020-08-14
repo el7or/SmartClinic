@@ -1276,6 +1276,86 @@ namespace clinic_api.Migrations
                     b.ToTable("DoctorPharmacies");
                 });
 
+            modelBuilder.Entity("clinic_api.Models.DoctorPhysicalTherapyAreaValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhysicalTherapyArea")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorPhysicalTherapyAreaValues");
+                });
+
+            modelBuilder.Entity("clinic_api.Models.DoctorPhysicalTherapyValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhysicalTherapyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorPhysicalTherapyValues");
+                });
+
             modelBuilder.Entity("clinic_api.Models.DoctorRayAreasValue", b =>
                 {
                     b.Property<int>("Id")
@@ -1862,6 +1942,51 @@ namespace clinic_api.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("PatientOperations");
+                });
+
+            modelBuilder.Entity("clinic_api.Models.PatientPhysicalTherapy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("PhysicalTherapyAreaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PhysicalTherapyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RequestNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("PhysicalTherapyAreaId");
+
+                    b.HasIndex("PhysicalTherapyId");
+
+                    b.ToTable("PatientPhysicalTherapies");
                 });
 
             modelBuilder.Entity("clinic_api.Models.PatientPrescription", b =>
@@ -3129,6 +3254,24 @@ namespace clinic_api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("clinic_api.Models.DoctorPhysicalTherapyAreaValue", b =>
+                {
+                    b.HasOne("clinic_api.Models.Doctor", "Doctor")
+                        .WithMany("DoctorPhysicalTherapyAreaValues")
+                        .HasForeignKey("DoctorId")
+                        .HasConstraintName("FK_DoctorPhysicalTherapyAreas_Doctors")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("clinic_api.Models.DoctorPhysicalTherapyValue", b =>
+                {
+                    b.HasOne("clinic_api.Models.Doctor", "Doctor")
+                        .WithMany("DoctorPhysicalTherapiesValues")
+                        .HasForeignKey("DoctorId")
+                        .HasConstraintName("FK_DoctorPhysicalTherapyValues_Doctors")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("clinic_api.Models.DoctorRayAreasValue", b =>
                 {
                     b.HasOne("clinic_api.Models.Doctor", "Doctor")
@@ -3328,6 +3471,26 @@ namespace clinic_api.Migrations
                         .WithMany("PatientOperations")
                         .HasForeignKey("PatientId")
                         .HasConstraintName("FK_PatientOperations_Patients")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("clinic_api.Models.PatientPhysicalTherapy", b =>
+                {
+                    b.HasOne("clinic_api.Models.Patient", "Patient")
+                        .WithMany("PatientPhysicalTherapies")
+                        .HasForeignKey("PatientId")
+                        .HasConstraintName("FK_PatientPhysicalTherapy_Patients")
+                        .IsRequired();
+
+                    b.HasOne("clinic_api.Models.DoctorPhysicalTherapyAreaValue", "PhysicalTherapyArea")
+                        .WithMany("PatientPhysicalTherapies")
+                        .HasForeignKey("PhysicalTherapyAreaId")
+                        .HasConstraintName("FK_PatientPhysicalTherapy_DoctorRayAreas");
+
+                    b.HasOne("clinic_api.Models.DoctorPhysicalTherapyValue", "PhysicalTherapy")
+                        .WithMany("PatientPhysicalTherapies")
+                        .HasForeignKey("PhysicalTherapyId")
+                        .HasConstraintName("FK_PatientPhysicalTherapy_DoctorRaysValues")
                         .IsRequired();
                 });
 

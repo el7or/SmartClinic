@@ -387,6 +387,34 @@
           <Property Name="PharmacyId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IsDefault" Type="bit" />
         </EntityType>
+        <EntityType Name="DoctorPhysicalTherapyAreaValues">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PhysicalTherapyArea" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DoctorPhysicalTherapyValues">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PhysicalTherapyName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="DoctorRayAreasValues">
           <Key>
             <PropertyRef Name="Id" />
@@ -576,6 +604,21 @@
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="PatientPhysicalTherapies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PhysicalTherapyId" Type="int" Nullable="false" />
+          <Property Name="PhysicalTherapyAreaId" Type="int" />
+          <Property Name="RequestNote" Type="nvarchar(max)" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="PatientPrescriptions">
           <Key>
@@ -1339,6 +1382,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DoctorPhysicalTherapyAreas_Doctors">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="1" />
+          <End Role="DoctorPhysicalTherapyAreaValues" Type="Self.DoctorPhysicalTherapyAreaValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorPhysicalTherapyAreaValues">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorPhysicalTherapyValues_Doctors">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="1" />
+          <End Role="DoctorPhysicalTherapyValues" Type="Self.DoctorPhysicalTherapyValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorPhysicalTherapyValues">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DoctorRayAreas_Doctors">
           <End Role="Doctors" Type="Self.Doctors" Multiplicity="1" />
           <End Role="DoctorRayAreasValues" Type="Self.DoctorRayAreasValues" Multiplicity="*" />
@@ -1659,6 +1726,42 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="PatientOperations">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientPhysicalTherapy_DoctorRayAreas">
+          <End Role="DoctorPhysicalTherapyAreaValues" Type="Self.DoctorPhysicalTherapyAreaValues" Multiplicity="0..1" />
+          <End Role="PatientPhysicalTherapies" Type="Self.PatientPhysicalTherapies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorPhysicalTherapyAreaValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientPhysicalTherapies">
+              <PropertyRef Name="PhysicalTherapyAreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientPhysicalTherapy_DoctorRaysValues">
+          <End Role="DoctorPhysicalTherapyValues" Type="Self.DoctorPhysicalTherapyValues" Multiplicity="1" />
+          <End Role="PatientPhysicalTherapies" Type="Self.PatientPhysicalTherapies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorPhysicalTherapyValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientPhysicalTherapies">
+              <PropertyRef Name="PhysicalTherapyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientPhysicalTherapy_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="PatientPhysicalTherapies" Type="Self.PatientPhysicalTherapies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientPhysicalTherapies">
               <PropertyRef Name="PatientId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2063,6 +2166,8 @@
           <EntitySet Name="DoctorMedicinesValues" EntityType="Self.DoctorMedicinesValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorOperationTypesValues" EntityType="Self.DoctorOperationTypesValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorPharmacies" EntityType="Self.DoctorPharmacies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoctorPhysicalTherapyAreaValues" EntityType="Self.DoctorPhysicalTherapyAreaValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoctorPhysicalTherapyValues" EntityType="Self.DoctorPhysicalTherapyValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorRayAreasValues" EntityType="Self.DoctorRayAreasValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DoctorRaysValues" EntityType="Self.DoctorRaysValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Doctors" EntityType="Self.Doctors" Schema="dbo" store:Type="Tables" />
@@ -2075,6 +2180,7 @@
           <EntitySet Name="PatientExaminations" EntityType="Self.PatientExaminations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PatientGeneralComplaints" EntityType="Self.PatientGeneralComplaints" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PatientOperations" EntityType="Self.PatientOperations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PatientPhysicalTherapies" EntityType="Self.PatientPhysicalTherapies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PatientPrescriptions" EntityType="Self.PatientPrescriptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PatientRayFiles" EntityType="Self.PatientRayFiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PatientRays" EntityType="Self.PatientRays" Schema="dbo" store:Type="Tables" />
@@ -2234,6 +2340,14 @@
             <End Role="Pharmacies" EntitySet="Pharmacies" />
             <End Role="DoctorPharmacies" EntitySet="DoctorPharmacies" />
           </AssociationSet>
+          <AssociationSet Name="FK_DoctorPhysicalTherapyAreas_Doctors" Association="Self.FK_DoctorPhysicalTherapyAreas_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="DoctorPhysicalTherapyAreaValues" EntitySet="DoctorPhysicalTherapyAreaValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorPhysicalTherapyValues_Doctors" Association="Self.FK_DoctorPhysicalTherapyValues_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="DoctorPhysicalTherapyValues" EntitySet="DoctorPhysicalTherapyValues" />
+          </AssociationSet>
           <AssociationSet Name="FK_DoctorRayAreas_Doctors" Association="Self.FK_DoctorRayAreas_Doctors">
             <End Role="Doctors" EntitySet="Doctors" />
             <End Role="DoctorRayAreasValues" EntitySet="DoctorRayAreasValues" />
@@ -2341,6 +2455,18 @@
           <AssociationSet Name="FK_PatientOperations_Patients" Association="Self.FK_PatientOperations_Patients">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="PatientOperations" EntitySet="PatientOperations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientPhysicalTherapy_DoctorRayAreas" Association="Self.FK_PatientPhysicalTherapy_DoctorRayAreas">
+            <End Role="DoctorPhysicalTherapyAreaValues" EntitySet="DoctorPhysicalTherapyAreaValues" />
+            <End Role="PatientPhysicalTherapies" EntitySet="PatientPhysicalTherapies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientPhysicalTherapy_DoctorRaysValues" Association="Self.FK_PatientPhysicalTherapy_DoctorRaysValues">
+            <End Role="DoctorPhysicalTherapyValues" EntitySet="DoctorPhysicalTherapyValues" />
+            <End Role="PatientPhysicalTherapies" EntitySet="PatientPhysicalTherapies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientPhysicalTherapy_Patients" Association="Self.FK_PatientPhysicalTherapy_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="PatientPhysicalTherapies" EntitySet="PatientPhysicalTherapies" />
           </AssociationSet>
           <AssociationSet Name="FK_PatientPrescriptions_Patients" Association="Self.FK_PatientPrescriptions_Patients">
             <End Role="Patients" EntitySet="Patients" />
@@ -2953,6 +3079,8 @@
           <NavigationProperty Name="PatientReferrals" Relationship="Self.FK_PatientReferrals_Doctors" FromRole="Doctors" ToRole="PatientReferrals" />
           <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_Doctors" FromRole="Doctors" ToRole="Patients" />
           <NavigationProperty Name="Clinics" Relationship="Self.DoctorClinics" FromRole="Doctors" ToRole="Clinics" />
+          <NavigationProperty Name="DoctorPhysicalTherapyAreaValues" Relationship="Models.FK_DoctorPhysicalTherapyAreas_Doctors" FromRole="Doctor" ToRole="DoctorPhysicalTherapyAreaValue" />
+          <NavigationProperty Name="DoctorPhysicalTherapyValues" Relationship="Models.FK_DoctorPhysicalTherapyValues_Doctors" FromRole="Doctor" ToRole="DoctorPhysicalTherapyValue" />
         </EntityType>
         <EntityType Name="Expens">
           <Key>
@@ -3247,6 +3375,7 @@
           <NavigationProperty Name="SysCitiesValue" Relationship="Self.FK_Patients_SysCitiesValues" FromRole="Patients" ToRole="SysCitiesValues" />
           <NavigationProperty Name="SysGovernoratesValue" Relationship="Self.FK_Patients_SysGovernoratesValues" FromRole="Patients" ToRole="SysGovernoratesValues" />
           <NavigationProperty Name="SysSocialStatusValue" Relationship="Self.FK_Patients_SysSocialStatusValues" FromRole="Patients" ToRole="SysSocialStatusValues" />
+          <NavigationProperty Name="PatientPhysicalTherapies" Relationship="Models.FK_PatientPhysicalTherapy_Patients" FromRole="Patient" ToRole="PatientPhysicalTherapy" />
         </EntityType>
         <EntityType Name="Pharmacy">
           <Key>
@@ -4947,6 +5076,29 @@
             <End Role="SysDoctorExpenseType" EntitySet="SysDoctorExpenseTypes" />
             <End Role="DoctorExpens" EntitySet="DoctorExpenses" />
           </AssociationSet>
+          <EntitySet Name="DoctorPhysicalTherapyAreaValues" EntityType="Models.DoctorPhysicalTherapyAreaValue" />
+          <EntitySet Name="DoctorPhysicalTherapyValues" EntityType="Models.DoctorPhysicalTherapyValue" />
+          <EntitySet Name="PatientPhysicalTherapies" EntityType="Models.PatientPhysicalTherapy" />
+          <AssociationSet Name="FK_DoctorPhysicalTherapyAreas_Doctors" Association="Models.FK_DoctorPhysicalTherapyAreas_Doctors">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="DoctorPhysicalTherapyAreaValue" EntitySet="DoctorPhysicalTherapyAreaValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientPhysicalTherapy_DoctorRayAreas" Association="Models.FK_PatientPhysicalTherapy_DoctorRayAreas">
+            <End Role="DoctorPhysicalTherapyAreaValue" EntitySet="DoctorPhysicalTherapyAreaValues" />
+            <End Role="PatientPhysicalTherapy" EntitySet="PatientPhysicalTherapies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorPhysicalTherapyValues_Doctors" Association="Models.FK_DoctorPhysicalTherapyValues_Doctors">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="DoctorPhysicalTherapyValue" EntitySet="DoctorPhysicalTherapyValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientPhysicalTherapy_DoctorRaysValues" Association="Models.FK_PatientPhysicalTherapy_DoctorRaysValues">
+            <End Role="DoctorPhysicalTherapyValue" EntitySet="DoctorPhysicalTherapyValues" />
+            <End Role="PatientPhysicalTherapy" EntitySet="PatientPhysicalTherapies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientPhysicalTherapy_Patients" Association="Models.FK_PatientPhysicalTherapy_Patients">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="PatientPhysicalTherapy" EntitySet="PatientPhysicalTherapies" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="SysDoctorExpenseType">
           <Key>
@@ -4966,6 +5118,116 @@
             </Principal>
             <Dependent Role="DoctorExpens">
               <PropertyRef Name="ExpenseTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DoctorPhysicalTherapyAreaValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorId" Type="Guid" Nullable="false" />
+          <Property Name="PhysicalTherapyArea" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Doctor" Relationship="Models.FK_DoctorPhysicalTherapyAreas_Doctors" FromRole="DoctorPhysicalTherapyAreaValue" ToRole="Doctor" />
+          <NavigationProperty Name="PatientPhysicalTherapies" Relationship="Models.FK_PatientPhysicalTherapy_DoctorRayAreas" FromRole="DoctorPhysicalTherapyAreaValue" ToRole="PatientPhysicalTherapy" />
+        </EntityType>
+        <EntityType Name="DoctorPhysicalTherapyValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorId" Type="Guid" Nullable="false" />
+          <Property Name="PhysicalTherapyName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Doctor" Relationship="Models.FK_DoctorPhysicalTherapyValues_Doctors" FromRole="DoctorPhysicalTherapyValue" ToRole="Doctor" />
+          <NavigationProperty Name="PatientPhysicalTherapies" Relationship="Models.FK_PatientPhysicalTherapy_DoctorRaysValues" FromRole="DoctorPhysicalTherapyValue" ToRole="PatientPhysicalTherapy" />
+        </EntityType>
+        <EntityType Name="PatientPhysicalTherapy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Guid" Nullable="false" />
+          <Property Name="PhysicalTherapyId" Type="Int32" Nullable="false" />
+          <Property Name="PhysicalTherapyAreaId" Type="Int32" />
+          <Property Name="RequestNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="DoctorPhysicalTherapyAreaValue" Relationship="Models.FK_PatientPhysicalTherapy_DoctorRayAreas" FromRole="PatientPhysicalTherapy" ToRole="DoctorPhysicalTherapyAreaValue" />
+          <NavigationProperty Name="DoctorPhysicalTherapyValue" Relationship="Models.FK_PatientPhysicalTherapy_DoctorRaysValues" FromRole="PatientPhysicalTherapy" ToRole="DoctorPhysicalTherapyValue" />
+          <NavigationProperty Name="Patient" Relationship="Models.FK_PatientPhysicalTherapy_Patients" FromRole="PatientPhysicalTherapy" ToRole="Patient" />
+        </EntityType>
+        <Association Name="FK_DoctorPhysicalTherapyAreas_Doctors">
+          <End Type="Models.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="Models.DoctorPhysicalTherapyAreaValue" Role="DoctorPhysicalTherapyAreaValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorPhysicalTherapyAreaValue">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientPhysicalTherapy_DoctorRayAreas">
+          <End Type="Models.DoctorPhysicalTherapyAreaValue" Role="DoctorPhysicalTherapyAreaValue" Multiplicity="0..1" />
+          <End Type="Models.PatientPhysicalTherapy" Role="PatientPhysicalTherapy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorPhysicalTherapyAreaValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientPhysicalTherapy">
+              <PropertyRef Name="PhysicalTherapyAreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorPhysicalTherapyValues_Doctors">
+          <End Type="Models.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="Models.DoctorPhysicalTherapyValue" Role="DoctorPhysicalTherapyValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorPhysicalTherapyValue">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientPhysicalTherapy_DoctorRaysValues">
+          <End Type="Models.DoctorPhysicalTherapyValue" Role="DoctorPhysicalTherapyValue" Multiplicity="1" />
+          <End Type="Models.PatientPhysicalTherapy" Role="PatientPhysicalTherapy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorPhysicalTherapyValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientPhysicalTherapy">
+              <PropertyRef Name="PhysicalTherapyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientPhysicalTherapy_Patients">
+          <End Type="Models.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="Models.PatientPhysicalTherapy" Role="PatientPhysicalTherapy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientPhysicalTherapy">
+              <PropertyRef Name="PatientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5979,6 +6241,52 @@
               <MappingFragment StoreEntitySet="SysDoctorExpenseTypes">
                 <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorPhysicalTherapyAreaValues">
+            <EntityTypeMapping TypeName="Models.DoctorPhysicalTherapyAreaValue">
+              <MappingFragment StoreEntitySet="DoctorPhysicalTherapyAreaValues">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PhysicalTherapyArea" ColumnName="PhysicalTherapyArea" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorPhysicalTherapyValues">
+            <EntityTypeMapping TypeName="Models.DoctorPhysicalTherapyValue">
+              <MappingFragment StoreEntitySet="DoctorPhysicalTherapyValues">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PhysicalTherapyName" ColumnName="PhysicalTherapyName" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientPhysicalTherapies">
+            <EntityTypeMapping TypeName="Models.PatientPhysicalTherapy">
+              <MappingFragment StoreEntitySet="PatientPhysicalTherapies">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="RequestNote" ColumnName="RequestNote" />
+                <ScalarProperty Name="PhysicalTherapyAreaId" ColumnName="PhysicalTherapyAreaId" />
+                <ScalarProperty Name="PhysicalTherapyId" ColumnName="PhysicalTherapyId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

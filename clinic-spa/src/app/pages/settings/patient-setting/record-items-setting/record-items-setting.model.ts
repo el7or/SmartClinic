@@ -1,4 +1,4 @@
-export interface AnyPatientFileValue{
+export interface AnyPatientFileValue {
   id: number;
   text: string;
 }
@@ -11,6 +11,8 @@ export enum ItemsType {
   Ray = "Ray",
   RayArea = "RayArea",
   Analysis = "Analysis",
+  PhysicalTherapy = "PhysicalTherapy",
+  PhysicalTherapyArea = "PhysicalTherapyArea",
   Operation = "Operation",
-  Medicine= "Medicine"
+  Medicine = "Medicine",
 }

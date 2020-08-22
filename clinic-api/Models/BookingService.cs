@@ -9,6 +9,6 @@ namespace clinic_api.Models
         public int ServiceId { get; set; }
 
         public virtual Booking Booking { get; set; }
-        public virtual ClinicService Service { get; set; }
+        public virtual DoctorService Service { get; set; }
     }
 }

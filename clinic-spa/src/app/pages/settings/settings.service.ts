@@ -46,7 +46,7 @@ export class SettingsService {
         "Clinic/GetPricesSetting/" +
         this.authService.userId +
         "/" +
-        this.authService.clinicId
+        this.authService.doctorId
     );
   }
   savePricesSetting(allPrices: GetPricesSetting) {
@@ -55,7 +55,7 @@ export class SettingsService {
         "Clinic/PutPricesSetting/" +
         this.authService.userId +
         "/" +
-        this.authService.clinicId,
+        this.authService.doctorId,
       allPrices
     );
   }

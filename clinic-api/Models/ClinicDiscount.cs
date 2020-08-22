@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace clinic_api.Models
 {
-    public partial class ClinicDiscount
+    public partial class DoctorDiscount
     {
-        public ClinicDiscount()
+        public DoctorDiscount()
         {
             Bookings = new HashSet<Booking>();
         }
 
         public int Id { get; set; }
-        public Guid ClinicId { get; set; }
+        public Guid DoctorId { get; set; }
 
         [StringLength(256)]
         public string Discount { get; set; }
@@ -25,7 +25,7 @@ namespace clinic_api.Models
         public DateTime UpdatedOn { get; set; }
         public Guid UpdatedBy { get; set; }
 
-        public virtual Clinic Clinic { get; set; }
+        public virtual Doctor Doctor { get; set; }
         public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

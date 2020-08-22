@@ -6,14 +6,66 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200524131943_CreateDB.cs" />
+    <Compile Remove="Migrations\20200524131943_CreateDB.Designer.cs" />
+    <Compile Remove="Migrations\20200603035422_RequestDelete.cs" />
+    <Compile Remove="Migrations\20200603035422_RequestDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200605080750_UpdatePatients.cs" />
+    <Compile Remove="Migrations\20200605080750_UpdatePatients.Designer.cs" />
+    <Compile Remove="Migrations\20200605124709_MedicineQuantity.cs" />
+    <Compile Remove="Migrations\20200605124709_MedicineQuantity.Designer.cs" />
     <Compile Remove="Migrations\20200608095824_DoctorExpense.cs" />
     <Compile Remove="Migrations\20200608095824_DoctorExpense.Designer.cs" />
+    <Compile Remove="Migrations\20200608095953_DoctorExpense.cs" />
+    <Compile Remove="Migrations\20200608095953_DoctorExpense.Designer.cs" />
     <Compile Remove="Migrations\20200608110347_DoctorExpense2.cs" />
     <Compile Remove="Migrations\20200608110347_DoctorExpense2.Designer.cs" />
+    <Compile Remove="Migrations\20200608110611_ExpenseNote.cs" />
+    <Compile Remove="Migrations\20200608110611_ExpenseNote.Designer.cs" />
+    <Compile Remove="Migrations\20200619154649_RemoveDoctorMedicine.cs" />
+    <Compile Remove="Migrations\20200619154649_RemoveDoctorMedicine.Designer.cs" />
+    <Compile Remove="Migrations\20200623185923_PharmacyModel.cs" />
+    <Compile Remove="Migrations\20200623185923_PharmacyModel.Designer.cs" />
+    <Compile Remove="Migrations\20200629022347_DoctorPharmacy.cs" />
+    <Compile Remove="Migrations\20200629022347_DoctorPharmacy.Designer.cs" />
+    <Compile Remove="Migrations\20200710165645_DoctorMedicineModel.cs" />
+    <Compile Remove="Migrations\20200710165645_DoctorMedicineModel.Designer.cs" />
     <Compile Remove="Migrations\20200713041055_PlanSubsType.cs" />
     <Compile Remove="Migrations\20200713041055_PlanSubsType.Designer.cs" />
     <Compile Remove="Migrations\20200713041405_PlanSubsType.cs" />
     <Compile Remove="Migrations\20200713041405_PlanSubsType.Designer.cs" />
+    <Compile Remove="Migrations\20200713041526_PlanSubsType.cs" />
+    <Compile Remove="Migrations\20200713041526_PlanSubsType.Designer.cs" />
+    <Compile Remove="Migrations\20200713042039_PlanSubsType2.cs" />
+    <Compile Remove="Migrations\20200713042039_PlanSubsType2.Designer.cs" />
+    <Compile Remove="Migrations\20200719173504_DoctorPharmacyModel.cs" />
+    <Compile Remove="Migrations\20200719173504_DoctorPharmacyModel.Designer.cs" />
+    <Compile Remove="Migrations\20200726061148_OperationDeleted.cs" />
+    <Compile Remove="Migrations\20200726061148_OperationDeleted.Designer.cs" />
+    <Compile Remove="Migrations\20200729053656_DoctorExpenseType.cs" />
+    <Compile Remove="Migrations\20200729053656_DoctorExpenseType.Designer.cs" />
+    <Compile Remove="Migrations\20200729054949_AlterDoctorExpenseType.cs" />
+    <Compile Remove="Migrations\20200729054949_AlterDoctorExpenseType.Designer.cs" />
+    <Compile Remove="Migrations\20200814072329_PhysicalTherapyModels.cs" />
+    <Compile Remove="Migrations\20200814072329_PhysicalTherapyModels.Designer.cs" />
+    <Compile Remove="Migrations\20200821132451_DoctorBookings.cs" />
+    <Compile Remove="Migrations\20200821132451_DoctorBookings.Designer.cs" />
+    <Compile Remove="Migrations\20200821132715_DoctorBookings.cs" />
+    <Compile Remove="Migrations\20200821132715_DoctorBookings.Designer.cs" />
+    <Compile Remove="Migrations\20200821132956_DoctorBookings.cs" />
+    <Compile Remove="Migrations\20200821132956_DoctorBookings.Designer.cs" />
+    <Compile Remove="Migrations\20200821133127_DoctorBookings.cs" />
+    <Compile Remove="Migrations\20200821133127_DoctorBookings.Designer.cs" />
+    <Compile Remove="Migrations\20200821134734_DoctorBookings.cs" />
+    <Compile Remove="Migrations\20200821134734_DoctorBookings.Designer.cs" />
+    <Compile Remove="Migrations\20200821140637_DoctorBookings.cs" />
+    <Compile Remove="Migrations\20200821140637_DoctorBookings.Designer.cs" />
+    <Compile Remove="Migrations\20200821140819_DoctorBookings.cs" />
+    <Compile Remove="Migrations\20200821140819_DoctorBookings.Designer.cs" />
+    <Compile Remove="Migrations\20200821141127_DoctorBookings.cs" />
+    <Compile Remove="Migrations\20200821141127_DoctorBookings.Designer.cs" />
+    <Compile Remove="Migrations\20200821162021_DoctorBookings.cs" />
+    <Compile Remove="Migrations\20200821162021_DoctorBookings.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

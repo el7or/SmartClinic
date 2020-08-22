@@ -139,33 +139,33 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Clinic/GetPricesSetting/5/6
-        [HttpGet("GetPricesSetting/{id}/{clinicId}")]
-        public async Task<ActionResult<ClinicGetPricesSettingDTO>> GetPricesSetting(Guid id, Guid clinicId)
+        [HttpGet("GetPricesSetting/{id}/{doctorId}")]
+        public async Task<ActionResult<ClinicGetPricesSettingDTO>> GetPricesSetting(Guid id, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var clinic = await _context.Clinics.Include(t => t.ClinicBookingTypes).Include(s => s.ClinicServices).Include(d => d.ClinicDiscounts).FirstOrDefaultAsync(c => c.Id == clinicId);
-            if (clinic == null)
+            var doctor = await _context.Doctors.Include(t => t.DoctorBookingTypes).Include(s => s.DoctorServices).Include(d => d.DoctorDiscounts).FirstOrDefaultAsync(c => c.Id == doctorId);
+            if (doctor == null)
             {
                 return NotFound();
             }
             var model = new ClinicGetPricesSettingDTO
             {
-                BookingTypes = clinic.ClinicBookingTypes.Where(s => s.Type != "justService").Select(t => new BookingType
+                BookingTypes = doctor.DoctorBookingTypes.Where(s => s.Type != "justService").Select(t => new BookingType
                 {
                     Id = t.Id,
                     Type = t.Text,
                     Price = t.Price
                 }).ToList(),
-                ServiceTypes = clinic.ClinicServices.Select(s => new ServiceType
+                ServiceTypes = doctor.DoctorServices.Select(s => new ServiceType
                 {
                     Id = s.Id,
                     Service = s.Service,
                     Price = s.Price
                 }).ToList(),
-                DiscountTypes = clinic.ClinicDiscounts.Select(d => new DiscountType
+                DiscountTypes = doctor.DoctorDiscounts.Select(d => new DiscountType
                 {
                     Id = d.Id,
                     Discount = d.Discount,
@@ -177,8 +177,8 @@ namespace clinic_api.Controllers
         }
 
         // PUT: api/Clinic/PutPricesSetting/5/6
-        [HttpPut("PutPricesSetting/{id}/{clinicId}")]
-        public async Task<IActionResult> PutPricesSetting(Guid id, Guid clinicId, ClinicGetPricesSettingDTO model)
+        [HttpPut("PutPricesSetting/{id}/{doctorId}")]
+        public async Task<IActionResult> PutPricesSetting(Guid id, Guid doctorId, ClinicGetPricesSettingDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -188,9 +188,9 @@ namespace clinic_api.Controllers
             {
                 if (type.Id == 0)
                 {
-                    _context.ClinicBookingTypes.Add(new ClinicBookingType
+                    _context.DoctorBookingTypes.Add(new DoctorBookingType
                     {
-                        ClinicId = clinicId,
+                        DoctorId = doctorId,
                         Type = type.Type,
                         Text = type.Type,
                         Price = type.Price,
@@ -204,7 +204,7 @@ namespace clinic_api.Controllers
                 }
                 else
                 {
-                    var clinicType = _context.ClinicBookingTypes.Find(type.Id);
+                    var clinicType = _context.DoctorBookingTypes.Find(type.Id);
                     clinicType.Price = type.Price;
                     clinicType.UpdatedBy = id;
                     clinicType.UpdatedOn = DateTime.Now.ToEgyptTime();
@@ -215,9 +215,9 @@ namespace clinic_api.Controllers
             {
                 if (service.Id == 0)
                 {
-                    _context.ClinicServices.Add(new ClinicService
+                    _context.DoctorServices.Add(new DoctorService
                     {
-                        ClinicId = clinicId,
+                        DoctorId = doctorId,
                         Service = service.Service,
                         Price = service.Price,
                         IsActive = true,
@@ -230,7 +230,7 @@ namespace clinic_api.Controllers
                 }
                 else
                 {
-                    var clinicService = _context.ClinicServices.Find(service.Id);
+                    var clinicService = _context.DoctorServices.Find(service.Id);
                     clinicService.Price = service.Price;
                     clinicService.UpdatedBy = id;
                     clinicService.UpdatedOn = DateTime.Now.ToEgyptTime();
@@ -241,9 +241,9 @@ namespace clinic_api.Controllers
             {
                 if (discount.Id == 0)
                 {
-                    _context.ClinicDiscounts.Add(new ClinicDiscount
+                    _context.DoctorDiscounts.Add(new DoctorDiscount
                     {
-                        ClinicId = clinicId,
+                        DoctorId = doctorId,
                         Discount = discount.Discount,
                         IsPercent = discount.IsPercent,
                         Price = discount.Price,
@@ -257,7 +257,7 @@ namespace clinic_api.Controllers
                 }
                 else
                 {
-                    var clinicDiscount = _context.ClinicDiscounts.Find(discount.Id);
+                    var clinicDiscount = _context.DoctorDiscounts.Find(discount.Id);
                     clinicDiscount.Price = discount.Price;
                     clinicDiscount.IsPercent = discount.IsPercent;
                     clinicDiscount.UpdatedBy = id;
@@ -272,7 +272,7 @@ namespace clinic_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClinicExists(clinicId))
+                if (!ClinicExists(doctorId))
                 {
                     return NotFound();
                 }

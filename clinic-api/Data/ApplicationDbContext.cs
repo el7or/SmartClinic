@@ -74,9 +74,6 @@ namespace clinic_api.Data
         public virtual DbSet<BookingService> BookingServices { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<ChatMessage> ChatMessages { get; set; }
-        public virtual DbSet<ClinicBookingType> ClinicBookingTypes { get; set; }
-        public virtual DbSet<ClinicDiscount> ClinicDiscounts { get; set; }
-        public virtual DbSet<ClinicService> ClinicServices { get; set; }
         public virtual DbSet<ClinicUser> ClinicUsers { get; set; }
         public virtual DbSet<Clinic> Clinics { get; set; }
         public virtual DbSet<DoctorAnalysisValue> DoctorAnalysisValues { get; set; }
@@ -95,6 +92,9 @@ namespace clinic_api.Data
         public virtual DbSet<DoctorPhysicalTherapyAreaValue> DoctorPhysicalTherapyAreaValues { get; set; }
         public virtual DbSet<DoctorPhysicalTherapyValue> DoctorPhysicalTherapyValues { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<DoctorBookingType> DoctorBookingTypes { get; set; }
+        public virtual DbSet<DoctorDiscount> DoctorDiscounts { get; set; }
+        public virtual DbSet<DoctorService> DoctorServices { get; set; }
         public virtual DbSet<DoctorExpense> DoctorExpenses { get; set; }
         public virtual DbSet<DoctorExpenseItemValue> DoctorExpenseItems { get; set; }
         public virtual DbSet<Expense> Expenses { get; set; }
@@ -221,7 +221,7 @@ namespace clinic_api.Data
                     .WithMany(p => p.BookingServices)
                     .HasForeignKey(d => d.ServiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BookingServices_ClinicServices");
+                    .HasConstraintName("FK_BookingServices_DoctorServices");
             });
 
             modelBuilder.Entity<Booking>(entity =>
@@ -240,11 +240,6 @@ namespace clinic_api.Data
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Discount)
-                    .WithMany(p => p.Bookings)
-                    .HasForeignKey(d => d.DiscountId)
-                    .HasConstraintName("FK_Bookings_ClinicDiscounts");
-
                 entity.HasOne(d => d.Patient)
                     .WithMany(p => p.Bookings)
                     .HasForeignKey(d => d.PatientId)
@@ -261,7 +256,12 @@ namespace clinic_api.Data
                     .WithMany(p => p.Bookings)
                     .HasForeignKey(d => d.TypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Bookings_ClinicBookingTypes");
+                    .HasConstraintName("FK_Bookings_DoctorBookingTypes");
+
+                entity.HasOne(d => d.Discount)
+                    .WithMany(p => p.Bookings)
+                    .HasForeignKey(d => d.DiscountId)
+                    .HasConstraintName("FK_Bookings_DoctorDiscounts");
             });
 
             modelBuilder.Entity<ChatMessage>(entity =>
@@ -281,57 +281,6 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.ReceiverId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_MessagesReceived_AspNetUsers");
-            });
-
-            modelBuilder.Entity<ClinicBookingType>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
-
-                entity.Property(e => e.Type).IsRequired();
-
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Clinic)
-                    .WithMany(p => p.ClinicBookingTypes)
-                    .HasForeignKey(d => d.ClinicId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ClinicBookingTypes_Clinics");
-            });
-
-            modelBuilder.Entity<ClinicDiscount>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Discount).IsRequired();
-
-                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
-
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Clinic)
-                    .WithMany(p => p.ClinicDiscounts)
-                    .HasForeignKey(d => d.ClinicId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ClinicDiscounts_Clinics");
-            });
-
-            modelBuilder.Entity<ClinicService>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
-
-                entity.Property(e => e.Service).IsRequired();
-
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Clinic)
-                    .WithMany(p => p.ClinicServices)
-                    .HasForeignKey(d => d.ClinicId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ClinicServices_Clinics");
             });
 
             modelBuilder.Entity<ClinicUser>(entity =>
@@ -384,7 +333,6 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.EntryOrderId)
                     .HasConstraintName("FK_Clinics_SysEntryOrderValues");
 
-                // Each Clinic can have many entries in the ClinicUsers join table
                 entity.HasMany(e => e.ClinicUsers)
                     .WithOne(e => e.Clinic)
                     .HasForeignKey(ur => ur.ClinicId)
@@ -641,6 +589,57 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.SpecialtyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Doctors_SysDoctorsSpecialties");
+            });
+
+            modelBuilder.Entity<DoctorBookingType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Type).IsRequired();
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorBookingTypes)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorBookingTypes_Doctors");
+            });
+
+            modelBuilder.Entity<DoctorDiscount>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Discount).IsRequired();
+
+                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorDiscounts)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorDiscounts_Doctors");
+            });
+
+            modelBuilder.Entity<DoctorService>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Service).IsRequired();
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.DoctorServices)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DoctorServices_Doctors");
             });
 
             modelBuilder.Entity<DoctorExpense>(entity =>

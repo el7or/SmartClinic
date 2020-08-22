@@ -170,9 +170,10 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             var patient = await _context.Patients.Where(i => i.Id == patientId && i.IsDeleted != true)
-                .Include(c => c.Clinic).ThenInclude(t => t.ClinicBookingTypes)
-                .Include(c => c.Clinic).ThenInclude(s => s.ClinicServices)
-                .Include(c => c.Clinic).ThenInclude(d => d.ClinicDiscounts)
+                .Include(c => c.Clinic)
+                .Include(c => c.Doctor).ThenInclude(t => t.DoctorBookingTypes)
+                .Include(c => c.Doctor).ThenInclude(s => s.DoctorServices)
+                .Include(c => c.Doctor).ThenInclude(d => d.DoctorDiscounts)
                 .Include(b => b.Bookings).ThenInclude(t => t.Type).FirstOrDefaultAsync();
             var patientLastBooking = patient.Bookings.Where(b => b.Id != bookingId).OrderByDescending(d => d.BookingDateTime).FirstOrDefault();
             int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
@@ -193,9 +194,9 @@ namespace clinic_api.Controllers
                     ClinicConsultExpiration = patient.Clinic.ConsultExpiration,
                     ClinicDayTimeFrom = (bool)patient.Clinic.IsAllDaysSameTime ? patient.Clinic.AllDaysTimeFrom : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeFrom").GetValue(patient.Clinic, null),
                     ClinicDayTimeTo = (bool)patient.Clinic.IsAllDaysSameTime ? patient.Clinic.AllDaysTimeTo : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeTo").GetValue(patient.Clinic, null),
-                    ClinicBookingTypes = patient.Clinic.ClinicBookingTypes.Select(t => new BookingType { Id = t.Id, Type = t.Text, Price = t.Price }).ToList(),
-                    ClinicBookingServices = patient.Clinic.ClinicServices.Select(t => new ServiceType { Id = t.Id, Service = t.Service, Price = t.Price }).ToList(),
-                    ClinicBookingDiscounts = patient.Clinic.ClinicDiscounts.Select(t => new DiscountType { Id = t.Id, Discount = t.Discount, Price = t.Price, IsPercent = t.IsPercent }).ToList(),
+                    DoctorBookingTypes = patient.Doctor.DoctorBookingTypes.Select(t => new BookingType { Id = t.Id, Type = t.Text, Price = t.Price }).ToList(),
+                    DoctorBookingServices = patient.Doctor.DoctorServices.Select(t => new ServiceType { Id = t.Id, Service = t.Service, Price = t.Price }).ToList(),
+                    DoctorBookingDiscounts = patient.Doctor.DoctorDiscounts.Select(t => new DiscountType { Id = t.Id, Discount = t.Discount, Price = t.Price, IsPercent = t.IsPercent }).ToList(),
                     DoctorAllBookingSameDay = _context.Bookings.Where(b => b.Patient.DoctorId == patient.DoctorId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date && b.IsCanceled != true)
                     .Include(t => t.Type).Include(p => p.Patient).OrderBy(t => t.BookingDateTime).Select(b => new BookingBrief
                     {

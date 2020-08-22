@@ -7,10 +7,7 @@ namespace clinic_api.Models
     public partial class Clinic
     {
         public Clinic()
-        {
-            ClinicBookingTypes = new HashSet<ClinicBookingType>();
-            ClinicDiscounts = new HashSet<ClinicDiscount>();
-            ClinicServices = new HashSet<ClinicService>();
+        {            
             ClinicUsers = new HashSet<ClinicUser>();
             DoctorClinics = new HashSet<DoctorClinic>();
             Patients = new HashSet<Patient>();
@@ -67,9 +64,6 @@ namespace clinic_api.Models
         public DateTime? FridayTimeTo { get; set; }
 
         public virtual SysEntryOrderValue EntryOrder { get; set; }
-        public virtual ICollection<ClinicBookingType> ClinicBookingTypes { get; set; }
-        public virtual ICollection<ClinicDiscount> ClinicDiscounts { get; set; }
-        public virtual ICollection<ClinicService> ClinicServices { get; set; }
         public virtual ICollection<ClinicUser> ClinicUsers { get; set; }
         public virtual ICollection<DoctorClinic> DoctorClinics { get; set; }
         public virtual ICollection<Patient> Patients { get; set; }

@@ -21,9 +21,9 @@ namespace clinic_api.DTOs
         public int? ClinicConsultExpiration { get; set; }
         public DateTime? ClinicDayTimeFrom { get; set; }
         public DateTime? ClinicDayTimeTo { get; set; }
-        public List<BookingType> ClinicBookingTypes { get; set; }
-        public List<ServiceType> ClinicBookingServices { get; set; }
-        public List<DiscountType> ClinicBookingDiscounts { get; set; }
+        public List<BookingType> DoctorBookingTypes { get; set; }
+        public List<ServiceType> DoctorBookingServices { get; set; }
+        public List<DiscountType> DoctorBookingDiscounts { get; set; }
         public List<BookingBrief> DoctorAllBookingSameDay { get; set; }
     }
     public class BookingDetails

@@ -51,18 +51,18 @@
             <label for="input-bookingType" class="label"><span langg>Booking Type</span>:</label>
             <nb-select fullWidth formControlName="type" [placeholder]="'Booking Type' | langg"
               (selectedChange)="onChangeType($event)" [status]="form?.get('type').invalid ? 'danger' : 'success'">
-              <nb-option *ngFor="let item of bookingSetting?.clinicBookingTypes" [value]="item.id">
+              <nb-option *ngFor="let item of bookingSetting?.doctorBookingTypes" [value]="item.id">
                 {{item.type}}<span
                   *ngIf="item.type != 'خدمة فقط'">&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</span>
               </nb-option>
             </nb-select>
           </div>
-          <div class="form-control-group" *ngIf="bookingSetting?.clinicBookingServices?.length">
+          <div class="form-control-group" *ngIf="bookingSetting?.doctorBookingServices?.length">
             <label for="input-bookingService" class="label"><span langg>Add Service</span>:</label>
             <nb-select multiple fullWidth formControlName="services" (selectedChange)="onChangeService($event)"
               [placeholder]="'Add Service' | langg"
               [status]="form?.get('services').invalid ? 'danger' : ( form?.value.services?.length ? 'success':'')">
-              <nb-option *ngFor="let item of bookingSetting?.clinicBookingServices" [value]="item.id">
+              <nb-option *ngFor="let item of bookingSetting?.doctorBookingServices" [value]="item.id">
                 {{item.service | langg}}&nbsp;-&nbsp;{{item.price}}&nbsp;{{'EGP' | langg}}</nb-option>
             </nb-select>
             <ng-container *ngIf="form?.get('services').invalid && form?.get('services').dirty">
@@ -70,15 +70,15 @@
                 required if Booking Type is Just Service!</p>
             </ng-container>
           </div>
-          <nb-alert accent="info" class="text-nowrap" *ngIf="bookingSetting?.clinicBookingDiscounts?.length">
+          <nb-alert accent="info" class="text-nowrap" *ngIf="bookingSetting?.doctorBookingDiscounts?.length">
             <label><span langg>Price</span>:<u>&nbsp;{{bookingTypePrice + bookingServicesPrice | number:'0.0-0' }}
                 {{'EGP' | langg}}</u></label>
           </nb-alert>
-          <div class="form-control-group" *ngIf="bookingSetting?.clinicBookingDiscounts?.length">
+          <div class="form-control-group" *ngIf="bookingSetting?.doctorBookingDiscounts?.length">
             <label for="input-discount" class="label"><span langg>Discount</span>:</label>
             <nb-select fullWidth formControlName="discount" [placeholder]="'Discount' | langg"
               (selectedChange)="onChangeDiscount($event)" [status]="form?.value.discount ? 'success' : ''">
-              <nb-option *ngFor="let item of bookingSetting?.clinicBookingDiscounts" [value]="item.id">
+              <nb-option *ngFor="let item of bookingSetting?.doctorBookingDiscounts" [value]="item.id">
                 {{item.discount | langg}}<span>&nbsp;-&nbsp;{{item.price}}&nbsp;{{ item.isPercent ? '%' : ('EGP' | langg)}}</span>
               </nb-option>
             </nb-select>

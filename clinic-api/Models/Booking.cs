@@ -33,10 +33,10 @@ namespace clinic_api.Models
         public DateTime UpdatedOn { get; set; }
         public Guid UpdatedBy { get; set; }
 
-        public virtual ClinicDiscount Discount { get; set; }
+        public virtual DoctorDiscount Discount { get; set; }
         public virtual Patient Patient { get; set; }
         public virtual Doctor Doctor { get; set; }
-        public virtual ClinicBookingType Type { get; set; }
+        public virtual DoctorBookingType Type { get; set; }
         public virtual ICollection<BookingPayment> BookingPayments { get; set; }
         public virtual ICollection<BookingService> BookingServices { get; set; }
     }

@@ -124,7 +124,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
               ? new Date(this.bookingSetting.clinicDayTimeFrom)
               : new Date(this.bookingDetails.bookingDateTime),
             type: !this.bookId
-              ? this.bookingSetting.clinicBookingTypes[0].id
+              ? this.bookingSetting.doctorBookingTypes[0].id
               : this.bookingDetails.bookingTypeId,
             services: !this.bookId
               ? []
@@ -145,7 +145,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
               .get("type")
               .patchValue(
                 !this.bookId
-                  ? this.bookingSetting.clinicBookingTypes[0].id
+                  ? this.bookingSetting.doctorBookingTypes[0].id
                   : this.bookingDetails.bookingTypeId
               );
             this.form
@@ -161,15 +161,15 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
           }, 0);
 
           // =====> add chosen type & services prices & discount price to total price:
-          this.bookingTypePrice = this.bookingSetting.clinicBookingTypes.find(
+          this.bookingTypePrice = this.bookingSetting.doctorBookingTypes.find(
             (t) => t.id == this.form.value.type
           ).price;
           if (this.bookId) {
-            this.bookingServicesPrice = this.bookingSetting.clinicBookingServices
+            this.bookingServicesPrice = this.bookingSetting.doctorBookingServices
               .filter((s) => this.form.value.services.some((i) => i == s.id))
               .reduce((acc, service) => acc + service.price, 0);
 
-            const discount = this.bookingSetting.clinicBookingDiscounts.find(
+            const discount = this.bookingSetting.doctorBookingDiscounts.find(
               (t) => t.id == this.form.value.discount
             );
             if (discount) {
@@ -347,7 +347,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
 
   onChangeType(typeId) {
     //this.form.patchValue({ paid: 0 });
-    const type = this.bookingSetting.clinicBookingTypes.find(
+    const type = this.bookingSetting.doctorBookingTypes.find(
       (t) => t.id == typeId
     ).type;
 
@@ -359,7 +359,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       );
       if (daysFromLastDiagnose > this.bookingSetting.clinicConsultExpiration) {
         this.expiredSwal.fire();
-        /* this.form.get("type").patchValue(this.bookingSetting.clinicBookingTypes[0].id); */
+        /* this.form.get("type").patchValue(this.bookingSetting.doctorBookingTypes[0].id); */
       }
     }
 
@@ -372,21 +372,21 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
       this.form.get("services").updateValueAndValidity();
     }
     // =====> add chosen type price to total price:
-    this.bookingTypePrice = this.bookingSetting.clinicBookingTypes.find(
+    this.bookingTypePrice = this.bookingSetting.doctorBookingTypes.find(
       (t) => t.id == this.form.value.type
     ).price;
   }
 
   onChangeService(services: number[]) {
     // =====> add chosen services price to total price:
-    this.bookingServicesPrice = this.bookingSetting.clinicBookingServices
+    this.bookingServicesPrice = this.bookingSetting.doctorBookingServices
       .filter((s) => services.some((i) => i == s.id))
       .reduce((acc, service) => acc + service.price, 0);
   }
 
   // =====> add chosen discount price to total price:
   onChangeDiscount(discountId) {
-    const discount = this.bookingSetting.clinicBookingDiscounts.find(
+    const discount = this.bookingSetting.doctorBookingDiscounts.find(
       (t) => t.id == discountId
     );
     this.bookingDiscountPrice = discount.isPercent

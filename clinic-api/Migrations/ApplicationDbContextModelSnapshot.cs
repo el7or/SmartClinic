@@ -551,142 +551,6 @@ namespace clinic_api.Migrations
                     b.ToTable("Clinics");
                 });
 
-            modelBuilder.Entity("clinic_api.Models.ClinicBookingType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid>("ClinicId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClinicId");
-
-                    b.ToTable("ClinicBookingTypes");
-                });
-
-            modelBuilder.Entity("clinic_api.Models.ClinicDiscount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid>("ClinicId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Discount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsPercent")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClinicId");
-
-                    b.ToTable("ClinicDiscounts");
-                });
-
-            modelBuilder.Entity("clinic_api.Models.ClinicService", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid>("ClinicId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<string>("Service")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClinicId");
-
-                    b.ToTable("ClinicServices");
-                });
-
             modelBuilder.Entity("clinic_api.Models.ClinicUser", b =>
                 {
                     b.Property<Guid>("ClinicId")
@@ -832,6 +696,53 @@ namespace clinic_api.Migrations
                     b.ToTable("DoctorAnalysisValues");
                 });
 
+            modelBuilder.Entity("clinic_api.Models.DoctorBookingType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorBookingTypes");
+                });
+
             modelBuilder.Entity("clinic_api.Models.DoctorClinic", b =>
                 {
                     b.Property<Guid>("DoctorId")
@@ -965,6 +876,52 @@ namespace clinic_api.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("DoctorDiagnosisValues");
+                });
+
+            modelBuilder.Entity("clinic_api.Models.DoctorDiscount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Discount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsPercent")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorDiscounts");
                 });
 
             modelBuilder.Entity("clinic_api.Models.DoctorExaminationAreasValue", b =>
@@ -1434,6 +1391,49 @@ namespace clinic_api.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("DoctorRaysValues");
+                });
+
+            modelBuilder.Entity("clinic_api.Models.DoctorService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("Service")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorServices");
                 });
 
             modelBuilder.Entity("clinic_api.Models.Expense", b =>
@@ -2983,10 +2983,10 @@ namespace clinic_api.Migrations
 
             modelBuilder.Entity("clinic_api.Models.Booking", b =>
                 {
-                    b.HasOne("clinic_api.Models.ClinicDiscount", "Discount")
+                    b.HasOne("clinic_api.Models.DoctorDiscount", "Discount")
                         .WithMany("Bookings")
                         .HasForeignKey("DiscountId")
-                        .HasConstraintName("FK_Bookings_ClinicDiscounts");
+                        .HasConstraintName("FK_Bookings_DoctorDiscounts");
 
                     b.HasOne("clinic_api.Models.Doctor", "Doctor")
                         .WithMany("Bookings")
@@ -3000,10 +3000,10 @@ namespace clinic_api.Migrations
                         .HasConstraintName("FK_Bookings_Patients")
                         .IsRequired();
 
-                    b.HasOne("clinic_api.Models.ClinicBookingType", "Type")
+                    b.HasOne("clinic_api.Models.DoctorBookingType", "Type")
                         .WithMany("Bookings")
                         .HasForeignKey("TypeId")
-                        .HasConstraintName("FK_Bookings_ClinicBookingTypes")
+                        .HasConstraintName("FK_Bookings_DoctorBookingTypes")
                         .IsRequired();
                 });
 
@@ -3024,10 +3024,10 @@ namespace clinic_api.Migrations
                         .HasConstraintName("FK_BookingServices_Bookings")
                         .IsRequired();
 
-                    b.HasOne("clinic_api.Models.ClinicService", "Service")
+                    b.HasOne("clinic_api.Models.DoctorService", "Service")
                         .WithMany("BookingServices")
                         .HasForeignKey("ServiceId")
-                        .HasConstraintName("FK_BookingServices_ClinicServices")
+                        .HasConstraintName("FK_BookingServices_DoctorServices")
                         .IsRequired();
                 });
 
@@ -3054,33 +3054,6 @@ namespace clinic_api.Migrations
                         .WithMany("Clinics")
                         .HasForeignKey("EntryOrderId")
                         .HasConstraintName("FK_Clinics_SysEntryOrderValues");
-                });
-
-            modelBuilder.Entity("clinic_api.Models.ClinicBookingType", b =>
-                {
-                    b.HasOne("clinic_api.Models.Clinic", "Clinic")
-                        .WithMany("ClinicBookingTypes")
-                        .HasForeignKey("ClinicId")
-                        .HasConstraintName("FK_ClinicBookingTypes_Clinics")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("clinic_api.Models.ClinicDiscount", b =>
-                {
-                    b.HasOne("clinic_api.Models.Clinic", "Clinic")
-                        .WithMany("ClinicDiscounts")
-                        .HasForeignKey("ClinicId")
-                        .HasConstraintName("FK_ClinicDiscounts_Clinics")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("clinic_api.Models.ClinicService", b =>
-                {
-                    b.HasOne("clinic_api.Models.Clinic", "Clinic")
-                        .WithMany("ClinicServices")
-                        .HasForeignKey("ClinicId")
-                        .HasConstraintName("FK_ClinicServices_Clinics")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("clinic_api.Models.ClinicUser", b =>
@@ -3119,6 +3092,15 @@ namespace clinic_api.Migrations
                         .WithMany("DoctorAnalysisValues")
                         .HasForeignKey("DoctorId")
                         .HasConstraintName("FK_DoctorAnalysisValues_Doctors")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("clinic_api.Models.DoctorBookingType", b =>
+                {
+                    b.HasOne("clinic_api.Models.Doctor", "Doctor")
+                        .WithMany("DoctorBookingTypes")
+                        .HasForeignKey("DoctorId")
+                        .HasConstraintName("FK_DoctorBookingTypes_Doctors")
                         .IsRequired();
                 });
 
@@ -3161,6 +3143,15 @@ namespace clinic_api.Migrations
                         .WithMany("DoctorDiagnosisValues")
                         .HasForeignKey("DoctorId")
                         .HasConstraintName("FK_DoctorDiagnosisValues_Doctors")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("clinic_api.Models.DoctorDiscount", b =>
+                {
+                    b.HasOne("clinic_api.Models.Doctor", "Doctor")
+                        .WithMany("DoctorDiscounts")
+                        .HasForeignKey("DoctorId")
+                        .HasConstraintName("FK_DoctorDiscounts_Doctors")
                         .IsRequired();
                 });
 
@@ -3287,6 +3278,15 @@ namespace clinic_api.Migrations
                         .WithMany("DoctorRaysValues")
                         .HasForeignKey("DoctorId")
                         .HasConstraintName("FK_DoctorRaysValues_Doctors")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("clinic_api.Models.DoctorService", b =>
+                {
+                    b.HasOne("clinic_api.Models.Doctor", "Doctor")
+                        .WithMany("DoctorServices")
+                        .HasForeignKey("DoctorId")
+                        .HasConstraintName("FK_DoctorServices_Doctors")
                         .IsRequired();
                 });
 

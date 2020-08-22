@@ -26,6 +26,9 @@ namespace clinic_api.Models
             Patients = new HashSet<Patient>();
             Bookings = new HashSet<Booking>();
             DoctorExpenses = new HashSet<DoctorExpense>();
+            DoctorBookingTypes = new HashSet<DoctorBookingType>();
+            DoctorDiscounts = new HashSet<DoctorDiscount>();
+            DoctorServices = new HashSet<DoctorService>();
         }
 
         public Guid Id { get; set; }
@@ -96,5 +99,8 @@ namespace clinic_api.Models
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<DoctorExpense> DoctorExpenses { get; set; }
         public virtual ICollection<DoctorExpenseItemValue> DoctorExpenseItems { get; set; }
+        public virtual ICollection<DoctorBookingType> DoctorBookingTypes { get; set; }
+        public virtual ICollection<DoctorDiscount> DoctorDiscounts { get; set; }
+        public virtual ICollection<DoctorService> DoctorServices { get; set; }
     }
 }

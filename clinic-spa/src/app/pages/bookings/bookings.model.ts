@@ -12,9 +12,9 @@ export interface BookingSetting{
   clinicConsultExpiration:number;
   clinicDayTimeFrom:Date;
   clinicDayTimeTo:Date;
-  clinicBookingTypes:BookingType[];
-  clinicBookingServices:BookingService[];
-  clinicBookingDiscounts:BookingDiscount[];
+  doctorBookingTypes:BookingType[];
+  doctorBookingServices:BookingService[];
+  doctorBookingDiscounts:BookingDiscount[];
   doctorAllBookingSameDay:BookingBrief[];
 }
 export interface BookingType{

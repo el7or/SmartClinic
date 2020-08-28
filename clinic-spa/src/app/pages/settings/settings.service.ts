@@ -29,7 +29,7 @@ export class SettingsService {
         "Clinic/GetBookingSetting/" +
         this.authService.userId +
         "/" +
-        this.authService.clinicId
+        this.authService.doctorId
     );
   }
   saveBookingSetting(bookingSetting: SetBookingSetting) {
@@ -67,7 +67,7 @@ export class SettingsService {
         "Clinic/GetPrintSetting/" +
         this.authService.userId +
         "/" +
-        this.authService.clinicId
+        this.authService.doctorId
     );
   }
   savePrintSetting(printSetting: SetPrintSetting) {

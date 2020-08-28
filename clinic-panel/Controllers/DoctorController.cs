@@ -290,10 +290,10 @@ namespace clinic_panel.Controllers
                 clinic.Doctors.Add(doctor);
                 clinic.AspNetUsers.Add(user);
                 db.Clinics.Add(clinic);
-                var newBookingTypes = new List<ClinicBookingType>() {
-                    new ClinicBookingType
+                var newBookingTypes = new List<DoctorBookingType>() {
+                    new DoctorBookingType
                     {
-                        Clinic = clinic,
+                        Doctor = doctor,
                         Type = "diagnose",
                         Text = "كشف",
                         Price = model.DiagnosePrice,
@@ -304,9 +304,9 @@ namespace clinic_panel.Controllers
                         UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
                         UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                     },
-                    new ClinicBookingType
+                    new DoctorBookingType
                     {
-                        Clinic = clinic,
+                        Doctor = doctor,
                         Type = "consult",
                         Text = "استشارة",
                         Price = model.ConsultPrice,
@@ -317,9 +317,9 @@ namespace clinic_panel.Controllers
                         UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
                         UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                     },
-                    new ClinicBookingType
+                    new DoctorBookingType
                     {
-                        Clinic = clinic,
+                        Doctor = doctor,
                         Type = "justService",
                         Text = "خدمة فقط",
                         Price = 0,
@@ -331,7 +331,7 @@ namespace clinic_panel.Controllers
                         UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
                     }
                 };
-                db.ClinicBookingTypes.AddRange(newBookingTypes);
+                db.DoctorBookingTypes.AddRange(newBookingTypes);
                 db.SaveChanges();
                 TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
                 return RedirectToAction("Index");

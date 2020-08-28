@@ -32,7 +32,7 @@ export interface GetBookingSetting {
 }
 
 export interface SetBookingSetting {
-  clinicId: string;
+  doctorId: string;
   entryOrderId?: number;
   bookingPeriod?: number;
   consultExpiration?: number;
@@ -92,7 +92,7 @@ export interface GetPrintSetting {
   address3?: string;
 }
 export interface SetPrintSetting {
-  clinicId: string;
+  doctorId: string;
   doctorName?: string;
   doctorDegree?: string;
   clinicTitle?: string;

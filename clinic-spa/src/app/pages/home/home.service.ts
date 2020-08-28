@@ -19,9 +19,7 @@ export class HomeService {
         "Booking/GetHomeBookings/" +
         this.authService.userId +
         "/" +
-        this.authService.doctorId +
-        "/" +
-        this.authService.clinicId
+        this.authService.doctorId
     );
   }
 

@@ -68,9 +68,7 @@ export class BookingsService {
     return this.http.put(
       this.baseUrl +
         "Booking/" +
-        this.authService.userId +
-        "/" +
-        this.authService.clinicId,
+        this.authService.userId,
       booking
     );
   }

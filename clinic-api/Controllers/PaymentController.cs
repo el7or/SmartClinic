@@ -32,10 +32,9 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var clinic = await _context.Clinics.Where(c => c.DoctorClinics.Any(d => d.DoctorId == doctorId))
-                .Include(c => c.DoctorClinics).Include(e => e.EntryOrder).FirstOrDefaultAsync();
+            var doctor = await _context.Doctors.Where(d => d.Id == doctorId).Include(e => e.EntryOrder).FirstOrDefaultAsync();
             int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
-            int[] weekEnds = weekDays.Except(clinic.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray();
+            int[] weekEnds = weekDays.Except(doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray();
 
             var paymentList = await _context.BookingPayments
                 .Where(p => p.Booking.DoctorId == doctorId && p.Booking.IsCanceled != true && p.Booking.Patient.IsDeleted != true && p.CreatedOn.Date == DateTime.Parse(paymentDate).Date)

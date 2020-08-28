@@ -15,156 +15,156 @@ namespace clinic_panel.Controllers
     {
         private SmartClinicDBContext db = new SmartClinicDBContext();
 
-        // GET: Clinic/Prices/5
-        public ActionResult Prices(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var prices = new ClinicPriceDTO
-            {
-                Id = id,
-                BookingTypePrices = db.ClinicBookingTypes.Where(c => c.ClinicId == id && c.IsDeleted != true && c.Type != "justService").OrderBy(c => c.CreatedOn).Select(t => new BookingTypePrice
-                {
-                    Id = t.Id,
-                    Type = t.Text,
-                    Price = t.Price
-                }).ToList(),
-                ServicePrices = db.ClinicServices.Where(c => c.ClinicId == id && c.IsDeleted != true).OrderBy(c => c.CreatedOn).Select(t => new ServicePrice
-                {
-                    Id = t.Id,
-                    Service = t.Service,
-                    Price = t.Price
-                }).ToList(),
-                DiscountPrices = db.ClinicDiscounts.Where(c => c.ClinicId == id && c.IsDeleted != true).OrderBy(c => c.CreatedOn).Select(t => new DiscountPrice
-                {
-                    Id = t.Id,
-                    Discount = t.Discount,
-                    Price = t.Price,
-                    IsPercent = t.IsPercent
-                }).ToList(),
-            };
-            ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
-            return View(prices);
-        }
+        //// GET: Clinic/Prices/5
+        //public ActionResult Prices(Guid? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    var prices = new ClinicPriceDTO
+        //    {
+        //        Id = id,
+        //        BookingTypePrices = db.ClinicBookingTypes.Where(c => c.ClinicId == id && c.IsDeleted != true && c.Type != "justService").OrderBy(c => c.CreatedOn).Select(t => new BookingTypePrice
+        //        {
+        //            Id = t.Id,
+        //            Type = t.Text,
+        //            Price = t.Price
+        //        }).ToList(),
+        //        ServicePrices = db.ClinicServices.Where(c => c.ClinicId == id && c.IsDeleted != true).OrderBy(c => c.CreatedOn).Select(t => new ServicePrice
+        //        {
+        //            Id = t.Id,
+        //            Service = t.Service,
+        //            Price = t.Price
+        //        }).ToList(),
+        //        DiscountPrices = db.ClinicDiscounts.Where(c => c.ClinicId == id && c.IsDeleted != true).OrderBy(c => c.CreatedOn).Select(t => new DiscountPrice
+        //        {
+        //            Id = t.Id,
+        //            Discount = t.Discount,
+        //            Price = t.Price,
+        //            IsPercent = t.IsPercent
+        //        }).ToList(),
+        //    };
+        //    ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
+        //    return View(prices);
+        //}
 
-        // GET: Clinic/CreateBookingType/5
-        public ActionResult CreateBookingType(Guid id)
-        {
-            var model = new ClinicCreateBookingTypeDTO
-            {
-                ClinicId = id
-            };
-            ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
-            return View(model);
-        }
+        //// GET: Clinic/CreateBookingType/5
+        //public ActionResult CreateBookingType(Guid id)
+        //{
+        //    var model = new ClinicCreateBookingTypeDTO
+        //    {
+        //        ClinicId = id
+        //    };
+        //    ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
+        //    return View(model);
+        //}
 
-        // POST: Clinic/CreateBookingType
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateBookingType(ClinicCreateBookingTypeDTO model)
-        {
-            if (ModelState.IsValid)
-            {
-                var type = new ClinicBookingType
-                {
-                    ClinicId = model.ClinicId,
-                    Type = model.Type,
-                    Text = model.Type,
-                    Price = model.Price,
-                    IsActive = true,
-                    IsDeleted = false,
-                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
-                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
-                };
-                db.ClinicBookingTypes.Add(type);
-                db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
-                return RedirectToAction("Prices", new { id = model.ClinicId });
-            }
-            return View(model);
-        }
+        //// POST: Clinic/CreateBookingType
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult CreateBookingType(ClinicCreateBookingTypeDTO model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var type = new ClinicBookingType
+        //        {
+        //            ClinicId = model.ClinicId,
+        //            Type = model.Type,
+        //            Text = model.Type,
+        //            Price = model.Price,
+        //            IsActive = true,
+        //            IsDeleted = false,
+        //            CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+        //            CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+        //            UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+        //            UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
+        //        };
+        //        db.ClinicBookingTypes.Add(type);
+        //        db.SaveChanges();
+        //        TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+        //        return RedirectToAction("Prices", new { id = model.ClinicId });
+        //    }
+        //    return View(model);
+        //}
 
-        // GET: Clinic/CreateService/5
-        public ActionResult CreateService(Guid id)
-        {
-            var model = new ClinicCreateServiceDTO
-            {
-                ClinicId = id
-            };
-            ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
-            return View(model);
-        }
+        //// GET: Clinic/CreateService/5
+        //public ActionResult CreateService(Guid id)
+        //{
+        //    var model = new ClinicCreateServiceDTO
+        //    {
+        //        ClinicId = id
+        //    };
+        //    ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
+        //    return View(model);
+        //}
 
-        // POST: Clinic/CreateService
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateService(ClinicCreateServiceDTO model)
-        {
-            if (ModelState.IsValid)
-            {
-                var service = new ClinicService
-                {
-                    ClinicId = model.ClinicId,
-                    Service = model.Service,
-                    Price = model.Price,
-                    IsActive = true,
-                    IsDeleted = false,
-                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
-                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
-                };
-                db.ClinicServices.Add(service);
-                db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
-                return RedirectToAction("Prices", new { id = model.ClinicId });
-            }
-            return View(model);
-        }
+        //// POST: Clinic/CreateService
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult CreateService(ClinicCreateServiceDTO model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var service = new ClinicService
+        //        {
+        //            ClinicId = model.ClinicId,
+        //            Service = model.Service,
+        //            Price = model.Price,
+        //            IsActive = true,
+        //            IsDeleted = false,
+        //            CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+        //            CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+        //            UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+        //            UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
+        //        };
+        //        db.ClinicServices.Add(service);
+        //        db.SaveChanges();
+        //        TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+        //        return RedirectToAction("Prices", new { id = model.ClinicId });
+        //    }
+        //    return View(model);
+        //}
 
-        // GET: Clinic/CreateDiscount/5
-        public ActionResult CreateDiscount(Guid id)
-        {
-            var model = new ClinicCreateDiscountDTO
-            {
-                ClinicId = id,
-                IsPercent = false
-            };
-            ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
-            return View(model);
-        }
+        //// GET: Clinic/CreateDiscount/5
+        //public ActionResult CreateDiscount(Guid id)
+        //{
+        //    var model = new ClinicCreateDiscountDTO
+        //    {
+        //        ClinicId = id,
+        //        IsPercent = false
+        //    };
+        //    ViewBag.ClinicName = db.Clinics.Find(id).ClinicName;
+        //    return View(model);
+        //}
 
-        // POST: Clinic/CreateDiscount
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateDiscount(ClinicCreateDiscountDTO model)
-        {
-            if (ModelState.IsValid)
-            {
-                var discount = new ClinicDiscount
-                {
-                    ClinicId = model.ClinicId,
-                    Discount = model.Discount,
-                    Price = model.Price,
-                    IsPercent = model.IsPercent,
-                    IsActive = true,
-                    IsDeleted = false,
-                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
-                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
-                };
-                db.ClinicDiscounts.Add(discount);
-                db.SaveChanges();
-                TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
-                return RedirectToAction("Prices", new { id = model.ClinicId });
-            }
-            return View(model);
-        }
+        //// POST: Clinic/CreateDiscount
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult CreateDiscount(ClinicCreateDiscountDTO model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var discount = new ClinicDiscount
+        //        {
+        //            ClinicId = model.ClinicId,
+        //            Discount = model.Discount,
+        //            Price = model.Price,
+        //            IsPercent = model.IsPercent,
+        //            IsActive = true,
+        //            IsDeleted = false,
+        //            CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+        //            CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+        //            UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+        //            UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
+        //        };
+        //        db.ClinicDiscounts.Add(discount);
+        //        db.SaveChanges();
+        //        TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+        //        return RedirectToAction("Prices", new { id = model.ClinicId });
+        //    }
+        //    return View(model);
+        //}
 
         //// GET: Clinic
         //public ActionResult Index()

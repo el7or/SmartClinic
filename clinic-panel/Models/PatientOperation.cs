@@ -21,11 +21,11 @@ namespace clinic_panel.Models
         public string Place { get; set; }
         public Nullable<decimal> Cost { get; set; }
         public string Note { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public System.Guid CreatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual DoctorOperationTypesValue DoctorOperationTypesValue { get; set; }
         public virtual Patient Patient { get; set; }

@@ -77,6 +77,7 @@ export interface BookingNew{
 export interface BookingEdit {
   bookingId:number;
   doctorId:string;
+  clinicId:string;
   bookingDateTime: string;
   typeId: number;
   servicesIds?: number[];

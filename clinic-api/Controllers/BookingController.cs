@@ -35,10 +35,9 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var clinic = await _context.Clinics.Where(c => c.DoctorClinics.Any(d => d.DoctorId == doctorId))
-                .Include(c => c.DoctorClinics).Include(e => e.EntryOrder).FirstOrDefaultAsync();
+            var doctor = await _context.Doctors.Where(d => d.Id == doctorId).Include(e => e.EntryOrder).FirstOrDefaultAsync();
             int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
-            int[] weekEnds = weekDays.Except(clinic.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray();
+            int[] weekEnds = weekDays.Except(doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray();
 
             var bookingList = await _context.Bookings.Where(b => b.Patient.DoctorId == doctorId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date)
                 .Include(p => p.Patient).Include(t => t.Type).Include(s => s.BookingServices).Include(d => d.Discount).Include(p => p.BookingPayments)
@@ -67,7 +66,7 @@ namespace clinic_api.Controllers
             {
                 BookingsList = bookingList,
                 WeekEnds = weekEnds,
-                SortBookingsByText = clinic.EntryOrder.Value
+                SortBookingsByText = doctor.EntryOrder.Value
             };
 
             return model;
@@ -127,14 +126,14 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Booking
-        [HttpGet("GetHomeBookings/{id}/{doctorId}/{clinicId}")]
-        public async Task<IActionResult> GetHomeBookings(Guid id, Guid doctorId, Guid clinicId)
+        [HttpGet("GetHomeBookings/{id}/{doctorId}")]
+        public async Task<IActionResult> GetHomeBookings(Guid id, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var doctor = _context.Doctors.Find(doctorId);
+            var doctor = await _context.Doctors.FindAsync(doctorId);
             var calBookingEvents = _context.Bookings.Include(p => p.Patient).Where(b => b.DoctorId == doctorId && b.IsCanceled != true && b.Patient.IsDeleted != true)
                 .GroupBy(b => b.BookingDateTime.Date)
                 .Select(b => new
@@ -151,12 +150,11 @@ namespace clinic_api.Controllers
                     Start = b.Key.ToString("yyyy-MM-dd"),
                     Description = doctor.FullName
                 }).ToList();
-            var clinic = await _context.Clinics.FindAsync(clinicId);
             int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
             var model = new
             {
                 CalendarEvents = calBookingEvents.Concat(calOperationEvents),
-                WeekEnds = weekDays.Except(clinic.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray()
+                WeekEnds = weekDays.Except(doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray()
             };
             return Ok(model);
         }
@@ -170,7 +168,6 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             var patient = await _context.Patients.Where(i => i.Id == patientId && i.IsDeleted != true)
-                .Include(c => c.Clinic)
                 .Include(c => c.Doctor).ThenInclude(t => t.DoctorBookingTypes)
                 .Include(c => c.Doctor).ThenInclude(s => s.DoctorServices)
                 .Include(c => c.Doctor).ThenInclude(d => d.DoctorDiscounts)
@@ -189,11 +186,11 @@ namespace clinic_api.Controllers
                     PatientName = patient.FullName,
                     PatientLastBookingDate = patientLastBooking?.BookingDateTime,
                     PatientLastBookingType = patientLastBooking?.Type.Text,
-                    ClinicWeekEnds = weekDays.Except(patient.Clinic.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray(),
-                    ClinicBookingPeriod = patient.Clinic.BookingPeriod,
-                    ClinicConsultExpiration = patient.Clinic.ConsultExpiration,
-                    ClinicDayTimeFrom = (bool)patient.Clinic.IsAllDaysSameTime ? patient.Clinic.AllDaysTimeFrom : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeFrom").GetValue(patient.Clinic, null),
-                    ClinicDayTimeTo = (bool)patient.Clinic.IsAllDaysSameTime ? patient.Clinic.AllDaysTimeTo : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeTo").GetValue(patient.Clinic, null),
+                    ClinicWeekEnds = weekDays.Except(patient.Doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray(),
+                    ClinicBookingPeriod = patient.Doctor.BookingPeriod,
+                    ClinicConsultExpiration = patient.Doctor.ConsultExpiration,
+                    ClinicDayTimeFrom = (bool)patient.Doctor.IsAllDaysSameTime ? patient.Doctor.AllDaysTimeFrom : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeFrom").GetValue(patient.Clinic, null),
+                    ClinicDayTimeTo = (bool)patient.Doctor.IsAllDaysSameTime ? patient.Doctor.AllDaysTimeTo : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeTo").GetValue(patient.Clinic, null),
                     DoctorBookingTypes = patient.Doctor.DoctorBookingTypes.Select(t => new BookingType { Id = t.Id, Type = t.Text, Price = t.Price }).ToList(),
                     DoctorBookingServices = patient.Doctor.DoctorServices.Select(t => new ServiceType { Id = t.Id, Service = t.Service, Price = t.Price }).ToList(),
                     DoctorBookingDiscounts = patient.Doctor.DoctorDiscounts.Select(t => new DiscountType { Id = t.Id, Discount = t.Discount, Price = t.Price, IsPercent = t.IsPercent }).ToList(),
@@ -259,7 +256,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var patient = await _context.Patients.Where(i => i.Id == patientId && i.IsDeleted != true).Include(c => c.Clinic).FirstOrDefaultAsync();
+            var patient = await _context.Patients.Where(i => i.Id == patientId && i.IsDeleted != true).Include(c => c.Doctor).FirstOrDefaultAsync();
 
             if (patient == null)
             {
@@ -267,8 +264,8 @@ namespace clinic_api.Controllers
             }
             var model = new BookingGetChangeDateDTO
             {
-                ClinicDayTimeFrom = (bool)patient.Clinic.IsAllDaysSameTime ? patient.Clinic.AllDaysTimeFrom : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeFrom").GetValue(patient.Clinic, null),
-                ClinicDayTimeTo = (bool)patient.Clinic.IsAllDaysSameTime ? patient.Clinic.AllDaysTimeTo : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeTo").GetValue(patient.Clinic, null),
+                ClinicDayTimeFrom = (bool)patient.Doctor.IsAllDaysSameTime ? patient.Doctor.AllDaysTimeFrom : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeFrom").GetValue(patient.Clinic, null),
+                ClinicDayTimeTo = (bool)patient.Doctor.IsAllDaysSameTime ? patient.Doctor.AllDaysTimeTo : (DateTime)patient.Clinic.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeTo").GetValue(patient.Clinic, null),
                 DoctorAllBookingSameDay = _context.Bookings.Where(b => b.Patient.DoctorId == patient.DoctorId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date && b.IsCanceled != true)
                 .Include(t => t.Type).Include(p => p.Patient).OrderBy(t => t.BookingDateTime).Select(b => new BookingBrief
                 {
@@ -284,8 +281,8 @@ namespace clinic_api.Controllers
         }
 
         // PUT: api/Booking/5
-        [HttpPut("{id}/{clinicId}")]
-        public async Task<IActionResult> PutBooking(Guid id, Guid clinicId, BookingPutDTO model)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutBooking(Guid id, BookingPutDTO model)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -366,7 +363,7 @@ namespace clinic_api.Controllers
             }
             if (booking.BookingDateTime.Date == DateTime.Now.ToEgyptTime().Date)
             {
-                var usersInClinic = _context.Clinics.Where(i => i.Id == clinicId).Include(u => u.ClinicUsers).FirstOrDefault().ClinicUsers.Where(u => u.UserId != id).Select(u => u.UserId).ToArray();
+                var usersInClinic = _context.Clinics.Where(i => i.Id == model.ClinicId).Include(u => u.ClinicUsers).FirstOrDefault().ClinicUsers.Where(u => u.UserId != id).Select(u => u.UserId).ToArray();
                 foreach (var userId in usersInClinic)
                 {
                     await _hub.Clients.User(userId.ToString()).SendAsync("UpdateTodayBooking", booking.Patient.FullName);

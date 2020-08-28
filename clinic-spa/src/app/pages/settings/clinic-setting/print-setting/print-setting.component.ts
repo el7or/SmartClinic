@@ -73,7 +73,7 @@ export class PrintSettingComponent implements OnInit, OnDestroy {
     };
     // Add in the other upload form parameters.
     this.uploader.onBuildItemForm = (item, form) => {
-      form.append("clinicId", this.authService.clinicId);
+      form.append("doctorId", this.authService.doctorId);
       form.append("doctorName", this.printInfoSetting.doctorName);
       form.append("doctorDegree", this.printInfoSetting.doctorDegree);
       form.append("clinicTitle", this.printInfoSetting.clinicTitle);
@@ -122,7 +122,7 @@ export class PrintSettingComponent implements OnInit, OnDestroy {
      else {
       this.formLoading = true;
       const setPrintObj: SetPrintSetting = {
-        clinicId: this.authService.clinicId,
+        doctorId: this.authService.doctorId,
         address1: this.printInfoSetting.address1,
         address2: this.printInfoSetting.address2,
         address3: this.printInfoSetting.address3,

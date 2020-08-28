@@ -16,10 +16,10 @@ namespace clinic_panel.Models
     {
         public int PrescriptionId { get; set; }
         public int MedicineId { get; set; }
+        public Nullable<int> QuantityId { get; set; }
         public Nullable<int> DoseId { get; set; }
         public Nullable<int> TimingId { get; set; }
         public Nullable<int> PeriodId { get; set; }
-        public Nullable<int> QuantityId { get; set; }
     
         public virtual DoctorMedicinesValue DoctorMedicinesValue { get; set; }
         public virtual PatientPrescription PatientPrescription { get; set; }

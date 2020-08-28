@@ -419,6 +419,53 @@ namespace clinic_api.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ClinicName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clinics");
+                });
+
+            modelBuilder.Entity("clinic_api.Models.ClinicUser", b =>
+                {
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ClinicId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ClinicUsers");
+                });
+
+            modelBuilder.Entity("clinic_api.Models.Doctor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("AllDaysTimeFrom")
                         .HasColumnType("datetime");
 
@@ -427,10 +474,6 @@ namespace clinic_api.Migrations
 
                     b.Property<int?>("BookingPeriod")
                         .HasColumnType("int");
-
-                    b.Property<string>("ClinicName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ConsultExpiration")
                         .HasColumnType("int");
@@ -441,14 +484,38 @@ namespace clinic_api.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("DiseasesQuestions")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Email1")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Email2")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
                     b.Property<int?>("EntryOrderId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Facebook")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<DateTime?>("FridayTimeFrom")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("FridayTimeTo")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Instagram")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
@@ -462,11 +529,31 @@ namespace clinic_api.Migrations
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("LinkedIn")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
                     b.Property<DateTime?>("MondayTimeFrom")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("MondayTimeTo")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PatientRecordSections")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Phone1")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Phone2")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Phone3")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("PrintAddress1")
                         .HasColumnType("nvarchar(max)");
@@ -510,6 +597,9 @@ namespace clinic_api.Migrations
                     b.Property<DateTime?>("SaturdayTimeTo")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("SpecialtyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("SundayTimeFrom")
                         .HasColumnType("datetime");
 
@@ -528,108 +618,6 @@ namespace clinic_api.Migrations
                     b.Property<DateTime?>("TuesdayTimeTo")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("WednesdayTimeFrom")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("WednesdayTimeTo")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("WorkDays")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EntryOrderId");
-
-                    b.ToTable("Clinics");
-                });
-
-            modelBuilder.Entity("clinic_api.Models.ClinicUser", b =>
-                {
-                    b.Property<Guid>("ClinicId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ClinicId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ClinicUsers");
-                });
-
-            modelBuilder.Entity("clinic_api.Models.Doctor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("DiseasesQuestions")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Email1")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Email2")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Facebook")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Instagram")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LinkedIn")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PatientRecordSections")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Phone1")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Phone2")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Phone3")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<int>("SpecialtyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Twitter")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -643,11 +631,23 @@ namespace clinic_api.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("WednesdayTimeFrom")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("WednesdayTimeTo")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("WhatsApp")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<string>("WorkDays")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EntryOrderId");
 
                     b.HasIndex("SpecialtyId");
 
@@ -3048,14 +3048,6 @@ namespace clinic_api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("clinic_api.Models.Clinic", b =>
-                {
-                    b.HasOne("clinic_api.Models.SysEntryOrderValue", "EntryOrder")
-                        .WithMany("Clinics")
-                        .HasForeignKey("EntryOrderId")
-                        .HasConstraintName("FK_Clinics_SysEntryOrderValues");
-                });
-
             modelBuilder.Entity("clinic_api.Models.ClinicUser", b =>
                 {
                     b.HasOne("clinic_api.Models.Clinic", "Clinic")
@@ -3073,6 +3065,11 @@ namespace clinic_api.Migrations
 
             modelBuilder.Entity("clinic_api.Models.Doctor", b =>
                 {
+                    b.HasOne("clinic_api.Models.SysEntryOrderValue", "EntryOrder")
+                        .WithMany("Doctors")
+                        .HasForeignKey("EntryOrderId")
+                        .HasConstraintName("FK_Clinics_SysEntryOrderValues");
+
                     b.HasOne("clinic_api.Models.SysDoctorsSpecialty", "Specialty")
                         .WithMany("Doctors")
                         .HasForeignKey("SpecialtyId")

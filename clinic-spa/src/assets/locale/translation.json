@@ -271,7 +271,7 @@
   { "ar": "دخول", "en": "Log In" },
   { "ar": "اختيار اليوم", "en": "Choose Day" },
   { "ar": "اليوم المحدد", "en": "Chosen Day" },
-  { "ar": "إعدادات العيادة", "en": "Clinic Setting" },
+  { "ar": "إعدادات الطبيب", "en": "Doctor Setting" },
   { "ar": "الحجوزات", "en": "Bookings" },
   { "ar": "الأسعار", "en": "Prices" },
   { "ar": "بيانات الطباعة", "en": "Print Data" },

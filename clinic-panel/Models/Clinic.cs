@@ -17,9 +17,6 @@ namespace clinic_panel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Clinic()
         {
-            this.ClinicBookingTypes = new HashSet<ClinicBookingType>();
-            this.ClinicDiscounts = new HashSet<ClinicDiscount>();
-            this.ClinicServices = new HashSet<ClinicService>();
             this.Patients = new HashSet<Patient>();
             this.AspNetUsers = new HashSet<AspNetUser>();
             this.Doctors = new HashSet<Doctor>();
@@ -67,13 +64,7 @@ namespace clinic_panel.Models
         public Nullable<System.DateTime> ThursdayTimeTo { get; set; }
         public Nullable<System.DateTime> FridayTimeTo { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClinicBookingType> ClinicBookingTypes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClinicDiscount> ClinicDiscounts { get; set; }
         public virtual SysEntryOrderValue SysEntryOrderValue { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClinicService> ClinicServices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Patient> Patients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

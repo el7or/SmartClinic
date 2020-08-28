@@ -18,7 +18,7 @@ namespace clinic_panel.Models
         public Booking()
         {
             this.BookingPayments = new HashSet<BookingPayment>();
-            this.ClinicServices = new HashSet<ClinicService>();
+            this.DoctorServices = new HashSet<DoctorService>();
         }
     
         public int Id { get; set; }
@@ -45,11 +45,11 @@ namespace clinic_panel.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookingPayment> BookingPayments { get; set; }
-        public virtual ClinicBookingType ClinicBookingType { get; set; }
-        public virtual ClinicDiscount ClinicDiscount { get; set; }
+        public virtual DoctorBookingType DoctorBookingType { get; set; }
+        public virtual DoctorDiscount DoctorDiscount { get; set; }
         public virtual Doctor Doctor { get; set; }
         public virtual Patient Patient { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClinicService> ClinicServices { get; set; }
+        public virtual ICollection<DoctorService> DoctorServices { get; set; }
     }
 }

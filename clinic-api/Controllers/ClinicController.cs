@@ -33,52 +33,52 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Clinic/GetBookingSetting/5/6
-        [HttpGet("GetBookingSetting/{id}/{clinicId}")]
-        public async Task<ActionResult<ClinicGetBookingSettingDTO>> GetBookingSetting(Guid id, Guid clinicId)
+        [HttpGet("GetBookingSetting/{id}/{doctorId}")]
+        public async Task<ActionResult<ClinicGetBookingSettingDTO>> GetBookingSetting(Guid id, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var clinic = await _context.Clinics.FindAsync(clinicId);
-            if (clinic == null)
+            var doctor = await _context.Doctors.FindAsync(doctorId);
+            if (doctor == null)
             {
                 return NotFound();
             }
             int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
             var model = new ClinicGetBookingSettingDTO
             {
-                EntryOrderId = clinic.EntryOrderId,
-                BookingPeriod = clinic.BookingPeriod,
-                ConsultExpiration = clinic.ConsultExpiration,
-                IsAllDaysOn = clinic.IsAllDaysOn,
-                IsAllDaysSameTime = clinic.IsAllDaysSameTime,
+                EntryOrderId = doctor.EntryOrderId,
+                BookingPeriod = doctor.BookingPeriod,
+                ConsultExpiration = doctor.ConsultExpiration,
+                IsAllDaysOn = doctor.IsAllDaysOn,
+                IsAllDaysSameTime = doctor.IsAllDaysSameTime,
                 //WorkDays = Array.ConvertAll(clinic.WorkDays.Split(", ").ToArray(), s => int.Parse(s))
-                WorkDays = clinic.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray(),
-                WeekEnds = weekDays.Except(clinic.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray(),
-                AllDaysTimeFrom = clinic.AllDaysTimeFrom,
-                AllDaysTimeTo = clinic.AllDaysTimeTo,
-                IsSaturdayOn = clinic.WorkDays.Contains('6'),
-                SaturdayTimeFrom = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeFrom : clinic.SaturdayTimeFrom,
-                SaturdayTimeTo = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeTo : clinic.SaturdayTimeTo,
-                IsSundayOn = clinic.WorkDays.Contains('0'),
-                SundayTimeFrom = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeFrom : clinic.SundayTimeFrom,
-                SundayTimeTo = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeTo : clinic.SundayTimeTo,
-                IsMondayOn = clinic.WorkDays.Contains('1'),
-                MondayTimeFrom = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeFrom : clinic.MondayTimeFrom,
-                MondayTimeTo = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeTo : clinic.MondayTimeTo,
-                IsTuesdayOn = clinic.WorkDays.Contains('2'),
-                TuesdayTimeFrom = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeFrom : clinic.TuesdayTimeFrom,
-                TuesdayTimeTo = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeTo : clinic.TuesdayTimeTo,
-                IsWednesdayOn = clinic.WorkDays.Contains('3'),
-                WednesdayTimeFrom = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeFrom : clinic.WednesdayTimeFrom,
-                WednesdayTimeTo = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeTo : clinic.WednesdayTimeTo,
-                IsThursdayOn = clinic.WorkDays.Contains('4'),
-                ThursdayTimeFrom = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeFrom : clinic.ThursdayTimeFrom,
-                ThursdayTimeTo = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeTo : clinic.ThursdayTimeTo,
-                IsFridayOn = clinic.WorkDays.Contains('5'),
-                FridayTimeFrom = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeFrom : clinic.FridayTimeFrom,
-                FridayTimeTo = clinic.IsAllDaysSameTime == true ? clinic.AllDaysTimeTo : clinic.FridayTimeTo
+                WorkDays = doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray(),
+                WeekEnds = weekDays.Except(doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray(),
+                AllDaysTimeFrom = doctor.AllDaysTimeFrom,
+                AllDaysTimeTo = doctor.AllDaysTimeTo,
+                IsSaturdayOn = doctor.WorkDays.Contains('6'),
+                SaturdayTimeFrom = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeFrom : doctor.SaturdayTimeFrom,
+                SaturdayTimeTo = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeTo : doctor.SaturdayTimeTo,
+                IsSundayOn = doctor.WorkDays.Contains('0'),
+                SundayTimeFrom = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeFrom : doctor.SundayTimeFrom,
+                SundayTimeTo = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeTo : doctor.SundayTimeTo,
+                IsMondayOn = doctor.WorkDays.Contains('1'),
+                MondayTimeFrom = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeFrom : doctor.MondayTimeFrom,
+                MondayTimeTo = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeTo : doctor.MondayTimeTo,
+                IsTuesdayOn = doctor.WorkDays.Contains('2'),
+                TuesdayTimeFrom = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeFrom : doctor.TuesdayTimeFrom,
+                TuesdayTimeTo = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeTo : doctor.TuesdayTimeTo,
+                IsWednesdayOn = doctor.WorkDays.Contains('3'),
+                WednesdayTimeFrom = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeFrom : doctor.WednesdayTimeFrom,
+                WednesdayTimeTo = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeTo : doctor.WednesdayTimeTo,
+                IsThursdayOn = doctor.WorkDays.Contains('4'),
+                ThursdayTimeFrom = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeFrom : doctor.ThursdayTimeFrom,
+                ThursdayTimeTo = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeTo : doctor.ThursdayTimeTo,
+                IsFridayOn = doctor.WorkDays.Contains('5'),
+                FridayTimeFrom = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeFrom : doctor.FridayTimeFrom,
+                FridayTimeTo = doctor.IsAllDaysSameTime == true ? doctor.AllDaysTimeTo : doctor.FridayTimeTo
             };
             return model;
         }
@@ -91,33 +91,33 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var clinic = _context.Clinics.Find(model.ClinicId);
-            clinic.EntryOrderId = model.EntryOrderId;
-            clinic.BookingPeriod = model.BookingPeriod;
-            clinic.ConsultExpiration = model.ConsultExpiration;
-            clinic.WorkDays = model.WorkDays;
-            clinic.IsAllDaysOn = model.IsAllDaysOn;
-            clinic.IsAllDaysSameTime = model.IsAllDaysSameTime;
-            clinic.AllDaysTimeFrom = model.AllDaysTimeFrom;
-            clinic.AllDaysTimeTo = model.AllDaysTimeTo;
-            clinic.SaturdayTimeFrom = model.SaturdayTimeFrom;
-            clinic.SaturdayTimeTo = model.SaturdayTimeTo;
-            clinic.SundayTimeFrom = model.SundayTimeFrom;
-            clinic.SundayTimeTo = model.SundayTimeTo;
-            clinic.MondayTimeFrom = model.MondayTimeFrom;
-            clinic.MondayTimeTo = model.MondayTimeTo;
-            clinic.TuesdayTimeFrom = model.TuesdayTimeFrom;
-            clinic.TuesdayTimeTo = model.TuesdayTimeTo;
-            clinic.WednesdayTimeFrom = model.WednesdayTimeFrom;
-            clinic.WednesdayTimeTo = model.WednesdayTimeTo;
-            clinic.ThursdayTimeFrom = model.ThursdayTimeTo;
-            clinic.ThursdayTimeTo = model.ThursdayTimeTo;
-            clinic.FridayTimeFrom = model.FridayTimeFrom;
-            clinic.FridayTimeTo = model.FridayTimeTo;
-            clinic.UpdatedBy = id;
-            clinic.UpdatedOn = DateTime.Now.ToEgyptTime();
+            var doctor = _context.Doctors.Find(model.DoctorId);
+            doctor.EntryOrderId = model.EntryOrderId;
+            doctor.BookingPeriod = model.BookingPeriod;
+            doctor.ConsultExpiration = model.ConsultExpiration;
+            doctor.WorkDays = model.WorkDays;
+            doctor.IsAllDaysOn = model.IsAllDaysOn;
+            doctor.IsAllDaysSameTime = model.IsAllDaysSameTime;
+            doctor.AllDaysTimeFrom = model.AllDaysTimeFrom;
+            doctor.AllDaysTimeTo = model.AllDaysTimeTo;
+            doctor.SaturdayTimeFrom = model.SaturdayTimeFrom;
+            doctor.SaturdayTimeTo = model.SaturdayTimeTo;
+            doctor.SundayTimeFrom = model.SundayTimeFrom;
+            doctor.SundayTimeTo = model.SundayTimeTo;
+            doctor.MondayTimeFrom = model.MondayTimeFrom;
+            doctor.MondayTimeTo = model.MondayTimeTo;
+            doctor.TuesdayTimeFrom = model.TuesdayTimeFrom;
+            doctor.TuesdayTimeTo = model.TuesdayTimeTo;
+            doctor.WednesdayTimeFrom = model.WednesdayTimeFrom;
+            doctor.WednesdayTimeTo = model.WednesdayTimeTo;
+            doctor.ThursdayTimeFrom = model.ThursdayTimeTo;
+            doctor.ThursdayTimeTo = model.ThursdayTimeTo;
+            doctor.FridayTimeFrom = model.FridayTimeFrom;
+            doctor.FridayTimeTo = model.FridayTimeTo;
+            doctor.UpdatedBy = id;
+            doctor.UpdatedOn = DateTime.Now.ToEgyptTime();
 
-            _context.Entry(clinic).State = EntityState.Modified;
+            _context.Entry(doctor).State = EntityState.Modified;
 
             try
             {
@@ -125,7 +125,7 @@ namespace clinic_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClinicExists(model.ClinicId))
+                if (!ClinicExists(model.DoctorId))
                 {
                     return NotFound();
                 }
@@ -286,14 +286,14 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Clinic/GetPrintSetting/5/6
-        [HttpGet("GetPrintSetting/{id}/{clinicId}")]
-        public async Task<ActionResult<ClinicGetPrintSettingDTO>> GetPrintSetting(Guid id, Guid clinicId)
+        [HttpGet("GetPrintSetting/{id}/{doctorId}")]
+        public async Task<ActionResult<ClinicGetPrintSettingDTO>> GetPrintSetting(Guid id, Guid doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var clinic = await _context.Clinics.FindAsync(clinicId);
+            var clinic = await _context.Doctors.FindAsync(doctorId);
             if (clinic == null)
             {
                 return NotFound();
@@ -323,20 +323,20 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
 
-            var clinic = _context.Clinics.Find(model.ClinicId);
-            clinic.PrintDoctorDegree = model.DoctorDegree;
-            clinic.PrintDoctorName = model.DoctorName;
-            clinic.PrintAddress1 = model.Address1;
-            clinic.PrintAddress2 = model.Address2;
-            clinic.PrintAddress3 = model.Address3;
-            clinic.PrintClinicName = model.ClinicTitle;
-            clinic.PrintPhone1 = model.Phone1;
-            clinic.PrintPhone2 = model.Phone2;
-            clinic.PrintPhone3 = model.Phone3;
-            clinic.UpdatedBy = id;
-            clinic.UpdatedOn = DateTime.Now.ToEgyptTime();
+            var doctor = _context.Doctors.Find(model.DoctorId);
+            doctor.PrintDoctorDegree = model.DoctorDegree;
+            doctor.PrintDoctorName = model.DoctorName;
+            doctor.PrintAddress1 = model.Address1;
+            doctor.PrintAddress2 = model.Address2;
+            doctor.PrintAddress3 = model.Address3;
+            doctor.PrintClinicName = model.ClinicTitle;
+            doctor.PrintPhone1 = model.Phone1;
+            doctor.PrintPhone2 = model.Phone2;
+            doctor.PrintPhone3 = model.Phone3;
+            doctor.UpdatedBy = id;
+            doctor.UpdatedOn = DateTime.Now.ToEgyptTime();
 
-            _context.Entry(clinic).State = EntityState.Modified;
+            _context.Entry(doctor).State = EntityState.Modified;
 
             try
             {
@@ -344,7 +344,7 @@ namespace clinic_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClinicExists(model.ClinicId))
+                if (!ClinicExists(model.DoctorId))
                 {
                     return NotFound();
                 }
@@ -365,12 +365,12 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var clinic = _context.Clinics.Find(model.ClinicId);
+            var doctor = _context.Doctors.Find(model.DoctorId);
 
             // delete old logo from cloudinary
-            if (clinic.PrintLogoPublicId != null)
+            if (doctor.PrintLogoPublicId != null)
             {
-                var deletionParams = new DeletionParams(clinic.PrintLogoPublicId);
+                var deletionParams = new DeletionParams(doctor.PrintLogoPublicId);
                 var deletionResult = _cloudinary.Destroy(deletionParams);
                 if (deletionResult.Result != "ok") { return BadRequest(); }
             }
@@ -391,21 +391,21 @@ namespace clinic_api.Controllers
                 }
             }
 
-            clinic.PrintDoctorDegree = model.DoctorDegree;
-            clinic.PrintDoctorName = model.DoctorName;
-            clinic.PrintClinicName = model.ClinicTitle;
-            clinic.PrintAddress1 = model.Address1=="null"? null : model.Address1;
-            clinic.PrintAddress2 = model.Address2 == "null" ? null : model.Address2;
-            clinic.PrintAddress3 = model.Address3 == "null" ? null : model.Address3;
-            clinic.PrintPhone1 = model.Phone1 == "null" ? null : model.Phone1;
-            clinic.PrintPhone2 = model.Phone2 == "null" ? null : model.Phone2;
-            clinic.PrintPhone3 = model.Phone3 == "null" ? null : model.Phone3;
-            clinic.PrintLogoUrl = uploadResult.Uri.ToString();
-            clinic.PrintLogoPublicId = uploadResult.PublicId;
-            clinic.UpdatedBy = id;
-            clinic.UpdatedOn = DateTime.Now.ToEgyptTime();
+            doctor.PrintDoctorDegree = model.DoctorDegree;
+            doctor.PrintDoctorName = model.DoctorName;
+            doctor.PrintClinicName = model.ClinicTitle;
+            doctor.PrintAddress1 = model.Address1=="null"? null : model.Address1;
+            doctor.PrintAddress2 = model.Address2 == "null" ? null : model.Address2;
+            doctor.PrintAddress3 = model.Address3 == "null" ? null : model.Address3;
+            doctor.PrintPhone1 = model.Phone1 == "null" ? null : model.Phone1;
+            doctor.PrintPhone2 = model.Phone2 == "null" ? null : model.Phone2;
+            doctor.PrintPhone3 = model.Phone3 == "null" ? null : model.Phone3;
+            doctor.PrintLogoUrl = uploadResult.Uri.ToString();
+            doctor.PrintLogoPublicId = uploadResult.PublicId;
+            doctor.UpdatedBy = id;
+            doctor.UpdatedOn = DateTime.Now.ToEgyptTime();
 
-            _context.Entry(clinic).State = EntityState.Modified;
+            _context.Entry(doctor).State = EntityState.Modified;
 
             try
             {
@@ -413,7 +413,7 @@ namespace clinic_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClinicExists(model.ClinicId))
+                if (!ClinicExists(model.DoctorId))
                 {
                     return NotFound();
                 }

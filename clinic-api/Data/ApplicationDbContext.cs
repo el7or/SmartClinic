@@ -304,34 +304,11 @@ namespace clinic_api.Data
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.AllDaysTimeFrom).HasColumnType("datetime");
-
-                entity.Property(e => e.AllDaysTimeTo).HasColumnType("datetime");
-
                 entity.Property(e => e.ClinicName).IsRequired();
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
-                entity.Property(e => e.FridayTimeFrom).HasColumnType("datetime");
-
-                entity.Property(e => e.MondayTimeFrom).HasColumnType("datetime");
-
-                entity.Property(e => e.SaturdayTimeFrom).HasColumnType("datetime");
-
-                entity.Property(e => e.SundayTimeFrom).HasColumnType("datetime");
-
-                entity.Property(e => e.ThursdayTimeFrom).HasColumnType("datetime");
-
-                entity.Property(e => e.TuesdayTimeFrom).HasColumnType("datetime");
-
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.WednesdayTimeFrom).HasColumnType("datetime");
-
-                entity.HasOne(d => d.EntryOrder)
-                    .WithMany(p => p.Clinics)
-                    .HasForeignKey(d => d.EntryOrderId)
-                    .HasConstraintName("FK_Clinics_SysEntryOrderValues");
 
                 entity.HasMany(e => e.ClinicUsers)
                     .WithOne(e => e.Clinic)
@@ -577,6 +554,29 @@ namespace clinic_api.Data
                 entity.Property(e => e.FullName).IsRequired();
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.AllDaysTimeFrom).HasColumnType("datetime");
+
+                entity.Property(e => e.AllDaysTimeTo).HasColumnType("datetime");
+
+                entity.Property(e => e.FridayTimeFrom).HasColumnType("datetime");
+
+                entity.Property(e => e.MondayTimeFrom).HasColumnType("datetime");
+
+                entity.Property(e => e.SaturdayTimeFrom).HasColumnType("datetime");
+
+                entity.Property(e => e.SundayTimeFrom).HasColumnType("datetime");
+
+                entity.Property(e => e.ThursdayTimeFrom).HasColumnType("datetime");
+
+                entity.Property(e => e.TuesdayTimeFrom).HasColumnType("datetime");
+
+                entity.Property(e => e.WednesdayTimeFrom).HasColumnType("datetime");
+
+                entity.HasOne(d => d.EntryOrder)
+                    .WithMany(p => p.Doctors)
+                    .HasForeignKey(d => d.EntryOrderId)
+                    .HasConstraintName("FK_Clinics_SysEntryOrderValues");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Doctors)

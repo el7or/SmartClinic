@@ -82,7 +82,7 @@ namespace clinic_api.DTOs
 
     public class ClinicPostPrintSettingDTO
     {
-        public Guid ClinicId { get; set; }
+        public Guid DoctorId { get; set; }
         public IFormFile File { get; set; }
         public string DoctorName { get; set; }
         public string DoctorDegree { get; set; }
@@ -97,7 +97,7 @@ namespace clinic_api.DTOs
 
     public class ClinicPutPrintSettingDTO
     {
-        public Guid ClinicId { get; set; }
+        public Guid DoctorId { get; set; }
         public string DoctorName { get; set; }
         public string DoctorDegree { get; set; }
         public string ClinicTitle { get; set; }
@@ -111,7 +111,7 @@ namespace clinic_api.DTOs
 
     public class ClinicPutBookingSettingDTO
     {
-        public Guid ClinicId { get; set; }
+        public Guid DoctorId { get; set; }
         public int? EntryOrderId { get; set; }
         public int? BookingPeriod { get; set; }
         public int? ConsultExpiration { get; set; }

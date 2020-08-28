@@ -69,7 +69,7 @@ export const MENU_ITEMS: any[] = [
     data: "roleDoctor",
     children: [
       {
-        title: "Clinic Setting",
+        title: "Doctor Setting",
         icon:  { icon: 'user-md', pack: 'solid'},
         link: "/pages/settings/clinic",
         pathMatch: "prefix",

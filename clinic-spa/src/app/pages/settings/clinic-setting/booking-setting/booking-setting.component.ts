@@ -89,7 +89,7 @@ export class BookingSettingComponent implements OnInit, OnDestroy {
       if (this.bookingSetting.isFridayOn) this.bookingSetting.workDays.push(5);
     }
     const bookingSettingSetObj: SetBookingSetting = {
-      clinicId: this.authService.clinicId,
+      doctorId: this.authService.doctorId,
       entryOrderId: this.bookingSetting.entryOrderId,
       bookingPeriod: this.bookingSetting.bookingPeriod,
       consultExpiration: this.bookingSetting.consultExpiration,

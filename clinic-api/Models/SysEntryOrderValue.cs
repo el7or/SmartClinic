@@ -8,7 +8,7 @@ namespace clinic_api.Models
     {
         public SysEntryOrderValue()
         {
-            Clinics = new HashSet<Clinic>();
+            Doctors = new HashSet<Doctor>();
         }
 
         public int Id { get; set; }
@@ -19,6 +19,6 @@ namespace clinic_api.Models
         [StringLength(256)]
         public string Text { get; set; }
 
-        public virtual ICollection<Clinic> Clinics { get; set; }
+        public virtual ICollection<Doctor> Doctors { get; set; }
     }
 }

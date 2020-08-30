@@ -7,7 +7,7 @@ import { LanggService } from '../../../shared/services/langg.service';
   template: `
   <nb-card>
   <nb-card-header>
-    <span langg>Clinic Setting</span>:
+    <span langg>Doctor Setting</span>:
   </nb-card-header>
   <nb-card-body>
     <!-- <nb-tabset>

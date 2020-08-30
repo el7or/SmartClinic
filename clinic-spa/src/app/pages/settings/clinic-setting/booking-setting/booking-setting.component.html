@@ -50,11 +50,11 @@
         <thead>
           <tr>
             <th>
-              <nb-checkbox [(checked)]="bookingSetting.isAllDaysOn" (checkedChange)="onChangeAllDaysOn($event)">
+              <nb-checkbox name="isAllDaysOn" ngModel [(checked)]="bookingSetting.isAllDaysOn" (checkedChange)="onChangeAllDaysOn($event)">
                 {{'All Days' | langg}}</nb-checkbox>
             </th>
             <th>
-              <nb-checkbox [(checked)]="bookingSetting.isAllDaysSameTime">
+              <nb-checkbox name="isAllDaysSameTime" ngModel [(checked)]="bookingSetting.isAllDaysSameTime">
                 {{'Same Time From:' | langg}}</nb-checkbox>
             </th>
             <th>

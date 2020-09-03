@@ -14,6 +14,7 @@ namespace clinic_api.Models
         public int Id { get; set; }
         public Guid PatientId { get; set; }
         public Guid DoctorId { get; set; }
+        public Guid ClinicId { get; set; }
         public DateTime BookingDateTime { get; set; }
         public int TypeId { get; set; }
         public int? DiscountId { get; set; }
@@ -36,6 +37,7 @@ namespace clinic_api.Models
         public virtual DoctorDiscount Discount { get; set; }
         public virtual Patient Patient { get; set; }
         public virtual Doctor Doctor { get; set; }
+        public virtual Clinic Clinic { get; set; }
         public virtual DoctorBookingType Type { get; set; }
         public virtual ICollection<BookingPayment> BookingPayments { get; set; }
         public virtual ICollection<BookingService> BookingServices { get; set; }

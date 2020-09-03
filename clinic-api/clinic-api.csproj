@@ -68,6 +68,8 @@
     <Compile Remove="Migrations\20200821162021_DoctorBookings.Designer.cs" />
     <Compile Remove="Migrations\20200827151949_DoctorSetting.cs" />
     <Compile Remove="Migrations\20200827151949_DoctorSetting.Designer.cs" />
+    <Compile Remove="Migrations\20200903043338_BookingClinic.cs" />
+    <Compile Remove="Migrations\20200903043338_BookingClinic.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

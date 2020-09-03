@@ -11,6 +11,7 @@ namespace clinic_api.Models
             ClinicUsers = new HashSet<ClinicUser>();
             DoctorClinics = new HashSet<DoctorClinic>();
             Patients = new HashSet<Patient>();
+            Bookings = new HashSet<Booking>();
         }
 
         public Guid Id { get; set; }
@@ -25,5 +26,6 @@ namespace clinic_api.Models
         public virtual ICollection<ClinicUser> ClinicUsers { get; set; }
         public virtual ICollection<DoctorClinic> DoctorClinics { get; set; }
         public virtual ICollection<Patient> Patients { get; set; }
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

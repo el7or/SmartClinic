@@ -252,6 +252,12 @@ namespace clinic_api.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Bookings_Doctors");
 
+                entity.HasOne(d => d.Clinic)
+                    .WithMany(p => p.Bookings)
+                    .HasForeignKey(d => d.ClinicId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Bookings_Clinics");
+
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Bookings)
                     .HasForeignKey(d => d.TypeId)

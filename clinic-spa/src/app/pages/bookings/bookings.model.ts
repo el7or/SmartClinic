@@ -66,6 +66,7 @@ export interface BookingChangeDate{
 export interface BookingNew{
   patientId: string;
   doctorId: string;
+  clinicId: string;
   bookingDateTime: string;
   typeId: number;
   servicesIds?: number[];

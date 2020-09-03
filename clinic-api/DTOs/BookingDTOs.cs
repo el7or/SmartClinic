@@ -64,6 +64,7 @@ namespace clinic_api.DTOs
     {
         public Guid PatientId { get; set; }
         public Guid DoctorId { get; set; }
+        public Guid ClinicId { get; set; }
         public DateTime BookingDateTime { get; set; }
         public int TypeId { get; set; }
         public int[] ServicesIds { get; set; }

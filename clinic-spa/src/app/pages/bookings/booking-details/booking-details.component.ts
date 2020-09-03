@@ -411,6 +411,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     const newBooking: BookingNew = {
       patientId: this.patientId,
       doctorId: this.authService.doctorId,
+      clinicId : this.authService.clinicId,
       bookingDateTime: this.dateTimeService.mergDateTime(
         new Date(this.form.value.date),
         new Date(this.form.value.time)

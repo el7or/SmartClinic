@@ -262,6 +262,9 @@ namespace clinic_api.Migrations
                     b.Property<DateTime?>("CanceledOn")
                         .HasColumnType("datetime");
 
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -314,6 +317,8 @@ namespace clinic_api.Migrations
                         .HasColumnType("datetime");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClinicId");
 
                     b.HasIndex("DiscountId");
 
@@ -2983,6 +2988,12 @@ namespace clinic_api.Migrations
 
             modelBuilder.Entity("clinic_api.Models.Booking", b =>
                 {
+                    b.HasOne("clinic_api.Models.Clinic", "Clinic")
+                        .WithMany("Bookings")
+                        .HasForeignKey("ClinicId")
+                        .HasConstraintName("FK_Bookings_Clinics")
+                        .IsRequired();
+
                     b.HasOne("clinic_api.Models.DoctorDiscount", "Discount")
                         .WithMany("Bookings")
                         .HasForeignKey("DiscountId")

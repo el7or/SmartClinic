@@ -386,6 +386,7 @@ namespace clinic_api.Controllers
             {
                 PatientId = model.PatientId,
                 DoctorId = model.DoctorId,
+                ClinicId = model.ClinicId,
                 DaySeqNo = lastBookingInDay == null ? 1 : lastBookingInDay.DaySeqNo + 1,
                 BookingDateTime = model.BookingDateTime,
                 TypeId = model.TypeId,

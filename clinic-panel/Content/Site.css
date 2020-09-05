@@ -115,3 +115,7 @@ span.text-danger, div.text-danger li {
 .btn-primary, .btn-info, .btn-success, .btn-warning, .btn-danger {
     color: white !important;
 }
+
+td ul {
+    padding-right: 1rem;
+}

@@ -29,6 +29,7 @@ namespace clinic_api.Data
         public virtual ICollection<ChatMessage> MessagesReceived { get; set; }
         public virtual ICollection<Doctor> Doctors { get; set; }
         public virtual ICollection<Pharmacy> Pharmacies { get; set; }
+        public virtual ICollection<Subscription> Subscriptions { get; set; }
     }
     public class ApplicationRole : IdentityRole<Guid>
     {
@@ -1164,6 +1165,12 @@ namespace clinic_api.Data
                 entity.Property(e => e.StartDate).HasColumnType("date");
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Subscriptions)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Subscriptions_AspNetUsers");
 
                 entity.HasOne(d => d.Plan)
                     .WithMany(p => p.Subscriptions)

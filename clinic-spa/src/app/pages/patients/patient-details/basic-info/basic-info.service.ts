@@ -33,14 +33,15 @@ export class BasicInfoService {
     );
   }
 
-  checkPatientExist(patientName:string){
+  checkPatientExist(patientName: string) {
     return this.http.get<number>(
       this.baseUrl +
         "Patient/CheckPatientExist/" +
         this.authService.userId +
         "/" +
-        this.authService.clinicId+
-        "/" + patientName
+        this.authService.clinicId +
+        "/" +
+        patientName
     );
   }
 

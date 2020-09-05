@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace clinic_api.Controllers
 {
@@ -47,12 +48,12 @@ namespace clinic_api.Controllers
             if (result.Succeeded)
             {
                 var loginUser = await _userManager.Users.Where(u => u.NormalizedUserName == userDTO.UserName.ToUpper())
-                    .Include(c => c.ClinicUsers).Include("ClinicUsers.Clinic").Include("ClinicUsers.Clinic.DoctorClinics")
+                    .Include(c => c.ClinicUsers).ThenInclude(c => c.Clinic).ThenInclude(c => c.DoctorClinics).ThenInclude(c => c.Doctor)
                     .Include(p => p.Pharmacies)
                     .FirstOrDefaultAsync();
                 // check if subscription valid
-                var userSubscription = _context.Subscriptions.Where(s => s.SubscriberId == loginUser.Id).OrderByDescending(c => c.CreatedOn).FirstOrDefault();
-                if (userSubscription != null && userSubscription.EndDate < DateTime.Now)
+                var userSubscription = _context.Subscriptions.Where(s => s.UserId == loginUser.Id).OrderByDescending(c => c.CreatedOn).FirstOrDefault();
+                if (userSubscription != null && userSubscription.EndDate.Date < DateTime.Now.Date)
                 {
                     return Unauthorized();
                 }
@@ -88,7 +89,14 @@ namespace clinic_api.Controllers
             {
                 var clinic = clinicUser.Clinic;
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sid, clinic.Id.ToString()));
-                claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, clinic.DoctorClinics.FirstOrDefault().DoctorId.ToString()));
+                if (roles.Contains("doctor"))
+                {
+                    claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, clinic.DoctorClinics.FirstOrDefault().DoctorId.ToString()));
+                }
+                else if (roles.Contains("employee"))
+                {
+                    claims.Add(new Claim(JwtRegisteredClaimNames.Typ, JsonConvert.SerializeObject( clinic.DoctorClinics.Select(d => new { doctorId = d.DoctorId.ToString(), doctorName = d.Doctor.FullName }).ToList())));
+                }
             }
 
             // if user is pharmacy

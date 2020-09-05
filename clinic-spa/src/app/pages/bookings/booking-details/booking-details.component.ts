@@ -57,7 +57,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     private bookingService: BookingsService,
     private alertService: AlertService,
     private localeService: BsLocaleService,
-    private authService: AuthService,
+    public authService: AuthService,
     private dateTimeService: DateTimeService,
     private router: Router
   ) {
@@ -410,7 +410,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   addNewBooking() {
     const newBooking: BookingNew = {
       patientId: this.patientId,
-      doctorId: this.authService.doctorId,
+      doctorId: this.bookingSetting.doctorId,
       clinicId : this.authService.clinicId,
       bookingDateTime: this.dateTimeService.mergDateTime(
         new Date(this.form.value.date),
@@ -442,7 +442,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   updateBooking() {
     const editedBooking: BookingEdit = {
       bookingId: this.bookId,
-      doctorId: this.authService.doctorId,
+      doctorId: this.bookingSetting.doctorId,
       clinicId: this.authService.clinicId,
       bookingDateTime: this.dateTimeService.mergDateTime(
         this.bookingDetails.isEnter

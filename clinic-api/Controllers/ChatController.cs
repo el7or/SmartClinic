@@ -121,14 +121,23 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Chat/GetUnreadCount/5
-        [HttpGet("GetUnreadCount/{id}/{doctorId}")]
-        public ActionResult<UnreadCountDTO> GetUnreadCount(Guid id, Guid doctorId)
+        [HttpGet("GetUnreadCount/{id}/{clinicId}/{doctorId?}")]
+        public ActionResult<UnreadCountDTO> GetUnreadCount(Guid id, Guid clinicId, Guid? doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var unReadExternals = _context.PatientReferrals.Where(r => r.ReferralToDoctorId == doctorId && r.IsRead != true).Count();
+            int unReadExternals=0;
+            if (doctorId != null)
+            {
+                unReadExternals = _context.PatientReferrals.Where(r => r.ReferralToDoctorId == doctorId && r.IsRead != true).Count();
+            }
+            else
+            {
+                var clinicDoctorsIds = _context.DoctorClinics.Where(c => c.ClinicId == clinicId).Select(i => i.DoctorId).ToArray();
+                unReadExternals = _context.PatientReferrals.Where(r => clinicDoctorsIds.Contains(r.ReferralToDoctorId) && r.IsRead != true).Count();
+            }
             var unReadMessages = _context.ChatMessages.Where(m => m.ReceiverId == id && m.ReadOn == null).Count();
             return new UnreadCountDTO
             {

@@ -22,6 +22,7 @@ namespace clinic_panel.Models
     
         public int Id { get; set; }
         public System.Guid SubscriberId { get; set; }
+        public System.Guid UserId { get; set; }
         public int SubscriberTypeId { get; set; }
         public int PlanId { get; set; }
         public Nullable<int> SubscriptionTypeId { get; set; }
@@ -43,6 +44,7 @@ namespace clinic_panel.Models
         public Nullable<int> MaxFilesMonthlyMB { get; set; }
         public Nullable<int> MaxFileSizeMB { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Plan Plan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubscriptionPayment> SubscriptionPayments { get; set; }

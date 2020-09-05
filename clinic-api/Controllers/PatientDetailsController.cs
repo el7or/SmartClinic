@@ -1309,29 +1309,52 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/PatientDetails/GetExternals/5
-        [HttpGet("GetExtens/{id}/{doctorId}")]
-        public async Task<ActionResult<IEnumerable<DoctorExternalListDTO>>> GetExtens(Guid id, Guid doctorId)
+        [HttpGet("GetExtens/{id}/{clinicId}/{doctorId?}")]
+        public async Task<ActionResult<IEnumerable<DoctorExternalListDTO>>> GetExtens(Guid id, Guid clinicId, Guid? doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var model = await _context.PatientReferrals.Where(d => d.ReferralToDoctorId == doctorId && d.IsApproved != true && d.IsCanceled != true)
-                .Include(p => p.Patient).ThenInclude(g => g.Governorate).Include(p => p.Patient).ThenInclude(d => d.Doctor).Include(d => d.PatientDiagnosis)
-                .Select(e => new DoctorExternalListDTO
-                {
-                    Id = e.Id,
-                    PatientId = e.PatientId,
-                    PatientName = e.Patient.FullName,
-                    PatientMobile = e.Patient.Phone,
-                    PatientGovernorateEN = e.Patient.Governorate.TextEN,
-                    PatientGovernorateAR = e.Patient.Governorate.TextAR,
-                    CreatedOn = e.CreatedOn,
-                    Note = e.PatientDiagnosis.Diagnosis.Diagnosis,
-                    RequestType = "referral",
-                    ReferralFromDoctor = e.Patient.Doctor.FullName
-                }).ToListAsync();
-            return model;
+            if (doctorId != null)
+            {
+                var model = await _context.PatientReferrals.Where(d => d.ReferralToDoctorId == doctorId && d.IsApproved != true && d.IsCanceled != true)
+                    .Include(p => p.Patient).ThenInclude(g => g.Governorate).Include(p => p.Patient).ThenInclude(d => d.Doctor).Include(d => d.PatientDiagnosis)
+                    .Select(e => new DoctorExternalListDTO
+                    {
+                        Id = e.Id,
+                        PatientId = e.PatientId,
+                        PatientName = e.Patient.FullName,
+                        PatientMobile = e.Patient.Phone,
+                        PatientGovernorateEN = e.Patient.Governorate.TextEN,
+                        PatientGovernorateAR = e.Patient.Governorate.TextAR,
+                        CreatedOn = e.CreatedOn,
+                        Note = e.PatientDiagnosis.Diagnosis.Diagnosis,
+                        RequestType = "referral",
+                        ReferralFromDoctor = e.Patient.Doctor.FullName
+                    }).ToListAsync();
+                return model;
+            }
+            else
+            {
+                var clinicDoctorsIds = _context.DoctorClinics.Where(c => c.ClinicId == clinicId).Select(i => i.DoctorId).ToArray();
+                var model = await _context.PatientReferrals.Where(d => clinicDoctorsIds.Contains(d.ReferralToDoctorId) && d.IsApproved != true && d.IsCanceled != true)
+                    .Include(p => p.Patient).ThenInclude(g => g.Governorate).Include(p => p.Patient).ThenInclude(d => d.Doctor).Include(d => d.PatientDiagnosis)
+                    .Select(e => new DoctorExternalListDTO
+                    {
+                        Id = e.Id,
+                        PatientId = e.PatientId,
+                        PatientName = e.Patient.FullName,
+                        PatientMobile = e.Patient.Phone,
+                        PatientGovernorateEN = e.Patient.Governorate.TextEN,
+                        PatientGovernorateAR = e.Patient.Governorate.TextAR,
+                        CreatedOn = e.CreatedOn,
+                        Note = e.PatientDiagnosis.Diagnosis.Diagnosis,
+                        RequestType = "referral",
+                        ReferralFromDoctor = e.Patient.Doctor.FullName
+                    }).ToListAsync();
+                return model;
+            }
         }
 
         // GET: api/PatientDetails/ConfirmExternal/5

@@ -1,7 +1,7 @@
-import { MonthlyProfitComponent } from './accounting/profits/monthly-profit/monthly-profit.component';
-import { DailyProfitComponent } from './accounting/profits/daily-profit/daily-profit.component';
-import { MedicinesSettingComponent } from './settings/patient-setting/medicines-setting/medicines-setting.component';
-import { RecordItemsSettingComponent } from './settings/patient-setting/record-items-setting/record-items-setting.component';
+import { MonthlyProfitComponent } from "./accounting/profits/monthly-profit/monthly-profit.component";
+import { DailyProfitComponent } from "./accounting/profits/daily-profit/daily-profit.component";
+import { MedicinesSettingComponent } from "./settings/patient-setting/medicines-setting/medicines-setting.component";
+import { RecordItemsSettingComponent } from "./settings/patient-setting/record-items-setting/record-items-setting.component";
 import { RoleGuard } from "./../auth/role.guard";
 import { ExpensesListComponent } from "./accounting/expenses/expenses-list/expenses-list.component";
 import { ProfitsComponent } from "./accounting/profits/profits.component";
@@ -112,10 +112,18 @@ const routes: Routes = [
               {
                 path: "prescription",
                 component: MedicinesComponent,
+                canActivate: [RoleGuard],
+                data: {
+                  role: "doctor",
+                },
               },
               {
                 path: "request",
                 component: RequestsComponent,
+                canActivate: [RoleGuard],
+                data: {
+                  role: "doctor",
+                },
               },
               {
                 path: "referral",
@@ -167,6 +175,10 @@ const routes: Routes = [
       {
         path: "accounting",
         component: AccountingComponent,
+        canActivate: [RoleGuard],
+        data: {
+          role: "doctor",
+        },
         children: [
           {
             path: "",
@@ -184,10 +196,6 @@ const routes: Routes = [
               {
                 path: "monthly",
                 component: MonthlyIncomeComponent,
-                canActivate: [RoleGuard],
-                data: {
-                  role: "doctor",
-                },
               },
             ],
           },
@@ -213,10 +221,6 @@ const routes: Routes = [
           {
             path: "profit",
             component: ProfitsComponent,
-            canActivate: [RoleGuard],
-            data: {
-              role: "doctor",
-            },
             children: [
               {
                 path: "",

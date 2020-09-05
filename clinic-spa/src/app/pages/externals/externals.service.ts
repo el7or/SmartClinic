@@ -3,6 +3,7 @@ import { ExternalsList, ConfirmExternalResponse } from "./externals.model";
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from "../../auth/auth.service";
+import { UserRole } from "../../auth/auth.model";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,10 @@ export class ExternalsService {
         "PatientDetails/GetExtens/" +
         this.authService.userId +
         "/" +
-        this.authService.doctorId
+        this.authService.clinicId +
+        (this.authService.roleName == UserRole.doctor
+          ? "/" + this.authService.doctorId
+          : "")
     );
   }
 

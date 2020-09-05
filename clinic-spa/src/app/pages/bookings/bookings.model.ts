@@ -5,6 +5,8 @@ prevBookingsDues?: PrevBookingDue[];
 }
 export interface BookingSetting{
   patientName:string;
+  doctorName:string;
+  doctorId:string;
   patientLastBookingType?:string;
   patientLastBookingDate?:Date;
   clinicWeekEnds:number[];

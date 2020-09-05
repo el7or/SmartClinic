@@ -24,10 +24,17 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <button nbButton type="button" [routerLink]="['/pages/patients/details','new','basic']" hero size="tiny"
-      class="mx-3 mb-2">
-      <nb-icon icon="person-add-outline"></nb-icon><span langg>Add New Patient</span>
-    </button>
+    <ng-container *ngIf="authService.roleName=='employee'">
+    <h6 class="d-inline" langg>Doctor</h6>:
+    <div class="d-inline">
+      <nb-select [(ngModel)]="selectedDoctor" #doctor="ngModel" name="doctor" id="input-doctor"
+        (selectedChange)="onChangeDoctor()" [placeholder]="'Doctor' | langg" class="mb-2" size="small">
+        <nb-option *ngFor="let item of doctorValues" [value]="item.doctorId">
+          {{ item.doctorName }}</nb-option>
+      </nb-select>
+    </div>
+  </ng-container>
+    <br>
     <table class="table table-striped table-bordered table-light" [nbSpinner]="formLoading" nbSpinnerStatus="info">
       <thead class="thead-dark">
         <tr>

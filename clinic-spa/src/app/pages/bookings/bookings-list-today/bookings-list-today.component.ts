@@ -1,3 +1,4 @@
+import { DoctorClinic } from './../../../auth/auth.model';
 import { ChatService } from "../../../shared/services/chat.service";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
@@ -37,6 +38,10 @@ export class BookingsListTodayComponent
   sortBookingsByText: string;
   totalPaid: number;
   userRole = UserRole;
+
+  doctorValues: DoctorClinic[] = [];
+  selectedDoctor:string;
+
   @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
 
@@ -60,10 +65,14 @@ export class BookingsListTodayComponent
 
   ngOnInit() {
     this.today = new Date();
+    if(this.authService.roleName == UserRole.employee){
+    this.doctorValues = JSON.parse(this.authService.doctorsClinic);
+    this.selectedDoctor = this.doctorValues[0].doctorId;
+    }else{this.selectedDoctor= this.authService.doctorId}
     this.formLoading = true;
     // =====> get list bookings in today (come from DB with sorting depends on setting):
     this.getListSubs = this.bookingService
-      .getBookingsListByDate(this.dateTimeService.dateWithoutTime(this.today))
+      .getBookingsListByDate(this.selectedDoctor,this.dateTimeService.dateWithoutTime(this.today))
       .subscribe(
         (res: GetBookingList) => {
           this.bookingsList = res.bookingsList;
@@ -267,5 +276,31 @@ export class BookingsListTodayComponent
     } else {
       this.router.navigate(["/pages/patients/details/" + codeId + "/basic"]);
     }
+  }
+
+  onChangeDoctor(){
+    this.formLoading = true;
+    this.getListSubs = this.bookingService
+      .getBookingsListByDate(this.selectedDoctor,this.dateTimeService.dateWithoutTime(this.today))
+      .subscribe(
+        (res: GetBookingList) => {
+          this.bookingsList = res.bookingsList;
+          this.sortBookingsByText = res.sortBookingsByText;
+          this.totalPaid = res.bookingsList
+            .filter((b) => !b.isCanceled)
+            .reduce((acc, booking) => acc + booking.paid, 0);
+          // =====> set label to first attend booking:
+          this.nextBooking = this.bookingsList.findIndex(
+            (booking) =>
+              booking.isAttend && !booking.isEnter && !booking.isCanceled
+          );
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 }

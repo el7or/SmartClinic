@@ -28,6 +28,7 @@ export const MENU_ITEMS: any[] = [
     title: "Accounting",
     icon: { icon: 'calculator', pack: 'solid'},
     expanded: false,
+    data: "roleDoctor",
     children: [
       {
         title: "Incomes",
@@ -45,7 +46,6 @@ export const MENU_ITEMS: any[] = [
         title: "Profits",
         icon:  { icon: 'award', pack: 'solid'},
         link: "/pages/accounting/profit",
-        data: "roleDoctor",
         pathMatch: "prefix",
       },
     ],

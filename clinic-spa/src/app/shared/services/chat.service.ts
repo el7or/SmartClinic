@@ -1,3 +1,4 @@
+import { UserRole } from "./../../auth/auth.model";
 import { Injectable, EventEmitter } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import {
@@ -62,7 +63,10 @@ export class ChatService {
         "Chat/GetUnreadCount/" +
         this.authService.userId +
         "/" +
-        this.authService.doctorId
+        this.authService.clinicId +
+        (this.authService.roleName == UserRole.doctor
+          ? "/" + this.authService.doctorId
+          : "")
     );
   }
 

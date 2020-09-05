@@ -63,6 +63,39 @@ namespace clinic_panel.Models
         public string Twitter { get; set; }
         public string LinkedIn { get; set; }
         public string Instagram { get; set; }
+        public Nullable<System.DateTime> AllDaysTimeFrom { get; set; }
+        public Nullable<System.DateTime> AllDaysTimeTo { get; set; }
+        public Nullable<int> BookingPeriod { get; set; }
+        public Nullable<int> ConsultExpiration { get; set; }
+        public Nullable<int> EntryOrderId { get; set; }
+        public Nullable<System.DateTime> FridayTimeFrom { get; set; }
+        public Nullable<System.DateTime> FridayTimeTo { get; set; }
+        public Nullable<bool> IsAllDaysOn { get; set; }
+        public Nullable<bool> IsAllDaysSameTime { get; set; }
+        public Nullable<System.DateTime> MondayTimeFrom { get; set; }
+        public Nullable<System.DateTime> MondayTimeTo { get; set; }
+        public string PrintAddress1 { get; set; }
+        public string PrintAddress2 { get; set; }
+        public string PrintAddress3 { get; set; }
+        public string PrintClinicName { get; set; }
+        public string PrintDoctorDegree { get; set; }
+        public string PrintDoctorName { get; set; }
+        public string PrintLogoPublicId { get; set; }
+        public string PrintLogoUrl { get; set; }
+        public string PrintPhone1 { get; set; }
+        public string PrintPhone2 { get; set; }
+        public string PrintPhone3 { get; set; }
+        public Nullable<System.DateTime> SaturdayTimeFrom { get; set; }
+        public Nullable<System.DateTime> SaturdayTimeTo { get; set; }
+        public Nullable<System.DateTime> SundayTimeFrom { get; set; }
+        public Nullable<System.DateTime> SundayTimeTo { get; set; }
+        public Nullable<System.DateTime> ThursdayTimeFrom { get; set; }
+        public Nullable<System.DateTime> ThursdayTimeTo { get; set; }
+        public Nullable<System.DateTime> TuesdayTimeFrom { get; set; }
+        public Nullable<System.DateTime> TuesdayTimeTo { get; set; }
+        public Nullable<System.DateTime> WednesdayTimeFrom { get; set; }
+        public Nullable<System.DateTime> WednesdayTimeTo { get; set; }
+        public string WorkDays { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -101,6 +134,7 @@ namespace clinic_panel.Models
         public virtual ICollection<DoctorRayAreasValue> DoctorRayAreasValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorRaysValue> DoctorRaysValues { get; set; }
+        public virtual SysEntryOrderValue SysEntryOrderValue { get; set; }
         public virtual SysDoctorsSpecialty SysDoctorsSpecialty { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DoctorService> DoctorServices { get; set; }

@@ -50,6 +50,9 @@ export class AuthService {
   public get doctorId(): string {
     return this.decodedToken.nbf;
   }
+  public get doctorsClinic(): any {
+    return this.decodedToken.typ;
+  }
   public get pharmacyId(): string {
     return this.decodedToken.acr;
   }
@@ -72,6 +75,7 @@ export class AuthService {
           decodedToken.prn --> roleName
           decodedToken.sid --> clinicId
           decodedToken.nbf --> doctorId
+          decodedToken.typ --> doctorsList {doctorId, doctorName}
           decodedToken.acr --> pharmacyId
           */
           }

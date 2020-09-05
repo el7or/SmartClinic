@@ -23,6 +23,7 @@ import {
 import { Subscription } from "rxjs";
 import { LanggService } from "../../../../shared/services/langg.service";
 import { map } from "rxjs/operators";
+import { DoctorClinic, UserRole } from "../../../../auth/auth.model";
 
 @Component({
   selector: "basic-info",
@@ -38,6 +39,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
   socialStatusValues: SocialStatus[];
   cityValues: CityValue[];
   areaValues: City[];
+  doctorValues: DoctorClinic[] = [];
   @ViewChild("form", { static: false }) form: NgForm;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("done2Swal", { static: false }) done2Swal: SwalComponent;
@@ -59,7 +61,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     private dialogService: NbDialogService,
     private basicInfoService: BasicInfoService,
     public langgService: LanggService,
-    private authService: AuthService,
+    public authService: AuthService,
     private alertService: AlertService,
     private patientsService: PatientsService,
     private router: Router
@@ -74,6 +76,9 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
           // get values for dropdownlists
           this.socialStatusValues = res.socialStatus;
           this.cityValues = res.cityValue;
+          if (this.authService.roleName == UserRole.employee) {
+            this.doctorValues = JSON.parse(this.authService.doctorsClinic);
+          }
           return res.basicInfo;
         })
       )
@@ -164,7 +169,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     this.formLoading = true;
     const patient: NewPatient = {
       clinicId: this.authService.clinicId,
-      doctorId: this.authService.doctorId,
+      doctorId: this.authService.roleName== UserRole.doctor? this.authService.doctorId : this.form.value.doctor,
       fullName: this.form.value.patientName,
       phone: this.form.value.patientPhone,
       phone2: this.form.value.patientPhone2,
@@ -182,7 +187,11 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
         this.patientsService.patientId = res.patientId;
         this.formLoading = false;
         // =====> to unlock other tabs in patient details:
-        this.router.navigate(["/pages/patients/details", res.seqNo, "diseases"]);
+        this.router.navigate([
+          "/pages/patients/details",
+          res.seqNo,
+          "diseases",
+        ]);
       },
       (err) => {
         console.error(err);
@@ -197,7 +206,7 @@ export class BasicInfoComponent implements OnInit, OnDestroy {
     const patient: EditPatient = {
       patientId: this.patientsService.patientId,
       clinicId: this.authService.clinicId,
-      doctorId: this.authService.doctorId,
+      doctorId: this.authService.roleName== UserRole.doctor? this.authService.doctorId : this.form.value.doctor,
       fullName: this.form.value.patientName,
       phone: this.form.value.patientPhone,
       phone2: this.form.value.patientPhone2,

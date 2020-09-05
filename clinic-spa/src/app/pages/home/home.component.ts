@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     /* console.log(info);
     info.el.querySelectorAll(".fc-content")[0].setAttribute('nbTooltip',info.event.extendedProps.description);
     info.el.querySelectorAll(".fc-content")[0].setAttribute('ng-reflect-content',info.event.extendedProps.description);*/
-    info.el.setAttribute("title", info.event.extendedProps.description);
+    //info.el.setAttribute("title", info.event.extendedProps.description);
   }
 
   openBookings(info, clickType: ClickType) {

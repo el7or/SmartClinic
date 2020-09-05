@@ -12,7 +12,7 @@ import { BookingDetailsComponent } from "../booking-details/booking-details.comp
 import { BookingList, GetBookingList } from "../bookings.model";
 import { AlertService } from "../../../shared/services/alert.service";
 import { AuthService } from "../../../auth/auth.service";
-import { UserRole } from "../../../auth/auth.model";
+import { UserRole, DoctorClinic } from "../../../auth/auth.model";
 
 @Component({
   selector: "bookings-list",
@@ -26,6 +26,10 @@ export class BookingsListComponent implements OnInit, OnDestroy {
   autoCompleteList: any[] = [];
   weekendDays: number[];
   totalPaid: number;
+
+  doctorValues: DoctorClinic[] = [];
+  selectedDoctor:string;
+
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
 
@@ -40,7 +44,7 @@ export class BookingsListComponent implements OnInit, OnDestroy {
     private dialogService: NbDialogService,
     private dateTimeService: DateTimeService,
     private alertService: AlertService,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -50,6 +54,10 @@ export class BookingsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formLoading = true;
+    if(this.authService.roleName == UserRole.employee){
+      this.doctorValues = JSON.parse(this.authService.doctorsClinic);
+      this.selectedDoctor = this.doctorValues[0].doctorId;
+      }else{this.selectedDoctor= this.authService.doctorId}
     // =====> check  param:date:
     this.routeSubs = this.route.paramMap.subscribe((paramMap) => {
       const paramDate = new Date(paramMap.get("date"));
@@ -115,7 +123,7 @@ export class BookingsListComponent implements OnInit, OnDestroy {
       this.getListSubs.unsubscribe();
     }
     this.getListSubs = this.bookingService
-      .getBookingsListByDate(this.dateTimeService.dateWithoutTime(date))
+      .getBookingsListByDate(this.selectedDoctor, this.dateTimeService.dateWithoutTime(date))
       .subscribe(
         (res: GetBookingList) => {
           this.bookingsList = res.bookingsList;
@@ -182,15 +190,8 @@ export class BookingsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  /* onOpenPaymentSummary(patientId: number) {
-    this.dialogService.open(PaymentSummaryComponent, {
-      context: {
-        patientDetails: "ملخص حالة الدفع:"
-      },
-      autoFocus: true,
-      hasBackdrop: true,
-      closeOnBackdropClick: true,
-      closeOnEsc: true
-    });
-  } */
+  onChangeDoctor(){
+    this.formLoading = true;
+    this.getBookingListByDate(this.currentDay);
+  }
 }

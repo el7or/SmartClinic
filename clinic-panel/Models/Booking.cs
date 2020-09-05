@@ -24,6 +24,7 @@ namespace clinic_panel.Models
         public int Id { get; set; }
         public System.Guid PatientId { get; set; }
         public System.Guid DoctorId { get; set; }
+        public System.Guid ClinicId { get; set; }
         public System.DateTime BookingDateTime { get; set; }
         public int TypeId { get; set; }
         public Nullable<int> DiscountId { get; set; }
@@ -45,6 +46,7 @@ namespace clinic_panel.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookingPayment> BookingPayments { get; set; }
+        public virtual Clinic Clinic { get; set; }
         public virtual DoctorBookingType DoctorBookingType { get; set; }
         public virtual DoctorDiscount DoctorDiscount { get; set; }
         public virtual Doctor Doctor { get; set; }

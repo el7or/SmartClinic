@@ -73,6 +73,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PatientId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ClinicId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="BookingDateTime" Type="datetime" Nullable="false" />
           <Property Name="TypeId" Type="int" Nullable="false" />
           <Property Name="DiscountId" Type="int" />
@@ -124,39 +125,6 @@
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="EntryOrderId" Type="int" />
-          <Property Name="BookingPeriod" Type="int" />
-          <Property Name="ConsultExpiration" Type="int" />
-          <Property Name="PrintDoctorName" Type="nvarchar(max)" />
-          <Property Name="PrintDoctorDegree" Type="nvarchar(max)" />
-          <Property Name="PrintClinicName" Type="nvarchar(max)" />
-          <Property Name="PrintLogoUrl" Type="nvarchar(max)" />
-          <Property Name="PrintLogoPublicId" Type="nvarchar(max)" />
-          <Property Name="PrintAddress1" Type="nvarchar(max)" />
-          <Property Name="PrintAddress2" Type="nvarchar(max)" />
-          <Property Name="PrintAddress3" Type="nvarchar(max)" />
-          <Property Name="PrintPhone1" Type="nvarchar" MaxLength="256" />
-          <Property Name="PrintPhone2" Type="nvarchar" MaxLength="256" />
-          <Property Name="PrintPhone3" Type="nvarchar" MaxLength="256" />
-          <Property Name="IsAllDaysOn" Type="bit" />
-          <Property Name="WorkDays" Type="nvarchar" MaxLength="50" />
-          <Property Name="IsAllDaysSameTime" Type="bit" />
-          <Property Name="AllDaysTimeFrom" Type="datetime" />
-          <Property Name="AllDaysTimeTo" Type="datetime" />
-          <Property Name="SaturdayTimeFrom" Type="datetime" />
-          <Property Name="SundayTimeFrom" Type="datetime" />
-          <Property Name="MondayTimeFrom" Type="datetime" />
-          <Property Name="TuesdayTimeFrom" Type="datetime" />
-          <Property Name="WednesdayTimeFrom" Type="datetime" />
-          <Property Name="ThursdayTimeFrom" Type="datetime" />
-          <Property Name="FridayTimeFrom" Type="datetime" />
-          <Property Name="SaturdayTimeTo" Type="datetime2" Precision="7" />
-          <Property Name="SundayTimeTo" Type="datetime2" Precision="7" />
-          <Property Name="MondayTimeTo" Type="datetime2" Precision="7" />
-          <Property Name="TuesdayTimeTo" Type="datetime2" Precision="7" />
-          <Property Name="WednesdayTimeTo" Type="datetime2" Precision="7" />
-          <Property Name="ThursdayTimeTo" Type="datetime2" Precision="7" />
-          <Property Name="FridayTimeTo" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="ClinicUsers">
           <Key>
@@ -454,6 +422,39 @@
           <Property Name="Twitter" Type="nvarchar" MaxLength="256" />
           <Property Name="LinkedIn" Type="nvarchar" MaxLength="256" />
           <Property Name="Instagram" Type="nvarchar" MaxLength="256" />
+          <Property Name="AllDaysTimeFrom" Type="datetime" />
+          <Property Name="AllDaysTimeTo" Type="datetime" />
+          <Property Name="BookingPeriod" Type="int" />
+          <Property Name="ConsultExpiration" Type="int" />
+          <Property Name="EntryOrderId" Type="int" />
+          <Property Name="FridayTimeFrom" Type="datetime" />
+          <Property Name="FridayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="IsAllDaysOn" Type="bit" />
+          <Property Name="IsAllDaysSameTime" Type="bit" />
+          <Property Name="MondayTimeFrom" Type="datetime" />
+          <Property Name="MondayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="PrintAddress1" Type="nvarchar(max)" />
+          <Property Name="PrintAddress2" Type="nvarchar(max)" />
+          <Property Name="PrintAddress3" Type="nvarchar(max)" />
+          <Property Name="PrintClinicName" Type="nvarchar(max)" />
+          <Property Name="PrintDoctorDegree" Type="nvarchar(max)" />
+          <Property Name="PrintDoctorName" Type="nvarchar(max)" />
+          <Property Name="PrintLogoPublicId" Type="nvarchar(max)" />
+          <Property Name="PrintLogoUrl" Type="nvarchar(max)" />
+          <Property Name="PrintPhone1" Type="nvarchar" MaxLength="256" />
+          <Property Name="PrintPhone2" Type="nvarchar" MaxLength="256" />
+          <Property Name="PrintPhone3" Type="nvarchar" MaxLength="256" />
+          <Property Name="SaturdayTimeFrom" Type="datetime" />
+          <Property Name="SaturdayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="SundayTimeFrom" Type="datetime" />
+          <Property Name="SundayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="ThursdayTimeFrom" Type="datetime" />
+          <Property Name="ThursdayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="TuesdayTimeFrom" Type="datetime" />
+          <Property Name="TuesdayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="WednesdayTimeFrom" Type="datetime" />
+          <Property Name="WednesdayTimeTo" Type="datetime2" Precision="7" />
+          <Property Name="WorkDays" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DoctorServices">
           <Key>
@@ -802,6 +803,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SubscriberId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SubscriberTypeId" Type="int" Nullable="false" />
           <Property Name="PlanId" Type="int" Nullable="false" />
           <Property Name="SubscriptionTypeId" Type="int" />
@@ -1024,6 +1026,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Bookings_Clinics">
+          <End Role="Clinics" Type="Self.Clinics" Multiplicity="1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clinics">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="ClinicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Bookings_DoctorBookingTypes">
           <End Role="DoctorBookingTypes" Type="Self.DoctorBookingTypes" Multiplicity="1" />
           <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
@@ -1098,12 +1112,12 @@
         </Association>
         <Association Name="FK_Clinics_SysEntryOrderValues">
           <End Role="SysEntryOrderValues" Type="Self.SysEntryOrderValues" Multiplicity="0..1" />
-          <End Role="Clinics" Type="Self.Clinics" Multiplicity="*" />
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SysEntryOrderValues">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Clinics">
+            <Dependent Role="Doctors">
               <PropertyRef Name="EntryOrderId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2082,6 +2096,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subscriptions_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Subscriptions">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Subscriptions_Plans">
           <End Role="Plans" Type="Self.Plans" Multiplicity="1" />
           <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="*" />
@@ -2213,6 +2239,10 @@
             <End Role="Bookings" EntitySet="Bookings" />
             <End Role="BookingPayments" EntitySet="BookingPayments" />
           </AssociationSet>
+          <AssociationSet Name="FK_Bookings_Clinics" Association="Self.FK_Bookings_Clinics">
+            <End Role="Clinics" EntitySet="Clinics" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
           <AssociationSet Name="FK_Bookings_DoctorBookingTypes" Association="Self.FK_Bookings_DoctorBookingTypes">
             <End Role="DoctorBookingTypes" EntitySet="DoctorBookingTypes" />
             <End Role="Bookings" EntitySet="Bookings" />
@@ -2239,7 +2269,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_Clinics_SysEntryOrderValues" Association="Self.FK_Clinics_SysEntryOrderValues">
             <End Role="SysEntryOrderValues" EntitySet="SysEntryOrderValues" />
-            <End Role="Clinics" EntitySet="Clinics" />
+            <End Role="Doctors" EntitySet="Doctors" />
           </AssociationSet>
           <AssociationSet Name="FK_ClinicUsers_AspNetUsers" Association="Self.FK_ClinicUsers_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -2565,6 +2595,10 @@
             <End Role="Subscriptions" EntitySet="Subscriptions" />
             <End Role="SubscriptionPayments" EntitySet="SubscriptionPayments" />
           </AssociationSet>
+          <AssociationSet Name="FK_Subscriptions_AspNetUsers" Association="Self.FK_Subscriptions_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+          </AssociationSet>
           <AssociationSet Name="FK_Subscriptions_Plans" Association="Self.FK_Subscriptions_Plans">
             <End Role="Plans" EntitySet="Plans" />
             <End Role="Subscriptions" EntitySet="Subscriptions" />
@@ -2677,9 +2711,17 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Pharmacy" EntitySet="Pharmacies" />
           </AssociationSet>
+          <AssociationSet Name="FK_Subscriptions_AspNetUsers" Association="Models.FK_Subscriptions_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Subscription" EntitySet="Subscriptions" />
+          </AssociationSet>
           <AssociationSet Name="FK_BookingPayments_Bookings" Association="Models.FK_BookingPayments_Bookings">
             <End Role="Booking" EntitySet="Bookings" />
             <End Role="BookingPayment" EntitySet="BookingPayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bookings_Clinics" Association="Models.FK_Bookings_Clinics">
+            <End Role="Clinic" EntitySet="Clinics" />
+            <End Role="Booking" EntitySet="Bookings" />
           </AssociationSet>
           <AssociationSet Name="FK_Bookings_DoctorBookingTypes" Association="Models.FK_Bookings_DoctorBookingTypes">
             <End Role="DoctorBookingType" EntitySet="DoctorBookingTypes" />
@@ -2696,10 +2738,6 @@
           <AssociationSet Name="FK_Bookings_Patients" Association="Models.FK_Bookings_Patients">
             <End Role="Patient" EntitySet="Patients" />
             <End Role="Booking" EntitySet="Bookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Clinics_SysEntryOrderValues" Association="Models.FK_Clinics_SysEntryOrderValues">
-            <End Role="SysEntryOrderValue" EntitySet="SysEntryOrderValues" />
-            <End Role="Clinic" EntitySet="Clinics" />
           </AssociationSet>
           <AssociationSet Name="FK_Patients_Clinics" Association="Models.FK_Patients_Clinics">
             <End Role="Clinic" EntitySet="Clinics" />
@@ -2840,6 +2878,10 @@
           <AssociationSet Name="FK_PatientRays_DoctorRaysValues" Association="Models.FK_PatientRays_DoctorRaysValues">
             <End Role="DoctorRaysValue" EntitySet="DoctorRaysValues" />
             <End Role="PatientRay" EntitySet="PatientRays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clinics_SysEntryOrderValues" Association="Models.FK_Clinics_SysEntryOrderValues">
+            <End Role="SysEntryOrderValue" EntitySet="SysEntryOrderValues" />
+            <End Role="Doctor" EntitySet="Doctors" />
           </AssociationSet>
           <AssociationSet Name="FK_Doctors_SysDoctorsSpecialties" Association="Models.FK_Doctors_SysDoctorsSpecialties">
             <End Role="SysDoctorsSpecialty" EntitySet="SysDoctorsSpecialties" />
@@ -3069,6 +3111,7 @@
           <NavigationProperty Name="ChatMessages" Relationship="Models.FK_MessagesReceived_AspNetUsers" FromRole="AspNetUser" ToRole="ChatMessage" />
           <NavigationProperty Name="ChatMessages1" Relationship="Models.FK_MessagesSent_AspNetUsers" FromRole="AspNetUser" ToRole="ChatMessage" />
           <NavigationProperty Name="Pharmacies" Relationship="Models.FK_Pharmacies_AspNetUsers" FromRole="AspNetUser" ToRole="Pharmacy" />
+          <NavigationProperty Name="Subscriptions" Relationship="Models.FK_Subscriptions_AspNetUsers" FromRole="AspNetUser" ToRole="Subscription" />
           <NavigationProperty Name="AspNetRoles" Relationship="Models.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
           <NavigationProperty Name="Clinics" Relationship="Models.ClinicUsers" FromRole="AspNetUser" ToRole="Clinic" />
         </EntityType>
@@ -3094,6 +3137,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PatientId" Type="Guid" Nullable="false" />
           <Property Name="DoctorId" Type="Guid" Nullable="false" />
+          <Property Name="ClinicId" Type="Guid" Nullable="false" />
           <Property Name="BookingDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TypeId" Type="Int32" Nullable="false" />
           <Property Name="DiscountId" Type="Int32" />
@@ -3113,6 +3157,7 @@
           <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="BookingPayments" Relationship="Models.FK_BookingPayments_Bookings" FromRole="Booking" ToRole="BookingPayment" />
+          <NavigationProperty Name="Clinic" Relationship="Models.FK_Bookings_Clinics" FromRole="Booking" ToRole="Clinic" />
           <NavigationProperty Name="DoctorBookingType" Relationship="Models.FK_Bookings_DoctorBookingTypes" FromRole="Booking" ToRole="DoctorBookingType" />
           <NavigationProperty Name="DoctorDiscount" Relationship="Models.FK_Bookings_DoctorDiscounts" FromRole="Booking" ToRole="DoctorDiscount" />
           <NavigationProperty Name="Doctor" Relationship="Models.FK_Bookings_Doctors" FromRole="Booking" ToRole="Doctor" />
@@ -3145,40 +3190,7 @@
           <Property Name="CreatedBy" Type="Guid" Nullable="false" />
           <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
-          <Property Name="EntryOrderId" Type="Int32" />
-          <Property Name="BookingPeriod" Type="Int32" />
-          <Property Name="ConsultExpiration" Type="Int32" />
-          <Property Name="PrintDoctorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintDoctorDegree" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintClinicName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintLogoUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintLogoPublicId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintAddress1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintAddress2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintAddress3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PrintPhone1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="PrintPhone2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="PrintPhone3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="IsAllDaysOn" Type="Boolean" />
-          <Property Name="WorkDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsAllDaysSameTime" Type="Boolean" />
-          <Property Name="AllDaysTimeFrom" Type="DateTime" Precision="3" />
-          <Property Name="AllDaysTimeTo" Type="DateTime" Precision="3" />
-          <Property Name="SaturdayTimeFrom" Type="DateTime" Precision="3" />
-          <Property Name="SundayTimeFrom" Type="DateTime" Precision="3" />
-          <Property Name="MondayTimeFrom" Type="DateTime" Precision="3" />
-          <Property Name="TuesdayTimeFrom" Type="DateTime" Precision="3" />
-          <Property Name="WednesdayTimeFrom" Type="DateTime" Precision="3" />
-          <Property Name="ThursdayTimeFrom" Type="DateTime" Precision="3" />
-          <Property Name="FridayTimeFrom" Type="DateTime" Precision="3" />
-          <Property Name="SaturdayTimeTo" Type="DateTime" Precision="7" />
-          <Property Name="SundayTimeTo" Type="DateTime" Precision="7" />
-          <Property Name="MondayTimeTo" Type="DateTime" Precision="7" />
-          <Property Name="TuesdayTimeTo" Type="DateTime" Precision="7" />
-          <Property Name="WednesdayTimeTo" Type="DateTime" Precision="7" />
-          <Property Name="ThursdayTimeTo" Type="DateTime" Precision="7" />
-          <Property Name="FridayTimeTo" Type="DateTime" Precision="7" />
-          <NavigationProperty Name="SysEntryOrderValue" Relationship="Models.FK_Clinics_SysEntryOrderValues" FromRole="Clinic" ToRole="SysEntryOrderValue" />
+          <NavigationProperty Name="Bookings" Relationship="Models.FK_Bookings_Clinics" FromRole="Clinic" ToRole="Booking" />
           <NavigationProperty Name="Patients" Relationship="Models.FK_Patients_Clinics" FromRole="Clinic" ToRole="Patient" />
           <NavigationProperty Name="AspNetUsers" Relationship="Models.ClinicUsers" FromRole="Clinic" ToRole="AspNetUser" />
           <NavigationProperty Name="Doctors" Relationship="Models.DoctorClinics" FromRole="Clinic" ToRole="Doctor" />
@@ -3501,6 +3513,39 @@
           <Property Name="Twitter" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="LinkedIn" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Instagram" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="AllDaysTimeFrom" Type="DateTime" Precision="3" />
+          <Property Name="AllDaysTimeTo" Type="DateTime" Precision="3" />
+          <Property Name="BookingPeriod" Type="Int32" />
+          <Property Name="ConsultExpiration" Type="Int32" />
+          <Property Name="EntryOrderId" Type="Int32" />
+          <Property Name="FridayTimeFrom" Type="DateTime" Precision="3" />
+          <Property Name="FridayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="IsAllDaysOn" Type="Boolean" />
+          <Property Name="IsAllDaysSameTime" Type="Boolean" />
+          <Property Name="MondayTimeFrom" Type="DateTime" Precision="3" />
+          <Property Name="MondayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="PrintAddress1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintAddress2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintAddress3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintClinicName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintDoctorDegree" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintDoctorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintLogoPublicId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintLogoUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintPhone1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PrintPhone2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PrintPhone3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="SaturdayTimeFrom" Type="DateTime" Precision="3" />
+          <Property Name="SaturdayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="SundayTimeFrom" Type="DateTime" Precision="3" />
+          <Property Name="SundayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="ThursdayTimeFrom" Type="DateTime" Precision="3" />
+          <Property Name="ThursdayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="TuesdayTimeFrom" Type="DateTime" Precision="3" />
+          <Property Name="TuesdayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="WednesdayTimeFrom" Type="DateTime" Precision="3" />
+          <Property Name="WednesdayTimeTo" Type="DateTime" Precision="7" />
+          <Property Name="WorkDays" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUser" Relationship="Models.FK_Doctors_AspNetUsers" FromRole="Doctor" ToRole="AspNetUser" />
           <NavigationProperty Name="Bookings" Relationship="Models.FK_Bookings_Doctors" FromRole="Doctor" ToRole="Booking" />
           <NavigationProperty Name="DoctorAnalysisValues" Relationship="Models.FK_DoctorAnalysisValues_Doctors" FromRole="Doctor" ToRole="DoctorAnalysisValue" />
@@ -3520,6 +3565,7 @@
           <NavigationProperty Name="DoctorPhysicalTherapyValues" Relationship="Models.FK_DoctorPhysicalTherapyValues_Doctors" FromRole="Doctor" ToRole="DoctorPhysicalTherapyValue" />
           <NavigationProperty Name="DoctorRayAreasValues" Relationship="Models.FK_DoctorRayAreas_Doctors" FromRole="Doctor" ToRole="DoctorRayAreasValue" />
           <NavigationProperty Name="DoctorRaysValues" Relationship="Models.FK_DoctorRaysValues_Doctors" FromRole="Doctor" ToRole="DoctorRaysValue" />
+          <NavigationProperty Name="SysEntryOrderValue" Relationship="Models.FK_Clinics_SysEntryOrderValues" FromRole="Doctor" ToRole="SysEntryOrderValue" />
           <NavigationProperty Name="SysDoctorsSpecialty" Relationship="Models.FK_Doctors_SysDoctorsSpecialties" FromRole="Doctor" ToRole="SysDoctorsSpecialty" />
           <NavigationProperty Name="DoctorServices" Relationship="Models.FK_DoctorServices_Doctors" FromRole="Doctor" ToRole="DoctorService" />
           <NavigationProperty Name="PatientReferrals" Relationship="Models.FK_PatientReferrals_Doctors" FromRole="Doctor" ToRole="PatientReferral" />
@@ -3945,6 +3991,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SubscriberId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="SubscriberTypeId" Type="Int32" Nullable="false" />
           <Property Name="PlanId" Type="Int32" Nullable="false" />
           <Property Name="SubscriptionTypeId" Type="Int32" />
@@ -3965,6 +4012,7 @@
           <Property Name="MaxBookingsMonthly" Type="Int32" />
           <Property Name="MaxFilesMonthlyMB" Type="Int32" />
           <Property Name="MaxFileSizeMB" Type="Int32" />
+          <NavigationProperty Name="AspNetUser" Relationship="Models.FK_Subscriptions_AspNetUsers" FromRole="Subscription" ToRole="AspNetUser" />
           <NavigationProperty Name="Plan" Relationship="Models.FK_Subscriptions_Plans" FromRole="Subscription" ToRole="Plan" />
           <NavigationProperty Name="SubscriptionPayments" Relationship="Models.FK_SubscriptionPayments_Subscriptions" FromRole="Subscription" ToRole="SubscriptionPayment" />
           <NavigationProperty Name="SysSubscriberTypeValue" Relationship="Models.FK_Subscriptions_SysSubscriberTypeValues" FromRole="Subscription" ToRole="SysSubscriberTypeValue" />
@@ -4044,7 +4092,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Text" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Clinics" Relationship="Models.FK_Clinics_SysEntryOrderValues" FromRole="SysEntryOrderValue" ToRole="Clinic" />
+          <NavigationProperty Name="Doctors" Relationship="Models.FK_Clinics_SysEntryOrderValues" FromRole="SysEntryOrderValue" ToRole="Doctor" />
         </EntityType>
         <EntityType Name="SysExpenseType">
           <Key>
@@ -4195,6 +4243,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subscriptions_AspNetUsers">
+          <End Type="Models.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Models.Subscription" Role="Subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Subscription">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BookingPayments_Bookings">
           <End Type="Models.Booking" Role="Booking" Multiplicity="1" />
           <End Type="Models.BookingPayment" Role="BookingPayment" Multiplicity="*" />
@@ -4204,6 +4264,18 @@
             </Principal>
             <Dependent Role="BookingPayment">
               <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bookings_Clinics">
+          <End Type="Models.Clinic" Role="Clinic" Multiplicity="1" />
+          <End Type="Models.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clinic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="ClinicId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4252,18 +4324,6 @@
             </Principal>
             <Dependent Role="Booking">
               <PropertyRef Name="PatientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Clinics_SysEntryOrderValues">
-          <End Type="Models.SysEntryOrderValue" Role="SysEntryOrderValue" Multiplicity="0..1" />
-          <End Type="Models.Clinic" Role="Clinic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SysEntryOrderValue">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Clinic">
-              <PropertyRef Name="EntryOrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4684,6 +4744,18 @@
             </Principal>
             <Dependent Role="PatientRay">
               <PropertyRef Name="RayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clinics_SysEntryOrderValues">
+          <End Type="Models.SysEntryOrderValue" Role="SysEntryOrderValue" Multiplicity="0..1" />
+          <End Type="Models.Doctor" Role="Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysEntryOrderValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="EntryOrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5301,6 +5373,7 @@
                 <ScalarProperty Name="DiscountId" ColumnName="DiscountId" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="BookingDateTime" ColumnName="BookingDateTime" />
+                <ScalarProperty Name="ClinicId" ColumnName="ClinicId" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
                 <ScalarProperty Name="PatientId" ColumnName="PatientId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -5323,39 +5396,6 @@
           <EntitySetMapping Name="Clinics">
             <EntityTypeMapping TypeName="Models.Clinic">
               <MappingFragment StoreEntitySet="Clinics">
-                <ScalarProperty Name="FridayTimeTo" ColumnName="FridayTimeTo" />
-                <ScalarProperty Name="ThursdayTimeTo" ColumnName="ThursdayTimeTo" />
-                <ScalarProperty Name="WednesdayTimeTo" ColumnName="WednesdayTimeTo" />
-                <ScalarProperty Name="TuesdayTimeTo" ColumnName="TuesdayTimeTo" />
-                <ScalarProperty Name="MondayTimeTo" ColumnName="MondayTimeTo" />
-                <ScalarProperty Name="SundayTimeTo" ColumnName="SundayTimeTo" />
-                <ScalarProperty Name="SaturdayTimeTo" ColumnName="SaturdayTimeTo" />
-                <ScalarProperty Name="FridayTimeFrom" ColumnName="FridayTimeFrom" />
-                <ScalarProperty Name="ThursdayTimeFrom" ColumnName="ThursdayTimeFrom" />
-                <ScalarProperty Name="WednesdayTimeFrom" ColumnName="WednesdayTimeFrom" />
-                <ScalarProperty Name="TuesdayTimeFrom" ColumnName="TuesdayTimeFrom" />
-                <ScalarProperty Name="MondayTimeFrom" ColumnName="MondayTimeFrom" />
-                <ScalarProperty Name="SundayTimeFrom" ColumnName="SundayTimeFrom" />
-                <ScalarProperty Name="SaturdayTimeFrom" ColumnName="SaturdayTimeFrom" />
-                <ScalarProperty Name="AllDaysTimeTo" ColumnName="AllDaysTimeTo" />
-                <ScalarProperty Name="AllDaysTimeFrom" ColumnName="AllDaysTimeFrom" />
-                <ScalarProperty Name="IsAllDaysSameTime" ColumnName="IsAllDaysSameTime" />
-                <ScalarProperty Name="WorkDays" ColumnName="WorkDays" />
-                <ScalarProperty Name="IsAllDaysOn" ColumnName="IsAllDaysOn" />
-                <ScalarProperty Name="PrintPhone3" ColumnName="PrintPhone3" />
-                <ScalarProperty Name="PrintPhone2" ColumnName="PrintPhone2" />
-                <ScalarProperty Name="PrintPhone1" ColumnName="PrintPhone1" />
-                <ScalarProperty Name="PrintAddress3" ColumnName="PrintAddress3" />
-                <ScalarProperty Name="PrintAddress2" ColumnName="PrintAddress2" />
-                <ScalarProperty Name="PrintAddress1" ColumnName="PrintAddress1" />
-                <ScalarProperty Name="PrintLogoPublicId" ColumnName="PrintLogoPublicId" />
-                <ScalarProperty Name="PrintLogoUrl" ColumnName="PrintLogoUrl" />
-                <ScalarProperty Name="PrintClinicName" ColumnName="PrintClinicName" />
-                <ScalarProperty Name="PrintDoctorDegree" ColumnName="PrintDoctorDegree" />
-                <ScalarProperty Name="PrintDoctorName" ColumnName="PrintDoctorName" />
-                <ScalarProperty Name="ConsultExpiration" ColumnName="ConsultExpiration" />
-                <ScalarProperty Name="BookingPeriod" ColumnName="BookingPeriod" />
-                <ScalarProperty Name="EntryOrderId" ColumnName="EntryOrderId" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -5641,6 +5681,39 @@
           <EntitySetMapping Name="Doctors">
             <EntityTypeMapping TypeName="Models.Doctor">
               <MappingFragment StoreEntitySet="Doctors">
+                <ScalarProperty Name="WorkDays" ColumnName="WorkDays" />
+                <ScalarProperty Name="WednesdayTimeTo" ColumnName="WednesdayTimeTo" />
+                <ScalarProperty Name="WednesdayTimeFrom" ColumnName="WednesdayTimeFrom" />
+                <ScalarProperty Name="TuesdayTimeTo" ColumnName="TuesdayTimeTo" />
+                <ScalarProperty Name="TuesdayTimeFrom" ColumnName="TuesdayTimeFrom" />
+                <ScalarProperty Name="ThursdayTimeTo" ColumnName="ThursdayTimeTo" />
+                <ScalarProperty Name="ThursdayTimeFrom" ColumnName="ThursdayTimeFrom" />
+                <ScalarProperty Name="SundayTimeTo" ColumnName="SundayTimeTo" />
+                <ScalarProperty Name="SundayTimeFrom" ColumnName="SundayTimeFrom" />
+                <ScalarProperty Name="SaturdayTimeTo" ColumnName="SaturdayTimeTo" />
+                <ScalarProperty Name="SaturdayTimeFrom" ColumnName="SaturdayTimeFrom" />
+                <ScalarProperty Name="PrintPhone3" ColumnName="PrintPhone3" />
+                <ScalarProperty Name="PrintPhone2" ColumnName="PrintPhone2" />
+                <ScalarProperty Name="PrintPhone1" ColumnName="PrintPhone1" />
+                <ScalarProperty Name="PrintLogoUrl" ColumnName="PrintLogoUrl" />
+                <ScalarProperty Name="PrintLogoPublicId" ColumnName="PrintLogoPublicId" />
+                <ScalarProperty Name="PrintDoctorName" ColumnName="PrintDoctorName" />
+                <ScalarProperty Name="PrintDoctorDegree" ColumnName="PrintDoctorDegree" />
+                <ScalarProperty Name="PrintClinicName" ColumnName="PrintClinicName" />
+                <ScalarProperty Name="PrintAddress3" ColumnName="PrintAddress3" />
+                <ScalarProperty Name="PrintAddress2" ColumnName="PrintAddress2" />
+                <ScalarProperty Name="PrintAddress1" ColumnName="PrintAddress1" />
+                <ScalarProperty Name="MondayTimeTo" ColumnName="MondayTimeTo" />
+                <ScalarProperty Name="MondayTimeFrom" ColumnName="MondayTimeFrom" />
+                <ScalarProperty Name="IsAllDaysSameTime" ColumnName="IsAllDaysSameTime" />
+                <ScalarProperty Name="IsAllDaysOn" ColumnName="IsAllDaysOn" />
+                <ScalarProperty Name="FridayTimeTo" ColumnName="FridayTimeTo" />
+                <ScalarProperty Name="FridayTimeFrom" ColumnName="FridayTimeFrom" />
+                <ScalarProperty Name="EntryOrderId" ColumnName="EntryOrderId" />
+                <ScalarProperty Name="ConsultExpiration" ColumnName="ConsultExpiration" />
+                <ScalarProperty Name="BookingPeriod" ColumnName="BookingPeriod" />
+                <ScalarProperty Name="AllDaysTimeTo" ColumnName="AllDaysTimeTo" />
+                <ScalarProperty Name="AllDaysTimeFrom" ColumnName="AllDaysTimeFrom" />
                 <ScalarProperty Name="Instagram" ColumnName="Instagram" />
                 <ScalarProperty Name="LinkedIn" ColumnName="LinkedIn" />
                 <ScalarProperty Name="Twitter" ColumnName="Twitter" />
@@ -6049,6 +6122,7 @@
                 <ScalarProperty Name="SubscriptionTypeId" ColumnName="SubscriptionTypeId" />
                 <ScalarProperty Name="PlanId" ColumnName="PlanId" />
                 <ScalarProperty Name="SubscriberTypeId" ColumnName="SubscriberTypeId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="SubscriberId" ColumnName="SubscriberId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -1,19 +1,19 @@
 <nb-card>
   <nb-card-header>
-    <!-- <div class="row">
+    <div class="text-center">
+      <h5 class="font-andalus">{{today | localDateLong}}</h5>
+    </div>
+    <div *ngIf="authService.roleName=='employee'" class="row">
       <div class="col-4">
-        <h6 class="d-inline" langg>Doctor Name</h6>:
+        <h6 class="d-inline" langg>Doctor</h6>:
         <div class="d-inline">
-          <nb-select #bookingDoctor name="bookingDoctor" id="input-doctor" selected="2">
-            <nb-option value="1">عادل حسن</nb-option>
-            <nb-option value="2">علي أبو مضاوي</nb-option>
-            <nb-option value="3">محمد زادة</nb-option>
+          <nb-select fullWidth [(ngModel)]="selectedDoctor" #doctor="ngModel" name="doctor" id="input-doctor"
+           (selectedChange)="onChangeDoctor()" [placeholder]="'Doctor' | langg" size="small">
+            <nb-option *ngFor="let item of doctorValues" [value]="item.doctorId">
+              {{ item.doctorName }}</nb-option>
           </nb-select>
         </div>
       </div>
-    </div> -->
-    <div class="text-center">
-      <h5 class="font-andalus">{{today | localDateLong}}</h5>
     </div>
   </nb-card-header>
   <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="info">

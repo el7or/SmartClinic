@@ -25,9 +25,15 @@ namespace clinic_panel.DTOs
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int SubscriptionDue { get; set; }
         public int UsersCount { get; set; }
-        public int ClinicsCount { get; set; }
+        public List<string> Clinics { get; set; }
         public int PatientsCount { get; set; }
         public string IsActive { get; set; }
+    }
+
+    public class DoctorAddClinicDTO
+    {
+        public Guid DoctorId { get; set; }
+        public Guid ClinicId { get; set; }
     }
     public class DoctorCreateUserDTO
     {
@@ -90,6 +96,26 @@ namespace clinic_panel.DTOs
 
         [Url(ErrorMessage = "لابد من إدخال رابط صحيح !")]
         public string Instagram { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        public int? EntryOrderId { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        public int? BookingPeriod { get; set; }
+
+        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
+        public int? ConsultExpiration { get; set; }
+        public string PrintDoctorName { get; set; }
+        public string PrintDoctorDegree { get; set; }
+        public string PrintClinicName { get; set; }
+        public string PrintAddress1 { get; set; }
+        public string PrintAddress2 { get; set; }
+        public string PrintAddress3 { get; set; }
+        public string PrintPhone1 { get; set; }
+        public string PrintPhone2 { get; set; }
+        public string PrintPhone3 { get; set; }
     }
     public class DoctorCreateSubsDTO
     {
@@ -114,26 +140,6 @@ namespace clinic_panel.DTOs
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public string ClinicName { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
-        public int? EntryOrderId { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
-        public int? BookingPeriod { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "لابد من إدخال رقم صحيح !")]
-        public int? ConsultExpiration { get; set; }
-        public string PrintDoctorName { get; set; }
-        public string PrintDoctorDegree { get; set; }
-        public string PrintClinicName { get; set; }
-        public string PrintAddress1 { get; set; }
-        public string PrintAddress2 { get; set; }
-        public string PrintAddress3 { get; set; }
-        public string PrintPhone1 { get; set; }
-        public string PrintPhone2 { get; set; }
-        public string PrintPhone3 { get; set; }
 
         [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من إدخال صيغة رقمية صحيحة !")]
@@ -185,24 +191,6 @@ namespace clinic_panel.DTOs
         public string PrintPhone1 { get; set; }
         public string PrintPhone2 { get; set; }
         public string PrintPhone3 { get; set; }
-    }
-    public class DoctorAddUserDTO
-    {
-        public Guid ClinicId { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
-        [StringLength(100, ErrorMessage = "لابد على الأقل أن تحتوي على {2} حروف أو رموز !", MinimumLength = 6)]
-        public string UserName { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
-        [StringLength(100, ErrorMessage = "لابد على الأقل أن تحتوي على {2} حروف أو رموز !", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-        public string RoleName { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
-        [StringLength(100, ErrorMessage = "لابد على الأقل أن تحتوي على {2} حروف أو رموز !", MinimumLength = 6)]
-        public string FullName { get; set; }
     }
     public class DoctorAddPaymentDTO
     {

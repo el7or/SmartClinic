@@ -126,36 +126,67 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Booking
-        [HttpGet("GetHomeBookings/{id}/{doctorId}")]
-        public async Task<IActionResult> GetHomeBookings(Guid id, Guid doctorId)
+        [HttpGet("GetHomeBookings/{id}/{clinicId}/{doctorId?}")]
+        public async Task<IActionResult> GetHomeBookings(Guid id, Guid clinicId, Guid? doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var doctor = await _context.Doctors.FindAsync(doctorId);
-            var calBookingEvents = _context.Bookings.Include(p => p.Patient).Where(b => b.DoctorId == doctorId && b.IsCanceled != true && b.Patient.IsDeleted != true)
-                .GroupBy(b => b.BookingDateTime.Date)
-                .Select(b => new
-                {
-                    Title = "عدد الحجوزات: " + b.Count(),
-                    Start = b.Key.ToString("yyyy-MM-dd"),
-                    Description = doctor.FullName
-                }).ToList();
-            var calOperationEvents = _context.PatientOperations.Include(p => p.OperationType).Where(b => b.OperationType.DoctorId == doctorId && b.OperationDate != null && b.IsDeleted != true && b.Patient.IsDeleted != true)
-                .GroupBy(b => b.OperationDate.Value)
-                .Select(b => new
-                {
-                    Title = "عدد العمليات: " + b.Count(),
-                    Start = b.Key.ToString("yyyy-MM-dd"),
-                    Description = doctor.FullName
-                }).ToList();
-            int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
-            var model = new
+            dynamic model = null;
+            if (doctorId != null)
             {
-                CalendarEvents = calBookingEvents.Concat(calOperationEvents),
-                WeekEnds = weekDays.Except(doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray()
-            };
+                var doctor = await _context.Doctors.FindAsync(doctorId);
+                var calBookingEvents = _context.Bookings.Include(p => p.Patient).Where(b => b.DoctorId == doctorId && b.IsCanceled != true && b.Patient.IsDeleted != true)
+                    .GroupBy(b => b.BookingDateTime.Date)
+                    .Select(b => new
+                    {
+                        Title = "عدد الحجوزات: " + b.Count(),
+                        Start = b.Key.ToString("yyyy-MM-dd"),
+                        Description = doctor.FullName
+                    }).ToList();
+                var calOperationEvents = _context.PatientOperations.Include(p => p.OperationType).Where(b => b.OperationType.DoctorId == doctorId && b.OperationDate != null && b.IsDeleted != true && b.Patient.IsDeleted != true)
+                    .GroupBy(b => b.OperationDate.Value)
+                    .Select(b => new
+                    {
+                        Title = "عدد العمليات: " + b.Count(),
+                        Start = b.Key.ToString("yyyy-MM-dd"),
+                        Description = doctor.FullName
+                    }).ToList();
+                int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
+                model = new
+                {
+                    CalendarEvents = calBookingEvents.Concat(calOperationEvents),
+                    WeekEnds = weekDays.Except(doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray()
+                };
+            }
+            else
+            {
+                var clinicDoctorsIds = _context.DoctorClinics.Where(c => c.ClinicId == clinicId).Select(i => i.DoctorId).ToArray();
+                //var doctor = await _context.Doctors.FindAsync(doctorId);
+                var calBookingEvents = _context.Bookings.Include(p => p.Patient).Where(b => clinicDoctorsIds.Contains(b.DoctorId) && b.IsCanceled != true && b.Patient.IsDeleted != true)
+                    .GroupBy(b => b.BookingDateTime.Date)
+                    .Select(b => new
+                    {
+                        Title = "عدد الحجوزات: " + b.Count(),
+                        Start = b.Key.ToString("yyyy-MM-dd"),
+                        //Description = doctor.FullName
+                    }).ToList();
+                var calOperationEvents = _context.PatientOperations.Include(p => p.OperationType).Where(b => clinicDoctorsIds.Contains(b.OperationType.DoctorId)  && b.OperationDate != null && b.IsDeleted != true && b.Patient.IsDeleted != true)
+                    .GroupBy(b => b.OperationDate.Value)
+                    .Select(b => new
+                    {
+                        Title = "عدد العمليات: " + b.Count(),
+                        Start = b.Key.ToString("yyyy-MM-dd"),
+                        //Description = doctor.FullName
+                    }).ToList();
+                int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
+                model = new
+                {
+                    CalendarEvents = calBookingEvents.Concat(calOperationEvents)
+                    //WeekEnds = 
+                };
+            }
             return Ok(model);
         }
 
@@ -184,6 +215,8 @@ namespace clinic_api.Controllers
                 BookingSetting = new BookingSetting
                 {
                     PatientName = patient.FullName,
+                    DoctorName = patient.Doctor.FullName,
+                    DoctorId = patient.DoctorId,
                     PatientLastBookingDate = patientLastBooking?.BookingDateTime,
                     PatientLastBookingType = patientLastBooking?.Type.Text,
                     ClinicWeekEnds = weekDays.Except(patient.Doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray(),
@@ -221,7 +254,8 @@ namespace clinic_api.Controllers
             }
             else
             {
-                var booking = await _context.Bookings.Where(b => b.Id == bookingId).Include(s => s.BookingServices).Include(p => p.BookingPayments).FirstOrDefaultAsync();
+                var booking = await _context.Bookings.Where(b => b.Id == bookingId)
+                    .Include(s => s.BookingServices).Include(p => p.BookingPayments).Include(d => d.Doctor).FirstOrDefaultAsync();
                 model.BookingDetails = new BookingDetails
                 {
                     BookingDateTime = booking.BookingDateTime,

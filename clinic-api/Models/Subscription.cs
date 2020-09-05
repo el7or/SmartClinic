@@ -1,4 +1,5 @@
-﻿using System;
+﻿using clinic_api.Data;
+using System;
 using System.Collections.Generic;
 
 namespace clinic_api.Models
@@ -11,6 +12,7 @@ namespace clinic_api.Models
         }
         public int Id { get; set; }
         public Guid SubscriberId { get; set; }
+        public Guid UserId { get; set; }
         public int SubscriberTypeId { get; set; }
         public int PlanId { get; set; }
         public int? SubscriptionTypeId { get; set; }
@@ -32,6 +34,7 @@ namespace clinic_api.Models
         public int? MaxFilesMonthlyMB { get; set; }
         public int? MaxFileSizeMB { get; set; }
 
+        public virtual ApplicationUser User { get; set; }
         public virtual Plan Plan { get; set; }
         public virtual SysSubscriberTypeValue SubscriberType { get; set; }
         public virtual SysSubscriptionTypeValue SubscriptionType { get; set; }

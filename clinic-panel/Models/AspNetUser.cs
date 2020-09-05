@@ -21,6 +21,7 @@ namespace clinic_panel.Models
             this.ChatMessages = new HashSet<ChatMessage>();
             this.ChatMessages1 = new HashSet<ChatMessage>();
             this.Pharmacies = new HashSet<Pharmacy>();
+            this.Subscriptions = new HashSet<Subscription>();
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.Clinics = new HashSet<Clinic>();
         }
@@ -57,6 +58,8 @@ namespace clinic_panel.Models
         public virtual ICollection<ChatMessage> ChatMessages1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pharmacy> Pharmacies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Subscription> Subscriptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

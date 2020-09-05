@@ -14,6 +14,7 @@ export interface BasicInfo {
   career?:string;
   city?:number;
   area?:number;
+  doctorId?:string;
   note?:string;
 }
 export interface SocialStatus{

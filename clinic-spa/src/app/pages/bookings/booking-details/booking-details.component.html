@@ -3,6 +3,9 @@
   <nb-card class="dialog-center">
     <nb-card-header>
       <b>{{bookId?('Booking Details for:'|langg):('New Booking for:'|langg)}}</b>&nbsp;{{ bookingSetting?.patientName }}
+      <ng-container *ngIf="authService.roleName=='employee'">
+      &nbsp;-&nbsp;<b>{{('Doctor'|langg)+': '}}</b>{{bookingSetting?.doctorName}}
+      </ng-container>
       <br>
       <small *ngIf="bookingSetting?.patientLastBookingType">
         <b langg>Last Visit Type</b>: {{bookingSetting?.patientLastBookingType}}&nbsp;|
@@ -12,19 +15,9 @@
     <nb-card-body>
       <div class="row">
         <div [class]="bookingSetting?.doctorAllBookingSameDay.length || prevBookingsDues?.length?'col-md-6':'col-md-12'">
-          <!-- <div class="form-control-group">
-            <label for="input-bookingDoctor" class="label"><span langg>Doctor Name</span>:</label>
-            <nb-select fullWidth [(ngModel)]="bookingDoctorData" #bookingDoctor="ngModel" name="bookingDoctor"
-              [placeholder]="'Doctor Name' | langg" required [status]="!bookingDoctorData ? 'danger' : 'success'">
-              <nb-option value="1">عادل حسن</nb-option>
-              <nb-option value="2">علي أبو مضاوي</nb-option>
-              <nb-option value="3">محمد زادة</nb-option>
-            </nb-select>
-          </div> -->
           <div class="form-control-group">
             <label for="input-bookingDate" class="label"><span langg>Booking Date</span>:</label>
-            <input type="text" bsDatepicker nbInput formControlName="date" fullWidth
-            [minDate]="todayDate"
+            <input type="text" bsDatepicker nbInput formControlName="date" fullWidth [minDate]="todayDate"
               [daysDisabled]="bookingSetting?.clinicWeekEnds" autocomplete="off" readonly
               [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', showWeekNumbers: false }"
               (bsValueChange)="onChangeBookingDate($event)" [placeholder]="'Booking Date' | langg"
@@ -92,7 +85,9 @@
             <label><span langg>Previous Payments:</span><u>&nbsp;{{bookingDetails.bookingPayments | number:'0.0-0' }}
                 {{'EGP' | langg}}</u></label>
           </nb-alert>
-          <div *ngIf="bookingDetails?.bookingPayments < (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice) && (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice) > 0" class="form-control-group">
+          <div
+            *ngIf="bookingDetails?.bookingPayments < (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice) && (bookingTypePrice + bookingServicesPrice - bookingDiscountPrice) > 0"
+            class="form-control-group">
             <label for="input-payment" class="label"><span langg>Current Payment</span>:</label>
             <input nbInput type="number" formControlName="paid" [placeholder]="'Current Payment' | langg" fullWidth
               [min]="0" [max]="bookingTypePrice + bookingServicesPrice - bookingDiscountPrice"

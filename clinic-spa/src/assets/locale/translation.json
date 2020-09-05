@@ -748,5 +748,6 @@
   { "ar": "مناطق العلاج الطبيعي", "en": "Physical Therapy Areas" },
   { "ar": "إضافة اسم العلاج الطبيعي", "en": "Add Physical Therapy Name" },
   { "ar": "إضافة منطقة العلاج الطبيعي", "en": "Add Physical Therapy Area" },
-  { "ar": "منطقة العلاج الطبيعي", "en": "Physical Therapy Area" }
+  { "ar": "منطقة العلاج الطبيعي", "en": "Physical Therapy Area" },
+  { "ar": "الطبيب", "en": "Doctor" }
 ]

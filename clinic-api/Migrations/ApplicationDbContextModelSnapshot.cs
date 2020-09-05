@@ -2443,6 +2443,9 @@ namespace clinic_api.Migrations
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PlanId");
@@ -2450,6 +2453,8 @@ namespace clinic_api.Migrations
                     b.HasIndex("SubscriberTypeId");
 
                     b.HasIndex("SubscriptionTypeId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Subscriptions");
                 });
@@ -3652,6 +3657,12 @@ namespace clinic_api.Migrations
                         .WithMany("Subscriptions")
                         .HasForeignKey("SubscriptionTypeId")
                         .HasConstraintName("FK_Subscriptions_SysSubscriptionTypeValues");
+
+                    b.HasOne("clinic_api.Data.ApplicationUser", "User")
+                        .WithMany("Subscriptions")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_Subscriptions_AspNetUsers")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("clinic_api.Models.SubscriptionPayment", b =>

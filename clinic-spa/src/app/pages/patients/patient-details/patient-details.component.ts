@@ -110,7 +110,7 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
           route: "./diseases",
           disabled: this.isNewPatient,
         },
-        {
+        /* {
           title: this.langgService.translateWord("Prescription"),
           route: "./prescription",
           disabled: this.isNewPatient,
@@ -119,7 +119,7 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
           title: this.langgService.translateWord("Request X-Ray & Analysis"),
           route: "./request",
           disabled: this.isNewPatient,
-        },
+        }, */
         {
           title: this.langgService.translateWord("All Visits"),
           route: "./visits",

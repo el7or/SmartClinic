@@ -14,6 +14,8 @@ namespace clinic_api.DTOs
     public class BookingSetting
     {
         public string PatientName { get; set; }
+        public string DoctorName { get; set; }
+        public Guid DoctorId { get; set; }
         public string PatientLastBookingType { get; set; }
         public DateTime? PatientLastBookingDate { get; set; }
         public int[] ClinicWeekEnds { get; set; }

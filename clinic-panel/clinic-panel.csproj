@@ -554,15 +554,6 @@
     <Content Include="Views\Doctor\AddUser.cshtml" />
     <Content Include="Views\Doctor\AddPayment.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
-    <Content Include="Views\Clinic\Create.cshtml" />
-    <Content Include="Views\Clinic\Delete.cshtml" />
-    <Content Include="Views\Clinic\Details.cshtml" />
-    <Content Include="Views\Clinic\Edit.cshtml" />
-    <Content Include="Views\Clinic\Index.cshtml" />
-    <Content Include="Views\Clinic\Prices.cshtml" />
-    <Content Include="Views\Clinic\CreateBookingType.cshtml" />
-    <Content Include="Views\Clinic\CreateService.cshtml" />
-    <Content Include="Views\Clinic\CreateDiscount.cshtml" />
     <Content Include="Views\Medicine\DoctorMedicines.cshtml" />
     <Content Include="Views\Complaint\DoctorComplaints.cshtml" />
     <Content Include="Views\Complaint\CreateGeneralComplaint.cshtml" />
@@ -605,6 +596,14 @@
     <Content Include="Views\Medicine\DeleteMedicineDose.cshtml" />
     <Content Include="Views\Medicine\DeleteMedicineTiming.cshtml" />
     <Content Include="Views\Medicine\DeleteMedicinePeriod.cshtml" />
+    <Content Include="Views\Clinic\Create.cshtml" />
+    <Content Include="Views\Clinic\Delete.cshtml" />
+    <Content Include="Views\Clinic\Details.cshtml" />
+    <Content Include="Views\Clinic\Edit.cshtml" />
+    <Content Include="Views\Clinic\Index.cshtml" />
+    <Content Include="Views\Clinic\AddDoctor.cshtml" />
+    <Content Include="Views\Clinic\AddEmployee.cshtml" />
+    <Content Include="Views\Doctor\AddClinic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

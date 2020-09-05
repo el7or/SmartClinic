@@ -58,6 +58,7 @@ namespace clinic_api.DTOs
         public string Career { get; set; }
         public int? City { get; set; }
         public int? Area { get; set; }
+        public Guid? DoctorId { get; set; }
         public string Note { get; set; }
     }
 

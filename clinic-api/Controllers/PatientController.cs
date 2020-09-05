@@ -33,52 +33,82 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-                var patient = await _context.Patients.Where(p => p.ClinicId == clinicId && p.SeqNo == seqNo && p.IsDeleted != true)
-                .Include(b => b.Bookings).Include(s=> s.City).FirstOrDefaultAsync();
-                var patientHeaderInfo = new PatientGetDTO
-                {
-                    PatientId = patient.Id,
-                    Age = patient.Age,
-                    Name = patient.FullName,
-                    VisitsCount = patient.Bookings.Count(),
-                    AreaTextEN = patient.City?.TextEN,
-                    AreaTextAR = patient.City?.TextAR
-                };
+            var patient = await _context.Patients.Where(p => p.ClinicId == clinicId && p.SeqNo == seqNo && p.IsDeleted != true)
+            .Include(b => b.Bookings).Include(s => s.City).FirstOrDefaultAsync();
+            var patientHeaderInfo = new PatientGetDTO
+            {
+                PatientId = patient.Id,
+                Age = patient.Age,
+                Name = patient.FullName,
+                VisitsCount = patient.Bookings.Count(),
+                AreaTextEN = patient.City?.TextEN,
+                AreaTextAR = patient.City?.TextAR
+            };
             return patientHeaderInfo;
         }
 
         // GET: api/Patient/5 (get patients list)
-        [HttpGet("{id}/{clinicId}/{pageNo}/{pageSize}")]
-        public async Task<ActionResult<PatientsGetPagedDTO>> GetPatients(Guid id, Guid clinicId, int pageNo, int pageSize)
+        [HttpGet("{id}/{pageNo}/{pageSize}/{clinicId}/{doctorId?}")]
+        public async Task<ActionResult<PatientsGetPagedDTO>> GetPatients(Guid id, int pageNo, int pageSize, Guid clinicId, Guid? doctorId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var patients = await _context.Patients.Include(b => b.Bookings).Where(c => c.ClinicId == clinicId && c.IsDeleted != true).OrderByDescending(d => d.CreatedOn)
-                .Select(p => new PatientsListDTO
+            if (doctorId == null)
+            {
+                var patients = await _context.Patients.Include(b => b.Bookings).Where(c => c.ClinicId == clinicId && c.IsDeleted != true).OrderByDescending(d => d.CreatedOn)
+                    .Select(p => new PatientsListDTO
+                    {
+                        Id = p.Id,
+                        CodeId = p.SeqNo,
+                        Name = p.FullName,
+                        Mobile = p.Phone,
+                        VisitsCount = p.Bookings.Count(),
+                        LastVisit = p.Bookings.Count() == 0 ? (DateTime?)null : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().BookingDateTime,
+                        LastVisitType = p.Bookings.Count() == 0 ? "" : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Type.Text,
+                        LastVisitBookId = p.Bookings.Count() == 0 ? 0 : (p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsAttend == true || p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsCanceled == true ? 0 : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Id)
+                    }).ToPagedListAsync(pageNo, pageSize);
+                var patientPagination = new PagedList
                 {
-                    Id = p.Id,
-                    CodeId = p.SeqNo,
-                    Name = p.FullName,
-                    Mobile = p.Phone,
-                    VisitsCount = p.Bookings.Count(),
-                    LastVisit = p.Bookings.Count() == 0 ? (DateTime?)null : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().BookingDateTime,
-                    LastVisitType = p.Bookings.Count() == 0 ? "" : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Type.Text,
-                    LastVisitBookId = p.Bookings.Count() == 0 ? 0 :  (p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsAttend == true || p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsCanceled == true? 0 : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Id)
-                }).ToPagedListAsync(pageNo, pageSize);
-            var patientPagination = new PagedList
+                    PageCount = patients.PageCount,
+                    PageNumber = patients.PageNumber,
+                    PageSize = patients.PageSize,
+                    TotalItemCount = patients.TotalItemCount
+                };
+                return new PatientsGetPagedDTO
+                {
+                    Patients = patients,
+                    Pagination = patientPagination
+                };
+            }
+            else
             {
-                PageCount = patients.PageCount,
-                PageNumber = patients.PageNumber,
-                PageSize = patients.PageSize,
-                TotalItemCount = patients.TotalItemCount
-            };
-            return new PatientsGetPagedDTO
-            {
-                Patients = patients,
-                Pagination = patientPagination
-            };
+                var patients = await _context.Patients.Include(b => b.Bookings).Where(c => c.DoctorId == doctorId && c.IsDeleted != true).OrderByDescending(d => d.CreatedOn)
+                    .Select(p => new PatientsListDTO
+                    {
+                        Id = p.Id,
+                        CodeId = p.SeqNo,
+                        Name = p.FullName,
+                        Mobile = p.Phone,
+                        VisitsCount = p.Bookings.Count(),
+                        LastVisit = p.Bookings.Count() == 0 ? (DateTime?)null : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().BookingDateTime,
+                        LastVisitType = p.Bookings.Count() == 0 ? "" : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Type.Text,
+                        LastVisitBookId = p.Bookings.Count() == 0 ? 0 : (p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsAttend == true || p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().IsCanceled == true ? 0 : p.Bookings.OrderByDescending(d => d.CreatedOn).FirstOrDefault().Id)
+                    }).ToPagedListAsync(pageNo, pageSize);
+                var patientPagination = new PagedList
+                {
+                    PageCount = patients.PageCount,
+                    PageNumber = patients.PageNumber,
+                    PageSize = patients.PageSize,
+                    TotalItemCount = patients.TotalItemCount
+                };
+                return new PatientsGetPagedDTO
+                {
+                    Patients = patients,
+                    Pagination = patientPagination
+                };
+            }
         }
 
         // GET: api/Patient/5
@@ -127,7 +157,7 @@ namespace clinic_api.Controllers
             }
             patientName = patientName.Trim().Normalize_AR();
             var isPatientExist = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && p.IsDeleted != true && (p.FullName == patientName));
-            if (isPatientExist ==null)
+            if (isPatientExist == null)
             {
                 return 0;
             }
@@ -146,9 +176,9 @@ namespace clinic_api.Controllers
                 return Unauthorized();
             }
             PatientGetBasicDTO patientDetails = null;
-            if (patientId !="new")
+            if (patientId != "new")
             {
-                var patient = await _context.Patients.FirstOrDefaultAsync(p => p.Id== Guid.Parse(patientId) && p.IsDeleted != true);
+                var patient = await _context.Patients.FirstOrDefaultAsync(p => p.Id == Guid.Parse(patientId) && p.IsDeleted != true);
                 patientDetails = new PatientGetBasicDTO
                 {
                     PatientId = patient.Id,
@@ -161,6 +191,7 @@ namespace clinic_api.Controllers
                     Status = patient.SocialStatusId,
                     City = patient.GovernorateId,
                     Area = patient.CityId,
+                    DoctorId = patient.DoctorId,
                     Note = patient.Note
                 };
             }
@@ -198,7 +229,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var patient = await _context.Patients.FirstOrDefaultAsync(p=> p.Id== model.PatientId && p.IsDeleted != true);
+            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.Id == model.PatientId && p.IsDeleted != true);
             patient.FullName = model.FullName.Trim().Normalize_AR();
             patient.Phone = model.Phone.Trim();
             patient.Phone2 = model.Phone2 == null ? null : model.Phone2.Trim();
@@ -281,7 +312,7 @@ namespace clinic_api.Controllers
                 }
             }
 
-            return Ok(new { seqNo = patient.SeqNo, patientId = patient.Id  });
+            return Ok(new { seqNo = patient.SeqNo, patientId = patient.Id });
         }
 
         // DELETE: api/Patient/5
@@ -309,7 +340,7 @@ namespace clinic_api.Controllers
 
         // GET: api/Patient/GetPatientFile/5
         [HttpGet("GetPatientFile/{id}/{doctorId}/{patientId}")]
-        public async Task<ActionResult<GetPatientRecordDTO>> GetPatientFile(Guid id, Guid doctorId,Guid patientId)
+        public async Task<ActionResult<GetPatientRecordDTO>> GetPatientFile(Guid id, Guid doctorId, Guid patientId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {

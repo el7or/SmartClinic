@@ -32,7 +32,7 @@
         </div>
         <div class="col-md-3 col-sm-6 form-control-group">
           <label for="input-mobile2" class="label"><span langg>Mobile 2</span>:</label>
-          <input nbInput [(ngModel)]="patientInfo.mobile2" #patientPhone2="ngModel" name="patientPhone2" id="input-mobile"
+          <input nbInput [(ngModel)]="patientInfo.mobile2" #patientPhone2="ngModel" name="patientPhone2" id="input-mobile2"
             [placeholder]="'Mobile 2' | langg" fullWidth pattern="[0-9]*" minlength="10"
             [status]="patientPhone2.touched ? (patientPhone2.invalid  ? 'danger' : (patientPhone2.value ? 'success': '')) : ''">
           <ng-container *ngIf="patientPhone2.invalid && patientPhone2.touched">
@@ -81,6 +81,14 @@
             [placeholder]="'Area' | langg">
             <nb-option *ngFor="let item of areaValues" [value]="item.id">
               {{ langgService.locale=="en"? item.textEN : item.textAR }}</nb-option>
+          </nb-select>
+        </div>
+        <div *ngIf="authService.roleName=='employee'" class="col-md-4 col-sm-6 form-control-group">
+          <label for="input-doctor" class="label"><span langg>Doctor</span>:</label>
+          <nb-select fullWidth [ngModel]="patientInfo.doctorId || doctorValues[0]?.doctorId" #doctor="ngModel" name="doctor" id="input-doctor"
+            [placeholder]="'Doctor' | langg">
+            <nb-option *ngFor="let item of doctorValues" [value]="item.doctorId">
+              {{ item.doctorName }}</nb-option>
           </nb-select>
         </div>
         <div class="col-md-12 col-sm-12 form-control-group">

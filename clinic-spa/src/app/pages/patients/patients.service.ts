@@ -5,6 +5,7 @@ import { PatientHeaderInfo, PatientsPagedList, GetPatientRecord } from "./patien
 import { AuthService } from "../../auth/auth.service";
 import { environment } from "../../../environments/environment";
 import { map } from "rxjs/operators";
+import { UserRole } from '../../auth/auth.model';
 
 @Injectable({
   providedIn: "root",
@@ -41,13 +42,16 @@ export class PatientsService {
     return this.http.get<PatientsPagedList>(
       this.baseUrl +
         "Patient/" +
-        this.authService.userId +
-        "/" +
-        this.authService.clinicId +
+        this.authService.userId+
         "/" +
         pageNumber +
         "/" +
-        pageSize
+        pageSize +
+        "/" +
+        this.authService.clinicId +
+        (this.authService.roleName == UserRole.doctor
+          ? "/" + this.authService.doctorId
+          : "")
     );
   }
 

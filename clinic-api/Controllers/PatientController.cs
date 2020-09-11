@@ -84,7 +84,7 @@ namespace clinic_api.Controllers
             }
             else
             {
-                var patients = await _context.Patients.Include(b => b.Bookings).Where(c => c.DoctorId == doctorId && c.IsDeleted != true).OrderByDescending(d => d.CreatedOn)
+                var patients = await _context.Patients.Include(b => b.Bookings).Where(c => c.DoctorId == doctorId && c.ClinicId == clinicId && c.IsDeleted != true).OrderByDescending(d => d.CreatedOn)
                     .Select(p => new PatientsListDTO
                     {
                         Id = p.Id,

@@ -123,6 +123,7 @@ export interface BookingList {
   paid: number;
   due: number;
   isCanceled: boolean;
+  clinicName?:string;
 }
 export interface PutBookingList {
   clinicId:string;

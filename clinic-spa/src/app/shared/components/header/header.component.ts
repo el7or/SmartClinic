@@ -16,10 +16,11 @@ import { AuthService } from "./../../../auth/auth.service";
 import { LanggService } from "../../services/langg.service";
 import { MENU_ITEMS } from "../../../pages/pages-menu";
 import { ProfileComponent } from "../profile/profile.component";
-import { UserRole } from "../../../auth/auth.model";
+import { UserRole, ClinicDoctor } from "../../../auth/auth.model";
 import { AdvsService } from "../../services/advs.service";
 import { UnreadCount } from "../../../pages/chat/chat.model";
-import { MENU_ITEMS_PH } from '../../../pages-pharmacy/pages-pharmacy-menu';
+import { MENU_ITEMS_PH } from "../../../pages-pharmacy/pages-pharmacy-menu";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "ngx-header",
@@ -34,6 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   messagesCount: number;
   currentTheme = "default";
   selectedTheme = "Light";
+  currentClinic: string;
 
   subs = new Subscription();
 
@@ -41,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   userMenu = [
     { title: "Change Name", data: "profile" },
-    /* { title: "Change Clinic", data: "clinic2" }, */
+    { title: "Change Clinic", data: "clinic2" },
     { title: "Log out", data: "logout" },
   ];
 
@@ -74,17 +76,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     // =====> on search from icon:
-   this.subs.add(this.searchService
-      .onSearchSubmit()
-      .subscribe((data: any) => {
+    this.subs.add(
+      this.searchService.onSearchSubmit().subscribe((data: any) => {
         router.navigateByUrl("/pages/patients/list?name=" + data.term);
-      }));
+      })
+    );
   }
 
   ngOnInit() {
-    // =====> hide change clinic from user menu if not a doctor:
-    if (this.authService.roleName != UserRole.doctor) {
+    // =====> hide change clinic from user menu if not a doctor or doctor has one clinic:
+    if (!this.authService.clinicsDoctor) {
       this.userMenu = this.userMenu.filter((item) => item.data != "clinic2");
+    } else {
+      // =====> add clinic name if doctor has multi clinic:
+      const doctorClinics: ClinicDoctor[] = JSON.parse(
+        this.authService.clinicsDoctor
+      );
+      this.currentClinic = doctorClinics.find(
+        (c) => c.clinicId == this.authService.clinicId
+      ).clinicName;
     }
 
     // =====> translate main menu & user menu on first initial:
@@ -96,18 +106,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ? "default"
         : localStorage.getItem("theme");
     this.onChangeTheme(this.currentTheme);
-    this.subs.add(this.themeService
-      .onThemeChange()
-      .pipe(
-        map(({ name }) => name),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((themeName) => (this.currentTheme = themeName)));
+    this.subs.add(
+      this.themeService
+        .onThemeChange()
+        .pipe(
+          map(({ name }) => name),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((themeName) => (this.currentTheme = themeName))
+    );
 
     // =====> add user name and photo to header icon:
-    this.subs.add( this.authService
-      .getNickName()
-      .subscribe((username) => {
+    this.subs.add(
+      this.authService.getNickName().subscribe((username) => {
         this.user = {
           name: username,
           picture:
@@ -115,12 +126,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
               ? "assets/images/doctor.png"
               : "assets/images/employee.png",
         };
-      }));
+      })
+    );
 
     // =====> on click on user menu:
-    this.subs.add( this.menuService
-      .onItemClick()
-      .subscribe((event) => {
+    this.subs.add(
+      this.menuService.onItemClick().subscribe((event) => {
         switch (event.item.data) {
           case "profile":
             this.dialogService.open(ProfileComponent, {
@@ -131,7 +142,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
             });
             break;
           case "clinic2":
-            location.reload();
+            const doctorClinics: ClinicDoctor[] = JSON.parse(
+              this.authService.clinicsDoctor
+            );
+            const doctorClinicsNames = {};
+            for (var i = 0; i < doctorClinics.length; i++) {
+              doctorClinicsNames[doctorClinics[i].clinicId] =
+                doctorClinics[i].clinicName;
+            }
+            Swal.fire({
+              icon: "info",
+              title: "اختار العيادة:",
+              input: "select",
+              inputOptions: doctorClinicsNames,
+              confirmButtonText: "فتح",
+              showCancelButton: false,
+            }).then((result) => {
+              if (result.value) {
+                localStorage.setItem("clinicId", result.value);
+                location.reload();
+              }
+            });
             break;
           case "logout":
             this.authService.logout();
@@ -140,35 +171,38 @@ export class HeaderComponent implements OnInit, OnDestroy {
           default:
             break;
         }
-      }));
+      })
+    );
 
     if (
       this.authService.roleName == UserRole.doctor ||
       this.authService.roleName == UserRole.employee
     ) {
       // =====> get unread count:
-      this.subs.add( this.chatService.getUnreadCount().subscribe(
-        (res: UnreadCount) => {
-          this.externalCount = res.unreadExternals;
-          this.messagesCount = res.unreadMessages;
-          this.chatService.unReadExternalCount.subscribe(
-            (count) => (this.externalCount = count)
-          );
-          this.chatService.unReadChatCount.subscribe((count) => {
-            this.messagesCount = count;
-            /* if (this.router.url.indexOf("/chat") > -1) {
+      this.subs.add(
+        this.chatService.getUnreadCount().subscribe(
+          (res: UnreadCount) => {
+            this.externalCount = res.unreadExternals;
+            this.messagesCount = res.unreadMessages;
+            this.chatService.unReadExternalCount.subscribe(
+              (count) => (this.externalCount = count)
+            );
+            this.chatService.unReadChatCount.subscribe((count) => {
+              this.messagesCount = count;
+              /* if (this.router.url.indexOf("/chat") > -1) {
             this.messagesCount = 0;
           }
           else{
           this.messagesCount = count;
           } */
-          });
-        },
-        (err) => {
-          console.error(err);
-          this.alertService.alertError();
-        }
-      ));
+            });
+          },
+          (err) => {
+            console.error(err);
+            this.alertService.alertError();
+          }
+        )
+      );
     }
   }
 
@@ -195,34 +229,37 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // =====> translate main menu & user menu on first initial:
   translateMenus() {
-    this.menu.concat(this.menuPharmacy).concat(this.userMenu).forEach((element) => {
-      element.title = this.langgService.translateWord(element.title);
-      if (element.children != null) {
-        element.children.forEach((el) => {
-          el.title = this.langgService.translateWord(el.title);
-        });
-      }
-
-      // =====> hide items from employee:
-      if (element.data == "roleDoctor") {
-        if (this.authService.roleName == UserRole.employee) {
-          element.hidden = true;
-        } else {
-          element.hidden = false;
+    this.menu
+      .concat(this.menuPharmacy)
+      .concat(this.userMenu)
+      .forEach((element) => {
+        element.title = this.langgService.translateWord(element.title);
+        if (element.children != null) {
+          element.children.forEach((el) => {
+            el.title = this.langgService.translateWord(el.title);
+          });
         }
-      }
-      if (element.children) {
-        element.children.forEach((childElement) => {
-          if (childElement.data == "roleDoctor") {
-            if (this.authService.roleName == UserRole.employee) {
-              childElement.hidden = true;
-            } else {
-              childElement.hidden = false;
-            }
+
+        // =====> hide items from employee:
+        if (element.data == "roleDoctor") {
+          if (this.authService.roleName == UserRole.employee) {
+            element.hidden = true;
+          } else {
+            element.hidden = false;
           }
-        });
-      }
-    });
+        }
+        if (element.children) {
+          element.children.forEach((childElement) => {
+            if (childElement.data == "roleDoctor") {
+              if (this.authService.roleName == UserRole.employee) {
+                childElement.hidden = true;
+              } else {
+                childElement.hidden = false;
+              }
+            }
+          });
+        }
+      });
   }
 
   // =====> on change them from select list in header:

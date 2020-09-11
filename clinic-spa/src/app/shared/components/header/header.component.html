@@ -12,9 +12,10 @@
   </nb-select>
 </div>
 
-<a [href]="advService.getHeaderAdvs().hrefLink" target="_blank" class="header-container ads"
+<h5 class="font-andalus">{{currentClinic}}</h5>
+<!-- <a [href]="advService.getHeaderAdvs().hrefLink" target="_blank" class="header-container ads"
   [style.background]="'url('+ advService.getHeaderAdvs().backgroundUrl +')'">
-</a>
+</a> -->
 
 <div class="header-container">
   <button nbButton shape="round" (click)="onToggleLanguage()" size="small" status="info"

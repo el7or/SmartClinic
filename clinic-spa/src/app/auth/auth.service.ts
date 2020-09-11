@@ -45,7 +45,10 @@ export class AuthService {
     return this.decodedToken.jti;
   }
   public get clinicId(): string {
-    return this.decodedToken.sid;
+    return this.decodedToken.sid || localStorage.getItem("clinicId");
+  }
+  public get clinicsDoctor(): string {
+    return this.decodedToken.iat;
   }
   public get doctorId(): string {
     return this.decodedToken.nbf;
@@ -74,6 +77,7 @@ export class AuthService {
           decodedToken.jti --> userId
           decodedToken.prn --> roleName
           decodedToken.sid --> clinicId
+          decodedToken.iat --> clinicsList {clinicId, clinicName}
           decodedToken.nbf --> doctorId
           decodedToken.typ --> doctorsList {doctorId, doctorName}
           decodedToken.acr --> pharmacyId
@@ -94,7 +98,10 @@ export class AuthService {
       fullName: nickname,
     };
     return this.http
-      .put<UpdateNickNameResponse>(this.baseUrl + "user/"+ this.userId, userDto)
+      .put<UpdateNickNameResponse>(
+        this.baseUrl + "user/" + this.userId,
+        userDto
+      )
       .pipe(
         map((res: UpdateNickNameResponse) => {
           if (res) {

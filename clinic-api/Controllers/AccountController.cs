@@ -84,18 +84,30 @@ namespace clinic_api.Controllers
             }
 
             // if user is doctor or employee
-            var clinicUser = user.ClinicUsers.FirstOrDefault();
-            if (clinicUser != null)
+            if (user.ClinicUsers.Count() > 0)
             {
-                var clinic = clinicUser.Clinic;
-                claims.Add(new Claim(JwtRegisteredClaimNames.Sid, clinic.Id.ToString()));
+                // if doctor
                 if (roles.Contains("doctor"))
                 {
-                    claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, clinic.DoctorClinics.FirstOrDefault().DoctorId.ToString()));
+                    claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, user.ClinicUsers.FirstOrDefault().Clinic.DoctorClinics.FirstOrDefault().DoctorId.ToString()));
+                    // if doctor has one clinic
+                    if (user.ClinicUsers.Count() == 1)
+                    {
+                        claims.Add(new Claim(JwtRegisteredClaimNames.Sid, user.ClinicUsers.FirstOrDefault().ClinicId.ToString()));
+                    }
+                    // if doctor has multi clinic
+                    else if (user.ClinicUsers.Count() > 1)
+                    {
+                        claims.Add(new Claim(JwtRegisteredClaimNames.Iat, JsonConvert.SerializeObject(user.ClinicUsers.Select(c => new { clinicId = c.ClinicId.ToString(), clinicName = c.Clinic.ClinicName }).ToList())));
+                    }
                 }
+                // if employee
                 else if (roles.Contains("employee"))
                 {
-                    claims.Add(new Claim(JwtRegisteredClaimNames.Typ, JsonConvert.SerializeObject( clinic.DoctorClinics.Select(d => new { doctorId = d.DoctorId.ToString(), doctorName = d.Doctor.FullName }).ToList())));
+                    var clinicUser = user.ClinicUsers.FirstOrDefault();
+                    var clinic = clinicUser.Clinic;
+                    claims.Add(new Claim(JwtRegisteredClaimNames.Sid, user.ClinicUsers.FirstOrDefault().ClinicId.ToString()));
+                    claims.Add(new Claim(JwtRegisteredClaimNames.Typ, JsonConvert.SerializeObject(clinic.DoctorClinics.Select(d => new { doctorId = d.DoctorId.ToString(), doctorName = d.Doctor.FullName }).ToList())));
                 }
             }
 

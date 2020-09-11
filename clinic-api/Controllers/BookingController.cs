@@ -40,7 +40,7 @@ namespace clinic_api.Controllers
             int[] weekEnds = weekDays.Except(doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray();
 
             var bookingList = await _context.Bookings.Where(b => b.Patient.DoctorId == doctorId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date)
-                .Include(p => p.Patient).Include(t => t.Type).Include(s => s.BookingServices).Include(d => d.Discount).Include(p => p.BookingPayments)
+                .Include(p => p.Patient).Include(t => t.Type).Include(s => s.BookingServices).Include(d => d.Discount).Include(p => p.BookingPayments).Include(c => c.Clinic)
                 .OrderBy(b => b.DaySeqNo)
                 .Select(b => new BookingList
                 {
@@ -60,6 +60,7 @@ namespace clinic_api.Controllers
                     IsCanceled = b.IsCanceled,
                     Paid = b.BookingPayments.Sum(p => p.Paid),
                     Due = b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.Discount != null ? ((bool)b.Discount.IsPercent ? ((b.Type.Price + (b.BookingServices.Count() > 0 ? b.BookingServices.Sum(s => s.Service.Price) : 0) * b.Discount.Price) / 100) : b.Discount.Price) : 0) - (b.BookingPayments.Any() ? b.BookingPayments.Sum(p => p.Paid) : 0),
+                    ClinicName = b.Clinic.ClinicName
                 }).ToListAsync();
 
             var model = new GetBookingsDTO
@@ -415,7 +416,7 @@ namespace clinic_api.Controllers
             {
                 return Unauthorized();
             }
-            var lastBookingInDay = _context.Bookings.Where(p => p.BookingDateTime.Date == model.BookingDateTime.Date && p.DoctorId == model.DoctorId).OrderByDescending(s => s.DaySeqNo).FirstOrDefault();
+            var lastBookingInDay = _context.Bookings.Where(p => p.BookingDateTime.Date == model.BookingDateTime.Date && p.DoctorId == model.DoctorId && p.ClinicId == model.ClinicId).OrderByDescending(s => s.DaySeqNo).FirstOrDefault();
             var booking = new Booking
             {
                 PatientId = model.PatientId,

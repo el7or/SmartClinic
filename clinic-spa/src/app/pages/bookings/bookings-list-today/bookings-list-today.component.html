@@ -1,13 +1,13 @@
-<nb-card>
+<nb-card [nbSpinner]="formLoading" nbSpinnerStatus="info">
   <nb-card-header>
-    <div class="text-center">
+    <div class="text-center mb-2">
       <h5 class="font-andalus">{{today | localDateLong}}</h5>
     </div>
     <div *ngIf="authService.roleName=='employee'" class="row">
       <div class="col-4">
-        <h6 class="d-inline" langg>Doctor</h6>:
-        <div class="d-inline">
-          <nb-select fullWidth [(ngModel)]="selectedDoctor" #doctor="ngModel" name="doctor" id="input-doctor"
+        <h6 class="d-inline-block" langg>Doctor</h6>: &nbsp;
+        <div class="d-inline-block">
+          <nb-select fullWidth [(ngModel)]="selectedDoctor" #doctor="ngModel" name="doctor"
            (selectedChange)="onChangeDoctor()" [placeholder]="'Doctor' | langg" size="small">
             <nb-option *ngFor="let item of doctorValues" [value]="item.doctorId">
               {{ item.doctorName }}</nb-option>
@@ -15,8 +15,20 @@
         </div>
       </div>
     </div>
+    <div *ngIf="authService.clinicsDoctor" class="row">
+      <div class="col-4">
+        <h6 class="d-inline-block" langg>Clinic</h6>: &nbsp;
+        <div class="d-inline-block">
+          <nb-select fullWidth [(ngModel)]="selectedClinic" #clinic="ngModel" name="clinic"
+           (selectedChange)="onChangeClinic()" size="small">
+            <nb-option *ngFor="let item of clinicValues" [value]="item.clinicId">
+              {{ item.clinicName }}</nb-option>
+          </nb-select>
+        </div>
+      </div>
+    </div>
   </nb-card-header>
-  <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="info">
+  <nb-card-body>
     <button (click)="onBookToday()" nbButton size="small" status="success" [nbTooltip]="'New Booking' | langg">
       <nb-icon icon="file-add-outline"></nb-icon>
       <span langg>Add New Booking</span>

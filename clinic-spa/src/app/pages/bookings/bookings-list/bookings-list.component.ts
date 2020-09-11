@@ -12,7 +12,7 @@ import { BookingDetailsComponent } from "../booking-details/booking-details.comp
 import { BookingList, GetBookingList } from "../bookings.model";
 import { AlertService } from "../../../shared/services/alert.service";
 import { AuthService } from "../../../auth/auth.service";
-import { UserRole, DoctorClinic } from "../../../auth/auth.model";
+import { UserRole, DoctorClinic, ClinicDoctor } from "../../../auth/auth.model";
 
 @Component({
   selector: "bookings-list",
@@ -29,6 +29,10 @@ export class BookingsListComponent implements OnInit, OnDestroy {
 
   doctorValues: DoctorClinic[] = [];
   selectedDoctor:string;
+
+  clinicValues?: ClinicDoctor[] = [];
+  selectedClinic?: string;
+  allClinicBookingList?: BookingList[];
 
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
@@ -130,6 +134,18 @@ export class BookingsListComponent implements OnInit, OnDestroy {
           this.totalPaid = res.bookingsList.filter(b => !b.isCanceled).reduce((acc, booking) => acc + booking.paid, 0);
           // =====> get weekends to disable it:
           this.weekendDays = res.weekEnds;
+          // =====> if doctor with multi clinic:
+          if (this.authService.clinicsDoctor) {
+            this.allClinicBookingList = this.bookingsList;
+            this.clinicValues = JSON.parse(this.authService.clinicsDoctor);
+            this.selectedClinic = this.authService.clinicId;
+            this.bookingsList = this.allClinicBookingList.filter(
+              (c) =>
+                c.clinicName ==
+                this.clinicValues.find((v) => v.clinicId == this.selectedClinic)
+                  .clinicName
+            );
+          }
           this.formLoading = false;
         },
         (err) => {
@@ -193,5 +209,14 @@ export class BookingsListComponent implements OnInit, OnDestroy {
   onChangeDoctor(){
     this.formLoading = true;
     this.getBookingListByDate(this.currentDay);
+  }
+
+  onChangeClinic() {
+    this.bookingsList = this.allClinicBookingList.filter(
+      (c) =>
+        c.clinicName ==
+        this.clinicValues.find((v) => v.clinicId == this.selectedClinic)
+          .clinicName
+    );
   }
 }

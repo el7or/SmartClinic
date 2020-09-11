@@ -126,6 +126,7 @@ namespace clinic_api.DTOs
         public decimal Paid { get; set; }
         public decimal? Due { get; set; }
         public bool? IsCanceled { get; set; }
+        public string ClinicName { get; set; }
     }
     public class BookingPutListDTO
     {

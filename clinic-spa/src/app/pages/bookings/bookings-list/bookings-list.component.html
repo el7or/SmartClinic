@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card [nbSpinner]="formLoading" nbSpinnerStatus="info">
   <nb-card-header>
     <div class="row">
       <div class="col-4 text-center my-auto">
@@ -34,8 +34,18 @@
       </nb-select>
     </div>
   </ng-container>
+  <ng-container *ngIf="authService.clinicsDoctor">
+    <h6 class="d-inline-block" langg>Clinic</h6>: &nbsp;
+    <div class="d-inline-block">
+      <nb-select fullWidth [(ngModel)]="selectedClinic" #clinic="ngModel" name="clinic"
+       (selectedChange)="onChangeClinic()" size="small">
+        <nb-option *ngFor="let item of clinicValues" [value]="item.clinicId">
+          {{ item.clinicName }}</nb-option>
+      </nb-select>
+    </div>
+</ng-container>
     <br>
-    <table class="table table-striped table-bordered table-light" [nbSpinner]="formLoading" nbSpinnerStatus="info">
+    <table class="table table-striped table-bordered table-light">
       <thead class="thead-dark">
         <tr>
           <th>#</th>

@@ -27,3 +27,8 @@ export interface DoctorClinic {
   doctorId: string;
   doctorName: string;
 }
+
+export interface ClinicDoctor {
+  clinicId: string;
+  clinicName: string;
+}

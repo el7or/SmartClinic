@@ -20,6 +20,7 @@ import { BookingsService } from "./../bookings.service";
 import { AlertService } from "../../../shared/services/alert.service";
 import { AuthService } from "../../../auth/auth.service";
 import { DateTimeService } from "./../../../shared/services/date-time.service";
+import { ClinicDoctor } from "../../../auth/auth.model";
 
 @Component({
   selector: "booking-details",
@@ -39,6 +40,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
   isUserChangedDate = false;
   isHasBookingSameDay: any;
   isAnyPrevDueInvalid = false;
+  currentClinic?: string;
 
   @Input() bookId: number;
   @Input() patientId: string;
@@ -214,6 +216,13 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
             }
           }
           this.formLoading = false;
+          // =====> add clinic name if doctor has multi clinic:
+          const doctorClinics: ClinicDoctor[] = JSON.parse(
+            this.authService.clinicsDoctor
+          );
+          this.currentClinic = doctorClinics.find(
+            (c) => c.clinicId == this.authService.clinicId
+          ).clinicName;
         },
         (err) => {
           console.error(err);
@@ -411,7 +420,7 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     const newBooking: BookingNew = {
       patientId: this.patientId,
       doctorId: this.bookingSetting.doctorId,
-      clinicId : this.authService.clinicId,
+      clinicId: this.authService.clinicId,
       bookingDateTime: this.dateTimeService.mergDateTime(
         new Date(this.form.value.date),
         new Date(this.form.value.time)

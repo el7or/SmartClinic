@@ -1,4 +1,4 @@
-import { DoctorClinic } from './../../../auth/auth.model';
+import { DoctorClinic, ClinicDoctor } from "./../../../auth/auth.model";
 import { ChatService } from "../../../shared/services/chat.service";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
@@ -40,7 +40,11 @@ export class BookingsListTodayComponent
   userRole = UserRole;
 
   doctorValues: DoctorClinic[] = [];
-  selectedDoctor:string;
+  selectedDoctor: string;
+
+  clinicValues?: ClinicDoctor[] = [];
+  selectedClinic?: string;
+  allClinicBookingList?: BookingList[];
 
   @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
@@ -65,14 +69,19 @@ export class BookingsListTodayComponent
 
   ngOnInit() {
     this.today = new Date();
-    if(this.authService.roleName == UserRole.employee){
-    this.doctorValues = JSON.parse(this.authService.doctorsClinic);
-    this.selectedDoctor = this.doctorValues[0].doctorId;
-    }else{this.selectedDoctor= this.authService.doctorId}
+    if (this.authService.roleName == UserRole.employee) {
+      this.doctorValues = JSON.parse(this.authService.doctorsClinic);
+      this.selectedDoctor = this.doctorValues[0].doctorId;
+    } else {
+      this.selectedDoctor = this.authService.doctorId;
+    }
     this.formLoading = true;
     // =====> get list bookings in today (come from DB with sorting depends on setting):
     this.getListSubs = this.bookingService
-      .getBookingsListByDate(this.selectedDoctor,this.dateTimeService.dateWithoutTime(this.today))
+      .getBookingsListByDate(
+        this.selectedDoctor,
+        this.dateTimeService.dateWithoutTime(this.today)
+      )
       .subscribe(
         (res: GetBookingList) => {
           this.bookingsList = res.bookingsList;
@@ -85,6 +94,18 @@ export class BookingsListTodayComponent
             (booking) =>
               booking.isAttend && !booking.isEnter && !booking.isCanceled
           );
+          // =====> if doctor with multi clinic:
+          if (this.authService.clinicsDoctor) {
+            this.allClinicBookingList = this.bookingsList;
+            this.clinicValues = JSON.parse(this.authService.clinicsDoctor);
+            this.selectedClinic = this.authService.clinicId;
+            this.bookingsList = this.allClinicBookingList.filter(
+              (c) =>
+                c.clinicName ==
+                this.clinicValues.find((v) => v.clinicId == this.selectedClinic)
+                  .clinicName
+            );
+          }
           this.formLoading = false;
         },
         (err) => {
@@ -278,10 +299,13 @@ export class BookingsListTodayComponent
     }
   }
 
-  onChangeDoctor(){
+  onChangeDoctor() {
     this.formLoading = true;
     this.getListSubs = this.bookingService
-      .getBookingsListByDate(this.selectedDoctor,this.dateTimeService.dateWithoutTime(this.today))
+      .getBookingsListByDate(
+        this.selectedDoctor,
+        this.dateTimeService.dateWithoutTime(this.today)
+      )
       .subscribe(
         (res: GetBookingList) => {
           this.bookingsList = res.bookingsList;
@@ -302,5 +326,14 @@ export class BookingsListTodayComponent
           this.formLoading = false;
         }
       );
+  }
+
+  onChangeClinic() {
+    this.bookingsList = this.allClinicBookingList.filter(
+      (c) =>
+        c.clinicName ==
+        this.clinicValues.find((v) => v.clinicId == this.selectedClinic)
+          .clinicName
+    );
   }
 }

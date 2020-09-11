@@ -4,8 +4,11 @@
     <nb-card-header>
       <b>{{bookId?('Booking Details for:'|langg):('New Booking for:'|langg)}}</b>&nbsp;{{ bookingSetting?.patientName }}
       <ng-container *ngIf="authService.roleName=='employee'">
-      &nbsp;-&nbsp;<b>{{('Doctor'|langg)+': '}}</b>{{bookingSetting?.doctorName}}
+      &nbsp;-&nbsp;<b>{{('Doctor'|langg)+':'}}</b>&nbsp;{{bookingSetting?.doctorName}}
       </ng-container>
+      <ng-container *ngIf="this.authService.clinicsDoctor">
+        &nbsp;-&nbsp;<b>{{('Clinic'|langg)+':'}}</b>&nbsp;{{currentClinic}}
+        </ng-container>
       <br>
       <small *ngIf="bookingSetting?.patientLastBookingType">
         <b langg>Last Visit Type</b>: {{bookingSetting?.patientLastBookingType}}&nbsp;|

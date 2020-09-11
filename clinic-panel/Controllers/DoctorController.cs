@@ -23,6 +23,7 @@ namespace clinic_panel.Controllers
         public ActionResult Index()
         {
             var doctors = db.Doctors.Include(s => s.SysDoctorsSpecialty).Include(c => c.Clinics).Include(p => p.Patients)
+                .OrderBy(d => d.CreatedOn)
                 .Select(d => new DoctorIndexDTO
                 {
                     Id = d.Id,
@@ -32,7 +33,7 @@ namespace clinic_panel.Controllers
                     Plan = d.FullName == "doctor" || d.FullName == "doctor2" ? "(حساب اختبار)" : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).Plan.Title,
                     StartPlanDate = d.FullName == "doctor" || d.FullName == "doctor2" ? new DateTime(2020, 1, 1) : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).StartDate,
                     EndPlanDate = d.FullName == "doctor" || d.FullName == "doctor2" ? new DateTime(2050, 1, 1) : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).EndDate,
-                    SubscriptionDue = d.FullName == "doctor" || d.FullName == "doctor2" ? 0 : ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SignUpFee) - ((int)db.Subscriptions.FirstOrDefault(s => s.SubscriberId == d.Id).SubscriptionPayments.Sum(p => p.Paid)),
+                    SubscriptionsPaid = d.FullName == "doctor" || d.FullName == "doctor2" ? 0 : (int)db.Subscriptions.Where(s => s.SubscriberId == d.Id).Sum(s => s.SubscriptionPayments.Select(e => e.Paid).DefaultIfEmpty(0).Sum()),
                     UsersCount = d.Clinics.Sum(c => c.AspNetUsers.Count()),
                     Clinics = d.Clinics.Select(c => c.ClinicName).ToList(),
                     PatientsCount = d.Patients.Count(),

@@ -28,8 +28,8 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Booking
-        [HttpGet("{id}/{doctorId}/{bookingDate}")]
-        public async Task<ActionResult<GetBookingsDTO>> GetBookings(Guid id, Guid doctorId, string bookingDate)
+        [HttpGet("{id}/{clinicId}/{doctorId}/{bookingDate}")]
+        public async Task<ActionResult<GetBookingsDTO>> GetBookings(Guid id, Guid clinicId, Guid doctorId, string bookingDate)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -39,7 +39,7 @@ namespace clinic_api.Controllers
             int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
             int[] weekEnds = weekDays.Except(doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray();
 
-            var bookingList = await _context.Bookings.Where(b => b.Patient.DoctorId == doctorId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date)
+            var bookingList = await _context.Bookings.Where(b => b.Patient.DoctorId == doctorId && b.Patient.ClinicId == clinicId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date)
                 .Include(p => p.Patient).Include(t => t.Type).Include(s => s.BookingServices).Include(d => d.Discount).Include(p => p.BookingPayments).Include(c => c.Clinic)
                 .OrderBy(b => b.DaySeqNo)
                 .Select(b => new BookingList
@@ -165,7 +165,7 @@ namespace clinic_api.Controllers
             {
                 var clinicDoctorsIds = _context.DoctorClinics.Where(c => c.ClinicId == clinicId).Select(i => i.DoctorId).ToArray();
                 //var doctor = await _context.Doctors.FindAsync(doctorId);
-                var calBookingEvents = _context.Bookings.Include(p => p.Patient).Where(b => clinicDoctorsIds.Contains(b.DoctorId) && b.IsCanceled != true && b.Patient.IsDeleted != true)
+                var calBookingEvents = _context.Bookings.Include(p => p.Patient).Where(b => clinicDoctorsIds.Contains(b.DoctorId) && b.ClinicId==clinicId && b.IsCanceled != true && b.Patient.IsDeleted != true)
                     .GroupBy(b => b.BookingDateTime.Date)
                     .Select(b => new
                     {

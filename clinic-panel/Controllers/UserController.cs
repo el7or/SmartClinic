@@ -21,19 +21,20 @@ namespace clinic_panel.Controllers
         // GET: User
         public ActionResult Index()
         {
-            var users = db.AspNetUsers.Where(d => d.IsDeleted != true).Include(r => r.AspNetRoles).Select(u => new UserIndexDTO
-            {
-                Id = u.Id,
-                UserName = u.UserName,
-                FullName = u.FullName,
-                RoleName = u.AspNetRoles.FirstOrDefault().Title,
-                ClinicName = db.Clinics.FirstOrDefault(c => c.AspNetUsers.Any(i => i.Id == u.Id)).ClinicName,
-                IsActive = u.IsActive == false ? "معطل" : "مفعل",
-                CreatedBy = db.AspNetUsers.FirstOrDefault(n => n.Id == u.CreatedBy).FullName,
-                CreatedOn = u.CreatedOn,
-                EditedBy = db.AspNetUsers.FirstOrDefault(n => n.Id == u.EditedBy).FullName,
-                EditedOn = u.EditedOn,
-            }).OrderBy(u => u.CreatedOn);
+            var users = db.AspNetUsers.Where(d => d.IsDeleted != true).Include(r => r.AspNetRoles)
+                .OrderBy(u => u.CreatedOn).Select(u => new UserIndexDTO
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    FullName = u.FullName,
+                    RoleName = u.AspNetRoles.FirstOrDefault().Title,
+                    ClinicName = db.Clinics.FirstOrDefault(c => c.AspNetUsers.Any(i => i.Id == u.Id)).ClinicName,
+                    IsActive = u.IsActive == false ? "معطل" : "مفعل",
+                    CreatedBy = db.AspNetUsers.FirstOrDefault(n => n.Id == u.CreatedBy).FullName,
+                    CreatedOn = u.CreatedOn,
+                    EditedBy = db.AspNetUsers.FirstOrDefault(n => n.Id == u.EditedBy).FullName,
+                    EditedOn = u.EditedOn,
+                }).OrderBy(u => u.CreatedOn);
             return View(users.ToList());
         }
 

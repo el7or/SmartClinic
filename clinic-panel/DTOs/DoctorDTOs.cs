@@ -23,7 +23,7 @@ namespace clinic_panel.DTOs
         public DateTime EndPlanDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
-        public int SubscriptionDue { get; set; }
+        public int SubscriptionsPaid { get; set; }
         public int UsersCount { get; set; }
         public List<string> Clinics { get; set; }
         public int PatientsCount { get; set; }

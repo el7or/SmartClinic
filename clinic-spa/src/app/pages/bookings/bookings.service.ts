@@ -90,11 +90,13 @@ export class BookingsService {
     );
   }
 
-  getBookingsListByDate(doctorId:string, date: string) {
+  getBookingsListByDate(clinicId:string,doctorId:string, date: string) {
     return this.http.get<GetBookingList>(
       this.baseUrl +
         "Booking/" +
         this.authService.userId +
+        "/" +
+        clinicId +
         "/" +
         doctorId +
         "/" +

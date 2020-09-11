@@ -22,7 +22,8 @@ namespace clinic_panel.Controllers
         // GET: Clinic
         public ActionResult Index()
         {
-            var model = db.Clinics.Include(u => u.AspNetUsers).Include(u => u.AspNetUsers.Select(r => r.AspNetRoles)).Select(c => new ClinicIndexDTO
+            var model = db.Clinics.Include(u => u.AspNetUsers).Include(u => u.AspNetUsers.Select(r => r.AspNetRoles))
+                .OrderBy(c => c.CreatedOn).Select(c => new ClinicIndexDTO
             {
                 Id = c.Id,
                 ClinicName = c.ClinicName,
@@ -114,7 +115,7 @@ namespace clinic_panel.Controllers
             ViewBag.ClinicName = clinic.ClinicName;
             ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value");
             ViewData["PharmacyId"] = new SelectList(db.Pharmacies, "Id", "PharmacyName");
-            ViewData["PlanId"] = new SelectList(db.Plans.Where(p => p.SubscriberTypeId == 1), "Id", "Title", 2);
+            ViewData["PlanId"] = new SelectList(db.Plans.Where(p => p.SubscriberTypeId == 1), "Id", "Title", 1);
             ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", 2);
             var allPeriods = new List<SelectListItem>() {
                     new SelectListItem{Value = "5", Text = "5"},

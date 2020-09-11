@@ -28,11 +28,10 @@ export class BookingsListComponent implements OnInit, OnDestroy {
   totalPaid: number;
 
   doctorValues: DoctorClinic[] = [];
-  selectedDoctor:string;
+  selectedDoctor: string;
 
   clinicValues?: ClinicDoctor[] = [];
   selectedClinic?: string;
-  allClinicBookingList?: BookingList[];
 
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
   @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
@@ -58,10 +57,17 @@ export class BookingsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formLoading = true;
-    if(this.authService.roleName == UserRole.employee){
+    if (this.authService.roleName == UserRole.employee) {
       this.doctorValues = JSON.parse(this.authService.doctorsClinic);
       this.selectedDoctor = this.doctorValues[0].doctorId;
-      }else{this.selectedDoctor= this.authService.doctorId}
+    } else {
+      this.selectedDoctor = this.authService.doctorId;
+    }
+    // =====> if doctor with multi clinic:
+    if (this.authService.clinicsDoctor) {
+      this.clinicValues = JSON.parse(this.authService.clinicsDoctor);
+    }
+    this.selectedClinic = this.authService.clinicId;
     // =====> check  param:date:
     this.routeSubs = this.route.paramMap.subscribe((paramMap) => {
       const paramDate = new Date(paramMap.get("date"));
@@ -86,6 +92,35 @@ export class BookingsListComponent implements OnInit, OnDestroy {
     this.getListSubs.unsubscribe();
     this.routeSubs.unsubscribe();
     if (this.cancelBookSubs) this.cancelBookSubs.unsubscribe();
+  }
+
+  // =====> get bookings list for chosen date:
+  getBookingListByDate(date: Date) {
+    if (this.getListSubs) {
+      this.getListSubs.unsubscribe();
+    }
+    this.getListSubs = this.bookingService
+      .getBookingsListByDate(
+        this.selectedClinic,
+        this.selectedDoctor,
+        this.dateTimeService.dateWithoutTime(date)
+      )
+      .subscribe(
+        (res: GetBookingList) => {
+          this.bookingsList = res.bookingsList;
+          this.totalPaid = res.bookingsList
+            .filter((b) => !b.isCanceled)
+            .reduce((acc, booking) => acc + booking.paid, 0);
+          // =====> get weekends to disable it:
+          this.weekendDays = res.weekEnds;
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 
   // =====> get bookings in previous day:
@@ -121,41 +156,6 @@ export class BookingsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  // =====> get bookings list for chosen date:
-  getBookingListByDate(date: Date) {
-    if (this.getListSubs) {
-      this.getListSubs.unsubscribe();
-    }
-    this.getListSubs = this.bookingService
-      .getBookingsListByDate(this.selectedDoctor, this.dateTimeService.dateWithoutTime(date))
-      .subscribe(
-        (res: GetBookingList) => {
-          this.bookingsList = res.bookingsList;
-          this.totalPaid = res.bookingsList.filter(b => !b.isCanceled).reduce((acc, booking) => acc + booking.paid, 0);
-          // =====> get weekends to disable it:
-          this.weekendDays = res.weekEnds;
-          // =====> if doctor with multi clinic:
-          if (this.authService.clinicsDoctor) {
-            this.allClinicBookingList = this.bookingsList;
-            this.clinicValues = JSON.parse(this.authService.clinicsDoctor);
-            this.selectedClinic = this.authService.clinicId;
-            this.bookingsList = this.allClinicBookingList.filter(
-              (c) =>
-                c.clinicName ==
-                this.clinicValues.find((v) => v.clinicId == this.selectedClinic)
-                  .clinicName
-            );
-          }
-          this.formLoading = false;
-        },
-        (err) => {
-          console.error(err);
-          this.alertService.alertError();
-          this.formLoading = false;
-        }
-      );
-  }
-
   // =====> on click on new booking or edit booking:
   onBook(bookingId, patientId: string) {
     this.dialogService.open(BookingDetailsComponent, {
@@ -179,7 +179,7 @@ export class BookingsListComponent implements OnInit, OnDestroy {
           .cancelBooking(bookId)
           .subscribe(
             () => {
-              let canceledBooking= this.bookingsList.find(
+              let canceledBooking = this.bookingsList.find(
                 (v) => v.bookId == bookId
               );
               canceledBooking.isCanceled = true;
@@ -206,17 +206,13 @@ export class BookingsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onChangeDoctor(){
+  onChangeDoctor() {
     this.formLoading = true;
     this.getBookingListByDate(this.currentDay);
   }
 
   onChangeClinic() {
-    this.bookingsList = this.allClinicBookingList.filter(
-      (c) =>
-        c.clinicName ==
-        this.clinicValues.find((v) => v.clinicId == this.selectedClinic)
-          .clinicName
-    );
+    this.formLoading = true;
+    this.getBookingListByDate(this.currentDay);
   }
 }

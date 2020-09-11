@@ -44,7 +44,6 @@ export class BookingsListTodayComponent
 
   clinicValues?: ClinicDoctor[] = [];
   selectedClinic?: string;
-  allClinicBookingList?: BookingList[];
 
   @ViewChild("cancelSwal", { static: false }) cancelSwal: SwalComponent;
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
@@ -68,6 +67,7 @@ export class BookingsListTodayComponent
   ) {}
 
   ngOnInit() {
+    this.formLoading = true;
     this.today = new Date();
     if (this.authService.roleName == UserRole.employee) {
       this.doctorValues = JSON.parse(this.authService.doctorsClinic);
@@ -75,10 +75,15 @@ export class BookingsListTodayComponent
     } else {
       this.selectedDoctor = this.authService.doctorId;
     }
-    this.formLoading = true;
+    // =====> if doctor with multi clinic:
+    if (this.authService.clinicsDoctor) {
+      this.clinicValues = JSON.parse(this.authService.clinicsDoctor);
+    }
+    this.selectedClinic = this.authService.clinicId;
     // =====> get list bookings in today (come from DB with sorting depends on setting):
     this.getListSubs = this.bookingService
       .getBookingsListByDate(
+        this.selectedClinic,
         this.selectedDoctor,
         this.dateTimeService.dateWithoutTime(this.today)
       )
@@ -94,18 +99,6 @@ export class BookingsListTodayComponent
             (booking) =>
               booking.isAttend && !booking.isEnter && !booking.isCanceled
           );
-          // =====> if doctor with multi clinic:
-          if (this.authService.clinicsDoctor) {
-            this.allClinicBookingList = this.bookingsList;
-            this.clinicValues = JSON.parse(this.authService.clinicsDoctor);
-            this.selectedClinic = this.authService.clinicId;
-            this.bookingsList = this.allClinicBookingList.filter(
-              (c) =>
-                c.clinicName ==
-                this.clinicValues.find((v) => v.clinicId == this.selectedClinic)
-                  .clinicName
-            );
-          }
           this.formLoading = false;
         },
         (err) => {
@@ -303,6 +296,7 @@ export class BookingsListTodayComponent
     this.formLoading = true;
     this.getListSubs = this.bookingService
       .getBookingsListByDate(
+        this.selectedClinic,
         this.selectedDoctor,
         this.dateTimeService.dateWithoutTime(this.today)
       )
@@ -329,11 +323,32 @@ export class BookingsListTodayComponent
   }
 
   onChangeClinic() {
-    this.bookingsList = this.allClinicBookingList.filter(
-      (c) =>
-        c.clinicName ==
-        this.clinicValues.find((v) => v.clinicId == this.selectedClinic)
-          .clinicName
-    );
+    this.formLoading = true;
+    this.getListSubs = this.bookingService
+      .getBookingsListByDate(
+        this.selectedClinic,
+        this.selectedDoctor,
+        this.dateTimeService.dateWithoutTime(this.today)
+      )
+      .subscribe(
+        (res: GetBookingList) => {
+          this.bookingsList = res.bookingsList;
+          this.sortBookingsByText = res.sortBookingsByText;
+          this.totalPaid = res.bookingsList
+            .filter((b) => !b.isCanceled)
+            .reduce((acc, booking) => acc + booking.paid, 0);
+          // =====> set label to first attend booking:
+          this.nextBooking = this.bookingsList.findIndex(
+            (booking) =>
+              booking.isAttend && !booking.isEnter && !booking.isCanceled
+          );
+          this.formLoading = false;
+        },
+        (err) => {
+          console.error(err);
+          this.alertService.alertError();
+          this.formLoading = false;
+        }
+      );
   }
 }

@@ -13,10 +13,13 @@
             <h3>إجمالي الإيرادات:</h3>
         </th>
         <td>
-            <h3>@Model.AllPayments.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
+            <h3>@Model.AllPayments.ToString("C0", CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
         </td>
-        <td colspan="5">
-            @Html.ActionLink("بيانات الاشتراكات", "Index", "Doctor", null, new { @class = "btn btn-primary" })
+        <td colspan="2">
+            @Html.ActionLink("اشتراكات الأطباء", "Index", "Doctor", null, new { @class = "btn btn-primary" })
+        </td>
+        <td colspan="2">
+            @Html.ActionLink("اشتراكات الصيدليات", "Index", "Pharmacy", null, new { @class = "btn btn-primary" })
         </td>
     </tr>
     <tr>
@@ -44,7 +47,7 @@
     </tr>
     <tr>
         <th>
-            <h3>أرباح حاتم:</h3>
+            <h3>حاتم:</h3>
         </th>
         <td>
             <h3>@Model.HatemProfits.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
@@ -67,7 +70,7 @@
     </tr>
     <tr>
         <th>
-            <h3>أرباح أحمد:</h3>
+            <h3>أحمد:</h3>
         </th>
         <td>
             <h3>@Model.AhmedProfits.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>

@@ -28,6 +28,9 @@
             نهاية الاشتراك
         </th>
         <th>
+            مبلغ الاشتراك
+        </th>
+        <th>
             العيادات
         </th>
         <th>
@@ -55,6 +58,9 @@
         @Html.DisplayFor(modelItem => item.EndPlanDate)
     </td>
     <td>
+        @Html.DisplayFor(modelItem => item.SubscriptionsPaid) ج.م
+    </td>
+    <td>
         <ul>
             @foreach (var clinic in item.Clinics)
             {
@@ -65,25 +71,26 @@
     <td>
         @Html.DisplayFor(modelItem => item.IsActive)
     </td>
-    <td>@*
-        @Html.ActionLink("التفاصيل", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
-        <div class="btn-group" role="group">
-            <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                الإعدادات
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <li> @Html.ActionLink("الأسعار", "Prices", "Clinic", new { id = item.ClinicId }, new { @class = "dropdown-item" })</li>
-                <li> @Html.ActionLink("الشكاوى", "DoctorComplaints", "Complaint", new { id = item.Id }, new { @class = "dropdown-item" })</li>
-                <li> @Html.ActionLink("الفحوصات", "DoctorExamination", "Examination", new { id = item.Id }, new { @class = "dropdown-item" })</li>
-                <li> @Html.ActionLink("التشخيصات", "DoctorDiagnosis", "Diagnosis", new { id = item.Id }, new { @class = "dropdown-item" })</li>
-                <li> @Html.ActionLink("الأشعة", "DoctorRays", "Ray", new { id = item.Id }, new { @class = "dropdown-item" })</li>
-                <li> @Html.ActionLink("التحاليل", "DoctorAnalysis", "Analysis", new { id = item.Id }, new { @class = "dropdown-item" })</li>
-                <li> @Html.ActionLink("العمليات", "DoctorOperations", "Operation", new { id = item.Id }, new { @class = "dropdown-item" })</li>
-            </ul>
-        </div>*@
-        @Html.ActionLink("إضافة الطبيب لعيادة أخرى", "AddClinic", new { id = item.Id })
-    </td>
+    <td>
+        @*
+            @Html.ActionLink("التفاصيل", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    الإعدادات
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <li> @Html.ActionLink("الأسعار", "Prices", "Clinic", new { id = item.ClinicId }, new { @class = "dropdown-item" })</li>
+                    <li> @Html.ActionLink("الشكاوى", "DoctorComplaints", "Complaint", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                    <li> @Html.ActionLink("الفحوصات", "DoctorExamination", "Examination", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                    <li> @Html.ActionLink("التشخيصات", "DoctorDiagnosis", "Diagnosis", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                    <li> @Html.ActionLink("الأشعة", "DoctorRays", "Ray", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                    <li> @Html.ActionLink("التحاليل", "DoctorAnalysis", "Analysis", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                    <li> @Html.ActionLink("العمليات", "DoctorOperations", "Operation", new { id = item.Id }, new { @class = "dropdown-item" })</li>
+                </ul>
+            </div>*@
+    @Html.ActionLink("إضافة الطبيب لعيادة أخرى", "AddClinic", new { id = item.Id })
+</td>
 </tr>
     }
 

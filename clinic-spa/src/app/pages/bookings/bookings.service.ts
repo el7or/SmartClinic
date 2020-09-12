@@ -33,16 +33,13 @@ export class BookingsService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getBookingDetails(patientId: string, bookingId: number, bookingDate: string) {
-    return this.http.get<GetBookingDetails>(
-      this.baseUrl +
-        "Booking/" +
-        this.authService.userId +
-        "/" +
-        patientId +
-        "/" +
-        bookingId +
-        "/" +
-        bookingDate
+    return this.http.post<GetBookingDetails>(
+      this.baseUrl + "Booking/GetDetails/" + this.authService.userId,
+      {
+        patientId: patientId,
+        bookingId: bookingId,
+        bookingDate: bookingDate,
+      }
     );
   }
 
@@ -66,9 +63,7 @@ export class BookingsService {
   }
   updateBooking(booking: BookingEdit) {
     return this.http.put(
-      this.baseUrl +
-        "Booking/" +
-        this.authService.userId,
+      this.baseUrl + "Booking/" + this.authService.userId,
       booking
     );
   }
@@ -90,7 +85,7 @@ export class BookingsService {
     );
   }
 
-  getBookingsListByDate(clinicId:string,doctorId:string, date: string) {
+  getBookingsListByDate(clinicId: string, doctorId: string, date: string) {
     return this.http.get<GetBookingList>(
       this.baseUrl +
         "Booking/" +

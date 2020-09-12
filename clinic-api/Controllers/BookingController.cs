@@ -192,19 +192,19 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Booking/5
-        [HttpGet("{id}/{patientId}/{bookingId}/{bookingDate}")]
-        public async Task<ActionResult<BookingGetDTO>> GetBooking(Guid id, Guid patientId, int bookingId, string bookingDate)
+        [HttpPost("GetDetails/{id}")]
+        public async Task<ActionResult<BookingGetDTO>> GetBookingDetails(Guid id, BookingGetDetailsParams detailsParams)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var patient = await _context.Patients.Where(i => i.Id == patientId && i.IsDeleted != true)
+            var patient = await _context.Patients.Where(i => i.Id == detailsParams.PatientId && i.IsDeleted != true)
                 .Include(c => c.Doctor).ThenInclude(t => t.DoctorBookingTypes)
                 .Include(c => c.Doctor).ThenInclude(s => s.DoctorServices)
                 .Include(c => c.Doctor).ThenInclude(d => d.DoctorDiscounts)
                 .Include(b => b.Bookings).ThenInclude(t => t.Type).FirstOrDefaultAsync();
-            var patientLastBooking = patient.Bookings.Where(b => b.Id != bookingId).OrderByDescending(d => d.BookingDateTime).FirstOrDefault();
+            var patientLastBooking = patient.Bookings.Where(b => b.Id != detailsParams.BookingId).OrderByDescending(d => d.BookingDateTime).FirstOrDefault();
             int[] weekDays = { 6, 0, 1, 2, 3, 4, 5 };
 
             if (patient == null)
@@ -223,12 +223,12 @@ namespace clinic_api.Controllers
                     ClinicWeekEnds = weekDays.Except(patient.Doctor.WorkDays.Split(",").ToArray().Select(int.Parse).ToArray()).ToArray(),
                     ClinicBookingPeriod = patient.Doctor.BookingPeriod,
                     ClinicConsultExpiration = patient.Doctor.ConsultExpiration,
-                    ClinicDayTimeFrom = (bool)patient.Doctor.IsAllDaysSameTime ? patient.Doctor.AllDaysTimeFrom : (DateTime)patient.Doctor.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeFrom").GetValue(patient.Doctor, null),
-                    ClinicDayTimeTo = (bool)patient.Doctor.IsAllDaysSameTime ? patient.Doctor.AllDaysTimeTo : (DateTime)patient.Doctor.GetType().GetProperty(DateTime.Parse(bookingDate).DayOfWeek.ToString() + "TimeTo").GetValue(patient.Doctor, null),
+                    ClinicDayTimeFrom = (bool)patient.Doctor.IsAllDaysSameTime ? patient.Doctor.AllDaysTimeFrom : (DateTime)patient.Doctor.GetType().GetProperty(DateTime.Parse(detailsParams.BookingDate).DayOfWeek.ToString() + "TimeFrom").GetValue(patient.Doctor, null),
+                    ClinicDayTimeTo = (bool)patient.Doctor.IsAllDaysSameTime ? patient.Doctor.AllDaysTimeTo : (DateTime)patient.Doctor.GetType().GetProperty(DateTime.Parse(detailsParams.BookingDate).DayOfWeek.ToString() + "TimeTo").GetValue(patient.Doctor, null),
                     DoctorBookingTypes = patient.Doctor.DoctorBookingTypes.Select(t => new BookingType { Id = t.Id, Type = t.Text, Price = t.Price }).ToList(),
                     DoctorBookingServices = patient.Doctor.DoctorServices.Select(t => new ServiceType { Id = t.Id, Service = t.Service, Price = t.Price }).ToList(),
                     DoctorBookingDiscounts = patient.Doctor.DoctorDiscounts.Select(t => new DiscountType { Id = t.Id, Discount = t.Discount, Price = t.Price, IsPercent = t.IsPercent }).ToList(),
-                    DoctorAllBookingSameDay = _context.Bookings.Where(b => b.Patient.DoctorId == patient.DoctorId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(bookingDate).Date && b.IsCanceled != true)
+                    DoctorAllBookingSameDay = _context.Bookings.Where(b => b.Patient.DoctorId == patient.DoctorId && b.Patient.IsDeleted != true && b.BookingDateTime.Date == DateTime.Parse(detailsParams.BookingDate).Date && b.IsCanceled != true)
                     .Include(t => t.Type).Include(p => p.Patient).OrderBy(t => t.BookingDateTime).Select(b => new BookingBrief
                     {
                         BookId = b.Id,
@@ -239,9 +239,9 @@ namespace clinic_api.Controllers
                     }).ToList()
                 }
             };
-            if (bookingId == 0)
+            if (detailsParams.BookingId == 0)
             {
-                model.PrevBookingsDues = _context.Bookings.Where(p => p.PatientId == patientId && p.IsCanceled != true)
+                model.PrevBookingsDues = _context.Bookings.Where(p => p.PatientId == detailsParams.PatientId && p.IsCanceled != true)
                     .Include(p => p.BookingPayments).Include(s => s.Type).Include(s => s.Discount).Include("BookingServices.Service")
                     .Where(b => (b.BookingPayments.Any() ? b.BookingPayments.Sum(p => p.Paid) : 0) < (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)))
                     .Select(b => new PrevBookingDue
@@ -255,7 +255,7 @@ namespace clinic_api.Controllers
             }
             else
             {
-                var booking = await _context.Bookings.Where(b => b.Id == bookingId)
+                var booking = await _context.Bookings.Where(b => b.Id == detailsParams.BookingId)
                     .Include(s => s.BookingServices).Include(p => p.BookingPayments).Include(d => d.Doctor).FirstOrDefaultAsync();
                 model.BookingDetails = new BookingDetails
                 {
@@ -267,7 +267,7 @@ namespace clinic_api.Controllers
                     IsCanceled = booking.IsCanceled,
                     IsEnter = booking.IsEnter
                 };
-                model.PrevBookingsDues = _context.Bookings.Where(b => b.PatientId == patientId && b.IsCanceled != true && b.Id != bookingId)
+                model.PrevBookingsDues = _context.Bookings.Where(b => b.PatientId == detailsParams.PatientId && b.IsCanceled != true && b.Id != detailsParams.BookingId)
                     .Include(p => p.BookingPayments).Include(s => s.Type).Include(s => s.Discount).Include("BookingServices.Service")
                     .Where(b => (b.BookingPayments.Any() ? b.BookingPayments.Sum(p => p.Paid) : 0) < (b.Type.Price + (b.BookingServices.Any() ? b.BookingServices.Sum(s => s.Service.Price) : 0) - (b.DiscountId != null ? b.Discount.Price : 0)))
                     .Select(b => new PrevBookingDue

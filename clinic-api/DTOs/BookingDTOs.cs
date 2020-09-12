@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 
 namespace clinic_api.DTOs
 {
+    public class BookingGetDetailsParams
+    {
+        public Guid PatientId { get; set; }
+        public int BookingId { get; set; }
+        public string BookingDate { get; set; }
+    }
     public class BookingGetDTO
     {
         public BookingSetting BookingSetting { get; set; }

@@ -48,7 +48,8 @@ namespace clinic_api.Controllers
             if (result.Succeeded)
             {
                 var loginUser = await _userManager.Users.Where(u => u.NormalizedUserName == userDTO.UserName.ToUpper())
-                    .Include(c => c.ClinicUsers).ThenInclude(c => c.Clinic).ThenInclude(c => c.DoctorClinics).ThenInclude(c => c.Doctor)
+                    .Include(c => c.Doctors)
+                    .Include(c => c.ClinicUsers).ThenInclude(c => c.Clinic).ThenInclude(c => c.DoctorClinics)
                     .Include(p => p.Pharmacies)
                     .FirstOrDefaultAsync();
                 // check if subscription valid
@@ -89,7 +90,7 @@ namespace clinic_api.Controllers
                 // if doctor
                 if (roles.Contains("doctor"))
                 {
-                    claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, user.ClinicUsers.FirstOrDefault().Clinic.DoctorClinics.FirstOrDefault().DoctorId.ToString()));
+                    claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, user.Doctors.FirstOrDefault().Id.ToString()));
                     // if doctor has one clinic
                     if (user.ClinicUsers.Count() == 1)
                     {

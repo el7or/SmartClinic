@@ -49,7 +49,7 @@ namespace clinic_api.Controllers
             {
                 var loginUser = await _userManager.Users.Where(u => u.NormalizedUserName == userDTO.UserName.ToUpper())
                     .Include(c => c.Doctors)
-                    .Include(c => c.ClinicUsers).ThenInclude(c => c.Clinic).ThenInclude(c => c.DoctorClinics)
+                    .Include(c => c.ClinicUsers).ThenInclude(c => c.Clinic).ThenInclude(c => c.DoctorClinics).ThenInclude(c => c.Doctor)
                     .Include(p => p.Pharmacies)
                     .FirstOrDefaultAsync();
                 // check if subscription valid

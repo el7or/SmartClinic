@@ -22,7 +22,10 @@ namespace clinic_panel.Controllers
         // GET: Doctor
         public ActionResult Index()
         {
-            var doctors = db.Doctors.Include(s => s.SysDoctorsSpecialty).Include(c => c.Clinics).Include(p => p.Patients)
+            var doctors = db.Doctors
+                .Include(s => s.SysDoctorsSpecialty)
+                .Include(c => c.Clinics)
+                .Include(p => p.Patients)
                 .OrderBy(d => d.CreatedOn)
                 .Select(d => new DoctorIndexDTO
                 {
@@ -36,6 +39,7 @@ namespace clinic_panel.Controllers
                     SubscriptionsPaid = d.FullName == "doctor" || d.FullName == "doctor2" ? 0 : (int)db.Subscriptions.Where(s => s.SubscriberId == d.Id).Sum(s => s.SubscriptionPayments.Select(e => e.Paid).DefaultIfEmpty(0).Sum()),
                     UsersCount = d.Clinics.Sum(c => c.AspNetUsers.Count()),
                     Clinics = d.Clinics.Select(c => c.ClinicName).ToList(),
+                    PlanClinicsCount = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).PlanId,
                     PatientsCount = d.Patients.Count(),
                     IsActive = d.IsActive == false ? "معطل" : "مفعل",
                 });

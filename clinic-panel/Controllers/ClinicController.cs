@@ -280,7 +280,7 @@ namespace clinic_panel.Controllers
                 db.DoctorBookingTypes.AddRange(newBookingTypes);
 
                 // add subscription:
-                var plan = db.Plans.Find(2);
+                var plan = db.Plans.Find(model.PlanId);
                 var subscription = new Subscription
                 {
                     SubscriberId = doctor.Id,
@@ -310,7 +310,7 @@ namespace clinic_panel.Controllers
                 var payment = new SubscriptionPayment
                 {
                     Subscription = subscription,
-                    Paid = 3000,
+                    Paid = (decimal) plan.SignUpFee,
                     Note = model.PayNote,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
                     CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),

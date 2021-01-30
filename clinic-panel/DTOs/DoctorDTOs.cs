@@ -26,6 +26,7 @@ namespace clinic_panel.DTOs
         public int SubscriptionsPaid { get; set; }
         public int UsersCount { get; set; }
         public List<string> Clinics { get; set; }
+        public int? PlanClinicsCount { get; set; }
         public int PatientsCount { get; set; }
         public string IsActive { get; set; }
     }

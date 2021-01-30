@@ -34,7 +34,10 @@
             العيادات
         </th>
         <th>
-            التفعيل
+            مرضى
+        </th>
+        <th>
+            حجوزات
         </th>
         <th></th>
     </tr>
@@ -69,7 +72,10 @@
                 </ul>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
+                @Html.DisplayFor(modelItem => item.PatientsCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingsCount)
             </td>
             <td>
                 @*

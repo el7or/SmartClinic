@@ -26,6 +26,7 @@ namespace clinic_panel.Controllers
                 .Include(s => s.SysDoctorsSpecialty)
                 .Include(c => c.Clinics)
                 .Include(p => p.Patients)
+                .Include(b => b.Bookings)
                 .OrderBy(d => d.CreatedOn)
                 .Select(d => new DoctorIndexDTO
                 {
@@ -41,6 +42,7 @@ namespace clinic_panel.Controllers
                     Clinics = d.Clinics.Select(c => c.ClinicName).ToList(),
                     PlanClinicsCount = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).PlanId,
                     PatientsCount = d.Patients.Count(),
+                    BookingsCount = d.Bookings.Count(),
                     IsActive = d.IsActive == false ? "معطل" : "مفعل",
                 });
             return View(doctors.ToList());

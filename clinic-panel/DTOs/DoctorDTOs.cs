@@ -28,6 +28,7 @@ namespace clinic_panel.DTOs
         public List<string> Clinics { get; set; }
         public int? PlanClinicsCount { get; set; }
         public int PatientsCount { get; set; }
+        public int BookingsCount { get; set; }
         public string IsActive { get; set; }
     }
 

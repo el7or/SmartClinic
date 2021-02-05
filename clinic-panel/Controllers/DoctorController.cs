@@ -23,6 +23,7 @@ namespace clinic_panel.Controllers
         public ActionResult Index()
         {
             var doctors = db.Doctors
+                .Where(d => d.IsActive == true && d.IsDeleted == false)
                 .Include(s => s.SysDoctorsSpecialty)
                 .Include(c => c.Clinics)
                 .Include(p => p.Patients)

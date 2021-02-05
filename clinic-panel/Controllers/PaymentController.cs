@@ -25,15 +25,15 @@ namespace clinic_panel.Controllers
             var model = new PaymentDTOs
             {
                 AllPayments = allPayments,
-                ExpensesBalance = allPayments / 3,
+                //ExpensesBalance = allPayments / 3,
                 SpentExpenses = spentExpenses,
-                RemainingExpenses = (allPayments / 3) - spentExpenses,
-                AhmedProfits = allPayments / 3,
-                HatemProfits = allPayments / 3,
+                //RemainingExpenses = (allPayments / 3) - spentExpenses,
+                AhmedProfits = (allPayments - spentExpenses) / 2,
+                HatemProfits = (allPayments - spentExpenses) / 2,
                 AhmedWithdrawnProfits = ahmedWithdrawnProfits,
-                AhmedRemainingProfits = (allPayments / 3) - ahmedWithdrawnProfits,
+                AhmedRemainingProfits = ((allPayments - spentExpenses) / 2) - ahmedWithdrawnProfits,
                 HatemWithdrawnProfits = hatemWithdrawnProfits,
-                HatemRemainingProfits = (allPayments / 3) - hatemWithdrawnProfits,
+                HatemRemainingProfits = ((allPayments - spentExpenses) / 2) - hatemWithdrawnProfits,
             };
             return View(model);
         }

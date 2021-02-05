@@ -47,25 +47,47 @@ namespace clinic_api.Controllers
             //var result = await _signInManager.PasswordSignInAsync(userDTO.UserName, userDTO.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                var loginUser = await _userManager.Users.Where(u => u.NormalizedUserName == userDTO.UserName.ToUpper())
+                var loginUser = await _userManager.Users
+                    .Where(u => u.NormalizedUserName == userDTO.UserName.ToUpper())
                     .Include(c => c.Doctors)
                     .Include(c => c.ClinicUsers).ThenInclude(c => c.Clinic).ThenInclude(c => c.DoctorClinics).ThenInclude(c => c.Doctor)
                     .Include(p => p.Pharmacies)
+                    .Include(s => s.Subscriptions).ThenInclude(p => p.SubscriptionPayments)
                     .FirstOrDefaultAsync();
+
                 // check if subscription valid
-                var userSubscription = _context.Subscriptions.Where(s => s.UserId == loginUser.Id).OrderByDescending(c => c.CreatedOn).FirstOrDefault();
-                if (userSubscription != null && userSubscription.EndDate.Date < DateTime.Now.Date)
+                string warning = string.Empty;
+                if (loginUser.UserName != "zizooo.elhor@gmail.com" && loginUser.UserName != "hatems325@gmail.com")
                 {
-                    return Unauthorized();
-                }
-                else
-                {
-                    return Ok(new
+                    var subscription = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
+                    var subscriptionPayment = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault().SubscriptionPayments.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
+                    var subscriptionEndDate = subscription.EndDate.Date;
+                    var subscriptionDuePayment = subscription.SignUpFee - subscriptionPayment.Paid;
+                    var subscriptionRenewPayment = subscription.AnnualRenewalFee;
+
+                    if (subscriptionDuePayment > 0)
                     {
-                        token = GenerateJWToken(loginUser).Result,
-                        nickName = loginUser.FullName
-                    });
+                        subscriptionEndDate = DateTime.Parse("2021-03-01");
+                    }
+                    if (subscriptionEndDate < DateTime.Now.Date.AddDays(30))
+                    {
+                        warning = "الرجاء دفع المبلغ المستحق لاستمرار الاشتراك وهو: "
+                            + (subscriptionDuePayment > 0 ? subscriptionDuePayment : subscriptionRenewPayment)
+                            + "ج.م وإلا سيتم إيقاف الخدمة نهائياً في تاريخ: "
+                            + subscriptionEndDate.ToLongDateString();
+                    }
+                    if (subscriptionEndDate < DateTime.Now.Date)
+                    {
+                        return BadRequest("تم إيقاف الحساب لعدم دفع كامل قيمة الاشتراك.");
+                    }
                 }
+
+                return Ok(new
+                {
+                    token = GenerateJWToken(loginUser).Result,
+                    nickName = loginUser.FullName,
+                    warning = warning
+                });
             }
             else return Unauthorized();
         }

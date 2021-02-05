@@ -17,6 +17,7 @@ import { HomeService } from "./home.service";
 import { BookingsService } from "./../bookings/bookings.service";
 import { LanggService } from "../../shared/services/langg.service";
 import { HomeEvents, ClickType } from "./home.model";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: "home",
@@ -78,6 +79,16 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.calendarEvents = res.calendarEvents;
         // =====> set weekends days to hide them:
         this.calendarHiddenDays = res.weekEnds;
+        // check if any warning from login =====>
+        const warningMessage = localStorage.getItem("warning");
+        if(warningMessage){
+          Swal.fire({
+            title: 'تحذير هام !',
+            text: warningMessage,
+            icon: 'warning',
+            confirmButtonText: 'حسناً',
+          })
+        }
         this.formLoading = false;
       },
       (err) => {

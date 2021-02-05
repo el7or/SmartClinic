@@ -12,6 +12,7 @@ export enum UserRole {
 export interface LoginResponse {
   token: string;
   nickName: string;
+  warning?: string
 }
 
 export interface UpdateNickName {

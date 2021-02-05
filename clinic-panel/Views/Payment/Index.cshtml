@@ -15,32 +15,32 @@
         <td>
             <h3>@Model.AllPayments.ToString("C0", CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
         </td>
-        <td colspan="2">
+        <td>
             @Html.ActionLink("اشتراكات الأطباء", "Index", "Doctor", null, new { @class = "btn btn-primary" })
         </td>
-        <td colspan="2">
+        <td>
             @Html.ActionLink("اشتراكات الصيدليات", "Index", "Pharmacy", null, new { @class = "btn btn-primary" })
         </td>
     </tr>
     <tr>
-        <th>
+        @*<th>
             <h3>رصيد المصروفات الكلي:</h3>
         </th>
         <td>
             <h3>@Model.ExpensesBalance.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
-        </td>
+        </td>*@
         <th>
             <h3>ماتم صرفه:</h3>
         </th>
         <td>
             <h3>@Model.SpentExpenses.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
         </td>
-        <th>
+        @*<th>
             <h3>رصيد المصروفات المتبقي:</h3>
         </th>
         <td>
             <h3>@Model.RemainingExpenses.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
-        </td>
+        </td>*@
         <td>
             @Html.ActionLink("بيانات المصروفات", "Expenses", "Payment", null, new { @class = "btn btn-primary" })
         </td>

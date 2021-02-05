@@ -105,9 +105,18 @@ export class LoginComponent extends NbLoginComponent implements OnDestroy {
       },
       (err) => {
         console.error(err);
-        if (err.error.title == "Unauthorized") {
+        if (err.status == 401) {
           this.unAuthSwal.fire();
-        } else {
+        }
+        else if (err.status == 400) {
+          Swal.fire({
+            title: 'غير مسموح بالدخول !',
+            text: err.error,
+            icon: 'error',
+            confirmButtonText: 'حسناً',
+          })
+        }
+        else {
           this.alertService.alertError();
         }
         this.loading = false;

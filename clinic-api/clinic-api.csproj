@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RootNamespace>clinic_api</RootNamespace>
+    <UserSecretsId>8ec3cb16-5248-49c5-ad4b-5409bb0bcf91</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

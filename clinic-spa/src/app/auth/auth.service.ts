@@ -72,6 +72,7 @@ export class AuthService {
             localStorage.setItem("token", res.token);
             this.decodedToken = this.jwtHelper.decodeToken(res.token);
             localStorage.setItem("nickName", res.nickName);
+            localStorage.setItem("warning", res.warning);
             return this.roleName;
             /*
           decodedToken.jti --> userId

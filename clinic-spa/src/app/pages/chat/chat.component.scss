@@ -64,7 +64,7 @@
   .selectedUser {
     background-color: #0095ff !important;
   }
-  .selectedUser /deep/ div.user-name, .selectedUser /deep/ div.user-title{
+  .selectedUser ::ng-deep div.user-name, .selectedUser ::ng-deep div.user-title{
       color: #ffffff !important;
       font-weight: bolder !important;
   }

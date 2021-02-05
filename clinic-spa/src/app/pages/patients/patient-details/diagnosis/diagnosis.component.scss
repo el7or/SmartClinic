@@ -1,1 +1,6 @@
-
+.table td {
+  border-top: none !important;
+}
+.table tr:nth-child(even){
+  border-bottom: 1px solid gray;
+}

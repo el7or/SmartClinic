@@ -57,7 +57,7 @@ namespace clinic_api.Controllers
 
                 // check if subscription valid
                 string warning = string.Empty;
-                if (loginUser.UserName != "zizooo.elhor@gmail.com" && loginUser.UserName != "hatems325@gmail.com")
+                if (loginUser.Subscriptions.Count > 0)
                 {
                     var subscription = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
                     var subscriptionPayment = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault().SubscriptionPayments.OrderByDescending(c => c.CreatedOn).FirstOrDefault();

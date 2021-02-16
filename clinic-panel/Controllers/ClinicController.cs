@@ -22,14 +22,17 @@ namespace clinic_panel.Controllers
         // GET: Clinic
         public ActionResult Index()
         {
-            var model = db.Clinics.Include(u => u.AspNetUsers).Include(u => u.AspNetUsers.Select(r => r.AspNetRoles))
-                .OrderBy(c => c.CreatedOn).Select(c => new ClinicIndexDTO
-            {
-                Id = c.Id,
-                ClinicName = c.ClinicName,
-                Doctors = c.AspNetUsers.Where(u => u.AspNetRoles.Any(r => r.Name=="doctor")).Select(u => u.FullName).ToList(),
-                Employees = c.AspNetUsers.Where(u => u.AspNetRoles.Any(r => r.Name == "employee")).Select(u => u.FullName).ToList()
-            }).ToList();
+            var model = db.Clinics.Where(c => c.IsActive == true && c.IsDeleted == false)
+                .Include(u => u.AspNetUsers)
+                .Include(u => u.AspNetUsers.Select(r => r.AspNetRoles))
+                .OrderBy(c => c.CreatedOn)
+                .Select(c => new ClinicIndexDTO
+                {
+                    Id = c.Id,
+                    ClinicName = c.ClinicName,
+                    Doctors = c.AspNetUsers.Where(u => u.AspNetRoles.Any(r => r.Name == "doctor")).Select(u => u.FullName).ToList(),
+                    Employees = c.AspNetUsers.Where(u => u.AspNetRoles.Any(r => r.Name == "employee")).Select(u => u.FullName).ToList()
+                }).ToList();
             return View(model);
         }
 
@@ -110,7 +113,7 @@ namespace clinic_panel.Controllers
             }
             ClinicAddDoctorDTO model = new ClinicAddDoctorDTO();
             model.ClinicId = clinic.Id;
-            model.Paid = 3000;
+            model.Paid = 5000;
 
             ViewBag.ClinicName = clinic.ClinicName;
             ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value");
@@ -310,7 +313,7 @@ namespace clinic_panel.Controllers
                 var payment = new SubscriptionPayment
                 {
                     Subscription = subscription,
-                    Paid = (decimal) plan.SignUpFee,
+                    Paid = (decimal)plan.SignUpFee,
                     Note = model.PayNote,
                     CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
                     CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),

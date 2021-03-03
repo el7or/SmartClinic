@@ -49,10 +49,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     private toastrService: NbToastrService,
     private homeService: HomeService,
     private bookingService: BookingsService,
-    private dialogService:NbDialogService,
+    private dialogService: NbDialogService,
     private alertService: AlertService,
     private datetimeService: DateTimeService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.formLoading = true;
@@ -81,13 +81,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.calendarHiddenDays = res.weekEnds;
         // check if any warning from login =====>
         const warningMessage = localStorage.getItem("warning");
-        if(warningMessage){
+        if (warningMessage) {
           Swal.fire({
             title: 'تحذير هام !',
             text: warningMessage,
             icon: 'warning',
             confirmButtonText: 'حسناً',
-          })
+          });
+          //this.router.navigateByUrl("/auth/login");
         }
         this.formLoading = false;
       },

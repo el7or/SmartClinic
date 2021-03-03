@@ -67,7 +67,7 @@ namespace clinic_api.Controllers
 
                     if (subscriptionDuePayment > 0)
                     {
-                        subscriptionEndDate = DateTime.Parse("2021-03-01");
+                        subscriptionEndDate = new DateTime(2021,3,31);
                     }
                     if (subscriptionEndDate < DateTime.Now.Date.AddDays(30))
                     {
@@ -76,7 +76,7 @@ namespace clinic_api.Controllers
                             + "ج.م وإلا سيتم إيقاف الخدمة نهائياً في تاريخ: "
                             + subscriptionEndDate.ToLongDateString();
                     }
-                    if (subscriptionEndDate < DateTime.Now.Date)
+                    if (subscriptionEndDate <= DateTime.Now.Date)
                     {
                         return BadRequest("تم إيقاف الحساب لعدم دفع كامل قيمة الاشتراك.");
                     }

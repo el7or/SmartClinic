@@ -121,7 +121,15 @@ namespace clinic_api.Controllers
                         .OrderBy(e => e.MedicineName).Select(e => new DoctorAnyValueDTO
                         {
                             Id = e.Id,
-                            Text = e.MedicineName
+                            Text = e.MedicineName,
+                            DefaultDoseId = e.DefaultDoseId,
+                            DefaultQuantityId = e.DefaultQuantityId,
+                            DefaultPeriodId = e.DefaultPeriodId,
+                            DefaultTimingId = e.DefaultTimingId,
+                            DefaultQuantityText = e.DefaultQuantity.Text,
+                            DefaultDoseText = e.DefaultDose.Text,
+                            DefaultTimingText = e.DefaultTiming.Text,
+                            DefaultPeriodText = e.DefaultPeriod.Text
                         });
                     break;
                 default:
@@ -185,6 +193,10 @@ namespace clinic_api.Controllers
                 case ItemsType.Medicine:
                     itemValue = _context.DoctorMedicinesValues.Find(item.Id);
                     itemValue.MedicineName = item.Text;
+                    itemValue.DefaultQuantityId = item.DefaultQuantityId;
+                    itemValue.DefaultDoseId = item.DefaultDoseId;
+                    itemValue.DefaultTimingId = item.DefaultTimingId;
+                    itemValue.DefaultPeriodId = item.DefaultPeriodId;
                     break;
                 default:
                     break;
@@ -292,7 +304,11 @@ namespace clinic_api.Controllers
                     newItem = new DoctorMedicinesValue
                     {
                         DoctorId = doctorId,
-                        MedicineName = item.Text
+                        MedicineName = item.Text,
+                        DefaultQuantityId = item.DefaultQuantityId,
+                        DefaultDoseId = item.DefaultDoseId,
+                        DefaultTimingId = item.DefaultTimingId,
+                        DefaultPeriodId = item.DefaultPeriodId
                     };
                     _context.DoctorMedicinesValues.Add(newItem);
                     break;
@@ -365,6 +381,41 @@ namespace clinic_api.Controllers
             _context.Entry(itemValue).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+
+        // GET: api/RecordSetting/GetMedicineDefaults/5
+        [HttpGet("GetMedicineDefaults/{id}")]
+        public async Task<ActionResult<GetPatientPrescriptionsDTO>> GetMedicineDefaults(Guid id)
+        {
+            if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
+            {
+                return Unauthorized();
+            }
+            GetPatientPrescriptionsDTO model = new GetPatientPrescriptionsDTO
+            {
+                QuantityValues = await _context.SysMedicineQuantityValues.Select(v => new QuantityValue
+                {
+                    Id = v.Id,
+                    Text = v.Text
+                }).ToListAsync(),
+                DoseValues = await _context.SysMedicineDosesValues.Select(v => new DoseValue
+                {
+                    Id = v.Id,
+                    Text = v.Text
+                }).ToListAsync(),
+                TimingValues = await _context.SysMedicineTimingsValues.Select(v => new TimingValue
+                {
+                    Id = v.Id,
+                    Text = v.Text
+                }).ToListAsync(),
+                PeriodValues = await _context.SysMedicinePeriodsValues.Select(v => new PeriodValue
+                {
+                    Id = v.Id,
+                    Text = v.Text
+                }).ToListAsync()
+            };
+
+            return model;
         }
     }
 }

@@ -455,7 +455,11 @@ namespace clinic_api.Controllers
                 MedicineValues = _context.DoctorMedicinesValues.Where(d => d.DoctorId == doctorId && d.IsDeleted != true).OrderBy(m => m.MedicineName).Select(v => new MedicineValue
                 {
                     Id = v.Id,
-                    Text = v.MedicineName
+                    Text = v.MedicineName,
+                    DefaultQuantityId = v.DefaultQuantityId,
+                    DefaultDoseId = v.DefaultDoseId,
+                    DefaultPeriodId = v.DefaultPeriodId,
+                    DefaultTimingId = v.DefaultTimingId
                 }).ToList(),
                 QuantityValues = _context.SysMedicineQuantityValues.Select(v => new QuantityValue
                 {

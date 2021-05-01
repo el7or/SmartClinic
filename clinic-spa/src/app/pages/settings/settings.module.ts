@@ -45,6 +45,7 @@ import { RayAreaSettingComponent } from './patient-setting/record-items-setting/
 import { MedicinesSettingComponent } from './patient-setting/medicines-setting/medicines-setting.component';
 import { TherapySettingComponent } from './patient-setting/record-items-setting/therapy-setting/therapy-setting.component';
 import { TherapyAreaSettingComponent } from './patient-setting/record-items-setting/therapy-area-setting/therapy-area-setting.component';
+import { MedicineItemSettingComponent } from './patient-setting/medicines-setting/medicine-item-setting/medicine-item-setting.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { TherapyAreaSettingComponent } from './patient-setting/record-items-sett
     RayAreaSettingComponent,
     MedicinesSettingComponent,
     TherapySettingComponent,
-    TherapyAreaSettingComponent
+    TherapyAreaSettingComponent,
+    MedicineItemSettingComponent
   ],
   imports: [
     CommonModule,
@@ -96,6 +98,12 @@ import { TherapyAreaSettingComponent } from './patient-setting/record-items-sett
     TypeaheadModule.forRoot(),
     SweetAlert2Module.forChild()
   ],
-  entryComponents:[AddTypeComponent,AddServiceComponent,AddDiscountComponent,ItemSettingComponent]
+  entryComponents: [
+    AddTypeComponent,
+    AddServiceComponent,
+    AddDiscountComponent,
+    ItemSettingComponent,
+    MedicineItemSettingComponent
+  ]
 })
-export class SettingsModule {}
+export class SettingsModule { }

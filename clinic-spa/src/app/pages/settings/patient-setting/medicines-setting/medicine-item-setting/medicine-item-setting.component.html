@@ -1,0 +1,39 @@
+<nb-card>
+  <nb-card-header><span langg>Medication Data</span></nb-card-header>
+  <nb-card-body>
+    <form #form="ngForm">
+      <label class="label"><span langg>Medication Name</span>:</label>
+      <input nbInput [(ngModel)]="medicineItemToUpdate.text" [placeholder]="'Medication Name' | langg" fullWidth
+        [ngModelOptions]="{standalone: true}">
+
+      <label class="label"><span langg>Default Quantity</span>:</label>
+      <nb-select fullWidth [(ngModel)]="medicineItemToUpdate.defaultQuantityId" [ngModelOptions]="{standalone: true}"
+        [placeholder]="'Quantity' | langg" size="small">
+        <nb-option *ngFor="let item of quantityValues" [value]="item.id">{{item.text}}</nb-option>
+      </nb-select>
+
+      <label class="label"><span langg>Default Dose</span>:</label>
+      <nb-select fullWidth [(ngModel)]="medicineItemToUpdate.defaultDoseId" [ngModelOptions]="{standalone: true}"
+        [placeholder]="'Dose' | langg" size="small">
+        <nb-option *ngFor="let item of doseValues" [value]="item.id">{{item.text}}</nb-option>
+      </nb-select>
+
+      <label class="label"><span langg>Default Timing</span>:</label>
+      <nb-select fullWidth [(ngModel)]="medicineItemToUpdate.defaultTimingId" [ngModelOptions]="{standalone: true}"
+        [placeholder]="'Timing' | langg" size="small">
+        <nb-option *ngFor="let item of timingValues" [value]="item.id">{{item.text}}</nb-option>
+      </nb-select>
+
+      <label class="label"><span langg>Default Period</span>:</label>
+      <nb-select fullWidth [(ngModel)]="medicineItemToUpdate.defaultPeriodId" [ngModelOptions]="{standalone: true}"
+        [placeholder]="'Period' | langg" size="small">
+        <nb-option *ngFor="let item of periodValues" [value]="item.id">{{item.text}}</nb-option>
+      </nb-select>
+    </form>
+  </nb-card-body>
+  <nb-card-footer class="text-center nbButton-group">
+    <button nbButton hero status="primary" (click)="onSave()" [disabled]="!medicineItemToUpdate.text" langg
+      status="success">Save</button>
+    <button nbButton hero status="danger" (click)="dialogRef.close()" langg>Cancel</button>
+  </nb-card-footer>
+</nb-card>

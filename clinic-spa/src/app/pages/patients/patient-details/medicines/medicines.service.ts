@@ -71,6 +71,14 @@ export class MedicinesService {
     );
   }
 
+  getMedicineDefaults() {
+    return this.http.get<GetPatientPrescriptions>(
+      this.baseUrl +
+        "RecordSetting/GetMedicineDefaults/" +
+        this.authService.userId
+    );
+  }
+
   postMedicineValue(medicineValue: string) {
     const postObj: AnyPatientFileValue = {
       id: 0,

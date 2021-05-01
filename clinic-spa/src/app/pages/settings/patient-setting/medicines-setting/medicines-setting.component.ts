@@ -6,14 +6,14 @@ import { NbDialogService } from '@nebular/theme';
 import { AnyPatientFileValue, ItemsType } from '../record-items-setting/record-items-setting.model';
 import { RecordItemsSettingService } from '../record-items-setting/record-items-setting.service';
 import { AlertService } from '../../../../shared/services/alert.service';
-import { ItemSettingComponent } from '../record-items-setting/item-setting/item-setting.component';
+import { MedicineItemSettingComponent } from './medicine-item-setting/medicine-item-setting.component';
 
 @Component({
   selector: 'medicines-setting',
   templateUrl: './medicines-setting.component.html',
   styleUrls: ['./medicines-setting.component.scss']
 })
-export class MedicinesSettingComponent implements OnInit,OnDestroy {
+export class MedicinesSettingComponent implements OnInit, OnDestroy {
   formLoading = false;
   itemValues: AnyPatientFileValue[];
   @ViewChild("doneSwal", { static: false }) doneSwal: SwalComponent;
@@ -26,9 +26,16 @@ export class MedicinesSettingComponent implements OnInit,OnDestroy {
     private recordItemService: RecordItemsSettingService,
     private dialogService: NbDialogService,
     private alertService: AlertService
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.populateMedicines();
+  }
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  populateMedicines() {
     this.formLoading = true;
     this.subs.add(
       this.recordItemService.getItemValues(ItemsType.Medicine).subscribe(
@@ -44,41 +51,29 @@ export class MedicinesSettingComponent implements OnInit,OnDestroy {
       )
     );
   }
-  ngOnDestroy() {
-    this.subs.unsubscribe();
-  }
 
   onAddItem() {
     this.subs.add(
       this.dialogService
-        .open(ItemSettingComponent, {
+        .open(MedicineItemSettingComponent, {
           autoFocus: true,
           hasBackdrop: true,
           closeOnBackdropClick: false,
           closeOnEsc: false,
         })
-        .onClose.subscribe((itemText: string) => {
-          if (itemText) {
-            if (this.itemValues.some((i) => i.text.trim() == itemText.trim())) {
+        .onClose.subscribe((medicineItemValue: AnyPatientFileValue) => {
+          if (medicineItemValue && medicineItemValue.text) {
+            if (this.itemValues.some((i) => i.text.trim() == medicineItemValue.text.trim())) {
               this.duplicatSwal.fire();
             } else {
               this.formLoading = true;
-              const itemObj: AnyPatientFileValue = {
-                id: 0,
-                text: itemText,
-              };
               this.subs.add(
                 this.recordItemService
-                  .postItemValues(itemObj, ItemsType.Medicine)
+                  .postItemValues(medicineItemValue, ItemsType.Medicine)
                   .subscribe(
-                    (res: AnyPatientFileValue) => {
-                      if (this.itemValues) {
-                        this.itemValues.push(res);
-                      } else {
-                        this.itemValues = [res];
-                      }
+                    () => {
+                      this.populateMedicines();
                       this.doneSwal.fire();
-                      this.formLoading = false;
                     },
                     (err) => {
                       console.error(err);
@@ -96,43 +91,33 @@ export class MedicinesSettingComponent implements OnInit,OnDestroy {
   onEditItem(item: AnyPatientFileValue) {
     this.subs.add(
       this.dialogService
-        .open(ItemSettingComponent, {
+        .open(MedicineItemSettingComponent, {
           context: {
-            itemValue: item.text,
+            medicineItemValue: item,
           },
           autoFocus: true,
           hasBackdrop: true,
           closeOnBackdropClick: false,
           closeOnEsc: false,
         })
-        .onClose.subscribe((itemText: string) => {
-          if (itemText && itemText.trim() != item.text.trim()) {
-            if (
-              this.itemValues.some(
-                (i) => i.text.trim() == itemText.trim() && i.id != item.id
+        .onClose.subscribe((medicineItemValue: AnyPatientFileValue) => {
+          this.formLoading = true;
+          this.subs.add(
+            this.recordItemService
+              .putItemValues(medicineItemValue, ItemsType.Medicine)
+              .subscribe(
+                () => {
+                  this.populateMedicines();
+                  this.doneSwal.fire();
+                  this.formLoading = false;
+                },
+                (err) => {
+                  console.error(err);
+                  this.alertService.alertError();
+                  this.formLoading = false;
+                }
               )
-            ) {
-              this.duplicatSwal.fire();
-            } else {
-              this.formLoading = true;
-              item.text = itemText;
-              this.subs.add(
-                this.recordItemService
-                  .putItemValues(item, ItemsType.Medicine)
-                  .subscribe(
-                    () => {
-                      this.doneSwal.fire();
-                      this.formLoading = false;
-                    },
-                    (err) => {
-                      console.error(err);
-                      this.alertService.alertError();
-                      this.formLoading = false;
-                    }
-                  )
-              );
-            }
-          }
+          );
         })
     );
   }

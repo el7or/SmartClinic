@@ -53,7 +53,18 @@ namespace clinic_api.DTOs
     {
         public int Id { get; set; }
         public string Text { get; set; }
+
+        // just using in medicine setting:
+        public int? DefaultQuantityId { get; set; }
+        public int? DefaultDoseId { get; set; }
+        public int? DefaultTimingId { get; set; }
+        public int? DefaultPeriodId { get; set; }
+        public string DefaultQuantityText { get; set; }
+        public string DefaultDoseText { get; set; }
+        public string DefaultTimingText { get; set; }
+        public string DefaultPeriodText { get; set; }
     }
+
     public enum ItemsType
     {
         Complaint,

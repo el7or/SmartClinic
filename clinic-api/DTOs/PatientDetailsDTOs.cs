@@ -170,6 +170,10 @@ namespace clinic_api.DTOs
     {
         public int Id { get; set; }
         public string Text { get; set; }
+        public int? DefaultQuantityId { get; set; }
+        public int? DefaultDoseId { get; set; }
+        public int? DefaultTimingId { get; set; }
+        public int? DefaultPeriodId { get; set; }
     }
     public class QuantityValue
     {

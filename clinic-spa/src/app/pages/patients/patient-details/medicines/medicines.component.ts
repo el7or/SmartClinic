@@ -55,7 +55,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
     private patientsService: PatientsService,
     private alertService: AlertService,
     private scrollService: NbLayoutScrollService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.formLoading = true;
@@ -108,6 +108,10 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   onSelectMedicine(event: TypeaheadMatch, index) {
     this.isAnyNameInvalid = false;
     this.newPatientPrescription.medicines[index].medicineId = event.item.id;
+    this.newPatientPrescription.medicines[index].quantityId = event.item.defaultQuantityId;
+    this.newPatientPrescription.medicines[index].doseId = event.item.defaultDoseId;
+    this.newPatientPrescription.medicines[index].timingId = event.item.defaultTimingId;
+    this.newPatientPrescription.medicines[index].periodId = event.item.defaultPeriodId;
   }
 
   // =====> on add new row in prescription:
@@ -138,7 +142,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
         this.medicineService
           .savePatientPrescription(this.newPatientPrescription)
           .subscribe(
-            (prescId:number) => {
+            (prescId: number) => {
               if (isPrint) {
                 this.createPrescForPrint(this.newPatientPrescription);
                 this.router.navigate(["/print/medicines"], {

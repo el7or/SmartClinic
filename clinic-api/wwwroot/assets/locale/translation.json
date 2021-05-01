@@ -750,5 +750,10 @@
   { "ar": "إضافة منطقة العلاج الطبيعي", "en": "Add Physical Therapy Area" },
   { "ar": "منطقة العلاج الطبيعي", "en": "Physical Therapy Area" },
   { "ar": "الطبيب", "en": "Doctor" },
-  { "ar": "العيادة", "en": "Clinic" }
+  { "ar": "العيادة", "en": "Clinic" },
+  { "ar": "الكمية الافتراضية", "en": "Default Quantity" },
+  { "ar": "الجرعة الافتراضية", "en": "Default Dose" },
+  { "ar": "التوقيت الافتراضي", "en": "Default Timing" },
+  { "ar": "الفترة الافتراضية", "en": "Default Period" },
+  { "ar": "بيانات الدواء", "en": "Medication Data" }
 ]

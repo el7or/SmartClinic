@@ -1153,6 +1153,18 @@ namespace clinic_api.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
+                    b.Property<int?>("DefaultDoseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DefaultPeriodId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DefaultQuantityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DefaultTimingId")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1174,6 +1186,14 @@ namespace clinic_api.Migrations
                         .HasColumnType("datetime");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DefaultDoseId");
+
+                    b.HasIndex("DefaultPeriodId");
+
+                    b.HasIndex("DefaultQuantityId");
+
+                    b.HasIndex("DefaultTimingId");
 
                     b.HasIndex("DoctorId");
 
@@ -3227,6 +3247,26 @@ namespace clinic_api.Migrations
 
             modelBuilder.Entity("clinic_api.Models.DoctorMedicinesValue", b =>
                 {
+                    b.HasOne("clinic_api.Models.SysMedicineDosesValue", "DefaultDose")
+                        .WithMany()
+                        .HasForeignKey("DefaultDoseId")
+                        .HasConstraintName("FK_DoctorMedicinesValues_SysMedicineDosesValues");
+
+                    b.HasOne("clinic_api.Models.SysMedicinePeriodsValue", "DefaultPeriod")
+                        .WithMany()
+                        .HasForeignKey("DefaultPeriodId")
+                        .HasConstraintName("FK_DoctorMedicinesValues_SysMedicinePeriodsValues");
+
+                    b.HasOne("clinic_api.Models.SysMedicineQuantityValue", "DefaultQuantity")
+                        .WithMany()
+                        .HasForeignKey("DefaultQuantityId")
+                        .HasConstraintName("FK_DoctorMedicinesValues_SysMedicineQuantityValues");
+
+                    b.HasOne("clinic_api.Models.SysMedicineTimingsValue", "DefaultTiming")
+                        .WithMany()
+                        .HasForeignKey("DefaultTimingId")
+                        .HasConstraintName("FK_DoctorMedicinesValues_SysMedicineTimingsValues");
+
                     b.HasOne("clinic_api.Models.Doctor", "Doctor")
                         .WithMany("DoctorMedicinesValues")
                         .HasForeignKey("DoctorId")

@@ -475,6 +475,26 @@ namespace clinic_api.Data
                     .HasForeignKey(d => d.DoctorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DoctorMedicinesValues_Doctors");
+
+                entity.HasOne(d => d.DefaultDose)
+                    .WithMany()
+                    .HasForeignKey(d => d.DefaultDoseId)
+                    .HasConstraintName("FK_DoctorMedicinesValues_SysMedicineDosesValues");
+
+                entity.HasOne(d => d.DefaultQuantity)
+                    .WithMany()
+                    .HasForeignKey(d => d.DefaultQuantityId)
+                    .HasConstraintName("FK_DoctorMedicinesValues_SysMedicineQuantityValues");
+
+                entity.HasOne(d => d.DefaultPeriod)
+                    .WithMany()
+                    .HasForeignKey(d => d.DefaultPeriodId)
+                    .HasConstraintName("FK_DoctorMedicinesValues_SysMedicinePeriodsValues");
+
+                entity.HasOne(d => d.DefaultTiming)
+                    .WithMany()
+                    .HasForeignKey(d => d.DefaultTimingId)
+                    .HasConstraintName("FK_DoctorMedicinesValues_SysMedicineTimingsValues");
             });
 
             modelBuilder.Entity<DoctorOperationTypesValue>(entity =>

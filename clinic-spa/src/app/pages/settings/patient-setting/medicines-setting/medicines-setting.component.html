@@ -8,12 +8,16 @@
         <tr>
           <th>#</th>
           <th>{{'Medicine Name' | langg}}</th>
+          <th>{{'Default Quantity' | langg}}</th>
+          <th>{{'Default Dose' | langg}}</th>
+          <th>{{'Default Timing' | langg}}</th>
+          <th>{{'Default Period' | langg}}</th>
           <th></th>
         </tr>
       </thead>
       <tbody *ngIf="!itemValues?.length">
         <tr>
-          <td colspan="3" class="text-center">
+          <td colspan="7" class="text-center">
             <h5>{{'No Results !' | langg}}</h5>
           </td>
         </tr>
@@ -22,6 +26,10 @@
         <tr *ngFor="let item of itemValues; index as i">
           <td>{{i + 1}}</td>
           <td>{{item.text}}</td>
+          <td>{{item.defaultQuantityText}}</td>
+          <td>{{item.defaultDoseText}}</td>
+          <td>{{item.defaultTimingText}}</td>
+          <td>{{item.defaultPeriodText}}</td>
           <td>
             <button nbButton (click)="onEditItem(item)" size="small" status="success" langg>Edit</button>&nbsp;
             <button nbButton (click)="onDelete(item.id,i)" size="small" status="danger" langg>Delete</button>
@@ -36,8 +44,9 @@
   [showConfirmButton]="false">
 </swal>
 
-<swal #duplicatSwal [title]="'Attention !' | langg" [text]="'This item is already in the list and items cannot be duplicated.' | langg"
-  icon="warning" [confirmButtonText]="'Ok' | langg">
+<swal #duplicatSwal [title]="'Attention !' | langg"
+  [text]="'This item is already in the list and items cannot be duplicated.' | langg" icon="warning"
+  [confirmButtonText]="'Ok' | langg">
 </swal>
 
 <swal #deleteSwal icon="error" showCancelButton="true" focusCancel="true" [title]="'Attention !' | langg"

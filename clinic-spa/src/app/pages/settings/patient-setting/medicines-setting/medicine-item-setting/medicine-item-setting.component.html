@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header><span langg>Medication Data</span></nb-card-header>
-  <nb-card-body>
+  <nb-card-body [nbSpinner]="formLoading" nbSpinnerStatus="success">
     <form #form="ngForm">
       <label class="label"><span langg>Medication Name</span>:</label>
       <input nbInput [(ngModel)]="medicineItemToUpdate.text" [placeholder]="'Medication Name' | langg" fullWidth

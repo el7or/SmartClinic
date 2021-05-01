@@ -101,24 +101,27 @@ export class MedicinesSettingComponent implements OnInit, OnDestroy {
           closeOnEsc: false,
         })
         .onClose.subscribe((medicineItemValue: AnyPatientFileValue) => {
-          this.formLoading = true;
-          this.subs.add(
-            this.recordItemService
-              .putItemValues(medicineItemValue, ItemsType.Medicine)
-              .subscribe(
-                () => {
-                  this.populateMedicines();
-                  this.doneSwal.fire();
-                  this.formLoading = false;
-                },
-                (err) => {
-                  console.error(err);
-                  this.alertService.alertError();
-                  this.formLoading = false;
-                }
-              )
-          );
+          if (medicineItemValue && medicineItemValue.text) {
+            this.formLoading = true;
+            this.subs.add(
+              this.recordItemService
+                .putItemValues(medicineItemValue, ItemsType.Medicine)
+                .subscribe(
+                  () => {
+                    this.populateMedicines();
+                    this.doneSwal.fire();
+                    this.formLoading = false;
+                  },
+                  (err) => {
+                    console.error(err);
+                    this.alertService.alertError();
+                    this.formLoading = false;
+                  }
+                )
+            );
+          }
         })
+
     );
   }
 

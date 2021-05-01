@@ -15,8 +15,8 @@
               <ng-container *ngIf="!item.isNameValid && item.medicineName != ''">
                 <label class="error-message" langg>This Name does not exist! Do you add it to the
                   list?</label>&nbsp;
-                <button nbButton type="button" (click)="onAddNewItemToList(item);item.isNameValid=true" status="info"
-                  size="small" class="mt-2" langg>Add</button>
+                <button nbButton type="button" (click)="onAddNewItemToList(item)" status="info" size="small"
+                  class="mt-2" langg>Add</button>
               </ng-container>
             </td>
             <td>
@@ -82,7 +82,7 @@
           [disabled]="!newPatientPrescription.medicines.length || (newPatientPrescription.medicines.length && !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId)"
           langg>Save</button>
         <button nbButton type="submit" status="success" (click)="onSave(true)"
-          [disabled]="isAnyNameInvalid || !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId"
+          [disabled]="!newPatientPrescription.medicines.length || (newPatientPrescription.medicines.length && !newPatientPrescription.medicines[newPatientPrescription.medicines.length-1].medicineId)"
           langg>Save
           &
           Print</button>

@@ -6,25 +6,25 @@
       <input nbInput [(ngModel)]="medicineItemToUpdate.text" [placeholder]="'Medication Name' | langg" fullWidth
         [ngModelOptions]="{standalone: true}">
 
-      <label class="label"><span langg>Default Quantity</span>:</label>
+      <label class="label mt-3"><span langg>Default Quantity</span>:</label>
       <nb-select fullWidth [(ngModel)]="medicineItemToUpdate.defaultQuantityId" [ngModelOptions]="{standalone: true}"
         [placeholder]="'Quantity' | langg" size="small">
         <nb-option *ngFor="let item of quantityValues" [value]="item.id">{{item.text}}</nb-option>
       </nb-select>
 
-      <label class="label"><span langg>Default Dose</span>:</label>
+      <label class="label mt-3"><span langg>Default Dose</span>:</label>
       <nb-select fullWidth [(ngModel)]="medicineItemToUpdate.defaultDoseId" [ngModelOptions]="{standalone: true}"
         [placeholder]="'Dose' | langg" size="small">
         <nb-option *ngFor="let item of doseValues" [value]="item.id">{{item.text}}</nb-option>
       </nb-select>
 
-      <label class="label"><span langg>Default Timing</span>:</label>
+      <label class="label mt-3"><span langg>Default Timing</span>:</label>
       <nb-select fullWidth [(ngModel)]="medicineItemToUpdate.defaultTimingId" [ngModelOptions]="{standalone: true}"
         [placeholder]="'Timing' | langg" size="small">
         <nb-option *ngFor="let item of timingValues" [value]="item.id">{{item.text}}</nb-option>
       </nb-select>
 
-      <label class="label"><span langg>Default Period</span>:</label>
+      <label class="label mt-3"><span langg>Default Period</span>:</label>
       <nb-select fullWidth [(ngModel)]="medicineItemToUpdate.defaultPeriodId" [ngModelOptions]="{standalone: true}"
         [placeholder]="'Period' | langg" size="small">
         <nb-option *ngFor="let item of periodValues" [value]="item.id">{{item.text}}</nb-option>

@@ -20,6 +20,9 @@ import {
 } from "./medicines.model";
 import { AlertService } from "../../../../shared/services/alert.service";
 import { TypeaheadMatch } from "ngx-bootstrap";
+import { MedicineItemSettingComponent } from "../../../settings/patient-setting/medicines-setting/medicine-item-setting/medicine-item-setting.component";
+import { AnyPatientFileValue, ItemsType } from "../../../settings/patient-setting/record-items-setting/record-items-setting.model";
+import { RecordItemsSettingService } from "../../../settings/patient-setting/record-items-setting/record-items-setting.service";
 
 @Component({
   selector: "medicines",
@@ -53,6 +56,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
     private router: Router,
     private medicineService: MedicinesService,
     private patientsService: PatientsService,
+    private recordItemService: RecordItemsSettingService,
     private alertService: AlertService,
     private scrollService: NbLayoutScrollService
   ) { }
@@ -86,7 +90,53 @@ export class MedicinesComponent implements OnInit, OnDestroy {
 
   // =====> add new medicine to doctor medicines list:
   onAddNewItemToList(item: PrescriptionMedicine) {
-    this.formLoading = true;
+    this.subs.add(
+      this.dialogService
+        .open(MedicineItemSettingComponent, {
+          context: {
+            medicineItemValue: {
+              id: 0,
+              text: item.medicineName,
+              defaultQuantityId: item.quantityId,
+              defaultDoseId: item.doseId,
+              defaultPeriodId: item.periodId,
+              defaultTimingId: item.timingId
+            },
+          },
+          autoFocus: true,
+          hasBackdrop: true,
+          closeOnBackdropClick: false,
+          closeOnEsc: false,
+        })
+        .onClose.subscribe((medicineItemValue: AnyPatientFileValue) => {
+          if (medicineItemValue && medicineItemValue.text) {
+            this.formLoading = true;
+            this.subs.add(
+              this.recordItemService
+                .postItemValues(medicineItemValue, ItemsType.Medicine)
+                .subscribe(
+                  (res: MedicineValue) => {
+                    this.medicineValues.push(res);
+                    item.medicineId = res.id;
+                    item.quantityId = res.defaultQuantityId;
+                    item.doseId = res.defaultDoseId;
+                    item.timingId = res.defaultTimingId;
+                    item.periodId = res.defaultPeriodId;
+                    item.isNameValid = true
+                    this.formLoading = false;
+                    this.doneSwal.fire();
+                  },
+                  (err) => {
+                    console.error(err);
+                    this.alertService.alertError();
+                    this.formLoading = false;
+                  }
+                )
+            );
+          }
+        })
+    );
+    /* this.formLoading = true;
     this.subs.add(
       this.medicineService.postMedicineValue(item.medicineName).subscribe(
         (res: MedicineValue) => {
@@ -101,7 +151,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
           this.formLoading = false;
         }
       )
-    );
+    ); */
   }
 
   // =====> bind medicineId on select medicine from typehead:

@@ -30,6 +30,7 @@ namespace clinic_panel.DTOs
         public int PatientsCount { get; set; }
         public int BookingsCount { get; set; }
         public string IsActive { get; set; }
+        public bool? IsInGracePeriod { get; set; }
     }
 
     public class DoctorAddClinicDTO
@@ -119,21 +120,16 @@ namespace clinic_panel.DTOs
         public string PrintPhone2 { get; set; }
         public string PrintPhone3 { get; set; }
     }
-    public class DoctorCreateSubsDTO
+    public class DoctorRenewSubsDTO
     {
         public Guid UserId { get; set; }
         public Guid DoctorId { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
         public int PlanId { get; set; }
-        public int? SignUpFee { get; set; }
-
-        [Required(ErrorMessage = "لابد من إدخال قيمة !")]
-        [RegularExpression(@"^[0-9]+(\.[0-9][0-9]?)?", ErrorMessage = "لابد من إدخال صيغة رقمية صحيحة !")]
-        public decimal Paid { get; set; }
-        public DateTime? NextPaymentDate { get; set; }
-        public string SubsNote { get; set; }
-        public string PayNote { get; set; }
+        public decimal? Paid { get; set; }
+        
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DataType(DataType.Date)]
+        public DateTime StartDate { get; set; }
     }
     public class DoctorCreateClinicDTO
     {

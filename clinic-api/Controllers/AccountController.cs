@@ -65,10 +65,6 @@ namespace clinic_api.Controllers
                     var subscriptionDuePayment = subscription.SignUpFee - subscriptionPayment.Paid;
                     var subscriptionRenewPayment = subscription.AnnualRenewalFee;
 
-                    //if (subscriptionDuePayment > 0)
-                    //{
-                    //    subscriptionEndDate = new DateTime(2021,3,31);
-                    //}
                     if (subscriptionEndDate < DateTime.Now.Date.AddDays(30))
                     {
                         warning = "الرجاء دفع المبلغ المستحق لاستمرار الاشتراك وهو: "

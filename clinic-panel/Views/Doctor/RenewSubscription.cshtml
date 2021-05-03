@@ -1,0 +1,69 @@
+﻿@model clinic_panel.DTOs.DoctorRenewSubsDTO
+
+@{
+    ViewBag.Title = "تجديد اشتراك طبيب";
+}
+
+<h2>تجديد اشتراك طبيب</h2>
+
+<h3>سيتم تجديد الاشتراك للطبيب لمدة عام بالبيانات التالية:</h3>
+<div>
+    <hr />
+    @using (Html.BeginForm("RenewSubscription", "Doctor", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model => model.DoctorId)
+        @Html.HiddenFor(model => model.PlanId)
+        @Html.HiddenFor(model => model.Paid)
+        @Html.HiddenFor(model => model.StartDate)
+
+        <dl class="dl-horizontal">
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.UserId)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UserId)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DoctorId)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DoctorId)
+                </dd>*@
+
+            <dt>
+                باقة التجديد:
+            </dt>
+
+            <dd>
+                باقة العيادات الأساسية
+            </dd>
+
+            <dt>
+                مبلغ التجديد المدفوع:
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Paid) ج.م
+            </dd>
+
+            <dt>
+                تاريخ بداية الاشتراك الجديد:
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+
+        </dl>
+
+        <div class="form-actions no-color">
+            <input type="submit" value="تجديد" class="btn btn-default" /> |
+            @Html.ActionLink("إلغاء", "Index")
+        </div>
+    }
+</div>

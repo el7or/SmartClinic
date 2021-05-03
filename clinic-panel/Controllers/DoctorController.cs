@@ -22,6 +22,7 @@ namespace clinic_panel.Controllers
         // GET: Doctor
         public ActionResult Index()
         {
+            DateTime gracePeriodDate = DateTime.Now.Date.AddDays(30);
             var doctors = db.Doctors
                 .Where(d => d.IsActive == true && d.IsDeleted == false)
                 .Include(s => s.SysDoctorsSpecialty)
@@ -35,9 +36,9 @@ namespace clinic_panel.Controllers
                     ClinicId = d.Clinics.FirstOrDefault().Id,
                     FullName = d.FullName,
                     Specialty = d.SysDoctorsSpecialty.Text,
-                    Plan = d.FullName == "doctor" || d.FullName == "doctor2" ? "(حساب اختبار)" : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).Plan.Title,
-                    StartPlanDate = d.FullName == "doctor" || d.FullName == "doctor2" ? new DateTime(2020, 1, 1) : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).StartDate,
-                    EndPlanDate = d.FullName == "doctor" || d.FullName == "doctor2" ? new DateTime(2050, 1, 1) : db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).EndDate,
+                    Plan = d.FullName == "doctor" || d.FullName == "doctor2" ? "(حساب اختبار)" : db.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault(p => p.SubscriberId == d.Id).Plan.Title,
+                    StartPlanDate = d.FullName == "doctor" || d.FullName == "doctor2" ? new DateTime(2020, 1, 1) : db.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault(p => p.SubscriberId == d.Id).StartDate,
+                    EndPlanDate = d.FullName == "doctor" || d.FullName == "doctor2" ? new DateTime(2050, 1, 1) : db.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault(p => p.SubscriberId == d.Id).EndDate,
                     SubscriptionsPaid = d.FullName == "doctor" || d.FullName == "doctor2" ? 0 : (int)db.Subscriptions.Where(s => s.SubscriberId == d.Id).Sum(s => s.SubscriptionPayments.Select(e => e.Paid).DefaultIfEmpty(0).Sum()),
                     UsersCount = d.Clinics.Sum(c => c.AspNetUsers.Count()),
                     Clinics = d.Clinics.Select(c => c.ClinicName).ToList(),
@@ -45,6 +46,7 @@ namespace clinic_panel.Controllers
                     PatientsCount = d.Patients.Count(),
                     BookingsCount = d.Bookings.Count(),
                     IsActive = d.IsActive == false ? "معطل" : "مفعل",
+                    IsInGracePeriod = db.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault(p => p.SubscriberId == d.Id).EndDate < gracePeriodDate // && db.Subscriptions.Where(s => s.SubscriberId == d.Id).Sum(s => s.SubscriptionPayments.Select(e => e.Paid).DefaultIfEmpty(0).Sum()) < db.Subscriptions.Where(s => s.SubscriberId == d.Id).Select(e => e.SignUpFee).DefaultIfEmpty(0).Sum()
                 });
             return View(doctors.ToList());
         }
@@ -81,6 +83,76 @@ namespace clinic_panel.Controllers
             var user = db.AspNetUsers.Find(doctor.UserId);
             clinic.Doctors.Add(doctor);
             clinic.AspNetUsers.Add(user);
+
+            db.SaveChanges();
+            TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";
+            return RedirectToAction("Index");
+        }
+
+        // GET: Doctor/RenewSubscription/5
+        public ActionResult RenewSubscription(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Doctor doctor = db.Doctors.Find(id);
+            if (doctor == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new DoctorRenewSubsDTO
+            {
+                UserId = doctor.UserId,
+                DoctorId = doctor.Id,
+                PlanId = db.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault(p => p.SubscriberId == doctor.Id).Plan.Id,
+                Paid = db.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault(p => p.SubscriberId == doctor.Id).AnnualRenewalFee,
+                StartDate = db.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault(p => p.SubscriberId == doctor.Id).EndDate // end date of last subscription is start date for renew subscription
+            };
+            return View(model);
+        }
+
+        // POST: Doctor/RenewSubscription
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RenewSubscription(DoctorRenewSubsDTO model)
+        {
+            var plan = db.Plans.Find(model.PlanId);
+            var renewSubscription = new Subscription
+            {
+                SubscriberId = model.DoctorId,
+                UserId = model.UserId,
+                SubscriberTypeId = 1, // Doctor
+                Plan = plan,
+                SubscriptionTypeId = 2, // Renewal
+                StartDate = model.StartDate,
+                EndDate = model.StartDate.AddYears(1),
+                SignUpFee = plan.AnnualRenewalFee,
+                AnnualRenewalFee = plan.AnnualRenewalFee,
+                MonthlyRenewalFee = plan.MonthlyRenewalFee,
+                GracePeriodDays = plan.GracePeriodDays,
+                MaxUsers = plan.MaxUsers,
+                MaxBookingsMonthly = plan.MaxBookingsMonthly,
+                MaxFilesMonthlyMB = plan.MaxFilesMonthlyMB,
+                MaxFileSizeMB = plan.MaxFileSizeMB,
+                IsActive = true,
+                IsDeleted = false,
+                CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+                UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
+            };
+            db.Subscriptions.Add(renewSubscription);
+            var payment = new SubscriptionPayment
+            {
+                Subscription = renewSubscription,
+                Paid = (decimal)plan.AnnualRenewalFee,
+                CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+                UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+                UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
+            };
+            db.SubscriptionPayments.Add(payment);
 
             db.SaveChanges();
             TempData["alert"] = "<script>Swal.fire({icon: 'success', title: 'تم الحفظ بنجاح', showConfirmButton: false, timer: 1500})</script>";

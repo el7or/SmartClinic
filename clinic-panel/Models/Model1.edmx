@@ -316,6 +316,10 @@
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DefaultDoseId" Type="int" />
+          <Property Name="DefaultPeriodId" Type="int" />
+          <Property Name="DefaultQuantityId" Type="int" />
+          <Property Name="DefaultTimingId" Type="int" />
         </EntityType>
         <EntityType Name="DoctorOperationTypesValues">
           <Key>
@@ -770,6 +774,7 @@
           <Property Name="MaxBookingsMonthly" Type="int" />
           <Property Name="MaxFilesMonthlyMB" Type="int" />
           <Property Name="MaxFileSizeMB" Type="int" />
+          <Property Name="MaxBranchesCount" Type="int" />
         </EntityType>
         <EntityType Name="PrescriptionMedicines">
           <Key>
@@ -1335,6 +1340,54 @@
             </Principal>
             <Dependent Role="DoctorMedicinesValues">
               <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorMedicinesValues_SysMedicineDosesValues">
+          <End Role="SysMedicineDosesValues" Type="Self.SysMedicineDosesValues" Multiplicity="0..1" />
+          <End Role="DoctorMedicinesValues" Type="Self.DoctorMedicinesValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineDosesValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValues">
+              <PropertyRef Name="DefaultDoseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorMedicinesValues_SysMedicinePeriodsValues">
+          <End Role="SysMedicinePeriodsValues" Type="Self.SysMedicinePeriodsValues" Multiplicity="0..1" />
+          <End Role="DoctorMedicinesValues" Type="Self.DoctorMedicinesValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicinePeriodsValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValues">
+              <PropertyRef Name="DefaultPeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorMedicinesValues_SysMedicineQuantityValues">
+          <End Role="SysMedicineQuantityValues" Type="Self.SysMedicineQuantityValues" Multiplicity="0..1" />
+          <End Role="DoctorMedicinesValues" Type="Self.DoctorMedicinesValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineQuantityValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValues">
+              <PropertyRef Name="DefaultQuantityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorMedicinesValues_SysMedicineTimingsValues">
+          <End Role="SysMedicineTimingsValues" Type="Self.SysMedicineTimingsValues" Multiplicity="0..1" />
+          <End Role="DoctorMedicinesValues" Type="Self.DoctorMedicinesValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineTimingsValues">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValues">
+              <PropertyRef Name="DefaultTimingId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2343,6 +2396,22 @@
             <End Role="Doctors" EntitySet="Doctors" />
             <End Role="DoctorMedicinesValues" EntitySet="DoctorMedicinesValues" />
           </AssociationSet>
+          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicineDosesValues" Association="Self.FK_DoctorMedicinesValues_SysMedicineDosesValues">
+            <End Role="SysMedicineDosesValues" EntitySet="SysMedicineDosesValues" />
+            <End Role="DoctorMedicinesValues" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicinePeriodsValues" Association="Self.FK_DoctorMedicinesValues_SysMedicinePeriodsValues">
+            <End Role="SysMedicinePeriodsValues" EntitySet="SysMedicinePeriodsValues" />
+            <End Role="DoctorMedicinesValues" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicineQuantityValues" Association="Self.FK_DoctorMedicinesValues_SysMedicineQuantityValues">
+            <End Role="SysMedicineQuantityValues" EntitySet="SysMedicineQuantityValues" />
+            <End Role="DoctorMedicinesValues" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicineTimingsValues" Association="Self.FK_DoctorMedicinesValues_SysMedicineTimingsValues">
+            <End Role="SysMedicineTimingsValues" EntitySet="SysMedicineTimingsValues" />
+            <End Role="DoctorMedicinesValues" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
           <AssociationSet Name="FK_DoctorOperationTypesValues_Doctors" Association="Self.FK_DoctorOperationTypesValues_Doctors">
             <End Role="Doctors" EntitySet="Doctors" />
             <End Role="DoctorOperationTypesValues" EntitySet="DoctorOperationTypesValues" />
@@ -3067,6 +3136,22 @@
             <End Role="Clinic" EntitySet="Clinics" />
             <End Role="Doctor" EntitySet="Doctors" />
           </AssociationSet>
+          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicineDosesValues" Association="Models.FK_DoctorMedicinesValues_SysMedicineDosesValues">
+            <End Role="SysMedicineDosesValue" EntitySet="SysMedicineDosesValues" />
+            <End Role="DoctorMedicinesValue" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicinePeriodsValues" Association="Models.FK_DoctorMedicinesValues_SysMedicinePeriodsValues">
+            <End Role="SysMedicinePeriodsValue" EntitySet="SysMedicinePeriodsValues" />
+            <End Role="DoctorMedicinesValue" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicineQuantityValues" Association="Models.FK_DoctorMedicinesValues_SysMedicineQuantityValues">
+            <End Role="SysMedicineQuantityValue" EntitySet="SysMedicineQuantityValues" />
+            <End Role="DoctorMedicinesValue" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorMedicinesValues_SysMedicineTimingsValues" Association="Models.FK_DoctorMedicinesValues_SysMedicineTimingsValues">
+            <End Role="SysMedicineTimingsValue" EntitySet="SysMedicineTimingsValues" />
+            <End Role="DoctorMedicinesValue" EntitySet="DoctorMedicinesValues" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -3395,6 +3480,14 @@
           <Property Name="UpdatedBy" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Doctor" Relationship="Models.FK_DoctorMedicinesValues_Doctors" FromRole="DoctorMedicinesValue" ToRole="Doctor" />
           <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_DoctorMedicinesValue" FromRole="DoctorMedicinesValue" ToRole="PrescriptionMedicine" />
+          <Property Name="DefaultDoseId" Type="Int32" />
+          <Property Name="DefaultPeriodId" Type="Int32" />
+          <Property Name="DefaultQuantityId" Type="Int32" />
+          <Property Name="DefaultTimingId" Type="Int32" />
+          <NavigationProperty Name="SysMedicineDosesValue" Relationship="Models.FK_DoctorMedicinesValues_SysMedicineDosesValues" FromRole="DoctorMedicinesValue" ToRole="SysMedicineDosesValue" />
+          <NavigationProperty Name="SysMedicinePeriodsValue" Relationship="Models.FK_DoctorMedicinesValues_SysMedicinePeriodsValues" FromRole="DoctorMedicinesValue" ToRole="SysMedicinePeriodsValue" />
+          <NavigationProperty Name="SysMedicineQuantityValue" Relationship="Models.FK_DoctorMedicinesValues_SysMedicineQuantityValues" FromRole="DoctorMedicinesValue" ToRole="SysMedicineQuantityValue" />
+          <NavigationProperty Name="SysMedicineTimingsValue" Relationship="Models.FK_DoctorMedicinesValues_SysMedicineTimingsValues" FromRole="DoctorMedicinesValue" ToRole="SysMedicineTimingsValue" />
         </EntityType>
         <EntityType Name="DoctorOperationTypesValue">
           <Key>
@@ -3951,6 +4044,7 @@
           <NavigationProperty Name="SysRenewalTypeValue" Relationship="Models.FK_Plans_SysRenewalTypeValues" FromRole="Plan" ToRole="SysRenewalTypeValue" />
           <NavigationProperty Name="SysSubscriberTypeValue" Relationship="Models.FK_Plans_SysSubscriberTypeValues" FromRole="Plan" ToRole="SysSubscriberTypeValue" />
           <NavigationProperty Name="Subscriptions" Relationship="Models.FK_Subscriptions_Plans" FromRole="Plan" ToRole="Subscription" />
+          <Property Name="MaxBranchesCount" Type="Int32" />
         </EntityType>
         <EntityType Name="PrescriptionMedicine">
           <Key>
@@ -4121,6 +4215,7 @@
           <Property Name="Value" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Text" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicineDosesValues" FromRole="SysMedicineDosesValue" ToRole="PrescriptionMedicine" />
+          <NavigationProperty Name="DoctorMedicinesValues" Relationship="Models.FK_DoctorMedicinesValues_SysMedicineDosesValues" FromRole="SysMedicineDosesValue" ToRole="DoctorMedicinesValue" />
         </EntityType>
         <EntityType Name="SysMedicinePeriodsValue">
           <Key>
@@ -4130,6 +4225,7 @@
           <Property Name="Value" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Text" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicinePeriodsValues" FromRole="SysMedicinePeriodsValue" ToRole="PrescriptionMedicine" />
+          <NavigationProperty Name="DoctorMedicinesValues" Relationship="Models.FK_DoctorMedicinesValues_SysMedicinePeriodsValues" FromRole="SysMedicinePeriodsValue" ToRole="DoctorMedicinesValue" />
         </EntityType>
         <EntityType Name="SysMedicineQuantityValue">
           <Key>
@@ -4139,6 +4235,7 @@
           <Property Name="Value" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Text" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicineQuantityValues" FromRole="SysMedicineQuantityValue" ToRole="PrescriptionMedicine" />
+          <NavigationProperty Name="DoctorMedicinesValues" Relationship="Models.FK_DoctorMedicinesValues_SysMedicineQuantityValues" FromRole="SysMedicineQuantityValue" ToRole="DoctorMedicinesValue" />
         </EntityType>
         <EntityType Name="SysMedicineTimingsValue">
           <Key>
@@ -4148,6 +4245,7 @@
           <Property Name="Value" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Text" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PrescriptionMedicines" Relationship="Models.FK_PrescriptionMedicines_SysMedicineTimingsValues" FromRole="SysMedicineTimingsValue" ToRole="PrescriptionMedicine" />
+          <NavigationProperty Name="DoctorMedicinesValues" Relationship="Models.FK_DoctorMedicinesValues_SysMedicineTimingsValues" FromRole="SysMedicineTimingsValue" ToRole="DoctorMedicinesValue" />
         </EntityType>
         <EntityType Name="SysRayFileTypesValue">
           <Key>
@@ -5281,6 +5379,54 @@
           <End Type="Models.Clinic" Role="Clinic" Multiplicity="*" />
           <End Type="Models.Doctor" Role="Doctor" Multiplicity="*" />
         </Association>
+        <Association Name="FK_DoctorMedicinesValues_SysMedicineDosesValues">
+          <End Type="Models.SysMedicineDosesValue" Role="SysMedicineDosesValue" Multiplicity="0..1" />
+          <End Type="Models.DoctorMedicinesValue" Role="DoctorMedicinesValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineDosesValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValue">
+              <PropertyRef Name="DefaultDoseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorMedicinesValues_SysMedicinePeriodsValues">
+          <End Type="Models.SysMedicinePeriodsValue" Role="SysMedicinePeriodsValue" Multiplicity="0..1" />
+          <End Type="Models.DoctorMedicinesValue" Role="DoctorMedicinesValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicinePeriodsValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValue">
+              <PropertyRef Name="DefaultPeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorMedicinesValues_SysMedicineQuantityValues">
+          <End Type="Models.SysMedicineQuantityValue" Role="SysMedicineQuantityValue" Multiplicity="0..1" />
+          <End Type="Models.DoctorMedicinesValue" Role="DoctorMedicinesValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineQuantityValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValue">
+              <PropertyRef Name="DefaultQuantityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorMedicinesValues_SysMedicineTimingsValues">
+          <End Type="Models.SysMedicineTimingsValue" Role="SysMedicineTimingsValue" Multiplicity="0..1" />
+          <End Type="Models.DoctorMedicinesValue" Role="DoctorMedicinesValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SysMedicineTimingsValue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DoctorMedicinesValue">
+              <PropertyRef Name="DefaultTimingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5582,6 +5728,10 @@
           <EntitySetMapping Name="DoctorMedicinesValues">
             <EntityTypeMapping TypeName="Models.DoctorMedicinesValue">
               <MappingFragment StoreEntitySet="DoctorMedicinesValues">
+                <ScalarProperty Name="DefaultTimingId" ColumnName="DefaultTimingId" />
+                <ScalarProperty Name="DefaultQuantityId" ColumnName="DefaultQuantityId" />
+                <ScalarProperty Name="DefaultPeriodId" ColumnName="DefaultPeriodId" />
+                <ScalarProperty Name="DefaultDoseId" ColumnName="DefaultDoseId" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -6050,6 +6200,7 @@
           <EntitySetMapping Name="Plans">
             <EntityTypeMapping TypeName="Models.Plan">
               <MappingFragment StoreEntitySet="Plans">
+                <ScalarProperty Name="MaxBranchesCount" ColumnName="MaxBranchesCount" />
                 <ScalarProperty Name="MaxFileSizeMB" ColumnName="MaxFileSizeMB" />
                 <ScalarProperty Name="MaxFilesMonthlyMB" ColumnName="MaxFilesMonthlyMB" />
                 <ScalarProperty Name="MaxBookingsMonthly" ColumnName="MaxBookingsMonthly" />

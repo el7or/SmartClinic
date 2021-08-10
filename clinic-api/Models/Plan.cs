@@ -32,6 +32,7 @@ namespace clinic_api.Models
         public int? MaxBookingsMonthly { get; set; }
         public int? MaxFilesMonthlyMB { get; set; }
         public int? MaxFileSizeMB { get; set; }
+        public int? MaxBranchesCount { get; set; }
 
         public virtual SysSubscriberTypeValue SubscriberType { get; set; }
         public virtual SysRenewalTypeValue RenewalType { get; set; }

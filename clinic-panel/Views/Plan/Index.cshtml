@@ -33,6 +33,9 @@
             عدد الزيارات الأقصى
         </th>
         <th>
+            عدد الأفرع الأقصى
+        </th>
+        <th>
             عدد المشتركين حاليا
         </th>
         <th></th>
@@ -60,6 +63,9 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.MaxBookingsMonthly)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MaxBranchesCount)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.SubscriptionsCount)

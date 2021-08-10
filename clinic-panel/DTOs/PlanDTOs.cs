@@ -17,6 +17,7 @@ namespace clinic_panel.DTOs
         public int? MaxUsers { get; set; }
         public int? MaxBookingsMonthly { get; set; }
         public int SubscriptionsCount { get; set; }
+        public int? MaxBranchesCount { get; set; }
     }
     public class PlanDetailsDTO
     {

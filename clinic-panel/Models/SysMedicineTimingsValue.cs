@@ -18,6 +18,7 @@ namespace clinic_panel.Models
         public SysMedicineTimingsValue()
         {
             this.PrescriptionMedicines = new HashSet<PrescriptionMedicine>();
+            this.DoctorMedicinesValues = new HashSet<DoctorMedicinesValue>();
         }
     
         public int Id { get; set; }
@@ -26,5 +27,7 @@ namespace clinic_panel.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DoctorMedicinesValue> DoctorMedicinesValues { get; set; }
     }
 }

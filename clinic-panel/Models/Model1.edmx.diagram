@@ -164,6 +164,10 @@
         <AssociationConnector Association="Models.BookingServices" />
         <AssociationConnector Association="Models.ClinicUsers" />
         <AssociationConnector Association="Models.DoctorClinics" />
+        <AssociationConnector Association="Models.FK_DoctorMedicinesValues_SysMedicineDosesValues" />
+        <AssociationConnector Association="Models.FK_DoctorMedicinesValues_SysMedicinePeriodsValues" />
+        <AssociationConnector Association="Models.FK_DoctorMedicinesValues_SysMedicineQuantityValues" />
+        <AssociationConnector Association="Models.FK_DoctorMedicinesValues_SysMedicineTimingsValues" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

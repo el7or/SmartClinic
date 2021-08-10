@@ -29,9 +29,17 @@ namespace clinic_panel.Models
         public System.Guid CreatedBy { get; set; }
         public System.DateTime UpdatedOn { get; set; }
         public System.Guid UpdatedBy { get; set; }
+        public Nullable<int> DefaultDoseId { get; set; }
+        public Nullable<int> DefaultPeriodId { get; set; }
+        public Nullable<int> DefaultQuantityId { get; set; }
+        public Nullable<int> DefaultTimingId { get; set; }
     
         public virtual Doctor Doctor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PrescriptionMedicine> PrescriptionMedicines { get; set; }
+        public virtual SysMedicineDosesValue SysMedicineDosesValue { get; set; }
+        public virtual SysMedicinePeriodsValue SysMedicinePeriodsValue { get; set; }
+        public virtual SysMedicineQuantityValue SysMedicineQuantityValue { get; set; }
+        public virtual SysMedicineTimingsValue SysMedicineTimingsValue { get; set; }
     }
 }

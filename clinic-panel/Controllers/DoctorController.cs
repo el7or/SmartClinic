@@ -42,7 +42,7 @@ namespace clinic_panel.Controllers
                     SubscriptionsPaid = d.FullName == "doctor" || d.FullName == "doctor2" ? 0 : (int)db.Subscriptions.Where(s => s.SubscriberId == d.Id).Sum(s => s.SubscriptionPayments.Select(e => e.Paid).DefaultIfEmpty(0).Sum()),
                     UsersCount = d.Clinics.Sum(c => c.AspNetUsers.Count()),
                     Clinics = d.Clinics.Select(c => c.ClinicName).ToList(),
-                    PlanClinicsCount = db.Subscriptions.FirstOrDefault(p => p.SubscriberId == d.Id).PlanId,
+                    PlanClinicsCount = db.Subscriptions.Where(p => p.SubscriberId == d.Id).Select(p => p.Plan.MaxBranchesCount).FirstOrDefault(),
                     PatientsCount = d.Patients.Count(),
                     BookingsCount = d.Bookings.Count(),
                     IsActive = d.IsActive == false ? "معطل" : "مفعل",

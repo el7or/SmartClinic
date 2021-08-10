@@ -27,7 +27,8 @@ namespace clinic_panel.Controllers
                 MaxUsers = p.MaxUsers,
                 SignUpFee = p.SignUpFee,
                 Title = p.Title,
-                SubscriptionsCount = p.Subscriptions.Select(s => s.SubscriberId).Distinct().Count()
+                SubscriptionsCount = p.Subscriptions.Select(s => s.SubscriberId).Distinct().Count(),
+                MaxBranchesCount = p.MaxBranchesCount
             });
             return View(plans.ToList());
         }

@@ -39,6 +39,7 @@ namespace clinic_panel.Models
         public Nullable<int> MaxBookingsMonthly { get; set; }
         public Nullable<int> MaxFilesMonthlyMB { get; set; }
         public Nullable<int> MaxFileSizeMB { get; set; }
+        public Nullable<int> MaxBranchesCount { get; set; }
     
         public virtual SysRenewalTypeValue SysRenewalTypeValue { get; set; }
         public virtual SysSubscriberTypeValue SysSubscriberTypeValue { get; set; }

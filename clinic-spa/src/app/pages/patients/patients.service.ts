@@ -35,58 +35,55 @@ export class PatientsService {
     this._patientName = v;
   }
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
   baseUrl = environment.API_URL;
 
   getPatientsList(pageNumber: number, pageSize: number) {
     return this.http.get<PatientsPagedList>(
       this.baseUrl +
-        "Patient/" +
-        this.authService.userId+
-        "/" +
-        pageNumber +
-        "/" +
-        pageSize +
-        "/" +
-        this.authService.clinicId +
-        (this.authService.roleName == UserRole.doctor
-          ? "/" + this.authService.doctorId
-          : "")
+      "Patient/" +
+      this.authService.userId +
+      "/" +
+      pageNumber +
+      "/" +
+      pageSize +
+      "/" +
+      this.authService.clinicId +
+      (this.authService.roleName == UserRole.doctor
+        ? "/" + this.authService.doctorId
+        : "")
     );
   }
 
   searchPatientsList(pageNumber: number, pageSize: number, searchText: string) {
     return this.http.get<PatientsPagedList>(
       this.baseUrl +
-        "Patient/SearchPatients/" +
-        this.authService.userId +
-        "/" +
-        this.authService.clinicId +
-        "/" +
-        pageNumber +
-        "/" +
-        pageSize +
-        "/" +
-        searchText
+      "Patient/SearchPatients/" +
+      this.authService.userId +
+      "/" +
+      this.authService.clinicId +
+      "/" +
+      pageNumber +
+      "/" +
+      pageSize +
+      "/" +
+      searchText
     );
   }
 
-  getPatientHeaderInfo(patientCodeId: number) {
-    this._patientCodeId = patientCodeId;
-    // =====> send to api pacientId(codeId) + clinicId to get  data for patient:
+  getPatientHeaderInfo(patientId: string) {
     return this.http
       .get<PatientHeaderInfo>(
         this.baseUrl +
-          "Patient/" +
-          this.authService.userId +
-          "/" +
-          this.authService.clinicId +
-          "/" +
-          patientCodeId
+        "Patient/" +
+        this.authService.userId +
+        "/" +
+        patientId
       )
       .pipe(
         map((p) => {
           this._patientId = p.patientId;
+          this._patientCodeId = p.patientCodeId;
           this._patientName = p.name;
           return p;
         })
@@ -102,11 +99,11 @@ export class PatientsService {
   getPatientFileItems() {
     return this.http.get<GetPatientRecord>(
       this.baseUrl +
-        "Patient/GetPatientFile/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId+
-        "/" + this.patientId
+      "Patient/GetPatientFile/" +
+      this.authService.userId +
+      "/" +
+      this.authService.doctorId +
+      "/" + this.patientId
     );
   }
 }

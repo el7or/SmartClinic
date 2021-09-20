@@ -51,7 +51,7 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
   pageHeader: string;
   isNewPatient: boolean;
   patientHeaderInfo: PatientHeaderInfo;
-  patientCodeId: string;
+  patientId: string;
 
   routeSubs: Subscription;
   GetInfoSubs: Subscription;
@@ -69,8 +69,8 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
     this.formLoading = true;
     // =====> check if new patient or details of old patient:
     this.routeSubs = this.route.paramMap.subscribe((paramMap) => {
-      this.patientCodeId = paramMap.get("id");
-      if (this.patientCodeId == "new") {
+      this.patientId = paramMap.get("id");
+      if (this.patientId == "new") {
         this.patientsService.patientId = "new";
         this.isNewPatient = true;
         this.pageHeader = "Add New Patient";
@@ -80,7 +80,7 @@ export class PatientDetailsComponent implements OnInit, OnDestroy {
         this.isNewPatient = false;
         this.pageHeader = "Patient Profile";
         this.GetInfoSubs = this.patientsService
-          .getPatientHeaderInfo(+this.patientCodeId)
+          .getPatientHeaderInfo(this.patientId)
           .subscribe(
             (res: PatientHeaderInfo) => {
               this.patientHeaderInfo = res;

@@ -123,11 +123,11 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   }
 
   // =====> on click file patient in table:
-  onOpenFilePatient(codeId: number) {
+  onOpenFilePatient(id: string) {
     if (this.authService.roleName != UserRole.employee) {
-      this.router.navigate(["/pages/patients/details/" + codeId + "/record"]);
+      this.router.navigate(["/pages/patients/details/" + id + "/record"]);
     } else {
-      this.router.navigate(["/pages/patients/details/" + codeId + "/basic"]);
+      this.router.navigate(["/pages/patients/details/" + id + "/basic"]);
     }
   }
 

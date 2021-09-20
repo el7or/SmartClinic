@@ -21,6 +21,7 @@ export interface Pagination {
 
 export interface PatientHeaderInfo {
   patientId: string;
+  patientCodeId:number;
   name: string;
   age: number;
   visitsCount: number;

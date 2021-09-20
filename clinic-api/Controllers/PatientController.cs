@@ -26,18 +26,19 @@ namespace clinic_api.Controllers
         }
 
         // GET: api/Patient/5
-        [HttpGet("{id}/{clinicId}/{seqNo}")]
-        public async Task<ActionResult<PatientGetDTO>> GetPatient(Guid id, Guid clinicId, int seqNo)
+        [HttpGet("{id}/{patientId}")]
+        public async Task<ActionResult<PatientGetDTO>> GetPatient(Guid id, Guid patientId)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
                 return Unauthorized();
             }
-            var patient = await _context.Patients.Where(p => p.ClinicId == clinicId && p.SeqNo == seqNo && p.IsDeleted != true)
+            var patient = await _context.Patients.Where(p => p.Id == patientId && p.IsDeleted != true)
             .Include(b => b.Bookings).Include(s => s.City).FirstOrDefaultAsync();
             var patientHeaderInfo = new PatientGetDTO
             {
                 PatientId = patient.Id,
+                PatientCodeId = patient.SeqNo,
                 Age = patient.Age,
                 Name = patient.FullName,
                 VisitsCount = patient.Bookings.Count(),

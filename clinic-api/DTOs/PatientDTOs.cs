@@ -33,6 +33,7 @@ namespace clinic_api.DTOs
     public class PatientGetDTO
     {
         public Guid PatientId { get; set; }
+        public int PatientCodeId { get; set; }
         public string Name { get; set; }
         public int? Age { get; set; }
         public int VisitsCount { get; set; }

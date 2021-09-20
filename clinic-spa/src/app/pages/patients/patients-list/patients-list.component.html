@@ -56,7 +56,7 @@
           <td>{{item.lastVisit | localDateShort}}</td>
           <td>{{item.lastVisitType | langg}}</td>
           <td class="text-center">
-            <button nbButton (click)="onOpenFilePatient(item.codeId)" size="tiny" status="info" langg>Patient
+            <button nbButton (click)="onOpenFilePatient(item.id)" size="tiny" status="info" langg>Patient
               Profile</button>&nbsp;
             <button nbButton *ngIf="!item.lastVisitBookId" (click)="onBook(0,item)" size="tiny" status="success"
               langg>New Book</button>

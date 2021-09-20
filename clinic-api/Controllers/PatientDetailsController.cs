@@ -897,6 +897,7 @@ namespace clinic_api.Controllers
                 .Include(d => d.OperationType).Select(r => new CalendarOperationListDTO
                 {
                     Id = r.Id,
+                    PatientId = r.PatientId,
                     PatientName = r.Patient.FullName,
                     PatientCodeId = r.Patient.SeqNo,
                     Type = r.OperationType.OperationType,

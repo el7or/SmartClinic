@@ -284,11 +284,11 @@ export class BookingsListTodayComponent
   }
 
   // =====> on click file patient in table:
-  onOpenFilePatient(codeId: number) {
+  onOpenFilePatient(patientId: string) {
     if (this.authService.roleName != UserRole.employee) {
-      this.router.navigate(["/pages/patients/details/" + codeId + "/record"]);
+      this.router.navigate(["/pages/patients/details/" + patientId + "/record"]);
     } else {
-      this.router.navigate(["/pages/patients/details/" + codeId + "/basic"]);
+      this.router.navigate(["/pages/patients/details/" + patientId + "/basic"]);
     }
   }
 

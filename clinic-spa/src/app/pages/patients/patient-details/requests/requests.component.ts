@@ -284,6 +284,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
   createRequestForPrint(item: PatientRequest[]) {
     this.requestService.requestsForPrint = {
       patientCodeId: this.patientsService.patientCodeId,
+      patientId: this.patientsService.patientId,
       patientName: this.patientsService.patientName,
       createdOn: new Date(),
       requests: item.map((m) => {

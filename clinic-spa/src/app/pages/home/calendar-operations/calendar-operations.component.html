@@ -20,7 +20,7 @@
           <td>{{item.cost}} {{ item.cost ? ('EGP' | langg) : ''}}</td>
           <td>{{item.note}}</td>
           <td class="text-center">
-            <button nbButton (click)="onOpenFilePatient(item.patientCodeId)" size="tiny" status="info" langg>Patient
+            <button nbButton (click)="onOpenFilePatient(item.patientId)" size="tiny" status="info" langg>Patient
               Profile</button>
           </td>
         </tr>

@@ -64,13 +64,13 @@ export class PrintMedicinesComponent implements OnInit, OnDestroy {
 
   onImageLoad(event) {
     if (this.printType == "medicine") {
-      this.router.navigate(["/pages/patients/details", this.prescription.patientCodeId, "prescription"]);
+      this.router.navigate(["/pages/patients/details", this.prescription.patientId, "prescription"]);
     }
     if (this.printType == "request") {
-      this.router.navigate(["/pages/patients/details", this.requests.patientCodeId, "request"]);
+      this.router.navigate(["/pages/patients/details", this.requests.patientId, "request"]);
     }
     if (this.printType == "referral") {
-      this.router.navigate(["/pages/patients/details", this.referral.patientCodeId, "referral"]);
+      this.router.navigate(["/pages/patients/details", this.referral.patientId, "referral"]);
     }
   }
 

@@ -150,7 +150,7 @@ namespace clinic_api.Controllers
 
         // GET: api/Patient/5
         [HttpGet("CheckPatientExist/{id}/{clinicId}/{patientName}")]
-        public async Task<ActionResult<int>> CheckPatientExist(Guid id, Guid clinicId, string patientName)
+        public async Task<ActionResult<Guid?>> CheckPatientExist(Guid id, Guid clinicId, string patientName)
         {
             if (id.ToString() != User.FindFirst(JwtRegisteredClaimNames.Jti).Value.ToString())
             {
@@ -160,11 +160,11 @@ namespace clinic_api.Controllers
             var isPatientExist = await _context.Patients.FirstOrDefaultAsync(p => p.ClinicId == clinicId && p.IsDeleted != true && (p.FullName == patientName));
             if (isPatientExist == null)
             {
-                return 0;
+                return null;
             }
             else
             {
-                return isPatientExist.SeqNo;
+                return isPatientExist.Id;
             }
         }
 

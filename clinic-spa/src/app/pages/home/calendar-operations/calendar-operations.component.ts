@@ -54,11 +54,11 @@ export class CalendarOperationsComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  onOpenFilePatient(codeId: number) {
+  onOpenFilePatient(patientId: string) {
     if (this.authService.roleName != UserRole.employee) {
-      this.router.navigate(["/pages/patients/details/" + codeId + "/record"]);
+      this.router.navigate(["/pages/patients/details/" + patientId + "/record"]);
     } else {
-      this.router.navigate(["/pages/patients/details/" + codeId + "/basic"]);
+      this.router.navigate(["/pages/patients/details/" + patientId + "/basic"]);
     }
     this.dialogRef.close();
   }

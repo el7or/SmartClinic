@@ -1,4 +1,4 @@
-    <button [routerLink]="['/pages/patients/details',patientService.patientCodeId,'request']" [queryParams]="{type:'analysis'}" nbButton class="mb-1">{{'Request New Analysis' | langg}}</button>
+    <button [routerLink]="['/pages/patients/details',patientService.patientId,'request']" [queryParams]="{type:'analysis'}" nbButton class="mb-1">{{'Request New Analysis' | langg}}</button>
     <table class="table table-striped" [nbSpinner]="formLoading" nbSpinnerStatus="success">
       <thead class="thead-dark">
         <tr>

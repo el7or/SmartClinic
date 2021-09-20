@@ -35,6 +35,7 @@ export interface PutPatientReferral {
 
 export interface ReferralForPrint {
   patientCodeId:number;
+  patientId:string;
   patientName:string;
   specialtyName: string;
   doctorName:string;

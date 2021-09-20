@@ -57,6 +57,7 @@ export interface PrescriptionMedicine {
 
 export interface PrescriptionForPrint {
   patientCodeId: number;
+  patientId: string;
   patientName: string;
   medicinesForPrint: MedicinesForPrint[];
   note: string;

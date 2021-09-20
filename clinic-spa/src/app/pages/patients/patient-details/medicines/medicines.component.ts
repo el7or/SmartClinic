@@ -283,6 +283,7 @@ export class MedicinesComponent implements OnInit, OnDestroy {
   createPrescForPrint(item: PatientPrescription) {
     this.medicineService.prescriptionForPrint = {
       patientCodeId: this.patientsService.patientCodeId,
+      patientId: this.patientsService.patientId,
       patientName: this.patientsService.patientName,
       note: item.note,
       createdOn: new Date(),

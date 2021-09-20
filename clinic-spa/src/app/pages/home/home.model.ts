@@ -13,6 +13,7 @@ export enum ClickType {
 }
 export interface CalendarOperation {
   id:number;
+  patientId:string;
   patientName:string;
   patientCodeId:number;
   type: string;

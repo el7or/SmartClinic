@@ -142,6 +142,7 @@ export class ReferralsComponent implements OnInit,OnDestroy {
   createRequestForPrint(item: PutPatientReferral) {
     this.referralService.referralForPrint = {
       patientCodeId: this.patientsService.patientCodeId,
+      patientId: this.patientsService.patientId,
       patientName: this.patientsService.patientName,
       specialtyName: this.specialtyValues.find(
         (i) => i.specialtyId == item.specialtyId

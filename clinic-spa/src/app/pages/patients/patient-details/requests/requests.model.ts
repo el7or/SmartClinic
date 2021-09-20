@@ -45,6 +45,7 @@ export interface PutPatientRequests{
 
 export interface RequestsForPrint {
   patientCodeId:number;
+  patientId:string;
   patientName:string;
   requests:RequestForPrint[];
   createdOn?:Date;

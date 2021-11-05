@@ -45,52 +45,6 @@
             @Html.ActionLink("بيانات المصروفات", "Expenses", "Payment", null, new { @class = "btn btn-primary" })
         </td>
     </tr>
-    <tr>
-        <th>
-            <h3>حاتم:</h3>
-        </th>
-        <td>
-            <h3>@Model.HatemProfits.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
-        </td>
-        <th>
-            <h3>ماتم سحبه:</h3>
-        </th>
-        <td>
-            <h3>@Model.HatemWithdrawnProfits.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
-        </td>
-        <th>
-            <h3>المتبقي:</h3>
-        </th>
-        <td>
-            <h3>@Model.HatemRemainingProfits.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
-        </td>
-        <td>
-            @Html.ActionLink("إضافة سحب", "CreateWithdrawal", "Payment",new { typeId = 3 }, new { @class = "btn btn-primary" })
-        </td>
-    </tr>
-    <tr>
-        <th>
-            <h3>أحمد:</h3>
-        </th>
-        <td>
-            <h3>@Model.AhmedProfits.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
-        </td>
-        <th>
-            <h3>ماتم سحبه:</h3>
-        </th>
-        <td>
-            <h3>@Model.AhmedWithdrawnProfits.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
-        </td>
-        <th>
-            <h3>المتبقي:</h3>
-        </th>
-        <td>
-            <h3>@Model.AhmedRemainingProfits.ToString("C0",CultureInfo.CreateSpecificCulture("ar-EG"))</h3>
-        </td>
-        <td>
-            @Html.ActionLink("إضافة سحب", "CreateWithdrawal", "Payment", new { typeId = 2 }, new { @class = "btn btn-primary" })
-        </td>
-    </tr>
 </table>
 
 @section Styles

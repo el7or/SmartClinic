@@ -37,6 +37,12 @@ namespace clinic_api.Helper
                 await Clients.User(userId.ToString()).SendAsync("UpdateExternalCount", count);
             }
         }
+
+        public string GetConnectionId()
+        {
+            return Context.ConnectionId;
+        }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -48,6 +54,10 @@ namespace clinic_api.Helper
         public virtual string GetUserId(HubConnectionContext connection)
         {
             return connection.User?.FindFirst(JwtRegisteredClaimNames.Jti)?.Value;
+        }
+        public virtual string GetConnectionId(HubConnectionContext connection)
+        {
+            return connection.ConnectionId;
         }
     }
 }

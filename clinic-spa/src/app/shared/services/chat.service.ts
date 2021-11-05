@@ -81,6 +81,7 @@ export class ChatService {
   private _hubConnection: HubConnection;
   connectionEstablished = new EventEmitter<Boolean>();
   connectionIsEstablished = false;
+  connectionId!:string;
   unReadExternalCount = new EventEmitter<number>();
   unReadChatCount = new EventEmitter<number>();
   messageReceived = new EventEmitter<MessageReceived>();
@@ -106,6 +107,7 @@ export class ChatService {
       .then(() => {
         this.connectionIsEstablished = true;
         //console.log("Hub connection started");
+        this.connectionId = this._hubConnection.connectionId;
         this.connectionEstablished.emit(true);
       })
       .catch((err) => {

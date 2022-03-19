@@ -6,12 +6,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA9aNFOe/7D0GrKrHgy/Wq3AAAAAACAAAAAAAQZgAAAAEAACAAAADNDpmv3bpFlHqJIJkqDIfGXiJ3rGTcH2wEVZAYzu7wcQAAAAAOgAAAAAIAACAAAAD+RNSJa0EROY3n0C2pr6MPozBDx+V5D+rvnMrOeh4KjSAAAACZN+Y1ASVlhU+7s4s29T480+aDznc5EnTjmp37r+GeREAAAACPXgtLn4jBAhti9KzRzVjAgLrU4YFTu/oUcrxfejFVBbTeMqzdHs4Vm7IPGqwc9EkhD0Y9o7j4bMga3M38OwU5</EncryptedPassword>
-    <History>True|2021-10-20T14:25:05.2585002Z;True|2021-10-20T16:19:55.4333860+02:00;True|2021-10-20T16:16:06.7435130+02:00;True|2021-10-20T16:13:14.1384414+02:00;True|2021-09-20T13:34:58.7935460+02:00;True|2021-09-20T10:51:17.2825343+02:00;False|2021-09-20T10:27:03.8325561+02:00;True|2021-08-10T19:08:13.1587112+02:00;</History>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAuMR/k2sFEUKCyxkn9ec0QwAAAAACAAAAAAAQZgAAAAEAACAAAAAbjHiJWxE2rSlrJU9B6fJFKev0U3VVd8f3Rg2mKg+mcAAAAAAOgAAAAAIAACAAAABuJFLMzw7r40InS5UcExSNTi0c0m7Gvy8ST/Rk5Dd29zAAAAD/TW042ewkLu8o1fUxi5gYON7KDb9vq4tVej8zn4VYtlxNjx1O5WIVFiL9fnzpI15AAAAAvw5wOFMPIsv4TRTHRgyaM2j7Yx8uJHV2GqDQxMTXAfEW3pqLrPGVio+wqMrWA5Z4yGe/XvXYgczD+CuHS7qJ2Q==</EncryptedPassword>
+    <History>True|2022-03-19T22:56:07.0212858Z;True|2022-03-20T00:52:35.4927602+02:00;True|2022-03-20T00:44:07.3736696+02:00;True|2021-10-20T16:25:05.2585002+02:00;True|2021-10-20T16:19:55.4333860+02:00;True|2021-10-20T16:16:06.7435130+02:00;True|2021-10-20T16:13:14.1384414+02:00;True|2021-09-20T13:34:58.7935460+02:00;True|2021-09-20T10:51:17.2825343+02:00;False|2021-09-20T10:27:03.8325561+02:00;True|2021-08-10T19:08:13.1587112+02:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <DestinationConnectionStrings Include="DefaultConnection">
-      <Value>Server=SQL5056.site4now.net%3bDatabase=DB_A61DAE_smartclinic%3bUser Id=DB_A61DAE_smartclinic_admin%3bPassword=Ssm%40rt#C1ini0%3bMultipleActiveResultSets=true</Value>
+      <Value>Server=SQL5056.site4now.net%3bDatabase=DB_A61DAE_smartclinic%3bUser Id=DB_A61DAE_smartclinic_admin%3bPassword=Ccuh5Kkm56a5U5NX%3bMultipleActiveResultSets=true</Value>
     </DestinationConnectionStrings>
   </ItemGroup>
 </Project>

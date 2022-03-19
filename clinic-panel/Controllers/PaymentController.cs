@@ -20,12 +20,20 @@ namespace clinic_panel.Controllers
         {
             var allPayments = db.SubscriptionPayments.Select(p => p.Paid).DefaultIfEmpty(0).Sum();
             var spentExpenses = db.Expenses.Where(t => t.ExpenseTypeId == 1).Select(e => e.ExpenseCost).DefaultIfEmpty(0).Sum();
+            var ahmedWithdrawnProfits = db.Expenses.Where(t => t.ExpenseTypeId == 2).Select(e => e.ExpenseCost).DefaultIfEmpty(0).Sum();
+            var hatemWithdrawnProfits = db.Expenses.Where(t => t.ExpenseTypeId == 3).Select(e => e.ExpenseCost).DefaultIfEmpty(0).Sum();
             var model = new PaymentDTOs
             {
                 AllPayments = allPayments,
                 //ExpensesBalance = allPayments / 3,
                 SpentExpenses = spentExpenses,
                 //RemainingExpenses = (allPayments / 3) - spentExpenses,
+                AhmedProfits = (allPayments - spentExpenses) / 2,
+                HatemProfits = (allPayments - spentExpenses) / 2,
+                AhmedWithdrawnProfits = ahmedWithdrawnProfits,
+                AhmedRemainingProfits = ((allPayments - spentExpenses) / 2) - ahmedWithdrawnProfits,
+                HatemWithdrawnProfits = hatemWithdrawnProfits,
+                HatemRemainingProfits = ((allPayments - spentExpenses) / 2) - hatemWithdrawnProfits,
             };
             return View(model);
         }

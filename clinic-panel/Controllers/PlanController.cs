@@ -18,7 +18,7 @@ namespace clinic_panel.Controllers
         // GET: Plan
         public ActionResult Index()
         {
-            var plans = db.Plans.Where(d => d.IsDeleted != true).Include(p => p.SysRenewalTypeValue).Select(p => new PlanIndexDTO {
+            var plans = db.Plans.Include(p => p.SysRenewalTypeValue).Select(p => new PlanIndexDTO {
                 Id = p.Id,
                 RenewalType = p.SysRenewalTypeValue.Text,
                 RenewalFee = p.SysRenewalTypeValue.Text== "سنوي" ? p.AnnualRenewalFee: p.MonthlyRenewalFee,

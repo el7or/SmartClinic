@@ -118,7 +118,7 @@ namespace clinic_panel.Controllers
             ViewBag.ClinicName = clinic.ClinicName;
             ViewData["SpecialtyId"] = new SelectList(db.SysDoctorsSpecialties, "Id", "Value");
             ViewData["PharmacyId"] = new SelectList(db.Pharmacies, "Id", "PharmacyName");
-            ViewData["PlanId"] = new SelectList(db.Plans.Where(p => p.SubscriberTypeId == 1), "Id", "Title", 1);
+            ViewData["PlanId"] = new SelectList(db.Plans.Where(p => p.SubscriberTypeId == 1 && p.IsActive == true && p.IsDeleted == false), "Id", "Title", 1);
             ViewData["EntryOrderId"] = new SelectList(db.SysEntryOrderValues, "Id", "Text", 2);
             var allPeriods = new List<SelectListItem>() {
                     new SelectListItem{Value = "5", Text = "5"},

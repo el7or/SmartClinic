@@ -52,38 +52,38 @@ namespace clinic_panel.Controllers
             return View(model);
         }
 
-        // GET: Payment/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //// GET: Payment/Create
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: Payment/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateExpenseDTO model)
-        {
-            if (ModelState.IsValid)
-            {
-                var expens = new Expens
-                {
-                    ExpenseCost = model.ExpenseCost,
-                    ExpenseDate = model.ExpenseDate,
-                    Note =  model.Note,
-                    ExpenseTypeId = 1,
-                    IsDeleted = false,
-                    CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
-                    UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
-                    UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
-                };
-                db.Expenses.Add(expens);
-                db.SaveChanges();
-                return RedirectToAction("Expenses");
-            }
+        //// POST: Payment/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create(CreateExpenseDTO model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var expens = new Expens
+        //        {
+        //            ExpenseCost = model.ExpenseCost,
+        //            ExpenseDate = model.ExpenseDate,
+        //            Note =  model.Note,
+        //            ExpenseTypeId = 1,
+        //            IsDeleted = false,
+        //            CreatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+        //            CreatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time"),
+        //            UpdatedBy = db.AspNetUsers.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name).Id,
+        //            UpdatedOn = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Egypt Standard Time")
+        //        };
+        //        db.Expenses.Add(expens);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Expenses");
+        //    }
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
         // GET: Payment/CreateWithdrawal
         public ActionResult CreateWithdrawal(int typeId)

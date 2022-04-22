@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAuMR/k2sFEUKCyxkn9ec0QwAAAAACAAAAAAAQZgAAAAEAACAAAAC//JpxD8Z5uMG6WoALubzhfn+Jinl7FoYWtf723eY5WwAAAAAOgAAAAAIAACAAAADb9yTcqLO8+Ya58fAbIQmOcnOfARzvJmm2pyl7hcdF3iAAAACwy0i328tWzRNIC1SdO2WSFJ/JOpXlDdeS2MwaRgt8rUAAAAAal9sF3BHzd3voMD3lChe3BVt6r6mOQVOeZZ9TyEES57c1W0CTJzAWmREsKIaIQ2kixv1Oy5oqYONqO8Yqq9lG</EncryptedPassword>
+    <History>True|2022-04-06T03:37:36.8324581Z;True|2022-04-04T18:05:34.1218643+02:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=SQL8001.site4now.net%3bDatabase=db_a8516a_smartclinic%3bUser Id=db_a8516a_smartclinic_admin%3bPassword=morta1234%3bMultipleActiveResultSets=true</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

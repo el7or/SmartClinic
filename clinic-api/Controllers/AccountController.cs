@@ -53,53 +53,13 @@ namespace clinic_api.Controllers
                     .Include(c => c.ClinicUsers).ThenInclude(c => c.Clinic).ThenInclude(c => c.DoctorClinics).ThenInclude(c => c.Doctor)
                     .Include(p => p.Pharmacies)
                     .Include(s => s.Subscriptions).ThenInclude(p => p.SubscriptionPayments)
-                    .FirstOrDefaultAsync();
-
-                // check if subscription valid
-                string warning = string.Empty;
-                if (loginUser.Subscriptions.Count > 0)
-                {
-                    var subscription = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
-                    var subscriptionPayment = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault().SubscriptionPayments.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
-                    var subscriptionEndDate = subscription.EndDate.Date;
-                    var subscriptionDuePayment = subscription.SignUpFee - subscriptionPayment.Paid;
-                    var subscriptionRenewPayment = subscription.AnnualRenewalFee;
-
-                    //if (subscriptionDuePayment > 0)
-                    //{
-                    //    subscriptionEndDate = new DateTime(2022, 5, 1);
-                    //}
-                    //if (subscriptionEndDate < DateTime.Now.Date.AddDays(30))
-                    //{
-                    //    warning = "الرجاء دفع المبلغ المستحق لاستمرار الاشتراك وهو: "
-                    //        + (subscriptionDuePayment > 0 ? subscriptionDuePayment : subscriptionRenewPayment)
-                    //        + "ج.م وإلا سيتم إيقاف الخدمة نهائياً في تاريخ: "
-                    //        + subscriptionEndDate.ToLongDateString();
-                    //}
-                    //if (loginUser.Id == Guid.Parse("9219d875-302b-4767-b3a9-08d98f25053b"))
-                    //{
-                    //    warning = "الرجاء دفع باقي مبلغ الاشتراك بالإضافة إلى مبلغ ترقية الباقة إلى الباقة المتقدمة لتجاوزكم سعة استهلاك الباقة الأساسية؛ بإجمالي مبلغ: "
-                    //        + (subscriptionDuePayment > 0 ? subscriptionDuePayment : subscriptionRenewPayment)
-                    //        + "ج.م وإلا سيتم إيقاف الخدمة نهائياً في تاريخ: "
-                    //        + subscriptionEndDate.ToLongDateString();
-                    //}
-                    if (loginUser.Id != Guid.Parse("184789fe-b18a-4ce2-005a-08d803cd4ed0"))
-                    {
-                        subscriptionEndDate = new DateTime(2022, 5, 1);
-                        warning = "سيتم إن شاء الله خلال فترة وجيزة إيقاف العمل في البرنامج بنظام الاشتراك السنوي، وسيتم استبداله بنظام الاشتراك الدائم فنرجو دفع مبلغ 10,000 ج.م للتحويل لخدمة الاشتراك الدائم قبل تاريخ إيقاف خدمة الاشتراك السنوي في: "
-                            + subscriptionEndDate.ToLongDateString();
-                    }
-                    if (subscriptionEndDate <= DateTime.Now.Date)
-                    {
-                        return BadRequest("تم إيقاف الحساب لعدم دفع المبلغ المطلوب لتحويل الخدمة لنظام الاشتراك الدائم..");
-                    }
-                }
+                    .FirstOrDefaultAsync();               
 
                 return Ok(new
                 {
                     token = GenerateJWToken(loginUser).Result,
                     nickName = loginUser.FullName,
-                    warning = warning
+                    warning = string.Empty
                 });
             }
             else return Unauthorized();

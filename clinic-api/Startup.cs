@@ -126,7 +126,11 @@ namespace clinic_api
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(x => x.WithOrigins("http://localhost:4200", "https://smartclinic1.com").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            app.UseCors(x => x.WithOrigins(
+                "http://localhost:4200",
+                "https://smartclinic1.com",
+                "http://hanyaly79-001-site1.itempurl.com/"
+                ).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

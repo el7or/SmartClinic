@@ -60,13 +60,13 @@
         <textarea nbInput [(ngModel)]="newPatientPrescription.note" #note="ngModel" name="note"
           [placeholder]="'Other Notes ...' | langg" fullWidth></textarea>
       </div>
-      <div class="form-control-group form-inline">
+      <!-- <div class="form-control-group form-inline">
         <h6 langg>Send to Pharmacy:</h6>
         <nb-select [(ngModel)]="doctorPharmacyId" [ngModelOptions]="{standalone: true}"
           [placeholder]="'Pharmacy Name' | langg" size="small" fullWidth class="col-md-4 col-sm-6">
           <nb-option *ngFor="let item of pharmacyValues" [value]="item.id">{{item.text}}</nb-option>
         </nb-select>
-      </div>
+      </div> -->
 
       <!-- <div class="form-control-group">
         <label for="input-newMedicine" class="label"><span langg>Add a new non-existing Medication Name to the list
@@ -118,8 +118,8 @@
               langg>Copy</button>&nbsp;
             <button nbButton type="button" status="basic" size="small" (click)="onPrint(item)"
               langg>Print</button>&nbsp;
-            <button *ngIf="!item.pharmacyId" nbButton type="button" status="success" size="small"
-              (click)="onSendPharmacy(item)" langg>To Pharmacy</button>
+            <!-- <button *ngIf="!item.pharmacyId" nbButton type="button" status="success" size="small"
+              (click)="onSendPharmacy(item)" langg>To Pharmacy</button> -->
           </td>
         </tr>
       </tbody>
@@ -131,7 +131,7 @@
   [showConfirmButton]="false">
 </swal>
 
-<swal #confirmSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Confirmation' | langg"
+<!-- <swal #confirmSwal icon="success" showCancelButton="true" focusConfirm="true" [title]="'Confirmation' | langg"
   [text]="'Will send the Prescription to Pharmacy..' | langg" [confirmButtonText]="'Send' | langg"
   [cancelButtonText]="'Cancel' | langg" confirmButtonColor="#00b887">
-</swal>
+</swal> -->

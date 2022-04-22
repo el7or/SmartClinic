@@ -43,7 +43,7 @@ export interface PatientPrescription {
   medicinesNames?: string;
   createdOn?: Date;
   isPrint?: boolean;
-  pharmacyId?: string;
+  //pharmacyId?: string;
 }
 export interface PrescriptionMedicine {
   medicineId: number;

@@ -481,12 +481,12 @@ namespace clinic_api.Controllers
                     Id = v.Id,
                     Text = v.Text
                 }).ToList(),
-                PharmacyValues = _context.DoctorPharmacies.Where(d => d.DoctorId == doctorId).Include(p => p.Pharmacy).Select(p => new PharmacyValue
-                {
-                    Id = p.PharmacyId,
-                    Text = p.Pharmacy.PharmacyName
-                }).ToList(),
-                DoctorPharmacyId = _context.DoctorPharmacies.FirstOrDefault(d => d.DoctorId == doctorId && d.IsDefault == true).PharmacyId,
+                //PharmacyValues = _context.DoctorPharmacies.Where(d => d.DoctorId == doctorId).Include(p => p.Pharmacy).Select(p => new PharmacyValue
+                //{
+                //    Id = p.PharmacyId,
+                //    Text = p.Pharmacy.PharmacyName
+                //}).ToList(),
+                //DoctorPharmacyId = _context.DoctorPharmacies.FirstOrDefault(d => d.DoctorId == doctorId && d.IsDefault == true).PharmacyId,
                 PrevPatientPrescriptions = prevPatientPrescriptions.Select(p => new PatientPrescriptionListDTO
                 {
                     Id = p.Id,

@@ -85,7 +85,7 @@ namespace clinic_api.Controllers
                     //}
                     if (loginUser.Id != Guid.Parse("184789fe-b18a-4ce2-005a-08d803cd4ed0"))
                     {
-                        subscriptionEndDate = new DateTime(2022, 5, 1);
+                        subscriptionEndDate = new DateTime(2022, 5, 15);
                         warning = "سيتم إن شاء الله خلال فترة وجيزة إيقاف العمل في البرنامج بنظام الاشتراك السنوي، وسيتم استبداله بنظام الاشتراك الدائم فنرجو دفع مبلغ 10,000 ج.م للتحويل لخدمة الاشتراك الدائم قبل تاريخ إيقاف خدمة الاشتراك السنوي في: "
                             + subscriptionEndDate.ToLongDateString();
                     }

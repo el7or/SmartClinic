@@ -57,13 +57,13 @@ namespace clinic_api.Controllers
 
                 // check if subscription valid
                 string warning = string.Empty;
-                if (loginUser.Subscriptions.Count > 0)
-                {
-                    var subscription = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
-                    var subscriptionPayment = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault().SubscriptionPayments.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
-                    var subscriptionEndDate = subscription.EndDate.Date;
-                    var subscriptionDuePayment = subscription.SignUpFee - subscriptionPayment.Paid;
-                    var subscriptionRenewPayment = subscription.AnnualRenewalFee;
+                //if (loginUser.Subscriptions.Count > 0)
+                //{
+                //    var subscription = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
+                //    var subscriptionPayment = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault().SubscriptionPayments.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
+                //    var subscriptionEndDate = subscription.EndDate.Date;
+                //    var subscriptionDuePayment = subscription.SignUpFee - subscriptionPayment.Paid;
+                //    var subscriptionRenewPayment = subscription.AnnualRenewalFee;
 
                     //if (subscriptionDuePayment > 0)
                     //{
@@ -83,17 +83,17 @@ namespace clinic_api.Controllers
                     //        + "ج.م وإلا سيتم إيقاف الخدمة نهائياً في تاريخ: "
                     //        + subscriptionEndDate.ToLongDateString();
                     //}
-                    if (loginUser.Id != Guid.Parse("184789fe-b18a-4ce2-005a-08d803cd4ed0"))
-                    {
-                        subscriptionEndDate = new DateTime(2022, 5, 15);
-                        warning = "سيتم إن شاء الله خلال فترة وجيزة إيقاف العمل في البرنامج بنظام الاشتراك السنوي، وسيتم استبداله بنظام الاشتراك الدائم فنرجو دفع مبلغ 10,000 ج.م للتحويل لخدمة الاشتراك الدائم قبل تاريخ إيقاف خدمة الاشتراك السنوي في: "
-                            + subscriptionEndDate.ToLongDateString();
-                    }
-                    if (subscriptionEndDate <= DateTime.Now.Date)
-                    {
-                        return BadRequest("تم إيقاف الحساب لعدم دفع المبلغ المطلوب لتحويل الخدمة لنظام الاشتراك الدائم..");
-                    }
-                }
+                //    if (loginUser.Id != Guid.Parse("184789fe-b18a-4ce2-005a-08d803cd4ed0"))
+                //    {
+                //        subscriptionEndDate = new DateTime(2022, 5, 15);
+                //        warning = "سيتم إن شاء الله خلال فترة وجيزة إيقاف العمل في البرنامج بنظام الاشتراك السنوي، وسيتم استبداله بنظام الاشتراك الدائم فنرجو دفع مبلغ 10,000 ج.م للتحويل لخدمة الاشتراك الدائم قبل تاريخ إيقاف خدمة الاشتراك السنوي في: "
+                //            + subscriptionEndDate.ToLongDateString();
+                //    }
+                //    if (subscriptionEndDate <= DateTime.Now.Date)
+                //    {
+                //        return BadRequest("تم إيقاف الحساب لعدم دفع المبلغ المطلوب لتحويل الخدمة لنظام الاشتراك الدائم..");
+                //    }
+                //}
 
                 return Ok(new
                 {

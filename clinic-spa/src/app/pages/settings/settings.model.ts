@@ -116,7 +116,7 @@ export interface Recorditem {
   textEN: string;
   textAR: string;
   isActive: boolean;
-  isExpanded:boolean;
+  isExpanded: boolean;
 }
 
 export interface GetUser {
@@ -124,4 +124,9 @@ export interface GetUser {
   fullName: string;
   roleTitle: string;
   isActive: boolean;
+}
+
+export interface UserResetPassword {
+  id: string;
+  password: string;
 }

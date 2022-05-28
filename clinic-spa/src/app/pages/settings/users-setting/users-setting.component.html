@@ -3,8 +3,7 @@
     <span langg>Users List</span>:
   </nb-card-header>
   <nb-card-body>
-    <table class="table table-striped font-weight-bolder" [nbSpinner]="formLoading"
-    nbSpinnerStatus="success">
+    <table class="table table-striped font-weight-bolder" [nbSpinner]="formLoading" nbSpinnerStatus="success">
       <thead class="thead-dark h6">
         <tr>
           <th langg>Name</th>
@@ -17,7 +16,10 @@
           <td>{{item.fullName}}</td>
           <td>{{item.roleTitle | langg}}</td>
           <td>
-            <nb-toggle [checked]="item.isActive" (checkedChange)="onChangeActive(item.id, $event)" [disabled]="item.roleTitle=='طبيب'" status="success"></nb-toggle>
+            <nb-toggle [checked]="item.isActive" (checkedChange)="onChangeActive(item.id, $event)"
+              [disabled]="item.roleTitle=='طبيب'" status="success"></nb-toggle>&nbsp;
+            <button nbButton (click)="onResetPassword(item.id)" size="small" status="danger" langg>Reset
+              Password</button>
           </td>
         </tr>
       </tbody>

@@ -10,6 +10,7 @@ import {
   GetPrintSetting,
   SetPrintSetting,
   GetUser,
+  UserResetPassword,
 } from "./settings.model";
 import { AuthService } from "../../auth/auth.service";
 import { environment } from "../../../environments/environment";
@@ -20,16 +21,16 @@ import { environment } from "../../../environments/environment";
 export class SettingsService {
   baseUrl = environment.API_URL;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   // =====> get/set booking setting:
   getBookingSetting() {
     return this.http.get<GetBookingSetting>(
       this.baseUrl +
-        "Clinic/GetBookingSetting/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId
+      "Clinic/GetBookingSetting/" +
+      this.authService.userId +
+      "/" +
+      this.authService.doctorId
     );
   }
   saveBookingSetting(bookingSetting: SetBookingSetting) {
@@ -43,19 +44,19 @@ export class SettingsService {
   getPricesSetting() {
     return this.http.get<GetPricesSetting>(
       this.baseUrl +
-        "Clinic/GetPricesSetting/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId
+      "Clinic/GetPricesSetting/" +
+      this.authService.userId +
+      "/" +
+      this.authService.doctorId
     );
   }
   savePricesSetting(allPrices: GetPricesSetting) {
     return this.http.put(
       this.baseUrl +
-        "Clinic/PutPricesSetting/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId,
+      "Clinic/PutPricesSetting/" +
+      this.authService.userId +
+      "/" +
+      this.authService.doctorId,
       allPrices
     );
   }
@@ -64,10 +65,10 @@ export class SettingsService {
   getPrintSetting() {
     return this.http.get<GetPrintSetting>(
       this.baseUrl +
-        "Clinic/GetPrintSetting/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId
+      "Clinic/GetPrintSetting/" +
+      this.authService.userId +
+      "/" +
+      this.authService.doctorId
     );
   }
   savePrintSetting(printSetting: SetPrintSetting) {
@@ -81,21 +82,21 @@ export class SettingsService {
   getDiseasesSetting() {
     return this.http.get<DiseaseQuestion[]>(
       this.baseUrl +
-        "Doctor/GetDiseasesQuestions/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId
+      "Doctor/GetDiseasesQuestions/" +
+      this.authService.userId +
+      "/" +
+      this.authService.doctorId
     );
   }
   saveDiseasesSetting(diseases: string) {
     return this.http.put(
       this.baseUrl +
-        "Doctor/PutDiseasesQuestions/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId +
-        "/" +
-        diseases,
+      "Doctor/PutDiseasesQuestions/" +
+      this.authService.userId +
+      "/" +
+      this.authService.doctorId +
+      "/" +
+      diseases,
       {}
     );
   }
@@ -104,21 +105,21 @@ export class SettingsService {
   getRecordItemsSetting() {
     return this.http.get<Recorditem[]>(
       this.baseUrl +
-        "Doctor/GetRecordSections/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId
+      "Doctor/GetRecordSections/" +
+      this.authService.userId +
+      "/" +
+      this.authService.doctorId
     );
   }
   saveRecordItemsSetting(recordItems: string) {
     return this.http.put(
       this.baseUrl +
-        "Doctor/PutRecordSections/" +
-        this.authService.userId +
-        "/" +
-        this.authService.doctorId +
-        "/" +
-        recordItems,
+      "Doctor/PutRecordSections/" +
+      this.authService.userId +
+      "/" +
+      this.authService.doctorId +
+      "/" +
+      recordItems,
       {}
     );
   }
@@ -127,22 +128,30 @@ export class SettingsService {
   getUsersSetting() {
     return this.http.get<GetUser[]>(
       this.baseUrl +
-        "Clinic/GetClinicUsers/" +
-        this.authService.userId +
-        "/" +
-        this.authService.clinicId
+      "Clinic/GetClinicUsers/" +
+      this.authService.userId +
+      "/" +
+      this.authService.clinicId
     );
   }
   saveUserActiveSetting(userId: string, isActive: boolean) {
     return this.http.put(
       this.baseUrl +
-        "User/PutUserActive/" +
-        this.authService.userId +
-        "/" +
-        userId +
-        "/" +
-        isActive,
+      "User/PutUserActive/" +
+      this.authService.userId +
+      "/" +
+      userId +
+      "/" +
+      isActive,
       {}
+    );
+  }
+  resetUserPassword(userResetPassword: UserResetPassword) {
+    return this.http.post(
+      this.baseUrl +
+      "Account/ResetPassword?id=" +
+      this.authService.userId,
+      userResetPassword
     );
   }
 }

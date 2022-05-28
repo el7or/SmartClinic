@@ -46,6 +46,7 @@ import { MedicinesSettingComponent } from './patient-setting/medicines-setting/m
 import { TherapySettingComponent } from './patient-setting/record-items-setting/therapy-setting/therapy-setting.component';
 import { TherapyAreaSettingComponent } from './patient-setting/record-items-setting/therapy-area-setting/therapy-area-setting.component';
 import { MedicineItemSettingComponent } from './patient-setting/medicines-setting/medicine-item-setting/medicine-item-setting.component';
+import { UserResetPasswordComponent } from './users-setting/user-reset-password/user-reset-password.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { MedicineItemSettingComponent } from './patient-setting/medicines-settin
     MedicinesSettingComponent,
     TherapySettingComponent,
     TherapyAreaSettingComponent,
-    MedicineItemSettingComponent
+    MedicineItemSettingComponent,
+    UserResetPasswordComponent
   ],
   imports: [
     CommonModule,
@@ -103,7 +105,8 @@ import { MedicineItemSettingComponent } from './patient-setting/medicines-settin
     AddServiceComponent,
     AddDiscountComponent,
     ItemSettingComponent,
-    MedicineItemSettingComponent
+    MedicineItemSettingComponent,
+    UserResetPasswordComponent
   ]
 })
 export class SettingsModule { }

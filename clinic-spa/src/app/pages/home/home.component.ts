@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (warningMessage) {
           Swal.fire({
             title: 'تحذير هام !',
-            text: warningMessage,
+            html: warningMessage,
             icon: 'warning',
             confirmButtonText: 'حسناً',
           });

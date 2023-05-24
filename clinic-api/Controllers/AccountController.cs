@@ -57,7 +57,10 @@ namespace clinic_api.Controllers
 
                 // check if subscription valid
                 string warning = string.Empty;
-                warning = "سيتم زياده اسعار الاشتراك إلي ٥٠٠ ج.م شهرياً أو ٤,٠٠٠ ج.م سنوياً نظراً لزيادة سعر الدولار، ويمكن شراء نسخة مدفوعة للأبد من البرنامج بسعر ٢٠,٠٠٠ ج.م ورفعها على سيرفر استضافة مستقل خاص بكم.<br><b>الرجاء دفع الاشتراك الشهري أو السنوي أو ثمن شراء نسخة من البرنامج <span  style=\"color:red;\">قبل تاريخ 24 مايو 2023م</span> لتفادي إنقطاع الخدمة نهائيا</b>!";
+                if (loginUser.ClinicUsers.FirstOrDefault().ClinicId != Guid.Parse("914870cc-2434-4349-86cb-92421f7cdd18")
+                    && loginUser.ClinicUsers.FirstOrDefault().ClinicId != Guid.Parse("bf2732cb-11ca-4228-a90e-1fcecb59b88b")
+                    && loginUser.ClinicUsers.FirstOrDefault().ClinicId != Guid.Parse("c93a8cf5-321c-4fb4-bc47-46fef78e672c"))
+                warning = "سيتم زياده اسعار الاشتراك إلي ٥٠٠ ج.م شهرياً أو ٤,٠٠٠ ج.م سنوياً نظراً لزيادة سعر الدولار، ويمكن شراء نسخة مدفوعة للأبد من البرنامج بسعر ٢٠,٠٠٠ ج.م ورفعها على سيرفر استضافة مستقل خاص بكم.<br><b>الرجاء دفع الاشتراك الشهري أو السنوي أو ثمن شراء نسخة من البرنامج لتفادي إنقطاع الخدمة نهائيا</b>!";
                 //if (loginUser.Subscriptions.Count > 0)
                 //{
                 //    var subscription = loginUser.Subscriptions.OrderByDescending(c => c.CreatedOn).FirstOrDefault();
